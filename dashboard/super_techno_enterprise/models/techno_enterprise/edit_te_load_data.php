@@ -138,7 +138,8 @@
             'aadhar_card' => $row['aadhar_card'],
             'voting_card' => $row['voting_card'],
             'bank_passbook' => $row['bank_passbook'],
-            'payment_proof' => $row['payment_proof']
+            'payment_proof' => $row['payment_proof'],
+            'note' => $row['note']
         ]
     ];
 

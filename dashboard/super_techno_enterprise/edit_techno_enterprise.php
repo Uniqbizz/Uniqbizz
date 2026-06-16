@@ -147,19 +147,14 @@
                                         <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Enter email address" required>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                                    <div class="mb-3">
-                                        <label for="number" class="form-label fw-bold">Mobile Number <span class="text-danger fw-bolder">*</span></label>
-                                        <input type="number" class="form-control" id="number" placeholder="Enter mobile number" required>
-                                    </div>
-                                </div>
+                                
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3 dateBirth">
                                         <label for="dateOfBirth" class="form-label fw-bold">Date of Birth <span class="text-danger fw-bolder">*</span></label>
                                         <input type="text" class="form-control" id="dateOfBirth" placeholder="dd-mm-yyyy"onfocus="this.type='date'" onblur="if(!this.value)this.type='text'" required>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                <div class="col-lg-2 col-md-2 col-sm-6 col-12">
                                     <div class="mb-3">
                                         <label for="gender" class="form-label fw-bold">Gender <span class="text-danger fw-bolder">*</span></label>
                                         <select class="form-select genderSelect" id="gender" required>
@@ -182,6 +177,31 @@
                                         <input type="email" class="form-control" id="nomineeRelation" placeholder="Enter relation" required>
                                     </div>
                                 </div>
+                                <div class="col-lg-2 col-md-2 col-sm-6 col-12">
+                                    <?php
+                                        $stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
+                                        $stmt->execute();                                            
+                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                    ?>
+                                    <label class="form-label fw-bold" for="country_cd">Code</label>
+                                    <select class="form-select" id="country_cd" aria-label="Floating label select example">
+                                        <?php 
+                                            if($stmt->rowCount()>0){
+                                                foreach (($stmt->fetchAll()) as $key => $row) {  
+                                                    echo '<option value="'.$row['country_code'].'">+'.$row['country_code'].' ('.$row['sortname'].')</option>'; 
+                                                } 
+                                            }else{ 
+                                                echo '<option value="">Country not available</option>'; 
+                                            } 
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="number" class="form-label fw-bold">Mobile Number <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="number" class="form-control" id="number" placeholder="Enter mobile number" required>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!-- Card Section 2 -->
@@ -196,9 +216,9 @@
                                         <label for="businessPackage" class="form-label fw-bold">Business Package / Amount <span class="text-danger fw-bolder">*</span></label>
                                         <select class="form-select genderSelect" id="businessPackage" required>
                                             <option value="" selected disabled>Select business package </option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
+                                            <option value="200000">&#8377 2,00,000</option>
+                                            <option value="300000">&#8377 3,00,000</option>
+                                            <option value="500000">&#8377 5,00,000</option>
                                         </select>
                                     </div>
                                 </div>
@@ -225,36 +245,46 @@
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
+                                        <?php
+                                            $stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
+                                            $stmt->execute();                                         
+                                            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                        ?>
                                         <label for="country" class="form-label fw-bold">Country <span class="text-danger fw-bolder">*</span></label>
                                         <select class="form-select genderSelect" id="country" required>
-                                            <option value="" selected disabled>Select country </option>
-                                            <option value="india">India</option>
-                                            <option value="china">China</option>
-                                            <option value="japan">Japan</option>
+                                            <option value="" selected >Select country </option>
+                                            <?php 
+                                                if($stmt->rowCount()>0){
+                                                    foreach (($stmt->fetchAll()) as $key => $row) {  
+                                                        echo '<option value="'.$row['id'].'">'.$row['country_name'].'</option>'; 
+                                                    } 
+                                                }else{ 
+                                                    echo '<option value="">Country not available</option>'; 
+                                                } 
+                                            ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
                                         <label for="state" class="form-label fw-bold">State <span class="text-danger fw-bolder">*</span></label>
-                                        <select class="form-select genderSelect" id="state" required>
-                                            <option value="" selected disabled>Select state </option>
-                                            <option value="goa">Goa</option>
-                                            <option value="keralam">Keralam</option>
-                                            <option value="delhi">Delhi</option>
+                                        <select class="form-select genderSelect" id="mystate" required>
+                                            <option value="">--Select country first--</option>   
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
                                         <label for="city" class="form-label fw-bold">City<span class="text-danger fw-bolder">*</span></label>
-                                        <input type="text" class="form-control" id="city" placeholder="Enter city" required>
+                                        <select class="form-select genderSelect " id="city" required>
+                                            <option value="">--Select state first--</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
                                         <label for="pincode" class="form-label fw-bold">Pincode<span class="text-danger fw-bolder">*</span></label>
-                                        <input type="number" class="form-control" id="pincode" placeholder="Enter pincode">
+                                        <input type="text" class="form-control" id="pincode" placeholder="Enter pincode">
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
@@ -343,8 +373,9 @@
                             <div class="row g-3">
                                 <!-- Profile Photo -->
                                 <div class="col-lg-2 col-md-4 col-6">
-                                    <div class="upload-card" data-title="Profile Photo">
-                                        <input type="file" class="file-input" accept="image/*,.pdf">
+                                    <input type="hidden" id="img_path1" value=""> <!-- image file path --> 
+                                    <div class="upload-card" data-title="Profile Photo" data-index="1">
+                                        <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file1">
                                         <div class="upload-content">
                                             <div class="upload-icon">
                                                 <i class="fa-solid fa-user"></i>
@@ -358,8 +389,9 @@
 
                                 <!-- Aadhaar -->
                                 <div class="col-lg-2 col-md-4 col-6">
-                                    <div class="upload-card" data-title="Aadhaar Card">
-                                        <input type="file" class="file-input" accept="image/*,.pdf">
+                                    <input type="hidden" id="img_path2" value="">
+                                    <div class="upload-card" data-title="Aadhaar Card" data-index="2">
+                                        <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file2">
                                         <div class="upload-content">
                                             <div class="upload-icon">
                                                 <i class="fa-regular fa-id-card"></i>
@@ -373,8 +405,9 @@
 
                                 <!-- PAN -->
                                 <div class="col-lg-2 col-md-4 col-6">
-                                    <div class="upload-card" data-title="PAN Card">
-                                        <input type="file" class="file-input" accept="image/*,.pdf">
+                                    <input type="hidden" id="img_path3" value="">
+                                    <div class="upload-card" data-title="PAN Card" data-index="3">
+                                        <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file3">
                                         <div class="upload-content">
                                             <div class="upload-icon">
                                                 <i class="fa-regular fa-credit-card"></i>
@@ -388,8 +421,9 @@
 
                                 <!-- Bank Passbook -->
                                 <div class="col-lg-2 col-md-4 col-6">
-                                    <div class="upload-card" data-title="Bank Passbook">
-                                        <input type="file" class="file-input" accept="image/*,.pdf">
+                                    <input type="hidden" id="img_path4" value="">
+                                    <div class="upload-card" data-title="Bank Passbook" data-index="4">
+                                        <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file4">
                                         <div class="upload-content">
                                             <div class="upload-icon">
                                                 <i class="fa-solid fa-building-columns"></i>
@@ -403,8 +437,9 @@
 
                                 <!-- Voting -->
                                 <div class="col-lg-2 col-md-4 col-6">
-                                    <div class="upload-card" data-title="Voting Card">
-                                        <input type="file" class="file-input" accept="image/*,.pdf">
+                                    <input type="hidden" id="img_path11" value="">
+                                    <div class="upload-card" data-title="Voting Card" data-index="11">
+                                        <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file11">
                                         <div class="upload-content">
                                             <div class="upload-icon">
                                                 <i class="fa-regular fa-address-card"></i>
@@ -418,8 +453,9 @@
 
                                 <!-- Payment Proof -->
                                 <div class="col-lg-2 col-md-4 col-6">
-                                    <div class="upload-card" data-title="Payment Proof">
-                                        <input type="file" class="file-input" accept="image/*,.pdf">
+                                    <input type="hidden" id="img_path12" value="">
+                                    <div class="upload-card" data-title="Payment Proof" data-index="12">
+                                        <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file12">
                                         <div class="upload-content">
                                             <div class="upload-icon">
                                                 <i class="fa-solid fa-file-invoice"></i>
@@ -441,8 +477,8 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="mb-3">
-                                        <label for="extraNote" class="form-label fw-bold">Extra Notes</label>
-                                        <textarea class="form-control" id="extraNote" rows="3" placeholder="Enter any additional note"></textarea>
+                                        <label for="note" class="form-label fw-bold">Extra Notes</label>
+                                        <textarea class="form-control" id="note" rows="3" placeholder="Enter any additional note"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -451,11 +487,18 @@
                             <div class="col-lg-12">
                                 <div class="d-flex justify-content-end gap-4 submitBtnBackground">
                                     <button type="button" class="btn actionBtn cancelBtn mb-2">Cancel</button>
+                                    <?php
+                                        if ($status == 4) {
+                                    ?>
                                     <button type="button" class="btn actionBtn draftBtn mb-2">Save Draft</button>
                                     <button type="submit" class="btn actionBtn submitBtn mb-2">
                                         <i class="fa-regular fa-paper-plane me-2"></i>
                                         Submit Techno Enterprise
                                     </button>
+                                    <?php
+                                        }
+                                    ?>
+                                    
 
                                 </div>
                             </div>
@@ -680,75 +723,268 @@
                 });
 
             }
+            function loadExistingFile(cardSelector, filePath)
+            {
+                if (!filePath) return;
+
+                const card = document.querySelector(cardSelector);
+
+                if (!card) return;
+
+                const title = card.dataset.title;
+
+                card.querySelector(
+                    '.upload-content, .preview-wrapper, .pdf-preview'
+                )?.remove();
+
+                const extension = filePath.split('.').pop().toLowerCase();
+
+                const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+                if (imageExtensions.includes(extension)) {
+
+                    const preview = document.createElement('div');
+
+                    preview.className = 'preview-wrapper';
+
+                    preview.innerHTML = `
+                        <img src="../../uploading/${filePath}">
+                        <div class="file-title">
+                            ${title}
+                        </div>
+                    `;
+
+                    card.appendChild(preview);
+                    $('.file-input').prop('disabled', true);
+
+                } else {
+
+                    const preview = document.createElement('div');
+
+                    preview.className = 'pdf-preview';
+
+                    preview.innerHTML = `
+                        <i class="fa-solid fa-file-pdf"></i>
+                        <p class="mt-2 mb-0">${filePath.split('/').pop()}</p>
+                        <div class="file-title">
+                            ${title}
+                        </div>
+                    `;
+
+                    card.appendChild(preview);
+                }
+            }
 
             document.addEventListener('DOMContentLoaded', function () {
                 bindUploadEvents();
                 const id = '<?= $id ?>';
                 const edittype = '<?= $edittype ?>';
                 $.ajax({
-                        url: 'models/techno_enterprise/edit_te_load_data.php',
-                        type: 'GET',
-                        data: {
-                            id: id,
-                            edittype: edittype
-                        },
-                        dataType: 'json',
-                        success: function(res)
-                        {
-                            if(!res.status){
-                                alert(res.message);
-                                return;
-                            }
-
-                            const data = res.data;
-
-                            // Personal Information
-                            $('#fullName').val(data.firstname);
-                            $('#lastName').val(data.lastname);
-                            $('#exampleFormControlInput1').val(data.email);
-                            $('#number').val(data.contact_no);
-                            $('#dateOfBirth').val(data.date_of_birth);
-                            $('#gender').val(data.gender);
-                            $('#nomineeName').val(data.nominee_name);
-                            $('#nomineeRelation').val(data.nominee_relation);
-
-                            // Business Information
-                            $('#amount').val(data.amount);
-                            $('#gstNo').val(data.gst_no);
-
-                            // Address Information
-                            $('#country').val(data.country).trigger('change');
-                            $('#state').val(data.state).trigger('change');
-                            $('#city').val(data.city_name);
-                            $('#pincode').val(data.pincode);
-                            $('#address').val(data.address);
-
-                            // Payment Information
-                            if(data.payment_mode === 'cash'){
-                                $('#cashPayment').prop('checked', true).trigger('change');
-                            }
-
-                            if(data.payment_mode === 'online'){
-                                $('#onlinePayment').prop('checked', true).trigger('change');
-                                $('#transactionNo').val(data.transaction_no);
-                                $('#onlineOpt').removeClass('d-none');
-                            }
-
-                            if(data.payment_mode === 'cheque'){
-                                $('#chequePayment').prop('checked', true).trigger('change');
-
-                                $('#chequeNo').val(data.cheque_no);
-                                $('#chequeDate').val(data.cheque_date);
-                                $('#bankName').val(data.bank_name);
-
-                                $('#chequeOpt').removeClass('d-none');
-                            }
-
-                            // Update radio button styling
-                            $('.payment-label').removeClass('ptMode');
-                            $('.payment:checked').closest('label').addClass('ptMode');
+                    url: 'models/techno_enterprise/edit_te_load_data.php',
+                    type: 'GET',
+                    data: {
+                        id: id,
+                        edittype: edittype
+                    },
+                    dataType: 'json',
+                    success: function(res)
+                    {
+                        if(!res.status){
+                            alert(res.message);
+                            return;
                         }
-                    });
+
+                        const data = res.data;
+                        // Personal Information
+                        $('#fullName').val(data.firstname);
+                        $('#lastName').val(data.lastname);
+                        $('#exampleFormControlInput1').val(data.email);
+                        $('#number').val(data.contact_no);
+                        $('#dateOfBirth').val(data.date_of_birth);
+                        $('#gender').val(data.gender);
+                        $('#nomineeName').val(data.nominee_name);
+                        $('#nomineeRelation').val(data.nominee_relation);
+                        $('#businessPackage').val(data.amount);
+
+                        // Business Information
+                        $('#amount').val(data.amount);
+                        $('#gstNo').val(data.gst_no);
+
+                        // Address Information
+                        // Store for later use
+                        window.selectedState = data.state;
+                        window.selectedCity = data.city;
+
+                        // Start chain
+                        $('#country').val(data.country).trigger('change');
+                        $('#pincode').val(data.pincode);
+                        $('#address').val(data.address);
+
+                        // Payment Information
+                        if(data.payment_mode === 'cash'){
+                            $('#cashPayment').prop('checked', true).trigger('change');
+                        }
+
+                        if(data.payment_mode === 'online'){
+                            $('#onlinePayment').prop('checked', true).trigger('change');
+                            $('#transactionNo').val(data.transaction_no);
+                            $('#onlineOpt').removeClass('d-none');
+                        }
+
+                        if(data.payment_mode === 'cheque'){
+                            $('#chequePayment').prop('checked', true).trigger('change');
+
+                            $('#chequeNo').val(data.cheque_no);
+                            $('#chequeDate').val(data.cheque_date);
+                            $('#bankName').val(data.bank_name);
+
+                            $('#chequeOpt').removeClass('d-none');
+                        }
+
+                        // Update radio button styling
+                        $('.payment-label').removeClass('ptMode');
+                        $('.payment:checked').closest('label').addClass('ptMode');
+                        $('#note').val(data.note);
+
+                        loadExistingFile(
+                            '[data-index="1"]',
+                            data.profile_pic
+                        );
+
+                        loadExistingFile(
+                            '[data-index="2"]',
+                            data.pan_card
+                        );
+
+                        loadExistingFile(
+                            '[data-index="3"]',
+                            data.aadhar_card
+                        );
+
+                        loadExistingFile(
+                            '[data-index="4"]',
+                            data.voting_card
+                        );
+
+                        loadExistingFile(
+                            '[data-index="11"]',
+                            data.bank_passbook
+                        );
+
+                        loadExistingFile(
+                            '[data-index="12"]',
+                            data.payment_proof
+                        );
+                    }
+                });
+                // Address Information
+                $('#country').on('change', function () {
+
+                    var countryID = $(this).val();
+
+                    if (countryID) {
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '../address/countrydata.php',
+                            data: {
+                                country_id: countryID
+                            },
+                            success: function (html) {
+
+                                $('#mystate').html(html);
+
+                                if (window.selectedState) {
+
+                                    $('#mystate')
+                                        .val(window.selectedState)
+                                        .trigger('change');
+
+                                    window.selectedState = null;
+                                } else {
+
+                                    $('#city').html('<option value="">Select state first</option>');
+                                }
+                            }
+                        });
+
+                    } else {
+
+                        $('#mystate').html('<option value="">Select country first</option>');
+                        $('#city').html('<option value="">Select state first</option>');
+                        $('#pin').val('');
+                    }
+                });
+                    
+                $('#mystate').on('change', function () {
+
+                    var stateID = $(this).val();
+
+                    if (stateID) {
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '../address/countrydata.php',
+                            data: {
+                                state_id: stateID
+                            },
+                            success: function (html) {
+
+                                $('#city').html(html);
+
+                                if (window.selectedCity) {
+
+                                    $('#city')
+                                        .val(window.selectedCity)
+                                        .trigger('change');
+
+                                    window.selectedCity = null;
+                                }
+                            }
+                        });
+
+                    } else {
+
+                        $('#city').html('<option value="">Select state first</option>');
+                        $('#pin').val('');
+                    }
+                });
+
+                $('#city').on('change', function () {
+
+                    var cityID = $(this).val();
+
+                    if (cityID) {
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '../address/pincode.php',
+                            data: {
+                                city_id: cityID
+                            },
+                            success: function (response) {
+
+                                response = $.trim(response);
+
+                                $('#pin').val(response || '');
+
+                            },
+                            error: function () {
+
+                                $('#pin').val('');
+
+                            }
+                        });
+
+                    } else {
+
+                        $('#pin').val('');
+
+                    }
+                });
+            });
+            $(document).on('input', '#pin', function () {
+                this.value = this.value.replace(/\D/g, '');
             });
         </script>
         <!-- Buttons -->
