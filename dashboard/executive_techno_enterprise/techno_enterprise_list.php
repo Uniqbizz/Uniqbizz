@@ -301,7 +301,6 @@
                                                                 <th data-ordering="false">Amt (&#8377;)</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
-                                                                <th data-ordering="false">Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -334,10 +333,35 @@
                                                                 <td>
                                                                     <p class="teActiveBtn rounded-pill text-center">Active</p>
                                                                 </td>
+                                                            </tr>
+                                                            <tr>
                                                                 <td>
-                                                                    <a href="edit_techno_enterprise.php">
-                                                                        <p class="teViewBtn text-center fw-bold"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
-                                                                    </a>
+                                                                    <div class="">
+                                                                        <p class="fs-6 mb-0">Rajesh Kumar</p>
+                                                                        <p class="fs-6 mb-0">STE-REF-00023</p>
+                                                                    </div>
+                                                                    
+                                                                </td>
+                                                                <td>
+                                                                    <div class="">
+                                                                        <p class="fs-6 mb-0">Pandurang Naik</p>
+                                                                        <p class="fs-6 mb-0">STE-REF-00023</p>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="">
+                                                                        <p class="fs-6 mb-0"><i class="fa-solid fa-phone me-2"></i>+91 9876543210</p>
+                                                                        <p class="fs-6 mb-0"><i class="fa-regular fa-envelope me-2"></i>rajesh.kumar@email.com</p>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="fs-6 mb-0"> 50,000</p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="fs-6 mb-0"><i class="fa-solid fa-calendar-days me-2"></i>20 May 2024</p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="teActiveBtn rounded-pill text-center">Active</p>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -369,11 +393,6 @@
                                                                 <td>
                                                                     <p class="teActiveBtn rounded-pill text-center">Active</p>
                                                                 </td>
-                                                                <td>
-                                                                    <a href="edit_techno_enterprise.php">
-                                                                        <p class="teViewBtn text-center fw-bold"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
-                                                                    </a>
-                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <td>
@@ -403,46 +422,6 @@
                                                                 </td>
                                                                 <td>
                                                                     <p class="teActiveBtn rounded-pill text-center">Active</p>
-                                                                </td>
-                                                                <td>
-                                                                    <a href="edit_techno_enterprise.php">
-                                                                        <p class="teViewBtn text-center fw-bold"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="">
-                                                                        <p class="fs-6 mb-0">Rajesh Kumar</p>
-                                                                        <p class="fs-6 mb-0">STE-REF-00023</p>
-                                                                    </div>
-                                                                    
-                                                                </td>
-                                                                <td>
-                                                                    <div class="">
-                                                                        <p class="fs-6 mb-0">Pandurang Naik</p>
-                                                                        <p class="fs-6 mb-0">STE-REF-00023</p>
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="">
-                                                                        <p class="fs-6 mb-0"><i class="fa-solid fa-phone me-2"></i>+91 9876543210</p>
-                                                                        <p class="fs-6 mb-0"><i class="fa-regular fa-envelope me-2"></i>rajesh.kumar@email.com</p>
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="fs-6 mb-0"> 50,000</p>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="fs-6 mb-0"><i class="fa-solid fa-calendar-days me-2"></i>20 May 2024</p>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="teActiveBtn rounded-pill text-center">Active</p>
-                                                                </td>
-                                                                <td>
-                                                                    <a href="edit_techno_enterprise.php">
-                                                                        <p class="teViewBtn text-center fw-bold"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
-                                                                    </a>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
