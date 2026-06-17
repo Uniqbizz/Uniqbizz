@@ -196,21 +196,45 @@
         <div class="main-content">
 
             <div class="page-content">
-                <div class="container-fluid ">
+                <div class="container-fluid">
+                    <div class="image-wrapper rounded-4">
+                        <img src="../assets/images/profileBackgroundImg.png" alt="" class="rounded-4 profileBackgroundImg">
+                        <div class="profileDetails">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <img src="../assets/images/users/avatar-4.jpg" alt="" class="profilePicUser">
+                                </div>
+                                <div class="col-lg-9">
+                                    <div class="d-flex gap-3">
+                                        <h2 class="fw-bolder text-white">Uriel Roberts</h2>
+                                        <p class="rounded-pill bg-success text-white fs-6 text-center px-2 py-1">Verified<i class="fa-solid fa-check ms-2"></i></span>  
+                                    </div>
+                                    <p class="fs-5 text-white mb-2">STE26003 | <span>Super Techno Enterprise</span></p>
+                                    <p class="fs-5 text-white mb-2">Building Dreams <i class="fa-solid fa-circle mx-2 fa-2xs"></i> Exploring Destinations <i class="fa-solid fa-circle mx-2 fa-2xs"></i> Creating Leaders</p>
+                                    <div class="d-flex gap-3  mb-2">
+                                        <p class="fs-5 text-white"><i class="fa-regular fa-envelope"></i> nkjsfdghs@gmail.com</p> |
+                                        <p class="fs-5 text-white"><i class="fa-solid fa-phone"></i> +91 9876543210</p> |
+                                        <p class="fs-5 text-white"><i class="fa-solid fa-location-dot"></i> Dempo Towers, Panjim - Goa</p>
+                                    </div>
+                                    <p class="fs-5 text-white"><i class="fa-regular fa-calendar-days"></i> Member Since: 10 July 2026 </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <form>
-                        <div class="travel-hero">
+                        <!-- <div class="travel-hero"> -->
 
-                            <div class="travel-overlay"></div>
+                            <!-- <div class="travel-overlay"></div>
 
                             <div class="hero-image-wrapper">
                                 <img src="<?php echo '../../uploading/'.$profile_pic; ?>" class="hero-avatar2">
-                            </div>
-
+                            </div> -->
+<!-- 
                             <div class="container-fluid position-relative h-100">
 
-                                <div class="row">
+                                <div class="row"> -->
 
-                                    <div class="col-xl-8 col-lg-7">
+                                    <!-- <div class="col-xl-8 col-lg-7">
 
                                         <div class="d-flex align-items-center gap-2 mb-3">
 
@@ -259,17 +283,17 @@
 
                                         </div>
 
-                                    </div>
+                                    </div> -->
 
                                     <!-- <div class="col-xl-4 col-lg-5 d-flex justify-content-center align-items-center">
                                         
                                     </div> -->
 
-                                </div>
+                                <!-- </div>
 
                             </div>
 
-                        </div>
+                        </div> -->
 
                         <!-- Statistics -->
 
