@@ -1,259 +1,55 @@
 <?php
-    session_start();
-
-    if (!isset($_SESSION['username'])) {
-        echo '<script>location.href = "../login.php";</script>';
+    include_once (__DIR__.'/../dashboard_user_details.php');
+    if ($userType == '34') {
+        $base_url_sidebar = "/ca.uniqbizz.com/dashboard/super_techno_enterprise/";
+        $base_url_asset = "/ca.uniqbizz.com/dashboard/";
+        $home_url = "/ca.uniqbizz.com/";
+    }else{
+        // $base_url_sidebar = "/ca.uniqbizz.com/dashboard/customer_dashboard/";
+        $base_url_asset = "/ca.uniqbizz.com/dashboard/";
+        $home_url = "/ca.uniqbizz.com/"; 
     }
-
-    //current full date
-    $today = date('Y-m-d');
-    
-    //current year
-    $date = date('Y');
-    
-    // Calculate 20 years before the current date
-    $dateTwentyYearsAgo = strtotime("-20 years");
-    
-    // Format the result as a human-readable date
-    $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years before today
 ?>
 <!doctype html>
-<html lang="en">
-    <?php
-
-        require '../connect.php';
-        $date = date('Y'); 
-
-        $id = $_GET['id']; //id 11
-        $user_id = $_GET['regby']; //regby 1-admin or other user in this case 34-chief Techno Enterprise (Not in use)
-        $reference_no = $_GET['refno']; //refno ETE260001
-        $country_id = $_GET['country']; // country
-        $state_id = $_GET['state']; // state
-        $city_id = $_GET['city']; // city
-        $editfor = $_GET['editfor']; // pending or confirm
-        $usertype = $_GET['usertype']; // 'STE' for Chief Techno Enterprise
-
-        if ($editfor == 'pending') {
-            $identifier_name = 'id=';
-        } else if ($editfor == 'registered') {
-            $identifier_name = 'chief_techno_enterprise_id=';
-        }
-
-        $testValue = '35';
-
-        $stmt = $conn->prepare("SELECT * FROM `chief_techno_enterprise` WHERE chief_techno_enterprise_id='" . $id . "' OR id = '" . $id . "'");
-        $stmt->execute();
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-
-        if ($stmt->rowCount() > 0) {
-            foreach (($stmt->fetchAll()) as $row) {
-                $fid = $row['id'];
-                $application_id = $row['application_id'];
-                $firstname = $row['firstname'];
-                $lastname = $row['lastname'];
-                $father_spouse_name = $row['father_spouse_name'];
-                $email = $row['email'];
-                $country_code = $row['country_code'];
-                $contact_no = $row['contact_no'];
-                $alternative_country_code = $row['alternative_country_code'];
-                $alternative_contact_no = $row['alternative_contact_no'];
-                $aadhar_no = $row['aadhar_no'];
-                $pan_no = $row['pan_no'];
-                $reference_no = $row['reference_no'];
-                $date_of_birth = $row['date_of_birth'];
-                $gender = $row['gender'];
-                $country = $row['country'];
-                $state = $row['state'];
-                $city = $row['city'];
-                $address = $row['address'];
-                $pincode = $row['pincode'];
-                $status = $row['status'];
-
-                // Get country name
-                $countries = $conn->prepare("SELECT country_name FROM countries WHERE id='$country' AND status='1'");
-                $countries->execute();
-                if ($countries->rowCount() > 0) {
-                    $countryname = $countries->fetch()['country_name'];
-                }
-
-                // Get state name
-                $states = $conn->prepare("SELECT state_name FROM states WHERE id='$state' AND status='1'");
-                $states->execute();
-                if ($states->rowCount() > 0) {
-                    $statename = $states->fetch()['state_name'];
-                }
-
-                // Get city name
-                $cities = $conn->prepare("SELECT city_name FROM cities WHERE id='$city' AND status='1'");
-                $cities->execute();
-                if ($cities->rowCount() > 0) {
-                    $city_name = $cities->fetch()['city_name'];
-                }
-
-                // Get reporting manager (BM or ZM)
-                if ($reference_no == "Not Applicable") {
-                    $reference_no_fname = "Not Applicable";
-                } else {
-                    $stmt_manager = $conn->prepare("SELECT firstname, lastname FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = :ref");
-                    $stmt_manager->execute([':ref' => $reference_no]);
-
-                    if ($stmt_manager->rowCount() > 0) {
-                        $manager = $stmt_manager->fetch(PDO::FETCH_ASSOC);
-                        $reference_no_fname = $manager['firstname'] . ' ' . $manager['lastname'];
-                    } else {
-                        $reference_no_fname = "Unknown";
-                    }
-                }
-
-                // professional_and_educational
-                $stmt2 = $conn->prepare("SELECT * FROM `professional_and_educational` WHERE application_id= :application_id");
-                $stmt2->execute([':application_id' => $application_id]);
-                $stmt2->setFetchMode(PDO::FETCH_ASSOC);
-
-                if ($stmt2->rowCount() > 0) {
-                    foreach (($stmt2->fetchAll()) as $row2) {
-                        $current_occupation = $row2['current_occupation'];
-                        $current_experience = $row2['current_experience'];
-                        $current_income = $row2['current_income'];
-                        $managed_team = $row2['managed_team'];
-                        $team_description = $row2['team_description'];
-                        $leadership_experience = $row2['leadership_experience'];
-                        $leadership_experience_other = $row2['leadership_experience_other'];
-                        $educational_qualification = $row2['educational_qualification'];
-                    }
-                }
-                $selectedLeadership = json_decode($leadership_experience, true);
-                        
-                // leadership_assessment
-                $stmt3 = $conn->prepare("SELECT * FROM `leadership_assessment` WHERE application_id= :application_id");
-                $stmt3->execute([':application_id' => $application_id]);
-                $stmt3->setFetchMode(PDO::FETCH_ASSOC);
-
-                if ($stmt3->rowCount() > 0) {
-                    foreach (($stmt3->fetchAll()) as $row3) {
-                        $career_objective = $row3['career_objective'];
-                        $team_expected = $row3['team_expected'];
-                        $operating_region = $row3['operating_region'];
-
-                        // Get state name
-                        $statesLeader = $conn->prepare("SELECT state_name FROM states WHERE id='$operating_region' AND status='1'");
-                        $statesLeader->execute();
-                        if ($statesLeader->rowCount() > 0) {
-                            $statenameLeader = $statesLeader->fetch()['state_name'];
-                        }
-                    }
-                }
-
-                // nominee_details
-                $stmt4 = $conn->prepare("SELECT * FROM `nominee_details` WHERE application_id= :application_id");
-                $stmt4->execute([':application_id' => $application_id]);
-                $stmt4->setFetchMode(PDO::FETCH_ASSOC);
-
-                if ($stmt4->rowCount() > 0) {
-                    foreach (($stmt4->fetchAll()) as $row4) {
-                        $nominee_name = $row4['nominee_name'];
-                        $nominee_relation = $row4['nominee_relation'];
-                        $nominee_contact_cd = $row4['nominee_contact_cd'];
-                        $nominee_contact_no = $row4['nominee_contact_no'];
-                        $nominee_date_of_birth = $row4['nominee_date_of_birth'];
-                        $nominee_address = $row4['nominee_address'];
-                    }
-                }
-
-                // bank_details
-                $stmt5 = $conn->prepare("SELECT * FROM `bank_details` WHERE application_id= :application_id");
-                $stmt5->execute([':application_id' => $application_id]);
-                $stmt5->setFetchMode(PDO::FETCH_ASSOC);
-
-                if ($stmt5->rowCount() > 0) {
-                    foreach (($stmt5->fetchAll()) as $row5) {
-                        $account_holder_name = $row5['account_holder_name'];
-                        $bank_name = $row5['bank_name'];
-                        $account_number = $row5['account_number'];
-                        $ifsc_code = $row5['ifsc_code'];
-                        $branch_name = $row5['branch_name'];
-                    }
-                }
-
-                // documents
-                $stmt4 = $conn->prepare("SELECT * FROM `documents` WHERE application_id= :application_id");
-                $stmt4->execute([':application_id' => $application_id]);
-                $stmt4->setFetchMode(PDO::FETCH_ASSOC);
-
-                if ($stmt4->rowCount() > 0) {
-                    foreach (($stmt4->fetchAll()) as $row4) {
-                        $profile_pic = $row4['profile_pic'];
-                        $aadhar_card = $row4['aadhar_card'];
-                        $pan_card = $row4['pan_card'];
-                        $cancelled_cheque_bank_passbook = $row4['cancelled_cheque_bank_passbook'];
-                        $resume_cv = $row4['resume_cv'];
-                        $address_proof = $row4['address_proof'];
-                        $professional_profile = $row4['professional_profile'];
-                        $business_profile = $row4['business_profile'];
-                        $income_proof = $row4['income_proof'];
-                        $other_document = $row4['other_document'];
-                    }
-                }
-
-                // initial load if entry not found in user_verification table
-                $payload = '';
-                // user_verification
-                $stmt5 = $conn->prepare("SELECT * FROM `user_verification` WHERE application_id= :application_id ORDER BY id DESC LIMIT 1");
-                $stmt5->execute([':application_id' => $application_id]);
-                $stmt5->setFetchMode(PDO::FETCH_ASSOC);
-
-                if ($stmt5->rowCount() > 0) {
-                    foreach (($stmt5->fetchAll()) as $row5) {
-                        $rejection_reason = $row5['rejection_reason'] ?? '';
-                        $payload = $row5['payload'];
-                        $verification_status = $row5['status'] ?? '';
-                    }
-                }
-
-                $verificationPayload = json_decode($payload, true) ?? [];
-
-                // echo '<pre>';
-                // print_r($verificationPayload);
-                // echo '</pre>';
-
-                function isChecked($payload, $field, $value)
-                {
-                    return (($payload[$field] ?? '') === $value) ? 'checked' : '';
-                }
-
-                function isRejected($payload, $field)
-                {
-                    return (($payload[$field] ?? '') === 'rejected');
-                }
-            }
-        }
-
-    ?>
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
     <head>
+
         <meta charset="utf-8" />
-        <title>Edit Chief Techno Enterprise | Admin Dashboard </title>
+        <title>Edit Super Techno Enterprise List | Customer</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
 
+        <!-- jsvectormap css -->
+        <link href="../assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
+
+        <!--Swiper slider css-->
+        <link href="../assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+
+        <!-- DataTables -->
+        <link href="../assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <!-- Responsive datatable examples -->
+        <link href="../assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />  
+
+        <!-- Layout config Js -->
+        <script src="../assets/js/layout.js"></script>
         <!-- Bootstrap Css -->
-        <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- Icons Css -->
         <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
         <!-- App Css-->
-        <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
-        <!-- Loading Screen and Images size css  -->
-        <link rel="stylesheet" href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
-        <!-- Add Chief Techno css -->
-		<link rel="stylesheet" href="../assets/css/addChiefTechno.css" rel="stylesheet" type="text/css" />
-		<!-- FontAwesome -->
+        <link href="../assets/css/app.min.css" rel="stylesheet" type="text/css" />
+        <!-- custom Css-->
+        <link href="../assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <!-- custom Css developer-->
+        <link rel="stylesheet" href="../assets/css/custom.css" />
+        <!-- font-awesome -->
+        <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css" />
+        
+        <!-- Customer Dashboard CSS -->
+        <link rel="stylesheet" href="../assets/css/executive_techno_enterprise.css" />
+        <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <!-- App js -->
-        <!-- <script src="../assets/js/plugin.js"></script> -->
-
-        <!-- Plugins css -->
-        <!-- <link href="../assets/libs/dropzone/dropzone.css" rel="stylesheet" type="text/css" /> -->
-
         <style>
             /* ======================================
             FIELD HEADER
@@ -409,27 +205,58 @@
             }
         </style>
     </head>
-    <body data-sidebar="dark">
-
-        <div id="testemails"></div>
-
-        <!-- <body data-layout="horizontal" data-topbar="dark"> -->
-
+    <body>
+ 
         <!-- Begin page -->
         <div id="layout-wrapper">
 
             <?php 
-                // top header logo, hamberger menu, fullscreen icon, profile
-                include_once '../header.php';
+                if ($userType == 34) {
+                    include_once(__DIR__ . '/executive_techno_header.php');
+                }else{
 
-                // sidebar navigation menu 
-                include_once '../sidebar.php';
+                    include_once 'executive_techno_header.php'; 
+                }
             ?>
+
+            <!-- removeNotificationModal -->
+            <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="NotificationModalbtn-close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mt-2 text-center">
+                                <lord-icon src="../../../../cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
+                                <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                                    <h4>Are you sure ?</h4>
+                                    <p class="text-muted mx-4 mb-0">Are you sure you want to remove this Notification ?</p>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                                <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn w-sm btn-danger" id="delete-notification">Yes, Delete It!</button>
+                            </div>
+                        </div>
+
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            <!-- ========== App Menu ========== -->
+            <?php 
+                if ($userType == 34) {
+                    include_once(__DIR__ . '/executive_techno_sidebar.php');
+                }else{
+
+                    include_once 'executive_techno_sidebar.php'; 
+                }
+            ?>
+
             <!-- ============================================================== -->
             <!-- Start right Content here -->
             <!-- ============================================================== -->
             <div class="main-content">
-
                 <div class="page-content">
                     <div class="container-fluid">
 
@@ -437,7 +264,13 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Chief Techno Enterprise</h4>
+                                    <h4 class="mb-sm-0">Super Techno Enterprise</h4>
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="super_techno_enterprise_list.php">View Super Techno Enterprise</a></li>
+                                            <li class="breadcrumb-item active">Edit Super Techno Enterprise</li>
+                                        </ol>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -446,17 +279,17 @@
 						<!-- add customer form start -->
 						<div class="row">
 							<div class="col-lg-12">
-                                <div class="card rounded-4 addCTCard">
+                                <div class="card rounded-4 addTECard">
                                     <div class="d-flex gap-3">
-                                        <div class="addCTIconBackground">
-                                            <i class="fa-solid fa-user-group addCTIcon"></i>
+                                        <div class="addTEIconBackground">
+                                            <i class="fa-solid fa-user-group addTEIcon"></i>
                                         </div>
                                         <div class="align-content-center">
-                                            <h1 class="fw-bolder text-white">Edit Chief Techno</h1>
-                                            <p class="fs-5 text-white mb-0">Fill in the details below to register a new Chief Techno under your network.</p>
+                                            <h1 class="fw-bolder text-white">Edit Super Techno Enterprise</h1>
+                                            <p class="fs-5 text-white mb-0">Fill in the details below to register a new Edit Super Techno Enterprise under your network.</p>
                                         </div>
                                     </div>
-                                    <img src="../assets/images/addTechnoFileImage.png" alt="" class="addCTImage">
+                                    <img src="../assets/images/addTechnoFileImage.png" alt="" class="addTEImage">
                                 </div>
                             </div>
 						</div>
@@ -464,7 +297,7 @@
 						<div class="card rounded-4 p-3 border-1">
 							<div class="row">
                                 <div class="d-flex gap-2">
-                                    <p class="fw-bolder addCTNum">01</p>
+                                    <p class="fw-bolder addTENum">01</p>
                                     <h4 class="fw-bolder text-dark align-content-center">Personal Information</h4>
                                 </div>
                                 <div class="col-lg-9">
@@ -473,99 +306,99 @@
                                             <div class="input-block mb-3">
                                                 <div class="verify-field">
                                                     <label class="col-form-label"> First Name <span class="text-danger">*</span></label>
-                                                    <?php if ($status == 2) { ?>
+                                                    <?php //if ($status == 2) { ?>
                                                     <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[firstname]" id="firstname_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'firstname', 'approved'); ?> > 
+                                                        <input type="radio" name="verification_status[firstname]" id="firstname_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'firstname', 'approved'); ?> > 
                                                         <label class="verify-btn approve-btn" for="firstname_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[firstname]" id="firstname_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'firstname', 'rejected'); ?> > 
+                                                        <input type="radio" name="verification_status[firstname]" id="firstname_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'firstname', 'rejected'); ?> > 
                                                         <label class="verify-btn reject-btn" for="firstname_reject"> Rejected </label>
                                                     </div>
-                                                    <?php } ?>
+                                                    <?php //} ?>
                                                 </div>
-                                                <input class="form-control" type="text" id="firstname" value="<?php echo $firstname; ?>">
+                                                <input class="form-control" type="text" id="firstname" value="<?php //echo $firstname; ?>">
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                                             <div class="input-block mb-3">
                                                 <div class="verify-field">
                                                     <label class="col-form-label">Last Name <span class="text-danger">*</span></label>
-                                                <?php if ($status == 2) { ?>
+                                                <?php //if ($status == 2) { ?>
                                                     <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[lastname]" id="lastname_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'lastname', 'approved'); ?>>
+                                                        <input type="radio" name="verification_status[lastname]" id="lastname_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'lastname', 'approved'); ?>>
                                                         <label class="verify-btn approve-btn" for="lastname_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[lastname]" id="lastname_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'lastname', 'rejected'); ?>>
+                                                        <input type="radio" name="verification_status[lastname]" id="lastname_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'lastname', 'rejected'); ?>>
                                                         <label class="verify-btn reject-btn" for="lastname_reject"> Rejected </label>
                                                     </div>
-                                                    <?php } ?>
+                                                    <?php //} ?>
                                                 </div>
-                                                <input class="form-control" type="text" id="lastname" value=" <?php echo $lastname; ?>">
+                                                <input class="form-control" type="text" id="lastname" value=" <?php //echo $lastname; ?>">
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                                             <div class="input-block mb-3">
                                                 <div class="verify-field">
                                                     <label class="col-form-label">Father / Spouse Name<span class="text-danger">*</span></label>
-                                                <?php if ($status == 2) { ?>
+                                                <?php //if ($status == 2) { ?>
                                                     <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[father_spouse_name]" id="father_spouse_name_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'father_spouse_name', 'approved'); ?>>
+                                                        <input type="radio" name="verification_status[father_spouse_name]" id="father_spouse_name_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'father_spouse_name', 'approved'); ?>>
                                                         <label class="verify-btn approve-btn" for="father_spouse_name_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[father_spouse_name]" id="father_spouse_name_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'father_spouse_name', 'rejected'); ?>>
+                                                        <input type="radio" name="verification_status[father_spouse_name]" id="father_spouse_name_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'father_spouse_name', 'rejected'); ?>>
                                                         <label class="verify-btn reject-btn" for="father_spouse_name_reject"> Rejected </label>
                                                     </div>
-                                                    <?php } ?>
+                                                    <?php //} ?>
                                                 </div>
-                                                <input class="form-control" type="text" id="father_spouse_name" value=" <?php echo $father_spouse_name; ?>">
+                                                <input class="form-control" type="text" id="father_spouse_name" value=" <?php //echo $father_spouse_name; ?>">
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                                             <div class="input-block mb-3">
                                                 <div class="verify-field">
                                                     <label class="col-form-label">Email Address<span class="text-danger">*</span></label>
-                                                    <?php if ($status == 2) { ?>
+                                                    <?php //if ($status == 2) { ?>
                                                     <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[email]" id="email_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'email', 'approved'); ?>>
+                                                        <input type="radio" name="verification_status[email]" id="email_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'email', 'approved'); ?>>
                                                         <label class="verify-btn approve-btn" for="email_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[email]" id="email_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'email', 'rejected'); ?>>
+                                                        <input type="radio" name="verification_status[email]" id="email_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'email', 'rejected'); ?>>
                                                         <label class="verify-btn reject-btn" for="email_reject"> Rejected </label>
                                                     </div>
-                                                    <?php } ?>
+                                                    <?php //} ?>
                                                 </div>
-                                                <input class="form-control" type="email" id="email" value="<?php echo $email;?>">
+                                                <input class="form-control" type="email" id="email" value="<?php //echo $email;?>">
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                                             <div class="input-block mb-3">
                                                 <div class="verify-field">
                                                     <label class="col-form-label">Date of Birth <span class="text-danger">*</span></label>
-                                                    <?php if ($status == 2) { ?>
+                                                    <?php //if ($status == 2) { ?>
                                                     <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[dob]" id="dob_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'dob', 'approved'); ?>>
+                                                        <input type="radio" name="verification_status[dob]" id="dob_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'dob', 'approved'); ?>>
                                                         <label class="verify-btn approve-btn" for="dob_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[dob]" id="dob_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'dob', 'rejected'); ?>>
+                                                        <input type="radio" name="verification_status[dob]" id="dob_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'dob', 'rejected'); ?>>
                                                         <label class="verify-btn reject-btn" for="dob_reject"> Rejected </label>
                                                     </div>
-                                                    <?php } ?>
+                                                    <?php //} ?>
                                                 </div>
-                                                <input class="form-control" type="date" id="dob" value="<?php echo $date_of_birth ;?>">
+                                                <input class="form-control" type="date" id="dob" value="<?php //echo $date_of_birth ;?>">
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-12">
                                             <div class="form-group">
                                                 <div class="verify-field">
                                                     <label class="col-form-label">Gender <span class="text-danger">*</span></label>
-                                                    <?php if ($status == 2) { ?>
+                                                    <?php //if ($status == 2) { ?>
                                                     <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[gender]" id="gender_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'gender', 'approved'); ?>>
+                                                        <input type="radio" name="verification_status[gender]" id="gender_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'gender', 'approved'); ?>>
                                                         <label class="verify-btn approve-btn" for="gender_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[gender]" id="gender_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'gender', 'rejected'); ?>>
+                                                        <input type="radio" name="verification_status[gender]" id="gender_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'gender', 'rejected'); ?>>
                                                         <label class="verify-btn reject-btn" for="gender_reject"> Rejected </label>
                                                     </div>
-                                                    <?php } ?>
+                                                    <?php //} ?>
                                                 </div>
                                                 <div class="form-control d-flex justify-content-around">
-                                                    <label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender form-check-input" id="test3" value="male" <?php if ($gender == 'male'){echo ' checked ';} ?>>&nbsp;&nbsp;&nbsp;Male</label>
-                                                    <label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender form-check-input" id="test4" value="female" <?php if ($gender == 'female'){echo ' checked ';} ?>>&nbsp;&nbsp;&nbsp;Female</label>
-                                                    <label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender form-check-input" id="test5" value="others" <?php if ($gender == 'others'){echo ' checked ';} ?>>&nbsp;&nbsp;&nbsp;Other</label>
+                                                    <label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender form-check-input" id="test3" value="male" <?php //if ($gender == 'male'){echo ' checked ';} ?>>&nbsp;&nbsp;&nbsp;Male</label>
+                                                    <label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender form-check-input" id="test4" value="female" <?php //if ($gender == 'female'){echo ' checked ';} ?>>&nbsp;&nbsp;&nbsp;Female</label>
+                                                    <label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender form-check-input" id="test5" value="others" <?php //if ($gender == 'others'){echo ' checked ';} ?>>&nbsp;&nbsp;&nbsp;Other</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -597,16 +430,16 @@
                                                     <div class="input-block">
                                                         <div class="verify-field">
                                                             <label class="col-form-label">Phone Number <span class="text-danger">*</span></label>
-                                                            <?php if ($status == 2) { ?>
+                                                            <?php //if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[phone]" id="phone_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'phone', 'approved'); ?>>
+                                                                <input type="radio" name="verification_status[phone]" id="phone_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'phone', 'approved'); ?>>
                                                                 <label class="verify-btn approve-btn" for="phone_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[phone]" id="phone_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'phone', 'rejected'); ?>>
+                                                                <input type="radio" name="verification_status[phone]" id="phone_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'phone', 'rejected'); ?>>
                                                                 <label class="verify-btn reject-btn" for="phone_reject"> Rejected </label>
                                                             </div>
-                                                            <?php } ?>
+                                                            <?php //} ?>
                                                         </div>
-                                                        <input class="form-control" type="text" id="phone" value=" <?php echo $contact_no; ?>">
+                                                        <input class="form-control" type="text" id="phone" value=" <?php //echo $contact_no; ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -639,16 +472,16 @@
                                                     <div class="input-block">
                                                         <div class="verify-field">
                                                             <label class="col-form-label">Alt Phone Number <span class="text-danger">*</span></label>
-                                                            <?php if ($status == 2) { ?>
+                                                            <?php //if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[altPhone]" id="altPhone_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'altPhone', 'approved'); ?>>
+                                                                <input type="radio" name="verification_status[altPhone]" id="altPhone_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'altPhone', 'approved'); ?>>
                                                                 <label class="verify-btn approve-btn" for="altPhone_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[altPhone]" id="altPhone_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'altPhone', 'rejected'); ?>>
+                                                                <input type="radio" name="verification_status[altPhone]" id="altPhone_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'altPhone', 'rejected'); ?>>
                                                                 <label class="verify-btn reject-btn" for="altPhone_reject"> Rejected </label>
                                                             </div>
-                                                            <?php } ?>
+                                                            <?php //} ?>
                                                         </div>
-                                                        <input class="form-control" type="text" id="altPhone" value=" <?php echo $alternative_contact_no; ?>">
+                                                        <input class="form-control" type="text" id="altPhone" value=" <?php //echo $alternative_contact_no; ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -657,32 +490,32 @@
                                             <div class="input-block mb-3">
                                                 <div class="verify-field">
                                                     <label class="col-form-label">Aadhar No<span class="text-danger">*</span></label>
-                                                    <?php if ($status == 2) { ?>
+                                                    <?php //if ($status == 2) { ?>
                                                     <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[aadharNo]" id="aadharNo_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'aadharNo', 'approved'); ?>>
+                                                        <input type="radio" name="verification_status[aadharNo]" id="aadharNo_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'aadharNo', 'approved'); ?>>
                                                         <label class="verify-btn approve-btn" for="aadharNo_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[aadharNo]" id="aadharNo_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'aadharNo', 'rejected'); ?>>
+                                                        <input type="radio" name="verification_status[aadharNo]" id="aadharNo_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'aadharNo', 'rejected'); ?>>
                                                         <label class="verify-btn reject-btn" for="aadharNo_reject"> Rejected </label>
                                                     </div>
-                                                    <?php } ?>
+                                                    <?php //} ?>
                                                 </div>
-                                                <input class="form-control" type="text" id="aadharNo" value=" <?php echo $aadhar_no; ?>">
+                                                <input class="form-control" type="text" id="aadharNo" value=" <?php //echo $aadhar_no; ?>">
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-6">
                                             <div class="input-block mb-3">
                                                 <div class="verify-field">
                                                     <label class="col-form-label">PAN No<span class="text-danger">*</span></label>
-                                                    <?php if ($status == 2) { ?>
+                                                    <?php //if ($status == 2) { ?>
                                                     <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[panNo]" id="panNo_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'panNo', 'approved'); ?>>
+                                                        <input type="radio" name="verification_status[panNo]" id="panNo_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'panNo', 'approved'); ?>>
                                                         <label class="verify-btn approve-btn" for="panNo_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[panNo]" id="panNo_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'panNo', 'rejected'); ?>>
+                                                        <input type="radio" name="verification_status[panNo]" id="panNo_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'panNo', 'rejected'); ?>>
                                                         <label class="verify-btn reject-btn" for="panNo_reject"> Rejected </label>
                                                     </div>
-                                                    <?php } ?>
+                                                    <?php //} ?>
                                                 </div>
-                                                <input class="form-control" type="text" id="panNo" value=" <?php echo $pan_no; ?>">
+                                                <input class="form-control" type="text" id="panNo" value=" <?php // echo $pan_no; ?>">
                                             </div>
                                         </div>
                                     </div>
@@ -691,14 +524,14 @@
 									<div class="row">
 										<div class="col-lg-12">
                                             <div class="verify-field">
-                                                <?php if ($status == 2) { ?>
+                                                <?php //if ($status == 2) { ?>
                                                 <div class="verify-toggle">
-                                                    <input type="radio" name="verification_status[profile]" id="profile_approve" class="approve_reason" value="approved" <?php isChecked($verificationPayload, 'profile', 'approved'); ?> > 
+                                                    <input type="radio" name="verification_status[profile]" id="profile_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'profile', 'approved'); ?> > 
                                                     <label class="verify-btn approve-btn" for="profile_approve"> Approved </label>
-                                                    <input type="radio" name="verification_status[profile]" id="profile_reject" class="reject_reason" value="rejected" <?php isChecked($verificationPayload, 'profile', 'rejected'); ?> > 
+                                                    <input type="radio" name="verification_status[profile]" id="profile_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'profile', 'rejected'); ?> > 
                                                     <label class="verify-btn reject-btn" for="profile_reject"> Rejected </label>
                                                 </div>
-                                                <?php } ?>
+                                                <?php //} ?>
                                             </div>
 											<div class="upload-card" data-title="Profile Photo">
 												<input type="file" class="file-input" accept="image/*,.pdf">
@@ -720,16 +553,16 @@
 						<div class="card rounded-4 p-3 border-1">
 							<div class="row">
                                 <div class="d-flex gap-2">
-                                    <p class="fw-bolder addCTNum">02</p>
+                                    <p class="fw-bolder addTENum">02</p>
                                     <h4 class="fw-bolder text-dark align-content-center">Residential Information</h4>
-                                    <?php if ($status == 2) { ?>
+                                    <?php //if ($status == 2) { ?>
                                         <div class="verify-toggle">
-                                            <input type="radio" name="verification_status[residential]" id="residential_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'residential', 'approved'); ?>>
+                                            <input type="radio" name="verification_status[residential]" id="residential_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'residential', 'approved'); ?>>
                                             <label class="verify-btn approve-btn" for="residential_approve"> Approved </label>
-                                            <input type="radio" name="verification_status[residential]" id="residential_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'residential', 'rejected'); ?>>
+                                            <input type="radio" name="verification_status[residential]" id="residential_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'residential', 'rejected'); ?>>
                                             <label class="verify-btn reject-btn" for="residential_reject"> Rejected </label>
                                         </div>
-                                    <?php } ?>
+                                    <?php //} ?>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
@@ -792,13 +625,13 @@
                                 <div class="col-md-6 col-sm-6">  
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">Pincode<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="pin" placeholder="Pincode" value="<?php echo $pincode; ?>" readonly >
+                                        <input type="text" class="form-control" id="pin" placeholder="Pincode" value="<?php //echo $pincode; ?>" readonly >
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-sm-12">  
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">Address<span class="text-danger">*</span></label>
-                                        <textarea class="form-control" type="text" id="address" rows="3"><?php echo $address ?></textarea>
+                                        <textarea class="form-control" type="text" id="address" rows="3"><?php //echo $address ?></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -807,48 +640,48 @@
 						<div class="card rounded-4 p-3 border-1">
 							<div class="row">
                                 <div class="d-flex gap-2">
-                                    <p class="fw-bolder addCTNum">03</p>
+                                    <p class="fw-bolder addTENum">03</p>
                                     <h4 class="fw-bolder text-dark align-content-center">Professional Information</h4>
-                                    <?php if ($status == 2) { ?>
+                                    <?php //if ($status == 2) { ?>
                                         <div class="verify-toggle">
-                                            <input type="radio" name="verification_status[professional]" id="professional_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'professional', 'approved'); ?>>
+                                            <input type="radio" name="verification_status[professional]" id="professional_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'professional', 'approved'); ?>>
                                             <label class="verify-btn approve-btn" for="professional_approve"> Approved </label>
-                                            <input type="radio" name="verification_status[professional]" id="professional_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'professional', 'rejected'); ?>>
+                                            <input type="radio" name="verification_status[professional]" id="professional_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'professional', 'rejected'); ?>>
                                             <label class="verify-btn reject-btn" for="professional_reject"> Rejected </label>
                                         </div>
-                                    <?php } ?>
+                                    <?php //} ?>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">Current Occupation / Business<span class="text-danger">*</span></label>
-                                        <input class="form-control" type="text" id="occupation" value=" <?php echo $current_occupation; ?>">
+                                        <input class="form-control" type="text" id="occupation" value=" <?php //echo $current_occupation; ?>">
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">Total Experience<span class="text-danger">*</span></label>
-                                        <input class="form-control" type="text" id="experience" value=" <?php echo $current_experience; ?>">
+                                        <input class="form-control" type="text" id="experience" value=" <?php //echo $current_experience; ?>">
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">Current Annual Income<span class="text-danger">*</span></label>
-                                        <input class="form-control" type="text" id="annual_income" value=" <?php echo $current_income; ?>">
+                                        <input class="form-control" type="text" id="annual_income" value=" <?php //echo $current_income; ?>">
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="col-form-label">Have You Managed teams Previously <span class="text-danger">*</span></label>
                                         <div class="form-control d-flex justify-content-around">
-                                            <label class="radio-inline mb-0 ms-3"><input type="radio" name="teamManaged" class="teamManaged" id="teamManagedYes" value="yes" <?php if ($managed_team == 'yes'){echo ' checked ';} ?> >&nbsp;&nbsp;&nbsp;Yes</label>
-                                            <label class="radio-inline mb-0 ms-3"><input type="radio" name="teamManaged" class="teamManaged" id="teamManagedNo" value="no" <?php if ($managed_team == 'no'){echo ' checked ';} ?> >&nbsp;&nbsp;&nbsp;No</label>
+                                            <label class="radio-inline mb-0 ms-3"><input type="radio" name="teamManaged" class="teamManaged" id="teamManagedYes" value="yes" <?php //if ($managed_team == 'yes'){echo ' checked ';} ?> >&nbsp;&nbsp;&nbsp;Yes</label>
+                                            <label class="radio-inline mb-0 ms-3"><input type="radio" name="teamManaged" class="teamManaged" id="teamManagedNo" value="no" <?php //if ($managed_team == 'no'){echo ' checked ';} ?> >&nbsp;&nbsp;&nbsp;No</label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">If Yes, Team size<span class="text-danger">*</span></label>
-                                        <textarea class="form-control" id="teamSize" rows="4" cols="50"> <?php echo htmlspecialchars($team_description); ?> </textarea>
+                                        <textarea class="form-control" id="teamSize" rows="4" cols="50"> <?php //echo htmlspecialchars($team_description); ?> </textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
@@ -861,33 +694,33 @@
                                             <!-- Left Column -->
                                             <div class="col-md-6">
                                                 <div class="mb-2">
-                                                    <input type="checkbox" id="lead1" name="leadership[]" value="Sales Leadership" <?= in_array('Sales Leadership', $selectedLeadership ?? []) ? 'checked' : '' ?>>
+                                                    <input type="checkbox" id="lead1" name="leadership[]" value="Sales Leadership" <?php // in_array('Sales Leadership', $selectedLeadership ?? []) ? 'checked' : '' ?>>
                                                     <label for="lead1">Sales Leadership</label>
                                                 </div>
 
                                                 <div class="mb-2">
-                                                    <input type="checkbox" id="lead2" name="leadership[]" value="Business Development" <?= in_array('Business Development', $selectedLeadership ?? []) ? 'checked' : '' ?>>
+                                                    <input type="checkbox" id="lead2" name="leadership[]" value="Business Development" <?php // in_array('Business Development', $selectedLeadership ?? []) ? 'checked' : '' ?>>
                                                     <label for="lead2">Business Development</label>
                                                 </div>
 
                                                 <div class="mb-2">
-                                                    <input type="checkbox" id="lead3" name="leadership[]" value="Team Management" <?= in_array('Team Management', $selectedLeadership ?? []) ? 'checked' : '' ?>>
+                                                    <input type="checkbox" id="lead3" name="leadership[]" value="Team Management" <?php // in_array('Team Management', $selectedLeadership ?? []) ? 'checked' : '' ?>>
                                                     <label for="lead3">Team Management</label>
                                                 </div>
                                                 <div class="mb-2">
-                                                    <input type="checkbox" id="lead4" name="leadership[]" value="Enterpreneurship" <?= in_array('Enterpreneurship', $selectedLeadership ?? []) ? 'checked' : '' ?>>
+                                                    <input type="checkbox" id="lead4" name="leadership[]" value="Enterpreneurship" <?php // in_array('Enterpreneurship', $selectedLeadership ?? []) ? 'checked' : '' ?>>
                                                     <label for="lead4">Enterpreneurship</label>
                                                 </div>
 
                                                 <div class="mb-2">
-                                                    <input type="checkbox" id="lead5" name="leadership[]" value="Corporate Leader" <?= in_array('Corporate Leader', $selectedLeadership ?? []) ? 'checked' : '' ?>>
+                                                    <input type="checkbox" id="lead5" name="leadership[]" value="Corporate Leader" <?php // in_array('Corporate Leader', $selectedLeadership ?? []) ? 'checked' : '' ?>>
                                                     <label for="lead5">Corporate Leader</label>
                                                 </div>
 
                                                 <div class="mb-2">
-                                                    <input type="checkbox" id="lead6" name="leadership[]" value="other" <?= in_array('other', $selectedLeadership ?? []) ? 'checked' : '' ?>>
+                                                    <input type="checkbox" id="lead6" name="leadership[]" value="other" <?php // in_array('other', $selectedLeadership ?? []) ? 'checked' : '' ?>>
                                                     <label for="lead6">Other(Please Specify)</label>
-                                                    <input type="text" name="other_leadership" id="otherLead" class="form-control mt-2" <?php in_array('other', $selectedLeadership ?? []) ? 'style="display:block;' : 'style="display:none;' ?> " value="<?= $leadership_experience_other; ?>">
+                                                    <input type="text" name="other_leadership" id="otherLead" class="form-control mt-2" <?php //in_array('other', $selectedLeadership ?? []) ? 'style="display:block;' : 'style="display:none;' ?> " value="<?php // $leadership_experience_other; ?>">
                                                 </div>
                                             </div>
                                             <input type="hidden" name="leadership_json" id="leadership_json">
@@ -900,21 +733,21 @@
 						<div class="card rounded-4 p-3 border-1">
 							<div class="row">
                                 <div class="d-flex gap-2">
-                                    <p class="fw-bolder addCTNum">04</p>
+                                    <p class="fw-bolder addTENum">04</p>
                                     <h4 class="fw-bolder text-dark align-content-center">Educational Information</h4>
-                                    <?php if ($status == 2) { ?>
+                                    <?php //if ($status == 2) { ?>
                                         <div class="verify-toggle">
-                                            <input type="radio" name="verification_status[education]" id="education_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'education', 'approved'); ?>>
+                                            <input type="radio" name="verification_status[education]" id="education_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'education', 'approved'); ?>>
                                             <label class="verify-btn approve-btn" for="education_approve"> Approved </label>
-                                            <input type="radio" name="verification_status[education]" id="education_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'education', 'rejected'); ?>>
+                                            <input type="radio" name="verification_status[education]" id="education_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'education', 'rejected'); ?>>
                                             <label class="verify-btn reject-btn" for="education_reject"> Rejected </label>
                                         </div>
-                                    <?php } ?>
+                                    <?php //} ?>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">Educational Qualification<span class="text-danger">*</span></label>
-                                        <input class="form-control" type="text" id="qualification" value="<?= $educational_qualification; ?>">
+                                        <input class="form-control" type="text" id="qualification" value="<?php // $educational_qualification; ?>">
                                     </div>
                                 </div>
                             </div>
@@ -923,21 +756,21 @@
 						<div class="card rounded-4 p-3 border-1">
 							<div class="row">
                                 <div class="d-flex gap-2">
-                                    <p class="fw-bolder addCTNum">05</p>
+                                    <p class="fw-bolder addTENum">05</p>
                                     <h4 class="fw-bolder text-dark align-content-center">Leadership Assessment Information</h4>
-                                    <?php if ($status == 2) { ?>
+                                    <?php //if ($status == 2) { ?>
                                         <div class="verify-toggle">
-                                            <input type="radio" name="verification_status[leadership]" id="leadership_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'leadership', 'approved'); ?> >
+                                            <input type="radio" name="verification_status[leadership]" id="leadership_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'leadership', 'approved'); ?> >
                                             <label class="verify-btn approve-btn" for="leadership_approve"> Approved </label>
-                                            <input type="radio" name="verification_status[leadership]" id="leadership_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'leadership', 'rejected'); ?> >
+                                            <input type="radio" name="verification_status[leadership]" id="leadership_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'leadership', 'rejected'); ?> >
                                             <label class="verify-btn reject-btn" for="leadership_reject"> Rejected </label>
                                         </div>
-                                    <?php } ?>
+                                    <?php //} ?>
                                 </div>
                                 <div class="col-md-12 col-sm-12">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">Why You want to become a Chief Techno Enterprise?<span class="text-danger">*</span></label>
-                                        <textarea class="form-control" id="career_objective" rows="4" cols="50"> <?= $career_objective; ?></textarea>
+                                        <textarea class="form-control" id="career_objective" rows="4" cols="50"> <?php // $career_objective; ?></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
@@ -948,21 +781,21 @@
                                         <div class="row mt-2">
                                             <div class="col-md-6">
                                                 <div class="mb-2">
-                                                    <input type="radio" id="expected1" name="teamExpected" class="teamExpected" value="5" <?php if ($team_expected == '5'){echo ' checked ';} ?>>
+                                                    <input type="radio" id="expected1" name="teamExpected" class="teamExpected" value="5" <?php //if ($team_expected == '5'){echo ' checked ';} ?>>
                                                     <label for="expected1">5 Techno Enterprise</label>
                                                 </div>
 
                                                 <div class="mb-2">
-                                                    <input type="radio" id="expected2" name="teamExpected" class="teamExpected" value="10" <?php if ($team_expected == '10'){echo ' checked ';} ?>>
+                                                    <input type="radio" id="expected2" name="teamExpected" class="teamExpected" value="10" <?php //if ($team_expected == '10'){echo ' checked ';} ?>>
                                                     <label for="expected2">10 Techno Enterprise</label>
                                                 </div>
 
                                                 <div class="mb-2">
-                                                    <input type="radio" id="expected3" name="teamExpected" class="teamExpected" value="15" <?php if ($team_expected == '15'){echo ' checked ';} ?>>
+                                                    <input type="radio" id="expected3" name="teamExpected" class="teamExpected" value="15" <?php //if ($team_expected == '15'){echo ' checked ';} ?>>
                                                     <label for="expected3">15 Techno Enterprise</label>
                                                 </div>
                                                 <div class="mb-2">
-                                                    <input type="radio" id="expected4" name="teamExpected" class="teamExpected" value="25+" <?php if ($team_expected == '25+'){echo ' checked ';} ?>>
+                                                    <input type="radio" id="expected4" name="teamExpected" class="teamExpected" value="25+" <?php //if ($team_expected == '25+'){echo ' checked ';} ?>>
                                                     <label for="expected4">25+ Techno Enterprise</label>
                                                 </div>
                                             </div>
@@ -1007,7 +840,7 @@
 						<div class="card rounded-4 p-3 border-1">
 							<div class="row">
                                 <div class="d-flex gap-2">
-                                    <p class="fw-bolder addCTNum">06</p>
+                                    <p class="fw-bolder addTENum">06</p>
                                     <h4 class="fw-bolder text-dark align-content-center">Nominee Details</h4>
                                 </div>
 								<div class="col-lg-9">
@@ -1016,32 +849,32 @@
                                             <div class="input-block mb-3">
                                                 <div class="verify-field">
                                                     <label class="col-form-label">Nominee Name<span class="text-danger">*</span></label>
-                                                    <?php if ($status == 2) { ?>
+                                                    <?php //if ($status == 2) { ?>
                                                     <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[nominee_name]" id="nominee_name_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'nominee_name', 'approved'); ?> >
+                                                        <input type="radio" name="verification_status[nominee_name]" id="nominee_name_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'nominee_name', 'approved'); ?> >
                                                         <label class="verify-btn approve-btn" for="nominee_name_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[nominee_name]" id="nominee_name_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'educnominee_nameation', 'rejected'); ?> >
+                                                        <input type="radio" name="verification_status[nominee_name]" id="nominee_name_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'educnominee_nameation', 'rejected'); ?> >
                                                         <label class="verify-btn reject-btn" for="nominee_name_reject"> Rejected </label>
                                                     </div>
-                                                    <?php } ?>   
+                                                    <?php //} ?>   
                                                 </div>
-                                                <input class="form-control" type="text" id="nomineeName" value="<?= $nominee_name; ?>" >
+                                                <input class="form-control" type="text" id="nomineeName" value="<?php // $nominee_name; ?>" >
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-6">
                                             <div class="input-block mb-3">
                                                 <div class="verify-field">
                                                     <label class="col-form-label">Nominee Relation<span class="text-danger">*</span></label>
-                                                    <?php if ($status == 2) { ?>
+                                                    <?php //if ($status == 2) { ?>
                                                     <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[nominee_relation]" id="nominee_relation_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'nominee_relation', 'approved'); ?> >
+                                                        <input type="radio" name="verification_status[nominee_relation]" id="nominee_relation_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'nominee_relation', 'approved'); ?> >
                                                         <label class="verify-btn approve-btn" for="nominee_relation_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[nominee_relation]" id="nominee_relation_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'nominee_relation', 'rejected'); ?> >
+                                                        <input type="radio" name="verification_status[nominee_relation]" id="nominee_relation_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'nominee_relation', 'rejected'); ?> >
                                                         <label class="verify-btn reject-btn" for="nominee_relation_reject"> Rejected </label>
                                                     </div>
-                                                    <?php } ?>
+                                                    <?php //} ?>
                                                 </div>
-                                                <input class="form-control" type="text" id="nomineeRelation" value="<?= $nominee_relation; ?>" >
+                                                <input class="form-control" type="text" id="nomineeRelation" value="<?php // $nominee_relation; ?>" >
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-12 mb-3">
@@ -1072,16 +905,16 @@
                                                     <div class="input-block">
                                                         <div class="verify-field">
                                                             <label class="col-form-label">Nominee Phone Number <span class="text-danger">*</span></label>
-                                                            <?php if ($status == 2) { ?>
+                                                            <?php //if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[nominee_phone]" id="nominee_phone_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'nominee_phone', 'approved'); ?> >
+                                                                <input type="radio" name="verification_status[nominee_phone]" id="nominee_phone_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'nominee_phone', 'approved'); ?> >
                                                                 <label class="verify-btn approve-btn" for="nominee_phone_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[nominee_phone]" id="nominee_phone_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'nominee_phone', 'rejected'); ?> >
+                                                                <input type="radio" name="verification_status[nominee_phone]" id="nominee_phone_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'nominee_phone', 'rejected'); ?> >
                                                                 <label class="verify-btn reject-btn" for="nominee_phone_reject"> Rejected </label>
                                                             </div>
-                                                            <?php } ?>
+                                                            <?php //} ?>
                                                         </div>
-                                                        <input class="form-control" type="number" id="nomineePhone" placeholder="Enter Nominee Phone Number" value="<?= $nominee_contact_no; ?>" >
+                                                        <input class="form-control" type="number" id="nomineePhone" placeholder="Enter Nominee Phone Number" value="<?php // $nominee_contact_no; ?>" >
                                                     </div>
                                                 </div>
                                             </div>
@@ -1090,32 +923,32 @@
                                             <div class="input-block mb-3">
                                                 <div class="verify-field">
                                                     <label class="col-form-label">Date of Birth <span class="text-danger">*</span></label>
-                                                    <?php if ($status == 2) { ?>
+                                                    <?php //if ($status == 2) { ?>
                                                     <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[nominee_dob]" id="nominee_dob_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'nominee_dob', 'approved'); ?> >
+                                                        <input type="radio" name="verification_status[nominee_dob]" id="nominee_dob_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'nominee_dob', 'approved'); ?> >
                                                         <label class="verify-btn approve-btn" for="nominee_dob_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[nominee_dob]" id="nominee_dob_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'nominee_dob', 'rejected'); ?> >
+                                                        <input type="radio" name="verification_status[nominee_dob]" id="nominee_dob_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'nominee_dob', 'rejected'); ?> >
                                                         <label class="verify-btn reject-btn" for="nominee_dob_reject"> Rejected </label>
                                                     </div>
-                                                    <?php } ?>
+                                                    <?php //} ?>
                                                 </div>
-                                                <input class="form-control" type="date" id="nomineeDob" value="<?php echo $nominee_date_of_birth; ?>">
+                                                <input class="form-control" type="date" id="nomineeDob" value="<?php //echo $nominee_date_of_birth; ?>">
                                             </div>
                                         </div>
                                         <div class="col-md-12 col-sm-6">
                                             <div class="input-block mb-3">
                                                 <div class="verify-field">
                                                     <label class="col-form-label">Nominee Address<span class="text-danger">*</span></label>
-                                                    <?php if ($status == 2) { ?>
+                                                    <?php //if ($status == 2) { ?>
                                                     <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[nominee_address]" id="nominee_address_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'nominee_address', 'approved'); ?> >
+                                                        <input type="radio" name="verification_status[nominee_address]" id="nominee_address_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'nominee_address', 'approved'); ?> >
                                                         <label class="verify-btn approve-btn" for="nominee_address_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[nominee_address]" id="nominee_address_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'nominee_address', 'rejected'); ?> >
+                                                        <input type="radio" name="verification_status[nominee_address]" id="nominee_address_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'nominee_address', 'rejected'); ?> >
                                                         <label class="verify-btn reject-btn" for="nominee_address_reject"> Rejected </label>
                                                     </div>
-                                                    <?php } ?>
+                                                    <?php //} ?>
                                                 </div>
-                                                <textarea class="form-control" type="text" id="nomineeAddress" rows="3"><?= $nominee_address; ?></textarea>
+                                                <textarea class="form-control" type="text" id="nomineeAddress" rows="3"><?php // $nominee_address; ?></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -1124,14 +957,14 @@
 									<div class="row">
 										<div class="col-lg-12">
                                             <div class="verify-field">
-                                                <?php if ($status == 2) { ?>
+                                                <?php //if ($status == 2) { ?>
                                                 <div class="verify-toggle">
-                                                    <input type="radio" name="verification_status[nominee]" id="nominee_approve" class="approve_reason" value="approved" <?php isChecked($verificationPayload, 'nominee', 'approved'); ?> > 
+                                                    <input type="radio" name="verification_status[nominee]" id="nominee_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'nominee', 'approved'); ?> > 
                                                     <label class="verify-btn approve-btn" for="nominee_approve"> Approved </label>
-                                                    <input type="radio" name="verification_status[nominee]" id="nominee_reject" class="reject_reason" value="rejected" <?php isChecked($verificationPayload, 'nominee', 'rejected'); ?> > 
+                                                    <input type="radio" name="verification_status[nominee]" id="nominee_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'nominee', 'rejected'); ?> > 
                                                     <label class="verify-btn reject-btn" for="nominee_reject"> Rejected </label>
                                                 </div>
-                                                <?php } ?>
+                                                <?php //} ?>
                                             </div>
 											<div class="upload-card" data-title="Nominee Profile Photo">
 												<input type="file" class="file-input" accept="image/*,.pdf">
@@ -1153,93 +986,93 @@
 						<div class="card rounded-4 p-3 border-1">
 							<div class="row">
                                 <div class="d-flex gap-2">
-                                    <p class="fw-bolder addCTNum">07</p>
+                                    <p class="fw-bolder addTENum">07</p>
                                     <h4 class="fw-bolder text-dark align-content-center">Bank Details</h4>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <div class="verify-field">
                                             <label class="col-form-label">Account Holder Name<span class="text-danger">*</span></label>
-                                            <?php if ($status == 2) { ?>
+                                            <?php //if ($status == 2) { ?>
                                             <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[account_holder]" id="account_holder_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'account_holder', 'approved'); ?> >
+                                                <input type="radio" name="verification_status[account_holder]" id="account_holder_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'account_holder', 'approved'); ?> >
                                                 <label class="verify-btn approve-btn" for="account_holder_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[account_holder]" id="account_holder_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'account_holder', 'rejected'); ?>>
+                                                <input type="radio" name="verification_status[account_holder]" id="account_holder_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'account_holder', 'rejected'); ?>>
                                                 <label class="verify-btn reject-btn" for="account_holder_reject"> Rejected </label>
                                             </div>
-                                            <?php } ?>
+                                            <?php //} ?>
                                         </div>
-                                        <input class="form-control" type="text" id="accHolderName" value="<?= $account_holder_name;  ?>" >
+                                        <input class="form-control" type="text" id="accHolderName" value="<?php // $account_holder_name;  ?>" >
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <div class="verify-field">
                                             <label class="col-form-label">Bank Name<span class="text-danger">*</span></label>
-                                            <?php if ($status == 2) { ?>
+                                            <?php //if ($status == 2) { ?>
                                             <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[bank_name]" id="bank_name_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'bank_name', 'approved'); ?> >
+                                                <input type="radio" name="verification_status[bank_name]" id="bank_name_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'bank_name', 'approved'); ?> >
                                                 <label class="verify-btn approve-btn" for="bank_name_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[bank_name]" id="bank_name_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'bank_name', 'rejected'); ?> >
+                                                <input type="radio" name="verification_status[bank_name]" id="bank_name_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'bank_name', 'rejected'); ?> >
                                                 <label class="verify-btn reject-btn" for="bank_name_reject"> Rejected </label>
                                             </div>
-                                            <?php } ?>
+                                            <?php //} ?>
                                         </div>
-                                        <input class="form-control" type="text" id="bankName" value="<?= $bank_name;  ?>" >
+                                        <input class="form-control" type="text" id="bankName" value="<?php // $bank_name;  ?>" >
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <div class="verify-field">
                                             <label class="col-form-label">Account Number<span class="text-danger">*</span></label>
-                                            <?php if ($status == 2) { ?>
+                                            <?php //if ($status == 2) { ?>
                                             <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[account_number]" id="account_number_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'account_number', 'approved'); ?>>
+                                                <input type="radio" name="verification_status[account_number]" id="account_number_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'account_number', 'approved'); ?>>
                                                 <label class="verify-btn approve-btn" for="account_number_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[account_number]" id="account_number_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'account_number', 'rejected'); ?>>
+                                                <input type="radio" name="verification_status[account_number]" id="account_number_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'account_number', 'rejected'); ?>>
                                                 <label class="verify-btn reject-btn" for="account_number_reject"> Rejected </label>
                                             </div>
-                                            <?php } ?>
+                                            <?php //} ?>
                                         </div>
-                                        <input class="form-control" type="text" id="accountNumber" value="<?= $account_number;  ?>" >
+                                        <input class="form-control" type="text" id="accountNumber" value="<?php // $account_number;  ?>" >
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">Confirm Account Number<span class="text-danger">*</span></label>
-                                        <input class="form-control" type="text" id="confirmAccountNumber" value="<?= $account_number;  ?>" >
+                                        <input class="form-control" type="text" id="confirmAccountNumber" value="<?php // $account_number;  ?>" >
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <div class="verify-field">
                                             <label class="col-form-label">IFSC Code<span class="text-danger">*</span></label>
-                                            <?php if ($status == 2) { ?>
+                                            <?php //if ($status == 2) { ?>
                                             <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[ifsc_code]" id="ifsc_code_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'ifsc_code', 'approved'); ?> >
+                                                <input type="radio" name="verification_status[ifsc_code]" id="ifsc_code_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'ifsc_code', 'approved'); ?> >
                                                 <label class="verify-btn approve-btn" for="ifsc_code_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[ifsc_code]" id="ifsc_code_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'ifsc_code', 'rejected'); ?> >
+                                                <input type="radio" name="verification_status[ifsc_code]" id="ifsc_code_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'ifsc_code', 'rejected'); ?> >
                                                 <label class="verify-btn reject-btn" for="ifsc_code_reject"> Rejected </label>
                                             </div>
-                                            <?php } ?>
+                                            <?php //} ?>
                                         </div>
-                                        <input class="form-control" type="text" id="ifscCode" value="<?= $ifsc_code;  ?>" >
+                                        <input class="form-control" type="text" id="ifscCode" value="<?php // $ifsc_code;  ?>" >
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <div class="verify-field">
                                             <label class="col-form-label">Branch Name<span class="text-danger">*</span></label>
-                                            <?php if ($status == 2) { ?>
+                                            <?php //if ($status == 2) { ?>
                                             <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[branch_name]" id="branch_name_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'branch_name', 'approved'); ?> >
+                                                <input type="radio" name="verification_status[branch_name]" id="branch_name_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'branch_name', 'approved'); ?> >
                                                 <label class="verify-btn approve-btn" for="branch_name_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[branch_name]" id="branch_name_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'branch_name', 'rejected'); ?> >
+                                                <input type="radio" name="verification_status[branch_name]" id="branch_name_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'branch_name', 'rejected'); ?> >
                                                 <label class="verify-btn reject-btn" for="branch_name_reject"> Rejected </label>
                                             </div>
-                                            <?php } ?>
+                                            <?php //} ?>
                                         </div>
-                                        <input class="form-control" type="text" id="branchName" value="<?= $branch_name;  ?>" >
+                                        <input class="form-control" type="text" id="branchName" value="<?php // $branch_name;  ?>" >
                                     </div>
                                 </div>
                             </div>
@@ -1255,14 +1088,14 @@
 									<!-- Aadhaar -->
 									<div class="col-lg-4 col-md-4 col-12">
                                         <div class="verify-field">
-                                            <?php if ($status == 2) { ?>
+                                            <?php //if ($status == 2) { ?>
                                             <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[aadhar]" id="aadhar_approve" class="approve_reason" value="approved" <?php  isChecked($verificationPayload, 'aadhar', 'approved'); ?> > 
+                                                <input type="radio" name="verification_status[aadhar]" id="aadhar_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'aadhar', 'approved'); ?> > 
                                                 <label class="verify-btn approve-btn" for="aadhar_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[aadhar]" id="aadhar_reject" class="reject_reason" value="rejected" <?php  isChecked($verificationPayload, 'aadhar', 'rejected'); ?> > 
+                                                <input type="radio" name="verification_status[aadhar]" id="aadhar_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'aadhar', 'rejected'); ?> > 
                                                 <label class="verify-btn reject-btn" for="aadhar_reject"> Rejected </label>
                                             </div>
-                                            <?php } ?>
+                                            <?php //} ?>
                                         </div>
 										<div class="upload-card" data-title="Aadhaar Card">
 											<input type="file" class="file-input" accept="image/*,.pdf">
@@ -1280,14 +1113,14 @@
 									<!-- PAN -->
 									<div class="col-lg-4 col-md-4 col-12">
                                         <div class="verify-field">
-                                            <?php if ($status == 2) { ?>
+                                            <?php //if ($status == 2) { ?>
                                             <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[pan]" id="pan_approve" class="approve_reason" value="approved" <?php  isChecked($verificationPayload, 'pan', 'approved'); ?> > 
+                                                <input type="radio" name="verification_status[pan]" id="pan_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'pan', 'approved'); ?> > 
                                                 <label class="verify-btn approve-btn" for="pan_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[pan]" id="pan_reject" class="reject_reason" value="rejected" <?php  isChecked($verificationPayload, 'pan', 'rejected'); ?> > 
+                                                <input type="radio" name="verification_status[pan]" id="pan_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'pan', 'rejected'); ?> > 
                                                 <label class="verify-btn reject-btn" for="pan_reject"> Rejected </label>
                                             </div>
-                                            <?php } ?>
+                                            <?php //} ?>
                                         </div>
 										<div class="upload-card" data-title="PAN Card">
 											<input type="file" class="file-input" accept="image/*,.pdf">
@@ -1305,14 +1138,14 @@
 									<!-- Bank Passbook -->
 									<div class="col-lg-4 col-md-4 col-12">
                                         <div class="verify-field">
-                                            <?php if ($status == 2) { ?>
+                                            <?php //if ($status == 2) { ?>
                                             <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[bank]" id="bank_approve" class="approve_reason" value="approved" <?php  isChecked($verificationPayload, 'bank', 'approved'); ?> > 
+                                                <input type="radio" name="verification_status[bank]" id="bank_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'bank', 'approved'); ?> > 
                                                 <label class="verify-btn approve-btn" for="bank_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[bank]" id="bank_reject" class="reject_reason" value="rejected" <?php  isChecked($verificationPayload, 'bank', 'rejected'); ?> > 
+                                                <input type="radio" name="verification_status[bank]" id="bank_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'bank', 'rejected'); ?> > 
                                                 <label class="verify-btn reject-btn" for="bank_reject"> Rejected </label>
                                             </div>
-                                            <?php } ?>
+                                            <?php //} ?>
                                         </div>
 										<div class="upload-card" data-title="Bank Passbook">
 											<input type="file" class="file-input" accept="image/*,.pdf">
@@ -1330,14 +1163,14 @@
 									<!-- Resume -->
 									<div class="col-lg-4 col-md-4 col-12">
                                         <div class="verify-field">
-                                            <?php if ($status == 2) { ?>
+                                            <?php //if ($status == 2) { ?>
                                             <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[resume]" id="resume_approve" class="approve_reason" value="approved" <?php  isChecked($verificationPayload, 'resume', 'approved'); ?> > 
+                                                <input type="radio" name="verification_status[resume]" id="resume_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'resume', 'approved'); ?> > 
                                                 <label class="verify-btn approve-btn" for="resume_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[resume]" id="resume_reject" class="reject_reason" value="rejected" <?php  isChecked($verificationPayload, 'resume', 'rejected'); ?> > 
+                                                <input type="radio" name="verification_status[resume]" id="resume_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'resume', 'rejected'); ?> > 
                                                 <label class="verify-btn reject-btn" for="resume_reject"> Rejected </label>
                                             </div>
-                                            <?php } ?>
+                                            <?php //} ?>
                                         </div>
 										<div class="upload-card" data-title="Resume / CV">
 											<input type="file" class="file-input" accept="image/*,.pdf">
@@ -1354,14 +1187,14 @@
 									<!-- Address Proof -->
 									<div class="col-lg-4 col-md-4 col-12">
                                         <div class="verify-field">
-                                            <?php if ($status == 2) { ?>
+                                            <?php //if ($status == 2) { ?>
                                             <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[address]" id="address_approve" class="approve_reason" value="approved" <?php  isChecked($verificationPayload, 'address', 'approved'); ?> > 
+                                                <input type="radio" name="verification_status[address]" id="address_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'address', 'approved'); ?> > 
                                                 <label class="verify-btn approve-btn" for="address_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[address]" id="address_reject" class="reject_reason" value="rejected" <?php  isChecked($verificationPayload, 'address', 'rejected'); ?> > 
+                                                <input type="radio" name="verification_status[address]" id="address_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'address', 'rejected'); ?> > 
                                                 <label class="verify-btn reject-btn" for="address_reject"> Rejected </label>
                                             </div>
-                                            <?php } ?>
+                                            <?php //} ?>
                                         </div>
 										<div class="upload-card" data-title="Address Proof">
 											<input type="file" class="file-input" accept="image/*,.pdf">
@@ -1379,14 +1212,14 @@
 									<!-- Professional Profile -->
 									<div class="col-lg-4 col-md-4 col-12">
                                         <div class="verify-field">
-                                            <?php if ($status == 2) { ?>
+                                            <?php //if ($status == 2) { ?>
                                             <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[profile2]" id="profile2_approve" class="approve_reason" value="approved" <?php  isChecked($verificationPayload, 'profile2', 'approved'); ?> > 
+                                                <input type="radio" name="verification_status[profile2]" id="profile2_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'profile2', 'approved'); ?> > 
                                                 <label class="verify-btn approve-btn" for="profile2_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[profile2]" id="profile2_reject" class="reject_reason" value="rejected" <?php  isChecked($verificationPayload, 'profile2', 'rejected'); ?> > 
+                                                <input type="radio" name="verification_status[profile2]" id="profile2_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'profile2', 'rejected'); ?> > 
                                                 <label class="verify-btn reject-btn" for="profile2_reject"> Rejected </label>
                                             </div>
-                                            <?php } ?>
+                                            <?php //} ?>
                                         </div>
 										<div class="upload-card" data-title="Professional Profile">
 											<input type="file" class="file-input" accept="image/*,.pdf">
@@ -1403,14 +1236,14 @@
 									<!-- Business Profile -->
 									<div class="col-lg-4 col-md-4 col-12">
                                         <div class="verify-field">
-                                            <?php if ($status == 2) { ?>
+                                            <?php //if ($status == 2) { ?>
                                             <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[business]" id="business_approve" class="approve_reason" value="approved" <?php  isChecked($verificationPayload, 'business', 'approved'); ?> > 
+                                                <input type="radio" name="verification_status[business]" id="business_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'business', 'approved'); ?> > 
                                                 <label class="verify-btn approve-btn" for="business_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[business]" id="business_reject" class="reject_reason" value="rejected" <?php  isChecked($verificationPayload, 'business', 'rejected'); ?> > 
+                                                <input type="radio" name="verification_status[business]" id="business_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'business', 'rejected'); ?> > 
                                                 <label class="verify-btn reject-btn" for="business_reject"> Rejected </label>
                                             </div>
-                                            <?php } ?>
+                                            <?php //} ?>
                                         </div>
 										<div class="upload-card" data-title="Business Profile">
 											<input type="file" class="file-input" accept="image/*,.pdf">
@@ -1427,14 +1260,14 @@
 									<!-- Income Proof -->
 									<div class="col-lg-4 col-md-4 col-12">
                                         <div class="verify-field">
-                                            <?php if ($status == 2) { ?>
+                                            <?php //if ($status == 2) { ?>
                                             <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[income]" id="income_approve" class="approve_reason" value="approved" <?php  isChecked($verificationPayload, 'income', 'approved'); ?> > 
+                                                <input type="radio" name="verification_status[income]" id="income_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'income', 'approved'); ?> > 
                                                 <label class="verify-btn approve-btn" for="income_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[income]" id="income_reject" class="reject_reason" value="rejected" <?php  isChecked($verificationPayload, 'income', 'rejected'); ?> > 
+                                                <input type="radio" name="verification_status[income]" id="income_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'income', 'rejected'); ?> > 
                                                 <label class="verify-btn reject-btn" for="income_reject"> Rejected </label>
                                             </div>
-                                            <?php } ?>
+                                            <?php //} ?>
                                         </div>
 										<div class="upload-card" data-title="Income Proof">
 											<input type="file" class="file-input" accept="image/*,.pdf">
@@ -1451,14 +1284,14 @@
 									<!-- Other Document -->
 									<div class="col-lg-4 col-md-4 col-12">
                                         <div class="verify-field">
-                                            <?php if ($status == 2) { ?>
+                                            <?php //if ($status == 2) { ?>
                                             <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[other]" id="other_approve" class="approve_reason" value="approved" <?php  isChecked($verificationPayload, 'other', 'approved'); ?> > 
+                                                <input type="radio" name="verification_status[other]" id="other_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'other', 'approved'); ?> > 
                                                 <label class="verify-btn approve-btn" for="other_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[other]" id="other_reject" class="reject_reason" value="rejected" <?php  isChecked($verificationPayload, 'other', 'rejected'); ?> > 
+                                                <input type="radio" name="verification_status[other]" id="other_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'other', 'rejected'); ?> > 
                                                 <label class="verify-btn reject-btn" for="other_reject"> Rejected </label>
                                             </div>
-                                            <?php } ?>
+                                            <?php //} ?>
                                         </div>
 										<div class="upload-card" data-title="Other Document">
 											<input type="file" class="file-input" accept="image/*,.pdf">
@@ -1509,9 +1342,9 @@
                                                             </label>
                                                             <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[profile_pic]" id="profile_pic_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'profile_pic', 'approved'); ?> >
+                                                                <input type="radio" name="verification_status[profile_pic]" id="profile_pic_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'profile_pic', 'approved'); ?> >
                                                                 <label class="verify-btn approve-btn" for="profile_pic_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[profile_pic]" id="profile_pic_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'profile_pic', 'rejected'); ?> >
+                                                                <input type="radio" name="verification_status[profile_pic]" id="profile_pic_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'profile_pic', 'rejected'); ?> >
                                                                 <label class="verify-btn reject-btn" for="profile_pic_reject"> Rejected </label>
                                                             </div>
                                                             <?php } ?>
@@ -1548,9 +1381,9 @@
                                                             </label>
                                                             <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[aadhar_card]" id="aadhar_card_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'aadhar_card', 'approved'); ?> >
+                                                                <input type="radio" name="verification_status[aadhar_card]" id="aadhar_card_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'aadhar_card', 'approved'); ?> >
                                                                 <label class="verify-btn approve-btn" for="aadhar_card_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[aadhar_card]" id="aadhar_card_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'aadhar_card', 'rejected'); ?>>
+                                                                <input type="radio" name="verification_status[aadhar_card]" id="aadhar_card_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'aadhar_card', 'rejected'); ?>>
                                                                 <label class="verify-btn reject-btn" for="aadhar_card_reject"> Rejected </label>
                                                             </div>
                                                             <?php } ?>
@@ -1587,9 +1420,9 @@
                                                             </label>
                                                             <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[pan_card]" id="pan_card_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'pan_card', 'approved'); ?> >
+                                                                <input type="radio" name="verification_status[pan_card]" id="pan_card_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'pan_card', 'approved'); ?> >
                                                                 <label class="verify-btn approve-btn" for="pan_card_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[pan_card]" id="pan_card_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'pan_card', 'rejected'); ?> >
+                                                                <input type="radio" name="verification_status[pan_card]" id="pan_card_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'pan_card', 'rejected'); ?> >
                                                                 <label class="verify-btn reject-btn" for="pan_card_reject"> Rejected </label>
                                                             </div>
                                                             <?php } ?>
@@ -1626,9 +1459,9 @@
                                                             </label>
                                                             <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[bank_passbook]" id="bank_passbook_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'bank_passbook', 'approved'); ?> >
+                                                                <input type="radio" name="verification_status[bank_passbook]" id="bank_passbook_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'bank_passbook', 'approved'); ?> >
                                                                 <label class="verify-btn approve-btn" for="bank_passbook_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[bank_passbook]" id="bank_passbook_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'bank_passbook', 'rejected'); ?> >
+                                                                <input type="radio" name="verification_status[bank_passbook]" id="bank_passbook_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'bank_passbook', 'rejected'); ?> >
                                                                 <label class="verify-btn reject-btn" for="bank_passbook_reject"> Rejected </label>
                                                             </div>
                                                             <?php } ?>
@@ -1665,9 +1498,9 @@
                                                             </label>
                                                             <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[resume_cv]" id="resume_cv_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'resume_cv', 'approved'); ?> >
+                                                                <input type="radio" name="verification_status[resume_cv]" id="resume_cv_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'resume_cv', 'approved'); ?> >
                                                                 <label class="verify-btn approve-btn" for="resume_cv_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[resume_cv]" id="resume_cv_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'resume_cv', 'rejected'); ?> >
+                                                                <input type="radio" name="verification_status[resume_cv]" id="resume_cv_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'resume_cv', 'rejected'); ?> >
                                                                 <label class="verify-btn reject-btn" for="resume_cv_reject"> Rejected </label>
                                                             </div>
                                                             <?php } ?>
@@ -1705,9 +1538,9 @@
                                                             </label>
                                                             <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[address_proof]" id="address_proof_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'address_proof', 'approved'); ?>>
+                                                                <input type="radio" name="verification_status[address_proof]" id="address_proof_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'address_proof', 'approved'); ?>>
                                                                 <label class="verify-btn approve-btn" for="address_proof_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[address_proof]" id="address_proof_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'address_proof', 'rejected'); ?>>
+                                                                <input type="radio" name="verification_status[address_proof]" id="address_proof_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'address_proof', 'rejected'); ?>>
                                                                 <label class="verify-btn reject-btn" for="address_proof_reject"> Rejected </label>
                                                             </div>
                                                             <?php } ?>
@@ -1745,9 +1578,9 @@
                                                             </label>
                                                             <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[professional_profile]" id="professional_profile_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'professional_profile', 'approved'); ?>>
+                                                                <input type="radio" name="verification_status[professional_profile]" id="professional_profile_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'professional_profile', 'approved'); ?>>
                                                                 <label class="verify-btn approve-btn" for="professional_profile_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[professional_profile]" id="professional_profile_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'professional_profile', 'rejected'); ?>>
+                                                                <input type="radio" name="verification_status[professional_profile]" id="professional_profile_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'professional_profile', 'rejected'); ?>>
                                                                 <label class="verify-btn reject-btn" for="professional_profile_reject"> Rejected </label>
                                                             </div>
                                                             <?php } ?>
@@ -1785,9 +1618,9 @@
                                                             </label>
                                                             <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[business_profile]" id="business_profile_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'business_profile', 'approved'); ?> >
+                                                                <input type="radio" name="verification_status[business_profile]" id="business_profile_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'business_profile', 'approved'); ?> >
                                                                 <label class="verify-btn approve-btn" for="business_profile_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[business_profile]" id="business_profile_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'business_profile', 'rejected'); ?>>
+                                                                <input type="radio" name="verification_status[business_profile]" id="business_profile_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'business_profile', 'rejected'); ?>>
                                                                 <label class="verify-btn reject-btn" for="business_profile_reject"> Rejected </label>
                                                             </div>
                                                             <?php } ?>
@@ -1826,9 +1659,9 @@
                                                             </label>
                                                             <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[income_proof]" id="income_proof_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'income_proof', 'approved'); ?> >
+                                                                <input type="radio" name="verification_status[income_proof]" id="income_proof_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'income_proof', 'approved'); ?> >
                                                                 <label class="verify-btn approve-btn" for="income_proof_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[income_proof]" id="income_proof_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'income_proof', 'rejected'); ?> >
+                                                                <input type="radio" name="verification_status[income_proof]" id="income_proof_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'income_proof', 'rejected'); ?> >
                                                                 <label class="verify-btn reject-btn" for="income_proof_reject"> Rejected </label>
                                                             </div>
                                                             <?php } ?>
@@ -1866,9 +1699,9 @@
                                                             </label>
                                                             <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[other_document]" id="other_document_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'other_document', 'approved'); ?> >
+                                                                <input type="radio" name="verification_status[other_document]" id="other_document_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'other_document', 'approved'); ?> >
                                                                 <label class="verify-btn approve-btn" for="other_document_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[other_document]" id="other_document_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'other_document', 'rejected'); ?>>
+                                                                <input type="radio" name="verification_status[other_document]" id="other_document_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'other_document', 'rejected'); ?>>
                                                                 <label class="verify-btn reject-btn" for="other_document_reject"> Rejected </label>
                                                             </div>
                                                             <?php } ?>
@@ -1890,10 +1723,10 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-12 col-sm-12 <?= empty($rejection_reason) ? 'd-none' : '' ?> " >
+                                                <div class="col-md-12 col-sm-12 <?php // empty($rejection_reason) ? 'd-none' : '' ?> " >
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="flex_amount">Previous Rejection Reason<span class="text-danger">*</span></label>
-                                                        <textarea class="form-control"  rows="4" cols="50" readonly><?= $rejection_reason ?> </textarea>
+                                                        <textarea class="form-control"  rows="4" cols="50" readonly><?php // $rejection_reason ?> </textarea>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12 col-sm-12 d-none" id="rejectReasonDiv">
@@ -1932,84 +1765,122 @@
                 <!-- container-fluid -->
                 </div>
                 <!-- End Page-content -->
+                <?php 
+                    if ($userType == 34) {
+                        include_once(__DIR__ . '/executive_techno_footer.php');
+                    }else{
 
+                        include_once "executive_techno_footer.php"; 
+                    }
+                ?>
+            </div><!-- end main content-->
+        </div><!-- END layout-wrapper -->
 
-                <?php include_once "../footer.php" ?>
-            </div>
-            <!-- end main content-->
-
-        </div>
         <!--start back-to-top-->
         <button onclick="topFunction()" class="scrollToTop scroll-btn show btn" id="back-to-top">
-            <i class="mdi mdi-arrow-up"></i>
+            <i class="ri-arrow-up-line"></i>
         </button>
         <!--end back-to-top-->
+        
         <!-- JAVASCRIPT -->
-        <script src="../assets/libs/jquery/jquery.min.js"></script>
         <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="../assets/libs/metismenu/metisMenu.min.js"></script>
         <script src="../assets/libs/simplebar/simplebar.min.js"></script>
         <script src="../assets/libs/node-waves/waves.min.js"></script>
+        <script src="../assets/libs/feather-icons/feather.min.js"></script>
+        <script src="../assets/js/jquery/jquery-3.7.1.min.js"></script>
 
-        <!-- edit data to database js file -->
-        <script type="text/javascript" src="chief_techno_enterprise.js"></script>
+        <!-- Required datatable js -->
+        <script src="../assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="../assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+        
+        <!-- Responsive examples -->
+        <script src="../assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+        <!-- !-- materialdesign icon js- -->
+        <script src="../assets/js/pages/remix-icons-listing.js"></script>
+        <?php 
+            //if ($userType == 34) {
+        ?>
+        <!-- Vector map-->
+        <script src="<?php // $base_url ?>../assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+        <script src="<?php // $base_url ?>../assets/libs/jsvectormap/maps/world-merc.js"></script>
 
-        <!-- apexcharts -->
-        <!-- <script src="../assets/libs/apexcharts/apexcharts.min.js"></script> -->
-
-        <!-- dashboard init -->
-        <!-- <script src="assets/js/pages/dashboard.init.js"></script> -->
+        <!--Swiper slider js-->
+        <script src="<?php // $base_url ?>../assets/libs/swiper/swiper-bundle.min.js"></script>
+        <?php
+           // }
+        ?>
 
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
-
-        <!-- upload js file made only for CTE,ETE and STE users -->
-        <script src="../../uploading/uploadTechnoAdmin.js"></script>
-
+        <!-- dialer logic scripts -->
         <script>
-            var mybutton = document.getElementById("back-to-top");
-            function scrollFunction() {
-                100 < document.body.scrollTop || 100 < document.documentElement.scrollTop ? mybutton.style.display = "block" : mybutton.style.display = "none"
-            }
-            function topFunction() {
-                document.body.scrollTop = 0,
-                document.documentElement.scrollTop = 0
-            }
-            mybutton && (window.onscroll = function() {
-                scrollFunction()
-            }
-            );
+            document.addEventListener("DOMContentLoaded", function () {
 
+                const callBtn = document.getElementById("callBtn");
+
+                if (callBtn) {
+                    callBtn.addEventListener("click", function(e) {
+
+                        let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+                        if (!isMobile) {
+                            e.preventDefault();
+
+                            alert("📞 Calling works only on mobile devices.\nPlease dial 8010892265 from your phone.");
+                            location.reload();
+
+                            // Optional clipboard copy (safe fallback)
+                            if (navigator.clipboard) {
+                                navigator.clipboard.writeText("8010892265");
+                            }
+                        }
+                    });
+                }
+
+            });
         </script>
 
-        <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
         <script>
+            var modal = document.getElementById('staticBackdrop');
 
-            $(document).ready(function(){
-                var registered = $("#registered").val();
-                if(registered == 'bm'){
-                    // $('#designation1').prop('disabled',false);
-                    // $('#designation1').removeClass('d-none');
-                    // $('#designation2').addClass('d-none');
-                    // $('#payment_fee').prop('disabled',false);
-                    $('#payment_fee').removeClass('d-none');
-                    $('#payment_fee2').addClass('d-none');
-                }else if(registered == 'mf'){
-                //     $('#designation2').removeClass('d-none');
-                //     $('#designation2').prop('disabled',false);
-                //     $('#designation1').addClass('d-none');
-                    $('#payment_fee').addClass('d-none');
-                    $('#payment_fee2').removeClass('d-none');
-                }else if(registered == 'sf'){
-                    // $('#designation1').prop('disabled',true);
-                    // $('#designation2').prop('disabled',true);
-                    $('#payment_fee').addClass('d-none');
-                    $('#payment_fee2').removeClass('d-none');
-                }else if(registered == 'ete'){
-                    $('#payment_fee').removeClass('d-none');
-                    $('#payment_fee2').addClass('d-none');
+            // Store the element that opened the modal
+            let lastFocusedElement;
+
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('[data-bs-toggle="modal"]')) {
+                    lastFocusedElement = e.target;
                 }
-                
+            });
+
+            modal.addEventListener('hidden.bs.modal', function () {
+                if (lastFocusedElement) {
+                    lastFocusedElement.focus();
+                } else {
+                    document.body.focus();
+                }
+            });
+        </script>
+        <!-- end dialer logic scripts -->
+        <script>
+            $('#payment_fee').on('change', function(){
+                var payment_fee = $(this).val();
+                if(payment_fee == "FOC"){
+                    $("#paymentModeBlock").addClass("d-none");
+                    $("#paymentFields").addClass("d-none");
+                    $("#payProof").addClass("d-none");
+                }else if(payment_fee == "null"){
+                    $("#paymentModeBlock").addClass("d-none");
+                    $("#paymentFields").addClass("d-none");
+                    $("#payProof").addClass("d-none");
+                }else{
+                    $("#paymentModeBlock").removeClass("d-none");
+                    $("#paymentFields").removeClass("d-none");
+                    $("#payProof").removeClass("d-none");
+                }
+            });
+
+            $('#paymentMode').on('click', function(){
                 var paymentMode = $(".payment:checked").val();
                 if(paymentMode == "cheque"){
                     $("#chequeOpt").removeClass("d-none");
@@ -2022,198 +1893,22 @@
                     $("#onlineOpt").addClass("d-none");
                 }
             });
-            $('#paymentMode').on('click', function() {
-                var paymentMode = $(".payment:checked").val();
-                // console.log(paymentMode);
-                if (paymentMode == "cheque") {
-                    $("#chequeOpt").removeClass("d-none");
-                    $("#onlineOpt").addClass("d-none");
-                } else if (paymentMode == "online") {
-                    $("#onlineOpt").removeClass("d-none");
-                    $("#chequeOpt").addClass("d-none");
-                } else {
-                    $("#chequeOpt").addClass("d-none");
-                    $("#onlineOpt").addClass("d-none");
-                }
-            });
-            //select Designation
-            $('#designation').on('change', function() {
-                var designation = $('#designation').val();
-                // console.log(designation);
-                $.ajax({
-                    type:'POST',
-                    url:'../agents/get_user_Franchisee.php',
-                    data: "designation="+designation,
-                    success:function (e) {
-                        // console.log(e);
-                        $('#user_id_name').html(e); 
-                    },
-                    error: function(err){
-                        console.log(err);
-                    },
+        </script>
+        <!-- radio button background color on selected -->
+        <script>
+            document.querySelectorAll('.payment').forEach(radio => {
+                radio.addEventListener('change', function () {
+
+                    // Remove active class from all labels
+                    document.querySelectorAll('.payment-label').forEach(label => {
+                        label.classList.remove('ptMode');
+                    });
+
+                    // Add active class to selected radio's label
+                    this.closest('label').classList.add('ptMode');
                 });
             });
-
-            // fetch User based on selected designation
-            $('#user_id_name').on('change', function(){
-                var user_id_name = $(this).val();
-                var designation = $('#designation').val();
-                // console.log(user_id_name);
-
-                // var designation = $('#designation').val();
-                // console.log(designation);
-
-                $.ajax({
-                    type:'POST',
-                    url:'../agents/getUsers.php',
-                    data: 'user_id_name=' + user_id_name + '&designation=' + designation ,
-                    success:function(response){
-                    // console.log(response);
-                        $('#pin').html(response);
-                        $('#reference_name').val(response); 
-                    }
-                }); 
-               
-            }); 
-
-            $('#country').on('change', function(){
-                var countryID = $(this).val();
-                if(countryID){
-                    $.ajax({
-                        type:'POST',
-                        url:'../address/countrydata.php',
-                        data:'country_id='+countryID,
-                        success:function(htmll){
-                            $('#mystate').html(htmll); 
-                            $('#city').html('<option value="">Select state first</option>'); 
-                        }
-                    }); 
-                }else{
-                    $('#mystate').html('<option value="">Select country first</option>');
-                    $('#city').html('<option value="">Select state first</option>');
-                    $('#pin').val('');   
-                }
-            });
-                
-            $('#mystate').on('change', function(){
-                // alert();
-                var stateID = $(this).val();
-                if(stateID){
-                    $.ajax({
-                        type:'POST',
-                        url:'../address/countrydata.php',
-                        data:'state_id='+stateID,
-                        success:function(html){
-                            $('#city').html(html);
-                        }
-                    }); 
-                }else{
-                    $('#city').html('<option value="">Select state first</option>');
-                    $('#pin').val('');   
-                }
-            });
-
-            $('#city').on('change', function(){
-                var cityID = $(this).val();
-                if(cityID){
-                    $.ajax({
-                        type:'POST',
-                        url:'../address/pincode.php',
-                        data:'city_id='+cityID,
-                        success:function(response){
-                            // $('#pin').html(response);
-                            $('#pin').val(response); 
-                        }
-                    }); 
-                }else{
-                    $('#city').html('<option value="">Select state first</option>');
-                    $('#pin').val('');
-                }
-            });
-            
-            //to hide show payment sections
-            $('#payment_fee').on('change', function(){
-                var paytype=$('#payment_fee').val();
-                if (paytype !='FOC') {
-                    $('#paymentModeBlock').removeClass("d-none"); 
-                    $('#payProof').removeClass("d-none"); 
-                }else {
-                    $('#paymentModeBlock').addClass("d-none"); 
-                    $('#payProof').addClass("d-none"); 
-                }
-            });
-            //to hide show payment sections
-            $('#payment_fee2').on('change', function(){
-                var paytype=$('#payment_fee2').val();
-                if (paytype !='FOC') {
-                    $('#paymentModeBlock').removeClass("d-none"); 
-                    $('#payProof').removeClass("d-none"); 
-                }else {
-                    $('#paymentModeBlock').addClass("d-none"); 
-                    $('#payProof').addClass("d-none"); 
-                }
-            });
-            //payment details
-            $('#paymentMode').on('click', function() {
-                var paymentMode = $(".payment:checked").val();
-                // console.log(paymentMode);
-                if (paymentMode == "cheque") {
-                    $("#chequeOpt").removeClass("d-none");
-                    $("#onlineOpt").addClass("d-none");
-                    $("#transactionNo").val("");
-                } else if (paymentMode == "online") {
-                    $("#onlineOpt").removeClass("d-none");
-                    $("#chequeOpt").addClass("d-none");
-                    $("#chequeNo").val("");
-                    $("#chequeDate").val("");
-                    $("#bankName").val("");
-                } else {
-                    $("#chequeOpt").addClass("d-none");
-                    $("#onlineOpt").addClass("d-none");
-                    $("#chequeNo").val("");
-                    $("#chequeDate").val("");
-                    $("#bankName").val("");
-                    $("#transactionNo").val("");
-                }
-            });
-
-            // Professional Details - Leadership Experience : other(Please Specify)
-            $("#lead6").change(function () {
-
-                if ($(this).is(":checked")) {
-                    $("#otherLead").slideDown();
-                } else {
-                    $("#otherLead").slideUp();
-                    $("#otherLead").val("");
-                }
-
-            });
-
-            // Rejection reason field
-            // $(".reject_reason").on('click', function(){
-            //     $("#reject_field").removeClass("d-none");
-            // });
-
-            function toggleRejectReason() {
-                let hasRejected = $(".reject_reason:checked").length > 0;
-
-                if (hasRejected) {
-                    $("#rejectReasonDiv").removeClass("d-none");
-                } else {
-                    $("#rejectReasonDiv").addClass("d-none");
-                    $("#reject_reason").val('');
-                }
-            }
-
-            $(document).on("change", "input[type='radio']", function () {
-                toggleRejectReason();
-            });
-
-            $(document).ready(function () {
-                toggleRejectReason();
-            });
         </script>
-        <!-- Edit upload documents -->
         <script>
             document.querySelectorAll(".file-input").forEach(input => {
                 input.addEventListener("change", function () {
@@ -2262,6 +1957,25 @@
                 });
             }
         </script>
+        <!-- Buttons -->
+        <script>
+            document.querySelector(".cancelBtn").addEventListener("click", function () {
+                if(confirm("Are you sure you want to cancel?")){
+                    window.history.back();
+                }
+            });
+            document.querySelector(".draftBtn").addEventListener("click", function () {
+                alert("Draft Saved Successfully");
+                // AJAX call here
+                // saveDraft();
+            });
+            document.querySelector(".submitBtn").addEventListener("click", function (e) {
+                // Remove if button is inside form
+                e.preventDefault();
+                alert("Techno Enterprise Submitted Successfully");
+                // Submit form
+                // document.getElementById('yourForm').submit();
+            });
+        </script>
     </body>
-
 </html>

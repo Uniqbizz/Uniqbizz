@@ -138,8 +138,23 @@
                                                 <tbody>
                                                     <?php
                                                         $sql = "
-                                                            SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,date_of_birth,added_on,contact_no,status,register_by,country,'CTE' AS user_type FROM chief_techno_enterprise WHERE status IN ('0', '2')
-                                                            ORDER BY id ASC
+                                                            SELECT
+                                                                cte.*,
+                                                                uv.status AS verification_status
+                                                            FROM chief_techno_enterprise cte
+                                                            LEFT JOIN (
+                                                                SELECT uv1.application_id, uv1.status
+                                                                FROM user_verification uv1
+                                                                INNER JOIN (
+                                                                    SELECT application_id, MAX(id) AS max_id
+                                                                    FROM user_verification
+                                                                    GROUP BY application_id
+                                                                ) uv2
+                                                                ON uv1.id = uv2.max_id
+                                                            ) uv
+                                                            ON cte.application_id = uv.application_id
+                                                            WHERE cte.status IN ('0','2','4')
+                                                            ORDER BY cte.id ASC
                                                         ";
                                                         $stmt = $conn->prepare($sql);
                                                         $stmt->execute();
@@ -147,6 +162,7 @@
 
                                                         if ($stmt->rowCount() > 0) {
                                                             foreach ($stmt->fetchAll() as $key => $row) {
+                                                                
                                                                 $bd = new DateTime($row['date_of_birth']);
                                                                 $bdate = $bd->format('d-m-Y');
 
@@ -176,8 +192,21 @@
                                                                     <td>' . $rdate . '</td>';
 
                                                                 if ($row['status'] == '2') {
-                                                                    echo '<td><span class="badge text-bg-warning">Pending</span></td>
-                                                                    <td>
+                                                                    switch ($row['verification_status']) {
+                                                                        case '1':
+                                                                            $verificationLabel = '<span class="badge bg-success me-1">Approved</span>';
+                                                                            break;
+                                                                        case '2':
+                                                                            $verificationLabel = '<span class="badge bg-danger me-1">Correction <br/> Required</span>';
+                                                                            break;
+                                                                        case '3':
+                                                                            $verificationLabel = '<span class="badge bg-secondary me-1">Resubmitted</span>';
+                                                                            break;
+                                                                        default:
+                                                                            $verificationLabel = '<span class="badge text-bg-warning">Pending</span>';
+                                                                    }
+                                                                    echo '<td>'.$verificationLabel.'</td>';
+                                                                    echo '<td>
                                                                         <div class="dropdown">
                                                                             <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                                                 <i class="mdi mdi-dots-horizontal font-size-18"></i>
@@ -217,14 +246,14 @@
                                                                                                                 "' . $row["email"] . '",
                                                                                                                 "' . strtolower($row['user_type']) . '"
                                                                                                                 )\' 
-                                                                                                                class="dropdown-item" data-bs-toggle="modal" >
+                                                                                                                class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmItemModal" >
                                                                                                                     <i class="fas fa-check-circle font-size-16 text-success me-1"></i> Confirm
                                                                                     </a>
                                                                                 </li>
                                                                             </ul>
                                                                         </div>
                                                                     </td>';
-                                                                } else {
+                                                                } else if ($row['status'] == '0') {
                                                                     echo '<td><span class="badge text-bg-danger">Delete</span></td>
                                                                     <td>
                                                                         <div class="dropdown">
@@ -243,6 +272,45 @@
                                                                                                                     <i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore
                                                                                     </a>
                                                                                 </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </td>';
+                                                                } else if ($row['status'] == '4') {
+                                                                    echo '<td><span class="badge text-bg-primary">Draft</span></td>
+                                                                    <td>
+                                                                        <div class="dropdown">
+                                                                            <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                                                                            </a>
+                                                                            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-1">
+                                                                                <li>
+                                                                                    <a href="#" 
+                                                                                        onclick=\'editfuncCust(
+                                                                                                                "' . $row["id"] . '",
+                                                                                                                "' . $row["reference_no"] . '",
+                                                                                                                "' . $row["register_by"] . '",
+                                                                                                                "' . $row["country"] . '",
+                                                                                                                "' . $row["state"] . '",
+                                                                                                                "' . $row["city"] . '",
+                                                                                                                "pending",
+                                                                                                                "' . strtolower($row['user_type']) . '"
+                                                                                                                )\' 
+                                                                                                                class="dropdown-item" data-bs-toggle="modal" >
+                                                                                                                    <i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> View / Edit
+                                                                                    </a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a href="#" 
+                                                                                        onclick=\'deletefunc(
+                                                                                                                "' . $row["id"] . '",
+                                                                                                                "","pending",
+                                                                                                                "' . strtolower($row['user_type']) . '"
+                                                                                                                )\' 
+                                                                                                                class="dropdown-item" data-bs-toggle="modal" >
+                                                                                                                    <i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete
+                                                                                    </a>
+                                                                                </li>
+                                                                                
                                                                             </ul>
                                                                         </div>
                                                                     </td>';
@@ -672,18 +740,42 @@
             <div class="modal-dialog modal-dialog-centered modal-sm">
                 <div class="modal-content">
                     <div class="modal-body px-4 py-5 text-center">
-                        <button type="button" class="btn-close position-absolute end-0 top-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                        <button type="button" class="btn-close position-absolute end-0 top-0 m-3"
+                            data-bs-dismiss="modal"></button>
+
+                        <input type="hidden" id="confirm_id">
+                        <input type="hidden" id="confirm_email">
+                        <input type="hidden" id="confirm_usertype">
+
                         <div class="avatar-sm mb-4 mx-auto">
                             <div class="avatar-title bg-primary text-primary bg-opacity-10 font-size-20 rounded-3">
                                 <i class="fas fa-check-circle text-success"></i>
                             </div>
                         </div>
-                        <p class="text-muted font-size-16 mb-4">Are you Sure You want to Cofirm this User ?</p>
-                        
-                        <div class="hstack gap-2 justify-content-center mb-0">
-                            <button type="button" class="btn btn-success" id="remove-item">Confirm Now</button>
-                            <button type="button" class="btn btn-secondary" id="close-confirmItemModal" data-bs-dismiss="modal">Close</button>
+
+                        <p class="text-muted font-size-16 mb-3">
+                            Are you sure you want to confirm this user?
+                        </p>
+
+                        <div class="mb-3">
+                            <input type="text"
+                                class="form-control"
+                                id="confirm_remark"
+                                placeholder="Enter Remark">
                         </div>
+
+                        <div class="hstack gap-2 justify-content-center mb-0">
+                            <button type="button" class="btn btn-success" id="confirmNowBtn">
+                                Confirm Now
+                            </button>
+
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
+
                     </div>
                 </div>
             </div>
