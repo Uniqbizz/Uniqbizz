@@ -31,7 +31,7 @@ if ($action == 'pending') {
 	$today = null;
 }
 
-// Prepare logs
+// Prepare logs 
 $title = "Executive Techno Enterprise";
 
 if ($ta_id == '') {

@@ -51,7 +51,7 @@
         $extension = pathinfo($filename, PATHINFO_EXTENSION);
 
         // Valid extensions
-        $valid_extensions = array("jpg", "PNG", "jpeg", "png", "gif", "jfif");
+        $valid_extensions = array("jpg", "PNG", "jpeg", "png", "gif", "jfif", "pdf");
 
         // Check if the file size exceeds the limit
         if ($_FILES['file']['size'] > $max_size) {

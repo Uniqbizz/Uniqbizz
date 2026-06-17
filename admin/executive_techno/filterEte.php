@@ -5,6 +5,7 @@
             <th>Full Name</th>
             <th>Reference ID / Name</th>
             <th>Phone / Email</th>
+            <th>Branch</th>
             <th>Amt</th>
             <th>Joining Date</th>
             <th>Status</th>
@@ -16,17 +17,17 @@
     <?php
         require '../connect.php';
 
-        // $branchFilter = $_POST['branch'] ?? '';
+        $branchFilter = $_POST['branch'] ?? '';
         $from=$_POST['fromDate']??'';
         $to=$_POST['toDate']??'';
         $conditions = [];
         $params = [];
 
         // Apply branch filter if provided
-        // if (!empty($branchFilter)) {
-        //     $conditions[] = "branch = :branch";
-        //     $params[':branch'] = $branchFilter;
-        // }
+        if (!empty($branchFilter)) {
+            $conditions[] = "branch = :branch";
+            $params[':branch'] = $branchFilter;
+        }
 
         // Date filter
         if (!empty($from) && !empty($to)) {
@@ -70,8 +71,8 @@
 
         // Base queries
         $bmQuery = "
-            SELECT executive_techno_enterprise_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,register_date,date_of_birth,country,state,city,contact_no,register_by,id, 'ETE' AS user_type 
-            FROM executive_techno_enterprise 
+            SELECT super_techno_enterprise_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,branch,register_date,date_of_birth,country,state,city,contact_no,register_by,id, 'STE' AS user_type 
+            FROM super_techno_enterprise 
             WHERE status = '1' $filter
         ";
 
@@ -101,19 +102,19 @@
                 $rd = new DateTime($row['register_date']);
                 $rdate = $rd->format('d-m-Y');
 
-                // $branchID = $row['branch'];
-                // $branch = '';
+                $branchID = $row['branch'];
+                $branch = '';
 
-                // $sqlBranch = "SELECT branch_name FROM branch WHERE id = ?";
-                // $stmtId = $conn->prepare($sqlBranch);
-                // $stmtId->execute([$branchID]);
-                // if ($stmtId->rowCount() > 0) {
-                //     $branchData = $stmtId->fetch(PDO::FETCH_ASSOC);
-                //     $branch = $branchData['branch_name'];
-                // }
+                $sqlBranch = "SELECT branch_name FROM branch WHERE id = ?";
+                $stmtId = $conn->prepare($sqlBranch);
+                $stmtId->execute([$branchID]);
+                if ($stmtId->rowCount() > 0) {
+                    $branchData = $stmtId->fetch(PDO::FETCH_ASSOC);
+                    $branch = $branchData['branch_name'];
+                }
 
-                $label = $row['user_type'] == 'ETE'
-                    ? '<span class="badge bg-primary me-1">ETE</span>':'NA';
+                $label = $row['user_type'] == 'STE'
+                    ? '<span class="badge bg-primary me-1">STE</span>':'NA';
 
             echo '<tr>
                     <td>' . $row['user_id'] . '</td>
@@ -125,6 +126,7 @@
                         <p class="mb-1">+' . $row['country_code'] . ' ' . $row['contact_no'] . '</p>
                         <p class="mb-0">' . $row['email'] . '</p>
                     </td>
+                    <td>' . $branch . '</td>
                     <td>' . $row['paid_amount'] . '</td>
                     <td>' . $rdate . '</td>';
 
@@ -143,8 +145,8 @@
                                             "' . $row["country"] . '",
                                             "' . $row["state"] . '",
                                             "' . $row["city"] . '",
-                                            "' . (strtolower($row["user_type"]) == "ETE" 
-                                                    ? "executive_techno_enterprise" 
+                                            "' . (strtolower($row["user_type"]) == "STE" 
+                                                    ? "super_techno_enterprise" 
                                                     : "NA") . '"
                                         )\' 
                                         class="dropdown-item" 
@@ -161,6 +163,7 @@
                                                                 "' . $row["country"] . '",
                                                                 "' . $row["state"] . '",
                                                                 "' . $row["city"] . '",
+                                                                "' . $row["branch"] . '",
                                                                 "registered",
                                                                 "' . strtolower($row['user_type']) . '")\' 
                                                                 class="dropdown-item" data-bs-toggle="modal" >

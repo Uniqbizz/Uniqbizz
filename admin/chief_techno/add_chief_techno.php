@@ -1,25 +1,4 @@
-<?php
-session_start();
-
-if (!isset($_SESSION['username'])) {
-	echo '<script>location.href = "../login.php";</script>';
-}
-
-require '../connect.php';
-
-//current full date
-$today = date('Y-m-d');
-
-//current year
-$date = date('Y');
-
-// Calculate 20 years before the current date
-$dateTwentyYearsAgo = strtotime("-20 years");
-
-// Format the result as a human-readable date
-$ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years before today
-?>
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 	<head>

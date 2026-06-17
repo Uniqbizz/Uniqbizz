@@ -261,7 +261,7 @@
                                             </div>
 
                                             <div class="wallet-stat-label mt-4 custom-tight-space">Withdrawable</div>
-                                            <div class="wallet-total">₹<?= (($refWalletData['ref_total_earning'] ?? '0') + ($refWalletCurBalData['ref_booking_total'] ?? '0' )) ?></div>
+                                            <div class="wallet-total">₹<?= $refWalletCurBalData['balance'] ?? 0?></div>
                                             <a href="customer_reference_wallet.php" class="btn wallet-btn">
                                                 View Transactions
                                             </a>

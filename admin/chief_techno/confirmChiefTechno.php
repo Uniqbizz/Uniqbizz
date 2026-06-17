@@ -13,35 +13,35 @@ $usertype = $_POST['usertype'];
 $string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%^*()";
 $password = substr(str_shuffle($string), 0, 8);
 $status = '1';
-$user_type_id = $usertype == 'cte' ? '36' : '';
+$user_type_id = '36';
 $register_by = '1';
 
 $subY = substr($todayYear, 2, 4);
-if ($user_type_id == '36') { //Business Mentor
+if ($user_type_id == '36') { //Chief Techno Enterprise
 	$sql9 = $conn->prepare("SELECT * from chief_techno_enterprise where id='" . $id . "' and status='2'");
 	$sql9->execute();
 	$sql9->setFetchMode(PDO::FETCH_ASSOC);
 	if ($sql9->rowCount() > 0) {
 		foreach (($sql9->fetchAll()) as $key9 => $row9) {
-			$registerDate = new DateTime($row9['register_date']);
+			$registerDate = new DateTime($row9['added_on']);
 			$doj = $registerDate->format('d/m/Y');
 			$name = $row9['firstname'] . ' ' . $row9['lastname'];
 			$address = $row9['address'];
 			$country_code = $row9['country_code'];
 			$contact_no = $row9['contact_no'];
 			// $reference_no = $row9['reference_no'];
-			// $amount = $row9['paid_amount'];
+			$application_id = $row9['application_id'];
 		}
 	}
 
-	// $sql10 = $conn->prepare("SELECT * FROM employees WHERE employee_id = '" . $reference_no . "' AND user_type = '25' AND status = '1' ");
+	// $sql10 = $conn->prepare("SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '" . $reference_no . "' AND user_type = '36' AND status = '1' ");
 	// $sql10->execute();
 	// $sql10->setFetchMode(PDO::FETCH_ASSOC);
 	// if ($sql10->rowCount() > 0) {
 	// 	foreach (($sql10->fetchAll()) as $key10 => $row10) {
-	// 		$bdm_id = $row10['employee_id'];
-	// 		$bdm_name = $row10['name'];
-	// 		$bdm_ref = $row10['reporting_manager'];
+	// 		$bdm_id = $row10['chief_techno_enterprise_id'];
+	// 		$bdm_name = $row10['firstname'] .' '. $row10['lastname'];
+	// 		// $bdm_ref = $row10['reporting_manager'];
 	// 	}
 	// }
 
@@ -90,7 +90,7 @@ if ($user_type_id == '36') { //Business Mentor
 
 	$sql1 = "UPDATE chief_techno_enterprise SET status=:status,chief_techno_enterprise_id=:chief_techno_enterprise_id,register_date=:register_date WHERE id=:id";
 	$stmt = $conn->prepare($sql1);
-	$result =  $stmt->execute(array(
+	$resultSte =  $stmt->execute(array(
 		':status' => $status,
 		':chief_techno_enterprise_id' => $uid,
 		':register_date' => $register_Date,
@@ -98,7 +98,33 @@ if ($user_type_id == '36') { //Business Mentor
 		':id' => $id
 	));
 
-	if ($result) {
+	if($resultSte){
+		// enter Chief Techno Enterprise uniq id in all tables mentioned below
+		$tables = [
+			'professional_and_educational',
+			'leadership_assessment',
+			'nominee_details',
+			'bank_details',
+			'documents'
+		];
+
+		foreach($tables as $table){
+
+			$sql = "UPDATE `$table`
+					SET user_id = :user_id
+					WHERE application_id = :application_id";
+
+			$stmtTable = $conn->prepare($sql);
+
+			$resultAllTables = $stmtTable->execute([
+				':user_id' => $uid,
+				':application_id' => $application_id
+			]);
+		}
+
+	}
+
+	if ($resultAllTables) {
 		$sql = "INSERT INTO login (username,password, user_id, user_type_id , status) VALUES (:uname ,:password, :user_id, :user_type_id, :status)";
 		$stmt3 = $conn->prepare($sql);
 		$result2 = $stmt3->execute(array(
@@ -117,7 +143,6 @@ if ($user_type_id == '36') { //Business Mentor
 				':title' => $title,
 				':message' => $message,
 				':message2' => $message2,
-				// ':reference_no' => $reference_no,
 				':register_by' => $register_by,
 				':from_whom' => $fromWhom,
 				':operation' => $operation
@@ -161,6 +186,7 @@ if ($user_type_id == '36') { //Business Mentor
 				// 		':status' => '2'
 				// 	));
 				// }
+
 				$result4 = 'true';
 
 				if ($result4) {

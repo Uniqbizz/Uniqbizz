@@ -343,7 +343,7 @@
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="registeredCustomerList-table">
                                                 <thead class="table-light">
                                                     <tr>
-                                                        <th>STE Id</th>
+                                                        <th>ETE Id</th>
                                                         <th>Full Name</th>
                                                         <th>Reference ID / Name</th>
                                                         <th>Phone / Email</th>
@@ -757,7 +757,7 @@
             });
             
             function editfuncCust(id,refno,regby,cut,st,ct,editfor,usertype){ 
-                window.location.href='editExecutiveTechno.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor+'&usertype='+usertype;
+                window.location.href='editExecutiveTechno.php?id='+id+'&refno='+refno+'&regby='+regby+'&country='+cut+'&state='+st+'&city='+ct+'&editfor='+editfor+'&usertype='+usertype;
             };
 
             function deletefunc(id,fid,action,usertype){ 
@@ -852,7 +852,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: 'filterEte.php',
+                    url: 'filterSte.php',
                     data: dataString,
                     cache: false,
                     success: function(data){
