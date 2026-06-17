@@ -577,7 +577,9 @@
                             else if (res.user_type == "35")
                             {
                                 location.href = "dashboard/super_techno_enterprise/super_techno_dashboard.php";
-                            }
+                            }else if (res.user_type == "34") {
+                                location.href = "dashboard/executive_techno_enterprise/executive_techno_dashboard.php";
+                            } 
                             else
                             {
                                 location.href = "dashboard/index.php";

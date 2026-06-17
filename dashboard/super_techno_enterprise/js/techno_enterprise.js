@@ -47,7 +47,13 @@ function submitAddForm(actionType) {
     var current_year = today.getFullYear();
  
     // personal Details 
-    // var designation = $("#designation").val();
+    var registerAs = $("#registerAs").val();
+    var url=''
+    if (registerAs == '16') {
+        url="models/techno_enterprise/add_te_data.php";
+    }else if(registerAs == '29'){
+        url="models/techno_enterprise/add_f_data.php";
+    }
     var user_id_name = $("#user_id_name").val(); //STE ID //not there
     var reference_name = $("#reference_name").val(); // STE Name // not there
     var firstname = $("#firstname").val().trim();
@@ -86,7 +92,7 @@ function submitAddForm(actionType) {
     var passbook = $(":hidden#img_path4").val().trim();
     var voting_card = $(":hidden#img_path11").val().trim();
     var payment_proof = $(":hidden#img_path12").val().trim();
-    var note = $("#note").val().trim();
+    // var note = $("#note").val().trim();
 
 
 
@@ -98,7 +104,11 @@ function submitAddForm(actionType) {
     // ======================
     if (actionType === 'submit') {
         
-        if (user_id_name == '') {
+        if(registerAs === ''){
+            alert("Select Register As First");
+            return;
+        }
+        else if (user_id_name == '') {
             alert("Select Id");
             return;
         } else if (firstname === '') {
@@ -166,8 +176,11 @@ function submitAddForm(actionType) {
             return;
         }
     } 
-
-    if (firstname === '') {
+    if(registerAs === ''){
+        alert("Select Register As First");
+        return;
+    }
+    else if (firstname === '') {
         alert("Enter Proper First Name");
         return;
     } else if (lastname === '') {
@@ -214,7 +227,7 @@ function submitAddForm(actionType) {
         address: address,
         nominee_name: nominee_name,
         nominee_relation: nominee_relation,
-        note:note,
+        // note:note,
         profile_pic: profile_pic,
         aadhar_card: aadhar_card,
         pan_card: pan_card,
@@ -230,7 +243,7 @@ function submitAddForm(actionType) {
     $("#loading-overlay").show(); //loading screen
     $.ajax({
         type: "POST",
-        url: "models/techno_enterprise/add_te_data.php",
+        url: url,
         data: dataObj,
         cache: false,
         success: function (data) {
@@ -272,8 +285,13 @@ function submitEditForm(actionType) {
 
 
     // personal Details 
-    
     var editfor = $("#editfor").val().trim(); // pending or confirm
+    var url=''
+    if (editfor == '16') {
+        url="models/techno_enterprise/edit_te_data.php";
+    }else if(editfor == '29'){
+        url="models/techno_enterprise/edit_f_data.php";
+    }
     var id = $("#id").val().trim(); // ChiefTE id value if user is not registered - 11 , if registered - STE2600011
     var firstname = $("#firstname").val().trim();
     var lastname = $("#lastname").val().trim();
@@ -311,7 +329,7 @@ function submitEditForm(actionType) {
     var passbook = $(":hidden#img_path4").val().trim();
     var voting_card = $(":hidden#img_path11").val().trim();
     var payment_proof = $(":hidden#img_path12").val().trim();
-    var note = $("#note").val().trim();
+    // var note = $("#note").val().trim();
 
     var dob_year = dob.substring(0, 4);
     var age = current_year - dob_year;
@@ -436,7 +454,7 @@ function submitEditForm(actionType) {
         address: address,
         nominee_name: nominee_name,
         nominee_relation: nominee_relation,
-        note:note,
+        // note:note,
         profile_pic: profile_pic,
         aadhar_card: aadhar_card,
         pan_card: pan_card,
@@ -452,7 +470,7 @@ function submitEditForm(actionType) {
     $("#loading-overlay").show(); //loading screen
     $.ajax({
         type: "POST",
-        url: "models/techno_enterprise/edit_te_data.php",
+        url: url,
         data: dataObj,
         cache: false,
         success: function (data) {
@@ -460,7 +478,7 @@ function submitEditForm(actionType) {
             if (data == 1) {
                 $("#loading-overlay").hide(); //loading screen
                 alert("Edit Successfuly");
-                location.href = "techno_enterprise_list.php";
+                // location.href = "techno_enterprise_list.php";
             } else {
                 $("#loading-overlay").hide(); //loading screen
                 alert("Failed");

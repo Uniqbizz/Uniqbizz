@@ -51,7 +51,7 @@
 
                 'sponsor_franchisee' AS source_table
 
-            FROM sponsor_franchisee sf
+            FROM sub_franchisee sf
 
             LEFT JOIN super_techno_enterprise ste
                 ON sf.reference_no = ste.super_techno_enterprise_id

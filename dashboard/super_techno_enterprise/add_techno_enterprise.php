@@ -6,7 +6,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title> Techno Enterprise List | Customer</title>
+        <title> Techno Enterprise | Franchisee List</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -92,11 +92,11 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Add Techno Enterprise</h4>
+                                    <h4 class="mb-sm-0">Add Techno Enterprise | Franchisee</h4>
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="techno_enterprise_list.php">Techno Enterprise</a></li>
-                                            <li class="breadcrumb-item active">Add Techno Enterprise</li>
+                                            <li class="breadcrumb-item"><a href="techno_enterprise_list.php">Techno Enterprise | Franchisee</a></li>
+                                            <li class="breadcrumb-item active">Add Techno Enterprise | Franchisee</li>
                                         </ol>
                                     </div>
                                 </div>
@@ -111,7 +111,7 @@
                                             <i class="fa-solid fa-user-group addTEIcon"></i>
                                         </div>
                                         <div class="align-content-center">
-                                            <h1 class="fw-bolder text-white">Add Techno Enterprise</h1>
+                                            <h1 class="fw-bolder text-white">Add Techno Enterprise | Franchisee</h1>
                                             <p class="fs-5 text-white mb-0">Fill in the details below to register a new Techno Enterprise under your network.</p>
                                         </div>
                                     </div>
@@ -128,6 +128,16 @@
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
+                                        <label for="gender" class="form-label fw-bold">Register As <span class="text-danger fw-bolder">*</span></label>
+                                        <select class="form-select genderSelect" id="registerAs" required>
+                                            <option value="" selected>Select Register As</option>
+                                            <option value="16">Techno Eneterprise</option>
+                                            <option value="29">Franchisee</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="mb-3">
                                         <label for="firstname" class="form-label fw-bold">First Name <span class="text-danger fw-bolder">*</span></label>
                                         <input type="text" class="form-control" id="firstname" placeholder="Enter full name" required>
                                     </div>
@@ -139,27 +149,26 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                                    <div class="mb-3">
-                                        <label for="email" class="form-label fw-bold">Email address <span class="text-danger fw-bolder">*</span></label>
-                                        <input type="email" class="form-control" id="email" placeholder="Enter email address" required>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3 dateBirth">
                                         <label for="dob" class="form-label fw-bold">Date of Birth <span class="text-danger fw-bolder">*</span></label>
                                         <input type="date" class="form-control" id="dob" placeholder="dd-mm-yyyy"onfocus="this.type='date'" onblur="if(!this.value)this.type='text'" required>
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-md-2 col-sm-6 col-12">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
                                         <label for="gender" class="form-label fw-bold">Gender <span class="text-danger fw-bolder">*</span></label>
                                         <select class="form-select genderSelect" id="gender" required>
                                             <option value="" selected>Select gender</option>
                                             <option value="male">Male</option>
                                             <option value="female">Female</option>
-                                            <option value="other">Other</option>
+                                            <option value="others">Others</option>
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label fw-bold">Email address <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="email" class="form-control" id="email" placeholder="Enter email address" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
@@ -193,7 +202,7 @@
                                         ?>
                                     </select>
                                 </div>
-                                <div class="col-lg-2 col-md-2 col-sm-6 col-12">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-12">
                                     <div class="mb-3">
                                         <label for="phone" class="form-label fw-bold">Mobile Number <span class="text-danger fw-bolder">*</span></label>
                                         <input type="number" class="form-control" id="phone" placeholder="Enter mobile number" required>
@@ -206,38 +215,6 @@
                             <div class="row">
                                 <div class="d-flex gap-2">
                                     <p class="fw-bolder addTENum">02</p>
-                                    <h4 class="fw-bolder text-dark align-content-center">Business Information</h4>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                                    <div class="mb-3">
-                                        <label for="businessPackage" class="form-label fw-bold">Business Package / Amount <span class="text-danger fw-bolder">*</span></label>
-                                        <select class="form-select genderSelect" id="businessPackage" required>
-                                            <option value="" selected disabled>Select business package </option>
-                                            <option value="200000">&#8377 2,00,000</option>
-                                            <option value="300000">&#8377 3,00,000</option>
-                                            <option value="500000">&#8377 5,00,000</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                                    <div class="mb-3">
-                                        <label for="flex_amount" class="form-label fw-bold">Amount <span class="text-danger fw-bolder">*</span></label>
-                                        <input type="text" class="form-control" id="flex_amount" placeholder="Enter amount" required>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                                    <div class="mb-3">
-                                        <label for="gst_no" class="form-label fw-bold">GST No </label>
-                                        <input type="text" class="form-control" id="gst_no" placeholder="Enter GST number">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card Section 3 -->
-                        <div class="card rounded-4 p-3 border-1">
-                            <div class="row">
-                                <div class="d-flex gap-2">
-                                    <p class="fw-bolder addTENum">03</p>
                                     <h4 class="fw-bolder text-dark align-content-center">Address Information</h4>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
@@ -288,6 +265,39 @@
                                     <div class="mb-3">
                                         <label for="address" class="form-label fw-bold">Address<span class="text-danger fw-bolder">*</span></label>
                                         <textarea class="form-control" id="address" rows="3" placeholder="Enter complete address"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card Section 3 -->
+                        <div class="card rounded-4 p-3 border-1">
+                            <div class="row">
+                                <div class="d-flex gap-2">
+                                    <p class="fw-bolder addTENum">03</p>
+                                    <h4 class="fw-bolder text-dark align-content-center">Business Information</h4>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="businessPackage" class="form-label fw-bold">Business Package / Amount <span class="text-danger fw-bolder">*</span></label>
+                                        <select class="form-select genderSelect" id="businessPackage" required>
+                                            <option value="" selected disabled>Select business package </option>
+                                            <option value="200000">&#8377 2,00,000</option>
+                                            <option value="300000">&#8377 3,00,000</option>
+                                            <option value="500000">&#8377 5,00,000</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="flex_amount" class="form-label fw-bold">Amount <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="text" class="form-control" id="flex_amount" placeholder="Enter amount" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="gst_no" class="form-label fw-bold">GST No </label>
+                                        <input type="text" class="form-control" id="gst_no" placeholder="Enter GST number">
                                     </div>
                                 </div>
                             </div>
@@ -466,7 +476,7 @@
                             </div>
                         </div>
                         <!-- Card Section 6 -->
-                        <div class="card rounded-4 p-3 border-1">
+                        <!-- <div class="card rounded-4 p-3 border-1">
                             <div class="d-flex gap-2">
                                 <p class="fw-bolder addTENum">06</p>
                                 <h4 class="fw-bolder text-dark align-content-center">Additional Notes</h4>
@@ -474,12 +484,12 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="mb-3">
-                                        <label for="extraNote" class="form-label fw-bold">Extra Notes</label>
-                                        <textarea class="form-control" id="extraNote" rows="3" placeholder="Enter any additional note"></textarea>
+                                        <label for="note" class="form-label fw-bold">Extra Notes</label>
+                                        <textarea class="form-control" id="note" rows="3" placeholder="Enter any additional note"></textarea>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <input type="hidden" id="testValue" name="testValue" value="16"> <!-- CA -->
                         <div class="row">
                             <div class="col-lg-12">
@@ -488,7 +498,7 @@
                                     <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftAdd">Save Draft</button>
                                     <button type="submit" class="btn actionBtn submitBtn mb-2" id="addTechnoEnterprise">
                                         <i class="fa-regular fa-paper-plane me-2"></i>
-                                        Submit Techno Enterprise
+                                        Submit Techno Enterprise | Franchisee
                                     </button>
 
                                 </div>

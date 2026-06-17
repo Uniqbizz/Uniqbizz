@@ -6,10 +6,20 @@
     $sql = $conn->prepare("
         SELECT
             (
-                SELECT COUNT(*)
-                FROM corporate_agency
-                WHERE reference_no = :user_id
-                AND status IN (1,3)
+                (
+                    SELECT COUNT(*)
+                    FROM corporate_agency
+                    WHERE reference_no = :user_id
+                    AND status IN (1,3)
+                )
+                    
+                +
+                
+                (    SELECT COUNT(*)
+                    FROM sub_franchisee
+                    WHERE reference_no = :user_id
+                    AND status IN (1,3)
+                ) 
             ) AS te_count,
 
             (
@@ -43,6 +53,12 @@
                 )
                 +
                 (
+                    SELECT COALESCE(SUM(commission_mf),0)
+                    FROM sub_franchisee_payout
+                    WHERE master_franchisee = :user_id
+                )
+                +
+                (
                     SELECT COALESCE(SUM(commision_bm),0)
                     FROM ca_cu_payout
                     WHERE business_mentor = :user_id
@@ -62,6 +78,12 @@
                 )
                 +
                 (
+                    SELECT COALESCE(SUM(commission_mf),0)
+                    FROM sub_franchisee_payout
+                    WHERE master_franchisee = :user_id
+                )
+                +
+                (
                     SELECT COALESCE(SUM(commision_bm),0)
                     FROM ca_cu_payout
                     WHERE business_mentor = :user_id AND status_bm=2
@@ -78,6 +100,12 @@
                     SELECT COALESCE(SUM(ste_amount),0)
                     FROM techno_enterprise_payout
                     WHERE ste_id = :user_id AND ste_status=1 
+                )
+                +
+                (
+                    SELECT COALESCE(SUM(commission_mf),0)
+                    FROM sub_franchisee_payout
+                    WHERE master_franchisee = :user_id
                 )
                 +
                 (

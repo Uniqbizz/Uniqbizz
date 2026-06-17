@@ -43,7 +43,6 @@
     $chequeDate   = $_POST['chequeDate'] ?? '';
     $bankName     = $_POST['bankName'] ?? '';
     $transactionNo = $_POST['transactionNo'] ?? '';
-    $note = $_POST['note'] ?? '';
 
     $message2 = '';
 
@@ -156,8 +155,7 @@
                 bank_name = :bank_name,
                 transaction_no = :transaction_no,
 
-                status = :status,
-                note = :note
+                status = :status
 
             WHERE {$identifier_field} = :identifier_id
         ";
@@ -203,7 +201,6 @@
             ':transaction_no' => $transactionNo,
 
             ':status' => $status,
-            ':note' => $note,
 
             ':identifier_id' => $identifier_id
 

@@ -3,6 +3,8 @@
     require 'connect.php';
     session_start();
     if(!isset($_SESSION['username2']) || !isset($_SESSION['user_type_id_value']) || !isset($_SESSION['user_id']) ){
+        print_r($_SESSION);
+        exit;
         echo '<script>location.href = "../login.php";</script>';
     }
 
@@ -66,7 +68,9 @@
     }else if($userType == '33'){
         $sql2 = "SELECT * FROM `institution_branch_manager` WHERE institution_branch_manager_id = '$userId' ";
     }else if($userType == '34'){
-        $sql2 = "SELECT * FROM `executive_techno_enterprise	` WHERE executive_techno_enterprise	_id = '$userId' ";
+        $sql2 = "SELECT * FROM `executive_techno_enterprise` 
+                 LEFT JOIN documents ON user_id ='$userId'
+                 WHERE executive_techno_enterprise_id = '$userId'";
     }else if($userType == '35'){
         $sql2 = "SELECT * FROM `super_techno_enterprise` 
                  LEFT JOIN documents ON user_id ='$userId'
