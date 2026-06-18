@@ -708,13 +708,13 @@ if($payoutmessage == 'allPayout'){
                 $CA_Commi = $row2['commision_te'];
                 $ca_ta_Commi = $row2['ca_ta_amt_paid'];
                
-                (int)$BC_Commi_TDS = (int)$BC_Commi*5/100;
+                (int)$BC_Commi_TDS = (int)$BC_Commi*2/100;
                 (int)$BC_Commi_Total = (int)$BC_Commi-(int)$BC_Commi_TDS; 
 
-                (int)$CA_Commi_TDS = (int)$CA_Commi*5/100;
+                (int)$CA_Commi_TDS = (int)$CA_Commi*2/100;
                 (int)$CA_Commi_Total = (int)$CA_Commi-(int)$CA_Commi_TDS; 
 
-                (int)$ca_ta_Commi_TDS = (int)$ca_ta_Commi*5/100;
+                (int)$ca_ta_Commi_TDS = (int)$ca_ta_Commi*2/100;
                 (int)$ca_ta_Commi_Total = (int)$ca_ta_Commi-(int)$ca_ta_Commi_TDS; 
 
                 // date in proper formate

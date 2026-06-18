@@ -282,7 +282,7 @@
                                         <p class="commission-title fs-5 mb-0">
                                             Recent Activities
                                         </p>
-<!-- 
+                                        <!-- 
                                         <a href="#" class="fs-6 fw-bold">
                                             View All
                                         </a> -->
@@ -934,29 +934,29 @@
 
                         datasets: [
 
-                            {
-                                label: 'TE',
-                                data: Array(12).fill(0),
-                                borderColor: '#1DB56C',
-                                backgroundColor: 'rgba(29,181,108,0.15)',
-                                fill: false,
-                                tension: 0.4,
-                                pointRadius: 4,
-                                pointHoverRadius: 6
-                            },
+                                {
+                                    label: 'TE',
+                                    data: Array(12).fill(0),
+                                    borderColor: '#1DB56C',
+                                    backgroundColor: '#1DB56C',
+                                    fill: false,
+                                    tension: 0.4,
+                                    pointRadius: 4,
+                                    pointHoverRadius: 6
+                                },
 
-                            {
-                                label: 'F',
-                                data: Array(12).fill(0),
-                                borderColor: '#3B82F6',
-                                backgroundColor: 'rgba(59,130,246,0.15)',
-                                fill: false,
-                                tension: 0.4,
-                                pointRadius: 4,
-                                pointHoverRadius: 6
-                            }
+                                {
+                                    label: 'SF',
+                                    data: Array(12).fill(0),
+                                    borderColor: '#3B82F6',
+                                    backgroundColor: '#3B82F6',
+                                    fill: false,
+                                    tension: 0.4,
+                                    pointRadius: 4,
+                                    pointHoverRadius: 6
+                                }
 
-                        ]
+                            ]
                     },
 
                     options: {
@@ -1013,7 +1013,7 @@
 
                         /*
                         |--------------------------------------------------------------------------
-                        | Populate Years
+                        | Populate Year Dropdown
                         |--------------------------------------------------------------------------
                         */
 
@@ -1040,26 +1040,57 @@
 
                         /*
                         |--------------------------------------------------------------------------
-                        | Chart Data
+                        | TE Data
                         |--------------------------------------------------------------------------
                         */
 
-                        let chartData = Array(12).fill(0);
+                        let teData = Array(12).fill(0);
 
                         $.each(res.data.te_trend, function(i, row) {
 
                             let monthIndex =
                                 parseInt(row.month_no) - 1;
 
-                            chartData[monthIndex] =
+                            teData[monthIndex] =
                                 parseInt(row.te_count) || 0;
 
                         });
 
-                        enrollmentTrendChart.data.datasets[0].data =
-                            chartData;
+                        /*
+                        |--------------------------------------------------------------------------
+                        | SF Data
+                        |--------------------------------------------------------------------------
+                        */
+
+                        let sfData = Array(12).fill(0);
+
+                        $.each(res.data.sf_trend, function(i, row) {
+
+                            let monthIndex =
+                                parseInt(row.month_no) - 1;
+
+                            sfData[monthIndex] =
+                                parseInt(row.sf_count) || 0;
+
+                        });
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Update Chart
+                        |--------------------------------------------------------------------------
+                        */
+
+                        enrollmentTrendChart.data.datasets[0].data = teData;
+                        enrollmentTrendChart.data.datasets[1].data = sfData;
 
                         enrollmentTrendChart.update();
+
+                    },
+
+                    error: function(xhr, status, error) {
+
+                        console.error('Chart Load Error:', error);
+                        console.log(xhr.responseText);
 
                     }
 
@@ -1094,11 +1125,22 @@
                         } else {
 
                             $.each(res.data, function(index, row) {
+                                let badge = '';
 
+                                if (
+                                    row.te_id.startsWith('TE') ||
+                                    row.te_id.startsWith('CA')
+                                ) {
+                                    badge = '<span class="badge bg-primary ms-1">TE</span>';
+                                } else if (
+                                    row.te_id.startsWith('F')
+                                ) {
+                                    badge = '<span class="badge bg-success ms-1">F</span>';
+                                }
                                 html += `
                                     <tr>
                                         <th scope="row">
-                                            ${row.te_name}
+                                            ${badge} ${row.te_name} 
                                         </th>
 
                                         <td class="text-center">

@@ -1,6 +1,6 @@
 <!-- total payout Model and section amount change and add date to model  -->
 <?php
-require '../../../connect.php';
+require '../../../../connect.php';
 
 $TotalYear = $_POST['TotalYear'];
 $TotalMonth = $_POST['TotalMonth'];
@@ -11,11 +11,9 @@ $user_id = $_POST['user_id'] ?? '';
 $commision = $_POST['Commision'] ?? '';
 
 $user_id_str=substr($user_id,0,1) == 'F'?substr($user_id,0,1):substr($user_id,0,2);
-if($user_id_str =='MF' || $user_id_str =='SF' || $user_id_str=='BM' || $user_id_str=='BH' || $user_id_str=='RM'){
-    $message = "message_bm";
-}else if ($user_id_str =='F' || $user_id_str =='CA' || $user_id_str=='TE'){
-    $message = "message_te";
-}
+
+$message = "message_bm";
+
 
 if($totalAmountMessage){
     $stmt = " SELECT SUM($commision) as TotalPayout FROM ca_ta_payout WHERE $designation = '".$user_id."' AND YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."' ";

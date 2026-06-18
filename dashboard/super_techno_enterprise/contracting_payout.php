@@ -6,23 +6,24 @@
     $date = date('F,Y'); //month and year. 'F' - month in Text form
     $nextDateMonth = date('m'); //month in number form
     $nextDateYear = date('Y'); //year
-  
+    // echo "Next Date ".$date .' ;' ;
+    // echo "Next Month ".$nextDateMonth.' ;';
+    // echo "Next Year ".$nextDateYear.' ;';
+    // echo '<br>';
 
     // get Previous date to show Previous payout amount  and pass it in sql @ line 111
     $prevdate = date(" F,Y", strtotime("-1 months")); //month and year. 'F' - month in Text form. '-1' to get prev month
     $prevDateMonth = date('m', strtotime("-1 months")); //month in number form. '-1' to get prev month
     $prevDateYear = date('Y');  //Year in number form. 
-
-
-    $tdsPercentage = 2/100;
-
-    // for displaying result for specific loged in user 
-    $columnDesignation = 'business_mentor';
-    $columnMessage = 'message_bm';
-    $columnCommision = 'commision_bm';
-    $columnStatus = 'status_bm';
-    $tablename='ca_ta_payout';
-    $tablename_paid='ca_ta_payout_paid';
+    // echo "prev Date ".$prevdate.' ;';
+    // echo "prev Month ".$prevDateMonth.' ;';
+    // echo "prev year ".$prevDateYear.' ;';
+    $columnDesignation = 'ste_id';
+    $columnMessage = 'ste_message';
+    $columnCommision = 'ste_amount';
+    $columnStatus = 'ste_status';
+    $tablename='techno_enterprise_payout';
+    $tablename_paid='techno_enterprise_payout_paid';
 ?>
 
 <!doctype html>
@@ -30,7 +31,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title>Super Techno Enterprise | TC Recruitment Payout</title>
+        <title>Super Techno Enterprise | TE Contracting Payout</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -54,18 +55,16 @@
         <!-- custom Css developer-->
         <link rel="stylesheet" href="../assets/css/custom.css" />
         <link rel="stylesheet" href="../assets/css/super_techno_enterprise.css" />
-
         <link href="payout/payout.css" rel="stylesheet" type="text/css" /> 
 
         <!-- DataTables -->
         <link href="../assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
         <!-- Responsive datatable examples -->
-        <link href="../assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" /> 
-        <!-- FontAwesome -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link href="../assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css" /> 
     </head>
     <body>
- 
+
         <!-- Begin page -->
         <div id="layout-wrapper">
 
@@ -109,11 +108,11 @@
                             <div class="col-lg-12">
                                 <div class="col-12"> <!-- Page title -->
                                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                        <h4 class="mb-sm-0">TC Recruitment Payout</h4>
+                                        <h4 class="mb-sm-0">TE Contracting Payout</h4>
                                         <div class="page-title-right">
                                             <ol class="breadcrumb m-0">
                                                 <li class="breadcrumb-item">
-                                                    <a href="super_techno_dashboard.php">Dashboard</a>
+                                                    <a href="view_$columnDesignation.php">View</a>
                                                 </li>
                                                 <li class="breadcrumb-item active">Payout</li>
                                             </ol>
@@ -132,13 +131,13 @@
                                                                     <div class="m-0 mt-2 p-2 ms-n2">
                                                                         <p class="font-size-14">Previous Payout<span class="fw-bold font-size-10 ms-4"><?php echo "$prevdate" ?></span></p>
                                                                         <?php 
-                                                                            $previousPayout = $conn -> prepare("SELECT SUM($columnCommision) as previousPayout FROM $tablename WHERE $columnDesignation = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
+                                                                            $previousPayout = $conn -> prepare("SELECT SUM($columnCommision) as previousPayout FROM $tablename WHERE $columnDesignation = '".$userId."' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
                                                                             $previousPayout -> execute();
                                                                             $previousPayout -> setFetchMode(PDO::FETCH_ASSOC);
                                                                             if($previousPayout -> rowCount()>0){
                                                                                 foreach(($previousPayout -> fetchAll()) as $key => $row){
                                                                                     $previousPayout = $row['previousPayout'];
-                                                                                    $previousPayoutTDS = $previousPayout * $tdsPercentage;
+                                                                                    $previousPayoutTDS = $previousPayout * 2/100;
                                                                                     $TotalpreviousPayout = $previousPayout - $previousPayoutTDS;
                                                                                     echo'<p class="fs-5 fw-bolder mt-n2">Rs. ' .round($TotalpreviousPayout). '/- <span class="badge bg-success font-size-10 fw-bold ms-4">Paid</span> </p>';
                                                                                 }
@@ -147,7 +146,7 @@
                                                                         <a type="button" data-bs-toggle="modal" data-bs-target="#previousPayout" style=" cursor: pointer;">
                                                                             <p class="mt-n2 mb-1 fw-bold p1" style="color: #0096FF;">View Payout</p>
                                                                         </a>
-                                                                        <a href="payout/forms/recruitment_payout/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout&user_id=<?php echo $userId; ?>&designation=<?php echo $columnDesignation ?>">
+                                                                        <a href="payout/forms/contracting_payout/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout&user_id=<?php echo $userId; ?>">
                                                                             <i class="bx bx-download download-icon1" style="font-size: 20px; color: black; margin-left: 20%;"></i>
                                                                         </a>
                                                                     </div>
@@ -156,13 +155,13 @@
                                                                     <div class="m-0 mt-2 p-2">
                                                                         <p class="font-size-14">Next Payout<span class="fw-bold font-size-10 date-layout "><?php echo "$date" ?></span></p>
                                                                         <?php 
-                                                                            $nextPayout = $conn -> prepare("SELECT SUM($columnCommision) as nextPayout FROM $tablename WHERE $columnDesignation = '".$userId."'  AND  YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
+                                                                            $nextPayout = $conn -> prepare("SELECT SUM($columnCommision) as nextPayout FROM $tablename WHERE  $columnDesignation = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
                                                                             $nextPayout -> execute();
                                                                             $nextPayout -> setFetchMode(PDO::FETCH_ASSOC);
                                                                             if($nextPayout -> rowCount()>0){
                                                                                 foreach(($nextPayout -> fetchAll()) as $key => $row2){
                                                                                     $nextPayoutTotal = $row2['nextPayout'];
-                                                                                    $nextPayoutTDS = $nextPayoutTotal * $tdsPercentage;
+                                                                                    $nextPayoutTDS = $nextPayoutTotal * 2/100;
                                                                                     $TotalNextPayout = $nextPayoutTotal - $nextPayoutTDS;
                                                                                     echo'<p class="fs-5 fw-bolder mt-n2">Rs.' .round($TotalNextPayout). '/- <span class="badge bg-warning font-size-10 fw-bold ms-4">Pending</span> </p>';
                                                                                 }
@@ -171,7 +170,7 @@
                                                                         <a type="button" data-bs-toggle="modal" data-bs-target="#nextPayout" style=" cursor: pointer;">
                                                                             <p class="mt-n2 mb-1 fw-bold p1" style="color: #0096FF;">View Payout</p>
                                                                         </a>
-                                                                        <a href="payout/forms/recruitment_payout/download_exel_ca.php?payoutYear=<?php echo $nextDateYear; ?>&payoutMonth=<?php echo $nextDateMonth; ?>&payoutmessage=NextPayout&user_id=<?php echo $userId; ?>&designation=<?php echo $columnDesignation ?>">
+                                                                        <a href="payout/forms/contracting_payout/download_exel_ca.php?payoutYear=<?php echo $nextDateYear; ?>&payoutMonth=<?php echo $nextDateMonth; ?>&payoutmessage=NextPayout&user_id=<?php echo $userId; ?>">
                                                                             <i class="bx bx-download download-icon1" style="font-size: 20px; color: black; margin-left: 20%;"></i>
                                                                         </a>
                                                                     </div>
@@ -192,16 +191,16 @@
                                                                         </p>
                                                                     </div>
                                                                     <?php 
-                                                                        $totalPayout = "SELECT SUM($columnCommision) as total_payable FROM $tablename WHERE $columnDesignation = '".$userId."'  AND  $columnStatus = '1'";
+                                                                        $totalPayout = "SELECT SUM($columnCommision) as total_payable FROM $tablename WHERE  $columnDesignation = '".$userId."' AND status = '1' ";
                                                                         $Payout = $conn -> prepare($totalPayout);
                                                                         $Payout -> execute();
                                                                         $Payout -> setFetchMode(PDO::FETCH_ASSOC);
                                                                         if($Payout->rowCount()>0){
                                                                             foreach(($Payout->fetchAll()) as $key => $row){
-                                                                                $total_payable = $row["total_payable"];
-                                                                                $tds = $total_payable * $tdsPercentage;
-                                                                                $total_payables = $total_payable - $tds;
-                                                                                echo'<p class="fs-5 fw-bolder mt-n2 content1" id="TotalPayoutAmountDate">Rs.'.$total_payables.'/-</p>';
+                                                                                $total_payable = $row["total_payable"] ?? '0';
+                                                                                $total_payableTDS = $total_payable * 2/100;
+                                                                                $TotalPayout = $total_payable - $total_payableTDS;
+                                                                                echo'<p class="fs-5 fw-bolder mt-n2 content1" id="TotalPayoutAmountDate">Rs.'.$TotalPayout.'/-</p>';
                                                                             }
                                                                         }
                                                                     ?>
@@ -223,7 +222,20 @@
                                                         <!-- monthly user details table  -->
                                                         <div class="row" style="padding-top: 25px;" id="user-box">
                                                             <div class="col-md-12"> 
+                                                                <!-- <div class="row">
+                                                                    <hr>
+                                                                    <div class="MonthlyDetailsHeading">
+                                                                        <span id="table-heading" style="padding: 0px 20px; font-weight: 600; font-size: initial;"></span>
+                                                                    </div>
+
+                                                                    <div class="MonthlyDetailsHeadingClose">
+                                                                        <span class="close-btn" style="float:right; padding: 0px 10px 10px 10px; font-weight: 600; font-size: initial; cursor:pointer; color:red"> X </span>
+                                                                    </div>
+                                                                </div> -->
+                                                                <!-- <input type="hidden" name="user_table_count" id="user_table_count" value="" /> -->
                                                                 <div class="table-responsive table-desi" id="filterTable">
+                                                                    <!-- table roe limit -->
+                                                                
                                                                     <table class="table table-hover" id="payoutDetailsTable">
                                                                         <thead>
                                                                             <tr>
@@ -237,25 +249,7 @@
                                                                         </thead>
                                                                         <tbody>
                                                                             <?php
-                                                                                $sql = "SELECT 
-                                                                                            ca.created_date,
-                                                                                            ca.status,
-                                                                                            ca.id,
-                                                                                            ca.business_mentor,
-                                                                                            ca.message_bm,
-                                                                                            ca.commision_bm,
-                                                                                            ca.status_bm,
-                                                                                            ca.techno_enterprise,
-                                                                                            ca.message_te,
-                                                                                            ca.commision_te,
-                                                                                            ca.status_te,
-                                                                                            COALESCE(cap.status, 0) AS status,
-                                                                                            cap.date AS paydate
-                                                                                        FROM $tablename ca
-                                                                                        LEFT JOIN $tablename_paid cap 
-                                                                                            ON cap.$columnDesignation = ca.$columnDesignation
-                                                                                            AND cap.techno_enterprise = ca.techno_enterprise
-                                                                                        WHERE ca.$columnDesignation = '".$userId."' ";
+                                                                                $sql = "SELECT * FROM `$tablename` WHERE  $columnDesignation = '".$userId."'  ";
                                                                                 $stmt = $conn -> prepare($sql);
                                                                                 $stmt -> execute();
                                                                                 $stmt -> setFetchMode(PDO::FETCH_ASSOC);
@@ -267,13 +261,18 @@
                                                                                         $dt = $dt->format('Y-m-d');
 
                                                                                         // replace dot at end of the line with break statement
-                                                                                        $message1 = $row[$columnMessage];
+                                                                                        $message1 = $row['ste_message'];
                                                                                         $message1 =  str_replace('.','<br>',$message1);  
 
-                                                                                        // total Amt Cal for BC 
-                                                                                        $CommAmt = $row[$columnCommision];
-                                                                                        $tds = $CommAmt * $tdsPercentage;
-                                                                                        $totalAmt = $CommAmt - $tds;
+                                                                                        if($row[$columnCommision] == "null"){
+                                                                                            $CommAmt = '0';
+                                                                                            $tds = '0';
+                                                                                            $totalAmt = '0';
+                                                                                        }else{
+                                                                                            $CommAmt = $row[$columnCommision];
+                                                                                            $tds = $CommAmt * 2/100;
+                                                                                            $totalAmt = $CommAmt - $tds;
+                                                                                        }
 
                                                                                         echo '<tr>
                                                                                                 <td>'.$dt.'</td>
@@ -281,11 +280,11 @@
                                                                                                 <td class="text-end">'.$CommAmt.'</td>
                                                                                                 <td class="text-end">'.$tds.'</td>
                                                                                                 <td class="text-end">'.$totalAmt.'
-                                                                                                    <a href="payout/forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$row[$columnDesignation].'&date='.$dt.'&message='.$message1.'&message_status='.$row[$columnStatus].'&commission='.$row[$columnCommision].'">
+                                                                                                    <a href="payout/forms/contracting_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row[$columnDesignation].'&ca='.$row['te_id'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row[$columnCommision].'">
                                                                                                         <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                                                     </a>
                                                                                                 </td>';
-                                                                                                if($row[$columnStatus] == '1'){
+                                                                                                if($row['status'] == '1'){
                                                                                                     echo'<td><span class="badge bg-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                                                 }else{
                                                                                                     echo'<td><span class="badge bg-warning font-size-10 fw-bold ms-4">Pending</span></td>';
@@ -308,19 +307,22 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div style="display: none;">
+                                    <input type="text" name="" id="userIDHidden" value="<?php echo $userId ?>" >
+                                    <input type="text" name="" id="userTypeHidden" value="<?php echo $userType ?>" >
+                                    <input type="text" name="" id="userFnameHidden" value="<?php echo $userFname ?>" >
+                                    <input type="text" name="" id="userLnameHidden" value="<?php echo $userLname ?>" >
+                                </div>
+
                             </div>
                         </div>
                     </div> <!-- container-fluid -->
                 </div><!-- End Page-content -->
-                <?php include_once "super_techno_footer.php" ?>
+                <?php include_once "super_techno_footer.php" ?> 
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
-        
-        <div style="display: none;">
-            <input type="text" name="" id="totalUserId" value="<?php echo $userId ?>">
-            <input type="text" name="" id="totalUserDesignation" value="<?php echo $columnDesignation ?>">
-            <input type="text" name="" id="totalUserCommision" value="<?php echo $columnCommision ?>">
-        </div>
+
 
         <!-- sample modal content -->
         <div id="previousPayout" class="modal fade" tabindex="-1" aria-labelledby="#exampleModalFullscreenLabel" aria-hidden="true" data-bs-backdrop="static"  data-bs-keyboard="false" style=" border-radus: 20px !important;">
@@ -335,33 +337,34 @@
                             <div class="col-lg-4 col-md-4 col-sm-7 card" style="border: 2px solid black; border-radius: 10px;">
                                 <div class="mt-3">
                                     <p class="font-size-18 pt-2">Previous Payout<span class="fw-bold font-size-12 date-layout1 layout-1"><?php echo "$prevdate" ?></span></p>
-                                    <div class="d-flex justify-content-between">
+                                    <div class="d-flex">
                                         <?php 
-                                            $previousPayout = $conn -> prepare("SELECT SUM($columnCommision) as previousPayout FROM $tablename WHERE $columnDesignation = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
+                                            $previousPayout = $conn -> prepare("SELECT SUM($columnCommision) as previousPayout FROM $tablename WHERE $columnDesignation = '".$userId."' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
                                             $previousPayout -> execute();
                                             $previousPayout -> setFetchMode(PDO::FETCH_ASSOC);
                                             if($previousPayout -> rowCount()>0){
                                                 foreach(($previousPayout -> fetchAll()) as $key => $row){
                                                     $previousPayout = $row['previousPayout'];
-                                                    $previousPayoutTDS = $previousPayout * $tdsPercentage;
+                                                    $previousPayoutTDS = $previousPayout * 2/100;
                                                     $TotalpreviousPayout = $previousPayout - $previousPayoutTDS;
                                                     echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .round($TotalpreviousPayout). '/- </p>
-                                                    <div>
-                                                        <span class="badge bg-success font-size-10 fw-bold status1 paystatus" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
+                                                    <span class="badge bg-success font-size-10 fw-bold status1 paystatus" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
                                                 }
                                             }
                                         ?>
                                         
-                                            <a href="payout/forms/recruitment_payout/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout&user_id=<?php echo $userId; ?>&designation=<?php echo $columnDesignation ?>">
-                                                <i class="bx bx-download download-icon status1 paystatus" style="font-size: 20px; color: black; margin-left: 20%;"></i>
-                                            </a>
-                                        </div>
+                                        <a href="payout/forms/contracting_payout/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout">
+                                            <i class="bx bx-download download-icon status1 paystatus" style="font-size: 20px; color: black; margin-left: 20%;"></i>
+                                        </a>
                                     </div>
                                     
                                     
                                 </div>
                             </div>
                             <div class="col-lg-7 col-md-7 col-sm-7">
+                                <!-- <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                    <h2 class="mb-sm-0 fw-bolder ps-4">All Payouts</h2>
+                                </div> -->
                                 <div class="row filter-options filter">
                                     <div class="designation-filter no-space col-lg-5 col-md-5 col-sm-12">
                                         <input type="text" name="" class="selectdesign filter-opt-1 fw-bolder" id="designationPrevious" value="<?php echo 'ID: ' .$userId; ?>" readonly>
@@ -372,8 +375,10 @@
                                     <span id="prevDiv" class="col-md-10 card border-2 border-black" style="border-radius: 10px; padding: 10px">
                                         <div  id="download_icon " >
                                             <p class="font-size-14">Name: <span><?php echo $firstname.' '.$lastname; ?></span><span class="fw-bold font-size-10 ms-4 date-layout layout-2 date-align"><?php echo "$prevdate" ?></span></p>
-                                            <p class="fs-5 fw-bolder mt-n2">Rs. <?php echo round($TotalpreviousPayout); ?>/- </p>
-                                            
+                                            <p class="fs-5 fw-bolder mt-n2 icon">Rs. <?php echo round($TotalpreviousPayout); ?>/- </p>
+                                            <!-- <a href="">
+                                                <i class="bx bx-download layout-3" style="font-size: 20px; color: black;"></i>
+                                            </a> -->
                                         </div>
                                     </span>
                             
@@ -382,7 +387,20 @@
                             <!-- monthly user details table  -->
                             <div class="row" style="padding-top: 25px;" id="user-box">
                                 <div class="col-md-12"> 
+                                    <!-- <div class="row">
+                                        <hr>
+                                        <div class="MonthlyDetailsHeading">
+                                            <span id="table-heading" style="padding: 0px 20px; font-weight: 600; font-size: initial;"></span>
+                                        </div>
+
+                                        <div class="MonthlyDetailsHeadingClose">
+                                            <span class="close-btn" style="float:right; padding: 0px 10px 10px 10px; font-weight: 600; font-size: initial; cursor:pointer; color:red"> X </span>
+                                        </div>
+                                    </div> -->
+                                    <!-- <input type="hidden" name="user_table_count" id="user_table_count" value="" /> -->
                                     <div class="table-responsive table-desi" id="filterTablePrev">
+                                        <!-- table roe limit -->
+                                    
                                         <table class="table table-hover" id="previous_payout_table">
                                             <thead>
                                                 <tr>
@@ -394,32 +412,10 @@
                                                     <th class="ceterText fw-bolder font-size-16">Remark</th>
                                                 </tr>
                                             </thead>
-                                            <tbody> 
+                                            <tbody>
                                                 <?php
-                                                    $sql = "SELECT 
-                                                                ca.created_date,
-                                                                ca.status,
-                                                                ca.id,
-                                                                ca.business_mentor,
-                                                                ca.message_bm,
-                                                                ca.commision_bm,
-                                                                ca.status_bm,
-                                                                ca.techno_enterprise,
-                                                                ca.message_te,
-                                                                ca.commision_te,
-                                                                ca.status_te,
-                                                                COALESCE(cap.status, 0) AS status,
-                                                                cap.date AS paydate
-                                                            FROM $tablename ca
-                                                            LEFT JOIN $tablename_paid cap 
-                                                                ON cap.$columnDesignation = ca.$columnDesignation
-                                                                AND cap.techno_enterprise = ca.techno_enterprise
-                                                                AND YEAR(cap.date) = '".$prevDateYear."'
-                                                                AND MONTH(cap.date) = '".$prevDateMonth."'
-                                                            WHERE ca.$columnDesignation = '".$userId."' 
-                                                            AND YEAR(ca.created_date) = '".$prevDateYear."' 
-                                                            AND MONTH(ca.created_date) = '".$prevDateMonth."'";
-                                                    $stmt = $conn -> prepare($sql);
+                                                    $sql2 = "SELECT * FROM $tablename WHERE $columnDesignation = '".$userId."' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ";
+                                                    $stmt = $conn -> prepare($sql2);
                                                     $stmt -> execute();
                                                     $stmt -> setFetchMode(PDO::FETCH_ASSOC);
                                                     if( $stmt -> rowCount()>0 ){
@@ -430,13 +426,19 @@
                                                             $dt = $dt->format('Y-m-d');
 
                                                             // replace dot at end of the line with break statement
-                                                            $message1 = $row[$columnMessage];
+                                                            $message1 = $row['ste_message'];
                                                             $message1 =  str_replace('.','<br>',$message1);  
 
                                                             // total Amt Cal for BC 
-                                                            $CommAmt = $row[$columnCommision];
-                                                            $tds = $CommAmt * $tdsPercentage;
-                                                            $totalAmt = $CommAmt - $tds;
+                                                                if($row[$columnCommision] == "null"){
+                                                                $CommAmt = '0';
+                                                                $tds = '0';
+                                                                $totalAmt = '0';
+                                                            }else{
+                                                                $CommAmt = $row[$columnCommision];
+                                                                $tds = $CommAmt * 2/100;
+                                                                $totalAmt = $CommAmt - $tds;
+                                                            }
 
                                                             echo '<tr>
                                                                     <td>'.$dt.'</td>
@@ -444,14 +446,14 @@
                                                                     <td class="text-end">'.$CommAmt.'</td>
                                                                     <td class="text-end">'.$tds.'</td>
                                                                     <td class="text-end">'.$totalAmt.'
-                                                                        <a href="payout/forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$row[$columnDesignation].'&date='.$dt.'&message='.$message1.'&message_status='.$row[$columnStatus].'&commission='.$row[$columnCommision].'">
+                                                                        <a href="payout/forms/contracting_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row[$columnDesignation].'&ca='.$row['te_id'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row[$columnCommision].'">
                                                                             <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                         </a>
                                                                     </td>';
-                                                                    if($row[$columnStatus] == '1'){
+                                                                    if($row['status'] == '1'){
                                                                         echo'<td><span class="badge bg-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                     }else{
-                                                                        echo'<td><span class="badge bg-warning font-size-10 fw-bold ms-4">Pending</span></td>';
+                                                                        echo'<td><span class="badge bg-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row[$columnDesignation].'","'.$row['ste_message'].'","'.$row[$columnCommision].'","'.$row['status'].'","PrevPayout")\'>Pending</span></td>';
                                                                     }
                                                             echo'</tr>';
 
@@ -471,6 +473,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
+                        <!-- <button type="button" class="btn btn-primary waves-effect waves-light">Save changes</button> -->
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -488,34 +491,34 @@
                             <div class="col-lg-4 col-md-4 col-sm-7 card" style="border: 2px solid black; border-radius: 10px;">
                                 <div class="mt-3">
                                     <p class="font-size-18 pt-3">Next Payout<span class="fw-bold font-size-12 date-layout layout-1"><?php echo "$date" ?></span></p>
-                                    <div class="d-flex justify-content-between">
+                                    <div class="d-flex">
                                         <?php 
-                                            $nextPayout = $conn -> prepare("SELECT SUM($columnCommision) as nextPayout FROM $tablename WHERE $columnDesignation = '".$userId."'  AND  YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
+                                            $nextPayout = $conn -> prepare("SELECT SUM($columnCommision) as nextPayout FROM $tablename WHERE $columnDesignation = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
                                             $nextPayout -> execute();
                                             $nextPayout -> setFetchMode(PDO::FETCH_ASSOC);
                                             if($nextPayout -> rowCount()>0){
                                                 foreach(($nextPayout -> fetchAll()) as $key => $row2){
                                                     $nextPayoutTotal = $row2['nextPayout'];
-                                                    $nextPayoutTDS = $nextPayoutTotal * $tdsPercentage;
+                                                    $nextPayoutTDS = $nextPayoutTotal * 2/100;
                                                     $TotalNextPayout = $nextPayoutTotal - $nextPayoutTDS;
                                                     echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .round($TotalNextPayout). '/- </p>
-                                                    <div>
-                                                        <span class="badge bg-success font-size-10 fw-bold status1 paystatus" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
+                                                    <span class="badge bg-success font-size-10 fw-bold status1 paystatus" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
                                                 }
                                             }
                                         ?>
                                         
-                                            <a href="payout/forms/recruitment_payout/download_exel_ca.php?payoutYear=<?php echo $nextDateYear; ?>&payoutMonth=<?php echo $nextDateMonth; ?>&payoutmessage=NextPayout&user_id=<?php echo $userId; ?>&designation=<?php echo $columnDesignation ?>">
-                                                <i class="bx bx-download download-icon status1 paystatus" style="font-size: 20px; color: black; margin-left: 20%;"></i>
-                                            </a>
-                                        </div>
+                                        <a href="payout/forms/contracting_payout/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout">
+                                            <i class="bx bx-download download-icon status1 paystatus" style="font-size: 20px; color: black; margin-left: 20%;"></i>
+                                        </a>
                                     </div>
                                     
                                     
                                 </div>
                             </div>
                             <div class="col-lg-7 col-md-7 col-sm-7">
-                                
+                                <!-- <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                    <h2 class="mb-sm-0 fw-bolder ps-4">All Payouts</h2>
+                                </div> -->
                                 <div class="row filter-options filter">
                                     <div class="designation-filter no-space col-lg-5 col-md-5 col-sm-12">
                                         <input type="text" name="" class="selectdesign filter-opt-1 fw-bolder" id="designationNext" value="<?php echo 'ID: ' .$userId; ?>" readonly>
@@ -526,7 +529,10 @@
                                     <span id="nextDiv" class="col-md-10 card border-2 border-black" style="border-radius: 10px; padding: 10px">
                                         <div  id="download_icon " >
                                             <p class="font-size-14">Name: <span><?php echo $firstname.' '.$lastname; ?></span><span class="fw-bold font-size-10 ms-4 date-layout layout-2 date-align"><?php echo "$date" ?></span></p>
-                                            <p class="fs-5 fw-bolder mt-n2">Rs. <?php echo round($TotalNextPayout); ?>/- </p>
+                                            <p class="fs-5 fw-bolder mt-n2 icon">Rs. <?php echo round($TotalNextPayout); ?>/- </p>
+                                            <!-- <a href="">
+                                                <i class="bx bx-download layout-3" style="font-size: 20px; color: black;"></i>
+                                            </a> -->
                                         </div>
                                     </span>
                             
@@ -535,6 +541,17 @@
                             <!-- monthly user details table  -->
                             <div class="row" style="padding-top: 25px;" id="user-box">
                                 <div class="col-md-12"> 
+                                    <!-- <div class="row">
+                                        <hr>
+                                        <div class="MonthlyDetailsHeading">
+                                            <span id="table-heading" style="padding: 0px 20px; font-weight: 600; font-size: initial;"></span>
+                                        </div>
+
+                                        <div class="MonthlyDetailsHeadingClose">
+                                            <span class="close-btn" style="float:right; padding: 0px 10px 10px 10px; font-weight: 600; font-size: initial; cursor:pointer; color:red"> X </span>
+                                        </div>
+                                    </div> -->
+                                    <!-- <input type="hidden" name="user_table_count" id="user_table_count" value="" /> -->
                                     <div class="table-responsive table-desi" id="filterTableNext">
                                         <!-- table roe limit -->
                                         <table class="table table-hover" id="next_payout_table">
@@ -548,32 +565,10 @@
                                                     <th class="ceterText fw-bolder font-size-16">Remark</th>
                                                 </tr>
                                             </thead>
-                                            <tbody> 
+                                            <tbody>
                                                 <?php
-                                                    $sql=  "SELECT 
-                                                                ca.created_date,
-                                                                ca.status,
-                                                                ca.id,
-                                                                ca.business_mentor,
-                                                                ca.message_bm,
-                                                                ca.commision_bm,
-                                                                ca.status_bm,
-                                                                ca.techno_enterprise,
-                                                                ca.message_te,
-                                                                ca.commision_te,
-                                                                ca.status_te,
-                                                                COALESCE(cap.status, 0) AS status,
-                                                                cap.date AS paydate
-                                                            FROM $tablename ca
-                                                            LEFT JOIN $tablename_paid cap 
-                                                                ON cap.$columnDesignation = ca.$columnDesignation
-                                                                AND cap.techno_enterprise = ca.techno_enterprise
-                                                                AND YEAR(cap.date) = '".$nextDateYear."'
-                                                                AND MONTH(cap.date) = '".$nextDateMonth."'
-                                                            WHERE ca.$columnDesignation = '".$userId."' 
-                                                            AND YEAR(ca.created_date) = '".$nextDateYear."' 
-                                                            AND MONTH(ca.created_date) = '".$nextDateMonth."'";
-                                                    $stmt = $conn -> prepare($sql);
+                                                    $sql3 = "SELECT * FROM $tablename WHERE $columnDesignation = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ";
+                                                    $stmt = $conn -> prepare($sql3);
                                                     $stmt -> execute();
                                                     $stmt -> setFetchMode(PDO::FETCH_ASSOC);
                                                     if( $stmt -> rowCount()>0 ){
@@ -584,13 +579,19 @@
                                                             $dt = $dt->format('Y-m-d');
 
                                                             // replace dot at end of the line with break statement
-                                                            $message1 = $row[$columnMessage];
+                                                            $message1 = $row['ste_message'];
                                                             $message1 =  str_replace('.','<br>',$message1);  
 
                                                             // total Amt Cal for BC 
-                                                            $CommAmt = $row[$columnCommision];
-                                                            $tds = $CommAmt * $tdsPercentage;
-                                                            $totalAmt = $CommAmt - $tds;
+                                                            if($row[$columnCommision] == "null"){
+                                                                $CommAmt = '0';
+                                                                $tds = '0';
+                                                                $totalAmt = '0';
+                                                            }else{
+                                                                $CommAmt = $row[$columnCommision];
+                                                                $tds = $CommAmt * 2/100;
+                                                                $totalAmt = $CommAmt - $tds;
+                                                            }
 
                                                             echo '<tr>
                                                                     <td>'.$dt.'</td>
@@ -598,14 +599,14 @@
                                                                     <td class="text-end">'.$CommAmt.'</td>
                                                                     <td class="text-end">'.$tds.'</td>
                                                                     <td class="text-end">'.$totalAmt.'
-                                                                        <a href="payout/forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$row[$columnDesignation].'&date='.$dt.'&message='.$message1.'&message_status='.$row[$columnStatus].'&commission='.$row[$columnCommision].'">
+                                                                        <a href="payout/forms/contracting_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row[$columnDesignation].'&ca='.$row['te_id'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row[$columnCommision].'">
                                                                             <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                         </a>
                                                                     </td>';
-                                                                    if($row[$columnStatus] == '1'){
+                                                                    if($row['status'] == '1'){
                                                                         echo'<td><span class="badge bg-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                     }else{
-                                                                        echo'<td><span class="badge bg-warning font-size-10 fw-bold ms-4">Pending</span></td>';
+                                                                        echo'<td><span class="badge bg-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row[$columnDesignation].'","'.$row['ste_message'].'","'.$row[$columnCommision].'","'.$row['status'].'","NextPayout")\'>Pending</span></td>';
                                                                     }
                                                             echo'</tr>';
 
@@ -627,6 +628,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
+                        <!-- <button type="button" class="btn btn-primary waves-effect waves-light">Save changes</button> -->
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -644,9 +646,9 @@
                             <div class="col-lg-4 col-md-4 col-sm-7 card" style="border: 2px solid black; border-radius: 10px;">
                                 <div class="mt-3">
                                     <p class="font-size-18 pt-3">Total Payout<span class="fw-bold font-size-12 date-layout layout-1"><?php echo "$date" ?></span></p>
-                                    <div class="d-flex justify-content-between">
+                                    <div class="d-flex">
                                         <?php 
-                                            $totalPayout = "SELECT SUM($columnCommision) as total_payable FROM $tablename WHERE $columnDesignation = '".$userId."'  AND  $columnStatus = '1'";
+                                            $totalPayout = "SELECT SUM($columnCommision) as total_payable FROM $tablename WHERE $columnDesignation = '".$userId."' AND status='1'";
                                             $Payout = $conn -> prepare($totalPayout);
                                             $Payout -> execute();
                                             $Payout -> setFetchMode(PDO::FETCH_ASSOC);
@@ -664,20 +666,29 @@
                                 </div>
                             </div>
                             <div class="col-lg-7 col-md-7 col-sm-7">
-                                
+                                <!-- <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                    <h2 class="mb-sm-0 fw-bolder ps-4">All Payouts</h2>
+                                </div> -->
                                 <div class="row filter-options filter">
                                     <div class="designation-filter no-space col-lg-5 col-md-5 col-sm-12">
                                         <input type="text" name="" class="selectdesign filter-opt-1 fw-bolder" id="designationNext" value="<?php echo 'ID: ' .$userId; ?>" readonly>
                                     </div>
                                     <div class="name-filter no-space col-lg-5 col-md-5 col-sm-12">
-                                       <input type="text" name="" class="selectdesign filter-opt-2 minimal fw-bolder" id="user_id_nameNext" value="<?php echo 'Name: ' .$firstname.' '.$lastname; ?>" readonly>
+                                        <input type="text" name="" class="selectdesign filter-opt-2 minimal fw-bolder" id="user_id_nameNext" value="<?php echo 'Name: ' .$firstname.' '.$lastname; ?>" readonly>
                                     </div>
-                                    
+                                    <!-- <form class=" col-md-4 app-search d-lg-block">
+                                        <div class="position-relative">
+                                            <span class="bx bx-search-alt"></span>
+                                            <input type="text" class="form-control search control" placeholder="Search...">
+                                        </div>
+                                    </form> -->
                                     <span id="totalDiv" class="col-md-10 card border-2 border-black" style="border-radius: 10px; padding: 10px">
                                         <div  id="download_icon " >
                                             <p class="font-size-14">Name: <span><?php echo $firstname.' '.$lastname; ?></span><span class="fw-bold font-size-10 ms-4 date-layout layout-2 date-align"><?php echo "$date" ?></span></p>
-                                            <p class="fs-5 fw-bolder mt-n2">Rs. <?php echo $total_payable; ?>/- </p>
-                                            
+                                            <p class="fs-5 fw-bolder mt-n2 icon">Rs. <?php echo $total_payable; ?>/- </p>
+                                            <!-- <a href="">
+                                                <i class="bx bx-download layout-3" style="font-size: 20px; color: black;"></i>
+                                            </a> -->
                                         </div>
                                     </span>
                             
@@ -686,6 +697,17 @@
                             <!-- monthly user details table  -->
                             <div class="row" style="padding-top: 25px;" id="user-box">
                                 <div class="col-md-12"> 
+                                    <!-- <div class="row">
+                                        <hr>
+                                        <div class="MonthlyDetailsHeading">
+                                            <span id="table-heading" style="padding: 0px 20px; font-weight: 600; font-size: initial;"></span>
+                                        </div>
+
+                                        <div class="MonthlyDetailsHeadingClose">
+                                            <span class="close-btn" style="float:right; padding: 0px 10px 10px 10px; font-weight: 600; font-size: initial; cursor:pointer; color:red"> X </span>
+                                        </div>
+                                    </div> -->
+                                    <!-- <input type="hidden" name="user_table_count" id="user_table_count" value="" /> -->
                                     <div class="table-responsive table-desi" id="filteredTotalTable">
                                         <!-- table roe limit -->
                                         <table class="table table-hover" id="total_payout_table">
@@ -693,6 +715,7 @@
                                                 <tr>
                                                     <th class="ceterText fw-bolder font-size-16">Date</th>
                                                     <th class="ceterText fw-bolder font-size-16">Payout Message</th>
+                                                    <th class="ceterText fw-bolder font-size-16">Payout Details</th>
                                                     <th class="ceterText fw-bolder font-size-16">Amount</th>
                                                     <th class="ceterText fw-bolder font-size-16">TDS</th>
                                                     <th class="ceterText fw-bolder font-size-16">Total Payable</th>
@@ -701,27 +724,9 @@
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                    $sql = "SELECT 
-                                                                ca.created_date,
-                                                                ca.status,
-                                                                ca.id,
-                                                                ca.ste_id,
-                                                                ca.ste_message,
-                                                                ca.ste_amount,
-                                                                ca.ste_status,
-                                                                ca.te_id,
-                                                                ca.te_message,
-                                                                ca.te_amount,
-                                                                ca.te_staus,
-                                                                COALESCE(cap.status, 0) AS status,
-                                                                cap.date AS paydate
-                                                            FROM $tablename ca
-                                                            LEFT JOIN $tablename_paid cap 
-                                                                ON cap.$columnDesignation = ca.$columnDesignation
-                                                                AND cap.te_id = ca.te_id
-                                                            WHERE ca.$columnDesignation = '".$userId."' AND ca.$columnStatus = '1' ";
+                                                    $sql4 = "SELECT * FROM $tablename WHERE $columnDesignation = '".$userId."' AND status = '1' ";
+                                                    $stmt = $conn -> prepare($sql4);
                                                     $stmt -> execute();
-                                                    // print_r($stmt);
                                                     $stmt -> setFetchMode(PDO::FETCH_ASSOC);
                                                     if( $stmt -> rowCount()>0 ){
                                                         foreach( ($stmt -> fetchALL()) as $key => $row ){
@@ -731,35 +736,44 @@
                                                             $dt = $dt->format('Y-m-d');
 
                                                             // replace dot at end of the line with break statement
-                                                            $message1 = $row[$columnMessage];
+                                                            $message1 = $row['ste_message'];
                                                             $message1 =  str_replace('.','<br>',$message1);  
+                                                            $message_details = $row['message_details'];
+                                                            $message_details =  str_replace('.','<br>',$message_details);  
+
 
                                                             // total Amt Cal for BC 
-                                                            $CommAmt = $row[$columnCommision];
-                                                            $tds = $CommAmt * $tdsPercentage;
-                                                            $totalAmt = $CommAmt - $tds;
+                                                                if($row[$columnCommision] == "null"){
+                                                                $CommAmt = '0';
+                                                                $tds = '0';
+                                                                $totalAmt = '0';
+                                                            }else{
+                                                                $CommAmt = $row[$columnCommision];
+                                                                $tds = $CommAmt * 2/100;
+                                                                $totalAmt = $CommAmt - $tds;
+                                                            }
 
                                                             echo '<tr>
                                                                     <td>'.$dt.'</td>
                                                                     <td>'.$message1.'</td>
+                                                                    <td>'.$message_details.'</td>
                                                                     <td class="text-end">'.$CommAmt.'</td>
                                                                     <td class="text-end">'.$tds.'</td>
                                                                     <td class="text-end">'.$totalAmt.'
-                                                                        <a href="payout/forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$row[$columnDesignation].'&date='.$dt.'&message='.$message1.'&message_status='.$row[$columnStatus].'&commission='.$row[$columnCommision].'">
+                                                                        <a href="payout/forms/contracting_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row[$columnDesignation].'&ca='.$row['te_id'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row[$columnCommision].'">
                                                                             <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                         </a>
                                                                     </td>';
-                                                                    if($row[$columnStatus] == '1'){
+                                                                    if($row['status'] == '1'){
                                                                         echo'<td><span class="badge bg-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                     }else{
-                                                                        echo'<td><span class="badge bg-warning font-size-10 fw-bold ms-4">Pending</span></td>';
+                                                                        echo'<td><span class="badge bg-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row[$columnDesignation].'","'.$row['ste_message'].'","'.$row[$columnCommision].'","'.$row['status'].'","TotalPayout")\'>Pending</span></td>';
                                                                     }
                                                             echo'</tr>';
 
                                                         }
                                                     }
                                                 ?>
-                                                
                                             </tbody>
                                         </table>
                                         <!-- pegination start -->
@@ -771,6 +785,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
+                        <!-- <button type="button" class="btn btn-primary waves-effect waves-light">Save changes</button> -->
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -786,6 +801,7 @@
                     <div class="modal-body">
                         <div>
                             <label class="text-muted d-block ">Payment Details</label>
+                            <!-- <input type="text" id="paymentIds" value="" class="input1 mb-4" readonly> -->
                             <textarea name="paymentMessage" id="paymentMessageDetails" class="input2 w-100" cols="65" rows="4" readonly></textarea>
                         </div>
                         <div>
@@ -804,17 +820,15 @@
             <i class="ri-arrow-up-line"></i>
         </button>
         <!--end back-to-top-->
-        <!-- contact card pop up  start-->
-        <button type="button" class="contactBtn btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            <i class="ri-phone-fill"></i>
-        </button>
-        <?php include (__DIR__.'/../contact_modal.php') ?>
+
         <!-- JAVASCRIPT -->
         <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="../assets/libs/simplebar/simplebar.min.js"></script>
         <script src="../assets/libs/node-waves/waves.min.js"></script>
         <script src="../assets/libs/feather-icons/feather.min.js"></script>
         <script src="../assets/js/jquery/jquery-3.7.1.min.js"></script>
+        <!-- <script src="../assets/js/pages/plugins/lord-icon-2.1.0.js"></script> -->
+        <!-- <script src="../assets/js/plugins.js"></script> -->
 
         <script src="../assets/js/submitdata.js"></script>
 
@@ -831,11 +845,24 @@
         <!--Swiper slider js-->
         <script src="../assets/libs/swiper/swiper-bundle.min.js"></script>
 
+        <!-- Dashboard init -->
+        <!-- <script src="../assets/js/pages/dashboard-ecommerce.init.js"></script> -->
+
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
 
         <!-- custom js  -->
-        <script src="payout/payout.js"></script>
+        <script src="payout/payout_contracting.js"></script>
+        <!-- Chart JS -->
+        <!-- <script src="../assets/libs/chart.js/chart.umd.js"></script> -->
+
+        <!-- chartjs init -->
+        <!-- <script src="../assets/js/pages/chartjs.init.js"></script> -->
+
+        <!-- Dashboard init -->
+        <!-- <script src="../assets/js/pages/dashboard-job.init.js"></script> -->
+
+        <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
 
         <!-- Required datatable js -->
         <script src="../assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -855,3 +882,4 @@
         </script>
     </body>
 </html>
+

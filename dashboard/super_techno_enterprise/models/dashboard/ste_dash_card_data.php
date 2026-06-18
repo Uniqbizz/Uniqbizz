@@ -23,26 +23,53 @@
             ) AS te_count,
 
             (
-                SELECT COUNT(*)
-                FROM ca_travelagency ta
-                INNER JOIN corporate_agency ca
-                    ON ta.reference_no = ca.corporate_agency_id
-                WHERE ca.reference_no = :user_id
-                AND ta.status IN (1,3)
-                AND ca.status IN (1,3)
+                (
+                    SELECT COUNT(*)
+                    FROM ca_travelagency ta
+                    INNER JOIN corporate_agency ca
+                        ON ta.reference_no = ca.corporate_agency_id
+                    WHERE ca.reference_no = :user_id
+                    AND ta.status IN (1,3)
+                    AND ca.status IN (1,3)
+                )
+                +
+                (
+                    SELECT COUNT(*)
+                    FROM ca_travelagency ta
+                    INNER JOIN sub_franchisee ca
+                        ON ta.reference_no = ca.sub_franchisee_id
+                    WHERE ca.reference_no = :user_id
+                    AND ta.status IN (1,3)
+                    AND ca.status IN (1,3)
+                )
             ) AS tc_count,
 
             (
-                SELECT COUNT(*)
-                FROM ca_customer cu
-                INNER JOIN ca_travelagency ta
-                    ON cu.ta_reference_no = ta.ca_travelagency_id
-                INNER JOIN corporate_agency ca
-                    ON ta.reference_no = ca.corporate_agency_id
-                WHERE ca.reference_no = :user_id
-                AND cu.status IN (1,3)
-                AND ta.status IN (1,3)
-                AND ca.status IN (1,3)
+                (
+                    SELECT COUNT(*)
+                    FROM ca_customer cu
+                    INNER JOIN ca_travelagency ta
+                        ON cu.ta_reference_no = ta.ca_travelagency_id
+                    INNER JOIN corporate_agency ca
+                        ON ta.reference_no = ca.corporate_agency_id
+                    WHERE ca.reference_no = :user_id
+                    AND cu.status IN (1,3)
+                    AND ta.status IN (1,3)
+                    AND ca.status IN (1,3)
+                )
+                +
+                (
+                    SELECT COUNT(*)
+                    FROM ca_customer cu
+                    INNER JOIN ca_travelagency ta
+                        ON cu.ta_reference_no = ta.ca_travelagency_id
+                    INNER JOIN sub_franchisee ca
+                        ON ta.reference_no = ca.sub_franchisee_id
+                    WHERE ca.reference_no = :user_id
+                    AND cu.status IN (1,3)
+                    AND ta.status IN (1,3)
+                    AND ca.status IN (1,3)
+                )
             ) AS cu_count,
 
             (

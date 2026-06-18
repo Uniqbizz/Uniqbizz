@@ -38,6 +38,36 @@
                 'date' => $row['activity_date']
             ];
         }
+        /*
+        |--------------------------------------------------------------------------
+        | New F Added
+        |--------------------------------------------------------------------------
+        */
+
+        $sqlF = $conn->prepare("
+            SELECT
+                CONCAT(firstname,' ',lastname) AS name,
+                register_date AS activity_date
+            FROM sub_franchisee
+            WHERE reference_no = :user_id
+            AND status IN (1,3)
+            ORDER BY register_date DESC
+            LIMIT 10
+        ");
+
+        $sqlF->execute([
+            ':user_id' => $userId
+        ]);
+
+        foreach($sqlF->fetchAll(PDO::FETCH_ASSOC) as $row){
+
+            $activities[] = [
+                'type' => 'f',
+                'title' => 'New Franchisee Added',
+                'description' => $row['name'],
+                'date' => $row['activity_date']
+            ];
+        }
 
         /*
         |--------------------------------------------------------------------------

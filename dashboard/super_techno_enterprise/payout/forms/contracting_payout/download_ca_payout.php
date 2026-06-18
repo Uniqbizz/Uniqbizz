@@ -1,6 +1,6 @@
 <?php
  
-require '../../../connect.php';
+require '../../../../connect.php';
 
 $id = $_GET['vkvbvjfgfikix'];
 $bc = $_GET['bc'];
@@ -25,7 +25,7 @@ if($commission == "null"){
     
 $date = date('F,Y', strtotime($dateCA));
 
-$bcNames = $conn -> prepare("SELECT * FROM business_consultant WHERE business_consultant_id = '".$bc."' AND status = 1");
+$bcNames = $conn -> prepare("SELECT * FROM super_techno_enterprise WHERE super_techno_enterprise_id = '".$bc."' AND status = 1");
 $bcNames -> execute();
 $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
 if($bcNames -> rowCount()>0){
@@ -53,15 +53,15 @@ if($caNames -> rowCount()>0){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Download payout</title>
     <!--== FAV ICON ==-->
-    <link rel="shortcut icon" href="../../../assets/images/fav.png">
+    <link rel="shortcut icon" href="../../../../assets/images/fav.png">
 
     <!--== ALL CSS FILES ==-->
     <!-- Bootstrap Css -->
-    <link href="../../../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <link href="../../../../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
-    <link href="../../../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <!-- App Css-->
-    <link href="../../../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <link href="../../../../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
         <style>
             .go-back{
                 margin: 10px 30px 20px;
@@ -104,13 +104,13 @@ if($caNames -> rowCount()>0){
                                 <tbody>
                                     <tr>
                                         <td class="left">
-                                            <img class="ms-2" style="height: 15px; " src="../../../assets/images/uniqbizz_logo.png" alt="" />
+                                            <img class="ms-2" style="height: 15px; " src="../../../../assets/images/uniqbizz_logo.png" alt="" />
                                         </td>
                                         <td class="center">
                                             <h4 class="fw-bolder lh-lg"> Statement Of The Month</h4>
                                         </td>
                                         <td class="right">
-                                            <img class="me-2" style="height: 28px; " src="../../../assets/images/bizz_logo.png" alt="" />
+                                            <img class="me-2" style="height: 28px; " src="../../../../assets/images/bizz_logo.png" alt="" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -124,8 +124,8 @@ if($caNames -> rowCount()>0){
                                             <h6 style="padding:2px 10px; font-weight: 700;">Month : <?php echo $date; ?></h6>
                                         </td>
                                         <td class="col-md-5 col-sm-5 pt-3">
-                                            <h6 style="padding:2px 0; font-weight: 700;">Pay For : Corporate Agency </h6>
-                                            <h6 style="padding:2px 0; font-weight: 700;">Designation : Business Consultent</h6>
+                                            <h6 style="padding:2px 0; font-weight: 700;">Pay For : TE Contracting </h6>
+                                            <h6 style="padding:2px 0; font-weight: 700;">Designation : Super Techno Dashboard</h6>
                                             <h6 style="padding:2px 0; font-weight: 700;">Payout status : <?php echo $message_status == 0 ? 'Pending' : 'Paid' ; ?></h6>
                                         </td>
                                     </tr>
@@ -185,15 +185,15 @@ if($caNames -> rowCount()>0){
             </div>
         </div>
         <!-- JAVASCRIPT -->
-        <script src="../../../assets/js/jquery/jquery-3.7.1.min.js"></script>
-        <script src="../../../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../../../../assets/js/jquery/jquery-3.7.1.min.js"></script>
+        <script src="../../../../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 
         <script>
             $("#generatePDF").click(function () {
                 // $(document).ready(function() {
                 var divToPrint=document.getElementById('htmlContent');
                     newWin = window.open("");
-                    newWin.document.write('<html><head><link rel="stylesheet" href="../../../assets/css/bootstrap.min.css"><link rel="stylesheet" href="../../../assets/css/icons.min.css"><link rel="stylesheet" href="../../../assets/css/app.min.css"></head><body style="margin-top: 20px;" onload="window.print()">'+divToPrint.outerHTML+'</body></html>');
+                    newWin.document.write('<html><head><link rel="stylesheet" href="../../../../assets/css/bootstrap.min.css"><link rel="stylesheet" href="../../../../assets/css/icons.min.css"><link rel="stylesheet" href="../../../../assets/css/app.min.css"></head><body style="margin-top: 20px;" onload="window.print()">'+divToPrint.outerHTML+'</body></html>');
                     newWin.print();
                     newWin.close();
 

@@ -7,28 +7,58 @@
     try {
 
         $sql = $conn->prepare("
-            SELECT
-                ta.ca_travelagency_id,
-                ta.firstname,
-                ta.lastname,
-                ta.contact_no,
-                ta.email,
-                ta.added_on,
-                ta.status,
+            SELECT *
+            FROM (
 
-                ca.corporate_agency_id,
-                ca.firstname AS ref_firstname,
-                ca.lastname AS ref_lastname
+                SELECT
+                    ta.id,
+                    ta.ca_travelagency_id,
+                    ta.firstname,
+                    ta.lastname,
+                    ta.contact_no,
+                    ta.email,
+                    ta.added_on,
+                    ta.status,
 
-            FROM ca_travelagency ta
+                    ca.corporate_agency_id AS reference_id,
+                    ca.firstname AS ref_firstname,
+                    ca.lastname AS ref_lastname
 
-            INNER JOIN corporate_agency ca
-                ON ta.reference_no = ca.corporate_agency_id
+                FROM ca_travelagency ta
 
-            WHERE ca.reference_no = :user_id
-            AND ta.status IN (0)
+                INNER JOIN corporate_agency ca
+                    ON ta.reference_no = ca.corporate_agency_id
 
-            ORDER BY ta.id DESC
+                WHERE ca.reference_no = :user_id
+                AND ta.status IN (0,4)
+
+                UNION ALL
+
+                SELECT
+                    ta.id,
+                    ta.ca_travelagency_id,
+                    ta.firstname,
+                    ta.lastname,
+                    ta.contact_no,
+                    ta.email,
+                    ta.added_on,
+                    ta.status,
+
+                    ca.sub_franchisee_id AS reference_id,
+                    ca.firstname AS ref_firstname,
+                    ca.lastname AS ref_lastname
+
+                FROM ca_travelagency ta
+
+                INNER JOIN sub_franchisee ca
+                    ON ta.reference_no = ca.sub_franchisee_id
+
+                WHERE ca.reference_no = :user_id
+                AND ta.status IN (0,4)
+
+            ) AS combined
+
+            ORDER BY id DESC
         ");
 
         $sql->execute([

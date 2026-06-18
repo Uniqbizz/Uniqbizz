@@ -39,7 +39,7 @@ if($payoutmessage == 'PreviousPayout'){
                 // get the commission amount of BA's
                 $Commi = $row2['comm_amt'];
                 
-                (int)$Commi_TDS = (int)$Commi*5/100;
+                (int)$Commi_TDS = (int)$Commi*2/100;
                 (int)$Commi_Total = (int)$Commi-(int)$Commi_TDS; 
 
 
@@ -129,7 +129,7 @@ if($payoutmessage == 'NextPayout'){
                 // get the commission amount of BA's
                 $Commi = $row2['comm_amt'];
                 
-                (int)$Commi_TDS = (int)$Commi*5/100;
+                (int)$Commi_TDS = (int)$Commi*2/100;
                 (int)$Commi_Total = (int)$Commi-(int)$Commi_TDS; 
 
 
@@ -219,7 +219,7 @@ if($payoutmessage == 'TotalPayout'){
                 // get the commission amount of BA's
                 $Commi = $row2['comm_amt'];
                 
-                (int)$Commi_TDS = (int)$Commi*5/100;
+                (int)$Commi_TDS = (int)$Commi*2/100;
                 (int)$Commi_Total = (int)$Commi-(int)$Commi_TDS; 
 
 
@@ -313,7 +313,7 @@ if($payoutmessage == 'TotalPayout'){
 //                 // get the commission amount of BA's
 //                 $Commi = $row2['comm_amt'];
                 
-//                 (int)$Commi_TDS = (int)$Commi*5/100;
+//                 (int)$Commi_TDS = (int)$Commi*2/100;
 //                 (int)$Commi_Total = (int)$Commi-(int)$Commi_TDS; 
 
 

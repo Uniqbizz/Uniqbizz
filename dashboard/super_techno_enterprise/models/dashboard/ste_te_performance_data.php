@@ -7,34 +7,78 @@
     try {
 
         $sql = $conn->prepare("
-            SELECT
-                ca.corporate_agency_id,
-                CONCAT(
-                    COALESCE(ca.firstname,''),
-                    ' ',
-                    COALESCE(ca.lastname,'')
-                ) AS te_name,
+            SELECT *
+            FROM (
 
-                COUNT(DISTINCT ta.ca_travelagency_id) AS tc_count,
+                SELECT
+                    ca.corporate_agency_id AS te_id,
 
-                COUNT(DISTINCT cu.ca_customer_id) AS cu_count
+                    CONCAT(
+                        COALESCE(ca.firstname,''),
+                        ' ',
+                        COALESCE(ca.lastname,'')
+                    ) AS te_name,
 
-            FROM corporate_agency ca
+                    COUNT(DISTINCT ta.ca_travelagency_id) AS tc_count,
 
-            LEFT JOIN ca_travelagency ta
-                ON ta.reference_no = ca.corporate_agency_id
-                AND ta.status IN (1,3)
+                    COUNT(DISTINCT cu.ca_customer_id) AS cu_count
 
-            LEFT JOIN ca_customer cu
-                ON cu.ta_reference_no = ta.ca_travelagency_id
-                AND cu.status IN (1,3)
+                FROM corporate_agency ca
 
-            WHERE ca.reference_no = :user_id
-            AND ca.status IN (1,3)
+                LEFT JOIN ca_travelagency ta
+                    ON ta.reference_no = ca.corporate_agency_id
+                    AND ta.status IN (1,3)
 
-            GROUP BY ca.corporate_agency_id
+                LEFT JOIN ca_customer cu
+                    ON cu.ta_reference_no = ta.ca_travelagency_id
+                    AND cu.status IN (1,3)
 
-            ORDER BY cu_count DESC, tc_count DESC
+                WHERE ca.reference_no = :user_id
+                AND ca.status IN (1,3)
+
+                GROUP BY
+                    ca.corporate_agency_id,
+                    ca.firstname,
+                    ca.lastname
+
+                UNION ALL
+
+                SELECT
+                    ca.sub_franchisee_id AS te_id,
+
+                    CONCAT(
+                        COALESCE(ca.firstname,''),
+                        ' ',
+                        COALESCE(ca.lastname,'')
+                    ) AS te_name,
+
+                    COUNT(DISTINCT ta.ca_travelagency_id) AS tc_count,
+
+                    COUNT(DISTINCT cu.ca_customer_id) AS cu_count
+
+                FROM sub_franchisee ca
+
+                LEFT JOIN ca_travelagency ta
+                    ON ta.reference_no = ca.sub_franchisee_id
+                    AND ta.status IN (1,3)
+
+                LEFT JOIN ca_customer cu
+                    ON cu.ta_reference_no = ta.ca_travelagency_id
+                    AND cu.status IN (1,3)
+
+                WHERE ca.reference_no = :user_id
+                AND ca.status IN (1,3)
+
+                GROUP BY
+                    ca.sub_franchisee_id,
+                    ca.firstname,
+                    ca.lastname
+
+            ) AS combined
+
+            ORDER BY
+                cu_count DESC,
+                tc_count DESC
 
             LIMIT 5
         ");

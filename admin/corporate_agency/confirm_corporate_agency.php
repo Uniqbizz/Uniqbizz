@@ -869,7 +869,7 @@ if ($user_type_id == '16') {
 				$STE_ref = $row10['reference_no']??'';
 			}
 		}
-		if ( $STE_ref !='Not Applicable') {
+		if ($STE_ref) {
 			$sql11 = $conn->prepare("SELECT * FROM executive_techno_enterprise WHERE executive_techno_enterprise_id = '" . $STE_ref . "'");
 			$sql11->execute();
 			$sql11->setFetchMode(PDO::FETCH_ASSOC);
@@ -877,28 +877,33 @@ if ($user_type_id == '16') {
 				foreach (($sql11->fetchAll()) as $key11 => $row11) {
 					$ETE_id = $row11['executive_techno_enterprise_id'];
 					$ETE_name = $row11['firstname'] . ' ' . $row11['lastname'];
-					$ETE_ref = $row10['reference_no']??'';
+					$ETE_ref = $row11['reference_no']??'';
 					// $ETE_user_type_id = $row11['user_type'];
 					// $ETE_ref = $row11['reporting_manager'];
 				}
 			}
-			if ($ETE_ref != 'null') {
-				$sql12 = $conn->prepare("SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '" . $ETE_ref . "'");
-				$sql12->execute();
-				$sql12->setFetchMode(PDO::FETCH_ASSOC);
-				if ($sql12->rowCount() > 0) {
-					foreach (($sql12->fetchAll()) as $key12 => $row12) {
-						$CTE_id = $row12['chief_techno_enterprise_id'];
-						$CTE_name = $row12['firstname'] . ' ' . $row12['lastname'];
-						// $bdm_user_type_id = $row11['user_type'];
-						// $bdm_ref = $row11['reporting_manager'];
-					}
+		}
+		if ($ETE_ref) {
+			$sql12 = $conn->prepare("SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '" . $ETE_ref . "'");
+			$sql12->execute();
+			$sql12->setFetchMode(PDO::FETCH_ASSOC);
+			if ($sql12->rowCount() > 0) {
+				foreach (($sql12->fetchAll()) as $key12 => $row12) {
+					$CTE_id = $row12['chief_techno_enterprise_id'];
+					$CTE_name = $row12['firstname'] . ' ' . $row12['lastname'];
+					// $bdm_user_type_id = $row11['user_type'];
+					// $bdm_ref = $row11['reporting_manager'];
 				}
 			}
-		}
+        }
+
+
 		$CTECommiAmt = $convertedMark == "" ? $amount * 0.0125 : 0; // 1.25%
+
 		$ETECommiAmt = $convertedMark == "" ? $amount * 0.025 : 0; // 2.5%
+
 		$STECommiAmt = $convertedMark == "" ? $amount * 0.05 : 0; // 5%
+
 	}
 
 	//-----------------------------------------
@@ -1144,8 +1149,9 @@ if ($user_type_id == '16') {
 					$ref_manager=$ETE_id;
 					$message_ref=$ETE_message="STE - " . $ETE_name . " " . $ETE_id . " earned " . $ETECommiAmt . "/- on recruiting Techno Enterprise. Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " ".$convertedMark.". With Reference of Super Techno Enterprise ".$STE_name." ".$STE_id.".";
 					$refCommiAmt=$ETECommiAmt;
-					$CTE_message="STE - " . $STE_name . " " . $STE_id . " earned " . $STECommiAmt . "/- on recruiting Techno Enterprise. Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " ".$convertedMark.". With Reference of Executive Techno Enterprise ".$ETE_name." ".$ETE_id.".";
-					$TE_message="Techno Enterprise - "  .$name." ".$uid. " has join with reference of STE " .$STE_name." ".$STE_id.". Recruitment Fee - Rs.".$amount."/-";
+					$CTE_message="CTE - " . $CTE_name . " " . $CTE_id . " earned " . $CTECommiAmt . "/- on recruiting Techno Enterprise. Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " ".$convertedMark.". With Reference of Executive Techno Enterprise ".$ETE_name." ".$ETE_id.".";
+					$message_sf="Franchisee - "  .$name." ".$uid. " has join with reference of STE " .$STE_name." ".$STE_id.". Recruitment Fee - Rs.".$amount."/-"; // check veriable name
+					
 			}
 			//------------------------------------
 			//----------------------------------------------------

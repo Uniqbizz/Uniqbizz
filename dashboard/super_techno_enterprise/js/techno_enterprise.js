@@ -478,7 +478,7 @@ function submitEditForm(actionType) {
             if (data == 1) {
                 $("#loading-overlay").hide(); //loading screen
                 alert("Edit Successfuly");
-                // location.href = "techno_enterprise_list.php";
+                location.href = "techno_enterprise_list.php";
             } else {
                 $("#loading-overlay").hide(); //loading screen
                 alert("Failed");

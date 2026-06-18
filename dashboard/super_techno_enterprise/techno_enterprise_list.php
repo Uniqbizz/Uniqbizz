@@ -297,9 +297,20 @@
                         data: null,
                         render: function(data){
 
+                            let badge = '';
+
+                            if (data.user_type == 16) {
+
+                                badge = '<span class="badge bg-primary ms-1">TE</span>';
+
+                            } else if (data.user_type == 29) {
+
+                                badge = '<span class="badge bg-success ms-1">F</span>';
+                            }
+
                             return `
                                 <p class="fs-6 mb-0">
-                                    ${data.firstname || ''} ${data.lastname || ''}
+                                    ${badge} ${data.firstname || ''} ${data.lastname || ''}
                                 </p>
                             `;
                         }
@@ -386,6 +397,7 @@
                         orderable: false,
                         searchable: false,
                         render: function(data) {
+                            
 
                             return `
                                 <form action="edit_techno_enterprise.php" method="POST" class="m-0">
@@ -462,9 +474,19 @@
                     {
                         data: null,
                         render: function(data) {
+                            let badge = '';
+
+                            if (data.user_type == 16) {
+
+                                badge = '<span class="badge bg-primary ms-1">TE</span>';
+
+                            } else if (data.user_type == 29) {
+
+                                badge = '<span class="badge bg-success ms-1">F</span>';
+                            }
                             return `
                                 <p class="fs-6 mb-0">
-                                    ${data.firstname || ''} ${data.lastname || ''}
+                                    ${badge} ${data.firstname || ''} ${data.lastname || ''}
                                 </p>
                                 <p class="fs-6 mb-0">
                                     ${data.corporate_agency_id || ''}
