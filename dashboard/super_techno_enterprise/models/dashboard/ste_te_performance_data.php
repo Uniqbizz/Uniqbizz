@@ -80,7 +80,7 @@
                 cu_count DESC,
                 tc_count DESC
 
-            LIMIT 5
+            LIMIT 12
         ");
 
         $sql->execute([

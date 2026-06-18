@@ -22,7 +22,7 @@
             WHERE reference_no = :user_id
             AND status IN (1,3)
             ORDER BY register_date DESC
-            LIMIT 10
+            LIMIT 2
         ");
 
         $sqlTE->execute([
@@ -52,7 +52,7 @@
             WHERE reference_no = :user_id
             AND status IN (1,3)
             ORDER BY register_date DESC
-            LIMIT 10
+            LIMIT 2
         ");
 
         $sqlF->execute([
@@ -87,7 +87,7 @@
             WHERE ca.reference_no = :user_id
             AND cu.status IN (1,3)
             ORDER BY cu.register_date DESC
-            LIMIT 10
+            LIMIT 2
         ");
 
         $sqlCU->execute([
@@ -106,7 +106,7 @@
 
         /*
         |--------------------------------------------------------------------------
-        | Recruitment Commission
+        | TE Recruitment Commission
         |--------------------------------------------------------------------------
         */
 
@@ -117,7 +117,7 @@
             FROM techno_enterprise_payout
             WHERE ste_id = :user_id
             ORDER BY created_date DESC
-            LIMIT 10
+            LIMIT 2
         ");
 
         $sqlRecruitment->execute([
@@ -128,12 +128,40 @@
 
             $activities[] = [
                 'type' => 'recruitment',
-                'title' => 'Recruitment Commission Credited',
+                'title' => 'TE Recruitment Commission Credited',
                 'description' => '+ ₹ '.number_format($row['ste_amount']),
                 'date' => $row['created_date']
             ];
         }
+        /*
+        |--------------------------------------------------------------------------
+        | Francisee Recruitment Commission
+        |--------------------------------------------------------------------------
+        */
 
+        $sqlFRecruitment = $conn->prepare("
+            SELECT
+                ste_amount,
+                created_date
+            FROM techno_enterprise_payout
+            WHERE ste_id = :user_id
+            ORDER BY created_date DESC
+            LIMIT 2
+        ");
+
+        $sqlFRecruitment->execute([
+            ':user_id' => $userId
+        ]);
+
+        foreach($sqlFRecruitment->fetchAll(PDO::FETCH_ASSOC) as $row){
+
+            $activities[] = [
+                'type' => 'recruitment',
+                'title' => 'Franchisee Recruitment Commission Credited',
+                'description' => '+ ₹ '.number_format($row['ste_amount']),
+                'date' => $row['created_date']
+            ];
+        }
         /*
         |--------------------------------------------------------------------------
         | Booking Commission
@@ -147,7 +175,7 @@
             FROM product_payout
             WHERE bm_id = :user_id
             ORDER BY created_date DESC
-            LIMIT 10
+            LIMIT 2
         ");
 
         $sqlBooking->execute([
@@ -170,8 +198,8 @@
         |--------------------------------------------------------------------------
         */
 
-        usort($activities, function($a, $b){
-            return strtotime($b['date']) - strtotime($a['date']);
+        usort($activities, function ($a, $b) {
+            return strtotime($b['date']) <=> strtotime($a['date']);
         });
 
         $activities = array_slice($activities, 0, 5);

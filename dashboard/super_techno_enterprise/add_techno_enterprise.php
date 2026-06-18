@@ -380,7 +380,6 @@
                             <div class="row g-3">
                                 <!-- Profile Photo -->
                                 <div class="col-lg-2 col-md-4 col-6">
-                                    <input type="hidden" id="img_path1" value=""> <!-- image file path --> 
                                     <div class="upload-card" data-title="Profile Photo" data-index="1">
                                         <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file1">
                                         <div class="upload-content">
@@ -396,7 +395,6 @@
 
                                 <!-- Aadhaar -->
                                 <div class="col-lg-2 col-md-4 col-6">
-                                    <input type="hidden" id="img_path2" value="">
                                     <div class="upload-card" data-title="Aadhaar Card" data-index="2">
                                         <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file2">
                                         <div class="upload-content">
@@ -412,7 +410,6 @@
 
                                 <!-- PAN -->
                                 <div class="col-lg-2 col-md-4 col-6">
-                                    <input type="hidden" id="img_path3" value="">
                                     <div class="upload-card" data-title="PAN Card" data-index="3">
                                         <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file3">
                                         <div class="upload-content">
@@ -428,7 +425,6 @@
 
                                 <!-- Bank Passbook -->
                                 <div class="col-lg-2 col-md-4 col-6">
-                                    <input type="hidden" id="img_path4" value="">
                                     <div class="upload-card" data-title="Bank Passbook" data-index="4">
                                         <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file4">
                                         <div class="upload-content">
@@ -444,7 +440,6 @@
 
                                 <!-- Voting -->
                                 <div class="col-lg-2 col-md-4 col-6">
-                                    <input type="hidden" id="img_path11" value="">
                                     <div class="upload-card" data-title="Voting Card" data-index="11">
                                         <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file11">
                                         <div class="upload-content">
@@ -460,7 +455,6 @@
 
                                 <!-- Payment Proof -->
                                 <div class="col-lg-2 col-md-4 col-6">
-                                    <input type="hidden" id="img_path12" value="">
                                     <div class="upload-card" data-title="Payment Proof" data-index="12">
                                         <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file12">
                                         <div class="upload-content">
@@ -641,13 +635,6 @@
                         const title = card.dataset.title;
                         const index = card.dataset.index;
 
-                        const hiddenField = document.getElementById(
-                            'img_path' + index
-                        );
-
-                        // Store filename or path
-                        hiddenField.value = '../../uploading/'+file.name;
-
                         if (file.type.startsWith('image/')) {
 
                             const reader = new FileReader();
@@ -665,6 +652,7 @@
 
                                     preview.innerHTML = `
                                         <img src="${e.target.result}">
+                                        <input type="hidden" id="img_path${index}" value="../../uploading/${file.name}">
                                         <div class="file-title">
                                             ${title}
                                         </div>
@@ -699,9 +687,7 @@
                             card.appendChild(preview);
                         }
 
-                        console.log("File Input :", this.id);
-                        console.log("Hidden Field :", hiddenField.id);
-                        console.log("Selected File :", file.name);
+                        
 
                     });
 
@@ -775,7 +761,7 @@
 
                 // Calculate date 18 years ago
                 let maxDate = new Date(
-                    today.getFullYear() - 18,
+                    today.getFullYear() - 20,
                     today.getMonth(),
                     today.getDate()
                 );
@@ -791,7 +777,7 @@
                 const selectedDate = new Date(this.value);
 
                 const maxDate = new Date();
-                maxDate.setFullYear(maxDate.getFullYear() - 18);
+                maxDate.setFullYear(maxDate.getFullYear() - 20);
 
                 if (selectedDate > maxDate) {
                     alert('Age must be at least 18 years.');
