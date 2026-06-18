@@ -234,12 +234,12 @@ if($payoutmessage == 'NextPayout'){
             $sheet->getColumnDimension($column)->setAutoSize(true);
         }
 
-        header(
-            'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        );
-        header(
-            'Content-Disposition: attachment; filename="Next_Payout_List.xlsx"'
-        );
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Next_Payout_List.xlsx"');
         header('Cache-Control: max-age=0');
 
         $writer = new Xlsx($spreadsheet);
@@ -259,7 +259,6 @@ if($payoutmessage == 'TotalPayout'){
         WHERE ste_id = '".$user_id."'
         AND YEAR(created_date) = '".$payoutYear."'
         AND MONTH(created_date) = '".$payoutMonth."'
-        AND status='1'
     ");
 
     $stmt2->execute();
@@ -357,12 +356,12 @@ if($payoutmessage == 'TotalPayout'){
             $sheet->getColumnDimension($column)->setAutoSize(true);
         }
 
-        header(
-            'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        );
-        header(
-            'Content-Disposition: attachment; filename="Total_Payout_List.xlsx"'
-        );
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Total_Payout_List.xlsx"');
         header('Cache-Control: max-age=0');
 
         $writer = new Xlsx($spreadsheet);

@@ -130,10 +130,11 @@ if($payoutmessage == 'PreviousPayout'){
             $sheet->getColumnDimension($column)->setAutoSize(true);
         }
 
-        $fileName = 'Previous_Payout_List.xlsx';
-
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment; filename="'.$fileName.'"');
+        header('Content-Disposition: attachment; filename="Previous_Payout_List.xlsx"');
         header('Cache-Control: max-age=0');
 
         $writer = new Xlsx($spreadsheet);
@@ -256,7 +257,9 @@ if($payoutmessage == 'NextPayout'){
         foreach(range('A','I') as $column){
             $sheet->getColumnDimension($column)->setAutoSize(true);
         }
-
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="Next_Payout_List.xlsx"');
         header('Cache-Control: max-age=0');
@@ -385,7 +388,9 @@ if($payoutmessage == 'TotalPayout'){
         foreach(range('A','I') as $column){
             $sheet->getColumnDimension($column)->setAutoSize(true);
         }
-
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="Total_Payout_List.xlsx"');
         header('Cache-Control: max-age=0');
