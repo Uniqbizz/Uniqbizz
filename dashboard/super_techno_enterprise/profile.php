@@ -247,7 +247,7 @@
                             <div class="col-lg-6 col-md-6 colsm-12 col-12">
                                 <div class="card border rounded-4 cardHeight">
                                     <div class="d-flex justify-content-between p-3">
-                                        <p class="align-content-center fs-4 fw-bold mb-0"><i class="fa-solid fa-user fa-xl me-2" style="color: #43079e;"></i>Residential Address</p>
+                                        <p class="align-content-center fs-4 fw-bold mb-0"><i class="fa-solid fa-location-dot fa-xl me-2" style="color: #43079e;"></i>Residential Address</p>
                                         <p class="editBtn mb-0">Edit</p>
                                     </div>
                                     <hr class="text-muted border-3 mt-0 mx-3">
@@ -291,6 +291,115 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- card section3 -->
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 colsm-12 col-12">
+                                <div class="card border rounded-4 cardHeight">
+                                    <div class="d-flex justify-content-between p-3">
+                                        <p class="align-content-center fs-4 fw-bold mb-0"><i class="fa-solid fa-briefcase fa-xl me-2" style="color: #43079e;"></i>Professional Details</p>
+                                        <p class="editBtn mb-0">Edit</p>
+                                    </div>
+                                    <hr class="text-muted border-3 mt-0 mx-3">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6 pe-0">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0">Occupation</th>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0">At enum a official vel</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Designation</th>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0">Super Techno Enterprise</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Experience</th>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0">10+ Years</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Monthly Income</th>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0">&#8377;50,000</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6 ps-0">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Industry</th>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0">Travel</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Organisation / Business</th>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0">NA</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Professional Summary</th>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0">NA</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 colsm-12 col-12">
+                                <div class="card border rounded-4 cardHeight">
+                                    <div class="d-flex justify-content-between p-3">
+                                        <p class="align-content-center fs-4 fw-bold mb-0"><i class="fa-solid fa-user-tie fa-xl me-2" style="color: #43079e;"></i>Leadership Assessment</p>
+                                        <p class="align-content-center fs-4 fw-bold mb-0"><i class="fa-solid fa-spinner fa-xl me-2" style="color: #43079e;"></i></p>
+                                    </div>
+                                    <hr class="text-muted border-3 mt-0 mx-3">
+                                    <div class="row px-3">
+                                        <div class="col-lg-6 mb-2">
+                                            <div class="d-flex gap-3 leaderCard">
+                                                <div class="align-content-center">
+                                                    <i class="fa-solid fa-users fa-2xl" style="color: #ffa600;"></i>
+                                                </div>
+                                                <div class="align-content-center">
+                                                    <p class="fs-4 fw-bold text-dark mb-0">0</p>
+                                                    <p class="fs-6 text-muted mb-0">Team Capacity</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 mb-2">
+                                            <div class="d-flex gap-3 leaderCard">
+                                                <div class="align-content-center">
+                                                    <i class="fa-solid fa-user-tie fa-2xl" style="color: #ffa600;"></i>
+                                                </div>
+                                                <div class="align-content-center">
+                                                    <p class="fs-4 fw-bold text-dark mb-0">NA</p>
+                                                    <p class="fs-6 text-muted mb-0">Leadership</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 mb-2">
+                                            <div class="d-flex gap-3 leaderCard">
+                                                <div class="align-content-center">
+                                                    <i class="fa-solid fa-bullhorn fa-2xl" style="color: #ffa600;"></i>
+                                                </div>
+                                                <div class="align-content-center">
+                                                    <p class="fs-4 fw-bold text-dark mb-0">NA</p>
+                                                    <p class="fs-6 text-muted mb-0">Public Speaking</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 mb-2">
+                                            <div class="d-flex gap-3 leaderCard">
+                                                <div class="align-content-center">
+                                                    <i class="fa-solid fa-handshake fa-2xl" style="color: #ffa600;"></i>
+                                                </div>
+                                                <div class="align-content-center">
+                                                    <p class="fs-4 fw-bold text-dark mb-0">NA</p>
+                                                    <p class="fs-6 text-muted mb-0">Networking</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

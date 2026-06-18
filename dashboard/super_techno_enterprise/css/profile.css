@@ -112,6 +112,11 @@
     max-height: 500px !important;
     height: 320px;
 }
+.leaderCard  {
+    border: 1px solid #dfdede;
+    border-radius: 10px;
+    padding: 10px;
+}
 @media (max-width: 1120px) {
     .profileBackgroundImg {
         height: 300px;
