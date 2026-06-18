@@ -511,7 +511,7 @@ if ($user_type_id == '16') {
 				} else if($reference_id == "ST"){
 					$STE_message="STE - " . $STE_name . " " . $STE_id . " earned " . $STECommiAmt . "/- on recruiting Techno Enterprise. Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " ".$convertedMark.". ";
 					$ETE_message="ETE - " . $ETE_name . " " . $ETE_id . " earned " . $ETECommiAmt . "/- on recruiting Techno Enterprise. Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " ".$convertedMark.". With Reference of Super Techno Enterprise ".$STE_name." ".$STE_id.".";
-					$CTE_message="CTE - " . $STE_name . " " . $STE_id . " earned " . $STECommiAmt . "/- on recruiting Techno Enterprise. Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " ".$convertedMark.". With Reference of Executive Techno Enterprise ".$ETE_name." ".$ETE_id.".";
+					$CTE_message="CTE - " . $CTE_name . " " . $CTE_id . " earned " . $CTECommiAmt . "/- on recruiting Techno Enterprise. Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " ".$convertedMark.". With Reference of Executive Techno Enterprise ".$ETE_name." ".$ETE_id.".";
 					$TE_message="Techno Enterprise - "  .$name." ".$uid. " has join with reference of STE " .$STE_name." ".$STE_id.". Recruitment Fee - Rs.".$amount."/-";
 					$sqlTEPayout=$conn->prepare("
 									INSERT INTO techno_enterprise_payout (cte_id, cte_message, cte_amount, cte_status, ete_id, 
@@ -1147,7 +1147,7 @@ if ($user_type_id == '16') {
 					$message_mf=$STE_message="STE - " . $STE_name . " " . $STE_id . " earned " . $STECommiAmt . "/- on recruiting Techno Enterprise. Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " ".$convertedMark.". ";
 					$mfCommiAmt=$STECommiAmt;
 					$ref_manager=$ETE_id;
-					$message_ref=$ETE_message="STE - " . $ETE_name . " " . $ETE_id . " earned " . $ETECommiAmt . "/- on recruiting Techno Enterprise. Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " ".$convertedMark.". With Reference of Super Techno Enterprise ".$STE_name." ".$STE_id.".";
+					$message_ref=$ETE_message="ETE - " . $ETE_name . " " . $ETE_id . " earned " . $ETECommiAmt . "/- on recruiting Techno Enterprise. Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " ".$convertedMark.". With Reference of Super Techno Enterprise ".$STE_name." ".$STE_id.".";
 					$refCommiAmt=$ETECommiAmt;
 					$CTE_message="CTE - " . $CTE_name . " " . $CTE_id . " earned " . $CTECommiAmt . "/- on recruiting Techno Enterprise. Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " ".$convertedMark.". With Reference of Executive Techno Enterprise ".$ETE_name." ".$ETE_id.".";
 					$message_sf="Franchisee - "  .$name." ".$uid. " has join with reference of STE " .$STE_name." ".$STE_id.". Recruitment Fee - Rs.".$amount."/-"; // check veriable name
