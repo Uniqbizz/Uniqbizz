@@ -646,7 +646,7 @@
                         );
 
                         // Store filename or path
-                        hiddenField.value = file.name;
+                        hiddenField.value = '../../uploading/'+file.name;
 
                         if (file.type.startsWith('image/')) {
 

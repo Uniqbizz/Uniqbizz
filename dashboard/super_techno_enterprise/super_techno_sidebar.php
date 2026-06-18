@@ -54,11 +54,11 @@
                                     <span data-key="recruitment-payout">Franchisee Contracting Payout</span>
                                 </a>
                             </li>
-                            <li class="nav-item <?php echo ($current_page == 'recruitment_payout.php') ? 'active' : ''; ?>">
+                            <!-- <li class="nav-item <?php //echo ($current_page == 'recruitment_payout.php') ? 'active' : ''; ?>">
                                 <a href="recruitment_payout.php" class="nav-link menu-link">
                                     <span data-key="recruitment-payout">TC Recruitment Payout</span>
                                 </a>
-                            </li>
+                            </li> -->
                             <li class="nav-item <?php echo ($current_page == 'holiday_payout.php') ? 'active' : ''; ?>">
                                 <a href="holiday_payout.php" class="nav-link menu-link">
                                     <span data-key="holiday-payout">Holiday Account Payout</span>

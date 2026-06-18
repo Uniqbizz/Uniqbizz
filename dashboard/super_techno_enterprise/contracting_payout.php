@@ -61,7 +61,9 @@
         <link href="../assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
         <!-- Responsive datatable examples -->
         <link href="../assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css" /> 
+        <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css" />
+        <!-- FontAwesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" /> 
     </head>
     <body>
 
@@ -109,14 +111,14 @@
                                 <div class="col-12"> <!-- Page title -->
                                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                                         <h4 class="mb-sm-0">TE Contracting Payout</h4>
-                                        <div class="page-title-right">
+                                        <!-- <div class="page-title-right">
                                             <ol class="breadcrumb m-0">
                                                 <li class="breadcrumb-item">
                                                     <a href="view_$columnDesignation.php">View</a>
                                                 </li>
                                                 <li class="breadcrumb-item active">Payout</li>
                                             </ol>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div> <!-- page title end -->
                                 <div class="card">

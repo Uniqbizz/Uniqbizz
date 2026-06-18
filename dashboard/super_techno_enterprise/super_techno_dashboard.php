@@ -137,7 +137,7 @@
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Total Earnings</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="total_com">&#8377; 0</h4>
-                                            <a href="recruitment_payout.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <a href="contracting_payout.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>

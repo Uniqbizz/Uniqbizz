@@ -648,7 +648,16 @@
                         );
 
                         // Store filename or path
-                        hiddenField.value = file.name;
+                        console.log('Index:', index);
+                        console.log('Hidden Field:', hiddenField);
+                        console.log('File:', file);
+
+                        if(hiddenField){
+                            hiddenField.value = file.name;
+                            console.log('Value Set:', hiddenField.value);
+                        }else{
+                            console.log('Hidden field not found');
+                        }
 
                         if (file.type.startsWith('image/')) {
 
@@ -661,7 +670,7 @@
                                 let preview = card.querySelector('.preview-wrapper');
 
                                 if (!preview) {
-
+                                    $()
                                     preview = document.createElement('div');
                                     preview.className = 'preview-wrapper';
 
@@ -742,7 +751,12 @@
                     `;
 
                     card.appendChild(preview);
-                    $('.file-input').prop('disabled', true);
+                    const status =<?= $status ?>;
+                    if (status == 4) {
+                        $('.file-input').prop('disabled', false);
+                    }else{
+                        $('.file-input').prop('disabled', true);
+                    }
 
                 } else {
 
