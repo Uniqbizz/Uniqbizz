@@ -128,7 +128,7 @@
                             </div>
                         </div>
                         <!-- card section1 -->
-                        <div class="card border rounded-4">
+                        <div class="card border rounded-4 mb-3">
                             <div class="row cardSection1 d-flex justify-content-around">
                                 <div class="col-lg-2 col-md-3 col-sm-4 col-6">
                                     <div class="d-flex gap-2 py-3 px-1">
@@ -182,6 +182,115 @@
                                         <div class="align-content-center">
                                             <p class="fs-6 text-dark mb-0">Leadership Score</p>
                                             <p class="fs-5 fw-bold text-dark mb-0">NA</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- card section2 -->
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 colsm-12 col-12">
+                                <div class="card border rounded-4 cardHeight">
+                                    <div class="d-flex justify-content-between p-3">
+                                        <p class="align-content-center fs-4 fw-bold mb-0"><i class="fa-solid fa-user fa-xl me-2" style="color: #43079e;"></i>Personal Information</p>
+                                        <p class="editBtn mb-0">Edit</p>
+                                    </div>
+                                    <hr class="text-muted border-3 mt-0 mx-3">
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-5 pe-0">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0">Frist Name</th>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0">Uriel</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Last Name</th>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0">Roberts</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Date of Birth</th>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0">20-10-1990</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Gender</th>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0">Male</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-7 ps-0">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Mobile Number</th>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0">9812334568</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Email Address</th>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0">goswamiab@gmail.com</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Nationality</th>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0">Indian</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Marital Status</th>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0">Married</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 colsm-12 col-12">
+                                <div class="card border rounded-4 cardHeight">
+                                    <div class="d-flex justify-content-between p-3">
+                                        <p class="align-content-center fs-4 fw-bold mb-0"><i class="fa-solid fa-user fa-xl me-2" style="color: #43079e;"></i>Residential Address</p>
+                                        <p class="editBtn mb-0">Edit</p>
+                                    </div>
+                                    <hr class="text-muted border-3 mt-0 mx-3">
+                                    <div class="row">
+                                        <div class="mx-3">
+                                            <p class="text-muted mb-1">Address</p>
+                                            <p class="text-dark fw-bolder mb-2">Lal Darwaja, Salabatpura</p>
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-5 pe-0">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0">City</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">State</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Country</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Pincode</th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-7 ps-0">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">Surat</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">Gujarat</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">India</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">441460</th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>

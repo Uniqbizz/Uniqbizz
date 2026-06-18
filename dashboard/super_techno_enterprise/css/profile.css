@@ -89,6 +89,29 @@
 .icon5 i {
     color: #e65870;
 }
+.editBtn {
+    background-color: #fff;
+    color: #43079e;
+    font-weight: 800;
+    padding: 6px 15px;
+    border: 2px solid #dfdede;
+    border-radius: 8px;
+}
+.editBtn:hover {
+    background-color: #43079e;
+    color: #fff;
+    font-weight: 800;
+    padding: 6px 15px;
+    border: 2px solid #43079e;
+    border-radius: 8px;
+}
+.fontSize1 {
+    font-size: 10px;
+}
+.cardHeight {
+    max-height: 500px !important;
+    height: 320px;
+}
 @media (max-width: 1120px) {
     .profileBackgroundImg {
         height: 300px;
