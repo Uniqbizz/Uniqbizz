@@ -412,15 +412,26 @@ function submitEditForm(actionType) {
     //radio button approve/reject Store data in array format
     function getVerificationStatus() {
         let verificationStatus = {};
-        $("input[type='radio']:checked").each(function () {
+
+        $("input[type='radio'][name^='verification_status']").each(function () {
             let name = $(this).attr("name");
-            if (name.startsWith("verification_status")) {
-                let match = name.match(/\[(.*?)\]/);
-                if (match && match[1]) {
-                    verificationStatus[match[1]] = $(this).val();
+            let match = name.match(/\[(.*?)\]/);
+
+            if (match && match[1]) {
+                let field = match[1];
+
+                // Initialize field once
+                if (!(field in verificationStatus)) {
+                    verificationStatus[field] = 'pending';
+                }
+
+                // If this radio is checked, update its value
+                if ($(this).is(':checked')) {
+                    verificationStatus[field] = $(this).val();
                 }
             }
         });
+
         return verificationStatus;
     }
 
