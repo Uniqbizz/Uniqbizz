@@ -53,7 +53,7 @@
         <link href="../assets/css/custom.min.css" rel="stylesheet" type="text/css" />
             <!-- custom Css developer-->
         <link rel="stylesheet" href="../assets/css/custom.css" />
-        <link rel="stylesheet" href="../assets/css/super_techno_enterprise.css" />
+        <link rel="stylesheet" href="../assets/css/executive_techno_enterprise.css" />
 
         <link href="../payout/payout.css" rel="stylesheet" type="text/css" />
 
@@ -69,7 +69,7 @@
         <!-- Begin page -->
         <div id="layout-wrapper">
 
-            <?php include_once 'super_techno_header.php'; ?>
+            <?php include_once 'executive_techno_header.php'; ?>
 
             <!-- removeNotificationModal -->
             <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
@@ -97,7 +97,7 @@
             </div><!-- /.modal -->
             <!-- ========== App Menu ========== -->
 
-            <?php include_once 'super_techno_sidebar.php'; ?>
+            <?php include_once 'executive_techno_sidebar.php'; ?>
 
             <!-- ============================================================== -->
             <!-- Start right Content here -->
@@ -110,14 +110,14 @@
                                 <div class="col-12"> <!-- Page title -->
                                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                                         <h4 class="mb-sm-0">Product Payout</h4>
-                                        <div class="page-title-right">
+                                        <!-- <div class="page-title-right">
                                             <ol class="breadcrumb m-0">
                                                 <li class="breadcrumb-item">
-                                                    <a href="super_techno_dashboard.php">Dashboard</a>
+                                                    <a href="executive_techno_dashboard.php">Dashboard</a>
                                                 </li>
                                                 <li class="breadcrumb-item active">Payout</li>
                                             </ol>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div> <!-- page title end -->
                                 <div class="card">
@@ -339,7 +339,7 @@
                         </div>
                     </div> <!-- container-fluid -->
                 </div><!-- End Page-content -->
-                <?php include_once "super_techno_footer.php" ?>
+                <?php include_once "executive_techno_footer.php" ?>
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
 

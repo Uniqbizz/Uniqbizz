@@ -50,7 +50,7 @@
 
                 FROM corporate_agency ca
 
-                LEFT JOIN super_techno_enterprise ste
+                INNER JOIN super_techno_enterprise ste
                     ON ca.reference_no = ste.super_techno_enterprise_id
 
                 WHERE ca.reference_no = :user_id
@@ -79,7 +79,7 @@
 
                 FROM sub_franchisee sf
 
-                LEFT JOIN super_techno_enterprise ste
+                INNER JOIN super_techno_enterprise ste
                     ON sf.reference_no = ste.super_techno_enterprise_id
 
                 WHERE sf.reference_no = :user_id

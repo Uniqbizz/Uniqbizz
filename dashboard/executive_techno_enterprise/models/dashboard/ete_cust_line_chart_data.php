@@ -23,12 +23,15 @@ try {
             ON cu.ta_reference_no = ta.ca_travelagency_id
         INNER JOIN corporate_agency corp
             ON ta.reference_no = corp.corporate_agency_id
-        WHERE corp.reference_no = :user_id
+        INNER JOIN super_techno_enterprise ste
+            ON corp.reference_no = ste.super_techno_enterprise_id
+        WHERE ste.reference_no = :user_id
         AND cu.status IN (1,3)
         AND ta.status IN (1,3)
         AND corp.status IN (1,3)
+        AND ste.status IN (1,3)
 
-        UNION
+        UNION ALL
 
         SELECT YEAR(cu.register_date) AS year
         FROM ca_customer cu
@@ -36,10 +39,26 @@ try {
             ON cu.ta_reference_no = ta.ca_travelagency_id
         INNER JOIN sub_franchisee sf
             ON ta.reference_no = sf.sub_franchisee_id
-        WHERE sf.reference_no = :user_id
+        INNER JOIN super_techno_enterprise st
+            ON sf.reference_no = st.super_techno_enterprise_id
+        WHERE st.reference_no = :user_id
         AND cu.status IN (1,3)
         AND ta.status IN (1,3)
         AND sf.status IN (1,3)
+        AND st.status IN (1,3)
+
+        UNION ALL
+
+        SELECT YEAR(cu.register_date) AS year
+        FROM ca_customer cu
+        INNER JOIN institution_branch_manager ibr
+            ON cu.ta_reference_no = ibr.institution_branch_manager_id
+        INNER JOIN institution i
+            ON ibr.reference_no = i.institution_id
+        WHERE i.reference_no = :user_id
+        AND cu.status IN (1,3)
+        AND ibr.status IN (1,3)
+        AND i.status IN (1,3)
 
         ORDER BY year DESC;
     ");
@@ -86,6 +105,19 @@ try {
             AND cu.status IN (1,3)
             AND ta.status IN (1,3)
             AND sf.status IN (1,3)
+
+            UNION ALL
+
+            SELECT YEAR(cu.register_date) AS year
+            FROM ca_customer cu
+            INNER JOIN institution_branch_manager ibr
+                ON cu.ta_reference_no = ibr.institution_branch_manager_id
+            INNER JOIN institution i
+                ON ibr.reference_no = i.institution_id
+            WHERE i.reference_no = :user_id
+            AND cu.status IN (1,3)
+            AND ibr.status IN (1,3)
+            AND i.status IN (1,3)
         ) x
         GROUP BY MONTH(register_date)
         ORDER BY MONTH(register_date)

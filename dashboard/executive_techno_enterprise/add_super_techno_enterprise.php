@@ -1,14 +1,5 @@
 <?php
     include_once (__DIR__.'/../dashboard_user_details.php');
-    if ($userType == '34') {
-        $base_url_sidebar = "/ca.uniqbizz.com/dashboard/super_techno_enterprise/";
-        $base_url_asset = "/ca.uniqbizz.com/dashboard/";
-        $home_url = "/ca.uniqbizz.com/";
-    }else{
-        // $base_url_sidebar = "/ca.uniqbizz.com/dashboard/customer_dashboard/";
-        $base_url_asset = "/ca.uniqbizz.com/dashboard/";
-        $home_url = "/ca.uniqbizz.com/"; 
-    }
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -57,12 +48,7 @@
         <div id="layout-wrapper">
 
             <?php 
-                if ($userType == 34) {
-                    include_once(__DIR__ . '/executive_techno_header.php');
-                }else{
-
                     include_once 'executive_techno_header.php'; 
-                }
             ?>
 
             <!-- removeNotificationModal -->
@@ -91,12 +77,7 @@
             </div><!-- /.modal -->
             <!-- ========== App Menu ========== -->
             <?php 
-                if ($userType == 34) {
-                    include_once(__DIR__ . '/executive_techno_sidebar.php');
-                }else{
-
                     include_once 'executive_techno_sidebar.php'; 
-                }
             ?>
 
             <!-- ============================================================== -->
@@ -269,8 +250,9 @@
 								<div class="col-lg-3">
 									<div class="row">
 										<div class="col-lg-12">
-											<div class="upload-card" data-title="Profile Photo">
-												<input type="file" class="file-input" accept="image/*,.pdf">
+											<div class="upload-card" data-title="Profile Photo" data-index="1">
+												<input type="hidden" id="img_path1" value="">
+												<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file1">
 												<div class="upload-content">
 													<div class="upload-icon">
 														<i class="fa-solid fa-user"></i>
@@ -583,8 +565,9 @@
 								<div class="col-lg-3">
 									<div class="row">
 										<div class="col-lg-12">
-											<div class="upload-card" data-title="Nominee Profile Photo">
-												<input type="file" class="file-input" accept="image/*,.pdf">
+											<div class="upload-card" data-title="Nominee Profile Photo" data-index="13">
+												<input type="hidden" id="img_path13" value="">
+												<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file13">
 												<div class="upload-content">
 													<div class="upload-icon">
 														<i class="fa-solid fa-user"></i>
@@ -654,8 +637,9 @@
 								<div class="row g-3">
 									<!-- Aadhaar -->
 									<div class="col-lg-4 col-md-4 col-12">
-										<div class="upload-card" data-title="Aadhaar Card">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+										<div class="upload-card" data-title="Aadhaar Card" data-index="2">
+											<input type="hidden" id="img_path2" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file2">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-regular fa-id-card"></i>
@@ -669,8 +653,9 @@
 
 									<!-- PAN -->
 									<div class="col-lg-4 col-md-4 col-12">
-										<div class="upload-card" data-title="PAN Card">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+										<div class="upload-card" data-title="PAN Card" data-index="3">
+											<input type="hidden" id="img_path3" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file3">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-regular fa-credit-card"></i>
@@ -684,8 +669,9 @@
 
 									<!-- Bank Passbook -->
 									<div class="col-lg-4 col-md-4 col-12">
-										<div class="upload-card" data-title="Bank Passbook">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+										<div class="upload-card" data-title="Bank Passbook" data-index="4">
+											<input type="hidden" id="img_path4" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file4">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-building-columns"></i>
@@ -699,8 +685,9 @@
 
 									<!-- Resume -->
 									<div class="col-lg-4 col-md-4 col-12">
-										<div class="upload-card" data-title="Resume / CV">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+										<div class="upload-card" data-title="Resume / CV" data-index="5">
+											<input type="hidden" id="img_path5" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file5">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-regular fa-address-card"></i>
@@ -713,8 +700,9 @@
 									</div>
 									<!-- Address Proof -->
 									<div class="col-lg-4 col-md-4 col-12">
-										<div class="upload-card" data-title="Address Proof">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+										<div class="upload-card" data-title="Address Proof" data-index="6">
+											<input type="hidden" id="img_path6" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file6">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-regular fa-address-card"></i>
@@ -728,8 +716,9 @@
 
 									<!-- Professional Profile -->
 									<div class="col-lg-4 col-md-4 col-12">
-										<div class="upload-card" data-title="Professional Profile">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+										<div class="upload-card" data-title="Professional Profile" data-index="7">
+											<input type="hidden" id="img_path7" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file7">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-file-invoice"></i>
@@ -742,8 +731,9 @@
 									</div>
 									<!-- Business Profile -->
 									<div class="col-lg-4 col-md-4 col-12">
-										<div class="upload-card" data-title="Business Profile">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+										<div class="upload-card" data-title="Business Profile" data-index="8">
+											<input type="hidden" id="img_path8" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file8">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-file-invoice"></i>
@@ -756,8 +746,9 @@
 									</div>
 									<!-- Income Proof -->
 									<div class="col-lg-4 col-md-4 col-12">
-										<div class="upload-card" data-title="Income Proof">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+										<div class="upload-card" data-title="Income Proof" data-index="9">
+											<input type="hidden" id="img_path9" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file9">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-file-invoice"></i>
@@ -770,8 +761,9 @@
 									</div>
 									<!-- Other Document -->
 									<div class="col-lg-4 col-md-4 col-12">
-										<div class="upload-card" data-title="Other Document">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+										<div class="upload-card" data-title="Other Document" data-index="10">
+											<input type="hidden" id="img_path10" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file10">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-file-invoice"></i>
@@ -789,11 +781,12 @@
                             <div class="col-lg-12">
                                 <div class="d-flex justify-content-end gap-4 submitBtnBackground">
                                     <button type="button" class="btn actionBtn cancelBtn mb-2">Cancel</button>
-                                    <button type="button" class="btn actionBtn draftBtn mb-2">Save Draft</button>
-                                    <button type="submit" class="btn actionBtn submitBtn mb-2">
+                                    <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftAdd">Save Draft</button>
+                                    <button type="submit" class="btn actionBtn submitBtn mb-2" id="addSuperTechnoEnterprise">
                                         <i class="fa-regular fa-paper-plane me-2"></i>
-                                        Submit Techno Enterprise
+                                        Submit Techno Enterprise | Franchisee
                                     </button>
+
                                 </div>
                             </div>
                         </div>
@@ -802,12 +795,7 @@
 				</div>
 				<!-- End Page-content -->
                 <?php 
-                    if ($userType == 34) {
-                        include_once(__DIR__ . '/executive_techno_footer.php');
-                    }else{
-
                         include_once "executive_techno_footer.php"; 
-                    }
                 ?>
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
@@ -834,164 +822,189 @@
         <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
         <!-- !-- materialdesign icon js- -->
         <script src="../assets/js/pages/remix-icons-listing.js"></script>
-        <?php 
-            //if ($userType == 34) {
-        ?>
-        <!-- Vector map-->
-        <script src="<?= $base_url ?>../assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
-        <script src="<?= $base_url ?>../assets/libs/jsvectormap/maps/world-merc.js"></script>
-
-        <!--Swiper slider js-->
-        <script src="<?= $base_url ?>../assets/libs/swiper/swiper-bundle.min.js"></script>
-        <?php
-           // }
-        ?>
+        <script src="js/super_techno_enterprise.js"></script>
 
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
+		<script src="../../uploading/uploadTechnoDashboard.js"></script>
         <!-- dialer logic scripts -->
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
+        
+         <script>
+            
+            function bindUploadEvents() {
 
-                const callBtn = document.getElementById("callBtn");
+                document.querySelectorAll('.file-input').forEach(input => {
 
-                if (callBtn) {
-                    callBtn.addEventListener("click", function(e) {
+                    if (input.dataset.bound) return;
 
-                        let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                    input.dataset.bound = "true";
 
-                        if (!isMobile) {
-                            e.preventDefault();
+                    input.addEventListener('change', function () {
 
-                            alert("📞 Calling works only on mobile devices.\nPlease dial 8010892265 from your phone.");
-                            location.reload();
+                        const file = this.files[0];
 
-                            // Optional clipboard copy (safe fallback)
-                            if (navigator.clipboard) {
-                                navigator.clipboard.writeText("8010892265");
-                            }
-                        }
-                    });
-                }
+                        if (!file) return;
 
-            });
-        </script>
+                        const card = this.closest('.upload-card');
+                        const title = card.dataset.title;
+						const index = card.dataset.index;
 
-        <script>
-            var modal = document.getElementById('staticBackdrop');
+						const hiddenField = document.getElementById('img_path' + index);
 
-            // Store the element that opened the modal
-            let lastFocusedElement;
+						if (hiddenField) {
+							hiddenField.value = '../../uploading/'+file.name;
+						}
 
-            document.addEventListener('click', function(e) {
-                if (e.target.closest('[data-bs-toggle="modal"]')) {
-                    lastFocusedElement = e.target;
-                }
-            });
+                        if (file.type.startsWith('image/')) {
 
-            modal.addEventListener('hidden.bs.modal', function () {
-                if (lastFocusedElement) {
-                    lastFocusedElement.focus();
-                } else {
-                    document.body.focus();
-                }
-            });
-        </script>
-        <!-- end dialer logic scripts -->
-        <script>
-            $('#payment_fee').on('change', function(){
-                var payment_fee = $(this).val();
-                if(payment_fee == "FOC"){
-                    $("#paymentModeBlock").addClass("d-none");
-                    $("#paymentFields").addClass("d-none");
-                    $("#payProof").addClass("d-none");
-                }else if(payment_fee == "null"){
-                    $("#paymentModeBlock").addClass("d-none");
-                    $("#paymentFields").addClass("d-none");
-                    $("#payProof").addClass("d-none");
-                }else{
-                    $("#paymentModeBlock").removeClass("d-none");
-                    $("#paymentFields").removeClass("d-none");
-                    $("#payProof").removeClass("d-none");
-                }
-            });
+                            const reader = new FileReader();
 
-            $('#paymentMode').on('click', function(){
-                var paymentMode = $(".payment:checked").val();
-                if(paymentMode == "cheque"){
-                    $("#chequeOpt").removeClass("d-none");
-                    $("#onlineOpt").addClass("d-none");
-                }else if(paymentMode == "online"){
-                    $("#onlineOpt").removeClass("d-none");
-                    $("#chequeOpt").addClass("d-none");
-                } else {
-                    $("#chequeOpt").addClass("d-none");
-                    $("#onlineOpt").addClass("d-none");
-                }
-            });
-        </script>
-        <!-- radio button background color on selected -->
-        <script>
-            document.querySelectorAll('.payment').forEach(radio => {
-                radio.addEventListener('change', function () {
+                            reader.onload = function (e) {
 
-                    // Remove active class from all labels
-                    document.querySelectorAll('.payment-label').forEach(label => {
-                        label.classList.remove('ptMode');
-                    });
+                                card.querySelector('.upload-content, .preview-wrapper, .pdf-preview')?.remove();
 
-                    // Add active class to selected radio's label
-                    this.closest('label').classList.add('ptMode');
-                });
-            });
-        </script>
-        <script>
-            document.querySelectorAll(".file-input").forEach(input => {
-                input.addEventListener("change", function () {
-                    const file = this.files[0];
-                    if (!file) return;
-                    const card = this.closest(".upload-card");
-                    const title = card.dataset.title;
-                    if (file.type.startsWith("image/")) {
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            card.innerHTML = `
-                                <input type="file" class="file-input" accept="image/*,.pdf">
-                                <div class="preview-wrapper">
-                                    <img src="${e.target.result}">
-                                    <div class="file-title">
-                                        ${title}
-                                    </div>
-                                </div>
-                            `;
-                            bindUploadEvents();
-                        };
-                        reader.readAsDataURL(file);
-                    } else {
-                        card.innerHTML = `
-                            <input type="file" class="file-input" accept="image/*,.pdf">
-                            <div class="pdf-preview">
+                                let preview = card.querySelector('.preview-wrapper');
+
+                                if (!preview) {
+
+                                    preview = document.createElement('div');
+                                    preview.className = 'preview-wrapper';
+
+                                    preview.innerHTML = `
+                                        <img src="${e.target.result}">
+                                        
+                                        <div class="file-title">
+                                            ${title}
+                                        </div>
+                                    `;
+
+                                    card.appendChild(preview);
+
+                                } else {
+
+                                    preview.querySelector('img').src = e.target.result;
+                                }
+                            };
+
+                            reader.readAsDataURL(file);
+
+                        } else {
+
+                            card.querySelector('.upload-content, .preview-wrapper, .pdf-preview')?.remove();
+
+                            let preview = document.createElement('div');
+
+                            preview.className = 'pdf-preview';
+
+                            preview.innerHTML = `
                                 <i class="fa-solid fa-file-pdf"></i>
                                 <p class="mt-2 mb-0">${file.name}</p>
                                 <div class="file-title">
                                     ${title}
                                 </div>
-                            </div>
-                        `;
-                        bindUploadEvents();
-                    }
-                });
-            });
-            function bindUploadEvents() {
-                document.querySelectorAll(".file-input").forEach(input => {
-                    if (input.dataset.bound) return;
-                    input.dataset.bound = "true";
-                    input.addEventListener("change", function () {
-                        const event = new Event("change");
-                        this.dispatchEvent(event);
+                            `;
+
+                            card.appendChild(preview);
+                        }
+
+                        
+
                     });
+
                 });
+
             }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                bindUploadEvents();
+            });
+            $('#country').on('change', function(){
+                var countryID = $(this).val();
+                if(countryID){
+                    $.ajax({
+                        type:'POST',
+                        url:'../address/countrydata.php',
+                        data:'country_id='+countryID,
+                        success:function(htmll){
+                            $('#mystate').html(htmll); 
+                            $('#city').html('<option value="">Select state first</option>'); 
+                        }
+                    }); 
+                }else{
+                    $('#mystate').html('<option value="">Select country first</option>');
+                    $('#city').html('<option value="">Select state first</option>');
+                    $('#pin').val('');   
+                }
+            });
+                
+            $('#mystate').on('change', function(){
+                var stateID = $(this).val();
+                if(stateID){
+                    $.ajax({
+                        type:'POST',
+                        url:'../address/countrydata.php',
+                        data:'state_id='+stateID,
+                        success:function(html){
+                            $('#city').html(html);
+                        }
+                    }); 
+                }else{
+                    $('#city').html('<option value="">Select state first</option>');
+                    $('#pin').val('');   
+                }
+            });
+
+            $('#city').on('change', function(){
+                var cityID = $(this).val();
+                if(cityID){
+                    $.ajax({
+                        type:'POST',
+                        url:'../address/pincode.php',
+                        data:'city_id='+cityID,
+                        success:function(response){
+                            $('#pin').val(response); 
+                        }
+                    }); 
+                }else{
+                    $('#city').html('<option value="">Select state first</option>');
+                    $('#pin').val('');
+                }
+            });
+            $(document).on('input', '#pin', function () {
+                this.value = this.value.replace(/\D/g, '');
+            });
+            let today = new Date();
+
+            $(document).ready(function () {
+
+                let today = new Date();
+
+                // Calculate date 18 years ago
+                let maxDate = new Date(
+                    today.getFullYear() - 20,
+                    today.getMonth(),
+                    today.getDate()
+                );
+
+                // Format YYYY-MM-DD
+                let formattedDate = maxDate.toISOString().split('T')[0];
+
+                $('#dob').attr('max', formattedDate);
+
+            });
+            $('#dob').on('change', function () {
+
+                const selectedDate = new Date(this.value);
+
+                const maxDate = new Date();
+                maxDate.setFullYear(maxDate.getFullYear() - 20);
+
+                if (selectedDate > maxDate) {
+                    alert('Age must be at least 18 years.');
+                    $(this).val('');
+                }
+
+            });
         </script>
         <!-- Buttons -->
         <script>
@@ -1000,18 +1013,18 @@
                     window.history.back();
                 }
             });
-            document.querySelector(".draftBtn").addEventListener("click", function () {
-                alert("Draft Saved Successfully");
-                // AJAX call here
-                // saveDraft();
-            });
-            document.querySelector(".submitBtn").addEventListener("click", function (e) {
-                // Remove if button is inside form
-                e.preventDefault();
-                alert("Techno Enterprise Submitted Successfully");
-                // Submit form
-                // document.getElementById('yourForm').submit();
-            });
+            // document.querySelector(".draftBtn").addEventListener("click", function () {
+            //     alert("Draft Saved Successfully");
+            //     // AJAX call here
+            //     // saveDraft();
+            // });
+            // document.querySelector(".submitBtn").addEventListener("click", function (e) {
+            //     // Remove if button is inside form
+            //     e.preventDefault();
+            //     alert("Techno Enterprise Submitted Successfully");
+            //     // Submit form
+            //     // document.getElementById('yourForm').submit();
+            // });
         </script>
     </body>
 </html>

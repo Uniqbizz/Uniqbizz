@@ -47,37 +47,94 @@
 
         /*
         |--------------------------------------------------------------------------
-        | TECHNO ENTERPRISE
+        | TECHNO ENTERPRISE | FRANCHISEE
         |--------------------------------------------------------------------------
         */
 
         if ($type == 'te') {
 
             $sql = "
-                SELECT
-                    ca.corporate_agency_id AS id,
-                    CONCAT(ca.firstname,' ',ca.lastname) AS full_name,
-                    CONCAT(ste.firstname,' ',ste.lastname) AS reference_name,
-                    ste.super_techno_enterprise_id AS reference_id,
-                    ca.contact_no,
-                    ca.email,
-                    ca.register_date,
-                    ca.amount,
-                    CASE
-                        WHEN ca.status = 1 THEN 'Active'
-                        WHEN ca.status = 3 THEN 'Inactive'
-                        ELSE 'Rejected'
-                    END AS status
-                FROM corporate_agency ca
-                LEFT JOIN super_techno_enterprise ste
-                    ON ca.reference_no = ste.super_techno_enterprise_id
-                WHERE ca.reference_no = :user_id
-                AND ca.status IN (1,3)
-                $whereDate
-                ORDER BY ca.id DESC
+                SELECT *
+                FROM (
+
+                    SELECT
+                        ca.id AS row_id,
+                        ca.corporate_agency_id AS id,
+
+                        CONCAT(ca.firstname,' ',ca.lastname) AS full_name,
+
+                        CONCAT(
+                            COALESCE(ste.firstname,''),
+                            ' ',
+                            COALESCE(ste.lastname,'')
+                        ) AS reference_name,
+
+                        ste.super_techno_enterprise_id AS reference_id,
+
+                        ca.contact_no,
+                        ca.email,
+                        ca.register_date,
+                        ca.amount,
+
+                        CASE
+                            WHEN ca.status = 1 THEN 'Active'
+                            WHEN ca.status = 3 THEN 'Inactive'
+                            ELSE 'Rejected'
+                        END AS status
+
+                    FROM corporate_agency ca
+
+                    LEFT JOIN super_techno_enterprise ste
+                        ON ca.reference_no = ste.super_techno_enterprise_id
+
+                    WHERE ca.reference_no = :user_id
+                    AND ca.status IN (1,3)
+
+                    $whereDate
+
+                    UNION ALL
+
+                    SELECT
+                        sf.id AS row_id,
+                        sf.sub_franchisee_id AS id,
+
+                        CONCAT(sf.firstname,' ',sf.lastname) AS full_name,
+
+                        CONCAT(
+                            COALESCE(ste.firstname,''),
+                            ' ',
+                            COALESCE(ste.lastname,'')
+                        ) AS reference_name,
+
+                        ste.super_techno_enterprise_id AS reference_id,
+
+                        sf.contact_no,
+                        sf.email,
+                        sf.register_date,
+                        sf.amount,
+
+                        CASE
+                            WHEN sf.status = 1 THEN 'Active'
+                            WHEN sf.status = 3 THEN 'Inactive'
+                            ELSE 'Rejected'
+                        END AS status
+
+                    FROM sub_franchisee sf
+
+                    LEFT JOIN super_techno_enterprise ste
+                        ON sf.reference_no = ste.super_techno_enterprise_id
+
+                    WHERE sf.reference_no = :user_id
+                    AND sf.status IN (1,3)
+
+                    $whereDate
+
+                ) x
+
+                ORDER BY x.row_id DESC
             ";
 
-            $fileName = 'Registered_TE_List.xlsx';
+            $fileName = 'Registered_TE_Franchise_List.xlsx';
         }
 
         /*
@@ -89,27 +146,72 @@
         elseif ($type == 'tc') {
 
             $sql = "
-                SELECT
-                    ta.ca_travelagency_id AS id,
-                    CONCAT(ta.firstname,' ',ta.lastname) AS full_name,
-                    CONCAT(ca.firstname,' ',ca.lastname) AS reference_name,
-                    ca.corporate_agency_id AS reference_id,
-                    ta.contact_no,
-                    ta.email,
-                    ta.register_date,
-                    ta.amount,
-                    CASE
-                        WHEN ta.status = 1 THEN 'Active'
-                        WHEN ta.status = 3 THEN 'Inactive'
-                        ELSE 'Rejected'
-                    END AS status
-                FROM ca_travelagency ta
-                INNER JOIN corporate_agency ca
-                    ON ta.reference_no = ca.corporate_agency_id
-                WHERE ca.reference_no = :user_id
-                AND ta.status IN (1,3)
-                $whereDate
-                ORDER BY ta.id DESC
+                SELECT *
+                FROM (
+
+                    SELECT
+                        ta.id AS row_id,
+                        ta.ca_travelagency_id AS id,
+                        CONCAT(ta.firstname,' ',ta.lastname) AS full_name,
+
+                        CONCAT(ca.firstname,' ',ca.lastname) AS reference_name,
+                        ca.corporate_agency_id AS reference_id,
+
+                        ta.contact_no,
+                        ta.email,
+                        ta.register_date,
+                        ta.amount,
+
+                        CASE
+                            WHEN ta.status = 1 THEN 'Active'
+                            WHEN ta.status = 3 THEN 'Inactive'
+                            ELSE 'Rejected'
+                        END AS status
+
+                    FROM ca_travelagency ta
+
+                    INNER JOIN corporate_agency ca
+                        ON ta.reference_no = ca.corporate_agency_id
+
+                    WHERE ca.reference_no = :user_id
+                    AND ta.status IN (1,3)
+
+                    $whereDate
+
+                    UNION ALL
+
+                    SELECT
+                        ta.id AS row_id,
+                        ta.ca_travelagency_id AS id,
+                        CONCAT(ta.firstname,' ',ta.lastname) AS full_name,
+
+                        CONCAT(sf.firstname,' ',sf.lastname) AS reference_name,
+                        sf.sub_franchisee_id AS reference_id,
+
+                        ta.contact_no,
+                        ta.email,
+                        ta.register_date,
+                        ta.amount,
+
+                        CASE
+                            WHEN ta.status = 1 THEN 'Active'
+                            WHEN ta.status = 3 THEN 'Inactive'
+                            ELSE 'Rejected'
+                        END AS status
+
+                    FROM ca_travelagency ta
+
+                    INNER JOIN sub_franchisee sf
+                        ON ta.reference_no = sf.sub_franchisee_id
+
+                    WHERE sf.reference_no = :user_id
+                    AND ta.status IN (1,3)
+
+                    $whereDate
+
+                ) x
+
+                ORDER BY x.row_id DESC
             ";
 
             $fileName = 'Registered_TC_List.xlsx';
@@ -121,32 +223,83 @@
         |--------------------------------------------------------------------------
         */
 
-        elseif($type == 'cu') {
+        elseif ($type == 'cu') {
 
             $sql = "
-                SELECT
-                    cu.ca_customer_id AS id,
-                    CONCAT(cu.firstname,' ',cu.lastname) AS full_name,
-                    CONCAT(ta.firstname,' ',ta.lastname) AS reference_name,
-                    ta.ca_travelagency_id AS reference_id,
-                    cu.contact_no,
-                    cu.email,
-                    cu.register_date,
-                    cu.paid_amount AS amount,
-                    CASE
-                        WHEN cu.status = 1 THEN 'Active'
-                        WHEN cu.status = 3 THEN 'Inactive'
-                        ELSE 'Rejected'
-                    END AS status
-                FROM ca_customer cu
-                INNER JOIN ca_travelagency ta
-                    ON cu.ta_reference_no = ta.ca_travelagency_id
-                INNER JOIN corporate_agency ca
-                    ON ta.reference_no = ca.corporate_agency_id
-                WHERE ca.reference_no = :user_id
-                AND cu.status IN (1,3)
-                $whereDate
-                ORDER BY cu.id DESC
+                SELECT *
+                FROM (
+
+                    SELECT
+                        cu.id AS row_id,
+                        cu.ca_customer_id AS id,
+
+                        CONCAT(cu.firstname,' ',cu.lastname) AS full_name,
+
+                        CONCAT(ta.firstname,' ',ta.lastname) AS reference_name,
+                        ta.ca_travelagency_id AS reference_id,
+
+                        cu.contact_no,
+                        cu.email,
+                        cu.register_date,
+                        cu.paid_amount AS amount,
+
+                        CASE
+                            WHEN cu.status = 1 THEN 'Active'
+                            WHEN cu.status = 3 THEN 'Inactive'
+                            ELSE 'Rejected'
+                        END AS status
+
+                    FROM ca_customer cu
+
+                    INNER JOIN ca_travelagency ta
+                        ON cu.ta_reference_no = ta.ca_travelagency_id
+
+                    INNER JOIN corporate_agency ca
+                        ON ta.reference_no = ca.corporate_agency_id
+
+                    WHERE ca.reference_no = :user_id
+                    AND cu.status IN (1,3)
+
+                    $whereDate
+
+                    UNION ALL
+
+                    SELECT
+                        cu.id AS row_id,
+                        cu.ca_customer_id AS id,
+
+                        CONCAT(cu.firstname,' ',cu.lastname) AS full_name,
+
+                        CONCAT(ta.firstname,' ',ta.lastname) AS reference_name,
+                        ta.ca_travelagency_id AS reference_id,
+
+                        cu.contact_no,
+                        cu.email,
+                        cu.register_date,
+                        cu.paid_amount AS amount,
+
+                        CASE
+                            WHEN cu.status = 1 THEN 'Active'
+                            WHEN cu.status = 3 THEN 'Inactive'
+                            ELSE 'Rejected'
+                        END AS status
+
+                    FROM ca_customer cu
+
+                    INNER JOIN ca_travelagency ta
+                        ON cu.ta_reference_no = ta.ca_travelagency_id
+
+                    INNER JOIN sub_franchisee sf
+                        ON ta.reference_no = sf.sub_franchisee_id
+
+                    WHERE sf.reference_no = :user_id
+                    AND cu.status IN (1,3)
+
+                    $whereDate
+
+                ) x
+
+                ORDER BY x.row_id DESC
             ";
 
             $fileName = 'Registered_Customer_List.xlsx';

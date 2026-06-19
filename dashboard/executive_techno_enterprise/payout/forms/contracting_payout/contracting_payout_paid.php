@@ -13,7 +13,7 @@
     $col_status = 1;
 
     // TDS calculation
-    $tdsAmount = $commi * 5/100;
+    $tdsAmount = $commi * 2/100;
     $total = $commi - $tdsAmount; 
     
     // update message status from corporate_agency_payout_level table

@@ -24,27 +24,45 @@
 
                 /* Recruitment Commission */
                 (
-                    SELECT COALESCE(SUM(ste_amount),0)
-                    FROM techno_enterprise_payout
-                    WHERE ste_id = :user_id
-                    AND MONTH(created_date)=:current_month
-                    AND YEAR(created_date)=:current_year
+                    (
+                        SELECT COALESCE(SUM(ete_amount),0)
+                        FROM techno_enterprise_payout
+                        WHERE ete_id = :user_id
+                        AND MONTH(created_date)=:current_month
+                        AND YEAR(created_date)=:current_year
+                    )
+                    +
+                    (
+                        SELECT COALESCE(SUM(commission_zm),0)
+                        FROM sub_franchisee_payout
+                        WHERE zonal_manager = :user_id
+                        AND MONTH(created_date)=:current_month
+                        AND YEAR(created_date)=:current_year
+                    )
+                    +
+                    (
+                        SELECT COALESCE(SUM(commission_bm_mf_sf),0)
+                        FROM institution_payout
+                        WHERE bm_mf_sf = :user_id
+                        AND MONTH(created_date)=:current_month
+                        AND YEAR(created_date)=:current_year
+                    )
                 ) AS recruitment,
 
                 /* Neo Select Commission */
                 (
-                    SELECT COALESCE(SUM(commision_bm),0)
+                    SELECT COALESCE(SUM(commision_bdm),0)
                     FROM ca_cu_payout
-                    WHERE business_mentor = :user_id
+                    WHERE business_development_manager = :user_id
                     AND MONTH(created_date)=:current_month
                     AND YEAR(created_date)=:current_year
                 ) AS neo_select,
 
                 /* Booking Commission */
                 (
-                    SELECT COALESCE(SUM(bm_amt),0)
+                    SELECT COALESCE(SUM(bdm_amt),0)
                     FROM product_payout
-                    WHERE bm_id = :user_id
+                    WHERE bdm_id = :user_id
                     AND MONTH(created_date)=:current_month
                     AND YEAR(created_date)=:current_year
                 ) AS booking
@@ -72,25 +90,43 @@
             SELECT
 
                 (
-                    SELECT COALESCE(SUM(ste_amount),0)
-                    FROM techno_enterprise_payout
-                    WHERE ste_id = :user_id
-                    AND MONTH(created_date)=:prev_month
-                    AND YEAR(created_date)=:prev_year
+                    (
+                        SELECT COALESCE(SUM(ete_amount),0)
+                        FROM techno_enterprise_payout
+                        WHERE ete_id = :user_id
+                        AND MONTH(created_date)=:prev_month
+                        AND YEAR(created_date)=:prev_year
+                    )
+                    +
+                    (
+                        SELECT COALESCE(SUM(commission_zm),0)
+                        FROM sub_franchisee_payout
+                        WHERE zonal_manager = :user_id
+                        AND MONTH(created_date)=:prev_month
+                        AND YEAR(created_date)=:prev_year
+                    )
+                    +
+                    (
+                        SELECT COALESCE(SUM(commission_bm_mf_sf),0)
+                        FROM institution_payout
+                        WHERE bm_mf_sf = :user_id
+                        AND MONTH(created_date)=:prev_month
+                        AND YEAR(created_date)=:prev_year
+                    )
                 ) AS recruitment,
 
                 (
-                    SELECT COALESCE(SUM(commision_bm),0)
+                    SELECT COALESCE(SUM(commision_bdm),0)
                     FROM ca_cu_payout
-                    WHERE business_mentor = :user_id
+                    WHERE business_development_manager = :user_id
                     AND MONTH(created_date)=:prev_month
                     AND YEAR(created_date)=:prev_year
                 ) AS neo_select,
 
                 (
-                    SELECT COALESCE(SUM(bm_amt),0)
+                    SELECT COALESCE(SUM(bdm_amt),0)
                     FROM product_payout
-                    WHERE bm_id = :user_id
+                    WHERE bdm_id = :user_id
                     AND MONTH(created_date)=:prev_month
                     AND YEAR(created_date)=:prev_year
                 ) AS booking

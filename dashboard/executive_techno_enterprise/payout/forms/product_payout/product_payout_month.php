@@ -1,6 +1,6 @@
 <!-- total payout Model and section amount change and add date to model  -->
 <?php
-require '../../../connect.php';
+require '../../../../connect.php';
 
 $TotalYear = $_POST['TotalYear'];
 $TotalMonth = $_POST['TotalMonth'];
@@ -19,7 +19,7 @@ if($userType == '11'){ //travel_consultant
 }elseif($userType == '10'){ //customer
     $userIdCommi = 'cu1_id';
     $amtCal = 'cu1_amt';
-}elseif($userType == '26' || $userType =='28' || $userType == '30'){//business Mentor/MF/SF
+}elseif($userType == '26' || $userType =='28' || $userType == '30' || $userType ='35'){//business Mentor/MF/SF
     $userIdCommi = 'bm_id';
     $amtCal = 'bm_amt';
 }elseif($userType == '25' || $userType == '31'){// business Development manager

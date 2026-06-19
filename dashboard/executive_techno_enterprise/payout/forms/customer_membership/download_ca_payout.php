@@ -1,6 +1,6 @@
 <?php
 
-require '../../../connect.php';
+require '../../../../connect.php';
 
 $id = $_GET['vkvbvjfgfikix'];
 $designation = $_GET['designation'];
@@ -21,23 +21,9 @@ $date = date('F,Y', strtotime($dateCA));
 $tableSearch = (substr($designation, 0, 1) === 'F' || substr($designation, 0, 1) === 'I') 
     ? substr($designation, 0, 1) 
     : substr($designation, 0, 2);
-if($tableSearch == "CA" || $tableSearch =="TE"){
-    $bcNames = $conn -> prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$designation."' AND status = 1");
-}elseif($tableSearch == "MF"){
-    $bcNames = $conn -> prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$designation."' AND status = 1");
-}elseif($tableSearch == "SF"){
-    $bcNames = $conn -> prepare("SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '".$designation."' AND status = 1");
-}else if($tableSearch == "F"){
-    $bcNames = $conn -> prepare("SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '".$designation."' AND status = 1");
-}else if($tableSearch == "I"){
-    $bcNames = $conn -> prepare("SELECT * FROM institution WHERE institution_id = '".$designation."' AND status = 1");
-}else if($tableSearch == "BM"){
-    $bcNames = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$designation."' AND status = 1");
-}else if($tableSearch == "TA"){
-    $bcNames = $conn -> prepare("SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '".$designation."' AND status = 1");
-}else{
-    $bcNames = $conn -> prepare("SELECT * FROM business_consultant WHERE business_consultant_id = '".$designation."' AND status = 1");
-}
+
+$bcNames = $conn -> prepare("SELECT * FROM super_techno_enterprise WHERE super_techno_enterprise_id = '".$designation."' AND status = 1");
+
 
 $bcNames -> execute();
 $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
@@ -57,15 +43,15 @@ if($bcNames -> rowCount()>0){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Download payout</title>
     <!--== FAV ICON ==-->
-    <link rel="shortcut icon" href="../../../assets/images/fav.png">
+    <link rel="shortcut icon" href="../../../../assets/images/fav.png">
 
     <!--== ALL CSS FILES ==-->
     <!-- Bootstrap Css -->
-    <link href="../../../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <link href="../../../../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
-    <link href="../../../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <!-- App Css-->
-    <link href="../../../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <link href="../../../../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
         <style>
             .go-back{
                 margin: 10px 30px 20px;
@@ -108,13 +94,13 @@ if($bcNames -> rowCount()>0){
                                 <tbody>
                                     <tr>
                                         <td class="left">
-                                            <img class="ms-2" style="height: 15px; " src="../../../assets/images/uniqbizz_logo.png" alt="" />
+                                            <img class="ms-2" style="height: 15px; " src="../../../../assets/images/uniqbizz_logo.png" alt="" />
                                         </td>
                                         <td class="center">
                                             <h4 class="fw-bolder lh-lg"> Statement Of The Month</h4>
                                         </td>
                                         <td class="right">
-                                            <img class="me-2" style="height: 28px; " src="../../../assets/images/bizz_logo.png" alt="" />
+                                            <img class="me-2" style="height: 28px; " src="../../../../assets/images/bizz_logo.png" alt="" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -128,7 +114,7 @@ if($bcNames -> rowCount()>0){
                                             <h6 style="padding:2px 10px; font-weight: 700;">Month : <?php echo $date; ?></h6>
                                         </td>
                                         <td class="col-md-5 col-sm-5 pt-3">
-                                            <h6 style="padding:2px 0; font-weight: 700;">Pay For : Customer Membership </h6>
+                                            <h6 style="padding:2px 0; font-weight: 700;">Pay For : Holiday Account Payout</h6>
                                             <h6 style="padding:2px 0; font-weight: 700;">Pay date : <?=$paydate?> </h6>
                                             <h6 style="padding:2px 0; font-weight: 700;">Payout status : <?=$message_status == 2 ? 'Pending' :($message_status == 1?'Paid':'')?></h6>
                                         </td>
@@ -194,15 +180,15 @@ if($bcNames -> rowCount()>0){
             </div>
         </div>
         <!-- JAVASCRIPT -->
-        <script src="../../../assets/js/jquery/jquery-3.7.1.min.js"></script>
-        <script src="../../../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../../../../assets/js/jquery/jquery-3.7.1.min.js"></script>
+        <script src="../../../../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 
         <script>
             $("#generatePDF").click(function () {
                 // $(document).ready(function() {
                 var divToPrint=document.getElementById('htmlContent');
                     newWin = window.open("");
-                    newWin.document.write('<html><head><link rel="stylesheet" href="../../../assets/css/bootstrap.min.css"><link rel="stylesheet" href="../../../assets/css/icons.min.css"><link rel="stylesheet" href="../../../assets/css/app.min.css"></head><body style="margin-top: 20px;" onload="window.print()">'+divToPrint.outerHTML+'</body></html>');
+                    newWin.document.write('<html><head><link rel="stylesheet" href="../../../../assets/css/bootstrap.min.css"><link rel="stylesheet" href="../../../../assets/css/icons.min.css"><link rel="stylesheet" href="../../../../assets/css/app.min.css"></head><body style="margin-top: 20px;" onload="window.print()">'+divToPrint.outerHTML+'</body></html>');
                     newWin.print();
                     newWin.close();
 

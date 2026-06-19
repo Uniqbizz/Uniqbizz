@@ -1,6 +1,6 @@
 <?php
  
-require '../../../connect.php';
+require '../../../../connect.php';
 
 $id = $_GET['vkvbvjfgfikix'];
 $bc = $_GET['bc'];

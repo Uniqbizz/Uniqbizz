@@ -107,7 +107,7 @@
                 (
                     SELECT COALESCE(SUM(commission_mf),0)
                     FROM sub_franchisee_payout
-                    WHERE master_franchisee = :user_id
+                    WHERE master_franchisee = :user_id AND status_mf=2
                 )
                 +
                 (
@@ -132,7 +132,7 @@
                 (
                     SELECT COALESCE(SUM(commission_mf),0)
                     FROM sub_franchisee_payout
-                    WHERE master_franchisee = :user_id
+                    WHERE master_franchisee = :user_id AND status_mf=1
                 )
                 +
                 (

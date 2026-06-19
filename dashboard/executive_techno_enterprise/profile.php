@@ -139,7 +139,7 @@
     <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css" />
     
     <!-- Customer Dashboard CSS -->
-    <link rel="stylesheet" href="../assets/css/super_techno_enterprise.css" />
+    <link rel="stylesheet" href="../assets/css/executive_techno_enterprise.css" />
     <link rel="stylesheet" href="css/profile.css">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -156,7 +156,7 @@
 
         <?php 
 
-            include_once 'super_techno_header.php'; 
+            include_once 'executive_techno_header.php'; 
         ?>
 
         <!-- removeNotificationModal -->
@@ -187,7 +187,7 @@
 
         <?php 
 
-                include_once 'super_techno_sidebar.php'; 
+                include_once 'executive_techno_sidebar.php'; 
         ?>
 
         <!-- ============================================================== -->
@@ -1508,7 +1508,7 @@
             </div><!-- End Page-content -->
 
             <?php 
-                include_once "super_techno_footer.php"; 
+                include_once "executive_techno_footer.php"; 
             ?>
         </div>
         <!-- end main content-->

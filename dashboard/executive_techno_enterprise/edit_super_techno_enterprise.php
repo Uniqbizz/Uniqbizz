@@ -1,14 +1,8 @@
 <?php
     include_once (__DIR__.'/../dashboard_user_details.php');
-    if ($userType == '34') {
-        $base_url_sidebar = "/ca.uniqbizz.com/dashboard/super_techno_enterprise/";
-        $base_url_asset = "/ca.uniqbizz.com/dashboard/";
-        $home_url = "/ca.uniqbizz.com/";
-    }else{
-        // $base_url_sidebar = "/ca.uniqbizz.com/dashboard/customer_dashboard/";
-        $base_url_asset = "/ca.uniqbizz.com/dashboard/";
-        $home_url = "/ca.uniqbizz.com/"; 
-    }
+    $id = $_POST['id'] ?? '';
+    $status = $_POST['status'] ?? '';
+    $edittype = $_POST['edittype'] ?? '';
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -211,12 +205,7 @@
         <div id="layout-wrapper">
 
             <?php 
-                if ($userType == 34) {
-                    include_once(__DIR__ . '/executive_techno_header.php');
-                }else{
-
-                    include_once 'executive_techno_header.php'; 
-                }
+                include_once 'executive_techno_header.php'; 
             ?>
 
             <!-- removeNotificationModal -->
@@ -245,12 +234,7 @@
             </div><!-- /.modal -->
             <!-- ========== App Menu ========== -->
             <?php 
-                if ($userType == 34) {
-                    include_once(__DIR__ . '/executive_techno_sidebar.php');
-                }else{
-
                     include_once 'executive_techno_sidebar.php'; 
-                }
             ?>
 
             <!-- ============================================================== -->
@@ -471,7 +455,7 @@
                                                 <div class="col-md-8 col-sm-8 col-9">
                                                     <div class="input-block">
                                                         <div class="verify-field">
-                                                            <label class="col-form-label">Alt Phone Number <span class="text-danger">*</span></label>
+                                                            <label class="col-form-label">Alt Phone No <span class="text-danger">*</span></label>
                                                             <?php //if ($status == 2) { ?>
                                                             <div class="verify-toggle">
                                                                 <input type="radio" name="verification_status[altPhone]" id="altPhone_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'altPhone', 'approved'); ?>>
@@ -533,7 +517,7 @@
                                                 </div>
                                                 <?php //} ?>
                                             </div>
-											<div class="upload-card" data-title="Profile Photo">
+											<div class="upload-card" data-title="Profile Photo" data-index="1">
 												<input type="file" class="file-input" accept="image/*,.pdf">
 												<div class="upload-content">
 													<div class="upload-icon">
@@ -694,31 +678,31 @@
                                             <!-- Left Column -->
                                             <div class="col-md-6">
                                                 <div class="mb-2">
-                                                    <input type="checkbox" id="lead1" name="leadership[]" value="Sales Leadership" <?php // in_array('Sales Leadership', $selectedLeadership ?? []) ? 'checked' : '' ?>>
+                                                    <input type="checkbox" class="leadership" id="lead1" name="leadership[]" value="Sales Leadership" <?php // in_array('Sales Leadership', $selectedLeadership ?? []) ? 'checked' : '' ?>>
                                                     <label for="lead1">Sales Leadership</label>
                                                 </div>
 
                                                 <div class="mb-2">
-                                                    <input type="checkbox" id="lead2" name="leadership[]" value="Business Development" <?php // in_array('Business Development', $selectedLeadership ?? []) ? 'checked' : '' ?>>
+                                                    <input type="checkbox" class="leadership" id="lead2" name="leadership[]" value="Business Development" <?php // in_array('Business Development', $selectedLeadership ?? []) ? 'checked' : '' ?>>
                                                     <label for="lead2">Business Development</label>
                                                 </div>
 
                                                 <div class="mb-2">
-                                                    <input type="checkbox" id="lead3" name="leadership[]" value="Team Management" <?php // in_array('Team Management', $selectedLeadership ?? []) ? 'checked' : '' ?>>
+                                                    <input type="checkbox" class="leadership" id="lead3" name="leadership[]" value="Team Management" <?php // in_array('Team Management', $selectedLeadership ?? []) ? 'checked' : '' ?>>
                                                     <label for="lead3">Team Management</label>
                                                 </div>
                                                 <div class="mb-2">
-                                                    <input type="checkbox" id="lead4" name="leadership[]" value="Enterpreneurship" <?php // in_array('Enterpreneurship', $selectedLeadership ?? []) ? 'checked' : '' ?>>
+                                                    <input type="checkbox" class="leadership" id="lead4" name="leadership[]" value="Enterpreneurship" <?php // in_array('Enterpreneurship', $selectedLeadership ?? []) ? 'checked' : '' ?>>
                                                     <label for="lead4">Enterpreneurship</label>
                                                 </div>
 
                                                 <div class="mb-2">
-                                                    <input type="checkbox" id="lead5" name="leadership[]" value="Corporate Leader" <?php // in_array('Corporate Leader', $selectedLeadership ?? []) ? 'checked' : '' ?>>
+                                                    <input type="checkbox" class="leadership" id="lead5" name="leadership[]" value="Corporate Leader" <?php // in_array('Corporate Leader', $selectedLeadership ?? []) ? 'checked' : '' ?>>
                                                     <label for="lead5">Corporate Leader</label>
                                                 </div>
 
                                                 <div class="mb-2">
-                                                    <input type="checkbox" id="lead6" name="leadership[]" value="other" <?php // in_array('other', $selectedLeadership ?? []) ? 'checked' : '' ?>>
+                                                    <input type="checkbox" class="leadership" id="lead6" name="leadership[]" value="other" <?php // in_array('other', $selectedLeadership ?? []) ? 'checked' : '' ?>>
                                                     <label for="lead6">Other(Please Specify)</label>
                                                     <input type="text" name="other_leadership" id="otherLead" class="form-control mt-2" <?php //in_array('other', $selectedLeadership ?? []) ? 'style="display:block;' : 'style="display:none;' ?> " value="<?php // $leadership_experience_other; ?>">
                                                 </div>
@@ -806,14 +790,7 @@
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">Preferred Operating Region <span class="text-danger">*</span></label>
                                         <select class="form-select" id="OperatingState">
-                                            <?php   
-                                                if($operating_region == ''){
-                                                    echo '<option value=""> Operating Region Not Selected </option>';
-                                                }else{
-                                                    echo '<option value=" '.$operating_region.' "> '.$statenameLeader. ' (Already Selected) </option>';
-                                                }
-                                                
-                                            ?>
+                                            
                                             <option value=""> ---- Select State ---- </option>
                                             <?php
                                             require '../connect.php';
@@ -966,7 +943,7 @@
                                                 </div>
                                                 <?php //} ?>
                                             </div>
-											<div class="upload-card" data-title="Nominee Profile Photo">
+											<div class="upload-card" data-title="Nominee Profile Photo" data-index="13">
 												<input type="file" class="file-input" accept="image/*,.pdf">
 												<div class="upload-content">
 													<div class="upload-icon">
@@ -1097,7 +1074,7 @@
                                             </div>
                                             <?php //} ?>
                                         </div>
-										<div class="upload-card" data-title="Aadhaar Card">
+										<div class="upload-card" data-title="Aadhaar Card" data-index="2">
 											<input type="file" class="file-input" accept="image/*,.pdf">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -1122,7 +1099,7 @@
                                             </div>
                                             <?php //} ?>
                                         </div>
-										<div class="upload-card" data-title="PAN Card">
+										<div class="upload-card" data-title="PAN Card" data-index="3">
 											<input type="file" class="file-input" accept="image/*,.pdf">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -1147,7 +1124,7 @@
                                             </div>
                                             <?php //} ?>
                                         </div>
-										<div class="upload-card" data-title="Bank Passbook">
+										<div class="upload-card" data-title="Bank Passbook" data-index="4">
 											<input type="file" class="file-input" accept="image/*,.pdf">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -1172,7 +1149,7 @@
                                             </div>
                                             <?php //} ?>
                                         </div>
-										<div class="upload-card" data-title="Resume / CV">
+										<div class="upload-card" data-title="Resume / CV" data-index="5">
 											<input type="file" class="file-input" accept="image/*,.pdf">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -1196,7 +1173,7 @@
                                             </div>
                                             <?php //} ?>
                                         </div>
-										<div class="upload-card" data-title="Address Proof">
+										<div class="upload-card" data-title="Address Proof" data-index="6">
 											<input type="file" class="file-input" accept="image/*,.pdf">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -1221,7 +1198,7 @@
                                             </div>
                                             <?php //} ?>
                                         </div>
-										<div class="upload-card" data-title="Professional Profile">
+										<div class="upload-card" data-title="Professional Profile" data-index="7">
 											<input type="file" class="file-input" accept="image/*,.pdf">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -1245,7 +1222,7 @@
                                             </div>
                                             <?php //} ?>
                                         </div>
-										<div class="upload-card" data-title="Business Profile">
+										<div class="upload-card" data-title="Business Profile" data-index="8">
 											<input type="file" class="file-input" accept="image/*,.pdf">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -1269,7 +1246,7 @@
                                             </div>
                                             <?php //} ?>
                                         </div>
-										<div class="upload-card" data-title="Income Proof">
+										<div class="upload-card" data-title="Income Proof" data-index="9">
 											<input type="file" class="file-input" accept="image/*,.pdf">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -1293,7 +1270,7 @@
                                             </div>
                                             <?php //} ?>
                                         </div>
-										<div class="upload-card" data-title="Other Document">
+										<div class="upload-card" data-title="Other Document" data-index="10">
 											<input type="file" class="file-input" accept="image/*,.pdf">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -1308,14 +1285,28 @@
 								</div>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-center mb-4">
-							<div class="col-lg-12">
+                        <input type="hidden" id="editfor" name="editfor" value="<?= $edittype ?>">
+                        <input type="hidden" id="applicationId" name="applicationId" value="<?= $id ?>">
+                        <div class="row">
+                            <div class="col-lg-12">
                                 <div class="d-flex justify-content-end gap-4 submitBtnBackground">
-                                    <!-- <button class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="saveDraftAdd">Save as Draft</button> -->
-                                    <button class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="editChiefTechnoEnterprise">Submit</button>
+                                    <button type="button" class="btn actionBtn cancelBtn mb-2">Cancel</button>
+                                    <?php
+                                        if ($status == 4) {
+                                    ?>
+                                    <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftEdit">Save Draft</button>
+                                    <button type="submit" class="btn actionBtn submitBtn mb-2" id="editSuperTechnoEnterprise">
+                                        <i class="fa-regular fa-paper-plane me-2"></i>
+                                        Submit Techno Enterprise | Franchisee
+                                    </button>
+                                    <?php
+                                        }
+                                    ?>
+                                    
+
                                 </div>
                             </div>
-						</div>
+                        </div>
                         <!-- <div class="row">
                             <div class="col-12">
                                 <div class="card">
@@ -1766,12 +1757,7 @@
                 </div>
                 <!-- End Page-content -->
                 <?php 
-                    if ($userType == 34) {
-                        include_once(__DIR__ . '/executive_techno_footer.php');
-                    }else{
-
                         include_once "executive_techno_footer.php"; 
-                    }
                 ?>
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
@@ -1781,7 +1767,7 @@
             <i class="ri-arrow-up-line"></i>
         </button>
         <!--end back-to-top-->
-        
+        <?php include (__DIR__.'/../contact_modal.php') ?>
         <!-- JAVASCRIPT -->
         <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="../assets/libs/simplebar/simplebar.min.js"></script>
@@ -1798,21 +1784,12 @@
         <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
         <!-- !-- materialdesign icon js- -->
         <script src="../assets/js/pages/remix-icons-listing.js"></script>
-        <?php 
-            //if ($userType == 34) {
-        ?>
-        <!-- Vector map-->
-        <script src="<?php // $base_url ?>../assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
-        <script src="<?php // $base_url ?>../assets/libs/jsvectormap/maps/world-merc.js"></script>
-
-        <!--Swiper slider js-->
-        <script src="<?php // $base_url ?>../assets/libs/swiper/swiper-bundle.min.js"></script>
-        <?php
-           // }
-        ?>
+        
 
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
+        <script src="js/super_techno_enterprise.js"></script>
+        <script src="../../uploading/uploadTechnoDashboard.js"></script>
         <!-- dialer logic scripts -->
         <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -1862,54 +1839,8 @@
             });
         </script>
         <!-- end dialer logic scripts -->
-        <script>
-            $('#payment_fee').on('change', function(){
-                var payment_fee = $(this).val();
-                if(payment_fee == "FOC"){
-                    $("#paymentModeBlock").addClass("d-none");
-                    $("#paymentFields").addClass("d-none");
-                    $("#payProof").addClass("d-none");
-                }else if(payment_fee == "null"){
-                    $("#paymentModeBlock").addClass("d-none");
-                    $("#paymentFields").addClass("d-none");
-                    $("#payProof").addClass("d-none");
-                }else{
-                    $("#paymentModeBlock").removeClass("d-none");
-                    $("#paymentFields").removeClass("d-none");
-                    $("#payProof").removeClass("d-none");
-                }
-            });
-
-            $('#paymentMode').on('click', function(){
-                var paymentMode = $(".payment:checked").val();
-                if(paymentMode == "cheque"){
-                    $("#chequeOpt").removeClass("d-none");
-                    $("#onlineOpt").addClass("d-none");
-                }else if(paymentMode == "online"){
-                    $("#onlineOpt").removeClass("d-none");
-                    $("#chequeOpt").addClass("d-none");
-                } else {
-                    $("#chequeOpt").addClass("d-none");
-                    $("#onlineOpt").addClass("d-none");
-                }
-            });
-        </script>
-        <!-- radio button background color on selected -->
-        <script>
-            document.querySelectorAll('.payment').forEach(radio => {
-                radio.addEventListener('change', function () {
-
-                    // Remove active class from all labels
-                    document.querySelectorAll('.payment-label').forEach(label => {
-                        label.classList.remove('ptMode');
-                    });
-
-                    // Add active class to selected radio's label
-                    this.closest('label').classList.add('ptMode');
-                });
-            });
-        </script>
-        <script>
+        
+        <!-- <script>
             document.querySelectorAll(".file-input").forEach(input => {
                 input.addEventListener("change", function () {
                     const file = this.files[0];
@@ -1956,6 +1887,418 @@
                     });
                 });
             }
+        </script> -->
+        <!-- Buttons -->
+        <script>
+            document.querySelector(".cancelBtn").addEventListener("click", function () {
+                if(confirm("Are you sure you want to cancel?")){
+                    window.history.back();
+                }
+            });
+        </script>
+        <script>
+            function bindUploadEvents() {
+
+                document.querySelectorAll('.file-input').forEach(input => {
+
+                    if (input.dataset.bound) return;
+
+                    input.dataset.bound = "true";
+
+                    input.addEventListener('change', function () {
+
+                        const file = this.files[0];
+
+                        if (!file) return;
+
+                        const card = this.closest('.upload-card');
+                        const title = card.dataset.title;
+                        const index = card.dataset.index;
+
+                        if (file.type.startsWith('image/')) {
+
+                            const reader = new FileReader();
+
+                            reader.onload = function (e) {
+
+                                card.querySelector('.upload-content, .preview-wrapper, .pdf-preview')?.remove();
+
+                                let preview = card.querySelector('.preview-wrapper');
+
+                                if (!preview) {
+                                    $()
+                                    preview = document.createElement('div');
+                                    preview.className = 'preview-wrapper';
+
+                                    preview.innerHTML = `
+                                        <img src="${e.target.result}" id="img_path${index}">
+                                        <input type="hidden" id="img_path${index}" value="../../uploading/${filePath}">
+                                        <div class="file-title">
+                                            ${title}
+                                        </div>
+                                    `;
+
+                                    card.appendChild(preview);
+
+                                } else {
+
+                                    preview.querySelector('img').src = e.target.result;
+                                }
+                            };
+
+                            reader.readAsDataURL(file);
+
+                        } else {
+
+                            card.querySelector('.upload-content, .preview-wrapper, .pdf-preview')?.remove();
+
+                            let preview = document.createElement('div');
+
+                            preview.className = 'pdf-preview';
+
+                            preview.innerHTML = `
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <p class="mt-2 mb-0">${file.name}</p>
+                                <div class="file-title">
+                                    ${title}
+                                </div>
+                            `;
+
+                            card.appendChild(preview);
+                        }
+
+                        
+
+                    });
+
+                });
+
+            }
+            function loadExistingFile(cardSelector, filePath)
+            {
+                if (!filePath) return;
+
+                const card = document.querySelector(cardSelector);
+
+                if (!card) return;
+
+                const title = card.dataset.title;
+                const index = card.dataset.index;
+                card.querySelector(
+                    '.upload-content, .preview-wrapper, .pdf-preview'
+                )?.remove();
+
+                const extension = filePath.split('.').pop().toLowerCase();
+
+                const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+                if (imageExtensions.includes(extension)) {
+
+                    const preview = document.createElement('div');
+
+                    preview.className = 'preview-wrapper';
+
+                    preview.innerHTML = `
+                        <img src="../../uploading/${filePath}">
+                        <input type="hidden" id="img_path${index}" value="../../uploading/${filePath}">
+                        <div class="file-title">
+                            ${title}
+                        </div>
+                    `;
+
+                    card.appendChild(preview);
+                    const status =<?= $status ?>;
+                    if (status == 4) {
+                        $('.file-input').prop('disabled', false);
+                    }else{
+                        $('.file-input').prop('disabled', true);
+                    }
+
+                } else {
+
+                    const preview = document.createElement('div');
+
+                    preview.className = 'pdf-preview';
+
+                    preview.innerHTML = `
+                        <i class="fa-solid fa-file-pdf"></i>
+                        <p class="mt-2 mb-0">${filePath.split('/').pop()}</p>
+                        <div class="file-title">
+                            ${title}
+                        </div>
+                    `;
+
+                    card.appendChild(preview);
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                bindUploadEvents();
+                const id = '<?= $id ?>';
+                const edittype = '<?= $edittype ?>';
+                $.ajax({
+                    url: 'models/super_techno_enterprise/edit_te_load_data.php',
+                    type: 'GET',
+                    data: {
+                        id: id,
+                        edittype: edittype
+                    },
+                    dataType: 'json',
+                    success: function(res)
+                    {
+                        if(!res.status){
+                            alert(res.message);
+                            return;
+                        }
+
+                        const data = res.data;
+                        // Personal Information
+                        $('#applicationId').val(data.application_id);
+                        $('#firstname').val(data.firstname);
+                        $('#lastname').val(data.lastname);
+                        $('#email').val(data.email);
+                        $('#phone').val(data.contact_no);
+                        $('#dob').val(data.date_of_birth);
+                        
+                        $('#nominee_name').val(data.nominee_name);
+                        $('#nominee_relation').val(data.nominee_relation);
+                        $('#businessPackage').val(data.amount);
+
+                        // Business Information
+                        $('#amount').val(data.amount);
+                        $('#gstNo').val(data.gst_no);
+
+                        // Address Information
+                        // Store for later use
+                        window.selectedState = data.state;
+                        window.selectedCity = data.city;
+
+                        // Start chain
+                        $('#country').val(data.country).trigger('change');
+                        $('#pincode').val(data.pincode);
+                        $('#address').val(data.address);
+
+                        // Payment Information
+                        if(data.payment_mode === 'cash'){
+                            $('#cashPayment').prop('checked', true).trigger('change');
+                        }
+
+                        if(data.payment_mode === 'online'){
+                            $('#onlinePayment').prop('checked', true).trigger('change');
+                            $('#transactionNo').val(data.transaction_no);
+                            $('#onlineOpt').removeClass('d-none');
+                        }
+
+                        if(data.payment_mode === 'cheque'){
+                            $('#chequePayment').prop('checked', true).trigger('change');
+
+                            $('#chequeNo').val(data.cheque_no);
+                            $('#chequeDate').val(data.cheque_date);
+                            $('#bankName').val(data.bank_name);
+
+                            $('#chequeOpt').removeClass('d-none');
+                        }
+
+                        // Update radio button styling
+                        $('.payment-label').removeClass('ptMode');
+                        $('.payment:checked').closest('label').addClass('ptMode');
+                        $('#note').val(data.note);
+                        $('#father_spouse_name').val(data.father_spouse_name);
+                        $('#aadharNo').val(data.aadhar_no);
+                        $('#panNo').val(data.pan_no);
+                        $('#country_cd_alt').val(data.alternative_country_code);
+                        $('#altPhone').val(data.alternative_contact_no);
+                        $('#occupation').val(data.current_occupation);
+                        $('#experience').val(data.current_experience);
+                        $('#annual_income').val(data.current_income);
+                        if (data.managed_team === 'yes') {
+                            $('#teamManagedYes').prop('checked', true);
+                        } else if (data.managed_team === 'no') {
+                            $('#teamManagedNo').prop('checked', true);
+                        }
+                        if (data.gender === 'male') {
+                            $('#test3').prop('checked', true);
+                        } else if (data.gender === 'female') {
+                            $('#test4').prop('checked', true);
+                        }else if (data.gender === 'others') {
+                            $('#test5').prop('checked', true);
+                        }
+                        $('#teamSize').text(data.team_description);
+                        $('.leadership').prop('checked', false);
+
+                        if (Array.isArray(data.leadership_experience)) {
+
+                            $('.leadership').each(function () {
+
+                                if (data.leadership_experience.includes($(this).val())) {
+
+                                    $(this).prop('checked', true);
+
+                                }
+
+                            });
+
+                        }
+                        $('#qualification').val(data.educational_qualification);
+                        loadExistingFile(
+                            '[data-index="1"]',
+                            data.profile_pic
+                        );
+                        $('#career_objective').val(data.career_objective);
+                        $('.teamExpected').prop('checked', false);
+
+                        $('input[name="teamExpected"][value="' + data.team_expected + '"]')
+                            .prop('checked', true);
+
+                        $('#OperatingState').val(data.operating_region);
+
+                        $('#nomineeName').val(data.nominee_name)
+                        $('#nomineeRelation').val(data.nominee_relation)
+                        $('#countryCdNominee').val(data.nominee_contact_cd)
+                        $('#nomineePhone').val(data.nominee_contact_no)
+                        $('#nomineeDob').val(data.nominee_date_of_birth)
+                        $('#nomineeAddress').val(data.nominee_address)
+                        $('#accHolderName').val(data.account_holder_name)
+                        $('#bankName').val(data.bank_name)
+                        $('#accountNumber').val(data.account_number)
+                        $('#confirmAccountNumber').val(data.account_number)
+                        $('#ifscCode').val(data.ifsc_code)
+                        $('#branchName').val(data.branch_name)
+                        loadExistingFile(
+                            '[data-index="2"]',
+                            data.pan_card
+                        );
+
+                        loadExistingFile(
+                            '[data-index="3"]',
+                            data.aadhar_card
+                        );
+
+                        loadExistingFile(
+                            '[data-index="4"]',
+                            data.voting_card
+                        );
+
+                        loadExistingFile(
+                            '[data-index="11"]',
+                            data.bank_passbook
+                        );
+
+                        loadExistingFile(
+                            '[data-index="12"]',
+                            data.payment_proof
+                        );
+                    }
+                });
+                // Address Information
+                $('#country').on('change', function () {
+
+                    var countryID = $(this).val();
+
+                    if (countryID) {
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '../address/countrydata.php',
+                            data: {
+                                country_id: countryID
+                            },
+                            success: function (html) {
+
+                                $('#mystate').html(html);
+
+                                if (window.selectedState) {
+
+                                    $('#mystate')
+                                        .val(window.selectedState)
+                                        .trigger('change');
+
+                                    window.selectedState = null;
+                                } else {
+
+                                    $('#city').html('<option value="">Select state first</option>');
+                                }
+                            }
+                        });
+
+                    } else {
+
+                        $('#mystate').html('<option value="">Select country first</option>');
+                        $('#city').html('<option value="">Select state first</option>');
+                        $('#pin').val('');
+                    }
+                });
+                    
+                $('#mystate').on('change', function () {
+
+                    var stateID = $(this).val();
+
+                    if (stateID) {
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '../address/countrydata.php',
+                            data: {
+                                state_id: stateID
+                            },
+                            success: function (html) {
+
+                                $('#city').html(html);
+
+                                if (window.selectedCity) {
+
+                                    $('#city')
+                                        .val(window.selectedCity)
+                                        .trigger('change');
+
+                                    window.selectedCity = null;
+                                }
+                            }
+                        });
+
+                    } else {
+
+                        $('#city').html('<option value="">Select state first</option>');
+                        $('#pin').val('');
+                    }
+                });
+
+                $('#city').on('change', function () {
+
+                    var cityID = $(this).val();
+
+                    if (cityID) {
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '../address/pincode.php',
+                            data: {
+                                city_id: cityID
+                            },
+                            success: function (response) {
+
+                                response = $.trim(response);
+
+                                $('#pin').val(response || '');
+
+                            },
+                            error: function () {
+
+                                $('#pin').val('');
+
+                            }
+                        });
+
+                    } else {
+
+                        $('#pin').val('');
+
+                    }
+                });
+            });
+            $(document).on('input', '#pin', function () {
+                this.value = this.value.replace(/\D/g, '');
+            });
         </script>
         <!-- Buttons -->
         <script>
@@ -1964,17 +2307,41 @@
                     window.history.back();
                 }
             });
-            document.querySelector(".draftBtn").addEventListener("click", function () {
-                alert("Draft Saved Successfully");
-                // AJAX call here
-                // saveDraft();
+            $('#businessPackage').on('change', function(){
+                var business_package_amount = $(this).val();
+                $('#amount').val(business_package_amount);
             });
-            document.querySelector(".submitBtn").addEventListener("click", function (e) {
-                // Remove if button is inside form
-                e.preventDefault();
-                alert("Techno Enterprise Submitted Successfully");
-                // Submit form
-                // document.getElementById('yourForm').submit();
+            let today = new Date();
+
+            $(document).ready(function () {
+
+                let today = new Date();
+
+                // Calculate date 18 years ago
+                let maxDate = new Date(
+                    today.getFullYear() - 20,
+                    today.getMonth(),
+                    today.getDate()
+                );
+
+                // Format YYYY-MM-DD
+                let formattedDate = maxDate.toISOString().split('T')[0];
+
+                $('#dob').attr('max', formattedDate);
+
+            });
+            $('#dob').on('change', function () {
+
+                const selectedDate = new Date(this.value);
+
+                const maxDate = new Date();
+                maxDate.setFullYear(maxDate.getFullYear() - 20);
+
+                if (selectedDate > maxDate) {
+                    alert('Age must be at least 18 years.');
+                    $(this).val('');
+                }
+
             });
         </script>
     </body>
