@@ -411,6 +411,121 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- card section4 -->
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 colsm-12 col-12">
+                                <div class="card border rounded-4 cardHeight2">
+                                    <div class="d-flex justify-content-between p-3">
+                                        <p class="align-content-center fs-4 fw-bold mb-0"><i class="fa-solid fa-user-group fa-xl me-2" style="color: #43079e;"></i>Nominee Details</p>
+                                        <p class="editBtn mb-0">Edit</p>
+                                    </div>
+                                    <hr class="text-muted border-3 mt-0 mx-3">
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-5 pe-0">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0">Nominee Name</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Relationship</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Mobile Number</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Date of Birth</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Address</th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-7 ps-0">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">Aquila Mejia</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">Voluptas ad utue app</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">+919850325145</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">20-05-1980</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">Nilhil similique ipsa</th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 colsm-12 col-12">
+                                <div class="card border rounded-4 cardHeight2">
+                                    <div class="d-flex justify-content-between p-3">
+                                        <p class="align-content-center fs-4 fw-bold mb-0"><i class="fa-solid fa-building-columns fa-xl me-2" style="color: #03730f;"></i>Banking Information</p>
+                                        <p class="editBtn mb-0">Edit</p>
+                                    </div>
+                                    <hr class="text-muted border-3 mt-0 mx-3">
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-5 pe-0">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0">Account Holder Name</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Bank Name</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Account Number</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">IFSC Code</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Branch</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">UPI ID</th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-7 ps-0">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">Eden Andrews</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">Ocus sunt laborumd id</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">xxxxxxxx6688</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">SBIN0001234</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">Asher Olsen</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">eden.andrews@upi</th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div> <!-- container-fluid -->
                 </div><!-- End Page-content -->
                 <?php 

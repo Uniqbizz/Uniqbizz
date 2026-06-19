@@ -111,6 +111,9 @@
 .cardHeight {
     height: 320px !important;
 }
+.cardHeight2 {
+    height: 340px !important;
+}
 .leaderCard  {
     border: 1px solid #dfdede;
     border-radius: 10px;
@@ -182,5 +185,8 @@
     }
     .cardHeight {
         height: 350px !important;
+    }
+    .cardHeight2 {
+        height: 360px !important;
     }
 }
