@@ -526,6 +526,160 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- card section5 -->
+                        <div class="card border rounded-4">
+                            <div class="p-3">
+                                <p class="align-content-center fs-4 fw-bold mb-0"><i class="fa-solid fa-file-arrow-up fa-xl me-2" style="color: #43079e;"></i>Documents Gallery</p>
+                            </div>
+                            <hr class="text-muted border-3 mt-0 mx-3">
+                            <div class="row mx-2">
+                                <!-- Profile Photo -->
+                                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
+                                    <div class="document-card">
+                                        <input type="file" id="file1" class="file-input d-none" accept="image/*,.pdf" data-preview="preview1" data-view="view1" data-download="download1">
+                                        <label for="file1" class="upload-area">
+                                            <span class="document-status verified">Verified</span>
+                                            <img id="preview1" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
+                                            <div class="upload-overlay">
+                                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                <span>Drag & Drop</span>
+                                                <small>or click to upload</small>
+                                            </div>
+                                        </label>
+                                        <p class="text-center fw-semibold mt-2">Profile Photo</p>
+                                        <div class="d-flex gap-2">
+                                            <a id="view1" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
+                                                View
+                                            </a>
+                                            <a id="download1" class="py-1 btn btn-success disabled" download>
+                                                <i class="fa-solid fa-download"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Aadhaar -->
+                                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
+                                    <div class="document-card">
+                                        <input type="file" id="file2" class="file-input d-none" accept="image/*,.pdf" data-preview="preview2" data-view="view2" data-download="download2">
+                                        <label for="file2" class="upload-area">
+                                            <span class="document-status pending">Pending</span>
+                                            <img id="preview2" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
+                                            <div class="upload-overlay">
+                                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                <span>Drag & Drop</span>
+                                                <small>or click to upload</small>
+                                            </div>
+                                        </label>
+                                        <p class="text-center fw-semibold mt-2">Aadhaar Card</p>
+                                        <div class="d-flex gap-2">
+                                            <a id="view2" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
+                                                View
+                                            </a>
+                                            <a id="download2" class="py-1 btn btn-success disabled" download>
+                                                <i class="fa-solid fa-download"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- PAN -->
+                                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
+                                    <div class="document-card">
+                                        <input type="file" id="file3" class="file-input d-none" accept="image/*,.pdf" data-preview="preview3" data-view="view3" data-download="download3">
+                                        <label for="file3" class="upload-area">
+                                            <span class="document-status verified">Verified</span>
+                                            <img id="preview3" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
+                                            <div class="upload-overlay">
+                                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                <span>Drag & Drop</span>
+                                                <small>or click to upload</small>
+                                            </div>
+                                        </label>
+                                        <p class="text-center fw-semibold mt-2">PAN Card</p>
+                                        <div class="d-flex gap-2">
+                                            <a id="view3" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
+                                                View
+                                            </a>
+                                            <a id="download3" class="py-1 btn btn-success disabled" download>
+                                                <i class="fa-solid fa-download"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Passbook -->
+                                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
+                                    <div class="document-card">
+                                        <input type="file" id="file4" class="file-input d-none" accept="image/*,.pdf" data-preview="preview4" data-view="view4" data-download="download4">
+                                        <label for="file4" class="upload-area">
+                                            <span class="document-status pending">Pending</span>
+                                            <img id="preview4" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
+                                            <div class="upload-overlay">
+                                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                <span>Drag & Drop</span>
+                                                <small>or click to upload</small>
+                                            </div>
+                                        </label>
+                                        <p class="text-center fw-semibold mt-2">Bank Passbook</p>
+                                        <div class="d-flex gap-2">
+                                            <a id="view4" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
+                                                View
+                                            </a>
+                                            <a id="download4" class="py-1 btn btn-success disabled" download>
+                                                <i class="fa-solid fa-download"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Voter -->
+                                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
+                                    <div class="document-card">
+                                        <input type="file" id="file5" class="file-input d-none" accept="image/*,.pdf" data-preview="preview5" data-view="view5" data-download="download5">
+                                        <label for="file5" class="upload-area">
+                                            <span class="document-status verified">Verified</span>
+                                            <img id="preview5" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
+                                            <div class="upload-overlay">
+                                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                <span>Drag & Drop</span>
+                                                <small>or click to upload</small>
+                                            </div>
+                                        </label>
+                                        <p class="text-center fw-semibold mt-2">Voting Card</p>
+                                        <div class="d-flex gap-2">
+                                            <a id="view5" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
+                                                View
+                                            </a>
+                                            <a id="download5" class="py-1 btn btn-success disabled" download>
+                                                <i class="fa-solid fa-download"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Payment Proof -->
+                                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
+                                    <div class="document-card">
+                                        <input type="file" id="file6" class="file-input d-none" accept="image/*,.pdf" data-preview="preview6" data-view="view6" data-download="download6">
+                                        <label for="file6" class="upload-area">
+                                            <span class="document-status rejected">Rejected</span>
+                                            <img id="preview6" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
+                                            <div class="upload-overlay">
+                                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                <span>Drag & Drop</span>
+                                                <small>or click to upload</small>
+                                            </div>
+                                        </label>
+                                        <p class="text-center fw-semibold mt-2">Payment Proof</p>
+                                        <div class="d-flex gap-2">
+                                            <a id="view6" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
+                                                View
+                                            </a>
+                                            <a id="download6" class="py-1 btn btn-success disabled" download>
+                                                <i class="fa-solid fa-download"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div> <!-- container-fluid -->
                 </div><!-- End Page-content -->
                 <?php 
@@ -596,25 +750,69 @@
         </script>
 
         <script>
-            var modal = document.getElementById('staticBackdrop');
+            document.querySelectorAll('.file-input').forEach(input => {
+                const uploadArea = input.nextElementSibling;
 
-            // Store the element that opened the modal
-            let lastFocusedElement;
+                input.addEventListener('change', function () {
+                    if (this.files.length) {
+                        handleFile(this.files[0], this);
+                    }
+                });
 
-            document.addEventListener('click', function(e) {
-                if (e.target.closest('[data-bs-toggle="modal"]')) {
-                    lastFocusedElement = e.target;
-                }
+                ['dragenter', 'dragover'].forEach(event => {
+                    uploadArea.addEventListener(event, e => {
+                        e.preventDefault();
+                        uploadArea.classList.add('drag-over');
+                    });
+                });
+
+                ['dragleave', 'drop'].forEach(event => {
+                    uploadArea.addEventListener(event, e => {
+                        e.preventDefault();
+                        uploadArea.classList.remove('drag-over');
+                    });
+                });
+
+                uploadArea.addEventListener('drop', e => {
+
+                    const file = e.dataTransfer.files[0];
+
+                    if (!file) return;
+
+                    const dt = new DataTransfer();
+                    dt.items.add(file);
+
+                    input.files = dt.files;
+
+                    handleFile(file, input);
+                });
             });
 
-            modal.addEventListener('hidden.bs.modal', function () {
-                if (lastFocusedElement) {
-                    lastFocusedElement.focus();
-                } else {
-                    document.body.focus();
-                }
-            });
+            function handleFile(file, input) {
+
+                const preview = document.getElementById(
+                    input.dataset.preview
+                );
+
+                const viewBtn = document.getElementById(
+                    input.dataset.view
+                );
+
+                const downloadBtn = document.getElementById(
+                    input.dataset.download
+                );
+
+                const fileURL = URL.createObjectURL(file);
+
+                preview.src = fileURL;
+
+                viewBtn.href = fileURL;
+                viewBtn.classList.remove('disabled');
+
+                downloadBtn.href = fileURL;
+                downloadBtn.download = file.name;
+                downloadBtn.classList.remove('disabled');
+            }
         </script>
-        <!-- end dialer logic scripts -->
     </body>
 </html>
