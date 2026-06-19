@@ -357,7 +357,7 @@
                                     </div>
                                     <hr class="text-muted border-3 mt-0 mx-3">
                                     <div class="row px-3">
-                                        <div class="col-lg-6 mb-2">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6 mb-2">
                                             <div class="d-flex gap-3 leaderCard">
                                                 <div class="align-content-center">
                                                     <i class="fa-solid fa-users fa-2xl" style="color: #ffa600;"></i>
@@ -368,7 +368,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 mb-2">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6 mb-2">
                                             <div class="d-flex gap-3 leaderCard">
                                                 <div class="align-content-center">
                                                     <i class="fa-solid fa-user-tie fa-2xl" style="color: #ffa600;"></i>
@@ -379,7 +379,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 mb-2">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6 mb-2">
                                             <div class="d-flex gap-3 leaderCard">
                                                 <div class="align-content-center">
                                                     <i class="fa-solid fa-bullhorn fa-2xl" style="color: #ffa600;"></i>
@@ -390,7 +390,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 mb-2">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6 mb-2">
                                             <div class="d-flex gap-3 leaderCard">
                                                 <div class="align-content-center">
                                                     <i class="fa-solid fa-handshake fa-2xl" style="color: #ffa600;"></i>
@@ -400,6 +400,12 @@
                                                     <p class="fs-6 text-muted mb-0">Networking</p>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="mx-3 mt-2">
+                                        <p class="fs-6 text-muted mb-2">Leadership Index</p>
+                                        <div class="progress" role="progressbar" aria-label="Warning example" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+                                            <div class="progress-bar bg-warning" style="width: 85%"></div>
                                         </div>
                                     </div>
                                 </div>
