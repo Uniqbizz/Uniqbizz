@@ -412,7 +412,7 @@ if($stmt->rowCount()>0){
 				}
 			}
 		}else if($_SESSION["user_type_id_value"] =='34'){
-			$stmt = $conn->prepare("SELECT * FROM executive_techno_enterprise where email='".$username."' AND user_type = '3' AND status='1' ");
+			$stmt = $conn->prepare("SELECT * FROM executive_techno_enterprise where email='".$username."' AND user_type = '34' AND status='1' ");
 			$stmt->execute();
 
 				// set the resulting array to associative
