@@ -4,8 +4,9 @@
     date_default_timezone_set('Asia/Kolkata');
     $current_year = date('Y'); 
 
-    //personal details - table "chief_techno_enterprise"
-    
+    //personal details - table "super_techno_enterprise"
+    $reference_no         =$userId;
+    $registrant           =$userFname .' '.$userLname;
     $firstname            = $_POST['firstname'] ?? '';
     $lastname             = $_POST['lastname'] ?? '';
     $father_spouse_name   = $_POST['father_spouse_name'] ?? '';
@@ -65,6 +66,7 @@
     $business_profile               = $_POST['business_profile'] ?? '';
     $income_proof                   = $_POST['income_proof'] ?? '';
     $other_document                 = $_POST['other_document'] ?? '';
+    $nominee_profile                = $_POST['nominee_profile'] ?? '';
 
     $user_type="36";
     $register_by="1";
@@ -85,9 +87,9 @@
     }
 
     // data insertion for logs tables 
-    $title="Chief Techo Enterprise";
-    $message="Added new Chief Techo Enterprise by admin";
-    $message2="Added new Chief Techo Enterprise by admin";
+    $title="Super Techo Enterprise";
+    $message="Added new Super Techo Enterprise by admin";
+    $message2="Added new Super Techo Enterprise by admin";
     $fromWhom="1";
 	$operation="Add";
 
@@ -95,7 +97,7 @@
 
         $conn->beginTransaction();
 
-        $sql1= "INSERT INTO `chief_techno_enterprise` ( 
+        $sql1= "INSERT INTO `super_techno_enterprise` ( 
             application_id,
             firstname, 
             lastname, 
@@ -116,6 +118,8 @@
             pincode, 
             address,  
             user_type,
+            registrant,
+            reference_no,
             register_by, 
             status)
         VALUES ( 
@@ -139,6 +143,8 @@
             :pincode,
             :address,
             :user_type, 
+            :registrant,
+            :reference_no,
             :register_by, 
             :status)";
         $stmt1 =$conn->prepare($sql1);
@@ -313,6 +319,7 @@
             ':business_profile' => $business_profile,
             ':income_proof' => $income_proof,
             ':other_document' => $other_document
+            ':nominee_profile' => $nominee_profile
         ));
 
         $sql7= "INSERT INTO logs ( title,message,message2,register_by, from_whom,operation) VALUES (:title ,:message, :message2, :register_by, :from_whom, :operation)";

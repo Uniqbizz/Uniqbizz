@@ -189,6 +189,7 @@
             $business_profile = $row4['business_profile'];
             $income_proof = $row4['income_proof'];
             $other_document = $row4['other_document'];
+            $nominee_profile = $row4['nominee_profile'];
         }
     }
 
@@ -264,7 +265,8 @@
             'professional_profile' => $professional_profile,
             'business_profile' => $business_profile,
             'income_proof' => $income_proof,
-            'other_document' => $other_document
+            'other_document' => $other_document,
+            'nominee_profile' => $nominee_profile
         ]
     ];
 

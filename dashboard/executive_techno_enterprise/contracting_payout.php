@@ -18,10 +18,10 @@
     // echo "prev Date ".$prevdate.' ;';
     // echo "prev Month ".$prevDateMonth.' ;';
     // echo "prev year ".$prevDateYear.' ;';
-    $columnDesignation = 'ste_id';
-    $columnMessage = 'ste_message';
-    $columnCommision = 'ste_amount';
-    $columnStatus = 'ste_status';
+    $columnDesignation = 'ete_id';
+    $columnMessage = 'ete_message';
+    $columnCommision = 'ete_amount';
+    $columnStatus = 'ete_status';
     $tablename='techno_enterprise_payout';
     $tablename_paid='techno_enterprise_payout_paid';
 ?>

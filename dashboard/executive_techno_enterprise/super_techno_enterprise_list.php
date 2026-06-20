@@ -399,7 +399,7 @@
                             
 
                             return `
-                                <form action="edit_super_techno_enterprise" method="POST" class="m-0">
+                                <form action="edit_super_techno_enterprise.php" method="POST" class="m-0">
                                     <input
                                         type="hidden"
                                         name="id"

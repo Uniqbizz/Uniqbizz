@@ -81,6 +81,7 @@ $("#addSuperTechnoEnterprise").on("click", function (e) {
     var business_profile = $(":hidden#img_path8").val().trim();
     var income_proof = $(":hidden#img_path9").val().trim();
     var other_document = $(":hidden#img_path10").val().trim();
+    var nominee_profile = $(":hidden#img_path13").val().trim();
 
 
     if (firstname.length < 3) {
@@ -198,7 +199,8 @@ $("#addSuperTechnoEnterprise").on("click", function (e) {
             professional_profile: professional_profile,
             business_profile: business_profile,
             income_proof: income_proof,
-            other_document: other_document
+            other_document: other_document,
+            nominee_profile: nominee_profile
         };
         // console.log(dataObj);
 
@@ -215,7 +217,7 @@ $("#addSuperTechnoEnterprise").on("click", function (e) {
                 if (data == 1) {
                     $("#loading-overlay").hide(); //loading screen
                     alert("Added Successfuly");
-                    location.href = "super_techno.php";
+                    location.href = "super_techno_enterprise_list";
                 } else {
                     $("#loading-overlay").hide(); //loading screen
                     alert("Failed");
@@ -309,6 +311,7 @@ $("#editSuperTechnoEnterprise").on("click", function (e) {
     var business_profile = $(":hidden#img_path8").val().trim();
     var income_proof = $(":hidden#img_path9").val().trim();
     var other_document = $(":hidden#img_path10").val().trim();
+    var nominee_profile = $(":hidden#img_path13").val().trim();
 
 
     if (firstname.length < 3) {
@@ -430,7 +433,8 @@ $("#editSuperTechnoEnterprise").on("click", function (e) {
             professional_profile: professional_profile,
             business_profile: business_profile,
             income_proof: income_proof,
-            other_document: other_document
+            other_document: other_document,
+            nominee_profile: nominee_profile
         };
         // console.log(dataObj);
 
@@ -447,7 +451,7 @@ $("#editSuperTechnoEnterprise").on("click", function (e) {
                 if (data == 1) {
                     $("#loading-overlay").hide(); //loading screen
                     alert("Edit Successfuly");
-                    location.href = "super_techno.php";
+                    location.href = "super_techno_enterprise_list";
                 } else {
                     $("#loading-overlay").hide(); //loading screen
                     alert("Failed");

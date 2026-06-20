@@ -518,7 +518,8 @@
                                                 <?php //} ?>
                                             </div>
 											<div class="upload-card" data-title="Profile Photo" data-index="1">
-												<input type="file" class="file-input" accept="image/*,.pdf">
+                                                <input type="hidden" id="img_path1" value="">
+												<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file1">
 												<div class="upload-content">
 													<div class="upload-icon">
 														<i class="fa-solid fa-user"></i>
@@ -944,7 +945,8 @@
                                                 <?php //} ?>
                                             </div>
 											<div class="upload-card" data-title="Nominee Profile Photo" data-index="13">
-												<input type="file" class="file-input" accept="image/*,.pdf">
+                                                <input type="hidden" id="img_path13" value="">
+												<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file13">
 												<div class="upload-content">
 													<div class="upload-icon">
 														<i class="fa-solid fa-user"></i>
@@ -1075,7 +1077,8 @@
                                             <?php //} ?>
                                         </div>
 										<div class="upload-card" data-title="Aadhaar Card" data-index="2">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+                                            <input type="hidden" id="img_path2" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file2">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-regular fa-id-card"></i>
@@ -1100,7 +1103,8 @@
                                             <?php //} ?>
                                         </div>
 										<div class="upload-card" data-title="PAN Card" data-index="3">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+                                            <input type="hidden" id="img_path3" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file3">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-regular fa-credit-card"></i>
@@ -1125,7 +1129,8 @@
                                             <?php //} ?>
                                         </div>
 										<div class="upload-card" data-title="Bank Passbook" data-index="4">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+                                            <input type="hidden" id="img_path4" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file4">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-building-columns"></i>
@@ -1150,7 +1155,8 @@
                                             <?php //} ?>
                                         </div>
 										<div class="upload-card" data-title="Resume / CV" data-index="5">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+                                            <input type="hidden" id="img_path5" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file5">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-regular fa-address-card"></i>
@@ -1174,7 +1180,8 @@
                                             <?php //} ?>
                                         </div>
 										<div class="upload-card" data-title="Address Proof" data-index="6">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+                                            <input type="hidden" id="img_path6" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file6">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-regular fa-address-card"></i>
@@ -1199,7 +1206,8 @@
                                             <?php //} ?>
                                         </div>
 										<div class="upload-card" data-title="Professional Profile" data-index="7">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+                                            <input type="hidden" id="img_path7" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file7">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-file-invoice"></i>
@@ -1223,7 +1231,8 @@
                                             <?php //} ?>
                                         </div>
 										<div class="upload-card" data-title="Business Profile" data-index="8">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+                                            <input type="hidden" id="img_path8" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file8">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-file-invoice"></i>
@@ -1247,7 +1256,8 @@
                                             <?php //} ?>
                                         </div>
 										<div class="upload-card" data-title="Income Proof" data-index="9">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+                                            <input type="hidden" id="img_path9" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file9">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-file-invoice"></i>
@@ -1271,7 +1281,8 @@
                                             <?php //} ?>
                                         </div>
 										<div class="upload-card" data-title="Other Document" data-index="10">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+                                            <input type="hidden" id="img_path10" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file10">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-file-invoice"></i>
@@ -1990,7 +2001,7 @@
 
                 const extension = filePath.split('.').pop().toLowerCase();
 
-                const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'pdf'];
 
                 if (imageExtensions.includes(extension)) {
 
@@ -2000,7 +2011,7 @@
 
                     preview.innerHTML = `
                         <img src="../../uploading/${filePath}">
-                        <input type="hidden" id="img_path${index}" value="../../uploading/${filePath}">
+                        
                         <div class="file-title">
                             ${title}
                         </div>
@@ -2176,17 +2187,45 @@
 
                         loadExistingFile(
                             '[data-index="4"]',
-                            data.voting_card
+                            data.cancelled_cheque_bank_passbook
                         );
 
                         loadExistingFile(
-                            '[data-index="11"]',
+                            '[data-index="4"]',
                             data.bank_passbook
                         );
 
                         loadExistingFile(
-                            '[data-index="12"]',
-                            data.payment_proof
+                            '[data-index="5"]',
+                            data.resume_cv
+                        );
+                        loadExistingFile(
+                            '[data-index="6"]',
+                            data.address_proof
+                        );
+
+                        loadExistingFile(
+                            '[data-index="7"]',
+                            data.professional_profile
+                        );
+
+                        loadExistingFile(
+                            '[data-index="8"]',
+                            data.business_profile
+                        );
+
+                        loadExistingFile(
+                            '[data-index="9"]',
+                            data.income_proof
+                        );
+
+                        loadExistingFile(
+                            '[data-index="10"]',
+                            data.other_document
+                        );
+                        loadExistingFile(
+                            '[data-index="13"]',
+                            data.nominee_profile
                         );
                     }
                 });

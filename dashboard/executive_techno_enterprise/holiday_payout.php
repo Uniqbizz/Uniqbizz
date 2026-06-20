@@ -13,10 +13,10 @@
     $prevDateYear = date('Y');  //Year in number form. 
 
     $tdsPercentage = 2/100;
-    $columnDesignation = 'business_mentor';
-    $columnMessage = 'message_bm';
-    $columnCommision = 'commision_bm';
-    $columnStatus = 'status_bm';
+    $columnDesignation = 'business_development_manager';
+    $columnMessage = 'message_bdm';
+    $columnCommision = 'commision_bdm';
+    $columnStatus = 'status_bdm';
 ?>
 
 <!doctype html>
