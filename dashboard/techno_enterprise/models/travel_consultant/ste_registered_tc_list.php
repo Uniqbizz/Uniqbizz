@@ -54,7 +54,7 @@
 
                 WHERE ta.reference_no = :user_id
                 AND ta.status IN (1,3)
-
+                $whereDateTE
             ) x
 
             ORDER BY x.id DESC

@@ -109,7 +109,7 @@
                     cu.email,
                     cu.register_date,
                     cu.status,
-                    cu.paid_amount,
+                    cu.paid_amount AS amount,
 
                     ta.institution_branch_manager_id,
                     ta.firstname AS ref_firstname,

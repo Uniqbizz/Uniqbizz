@@ -1,15 +1,15 @@
 <?php
-    include_once '../dashboard_user_details.php';
+include_once '../dashboard_user_details.php';
 
-    // get current date to show next payout amount  and pass it in sql @ line 129
-    $date = date('F,Y'); //month and year. 'F' - month in Text form
-    $nextDateMonth = date('m'); //month in number form
-    $nextDateYear = date('Y'); //year
+// get current date to show next payout amount  and pass it in sql @ line 129
+$date = date('F,Y'); //month and year. 'F' - month in Text form
+$nextDateMonth = date('m'); //month in number form
+$nextDateYear = date('Y'); //year
 
-    // get Previous date to show Previous payout amount  and pass it in sql @ line 111
-    $prevdate = date(" F,Y", strtotime("-1 months")); //month and year. 'F' - month in Text form. '-1' to get prev month
-    $prevDateMonth = date('m', strtotime("-1 months")); //month in number form. '-1' to get prev month
-    $prevDateYear = date('Y');  //Year in number form. 
+// get Previous date to show Previous payout amount  and pass it in sql @ line 111
+$prevdate = date(" F,Y", strtotime("-1 months")); //month and year. 'F' - month in Text form. '-1' to get prev month
+$prevDateMonth = date('m', strtotime("-1 months")); //month in number form. '-1' to get prev month
+$prevDateYear = date('Y');  //Year in number form. 
 ?>
 
 <!DOCTYPE html>
@@ -18,34 +18,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Techno Enterprise | Order History </title>
+    <title>Order History</title>
+    <!-- App favicon -->
     <link rel="shortcut icon" href="../assets/images/fav.png">
+    <!-- custom css file -->
+    <!-- <link href="../assets/css/styles.css" rel="stylesheet" type="text/css" /> -->
+    <!-- Layout config Js -->
+    <!-- <script src="../assets/js/layout.js"></script> -->
     <!-- Bootstrap Css -->
-    <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" /> -->
+    <!-- Icons Css -->
+    <!-- <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" /> -->
+    <!-- App Css-->
+    <!-- <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" /> -->
+    <!-- custom Css-->
+    <!-- <link href="../assets/css/custom.min.css" rel="stylesheet" type="text/css" /> -->
+    <!-- custom Css developer-->
+    <!-- <link rel="stylesheet" href="../assets/css/custom.css" /> -->
+    <!-- Css-->
+    <link href="../assets/css/loadingScreen.css" id="app-style" rel="stylesheet" type="text/css" />
+    <!-- App js -->
+    <!-- <script src="../assets/js/plugin.js"></script> -->
+    <!-- DataTables -->
+    <link href="../assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Responsive datatable examples -->
+    <link href="../assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <!-- Font Awesome Icons -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+    <!-- Date Range Picker CSS Start -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <!-- Date Range Picker CSS End -->
+
+
+
+    <!-- new css file to include new customer dashboard  -->
+    <!-- jsvectormap css -->
+    <link href="../assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
+
+    <!--Swiper slider css-->
+    <link href="../assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Layout config Js -->
+    <script src="../assets/js/layout.js"></script>
+    <!-- Bootstrap Css -->
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
     <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <!-- App Css-->
-    <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <link href="../assets/css/app.min.css" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="../assets/css/custom.min.css" rel="stylesheet" type="text/css" />
     <!-- custom Css developer-->
     <link rel="stylesheet" href="../assets/css/custom.css" />
+    <!-- Customer Dashboard CSS -->
     <link rel="stylesheet" href="../assets/css/techno_enterprise.css" />
 
-    <!-- DataTables -->
-    <link href="../assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-    <!-- Responsive datatable examples -->
-    <link href="../assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />  
-    <link rel="stylesheet" href="../assets/css/techno_enterprise.css" />
-    
-    <!-- Font Awesome Icons -->
-    <!-- Date Range Picker CSS End -->
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-    <!-- Date Range Picker CSS Start -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    
+    <!-- FontAwesome -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
 
     <style>
         .selected-date {
@@ -64,7 +95,7 @@
         }
 
         .faIcon {
-            padding: 21px 32px 21px 17px !important;
+            padding: 21px 30px 21px 14px !important
         }
 
         .faIcon:hover {
@@ -82,17 +113,7 @@
         .dateRange {
             border-radius: 14px !important;
         }
-        .nav-link.active {
-            background: #4b38b3;
-            color: #fff;
-            box-shadow: 0 4px 12px rgba(95, 46, 234, 0.3);
-        }
-        .nav-link.active span{
-            color: #fff;
-        }
-        .span-tab-font{
-            font-size: 13px;
-        }
+
         @media screen and (min-width: 993px) and (max-width: 1180px) {
             .cardText {
                 font-size: 12px !important;
@@ -158,35 +179,12 @@
 
 <body>
     <div id="layout-wrapper">
-       <?php 
-                include_once 'techno_header.php'; 
-        ?>
-        <!-- removeNotificationModal -->
-        <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="NotificationModalbtn-close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mt-2 text-center">
-                            <lord-icon src="javascript:void(0);" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
-                            <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
-                                <h4>Are you sure ?</h4>
-                                <p class="text-muted mx-4 mb-0">Are you sure you want to remove this Notification ?</p>
-                            </div>
-                        </div>
-                        <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
-                            <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn w-sm btn-danger" id="delete-notification">Yes, Delete It!</button>
-                        </div>
-                    </div>
+        <?php
+            // top header logo, hamberger menu, fullscreen icon, profile
+            include_once 'techno_header.php';
 
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-        <?php 
-                include_once 'techno_sidebar.php'; 
+            // sidebar navigation menu 
+            include_once 'techno_sidebar.php';
         ?>
         <?php
             $pending_booking_count = 0;
@@ -942,21 +940,21 @@
                         <div class="row rowAlign">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 pb-3">
                                 <nav role="navigation">
-                                    <ul class="nav nav-underline border-bottom border-1 border-secondary-subtle d-flex flex-nowrap justify-content-around" role="tablist">
-                                        <li class="nav-item flex-shrink-0">
-                                            <a class="nav-link active" data-bs-toggle="tab" role="tab" href="#allHistory"><span class="span-tab-font">All</span></a>
+                                    <ul class="nav nav-underline border-bottom border-1 border-secondary-subtle d-flex justify-content-around" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" data-bs-toggle="tab" role="tab" href="#allHistory">All</a>
                                         </li>
-                                        <li class="nav-item flex-shrink-0">
-                                            <a class="nav-link"  data-bs-toggle="tab" role="tab" href="#pendingHistory"><span class="span-tab-font">Pending</span></a>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#pendingHistory">Pending</a>
                                         </li>
-                                        <li class="nav-item flex-shrink-0">
-                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#bookedHistory"><span class="span-tab-font">Booked</span></a>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#bookedHistory">Booked</a>
                                         </li>
-                                        <li class="nav-item flex-shrink-0">
-                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#canceledHistory"><span class="span-tab-font">Canceled</span></a>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#canceledHistory">Canceled</a>
                                         </li>
-                                        <li class="nav-item flex-shrink-0">
-                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#refundHistory"><span class="span-tab-font">Refund</span></a>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#refundHistory">Refund</a>
                                         </li>
                                     </ul>
                                 </nav>
@@ -1244,7 +1242,7 @@
                                                                             <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>">
                                                                                 <i class="fa-solid fa-eye"></i> View
                                                                             </a>
-                                                                            <a class="dropdown-item" href="orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF">
+                                                                            <a class="dropdown-item" href="../controllers/orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF">
                                                                                 <i class="fa-solid fa-arrow-down"></i> Download Itineraries
                                                                             </a>
                                                                             <?php
@@ -1457,7 +1455,7 @@
                                                                         <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                                         <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                             <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                            <a class="dropdown-item" href="orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
+                                                                            <a class="dropdown-item" href="../controllers/orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -1668,7 +1666,7 @@
                                                                         <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                                         <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                             <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                            <a class="dropdown-item" href="orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
+                                                                            <a class="dropdown-item" href="../controllers/orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -1881,7 +1879,7 @@
                                                                         <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                                         <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                             <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                            <a class="dropdown-item" href="orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
+                                                                            <a class="dropdown-item" href="../controllers/orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                                             <a class="dropdown-item refundAction" href="#" data-order-id=<?= $booking["id"] ?>><i class="fa-solid fa-money-bill-transfer"></i> Initiate Refund</a>
                                                                         </div>
                                                                     </div>
@@ -2094,7 +2092,7 @@
                                                                         <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                                         <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                             <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                            <a class="dropdown-item" href="orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
+                                                                            <a class="dropdown-item" href="../controllers/orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -2252,7 +2250,6 @@
                 </div>
             </div>
         </div>
-        <?php include (__DIR__ .'/../contact_modal.php') ?>
     </div>
     <!-- END layout-wrapper -->
     <!--start back-to-top-->
@@ -2261,7 +2258,7 @@
     </button>
     <!--end back-to-top-->
     <!-- JAVASCRIPT -->
-    <script src="../assets/libs/jquery/jquery.min.js"></script>
+    <script src="../assets/js/jquery/jquery-3.7.1.min.js"></script>
     <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/libs/metismenu/metisMenu.min.js"></script>
     <script src="../assets/libs/simplebar/simplebar.min.js"></script>
@@ -2273,12 +2270,42 @@
     <!-- Responsive examples -->
     <script src="../assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
     <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-     <!-- Calendar init -->
+    <!-- Calendar init -->
     <script src="../assets/libs/fullcalendar/index.global.min.js"></script>
+
     <!-- Date Range Picker Script Start -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <!-- Date Range Picker Script End -->
+
+    <!-- New js file for new customer design  -->
+    <!-- JAVASCRIPT -->
+    <!-- <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+    <!-- <script src="../assets/libs/simplebar/simplebar.min.js"></script> -->
+    <!-- <script src="../assets/libs/node-waves/waves.min.js"></script> -->
+    <script src="../assets/libs/feather-icons/feather.min.js"></script>
+    <!-- <script src="../assets/js/jquery/jquery-3.7.1.min.js"></script> -->
+
+    <!-- !-- materialdesign remix icon js- -->
+    <script src="../assets/js/pages/remix-icons-listing.js"></script>
+
+    <!-- Vector map-->
+    <script src="../assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+    <script src="../assets/libs/jsvectormap/maps/world-merc.js"></script>
+
+    <!--Swiper slider js-->
+    <script src="../assets/libs/swiper/swiper-bundle.min.js"></script>
+
+    <!-- App js -->
+    <script src="../assets/js/app.js"></script>
+
+    <script src="../assets/libs/chart.js/Chart-2.5.0.min.js"></script>
+
+
+    <!-- Dashboard init  popular candidates section js file-->
+    <script src="../assets/js/pages/dashboard-job.init.js"></script>
+
+    <script src="../assets/js/js-confetti.js"></script>
 
     <!-- App js -->
     <!-- <script src="../assets/js/app.js"></script> -->
@@ -2464,7 +2491,7 @@
                     $('a[href="#' + activeTabId + '"]').addClass("active");
                 },
                 error: function() {
-                    alert("Failed to load data. Please try again.");
+                    // alert("Failed to load data. Please try again.");
                 }
             });
         }
@@ -2610,7 +2637,7 @@
         //part payment logic end
     </script>
     <script type="text/javascript">
-        // console.log('test');
+        console.log('test');
         document.addEventListener('DOMContentLoaded', function() {
 
 
@@ -2924,55 +2951,22 @@
         });
     </script>
     <!-- Date Range Script -->
-    <!-- dialer logic scripts -->
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        window.onload = function () {
+            if (window.location.hash) {
+                const element = document.querySelector(window.location.hash);
 
-            const callBtn = document.getElementById("callBtn");
-
-            if (callBtn) {
-                callBtn.addEventListener("click", function(e) {
-
-                    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-                    if (!isMobile) {
-                        e.preventDefault();
-
-                        alert("📞 Calling works only on mobile devices.\nPlease dial 8010892265 from your phone.");
-                        location.reload();
-
-                        // Optional clipboard copy (safe fallback)
-                        if (navigator.clipboard) {
-                            navigator.clipboard.writeText("8010892265");
-                        }
-                    }
-                });
+                if (element) {
+                    setTimeout(() => {
+                        element.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start"
+                        });
+                    }, 300);
+                }
             }
-
-        });
+        };
     </script>
-
-    <script>
-        var modal = document.getElementById('staticBackdrop');
-
-        // Store the element that opened the modal
-        let lastFocusedElement;
-
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('[data-bs-toggle="modal"]')) {
-                lastFocusedElement = e.target;
-            }
-        });
-
-        modal.addEventListener('hidden.bs.modal', function () {
-            if (lastFocusedElement) {
-                lastFocusedElement.focus();
-            } else {
-                document.body.focus();
-            }
-        });
-    </script>
-    <!-- end dialer logic scripts -->
 </body>
 
 </html>

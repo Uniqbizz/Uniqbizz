@@ -276,7 +276,7 @@ try {
     }
 
     $stmt->execute();
-    print_r($stmt);
+    // print_r($stmt);
     $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     echo json_encode(["bookings" => $bookings ?: []], JSON_PRETTY_PRINT);
