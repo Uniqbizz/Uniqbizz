@@ -5,7 +5,7 @@
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
     <head>
         <meta charset="utf-8" />
-        <title>Super Techno Enterprisee Dashboard | Uniqbizz</title>
+        <title>Techno Enterprisee Dashboard | Uniqbizz</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -29,16 +29,74 @@
         <!-- custom Css developer-->
         <link rel="stylesheet" href="../assets/css/custom.css" />
         <!-- Super Techno Enterprisee Dashboard CSS -->
-        <link rel="stylesheet" href="../assets/css/super_techno_enterprise.css" />
+        <link rel="stylesheet" href="../assets/css/techno_enterprise.css" />
         
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        
+        <!-- TE dashboard cards -->
+        <style>
+            .nav-pills .nav-link {
+                border-radius: 50px;
+                padding: 4px 12px !important;
+                margin-right: 0px !important;
+                background-color: #fff !important;
+                color: #4b38b3 !important;
+                border: 2px solid #4b38b3 !important;
+                transition: 0.3s;
+            }
+ 
+            .nav-pills .nav-link.active {
+                background-color: #4b38b3 !important;
+                color: #fff !important;
+                border: 2px solid #4b38b3 !important;
+            }
+            .cardDisplay {
+                display: flex;
+                justify-content: space-between;
+            }
+            .iconTE {
+                background-color: #ffc8c8;
+                color: #d60c0c;
+                border-radius: 8px;
+                padding: 8px 10px;
+                align-content: center;
+            }
+            @media (max-width: 1170px) {
+                .cardDisplay {
+                    display: block;
+                    justify-content: space-between;
+                }
+            }
+            @media (max-width: 1024px) {
+                .cardDisplay {
+                    display: flex !important;
+                    justify-content: space-between;
+                }
+            }
+            @media (max-width: 992px) {
+                .cardDisplay {
+                    display: block !important;
+                    justify-content: space-between;
+                }
+            }
+            @media (max-width: 767px) {
+                .cardDisplay {
+                    display: flex !important;
+                    justify-content: space-between;
+                }
+            }
+            @media (max-width: 598px) {
+                .cardDisplay {
+                    display: block !important;
+                    justify-content: space-between;
+                }
+            }
+        </style>
     </head>
     <body class="twocolumn-panel">
         <!-- Begin page -->
         <div id="layout-wrapper">
-            <?php include_once "super_techno_header.php" ?>
+            <?php include_once "techno_header.php" ?>
 
             <!-- removeNotificationModal -->
             <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
@@ -65,7 +123,7 @@
             </div><!-- /.modal -->
             <!-- ========== App Menu ========== -->
 
-            <?php include_once "super_techno_sidebar.php" ?>
+            <?php include_once "techno_sidebar.php" ?>
             <!-- ============================================================== -->
             <!-- Start of Super Techno Enterprisee Dashboard here -->
             <!-- ============================================================== -->
@@ -79,27 +137,13 @@
                             </div>
                             <div class="greetingCard">
                                 <p class="fw-bold text-dark gap-3 fs-4">Welcome Back,<span class="" id="userName"></span>! &#128075;</p>
-                                <h1 class="fw-bold text-dark gap-3">Super Techno Enterprise</h1>
+                                <h1 class="fw-bold text-dark gap-3">Techno Enterprise</h1>
                                 <p class="text-dark fs-4 mb-0">You're building something great.</p>
                                 <p class="text-dark fs-4">Here's your business overview.</p>
                             </div>
                         </div>
                         <!-- Card section 2 -->
                         <div class="row">
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-12">
-                                <div class="card rounded-4 p-3 stCard1">
-                                    <div class="d-flex gap-3">
-                                        <div class="stIcon stIcon1">
-                                            <i class="fa-solid fa-user-group fa-xl"></i>
-                                        </div>
-                                        <div class="">
-                                            <p class="mb-1 fs-6 fw-bold">TE | F</p>
-                                            <h4 class="fw-bolder text-dark mb-1" id="teCount">0</h4>
-                                            <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-12">
                                 <div class="card rounded-4 p-3 stCard2">
                                     <div class="d-flex gap-3">
@@ -135,9 +179,23 @@
                                             <i class="fa-solid fa-wallet fa-xl"></i>
                                         </div>
                                         <div class="">
-                                            <p class="mb-1 fs-6 fw-bold">Total Earnings</p>
+                                            <p class="mb-1 fs-6 fw-bold">Total Revenue</p>
+                                            <h4 class="fw-bolder text-dark mb-1" id="total_revenue">&#8377; 2,00,00,000</h4>
+                                            <a href="product_payout.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                                <div class="card rounded-4 p-3 stCard4">
+                                    <div class="d-flex gap-3">
+                                        <div class="stIcon stIcon4">
+                                            <i class="fa-solid fa-wallet fa-xl"></i>
+                                        </div>
+                                        <div class="">
+                                            <p class="mb-1 fs-6 fw-bold">Total Commission</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="total_com">&#8377; 0</h4>
-                                            <a href="contracting_payout.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <a href="holiday_payout.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -160,14 +218,6 @@
                                         </div>
                                         <div class="legend-section-details">
                                             <div class="legend-section">
-                                                <div class="legend-item">
-                                                    <div class="legend-left">
-                                                        <span class="dot" style="background:#5B2EFF"></span>
-                                                        <span>Recruitment Commission</span>
-                                                    </div>
-                                                    <div class="amount" id="recruitmentAmount"> &#8377; 0</div>
-                                                    <div class="percent" id="recruitmentPercent">0%</div>
-                                                </div>
                                                 <div class="legend-item">
                                                     <div class="legend-left">
                                                         <span class="dot" style="background:#2563EB"></span>
@@ -259,7 +309,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                                 <div class="cardChart card border-1">
                                     <div class="card-title d-flex justify-content-between p-2">
-                                        <p class="commission-title fs-5">TE | F Enrollment Count (Yearly)</p>
+                                        <p class="commission-title fs-5">TC Enrollment Count (Yearly)</p>
                                         <p class="">
                                             <select class="form-select yearSelect py-1" id="enrollmentYearFilter">
                                             </select>
@@ -272,57 +322,169 @@
                             </div>
                         </div>
                         <!-- Card section 5 -->
-                        <div class="row">
-                            <div class="col-lg-5 col-sm-12 col-12">
-
-                                <div class="card rounded-4 border-1 p-3 h-100">
-
-                                    <div class="card-title d-flex justify-content-between align-items-center">
-
-                                        <p class="commission-title fs-5 mb-0">
-                                            Recent Activities
-                                        </p>
-                                        <!-- 
-                                        <a href="#" class="fs-6 fw-bold">
-                                            View All
-                                        </a> -->
-
-                                    </div>
-
-                                    <div
-                                        class="cardDetails mt-3"
-                                        id="recentActivitiesContainer"
-                                    >
-
-                                        <div class="text-center py-4">
-                                            Loading...
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <div class="col-lg-7 col-sm-12 col-12">
+                        <!-- TE Dashborad Cards -->
+                        <div class="row mt-3">
+                            <div class="col-lg-8 col-md-6 col-sm-12 col-12">
                                 <div class="card rounded-4 border-1 p-3">
-                                    <div class="card-title d-flex justify-content-start">
+                                    <div class="card-title cardDisplay">
                                         <p class="commission-title fs-5 mb-1">
-                                            TE | F Performance
+                                            Team Performance <br>(On Holiday Account Activation)
                                         </p>
+                                        <ul class="nav nav-pills mb-3 gap-1" id="pills-tab" role="tablist">
+                                            <li class="nav-item m-0">
+                                                <button class="nav-link active" data-bs-toggle="pill"
+                                                    data-bs-target="#today">Today</button>
+                                            </li>
+                                            <li class="nav-item m-0">
+                                                <button class="nav-link" data-bs-toggle="pill"
+                                                    data-bs-target="#week">Week</button>
+                                            </li>
+                                            <li class="nav-item m-0">
+                                                <button class="nav-link" data-bs-toggle="pill"
+                                                    data-bs-target="#month">Month</button>
+                                            </li>
+                                            <li class="nav-item m-0">
+                                                <button class="nav-link" data-bs-toggle="pill"
+                                                    data-bs-target="#year">Year</button>
+                                            </li>
+                                        </ul>
                                     </div>
                                     <div class="cardDetails">
                                         <table class="table">
                                             <thead>
                                                 <tr class="table-active">
-                                                    <th scope="col">TE|F Name</th>
-                                                    <th scope="col">No. of Travel Consultants</th>
+                                                    <th scope="col">TC Code & Travel Consultant</th>
                                                     <th scope="col">Neo Select Members</th>
+                                                    <th scope="col">Revenue (&#8377;)</th>
+                                                    <th scope="col">Earnings (&#8377;)</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="tePerformanceBody">
-                                                
+                                            <tbody id="#">
+                                                <tr class="">
+                                                    <td>
+                                                        <p class="mb-0">TC001</p>
+                                                        <p class="mb-0">Rohit Sharma</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center">22</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center">55,000</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center">11,000</p>
+                                                    </td>
+                                                </tr>
+                                                <tr class="">
+                                                    <td>
+                                                        <p class="mb-0">TC001</p>
+                                                        <p class="mb-0">Rohit Sharma</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center">22</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center">55,000</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center">11,000</p>
+                                                    </td>
+                                                </tr>
+                                                <tr class="">
+                                                    <td>
+                                                        <p class="mb-0">TC001</p>
+                                                        <p class="mb-0">Rohit Sharma</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center">22</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center">55,000</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center">11,000</p>
+                                                    </td>
+                                                </tr>
+                                                <tr class="">
+                                                    <td>
+                                                        <p class="mb-0">TC001</p>
+                                                        <p class="mb-0">Rohit Sharma</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center">22</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center">55,000</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center">11,000</p>
+                                                    </td>
+                                                </tr>
                                             </tbody>
                                         </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                <div class="card rounded-4 border-1 p-3">
+                                    <div class="card-title cardDisplay">
+                                        <p class="commission-title fs-5 mb-1">
+                                            Consultants Need Attention
+                                        </p>
+                                    </div>
+                                    <div class="d-flex gap-2 mt-2">
+                                        <div class="iconTE">
+                                            <i class="fa-solid fa-tree fa-xl"></i>
+                                        </div>
+                                        <div>
+                                            <p class="fs-5 mb-0 fw-bold">TC014</p>
+                                            <p class="fs-6 mb-0">No Neo Select in last 15 days</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex gap-2 mt-2">
+                                        <div class="iconTE">
+                                            <i class="fa-solid fa-tree fa-xl"></i>
+                                        </div>
+                                        <div>
+                                            <p class="fs-5 mb-0 fw-bold">TC014</p>
+                                            <p class="fs-6 mb-0">No Neo Select in last 15 days</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex gap-2 mt-2">
+                                        <div class="iconTE">
+                                            <i class="fa-solid fa-tree fa-xl"></i>
+                                        </div>
+                                        <div>
+                                            <p class="fs-5 mb-0 fw-bold">TC014</p>
+                                            <p class="fs-6 mb-0">No Neo Select in last 15 days</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex gap-2 mt-2">
+                                        <div class="iconTE">
+                                            <i class="fa-solid fa-tree fa-xl"></i>
+                                        </div>
+                                        <div>
+                                            <p class="fs-5 mb-0 fw-bold">TC014</p>
+                                            <p class="fs-6 mb-0">No Neo Select in last 15 days</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex gap-2 mt-2">
+                                        <div class="iconTE">
+                                            <i class="fa-solid fa-tree fa-xl"></i>
+                                        </div>
+                                        <div>
+                                            <p class="fs-5 mb-0 fw-bold">TC014</p>
+                                            <p class="fs-6 mb-0">No Neo Select in last 15 days</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex gap-2 mt-2">
+                                        <div class="iconTE">
+                                            <i class="fa-solid fa-tree fa-xl"></i>
+                                        </div>
+                                        <div>
+                                            <p class="fs-5 mb-0 fw-bold">TC014</p>
+                                            <p class="fs-6 mb-0">No Neo Select in last 15 days</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -342,7 +504,7 @@
                         </div>
                     </div>
                 </div>
-                <?php include_once "super_techno_footer.php" ?>
+                <?php include_once "techno_footer.php" ?>
             </div>
 
             <!-- end main content-->
@@ -659,7 +821,6 @@
                     type: 'doughnut',
                     data: {
                         labels: [
-                            'Recruitment Commission',
                             'Neo Select Commission',
                             'Booking Commission'
                         ],
@@ -725,6 +886,7 @@
                         $('#teCount').text(dash.data.te_count || 0);
                         $('#tcCount').text(dash.data.tc_count || 0);
                         $('#cuCount').text(dash.data.cu_count || 0);
+                        $('#total_revenue').text('\u20B9' + (dash.data.all_revenue || 0));
                         $('#total_com').text('\u20B9' + (dash.data.all_earning || 0));
                         $('#total_paid_earning').text('\u20B9' + (dash.data.all_paid_earning || 0));
                         $('#total_pending_earning').text('\u20B9' + (dash.data.all_pending_earning || 0));
@@ -755,9 +917,6 @@
                             return;
                         }
 
-                        const recruitmentAmount =
-                            Number(res.data.recruitment?.amount || 0);
-
                         const neoAmount =
                             Number(res.data.neo_select?.amount || 0);
 
@@ -773,10 +932,6 @@
                         | Amounts
                         |--------------------------------------------------------------------------
                         */
-
-                        $('#recruitmentAmount').text(
-                            '\u20B9' + recruitmentAmount.toLocaleString('en-IN')
-                        );
 
                         $('#neoAmount').text(
                             '\u20B9' + neoAmount.toLocaleString('en-IN')
@@ -797,18 +952,12 @@
                         |--------------------------------------------------------------------------
                         */
 
-                        const recruitmentPercent =
-                            Number(res.data.recruitment?.percentage || 0);
-
                         const neoPercent =
                             Number(res.data.neo_select?.percentage || 0);
 
                         const bookingPercent =
                             Number(res.data.booking?.percentage || 0);
 
-                        $('#recruitmentPercent').text(
-                            recruitmentPercent.toFixed(1) + '%'
-                        );
 
                         $('#neoPercent').text(
                             neoPercent.toFixed(1) + '%'
@@ -861,7 +1010,6 @@
                         if (commissionChart) {
 
                             const chartTotal =
-                                recruitmentPercent +
                                 neoPercent +
                                 bookingPercent;
 
@@ -876,13 +1024,11 @@
                             } else {
 
                                 commissionChart.data.datasets[0].data = [
-                                    recruitmentPercent,
                                     neoPercent,
                                     bookingPercent
                                 ];
 
                                 commissionChart.data.datasets[0].backgroundColor = [
-                                    '#5B2EFF',
                                     '#2563EB',
                                     '#00C46A'
                                 ];
@@ -931,7 +1077,7 @@
                         datasets: [
 
                                 {
-                                    label: 'TE',
+                                    label: 'Tc',
                                     data: Array(12).fill(0),
                                     borderColor: '#1DB56C',
                                     backgroundColor: '#1DB56C',
@@ -969,47 +1115,6 @@
                                     pointRadius: 4,
                                     pointHoverRadius: 6,
                                     pointBackgroundColor: '#1DB56C'
-                                },
-
-                                {
-                                    label: 'SF',
-                                    data: Array(12).fill(0),
-                                    borderColor: '#3B82F6',
-                                    backgroundColor: '#3B82F6',
-                                    backgroundColor: function(context) {
-
-                                        const chart = context.chart;
-                                        const ctx = chart.ctx;
-                                        const chartArea = chart.chartArea;
-
-                                        if (!chartArea) {
-                                            return null;
-                                        }
-
-                                        const gradient = ctx.createLinearGradient(
-                                            0,
-                                            chartArea.top,
-                                            0,
-                                            chartArea.bottom
-                                        );
-
-                                        gradient.addColorStop(
-                                            0,
-                                            'rgba(47,107,255,0.30)'
-                                        );
-
-                                        gradient.addColorStop(
-                                            1,
-                                            'rgba(47,107,255,0.02)'
-                                        );
-
-                                        return gradient;
-                                    },
-                                    fill: true,
-                                    tension: 0.4,
-                                    pointRadius: 4,
-                                    pointHoverRadius: 6,
-                                    pointBackgroundColor: '#3B82F6'
                                 }
 
                             ]
@@ -1096,39 +1201,23 @@
 
                         /*
                         |--------------------------------------------------------------------------
-                        | TE Data
+                        | TC Data
                         |--------------------------------------------------------------------------
                         */
 
-                        let teData = Array(12).fill(0);
+                        let tcData = Array(12).fill(0);
 
-                        $.each(res.data.te_trend, function(i, row) {
+                        $.each(res.data.tc_trend, function(i, row) {
 
                             let monthIndex =
                                 parseInt(row.month_no) - 1;
 
-                            teData[monthIndex] =
-                                parseInt(row.te_count) || 0;
+                            tcData[monthIndex] =
+                                parseInt(row.tc_count) || 0;
 
                         });
 
-                        /*
-                        |--------------------------------------------------------------------------
-                        | SF Data
-                        |--------------------------------------------------------------------------
-                        */
-
-                        let sfData = Array(12).fill(0);
-
-                        $.each(res.data.sf_trend, function(i, row) {
-
-                            let monthIndex =
-                                parseInt(row.month_no) - 1;
-
-                            sfData[monthIndex] =
-                                parseInt(row.sf_count) || 0;
-
-                        });
+                        
 
                         /*
                         |--------------------------------------------------------------------------
@@ -1136,8 +1225,7 @@
                         |--------------------------------------------------------------------------
                         */
 
-                        enrollmentTrendChart.data.datasets[0].data = teData;
-                        enrollmentTrendChart.data.datasets[1].data = sfData;
+                        enrollmentTrendChart.data.datasets[0].data = tcData;
 
                         enrollmentTrendChart.update();
 
@@ -1153,181 +1241,7 @@
                 });
 
             }
-            function loadTEPerformance() {
-
-                $.ajax({
-                    url: 'models/dashboard/ste_te_performance_data.php',
-                    type: 'POST',
-                    dataType: 'json',
-
-                    success: function(res) {
-
-                        if (!res.status) {
-                            return;
-                        }
-
-                        let html = '';
-
-                        if (res.data.length === 0) {
-
-                            html = `
-                                <tr>
-                                    <td colspan="3" class="text-center py-4">
-                                        No data found
-                                    </td>
-                                </tr>
-                            `;
-
-                        } else {
-
-                            $.each(res.data, function(index, row) {
-                                let badge = '';
-
-                                if (
-                                    row.te_id.startsWith('TE') ||
-                                    row.te_id.startsWith('CA')
-                                ) {
-                                    badge = '<span class="badge bg-primary ms-1">TE</span>';
-                                } else if (
-                                    row.te_id.startsWith('F')
-                                ) {
-                                    badge = '<span class="badge bg-success ms-1">F</span>';
-                                }
-                                html += `
-                                    <tr>
-                                        <th scope="row">
-                                            ${badge} ${row.te_name} 
-                                        </th>
-
-                                        <td class="text-center">
-                                            ${row.tc_count}
-                                        </td>
-
-                                        <td class="text-center">
-                                            ${row.cu_count}
-                                        </td>
-                                    </tr>
-                                `;
-
-                            });
-
-                        }
-
-                        $('#tePerformanceBody').html(html);
-
-                    },
-
-                    error: function(xhr, status, error) {
-
-                        console.error(
-                            'TE Performance Error:',
-                            error
-                        );
-
-                    }
-
-                });
-
-            }
-            function loadRecentActivities() {
-
-                $.ajax({
-                    url: 'models/dashboard/ste_recent_activity_data.php',
-                    type: 'POST',
-                    dataType: 'json',
-
-                    success: function(res) {
-
-                        if (!res.status) {
-                            return;
-                        }
-
-                        let html = '';
-
-                        $.each(res.data, function(index, row) {
-
-                            let iconClass = 'stRecentIcon1';
-                            let icon = 'fa-user-group';
-                            let textClass = 'text-muted';
-
-                            if (row.type === 'customer') {
-
-                                iconClass = 'stRecentIcon2';
-                                icon = 'fa-user-group';
-
-                            } else if (row.type === 'recruitment') {
-
-                                iconClass = 'stRecentIcon4';
-                                icon = 'fa-indian-rupee-sign';
-                                textClass = 'text-success';
-
-                            } else if (row.type === 'booking') {
-
-                                iconClass = 'stRecentIcon5';
-                                icon = 'fa-indian-rupee-sign';
-                                textClass = 'text-success';
-
-                            }
-
-                            let activityTime = new Date(row.date).toLocaleTimeString(
-                                'en-IN',
-                                {
-                                    hour: '2-digit',
-                                    minute: '2-digit'
-                                }
-                            );
-
-                            html += `
-                                <div class="d-flex justify-content-between mb-3">
-
-                                    <div class="d-flex gap-2">
-
-                                        <div class="stRecentIcon ${iconClass}">
-                                            <i class="fa-solid ${icon} fa-xl"></i>
-                                        </div>
-
-                                        <div>
-
-                                            <p class="mb-1 fs-6 fw-bold">
-                                                ${row.title}
-                                            </p>
-
-                                            <p class="mb-0 fs-6 ${textClass}">
-                                                ${row.description}
-                                            </p>
-
-                                        </div>
-
-                                    </div>
-
-                                    <p class="text-muted mb-0 text-nowrap">
-                                        ${activityTime}
-                                    </p>
-
-                                </div>
-                            `;
-                        });
-
-                        if (html === '') {
-
-                            html = `
-                                <div class="text-center py-5">
-
-                                    <i class="fa-solid fa-clock-rotate-left fa-3x text-muted mb-3"></i>
-
-                                    <p class="text-muted mb-0">
-                                        No Recent Activities Found
-                                    </p>
-
-                                </div>
-                            `;
-                        }
-
-                        $('#recentActivitiesContainer').html(html);
-
-                    }
-                });
-            }
+            
             $(document).on(
                 'change',
                 '#enrollmentYearFilter',
@@ -1364,10 +1278,26 @@
 
                 loadEnrollmentTrendChart();
 
-                loadTEPerformance();
-
-                loadRecentActivities();
-
+            });
+        </script>
+        <!-- TE dashboard card -->
+        <script>
+            document.querySelectorAll('#filterNav .nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+ 
+                    // Remove active class from all links
+                    document.querySelectorAll('#filterNav .nav-link').forEach(item => {
+                        item.classList.remove('active');
+                    });
+ 
+                    // Add active class to clicked link
+                    this.classList.add('active');
+ 
+                    // Example: Update heading/content
+                    document.getElementById('selectedPeriod').textContent =
+                        this.textContent + ' Data';
+                });
             });
         </script>
     </body>

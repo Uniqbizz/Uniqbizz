@@ -652,17 +652,13 @@
 
                         let chartData = Array(12).fill(0);
 
-                        $.each(
-                            res.data.customer_trend,
-                            function(index, item) {
+                        $.each(res.data.customer_trend, function(index, item) {
 
-                                let monthIndex =
-                                    parseInt(item.month_no) - 1;
+                            let monthIndex = parseInt(item.month) - 1;
 
-                                chartData[monthIndex] =
-                                    parseInt(item.customer_count) || 0;
-                            }
-                        );
+                            chartData[monthIndex] = parseInt(item.total) || 0;
+
+                        });
 
                         customerTrendChart.data.datasets[0].data =
                             chartData;
@@ -970,10 +966,40 @@
                                     data: Array(12).fill(0),
                                     borderColor: '#1DB56C',
                                     backgroundColor: '#1DB56C',
-                                    fill: false,
+                                    backgroundColor: function(context) {
+
+                                        const chart = context.chart;
+                                        const ctx = chart.ctx;
+                                        const chartArea = chart.chartArea;
+
+                                        if (!chartArea) {
+                                            return null;
+                                        }
+
+                                        const gradient = ctx.createLinearGradient(
+                                            0,
+                                            chartArea.top,
+                                            0,
+                                            chartArea.bottom
+                                        );
+
+                                        gradient.addColorStop(
+                                            0,
+                                            'rgba(47, 255, 64, 0.3)'
+                                        );
+
+                                        gradient.addColorStop(
+                                            1,
+                                            'rgba(47, 255, 71, 0.02)'
+                                        );
+
+                                        return gradient;
+                                    },
+                                    fill: true,
                                     tension: 0.4,
                                     pointRadius: 4,
-                                    pointHoverRadius: 6
+                                    pointHoverRadius: 6,
+                                    pointBackgroundColor: '#1DB56C'
                                 },
 
                                 {
@@ -981,20 +1007,80 @@
                                     data: Array(12).fill(0),
                                     borderColor: '#3B82F6',
                                     backgroundColor: '#3B82F6',
-                                    fill: false,
+                                    backgroundColor: function(context) {
+
+                                        const chart = context.chart;
+                                        const ctx = chart.ctx;
+                                        const chartArea = chart.chartArea;
+
+                                        if (!chartArea) {
+                                            return null;
+                                        }
+
+                                        const gradient = ctx.createLinearGradient(
+                                            0,
+                                            chartArea.top,
+                                            0,
+                                            chartArea.bottom
+                                        );
+
+                                        gradient.addColorStop(
+                                            0,
+                                            'rgba(47,107,255,0.30)'
+                                        );
+
+                                        gradient.addColorStop(
+                                            1,
+                                            'rgba(47,107,255,0.02)'
+                                        );
+
+                                        return gradient;
+                                    },
+                                    fill: true,
                                     tension: 0.4,
                                     pointRadius: 4,
-                                    pointHoverRadius: 6
+                                    pointHoverRadius: 6,
+                                    pointBackgroundColor: '#3B82F6'
                                 },
                                 {
                                     label: 'I',
                                     data: Array(12).fill(0),
                                     borderColor: '#f6ea3b',
                                     backgroundColor: '#eaf63b',
-                                    fill: false,
+                                    backgroundColor: function(context) {
+
+                                        const chart = context.chart;
+                                        const ctx = chart.ctx;
+                                        const chartArea = chart.chartArea;
+
+                                        if (!chartArea) {
+                                            return null;
+                                        }
+
+                                        const gradient = ctx.createLinearGradient(
+                                            0,
+                                            chartArea.top,
+                                            0,
+                                            chartArea.bottom
+                                        );
+
+                                        gradient.addColorStop(
+                                            0,
+                                            'rgba(255, 241, 47, 0.3)'
+                                        );
+
+                                        gradient.addColorStop(
+                                            1,
+                                            'rgba(255, 241, 47, 0.02)'
+                                        );
+
+                                        return gradient;
+                                    },
+                                    fill: true,
                                     tension: 0.4,
                                     pointRadius: 4,
-                                    pointHoverRadius: 6
+                                    pointHoverRadius: 6,
+                                    pointBackgroundColor: '#eaf63b'
                                 }
 
                             ]
