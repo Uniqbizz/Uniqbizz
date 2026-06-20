@@ -489,6 +489,155 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row mt-3">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="card rounded-4 border-1 p-3">
+                                    <div class="card-title cardDisplay">
+                                        <p class="commission-title fs-5 mb-1">
+                                            Team Performance <br>(On Holiday Account Activation)
+                                        </p>
+                                        <ul class="nav nav-pills mb-3 gap-1" id="pills-tab" role="tablist">
+                                            <li class="nav-item m-0">
+                                                <button class="nav-link active" data-bs-toggle="pill"
+                                                    data-bs-target="#today">Today</button>
+                                            </li>
+                                            <li class="nav-item m-0">
+                                                <button class="nav-link" data-bs-toggle="pill"
+                                                    data-bs-target="#week">Week</button>
+                                            </li>
+                                            <li class="nav-item m-0">
+                                                <button class="nav-link" data-bs-toggle="pill"
+                                                    data-bs-target="#month">Month</button>
+                                            </li>
+                                            <li class="nav-item m-0">
+                                                <button class="nav-link" data-bs-toggle="pill"
+                                                    data-bs-target="#year">Year</button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="cardDetails">
+                                        <table class="table">
+                                            <thead>
+                                                <tr class="table-active">
+                                                    <th scope="col">TC Code & Travel Consultant</th>
+                                                    <th scope="col">Neo Select Members</th>
+                                                    <th scope="col">Revenue (&#8377;)</th>
+                                                    <th scope="col">Earnings (&#8377;)</th>
+                                                    <th scope="col">Target Achievement</th>
+                                                    <th scope="col">Performance</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="#">
+                                                <tr class="">
+                                                    <td>
+                                                        <p class="mb-0">TC001</p>
+                                                        <p class="mb-0">Rohit Sharma</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center">22</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center">55,000</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center">11,000</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center text-success fw-bold">110%</p>
+                                                        <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                                            <div class="progress-bar bg-success" style="width: 100%"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bold text-center">
+                                                            Star Performer
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="">
+                                                    <td>
+                                                        <p class="mb-0">TC001</p>
+                                                        <p class="mb-0">Rohit Sharma</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center">22</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center">55,000</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center">11,000</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center text-success fw-bold">95%</p>
+                                                        <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">
+                                                            <div class="progress-bar bg-success" style="width: 95%"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bold text-center">
+                                                            Good
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="">
+                                                    <td>
+                                                        <p class="mb-0">TC001</p>
+                                                        <p class="mb-0">Rohit Sharma</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center">22</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center">55,000</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center">11,000</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center text-warning fw-bold">70%</p>
+                                                        <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
+                                                            <div class="progress-bar bg-warning" style="width: 70%"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="p-1 text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3 fw-bold text-center">
+                                                            Average
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="">
+                                                    <td>
+                                                        <p class="mb-0">TC001</p>
+                                                        <p class="mb-0">Rohit Sharma</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center">22</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center">55,000</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center">11,000</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-center text-danger fw-bold">25%</p>
+                                                        <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                                            <div class="progress-bar bg-danger" style="width: 25%"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="p-1 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3 fw-bold text-center">
+                                                            Need Support
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <!-- card section 6 -->
                         <div class="supportImagePosition mt-2">
                             <img src="../assets/images/supportImage.png" alt="Referral Image" class="supportImage">
