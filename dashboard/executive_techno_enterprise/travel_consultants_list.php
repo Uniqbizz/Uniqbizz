@@ -232,12 +232,7 @@
 
                 </div><!-- End Page-content -->
                 <?php 
-                    if ($userType == 34) {
-                        include_once(__DIR__ . '/executive_techno_footer.php');
-                    }else{
-
                         include_once "executive_techno_footer.php"; 
-                    }
                 ?>
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
@@ -311,7 +306,7 @@
                                     </p>
 
                                     <p class="fs-6 mb-0">
-                                        ${data.super_techno_enterprise_id || '-'}
+                                        ${data.reference_id || '-'}
                                     </p>
                                 </div>
                             `;

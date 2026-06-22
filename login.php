@@ -583,6 +583,9 @@
                             else if (res.user_type == "16") {
                                 location.href = "dashboard/techno_enterprise/techno_dashboard.php";
                             } 
+                            else if (res.user_type == "36") {
+                                location.href = "dashboard/chief_techno_enterprise/chief_techno_dashboard.php";
+                            } 
                             else
                             {
                                 location.href = "dashboard/index.php";

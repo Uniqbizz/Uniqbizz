@@ -85,7 +85,7 @@
             INNER JOIN executive_techno_enterprise ste
                 ON sf.reference_no = ste.executive_techno_enterprise_id
 
-            WHERE ste.reference_no = :user_id
+            WHERE sf.reference_no = :user_id
             AND sf.status IN (2,4)
 
             ORDER BY id DESC;

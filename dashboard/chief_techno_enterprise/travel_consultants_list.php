@@ -1,20 +1,12 @@
 <?php
     include_once (__DIR__.'/../dashboard_user_details.php');
-    if ($userType == '34') {
-        $base_url_sidebar = "/ca.uniqbizz.com/dashboard/executive_techno_enterprise/";
-        $base_url_asset = "/ca.uniqbizz.com/dashboard/";
-        $home_url = "/ca.uniqbizz.com/";
-    }else{
-        // $base_url_sidebar = "/ca.uniqbizz.com/dashboard/customer_dashboard/";
-        $base_url_asset = "/ca.uniqbizz.com/dashboard/";
-        $home_url = "/ca.uniqbizz.com/"; 
-    }
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
     <head>
+
         <meta charset="utf-8" />
-        <title>Travel Consultants List | Dashboard</title>
+        <title>Travel Consultants | Institution Branch Managers List</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -49,19 +41,33 @@
         <link rel="stylesheet" href="../assets/css/chief_techno_enterprise.css" />
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- add on 11-06-2026 by SV -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+        
+        <style>
+        #reportrange{
+            min-width: 280px;
+            width: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            white-space: nowrap;
+        }
+
+        #reportrange span{
+            display: inline-block;
+        }
+        </style>
+        <!-- add on 11-06-2026 by SV END-->
     </head>
     <body>
  
         <!-- Begin page -->
         <div id="layout-wrapper">
 
-            <?php 
-                if ($userType == 34) {
-                    include_once(__DIR__ . '/chief_techno_header.php');
-                }else{
-
+            <?php
                     include_once 'chief_techno_header.php'; 
-                }
             ?>
 
             <!-- removeNotificationModal -->
@@ -90,12 +96,7 @@
             </div><!-- /.modal -->
             <!-- ========== App Menu ========== -->
             <?php 
-                if ($userType == 34) {
-                    include_once(__DIR__ . '/chief_techno_sidebar.php');
-                }else{
-
                     include_once 'chief_techno_sidebar.php'; 
-                }
             ?>
 
             <!-- ============================================================== -->
@@ -109,12 +110,12 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Travel Consultants</h4>
+                                    <h4 class="mb-sm-0">Travel Consultants | Institution Branch Managers</h4>
 
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="chief_techno_dashboard.php">Dashboard</a></li>
-                                            <li class="breadcrumb-item active">View Travel Consultants</li>
+                                            <li class="breadcrumb-item active">View Travel Consultants | Institution Branch Managers</li>
                                         </ol>
                                     </div>
 
@@ -135,8 +136,8 @@
                                                         <i class="fa-solid fa-hourglass-half fa-xl"></i>
                                                     </div>
                                                     <div class="align-content-end">
-                                                        <h5 class="card-title text-dark mb-0">Pending Travel Consultants List</h5>
-                                                        <p class="text-muted fs-6 mb-0">Travel Consultants pending for approval</p>
+                                                        <h5 class="card-title text-dark mb-0">Pending Travel Consultants | Institution Branch Managers List</h5>
+                                                        <p class="text-muted fs-6 mb-0">Travel Consultants | Institution Branch Managers pending for approval</p>
                                                     </div>
                                                 </div>    
                                                 <div class="card-body">
@@ -150,99 +151,7 @@
                                                                 <th data-ordering="false">Status</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    <p class="fs-6 mb-0">Rajesh Kumar</p>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="">
-                                                                        <p class="fs-6 mb-0">Pandurang Naik</p>
-                                                                        <p class="fs-6 mb-0">STE-REF-00023</p>
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="">
-                                                                        <p class="fs-6 mb-0"><i class="fa-solid fa-phone me-2"></i>+91 9876543210</p>
-                                                                        <p class="fs-6 mb-0"><i class="fa-regular fa-envelope me-2"></i>rajesh.kumar@email.com</p>
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="fs-6 mb-0"><i class="fa-solid fa-calendar-days me-2"></i>20 May 2024</p>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="tePendingBtn rounded-pill text-center">Pending</p>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <p class="fs-6 mb-0">Rajesh Kumar</p>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="">
-                                                                        <p class="fs-6 mb-0">Pandurang Naik</p>
-                                                                        <p class="fs-6 mb-0">STE-REF-00023</p>
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="">
-                                                                        <p class="fs-6 mb-0"><i class="fa-solid fa-phone me-2"></i>+91 9876543210</p>
-                                                                        <p class="fs-6 mb-0"><i class="fa-regular fa-envelope me-2"></i>rajesh.kumar@email.com</p>
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="fs-6 mb-0"><i class="fa-solid fa-calendar-days me-2"></i>20 May 2024</p>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="tePendingBtn rounded-pill text-center">Pending</p>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <p class="fs-6 mb-0">Rajesh Kumar</p>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="">
-                                                                        <p class="fs-6 mb-0">Pandurang Naik</p>
-                                                                        <p class="fs-6 mb-0">STE-REF-00023</p>
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="">
-                                                                        <p class="fs-6 mb-0"><i class="fa-solid fa-phone me-2"></i>+91 9876543210</p>
-                                                                        <p class="fs-6 mb-0"><i class="fa-regular fa-envelope me-2"></i>rajesh.kumar@email.com</p>
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="fs-6 mb-0"><i class="fa-solid fa-calendar-days me-2"></i>20 May 2024</p>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="tePendingBtn rounded-pill text-center">Pending</p>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <p class="fs-6 mb-0">Rajesh Kumar</p>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="">
-                                                                        <p class="fs-6 mb-0">Pandurang Naik</p>
-                                                                        <p class="fs-6 mb-0">STE-REF-00023</p>
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="">
-                                                                        <p class="fs-6 mb-0"><i class="fa-solid fa-phone me-2"></i>+91 9876543210</p>
-                                                                        <p class="fs-6 mb-0"><i class="fa-regular fa-envelope me-2"></i>rajesh.kumar@email.com</p>
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="fs-6 mb-0"><i class="fa-solid fa-calendar-days me-2"></i>20 May 2024</p>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="tePendingBtn rounded-pill text-center">Pending</p>
-                                                                </td>
-                                                            </tr>
+                                                        <tbody id="tcTableBody">
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -254,32 +163,38 @@
                                             <div class="card rounded-4 border-1">
                                                 <div class="card-header border-bottom-dashed rounded-top-4">
                                                     <div class="row">
-                                                        <div class="col-xl-6 col-lg-5 col-md-12 col-sm-12 col-12 mb-2">
+                                                        <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
                                                             <div class="d-flex gap-3">
                                                                 <div class="tePendingIcon tePendingIcon2">
                                                                     <i class="ri-verified-badge-line" style="font-size: 30px;"></i>
                                                                 </div>
                                                                 <div class="align-content-end">
-                                                                    <h5 class="card-title text-dark mb-0">Registered Travel Consultants List</h5>
-                                                                    <p class="text-muted fs-6 mb-0">All approved and active Travel Consultantss</p>
+                                                                    <h5 class="card-title text-dark mb-0">Registered Travel Consultants | Institution Branch Managers List</h5>
+                                                                    <p class="text-muted fs-6 mb-0">All approved and active Travel Consultants | Institution Branch Managers</p>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-xl-6 col-lg-7 col-md-12 col-sm-12 col-12 mb-2">
+                                                        <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12 col-12 mb-2">
                                                             <div class="row d-flex justify-content-end gap-2 teSectionSize">
-                                                                <div class="col-lg-3 col-md-4 col-sm-4 col-6 mb-2">
-                                                                    <!-- <div> -->
-                                                                        <input type="date" id="date" name="date" class="dateInput">
-                                                                    <!-- </div>   -->
-                                                                </div>
-                                                                <div class="col-lg-4 col-md-4 col-sm-4 col-6 mb-2">
-                                                                    <div class="d-flex gap-2">
-                                                                        <p class="fs-6 text-dark mb-1 align-content-center">Count</p>
-                                                                        <input type="number" class="dateInput" value="50">
+                                                                <!-- Date Range -->
+                                                                <div class="col-lg-5 col-md-5 col-sm-6 col-12">
+                                                                    <div id="reportrange"
+                                                                        class="bg-primary text-white px-3 py-2 text-center dateRange w-100"
+                                                                        style="border-radius:6px; cursor:pointer;">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                        &nbsp;
+                                                                        <span id="selectedDate"></span>
+                                                                        <i class="fa-solid fa-angle-down"></i>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-lg-4 col-md-4 col-sm-4 col-12 mb-2">
-                                                                    <a href="#" class="text-decoration-none" id="#">
+                                                                <div class="col-lg-3 col-md-3 col-sm-4 col-6 mb-2">
+                                                                    <div class="d-flex gap-2">
+                                                                        <p class="fs-6 text-dark mb-1 align-content-center">Count</p>
+                                                                        <input type="number" class="dateInput" id="rowCount" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-2">
+                                                                    <a href="#" class="text-decoration-none" id="exporttc">
                                                                         <div class="stWalletBtn rounded-3 py-2 align-items-center justify-content-center justify-content-lg-start">
                                                                             <i class="fa-solid fa-download me-2"></i>
                                                                             <p class="fs-6 mb-0 fw-bolder pe-1">Download</p>
@@ -294,8 +209,8 @@
                                                     <table id="example-dataTable-2" class="table table-striped table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                                         <thead>
                                                             <tr class="table-primary">
-                                                                <th data-ordering="false">TE ID & Full Name</th>
-                                                                <th data-ordering="false">Reference ID & Name</th>
+                                                                <th data-ordering="false">TC | IBR ID & Full Name</th>
+                                                                <th data-ordering="false">TE/F ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
@@ -303,134 +218,6 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="">
-                                                                        <p class="fs-6 mb-0">Rajesh Kumar</p>
-                                                                        <p class="fs-6 mb-0">STE-REF-00023</p>
-                                                                    </div>
-                                                                    
-                                                                </td>
-                                                                <td>
-                                                                    <div class="">
-                                                                        <p class="fs-6 mb-0">Pandurang Naik</p>
-                                                                        <p class="fs-6 mb-0">STE-REF-00023</p>
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="">
-                                                                        <p class="fs-6 mb-0"><i class="fa-solid fa-phone me-2"></i>+91 9876543210</p>
-                                                                        <p class="fs-6 mb-0"><i class="fa-regular fa-envelope me-2"></i>rajesh.kumar@email.com</p>
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="fs-6 mb-0"><i class="fa-solid fa-calendar-days me-2"></i>20 May 2024</p>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="teActiveBtn rounded-pill text-center">Active</p>
-                                                                </td>
-                                                                <td>
-                                                                    <a href="#">
-                                                                        <p class="teViewBtn text-center fw-bold"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="">
-                                                                        <p class="fs-6 mb-0">Rajesh Kumar</p>
-                                                                        <p class="fs-6 mb-0">STE-REF-00023</p>
-                                                                    </div>
-                                                                    
-                                                                </td>
-                                                                <td>
-                                                                    <div class="">
-                                                                        <p class="fs-6 mb-0">Pandurang Naik</p>
-                                                                        <p class="fs-6 mb-0">STE-REF-00023</p>
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="">
-                                                                        <p class="fs-6 mb-0"><i class="fa-solid fa-phone me-2"></i>+91 9876543210</p>
-                                                                        <p class="fs-6 mb-0"><i class="fa-regular fa-envelope me-2"></i>rajesh.kumar@email.com</p>
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="fs-6 mb-0"><i class="fa-solid fa-calendar-days me-2"></i>20 May 2024</p>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="teActiveBtn rounded-pill text-center">Active</p>
-                                                                </td>
-                                                                <td>
-                                                                    <a href="#">
-                                                                        <p class="teViewBtn text-center fw-bold"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="">
-                                                                        <p class="fs-6 mb-0">Rajesh Kumar</p>
-                                                                        <p class="fs-6 mb-0">STE-REF-00023</p>
-                                                                    </div>
-                                                                    
-                                                                </td>
-                                                                <td>
-                                                                    <div class="">
-                                                                        <p class="fs-6 mb-0">Pandurang Naik</p>
-                                                                        <p class="fs-6 mb-0">STE-REF-00023</p>
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="">
-                                                                        <p class="fs-6 mb-0"><i class="fa-solid fa-phone me-2"></i>+91 9876543210</p>
-                                                                        <p class="fs-6 mb-0"><i class="fa-regular fa-envelope me-2"></i>rajesh.kumar@email.com</p>
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="fs-6 mb-0"><i class="fa-solid fa-calendar-days me-2"></i>20 May 2024</p>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="teActiveBtn rounded-pill text-center">Active</p>
-                                                                </td>
-                                                                <td>
-                                                                    <a href="#">
-                                                                        <p class="teViewBtn text-center fw-bold"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="">
-                                                                        <p class="fs-6 mb-0">Rajesh Kumar</p>
-                                                                        <p class="fs-6 mb-0">STE-REF-00023</p>
-                                                                    </div>
-                                                                    
-                                                                </td>
-                                                                <td>
-                                                                    <div class="">
-                                                                        <p class="fs-6 mb-0">Pandurang Naik</p>
-                                                                        <p class="fs-6 mb-0">STE-REF-00023</p>
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="">
-                                                                        <p class="fs-6 mb-0"><i class="fa-solid fa-phone me-2"></i>+91 9876543210</p>
-                                                                        <p class="fs-6 mb-0"><i class="fa-regular fa-envelope me-2"></i>rajesh.kumar@email.com</p>
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="fs-6 mb-0"><i class="fa-solid fa-calendar-days me-2"></i>20 May 2024</p>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="teActiveBtn rounded-pill text-center">Active</p>
-                                                                </td>
-                                                                <td>
-                                                                    <a href="#">
-                                                                        <p class="teViewBtn text-center fw-bold"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -445,12 +232,7 @@
 
                 </div><!-- End Page-content -->
                 <?php 
-                    if ($userType == 34) {
-                        include_once(__DIR__ . '/chief_techno_footer.php');
-                    }else{
-
-                        include_once "chief_techno_footer.php"; 
-                    }
+                    include_once "chief_techno_footer.php"; 
                 ?>
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
@@ -460,7 +242,11 @@
             <i class="ri-arrow-up-line"></i>
         </button>
         <!--end back-to-top-->
-        
+        <!-- contact card pop up  start-->
+        <button type="button" class="contactBtn btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            <i class="ri-phone-fill"></i>
+        </button>
+        <?php include (__DIR__.'/../contact_modal.php') ?>
         <!-- JAVASCRIPT -->
         <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="../assets/libs/simplebar/simplebar.min.js"></script>
@@ -477,70 +263,408 @@
         <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
         <!-- !-- materialdesign icon js- -->
         <script src="../assets/js/pages/remix-icons-listing.js"></script>
-        <?php 
-            //if ($userType == 34) {
-        ?>
-        <!-- Vector map-->
-        <script src="<?= $base_url ?>../assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
-        <script src="<?= $base_url ?>../assets/libs/jsvectormap/maps/world-merc.js"></script>
-
-        <!--Swiper slider js-->
-        <script src="<?= $base_url ?>../assets/libs/swiper/swiper-bundle.min.js"></script>
-        <?php
-           // }
-        ?>
-
+        
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
+        <!-- add on 10-06-2026 by SV -->
+        <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+         <!-- add on 10-06-2026 by SV END-->
 
         <script>
-            $(document).ready(function(){
-                $("#example-dataTable").DataTable();
-                $("#example-dataTable-2").DataTable();
+            const tcTable = $('#example-dataTable').DataTable({
+                destroy: true,
+                responsive: true,
+                processing: true,
+                searching: true,
+                paging: true,
+                ordering: false,
+                data: [],
+                columns: [
+
+                    {
+                        data: null,
+                        render: function(data){
+
+                            return `
+                                <p class="fs-6 mb-0">
+                                    ${data.firstname || ''} ${data.lastname || ''}
+                                </p>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: null,
+                        render: function(data){
+
+                            return `
+                                <div>
+                                    <p class="fs-6 mb-0">
+                                        ${data.ref_firstname || ''} ${data.ref_lastname || ''}
+                                    </p>
+
+                                    <p class="fs-6 mb-0">
+                                        ${data.reference_id || '-'}
+                                    </p>
+                                </div>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: null,
+                        render: function(data){
+
+                            return `
+                                <div>
+                                    <p class="fs-6 mb-0">
+                                        <i class="fa-solid fa-phone me-2"></i>
+                                        ${data.contact_no || '-'}
+                                    </p>
+
+                                    <p class="fs-6 mb-0">
+                                        <i class="fa-regular fa-envelope me-2"></i>
+                                        ${data.email || '-'}
+                                    </p>
+                                </div>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: 'register_date',
+                        render: function(data){
+
+                            if(!data) return '-';
+
+                            return `
+                                <p class="fs-6 mb-0">
+                                    <i class="fa-solid fa-calendar-days me-2"></i>
+                                    ${moment(data).format('DD MMM YYYY')}
+                                </p>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: 'status',
+                        render: function(status){
+
+                            if(status == 1){
+
+                                return `
+                                    <p class="teApprovedBtn rounded-pill text-center mb-0">
+                                        Active
+                                    </p>
+                                `;
+                            }
+
+                            if(status == 3){
+
+                                return `
+                                    <p class="tePendingBtn rounded-pill text-center mb-0">
+                                        Pending
+                                    </p>
+                                `;
+                            }
+
+                            return `
+                                <p class="teDeletedBtn rounded-pill text-center mb-0">
+                                    Inactive
+                                </p>
+                            `;
+                        }
+                    }
+                ],
+                language: {
+                    emptyTable: "No Pending Travel Consultant Found"
+                }
+            });
+            function loadPendingTEList(){
+
+                $.ajax({
+                    url: 'models/travel_consultant/ste_pending_tc_table_data.php',
+                    type: 'POST',
+                    dataType: 'json',
+
+                    success: function(res){
+
+                        if(!res.status){
+
+                            tcTable.clear().draw();
+                            
+                            return;
+                        }
+
+                        tcTable.clear();
+                        tcTable.rows.add(res.data);
+                        tcTable.draw();
+                        
+                    },
+
+                    error: function(){
+
+                        tcTable.clear().draw();
+                    }
+                });
+
+            }
+            
+            const tcRegTable = $('#example-dataTable-2').DataTable({
+                responsive: true,
+                ordering: false,
+                searching: true,
+                paging: true,
+                data: [],
+                columns: [
+                    {
+                        data: null,
+                        render: function(data) {
+                            return `
+                                <div>
+                                    <p class="fs-6 mb-0">
+                                        ${data.firstname || ''} ${data.lastname || ''}
+                                    </p>
+                                    <p class="fs-6 mb-0">
+                                        ${data.ca_travelagency_id || '-'}
+                                    </p>
+                                <div>
+                            `;
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function(data) {
+                            return `
+                                <div>
+                                    <p class="fs-6 mb-0">
+                                        ${data.ref_firstname || '-'} ${data.ref_lastname || ''}
+                                    </p>
+                                    <p class="fs-6 mb-0">
+                                        ${data.reference_id || '-'}
+                                    </p>
+                                </div>
+                            `;
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function(data) {
+                            return `
+                                <div>
+                                    <p class="fs-6 mb-0">
+                                        <i class="fa-solid fa-phone me-2"></i>
+                                        ${data.contact_no || '-'}
+                                    </p>
+                                    <p class="fs-6 mb-0">
+                                        <i class="fa-regular fa-envelope me-2"></i>
+                                        ${data.email || '-'}
+                                    </p>
+                                </div>
+                            `;
+                        }
+                    },
+                    {
+                        data: 'register_date',
+                        render: function(data) {
+
+                            if(!data) return '-';
+
+                            return `
+                                <p class="fs-6 mb-0">
+                                    <i class="fa-solid fa-calendar-days me-2"></i>
+                                    ${moment(data).format('DD MMM YYYY')}
+                                </p>
+                            `;
+                        }
+                    },
+                    {
+                        data: 'status',
+                        render: function(status) {
+
+                            let badge = 'tePendingBtn';
+                            let text = 'Pending';
+
+                            if(status == 1){
+
+                                badge = 'teActiveBtn';
+                                text = 'Active';
+
+                            }else if(status == 3){
+
+                                badge = 'tePendingBtn';
+                                text = 'Inactive';
+
+                            }else{
+
+                                badge = 'teDeletedBtn';
+                                text = 'NA';
+
+                            }
+
+                            return `
+                                <p class="${badge} rounded-pill text-center mb-0">
+                                    ${text}
+                                </p>
+                            `;
+                        }
+                    },
+                    {
+                        data: 'ca_travelagency_id',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data) {
+
+                            return `
+                                <form action="#" method="POST" class="m-0">
+                                    <input
+                                        type="hidden"
+                                        name="ca_travelgency_id"
+                                        value="${data}"
+                                    >
+
+                                    <button
+                                        type="submit"
+                                        class="border-0 bg-transparent p-0 w-100"
+                                    >
+                                        <p class="teViewBtn text-center fw-bold mb-0">
+                                            <i class="fa-solid fa-eye me-2 mt-1"></i>View
+                                        </p>
+                                    </button>
+                                </form>
+                            `;
+                        }
+                    }
+                ],
+                language: {
+                    emptyTable: 'No Travel Consultant Found'
+                }
             });
 
-            // function editfunc(id,cut,st,ct,editfor){
-            //     window.location.href='edit_customer.php?vkvbvjfgfikix='+id+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor;
-            // };
 
-            // function addRefFunc(id,taID,cut,st,ct,editfor){
-            //     window.location.href='add_customer.php?vkvbvjfgfikix='+id+'&taId='+taID+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor;
-            // };
-            
-            // function deletefunc(id,refid,action,userId,userType){
-            //     var dataString = 'id='+id+'&refid='+refid+'&action='+action+'&userId='+userId+'&userType='+userType
+            function loadRegisteredTEList(){
 
-            //     $.ajax({
-            //         type: "POST",
-            //         url: "customer/delete_customer_data.php",
-            //         data: dataString,
-            //         cache: false,
-            //         success:function(data){
-            //             console.log(data);
-            //             if( data == 0 ){
-            //                 alert("Deleted Succesfully");
-            //                 window.location.reload();
-            //             }else if( data == 1 ){
-            //                 alert("User Activated Succesfully");
-            //                 window.location.reload();
-            //             }else if( data == 2 ){
-            //                 alert("User Restored Succesfully");
-            //                 window.location.reload();
-            //             }else if( data == 3 ){
-            //                 alert("User Deactivated Succesfully");
-            //                 window.location.reload();
-            //             } else {
-            //                 alert("Request Failed !!");
-            //             }
-            //         }
-            //     });
-            // };
+                $.ajax({
+
+                    url: 'models/travel_consultant/ste_registered_tc_list.php',
+
+                    type: 'POST',
+
+                    dataType: 'json',
+
+                    data: {
+                        start_date: window.startDate,
+                        end_date: window.endDate
+                    },
+
+                    success: function(res){
+
+                        // console.log(res);
+
+                        tcRegTable.clear();
+
+                        if(res.status && res.data.length > 0){
+
+                            tcRegTable.rows.add(res.data);
+                            $('#rowCount').val(res.data.length);
+
+                        }
+
+                        tcRegTable.draw();
+
+                    },
+
+                    error: function(xhr){
+
+                        // console.log(xhr.responseText);
+
+                        tcRegTable.clear().draw();
+
+                    }
+
+                });
+
+            }
 
 
-            // function overviewPage(id,ref,cut,st,ct,message){
-            //     var designation = 'ca_customer';
-            //     window.location.href='overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
-            // }
+           
+            $(function () {
+
+                let start = moment('2020-01-01');
+                let end = moment();
+
+                function cb(start, end) {
+
+                    $('#selectedDate').html(
+                        start.format('MMMM D, YYYY') +
+                        ' - ' +
+                        end.format('MMMM D, YYYY')
+                    );
+
+                    window.startDate = start.format('YYYY-MM-DD');
+                    window.endDate = end.format('YYYY-MM-DD');
+
+                    loadRegisteredTEList();
+                }
+
+                $('#reportrange').daterangepicker({
+                    startDate: start,
+                    endDate: end,
+
+                    showDropdowns: true,
+                    alwaysShowCalendars: true,
+                    opens: 'left',
+
+                    ranges: {
+                        'Today': [
+                            moment(),
+                            moment()
+                        ],
+                        'Yesterday': [
+                            moment().subtract(1, 'days'),
+                            moment().subtract(1, 'days')
+                        ],
+                        'Last 7 Days': [
+                            moment().subtract(6, 'days'),
+                            moment()
+                        ],
+                        'Last 30 Days': [
+                            moment().subtract(29, 'days'),
+                            moment()
+                        ],
+                        'This Month': [
+                            moment().startOf('month'),
+                            moment().endOf('month')
+                        ],
+                        'Last Month': [
+                            moment().subtract(1, 'month').startOf('month'),
+                            moment().subtract(1, 'month').endOf('month')
+                        ],
+                        'Last Year': [
+                            moment().subtract(1, 'year').startOf('year'),
+                            moment().subtract(1, 'year').endOf('year')
+                        ]
+                    }
+                }, cb);
+
+                cb(start, end);
+
+            });
+            $(document).ready(function(){
+
+                loadPendingTEList();
+                loadRegisteredTEList();
+
+            });
+            $('#exporttc').on('click', function(){
+                window.location.href =
+                'models/common/download_registered_list.php?' +
+                'type=tc' +
+                '&start_date=' + startDate +
+                '&end_date=' + endDate;
+            });
         </script>
         <!-- dialer logic scripts -->
         <script>

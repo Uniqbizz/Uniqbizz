@@ -162,7 +162,7 @@
                             <div class="tab-pane fade show p-4" id="all-noti-tab" role="tabpanel">
                                 <div class="empty-notification-elem">
                                     <div class="w-25 w-sm-50 pt-3 mx-auto">
-                                        <img src="assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
+                                        <img src="../assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
                                     </div>
                                     <div class="text-center pb-5 mt-2">
                                         <h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>
@@ -173,7 +173,7 @@
                             <div class="tab-pane fade p-4" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
                                 <div class="empty-notification-elem">
                                     <div class="w-25 w-sm-50 pt-3 mx-auto">
-                                        <img src="assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
+                                        <img src="../assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
                                     </div>
                                     <div class="text-center pb-5 mt-2">
                                         <h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>
@@ -183,7 +183,7 @@
                             <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel" aria-labelledby="alerts-tab">
                                 <div class="empty-notification-elem">
                                     <div class="w-25 w-sm-50 pt-3 mx-auto">
-                                        <img src="assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
+                                        <img src="../assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
                                     </div>
                                     <div class="text-center pb-5 mt-2">
                                         <h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>
@@ -200,7 +200,7 @@
                 <div class="dropdown ms-sm-3 header-item topbar-user bg-white">
                     <button type="button" class="btn shadow-none" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
-                            <img class="rounded-circle header-profile-user" src="<?php echo '../uploading/' . $profile_pic; ?>" alt="Header Avatar">
+                            <img class="rounded-circle header-profile-user" src="<?php echo '../../uploading/' . $profile_pic; ?>" alt="Header Avatar">
                             <span class="text-start ms-xl-2">
                                 <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"><?php echo $userFname . ' ' . $userLname; ?></span>
                                 <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text"><?php echo $designation; ?></span>

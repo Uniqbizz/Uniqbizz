@@ -6,7 +6,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title> Super Techno Enterprise List | Franchisee</title>
+        <title> Executive Techno Enterprise List | Super Techno Enterprise List </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -110,12 +110,12 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Super Techno Enterprise | Franchisee</h4>
+                                    <h4 class="mb-sm-0">Super Techno Enterprise</h4>
 
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="executive_techno_dashboard.php">Dashboard</a></li>
-                                            <li class="breadcrumb-item active">View Super Techno Enterprise | Franchisee</li>
+                                            <li class="breadcrumb-item active">View Super Techno Enterprise</li>
                                         </ol>
                                     </div>
 
@@ -136,8 +136,8 @@
                                                         <i class="fa-solid fa-hourglass-half fa-xl"></i>
                                                     </div>
                                                     <div class="align-content-end">
-                                                        <h5 class="card-title text-dark mb-0">Pending Techno Enterprise | Franchisee List</h5>
-                                                        <p class="text-muted fs-6 mb-0">Techno Enterprise | Franchisee pending for approval</p>
+                                                        <h5 class="card-title text-dark mb-0">Pending Super Techno Enterprise List</h5>
+                                                        <p class="text-muted fs-6 mb-0">Super Techno Enterprise pending for approval</p>
                                                     </div>
                                                 </div>    
                                                 <div class="card-body">
@@ -172,7 +172,7 @@
                                                                 </div>
                                                                 <div class="align-content-end">
                                                                     <h5 class="card-title text-dark mb-0">Registered Super Techno Enterprise | Franchisee List</h5>
-                                                                    <p class="text-muted fs-6 mb-0">All approved and active Super Techno Enterprises | Franchisee</p>
+                                                                    <p class="text-muted fs-6 mb-0">All approved and active Super Techno Enterprises</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -731,7 +731,7 @@
             $('#exportte').on('click', function(){
                 window.location.href =
                 'models/common/download_registered_list.php?' +
-                'type=te' +
+                'type=st' +
                 '&start_date=' + startDate +
                 '&end_date=' + endDate;
             });

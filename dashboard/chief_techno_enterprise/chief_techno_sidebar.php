@@ -35,12 +35,12 @@
                 </li>
                 <li class="nav-item <?php echo ($current_page == 'techno_enterprise_list.php') ? 'active' : ''; ?>">
                     <a class="nav-link menu-link" href="techno_enterprise_list.php">
-                        <i class="ri-user-shared-2-line"></i> <span>Techno Enterprisee</span>
+                        <i class="ri-user-shared-2-line"></i> <span>TE | F | I</span>
                     </a>
                 </li>
                 <li class="nav-item <?php echo ($current_page == 'travel_consultants_list.php') ? 'active' : ''; ?>">
                     <a class="nav-link menu-link" href="travel_consultants_list.php">
-                        <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Travel Consultants</span>
+                        <i class="ri-user-shared-2-line"></i> <span data-key="t-home">TC | IBR</span>
                     </a>
                 </li>
                 <li class="nav-item <?php echo ($current_page == 'customers_list.php') ? 'active' : ''; ?>">

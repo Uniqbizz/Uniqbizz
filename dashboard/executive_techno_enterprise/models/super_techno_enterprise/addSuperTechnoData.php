@@ -68,14 +68,14 @@
     $other_document                 = $_POST['other_document'] ?? '';
     $nominee_profile                = $_POST['nominee_profile'] ?? '';
 
-    $user_type="36";
+    $user_type="35";
     $register_by="1";
 	$status= '2';
     $age = '';
     $application_id = '';
     // genarate uniq application id 
     function getApplication() {
-        return 'CTEAPP' . strtoupper(bin2hex(random_bytes(4)));
+        return 'STEAPP' . strtoupper(bin2hex(random_bytes(4)));
     }
     $application_id = getApplication();
 

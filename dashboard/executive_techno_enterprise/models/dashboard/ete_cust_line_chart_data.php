@@ -86,11 +86,14 @@ try {
                 ON cu.ta_reference_no = ta.ca_travelagency_id
             INNER JOIN corporate_agency corp
                 ON ta.reference_no = corp.corporate_agency_id
-            WHERE corp.reference_no = :user_id
+            INNER JOIN super_techno_enterprise st
+                ON corp.reference_no = st.super_techno_enterprise_id
+            WHERE st.reference_no = :user_id
             AND YEAR(cu.register_date) = :selected_year
             AND cu.status IN (1,3)
             AND ta.status IN (1,3)
             AND corp.status IN (1,3)
+            AND st.status IN (1,3)
 
             UNION ALL
 
@@ -100,7 +103,9 @@ try {
                 ON cu.ta_reference_no = ta.ca_travelagency_id
             INNER JOIN sub_franchisee sf
                 ON ta.reference_no = sf.sub_franchisee_id
-            WHERE sf.reference_no = :user_id
+            INNER JOIN super_techno_enterprise st
+                ON sf.reference_no = st.super_techno_enterprise_id
+            WHERE st.reference_no = :user_id
             AND YEAR(cu.register_date) = :selected_year
             AND cu.status IN (1,3)
             AND ta.status IN (1,3)

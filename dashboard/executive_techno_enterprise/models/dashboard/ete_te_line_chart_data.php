@@ -36,6 +36,13 @@
                 WHERE st.reference_no = :user_id
                 AND sf.status IN (1,3)
                 AND st.status IN (1,3)
+
+                UNION
+
+                SELECT YEAR(sf.register_date) AS year
+                FROM institution sf
+                WHERE sf.reference_no = :user_id
+                AND sf.status IN (1,3)
             ) years_data
             ORDER BY year DESC
         ");

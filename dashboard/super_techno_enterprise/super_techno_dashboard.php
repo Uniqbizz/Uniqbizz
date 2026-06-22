@@ -333,8 +333,8 @@
                             <div class="supportDetails">
                                 <h3 class="text-white fw-bolder fs-2">Need Help Planning?</h3>
                                 <p class="text-white fw-normal fs-5">Our travel experts are here for you.</p>
-                                <a href="#">
-                                    <div class="supportBtn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                    <div class="supportBtn">
                                         <p class="fs-5 mb-0 fw-bolder">Contact Support</p>
                                     </div>
                                 </a>

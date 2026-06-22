@@ -76,7 +76,9 @@
                  LEFT JOIN documents ON user_id ='$userId'
                  WHERE super_techno_enterprise_id = '$userId'";
     }else if($userType == '36'){
-        $sql2 = "SELECT * FROM `chief_techno_enterprise` WHERE chief_techno_enterprise_id = '$userId' ";
+        $sql2 = "SELECT * FROM `chief_techno_enterprise` 
+                 LEFT JOIN documents ON user_id ='$userId'
+                 WHERE chief_techno_enterprise_id = '$userId'";
     }
 
     $stmt = $conn -> prepare($sql2);

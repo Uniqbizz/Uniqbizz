@@ -135,7 +135,7 @@
                                             <i class="fa-solid fa-user-group fa-xl"></i>
                                         </div>
                                         <div class="">
-                                            <p class="mb-1 fs-6 fw-bold">Travel Consultants</p>
+                                            <p class="mb-1 fs-6 fw-bold">TC | IBR</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="tcCount">0</h4>
                                             <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
@@ -361,7 +361,7 @@
                             <div class="supportDetails">
                                 <h3 class="text-white fw-bolder fs-2">Need Help Planning?</h3>
                                 <p class="text-white fw-normal fs-5">Our travel experts are here for you.</p>
-                                <a href="#">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                     <div class="supportBtn">
                                         <p class="fs-5 mb-0 fw-bolder">Contact Support</p>
                                     </div>
@@ -1281,6 +1281,10 @@
                                     row.te_id.startsWith('F')
                                 ) {
                                     badge = '<span class="badge bg-success ms-1">F</span>';
+                                } else if (
+                                    row.te_id.startsWith('I')
+                                ) {
+                                    badge = '<span class="badge bg-info ms-1">I</span>';
                                 }
                                 html += `
                                     <tr>

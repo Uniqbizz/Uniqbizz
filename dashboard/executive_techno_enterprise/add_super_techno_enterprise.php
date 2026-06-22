@@ -1010,7 +1010,7 @@
         <script>
             document.querySelector(".cancelBtn").addEventListener("click", function () {
                 if(confirm("Are you sure you want to cancel?")){
-                    window.history.back();
+                    location.href = "super_techno_enterprise_list";
                 }
             });
             // document.querySelector(".draftBtn").addEventListener("click", function () {

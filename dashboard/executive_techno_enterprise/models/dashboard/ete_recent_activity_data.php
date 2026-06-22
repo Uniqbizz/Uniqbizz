@@ -202,6 +202,35 @@
         }
         /*
         |--------------------------------------------------------------------------
+        | Holiday Account Commission
+        |--------------------------------------------------------------------------
+        */
+
+        $sqlCRecruitment = $conn->prepare("
+            SELECT
+                commission_bdm,
+                created_date
+            FROM ca_cu_payout
+            WHERE business_development_manager = :user_id
+            ORDER BY created_date DESC
+            LIMIT 2
+        ");
+
+        $sqlCRecruitment->execute([
+            ':user_id' => $userId
+        ]);
+
+        foreach($sqlCRecruitment->fetchAll(PDO::FETCH_ASSOC) as $row){
+
+            $activities[] = [
+                'type' => 'customer',
+                'title' => 'Holiday Account Commission Credited',
+                'description' => '+ ₹ '.number_format($row['commission_zm']),
+                'date' => $row['created_date']
+            ];
+        }
+        /*
+        |--------------------------------------------------------------------------
         | Institution Recruitment Commission
         |--------------------------------------------------------------------------
         */
