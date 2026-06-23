@@ -171,7 +171,7 @@
                                                                     <i class="ri-verified-badge-line" style="font-size: 30px;"></i>
                                                                 </div>
                                                                 <div class="align-content-end">
-                                                                    <h5 class="card-title text-dark mb-0">Registered Super Techno Enterprise | Franchisee List</h5>
+                                                                    <h5 class="card-title text-dark mb-0">Registered Super Techno Enterprise List</h5>
                                                                     <p class="text-muted fs-6 mb-0">All approved and active Super Techno Enterprises</p>
                                                                 </div>
                                                             </div>
