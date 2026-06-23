@@ -114,7 +114,7 @@
                                     <div class="col-lg-10 col-md-10 col-sm-9 col-12 profilePicDetails">
                                         <div class="d-flex gap-3">
                                             <h2 class="fw-bolder text-white" id="profileName"></h2>
-                                            <p class="rounded-pill bg-success text-white fs-6 text-center px-2 py-1">Verified<i class="fa-solid fa-check ms-2"></i></span>  
+                                            <p class="rounded-pill bg-success text-white fs-6 text-center px-2 py-1" id="verification_status"></span>  
                                         </div>
                                         <p class="fs-5 text-white mb-2" id="profileId"><span id="profileType"></span></p>
                                         <p class="fs-5 text-white mb-2">Building Dreams <i class="fa-solid fa-circle mx-2 fa-2xs"></i> Exploring Destinations <i class="fa-solid fa-circle mx-2 fa-2xs"></i> Creating Leaders</p>
@@ -869,6 +869,28 @@
                             );
 
                             let memberSince = '';
+
+                            if(profile.verification_status === 'Verified'){
+
+                                $('#verification_status')
+                                    .removeClass('bg-warning bg-danger')
+                                    .addClass('bg-success')
+                                    .html('<i class="fa-solid fa-check me-2"></i>Verified');
+
+                            }else if(profile.verification_status === 'Rejected'){
+
+                                $('#verification_status')
+                                    .removeClass('bg-success bg-warning')
+                                    .addClass('bg-danger')
+                                    .html('<i class="fa-solid fa-times me-2"></i>Rejected');
+
+                            }else{
+
+                                $('#verification_status')
+                                    .removeClass('bg-success bg-danger')
+                                    .addClass('bg-warning')
+                                    .html('<i class="fa-solid fa-exclamation me-2"></i>Pending');
+                            }
 
                             if (profile.profile_since) {
                                 let date = new Date(profile.profile_since);
