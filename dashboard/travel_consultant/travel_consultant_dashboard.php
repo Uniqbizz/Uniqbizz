@@ -260,7 +260,7 @@
                         </div>
                         <!-- Card section 3 -->
                         <div class="row">
-                            <div class="col-lg-7 col-md-6 col-sm-12 col-12">
+                            <div class="col-lg-7 col-md-7 col-sm-12 col-12">
                                 <div class="card rounded-4 p-3 border border-1">
                                     <h4 class="d-flex justify-content-between mb-0 textColor fw-bolder">Most Trending Packages
                                         <a href="<?= $home_url ?>tour-list.php" class="fs-6">View All Packages</a>
@@ -547,6 +547,72 @@
                                                             <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[11]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-12 col-12">
+                                <div class="card rounded-4 border-1 p-3">
+                                    <div class="card-title">
+                                        <p class="commission-title fs-5 mb-1">
+                                            Package Benefits
+                                        </p>
+                                    </div>
+                                    <div class="cardDetails">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <div class="d-flex gap-2">
+                                                <div class="tcPackageIcon tcPackageIcon1">
+                                                    <i class="fa-solid fa-user-group fa-xl"></i>
+                                                </div>
+                                                <div class="">
+                                                    <p class="mb-1 fs-6 fw-bold">Best Price Guarantee</p>
+                                                    <p class="mb-1 fs-6 text-muted">Get the best deals and save more.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <div class="d-flex gap-2">
+                                                <div class="tcPackageIcon tcPackageIcon2">
+                                                    <i class="fa-solid fa-user-group fa-xl"></i>
+                                                </div>
+                                                <div class="">
+                                                    <p class="mb-1 fs-6 fw-bold">Easy EMI Options</p>
+                                                    <p class="mb-1 fs-6 text-muted">Book now and pay in easy installments.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <div class="d-flex gap-2">
+                                                <div class="tcPackageIcon tcPackageIcon3">
+                                                    <i class="fa-solid fa-user-group fa-xl"></i>
+                                                </div>
+                                                <div class="">
+                                                    <p class="mb-1 fs-6 fw-bold">Premium Stay</p>
+                                                    <p class="mb-1 fs-6 text-muted">Handpicked hotels for a comfortable stay.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <div class="d-flex gap-2">
+                                                <div class="tcPackageIcon tcPackageIcon4">
+                                                    <i class="fa-solid fa-indian-rupee-sign fa-xl"></i>
+                                                </div>
+                                                <div class="">
+                                                    <p class="mb-1 fs-6 fw-bold">Exciting Experiences</p>
+                                                    <p class="mb-1 fs-6 text-muted">Curated tours and activities included.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <div class="d-flex gap-2">
+                                                <div class="tcPackageIcon tcPackageIcon5">
+                                                    <i class="fa-solid fa-phone fa-xl"></i>
+                                                </div>
+                                                <div class="">
+                                                    <p class="mb-1 fs-6 fw-bold">24x7 Travel Support</p>
+                                                    <p class="mb-1 fs-6 text-muted">We are with you always.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -1673,7 +1739,7 @@
 
                                     <div class="d-flex gap-2">
 
-                                        <div class="stRecentIcon ${iconClass}">
+                                        <div class="tcPackageIcon ${iconClass}">
                                             <i class="fa-solid ${icon} fa-xl"></i>
                                         </div>
 
@@ -1689,11 +1755,7 @@
 
                                         </div>
 
-                                    </div>
-
-                                    <p class="text-muted mb-0 text-nowrap">
-                                        ${activityTime}
-                                    </p>
+                                    </div
 
                                 </div>
                             `;

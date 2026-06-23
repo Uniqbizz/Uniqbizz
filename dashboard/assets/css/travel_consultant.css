@@ -424,33 +424,33 @@ body {
     max-width: 100% !important;
 }
 /* card section 5 */
-.stRecentIcon {
+.tcPackageIcon {
     width: 40px;
     height: 40px;
-    border-radius: 8px;
+    border-radius: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.stRecentIcon1 {
-    background-color: #35239a;
-    color: #fff;
+.tcPackageIcon1 {
+    background-color: #cbdaf1;
+    color: #0d6efd;
 }
-.stRecentIcon2 {
-    background-color: #0d6efd;
-    color: #fff;
+.tcPackageIcon2 {
+    background-color: #dad6f5;
+    color: #35239a;
 }
-.stRecentIcon3 {
-    background-color: #f49609;
-    color: #fff;
+.tcPackageIcon3 {
+    background-color: #d0f7d9;
+    color: #068c25;
 }
-.stRecentIcon4 {
-    background-color: #068c25;
-    color: #fff;
+.tcPackageIcon4 {
+    background-color: #f2e4cf;
+    color: #f49609;
 }
-.stRecentIcon5 {
-    background-color: #021185;
-    color: #fff;
+.tcPackageIcon5 {
+    background-color: #d2d6f7;
+    color: #021185;
 }
 /* card section 6 */
 .supportImagePosition {
