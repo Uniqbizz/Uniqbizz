@@ -337,73 +337,25 @@
                         <!-- card section 4 -->
                         <div class="row">
                             <div class="col-lg-5 col-md-6 col-sm-12 col-12">
-                                <div class="card rounded-4 p-3 border border-1">
-                                    <h4 class="d-flex justify-content-between mb-0 textColor fw-bolder">Upcoming Trips
-                                        <a href="<?= $base_url ?>order_history.php" class="fs-6">View All</a>
+                                <div class="card rounded-4 p-4 border border-1 h-80 shadow-sm">
+                                    <h4 class="d-flex justify-content-between align-items-center mb-0 textColor fw-bolder">
+                                        Upcoming Trips
+                                        <a href="<?= $base_url ?>order_history.php" class="fs-6 text-decoration-none">View All</a>
                                     </h4>
                                     <hr>
-                                    <div class="d-flex gap-2">
-                                        <div class="">
-                                            <img src="<?= $base_url ?>assets/images/packages/dubai.jpg" alt="TripsImage" class="tripsImage">
+                                    <div class="text-center py-5">
+                                        <div class="mx-auto mb-4 d-flex align-items-center justify-content-center" style="width:120px;height:120px;background:#eef6ff;border-radius:50%;">
+                                            <i class="fa-solid fa-plane-departure text-primary" style="font-size:55px;"></i>
                                         </div>
-                                        <div class="tripDetails">
-                                            <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
-                                            <p class="text-muted fs-6">30 May 2026 - 09 June 2026 <br> 11N / 12D</p>
-                                            <a href="#">
-                                                <div class="confirmBtn p-1 mb-3">
-                                                    <p class="fs-6 mb-0 fw-bolder">Confirmed</p>
-                                                </div>
-                                            </a>
-                                            <div class="d-flex justify-content-between gap-2 exploreBtns">
-                                                <a href="#">
-                                                    <div class="exploreBtn p-2 border border-primary border-2 mb-2">
-                                                        <p class="fs-6 mb-0 fw-bolder">View Itinerary</p>
-                                                    </div>
-                                                </a>
-                                                <a href="#">
-                                                    <div class="exploreBtn p-2 border border-primary border-2 mb-2">
-                                                        <p class="fs-6 mb-0 fw-bolder">Make Payment</p>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                            <hr>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex gap-3">
-                                        <div class="">
-                                            <img src="<?= $base_url ?>assets/images/packages/dubai.jpg" alt="TripsImage" class="tripsImage1">
-                                        </div>
-                                        <div class="tripDetails">
-                                            <h6 class="text-dark fw-bolder">Singapore</h6>
-                                            <div class="d-flex gap-3">
-                                                <p class="text-muted fs-6">12 August 2026 - 18 August 2026 <br> 6N / 7D</p>
-                                                <a href="#">
-                                                    <div class="upcomingBtn p-1 mb-3">
-                                                        <p class="fs-6 mb-0 fw-bolder">Upcoming</p>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                            <hr class="mt-0">
-                                        </div>
-                                    </div>
-                                    <div class="d-flex gap-3">
-                                        <div class="">
-                                            <img src="<?= $base_url ?>assets/images/packages/dubai.jpg" alt="TripsImage" class="tripsImage1">
-                                        </div>
-                                        <div class="tripDetails">
-                                            <h6 class="text-dark fw-bolder">Bali Bliss</h6>
-                                            <div class="d-flex gap-3">
-                                                <p class="text-muted fs-6">12 Nov 2026 - 18 Nov 2026 <br> 6N / 7D</p>
-                                                <a href="#">
-                                                    <div class="upcomingBtn p-1 mb-3">
-                                                        <p class="fs-6 mb-0 fw-bolder">Upcoming</p>
-                                                    </div>
-                                                </a>
-                                            </div>
+                                            <h5 class="fw-bold text-dark">No Upcoming Trips</h5>
+                                            <p class="text-muted mb-4">
+                                                Your next adventure is waiting.
+                                                Browse our travel packages and start planning today.
+                                            </p>
+                                            <a href="<?= $home_url ?>tour-list.php" class="btn btn-primary rounded-pill px-4">Explore Packages</a>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             <div class="col-lg-7 col-md-6 col-sm-12 col-12">
                                 <div class="card rounded-4 p-3 border border-1">
                                     <h4 class="d-flex justify-content-between mb-0 textColor fw-bolder">Book Your Next Trip
