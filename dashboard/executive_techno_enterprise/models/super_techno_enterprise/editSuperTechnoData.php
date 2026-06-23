@@ -233,7 +233,7 @@ try {
         professional_profile=:professional_profile,
         business_profile=:business_profile,
         income_proof=:income_proof,
-        other_document=:other_document
+        other_document=:other_document,
         nominee_profile=:nominee_profile
         WHERE application_id=:application_id");
 

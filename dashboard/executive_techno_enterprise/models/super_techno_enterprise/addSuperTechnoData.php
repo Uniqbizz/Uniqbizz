@@ -5,8 +5,8 @@
     $current_year = date('Y'); 
 
     //personal details - table "super_techno_enterprise"
-    $reference_no         =$userId;
-    $registrant           =$userFname .' '.$userLname;
+    $reference_no         = $userId;
+    $registrant           = $userFname .' '.$userLname;
     $firstname            = $_POST['firstname'] ?? '';
     $lastname             = $_POST['lastname'] ?? '';
     $father_spouse_name   = $_POST['father_spouse_name'] ?? '';
@@ -170,6 +170,8 @@
             ':age' => $age,  
             ':gender' => $gender,
             ':user_type' => $user_type,
+            ':registrant' =>$registrant,
+            ':reference_no' =>$reference_no,
             ':register_by' => $register_by,
             ':status' => $status
         ));
@@ -253,7 +255,7 @@
             ':nominee_contact_cd' => $nominee_contact_cd,
             ':nominee_contact_no' => $nominee_contact_no,
             ':nominee_date_of_birth' => $nominee_date_of_birth,
-            ':nominee_address' => $nominee_address,
+            ':nominee_address' => $nominee_address
         ));
 
         $sql5= "INSERT INTO `bank_details` ( 
