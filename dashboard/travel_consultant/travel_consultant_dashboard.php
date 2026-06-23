@@ -134,12 +134,12 @@
                                                     <p class="mb-0 fw-bolder text-black fs-4">&#8377;24,000</p>
                                                 </div>
                                                 <p class="text-dark fw-bolder fs-6">This Month</p>
-                                                <div class="d-flex gap-3">
-                                                    <div class="card px-4 py-1 rounded-4 justify-content-center">
+                                                <div class="d-flex gap-3 cardSmallScreen">
+                                                    <div class="card p-2 mb-2 rounded-4 justify-content-center">
                                                         <p class="mb-0 fs-6">From Activation</p>
-                                                        <p class="mb-0 fs-5 fw-bolder">&#8377; 18,000</p>
+                                                        <p class="mb-0 fs-5 fw-bolder">&#8377; 18,00,000</p>
                                                     </div>
-                                                    <div class="card px-4 py-1 rounded-4 justify-content-center">
+                                                    <div class="card p-2 mb-2 rounded-4 justify-content-center">
                                                         <p class="mb-0 fs-6">From Trip Completed</p>
                                                         <p class="mb-0 fs-5 fw-bolder">&#8377; 6,000</p>
                                                     </div>

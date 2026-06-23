@@ -726,7 +726,7 @@ body {
     background: #f1faff;
     position: relative;
     overflow: hidden;
-    min-height: 240px;
+    min-height: 230px;
 }
 .activationContent {
     position: relative;
@@ -789,7 +789,7 @@ body {
     background: #ecfbf0;
     position: relative;
     overflow: hidden;
-    min-height: 240px;
+    min-height: 230px;
 }
 .earnedContent {
     position: relative;
@@ -1029,5 +1029,13 @@ body {
     }
 }
 @media (max-width: 441px) {
+    .cardSmallScreen {
+        display: block !important;
+        width: max-content !important;
+    }
+    .greetingCard p:nth-of-type(2),
+    .greetingCard p:last-of-type {
+        font-size: 14px !important;
+    }
 }
 /* sidebar end */
