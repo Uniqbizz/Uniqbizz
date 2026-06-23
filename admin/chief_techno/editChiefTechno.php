@@ -30,7 +30,7 @@
         $country_id = $_GET['country']; // country
         $state_id = $_GET['state']; // state
         $city_id = $_GET['city']; // city
-        $editfor = $_GET['editfor']; // pending or confirm
+        $editfor = $_GET['editfor']; // pending or registered
         $usertype = $_GET['usertype']; // 'STE' for Chief Techno Enterprise
 
         if ($editfor == 'pending') {
