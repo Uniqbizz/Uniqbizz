@@ -25,7 +25,7 @@
                 </li>
                 <li class="nav-item <?php echo ($current_page == 'techno_enterprise_list.php') ? 'active' : ''; ?>">
                     <a class="nav-link menu-link" href="techno_enterprise_list.php">
-                        <i class="ri-user-shared-2-line"></i> <span>TE / F</span>
+                        <i class="ri-user-shared-2-line"></i> <span>Techno Enterprise</span>
                     </a>
                 </li>
                 <li class="nav-item <?php echo ($current_page == 'travel_consultants_list.php') ? 'active' : ''; ?>">
@@ -49,11 +49,11 @@
                                     <span data-key="recruitment-payout">TE Contracting Payout</span>
                                 </a>
                             </li>
-                            <li class="nav-item <?php echo ($current_page == 'sub_franchisee_payout.php') ? 'active' : ''; ?>">
+                            <!-- <li class="nav-item <?php //echo ($current_page == 'sub_franchisee_payout.php') ? 'active' : ''; ?>">
                                 <a href="sub_franchisee_payout.php" class="nav-link menu-link">
                                     <span data-key="recruitment-payout">Franchisee Contracting Payout</span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- <li class="nav-item <?php //echo ($current_page == 'recruitment_payout.php') ? 'active' : ''; ?>">
                                 <a href="recruitment_payout.php" class="nav-link menu-link">
                                     <span data-key="recruitment-payout">TC Recruitment Payout</span>

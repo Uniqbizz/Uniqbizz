@@ -32,30 +32,6 @@
                 WHERE ca.reference_no = :user_id
                 AND ta.status IN (0,4)
 
-                UNION ALL
-
-                SELECT
-                    ta.id,
-                    ta.ca_travelagency_id,
-                    ta.firstname,
-                    ta.lastname,
-                    ta.contact_no,
-                    ta.email,
-                    ta.added_on,
-                    ta.status,
-
-                    ca.sub_franchisee_id AS reference_id,
-                    ca.firstname AS ref_firstname,
-                    ca.lastname AS ref_lastname
-
-                FROM ca_travelagency ta
-
-                INNER JOIN sub_franchisee ca
-                    ON ta.reference_no = ca.sub_franchisee_id
-
-                WHERE ca.reference_no = :user_id
-                AND ta.status IN (0,4)
-
             ) AS combined
 
             ORDER BY id DESC
@@ -83,4 +59,27 @@
     }
 
     exit;
+    // UNION ALL
+
+    //             SELECT
+    //                 ta.id,
+    //                 ta.ca_travelagency_id,
+    //                 ta.firstname,
+    //                 ta.lastname,
+    //                 ta.contact_no,
+    //                 ta.email,
+    //                 ta.added_on,
+    //                 ta.status,
+
+    //                 ca.sub_franchisee_id AS reference_id,
+    //                 ca.firstname AS ref_firstname,
+    //                 ca.lastname AS ref_lastname
+
+    //             FROM ca_travelagency ta
+
+    //             INNER JOIN sub_franchisee ca
+    //                 ON ta.reference_no = ca.sub_franchisee_id
+
+    //             WHERE ca.reference_no = :user_id
+    //             AND ta.status IN (0,4)
 ?>

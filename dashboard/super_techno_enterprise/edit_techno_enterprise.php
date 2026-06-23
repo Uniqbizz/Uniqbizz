@@ -10,7 +10,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title> Techno Enterprise List | Franchisee </title>
+        <title> Techno Enterprise List  </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -95,11 +95,11 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Edit Techno Enterprise | Franchisee</h4>
+                                    <h4 class="mb-sm-0">Edit Techno Enterprise </h4>
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="techno_enterprise_list.php">Techno Enterprise | Franchisee</a></li>
-                                            <li class="breadcrumb-item active">Edit Techno Enterprise | Franchisee</li>
+                                            <li class="breadcrumb-item"><a href="techno_enterprise_list.php">Techno Enterprise </a></li>
+                                            <li class="breadcrumb-item active">Edit Techno Enterprise </li>
                                         </ol>
                                     </div>
                                 </div>
@@ -114,7 +114,7 @@
                                             <i class="fa-solid fa-user-group addTEIcon"></i>
                                         </div>
                                         <div class="align-content-center">
-                                            <h1 class="fw-bolder text-white">Edit Techno Enterprise | Franchisee</h1>
+                                            <h1 class="fw-bolder text-white">Edit Techno Enterprise </h1>
                                             <p class="fs-5 text-white mb-0">Fill in the details below to register a new Techno Enterprise under your network.</p>
                                         </div>
                                     </div>
@@ -494,7 +494,7 @@
                                     <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftEdit">Save Draft</button>
                                     <button type="submit" class="btn actionBtn submitBtn mb-2" id="editTechnoEnterprise">
                                         <i class="fa-regular fa-paper-plane me-2"></i>
-                                        Submit Techno Enterprise | Franchisee
+                                        Submit Techno Enterprise 
                                     </button>
                                     <?php
                                         }

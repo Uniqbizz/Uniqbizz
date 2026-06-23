@@ -93,7 +93,7 @@
                                             <i class="fa-solid fa-user-group fa-xl"></i>
                                         </div>
                                         <div class="">
-                                            <p class="mb-1 fs-6 fw-bold">TE | F</p>
+                                            <p class="mb-1 fs-6 fw-bold">Techno Enterprise</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="teCount">0</h4>
                                             <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
@@ -259,7 +259,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                                 <div class="cardChart card border-1">
                                     <div class="card-title d-flex justify-content-between p-2">
-                                        <p class="commission-title fs-5">TE | F Enrollment Count (Yearly)</p>
+                                        <p class="commission-title fs-5">Techno Enterprise Enrollment Count (Yearly)</p>
                                         <p class="">
                                             <select class="form-select yearSelect py-1" id="enrollmentYearFilter">
                                             </select>
@@ -307,14 +307,14 @@
                                 <div class="card rounded-4 border-1 p-3">
                                     <div class="card-title d-flex justify-content-start">
                                         <p class="commission-title fs-5 mb-1">
-                                            TE | F Performance
+                                            Techno Enterprise Performance
                                         </p>
                                     </div>
                                     <div class="cardDetails">
                                         <table class="table">
                                             <thead>
                                                 <tr class="table-active">
-                                                    <th scope="col">TE|F Name</th>
+                                                    <th scope="col">Techno Enterprise Name</th>
                                                     <th scope="col">No. of Travel Consultants</th>
                                                     <th scope="col">Neo Select Members</th>
                                                 </tr>
@@ -969,48 +969,48 @@
                                     pointRadius: 4,
                                     pointHoverRadius: 6,
                                     pointBackgroundColor: '#1DB56C'
-                                },
-
-                                {
-                                    label: 'SF',
-                                    data: Array(12).fill(0),
-                                    borderColor: '#3B82F6',
-                                    backgroundColor: '#3B82F6',
-                                    backgroundColor: function(context) {
-
-                                        const chart = context.chart;
-                                        const ctx = chart.ctx;
-                                        const chartArea = chart.chartArea;
-
-                                        if (!chartArea) {
-                                            return null;
-                                        }
-
-                                        const gradient = ctx.createLinearGradient(
-                                            0,
-                                            chartArea.top,
-                                            0,
-                                            chartArea.bottom
-                                        );
-
-                                        gradient.addColorStop(
-                                            0,
-                                            'rgba(47,107,255,0.30)'
-                                        );
-
-                                        gradient.addColorStop(
-                                            1,
-                                            'rgba(47,107,255,0.02)'
-                                        );
-
-                                        return gradient;
-                                    },
-                                    fill: true,
-                                    tension: 0.4,
-                                    pointRadius: 4,
-                                    pointHoverRadius: 6,
-                                    pointBackgroundColor: '#3B82F6'
                                 }
+
+                                // {
+                                //     label: 'SF',
+                                //     data: Array(12).fill(0),
+                                //     borderColor: '#3B82F6',
+                                //     backgroundColor: '#3B82F6',
+                                //     backgroundColor: function(context) {
+
+                                //         const chart = context.chart;
+                                //         const ctx = chart.ctx;
+                                //         const chartArea = chart.chartArea;
+
+                                //         if (!chartArea) {
+                                //             return null;
+                                //         }
+
+                                //         const gradient = ctx.createLinearGradient(
+                                //             0,
+                                //             chartArea.top,
+                                //             0,
+                                //             chartArea.bottom
+                                //         );
+
+                                //         gradient.addColorStop(
+                                //             0,
+                                //             'rgba(47,107,255,0.30)'
+                                //         );
+
+                                //         gradient.addColorStop(
+                                //             1,
+                                //             'rgba(47,107,255,0.02)'
+                                //         );
+
+                                //         return gradient;
+                                //     },
+                                //     fill: true,
+                                //     tension: 0.4,
+                                //     pointRadius: 4,
+                                //     pointHoverRadius: 6,
+                                //     pointBackgroundColor: '#3B82F6'
+                                // }
 
                             ]
                     },
@@ -1118,17 +1118,17 @@
                         |--------------------------------------------------------------------------
                         */
 
-                        let sfData = Array(12).fill(0);
+                        // let sfData = Array(12).fill(0);
 
-                        $.each(res.data.sf_trend, function(i, row) {
+                        // $.each(res.data.sf_trend, function(i, row) {
 
-                            let monthIndex =
-                                parseInt(row.month_no) - 1;
+                        //     let monthIndex =
+                        //         parseInt(row.month_no) - 1;
 
-                            sfData[monthIndex] =
-                                parseInt(row.sf_count) || 0;
+                        //     sfData[monthIndex] =
+                        //         parseInt(row.sf_count) || 0;
 
-                        });
+                        // });
 
                         /*
                         |--------------------------------------------------------------------------
@@ -1137,7 +1137,7 @@
                         */
 
                         enrollmentTrendChart.data.datasets[0].data = teData;
-                        enrollmentTrendChart.data.datasets[1].data = sfData;
+                        // enrollmentTrendChart.data.datasets[1].data = sfData;
 
                         enrollmentTrendChart.update();
 

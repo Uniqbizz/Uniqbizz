@@ -170,7 +170,7 @@
 
         $sqlCRecruitment = $conn->prepare("
             SELECT
-                commission_bm,
+                commision_bm,
                 created_date
             FROM ca_cu_payout
             WHERE business_mentor = :user_id
