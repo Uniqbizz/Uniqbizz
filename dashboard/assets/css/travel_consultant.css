@@ -420,6 +420,8 @@ body {
 }
 .cardChart canvas{
     height:250px !important;
+    width: 100% !important;
+    max-width: 100% !important;
 }
 /* card section 5 */
 .stRecentIcon {
@@ -510,11 +512,11 @@ body {
     padding: 3px 0px;
 }
 .teDeletedBtn {
-    background-color: #ffefd8;
-    color: #870c0c;
+    background-color: #fee8e8;
+    color: #f40909;
     border: 1px solid #f40909;
     font-weight: 900;
-    padding: 3px 0px;
+    padding: 3px 5px;
 }
 .teActiveBtn {
     background-color: #d6fbdf;
@@ -847,6 +849,13 @@ body {
     z-index: 1;
     pointer-events: none;
 }
+.viewLink a {
+    color: #0d57f7;
+    font-size: 14px;
+}
+#recentNeoSelectCustomer td {
+    align-content: center !important;
+}
 /* =========================================
    TABLET + SMALL LAPTOP (1024px)
 ========================================= */
@@ -1031,7 +1040,7 @@ body {
 @media (max-width: 441px) {
     .cardSmallScreen {
         display: block !important;
-        width: max-content !important;
+        width: fit-content !important;
     }
     .greetingCard p:nth-of-type(2),
     .greetingCard p:last-of-type {

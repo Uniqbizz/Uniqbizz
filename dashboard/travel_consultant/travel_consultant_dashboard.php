@@ -155,6 +155,109 @@
                         </div>
                         <!-- Card section 2 -->
                         <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                <div class="cardChart card border-1">
+                                    <div class="card-title d-flex justify-content-between p-2">
+                                        <p class="commission-title fs-5">Neo Select Customer Growth</p>
+                                        <p class="">
+                                            <select class="form-select yearSelect py-1" id="yearFilter">
+                                                
+                                            </select>
+                                        </p>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="customerTrendChart">
+                                        </canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                <div class="card rounded-4 border-1 p-3">
+                                    <div class="card-title d-flex justify-content-between p-2">
+                                        <p class="commission-title fs-5 mb-1">
+                                            Recent Neo Select Customers
+                                        </p>
+                                        <p class="viewLink">
+                                            <a href="#">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                        </p>
+                                    </div>
+                                    <div class="cardDetails table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr class="table-active">
+                                                    <th scope="col" class="text-muted">Customer</th>
+                                                    <th scope="col" class="text-muted">Mobile</th>
+                                                    <th scope="col" class="text-muted">Enrolled On</th>
+                                                    <th scope="col" class="text-muted">Status</th>
+                                                    <th scope="col" class="text-muted">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="recentNeoSelectCustomer">
+                                                <tr>
+                                                    <td>
+                                                        <p class="fw-bolder align-content-center fs-6 mb-0">Rahul Naik</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="fw-bolder fs-6 mb-0">98XXXXXX10</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="fw-bolder fs-6 mb-0">23 May 2024</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="fw-bolder teActiveBtn rounded-pill text-center mb-0">Active</p>
+                                                    </td>
+                                                    <td>
+                                                        <a href="edit_executive_techno_enterprise.php">
+                                                            <p class="fw-bolder teViewBtn text-center mb-0"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p class="fw-bolder align-content-center fs-6 mb-0">Rahul Naik</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="fw-bolder fs-6 mb-0">98XXXXXX10</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="fw-bolder fs-6 mb-0">23 May 2024</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="fw-bolder teActiveBtn rounded-pill text-center mb-0">Active</p>
+                                                    </td>
+                                                    <td>
+                                                        <a href="edit_executive_techno_enterprise.php">
+                                                            <p class="fw-bolder teViewBtn text-center mb-0"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p class="fw-bolder align-content-center fs-6 mb-0">Rahul Naik</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="fw-bolder fs-6 mb-0">98XXXXXX10</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="fw-bolder fs-6 mb-0">23 May 2024</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="fw-bolder teDeletedBtn rounded-pill text-center mb-0">Deactive</p>
+                                                    </td>
+                                                    <td>
+                                                        <a href="edit_executive_techno_enterprise.php">
+                                                            <p class="fw-bolder teViewBtn text-center mb-0"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card section 2 -->
+                        <div class="row">
                             <div class="col-lg-3 col-md-3 col-sm-6 col-12">
                                 <div class="card rounded-4 p-3 stCard1">
                                     <div class="d-flex gap-3">
