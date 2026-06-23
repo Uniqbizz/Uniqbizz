@@ -560,11 +560,12 @@
                                             Package Benefits
                                         </p>
                                     </div>
+                                    <hr class="mt-0">
                                     <div class="cardDetails">
-                                        <div class="d-flex justify-content-between mb-1">
+                                        <div class="d-flex justify-content-between mb-3">
                                             <div class="d-flex gap-2">
                                                 <div class="tcPackageIcon tcPackageIcon1">
-                                                    <i class="fa-solid fa-user-group fa-xl"></i>
+                                                    <i class="fa-solid fa-ranking-star fa-xl"></i>
                                                 </div>
                                                 <div class="">
                                                     <p class="mb-1 fs-6 fw-bold">Best Price Guarantee</p>
@@ -572,10 +573,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-between mb-1">
+                                        <div class="d-flex justify-content-between mb-3">
                                             <div class="d-flex gap-2">
                                                 <div class="tcPackageIcon tcPackageIcon2">
-                                                    <i class="fa-solid fa-user-group fa-xl"></i>
+                                                    <i class="fa-solid fa-money-check-dollar fa-xl"></i>
                                                 </div>
                                                 <div class="">
                                                     <p class="mb-1 fs-6 fw-bold">Easy EMI Options</p>
@@ -583,10 +584,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-between mb-1">
+                                        <div class="d-flex justify-content-between mb-3">
                                             <div class="d-flex gap-2">
                                                 <div class="tcPackageIcon tcPackageIcon3">
-                                                    <i class="fa-solid fa-user-group fa-xl"></i>
+                                                    <i class="fa-solid fa-hotel fa-xl"></i>
                                                 </div>
                                                 <div class="">
                                                     <p class="mb-1 fs-6 fw-bold">Premium Stay</p>
@@ -594,10 +595,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-between mb-1">
+                                        <div class="d-flex justify-content-between mb-3">
                                             <div class="d-flex gap-2">
                                                 <div class="tcPackageIcon tcPackageIcon4">
-                                                    <i class="fa-solid fa-indian-rupee-sign fa-xl"></i>
+                                                    <i class="fa-solid fa-face-grin-stars fa-xl"></i>
                                                 </div>
                                                 <div class="">
                                                     <p class="mb-1 fs-6 fw-bold">Exciting Experiences</p>
@@ -605,7 +606,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-between mb-1">
+                                        <div class="d-flex justify-content-between mb-3">
                                             <div class="d-flex gap-2">
                                                 <div class="tcPackageIcon tcPackageIcon5">
                                                     <i class="fa-solid fa-phone fa-xl"></i>
