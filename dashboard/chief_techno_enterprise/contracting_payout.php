@@ -18,10 +18,10 @@
     // echo "prev Date ".$prevdate.' ;';
     // echo "prev Month ".$prevDateMonth.' ;';
     // echo "prev year ".$prevDateYear.' ;';
-    $columnDesignation = 'ete_id';
-    $columnMessage = 'ete_message';
-    $columnCommision = 'ete_amount';
-    $columnStatus = 'ete_status';
+    $columnDesignation = 'cte_id';
+    $columnMessage = 'cte_message';
+    $columnCommision = 'cte_amount';
+    $columnStatus = 'cte_status';
     $tablename='techno_enterprise_payout';
     $tablename_paid='techno_enterprise_payout_paid';
 ?>
@@ -31,7 +31,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title>Super Techno Enterprise | TE Contracting Payout</title>
+        <title>Chief Techno Enterprise | TE Contracting Payout</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -54,7 +54,7 @@
         <link href="../assets/css/custom.min.css" rel="stylesheet" type="text/css" />
         <!-- custom Css developer-->
         <link rel="stylesheet" href="../assets/css/custom.css" />
-        <link rel="stylesheet" href="../assets/css/executive_techno_enterprise.css" />
+        <link rel="stylesheet" href="../assets/css/chief_techno_enterprise.css" />
         <link href="payout/payout.css" rel="stylesheet" type="text/css" /> 
 
         <!-- DataTables -->
@@ -70,7 +70,7 @@
         <!-- Begin page -->
         <div id="layout-wrapper">
 
-            <?php include_once 'executive_techno_header.php'; ?>
+            <?php include_once 'chief_techno_header.php'; ?>
 
             <!-- removeNotificationModal -->
             <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
@@ -98,7 +98,7 @@
             </div><!-- /.modal -->
             <!-- ========== App Menu ========== -->
 
-            <?php include_once 'executive_techno_sidebar.php'; ?>
+            <?php include_once 'chief_techno_sidebar.php'; ?>
 
             <!-- ============================================================== -->
             <!-- Start right Content here -->
@@ -263,7 +263,7 @@
                                                                                         $dt = $dt->format('Y-m-d');
 
                                                                                         // replace dot at end of the line with break statement
-                                                                                        $message1 = $row['ste_message'];
+                                                                                        $message1 = $row['cte_message'];
                                                                                         $message1 =  str_replace('.','<br>',$message1);  
 
                                                                                         if($row[$columnCommision] == "null"){
@@ -321,7 +321,7 @@
                         </div>
                     </div> <!-- container-fluid -->
                 </div><!-- End Page-content -->
-                <?php include_once "executive_techno_footer.php" ?> 
+                <?php include_once "chief_techno_footer.php" ?> 
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
 
@@ -428,7 +428,7 @@
                                                             $dt = $dt->format('Y-m-d');
 
                                                             // replace dot at end of the line with break statement
-                                                            $message1 = $row['ste_message'];
+                                                            $message1 = $row['cte_message'];
                                                             $message1 =  str_replace('.','<br>',$message1);  
 
                                                             // total Amt Cal for BC 
@@ -581,7 +581,7 @@
                                                             $dt = $dt->format('Y-m-d');
 
                                                             // replace dot at end of the line with break statement
-                                                            $message1 = $row['ste_message'];
+                                                            $message1 = $row['cte_message'];
                                                             $message1 =  str_replace('.','<br>',$message1);  
 
                                                             // total Amt Cal for BC 
@@ -738,7 +738,7 @@
                                                             $dt = $dt->format('Y-m-d');
 
                                                             // replace dot at end of the line with break statement
-                                                            $message1 = $row['ste_message'];
+                                                            $message1 = $row['cte_message'];
                                                             $message1 =  str_replace('.','<br>',$message1);  
                                                             $message_details = $row['message_details'];
                                                             $message_details =  str_replace('.','<br>',$message_details);  

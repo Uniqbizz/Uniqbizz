@@ -10,25 +10,10 @@ $totalAmountMessage = $_POST['totalAmountMessage'] ?? '';
 $totalTableMessage = $_POST['totalTableMessage'] ?? '';
 $tdsPercentage=2/100;
 
-if($userType == '11'){ //travel_consultant
-    $userIdCommi = 'ta_id';
-    $amtCal = 'ta_markup + ta_amt';
-}elseif($userType == '16' || $userType =='29' || $userType =='32'){ //Techno Enterprise/ corporate agency/franchisee/institution
-    $userIdCommi = 'te_id';
-    $amtCal = 'te_amt';
-}elseif($userType == '10'){ //customer
-    $userIdCommi = 'cu1_id';
-    $amtCal = 'cu1_amt';
-}elseif($userType == '26' || $userType =='28' || $userType == '30' || $userType ='35'){//business Mentor/MF/SF
-    $userIdCommi = 'bm_id';
-    $amtCal = 'bm_amt';
-}elseif($userType == '25' || $userType == '31'){// business Development manager
-    $userIdCommi = 'bdm_id';
-    $amtCal = 'bdm_amt';
-}elseif($userType == '24'){ // business channel manager
-    $userIdCommi = 'bch_id';
-    $amtCal = 'bch_amt';
-}
+
+$userIdCommi = 'bch_id';
+$amtCal = 'bch_amt';
+
 
 if($totalAmountMessage){
     $stmt = " SELECT SUM($amtCal) as TotalPayout FROM product_payout WHERE $userIdCommi = '".$userID."' AND YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."'  ";
@@ -97,6 +82,7 @@ if($totalTableMessage){
                             $ta_markup = '0' ;
                             $status = $row['ca_cu3_status'];
                         }
+                    }
                         
                         $markup_adult = $ta_markup * $no_of_adult;
                         $markup_child = $ta_markup * $no_of_child;
@@ -110,44 +96,14 @@ if($totalTableMessage){
                         $TdsAmt = $totalAmt * $tdsPercentage;
 
                         $totalPayable = $totalAmt - $TdsAmt ;
-                    }else if($userType == '11'){
-                        $id = $row['ta_id'];
-                        $ta_markup = $row['ta_markup'];
-                        $message = $row['ta_mess'];
-                        $amt = $row['ta_amt'];
-                        $status = $row['ta_status'];
-                        $tds = $amt * $tdsPercentage;
-                        $total = $amt - $tds;
-                    }else if($userType == '16' || $userType == '29' || $userType =='32'){
-                        $id = $row['te_id'];
-                        $message = $row['te_mess'];
-                        $amt = $row['te_amt'];
-                        $status = $row['te_status'];
-                        $tds = $amt * $tdsPercentage;
-                        $total = $amt - $tds;
-                    }else if($userType == '24'){
+                    
                         $id = $row['bch_id'];
                         $message = $row['bch_mess'];
                         $amt = $row['bch_amt'];
                         $status = $row['bch_status'];
                         $tds = $amt * $tdsPercentage;
                         $total = $amt - $tds;
-                    }else if($userType == '25' || $userType == '31'){
-                        $id = $row['bdm_id'];
-                        $message = $row['bdm_mess'];
-                        $amt = $row['bdm_amt'];
-                        $status = $row['bdm_status'];
-                        $tds = $amt * $tdsPercentage;
-                        $total = $amt - $tds;
-                    }else if($userType == '26' || $userType == '28' || $userType =='30'){
-                        $id = $row['bm_id'];
-                        $message = $row['bm_mess'];
-                        $amt = $row['bm_amt'];
-                        $status = $row['bm_status'];
-                        $tds = $amt * $tdsPercentage;
-                        $total = $amt - $tds;
-                    }
-
+                    
                     // date in proper formate
                     $dt = new DateTime($row['created_date']);
                     $dt = $dt->format('Y-m-d');

@@ -9,7 +9,7 @@
     $totalTableMessage = $_POST['totalTableMessage'] ?? '';
 
     if($totalAmountMessage){
-        $stmt = " SELECT SUM(ste_amount) as TotalPayout FROM techno_enterprise_payout WHERE ete_id = '".$userID."' AND YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."' ";
+        $stmt = " SELECT SUM(ete_amount) as TotalPayout FROM techno_enterprise_payout WHERE ete_id = '".$userID."' AND YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."' ";
         $stmt = $conn -> prepare($stmt);
         $stmt -> execute();
         $stmt -> setFetchMode(PDO::FETCH_ASSOC);
@@ -54,11 +54,11 @@
                         $dt = $dt->format('Y-m-d');
 
                         // replace dot at end of the line with break statement
-                        $message = $row['ste_message'];
+                        $message = $row['ete_message'];
                         $message =  str_replace('.','<br>',$message);  
 
                         // total Amt Cal for BC 
-                        $CommAmt = $row['ste_amount'];
+                        $CommAmt = $row['ete_amount'];
                         $tds = $CommAmt * 2/100;
                         $totalAmt = $CommAmt - $tds;
 
@@ -68,7 +68,7 @@
                             <td style="text-align:center;">'.$CommAmt.'</td>
                             <td style="text-align:center;">'.$tds.'</td>
                             <td style="text-align:center;">'.$totalAmt.'
-                            <a href="payout/forms/contracting_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row['ete_id'].'&ca='.$row['te_id'].'&date='.$dt.'&message='.$message.'&message_status='.$row['status'].'&commission='.$row['ste_amount'].'">
+                            <a href="payout/forms/contracting_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row['ete_id'].'&ca='.$row['te_id'].'&date='.$dt.'&message='.$message.'&message_status='.$row['status'].'&commission='.$row['ete_amount'].'">
                                 <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                             </a>
                             </td>';

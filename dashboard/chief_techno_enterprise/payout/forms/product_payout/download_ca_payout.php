@@ -22,23 +22,9 @@ $date = date('F,Y', strtotime($dateCA));
 $tableSearch = (substr($id , 0, 1) === 'F' || substr($id , 0, 1) === 'I') 
     ? substr($id , 0, 1) 
     : substr($id , 0, 2);
-if($tableSearch == "CA" || $tableSearch =="TE"){
-    $bcNames = $conn -> prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$id ."' AND status = 1");
-}elseif($tableSearch == "MF"){
-    $bcNames = $conn -> prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$id ."' AND status = 1");
-}elseif($tableSearch == "SF"){
-    $bcNames = $conn -> prepare("SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '".$id ."' AND status = 1");
-}else if($tableSearch == "F"){
-    $bcNames = $conn -> prepare("SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '".$id ."' AND status = 1");
-}else if($tableSearch == "I"){
-    $bcNames = $conn -> prepare("SELECT * FROM institution WHERE institution_id = '".$id ."' AND status = 1");
-}else if($tableSearch == "BM"){
-    $bcNames = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$id ."' AND status = 1");
-}else if($tableSearch == "TA"){
-    $bcNames = $conn -> prepare("SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '".$id ."' AND status = 1");
-}else{
-    $bcNames = $conn -> prepare("SELECT * FROM business_consultant WHERE business_consultant_id = '".$id ."' AND status = 1");
-}
+
+$bcNames = $conn -> prepare("SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '".$id ."' AND status = 1");
+
 $bcNames -> execute();
 $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
 if($bcNames -> rowCount()>0){
@@ -66,7 +52,7 @@ if($tableSearch == "CA" || $tableSearch =="TE"){
 }else if($tableSearch == "TA"){
     $caNames = $conn -> prepare("SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '".$id ."' AND status = 1");
 }else{
-    $caNames = $conn -> prepare("SELECT * FROM business_consultant WHERE business_consultant_id = '".$id ."' AND status = 1");
+    $caNames = $conn -> prepare("SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '".$id ."' AND status = 1");
 }
 $caNames -> execute();
 $caNames -> setFetchMode(PDO::FETCH_ASSOC);
@@ -120,7 +106,7 @@ if($caNames -> rowCount()>0){
     <body>
         <div class="background" >
             <div class="container cont-btn d-flex justify-content-around pt-3 pb-4">
-                <a href="../../../contracting_payout.php" class="go-back"> Go Back</a>
+                <a href="../../../product_payout.php" class="go-back"> Go Back</a>
                 
                 <a href="#" id="generatePDF" class="download-btn">
                     <i class="fa fa-download " aria-hidden="true" style="color: white;" ></i> 
@@ -164,12 +150,7 @@ if($caNames -> rowCount()>0){
                                 </tbody>
                             </table>  
                             <div class="col-md-12 col-sm-12" >
-                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; "><?=($tableSearch == "CA" || $tableSearch == "TE") ? "Techno Enterprise" :
-                                                                                                    ($tableSearch == "F"  ? "Franchisee" :
-                                                                                                    ($tableSearch == "BM" ? "Business Mentor" :
-                                                                                                    ($tableSearch == "SF" ? "Sponsor Franchisee" :
-                                                                                                    ($tableSearch == "MF" ? "Master Franchisee" :
-                                                                                                    ($tableSearch == "I" ? "Institution":"Travel Consultant")))));?> Payout</h5>
+                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; ">Product Payout</h5>
                                 <div class="col-md-12 col-sm-12" style="text-align: left; margin-bottom:20px">
                                     <table class="orderTable text-center" style="padding-bottom:5px; margin:0px; border:1px solid #DDDDDD;">
                                         <thead>

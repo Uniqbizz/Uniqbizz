@@ -49,9 +49,9 @@
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarMultilevel">
                         <ul class="nav nav-sm flex-column">
-                            <li class="nav-item <?php echo ($current_page == 'recruitment_payout.php') ? 'active' : ''; ?>">
-                                <a href="recruitment_payout.php" class="nav-link menu-link">
-                                    <span data-key="recruitment-payout">TE Recruitment Payout</span>
+                            <li class="nav-item <?php echo ($current_page == 'contracting_payout.php') ? 'active' : ''; ?>">
+                                <a href="contracting_payout.php" class="nav-link menu-link">
+                                    <span data-key="contracting_payout.php">TE Recruitment Payout</span>
                                 </a>
                             </li>
                             <li class="nav-item <?php echo ($current_page == 'holiday_payout.php') ? 'active' : ''; ?>">

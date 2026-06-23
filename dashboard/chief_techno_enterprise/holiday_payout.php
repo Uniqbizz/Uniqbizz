@@ -13,10 +13,10 @@
     $prevDateYear = date('Y');  //Year in number form. 
 
     $tdsPercentage = 2/100;
-    $columnDesignation = 'business_development_manager';
-    $columnMessage = 'message_bdm';
-    $columnCommision = 'commision_bdm';
-    $columnStatus = 'status_bdm';
+    $columnDesignation = 'cte_id';
+    $columnMessage = 'message_cte';
+    $columnCommision = 'commission_cte';
+    $columnStatus = 'status_cte';
 ?>
 
 <!doctype html>
@@ -24,7 +24,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title>Super Techno Enterprise Dashboard | Holiday Account Payout</title>
+        <title>Chief Techno Enterprise Dashboard | Holiday Account Payout</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -47,7 +47,7 @@
         <link href="../assets/css/custom.min.css" rel="stylesheet" type="text/css" />
         <!-- custom Css developer-->
         <link rel="stylesheet" href="../assets/css/custom.css" />
-        <link rel="stylesheet" href="../assets/css/executive_techno_enterprise.css" />
+        <link rel="stylesheet" href="../assets/css/chief_techno_enterprise.css" />
 
         <link href="../payout/payout.css" rel="stylesheet" type="text/css" />
 
@@ -63,7 +63,7 @@
         <!-- Begin page -->
         <div id="layout-wrapper">
 
-            <?php include_once 'executive_techno_header.php'; ?>
+            <?php include_once 'chief_techno_header.php'; ?>
 
             <!-- removeNotificationModal -->
             <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
@@ -91,7 +91,7 @@
             </div><!-- /.modal -->
             <!-- ========== App Menu ========== -->
 
-            <?php include_once 'executive_techno_sidebar.php'; ?>
+            <?php include_once 'chief_techno_sidebar.php'; ?>
 
             <!-- ============================================================== -->
             <!-- Start right Content here -->
@@ -288,7 +288,7 @@
                         </div>
                     </div> <!-- container-fluid -->
                 </div><!-- End Page-content -->
-                <?php include_once "executive_techno_footer.php" ?>   
+                <?php include_once "chief_techno_footer.php" ?>   
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
         

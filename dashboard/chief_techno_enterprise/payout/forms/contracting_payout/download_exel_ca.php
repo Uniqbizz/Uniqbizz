@@ -20,7 +20,7 @@ if($payoutmessage == 'PreviousPayout'){
     $stmt2 = $conn->prepare("
         SELECT * 
         FROM techno_enterprise_payout 
-        WHERE ete_id = '".$user_id."'
+        WHERE cte_id = '".$user_id."'
         AND YEAR(created_date) = '".$payoutYear."'
         AND MONTH(created_date) = '".$payoutMonth."'
     ");
@@ -40,8 +40,8 @@ if($payoutmessage == 'PreviousPayout'){
 
         $headers = [
             'Date',
-            'Super Techno Enterprise ID',
-            'Super Techno Enterprise Name',
+            'Chief Techno Enterprise ID',
+            'Chief Techno Enterprise Name',
             'Techno Enterprise ID',
             'Techno Enterprise Name',
             'Payout Details',
@@ -63,7 +63,7 @@ if($payoutmessage == 'PreviousPayout'){
 
             $newDate = date('d-m-Y', strtotime($row2['created_date']));
 
-            $Commi = $row2['rte_amount'];
+            $Commi = $row2['cte_amount'];
 
             $Commi_TDS = $Commi * 2 / 100;
             $Commi_Total = $Commi - $Commi_TDS;
@@ -73,8 +73,8 @@ if($payoutmessage == 'PreviousPayout'){
             $ta_name = '';
             $sql1 = $conn->prepare("
                 SELECT firstname, lastname
-                FROM super_techno_enterprise
-                WHERE super_techno_enterprise_id = '".$row2['ete_id']."'
+                FROM chief_techno_enterprise
+                WHERE chief_techno_enterprise_id = '".$row2['cte_id']."'
             ");
             $sql1->execute();
 
@@ -86,7 +86,7 @@ if($payoutmessage == 'PreviousPayout'){
             $sql2 = $conn->prepare("
                 SELECT firstname, lastname
                 FROM corporate_agency
-                WHERE corporate_agency_id = '".$row2['corporate_agency']."'
+                WHERE corporate_agency_id = '".$row2['te_id']."'
             ");
             $sql2->execute();
 
@@ -95,9 +95,9 @@ if($payoutmessage == 'PreviousPayout'){
             }
 
             $sheet->setCellValue('A'.$rowNo, $newDate);
-            $sheet->setCellValue('B'.$rowNo, $row2['ete_id']);
+            $sheet->setCellValue('B'.$rowNo, $row2['cte_id']);
             $sheet->setCellValue('C'.$rowNo, $ta_name);
-            $sheet->setCellValue('D'.$rowNo, $row2['corporate_agency']);
+            $sheet->setCellValue('D'.$rowNo, $row2['te_id']);
             $sheet->setCellValue('E'.$rowNo, $ca_name);
             $sheet->setCellValue('F'.$rowNo, $message1);
             $sheet->setCellValue('G'.$rowNo, $Commi);
@@ -105,7 +105,7 @@ if($payoutmessage == 'PreviousPayout'){
             $sheet->setCellValue('I'.$rowNo, $Commi_Total);
             $sheet->setCellValue(
                 'J'.$rowNo,
-                ($row2['status'] == 0 ? 'Pending' : 'Paid')
+                ($row2['status'] == 2 ? 'Pending' : 'Paid')
             );
 
             $rowNo++;
@@ -137,7 +137,7 @@ if($payoutmessage == 'NextPayout'){
     $stmt2 = $conn->prepare("
         SELECT *
         FROM techno_enterprise_payout
-        WHERE ete_id = '".$user_id."'
+        WHERE cte_id = '".$user_id."'
         AND YEAR(created_date) = '".$payoutYear."'
         AND MONTH(created_date) = '".$payoutMonth."'
     ");
@@ -157,8 +157,8 @@ if($payoutmessage == 'NextPayout'){
 
         $headers = [
             'Date',
-            'Super Techno Enterprise ID',
-            'Super Techno Enterprise Name',
+            'Chief TechnoEnterprise ID',
+            'Chief TechnoEnterprise Name',
             'Techno Enterprise ID',
             'Techno Enterprise Name',
             'Payout Message',
@@ -180,7 +180,7 @@ if($payoutmessage == 'NextPayout'){
 
             $newDate = date('d-m-Y', strtotime($row2['created_date']));
 
-            $Commi = $row2['rte_amount'];
+            $Commi = $row2['cte_amount'];
             $Commi_TDS = $Commi * 2 / 100;
             $Commi_Total = $Commi - $Commi_TDS;
 
@@ -189,8 +189,8 @@ if($payoutmessage == 'NextPayout'){
             $ta_name = '';
             $sql1 = $conn->prepare("
                 SELECT firstname, lastname
-                FROM super_techno_enterprise
-                WHERE super_techno_enterprise_id = '".$row2['ete_id']."'
+                FROM chief_techno_enterprise
+                WHERE chief_techno_enterprise_id = '".$row2['cte_id']."'
             ");
             $sql1->execute();
 
@@ -202,7 +202,7 @@ if($payoutmessage == 'NextPayout'){
             $sql2 = $conn->prepare("
                 SELECT firstname, lastname
                 FROM corporate_agency
-                WHERE corporate_agency_id = '".$row2['corporate_agency']."'
+                WHERE corporate_agency_id = '".$row2['te_id']."'
             ");
             $sql2->execute();
 
@@ -211,9 +211,9 @@ if($payoutmessage == 'NextPayout'){
             }
 
             $sheet->setCellValue('A'.$rowNo, $newDate);
-            $sheet->setCellValue('B'.$rowNo, $row2['ete_id']);
+            $sheet->setCellValue('B'.$rowNo, $row2['cte_id']);
             $sheet->setCellValue('C'.$rowNo, $ta_name);
-            $sheet->setCellValue('D'.$rowNo, $row2['corporate_agency']);
+            $sheet->setCellValue('D'.$rowNo, $row2['te_id']);
             $sheet->setCellValue('E'.$rowNo, $ca_name);
             $sheet->setCellValue('F'.$rowNo, $message1);
             $sheet->setCellValue('G'.$rowNo, $Commi);
@@ -221,7 +221,7 @@ if($payoutmessage == 'NextPayout'){
             $sheet->setCellValue('I'.$rowNo, $Commi_Total);
             $sheet->setCellValue(
                 'J'.$rowNo,
-                ($row2['status'] == 0 ? 'Pending' : 'Paid')
+                ($row2['status'] == 2 ? 'Pending' : 'Paid')
             );
 
             $rowNo++;
@@ -256,7 +256,7 @@ if($payoutmessage == 'TotalPayout'){
     $stmt2 = $conn->prepare("
         SELECT *
         FROM techno_enterprise_payout
-        WHERE ete_id = '".$user_id."'
+        WHERE cte_id = '".$user_id."'
         AND YEAR(created_date) = '".$payoutYear."'
         AND MONTH(created_date) = '".$payoutMonth."'
     ");
@@ -276,8 +276,8 @@ if($payoutmessage == 'TotalPayout'){
 
         $headers = [
             'Date',
-            'Super Techno Enterprise ID',
-            'Super Techno Enterprise Name',
+            'Chief TechnoEnterprise ID',
+            'Chief TechnoEnterprise Name',
             'Techno Enterprise ID',
             'Techno Enterprise Name',
             'Payout Message',
@@ -300,7 +300,7 @@ if($payoutmessage == 'TotalPayout'){
 
             $newDate = date('d-m-Y', strtotime($row2['created_date']));
 
-            $Commi = $row2['rte_amount'];
+            $Commi = $row2['cte_amount'];
 
             $Commi_TDS = $Commi * 2 / 100;
             $Commi_Total = $Commi - $Commi_TDS;
@@ -311,8 +311,8 @@ if($payoutmessage == 'TotalPayout'){
             $ta_name = '';
             $sql1 = $conn->prepare("
                 SELECT firstname, lastname
-                FROM super_techno_enterprise
-                WHERE super_techno_enterprise_id = '".$row2['ete_id']."'
+                FROM chief_techno_enterprise
+                WHERE chief_techno_enterprise_id = '".$row2['cte_id']."'
             ");
             $sql1->execute();
 
@@ -324,7 +324,7 @@ if($payoutmessage == 'TotalPayout'){
             $sql2 = $conn->prepare("
                 SELECT firstname, lastname
                 FROM corporate_agency
-                WHERE corporate_agency_id = '".$row2['corporate_agency']."'
+                WHERE corporate_agency_id = '".$row2['te_id']."'
             ");
             $sql2->execute();
 
@@ -333,9 +333,9 @@ if($payoutmessage == 'TotalPayout'){
             }
 
             $sheet->setCellValue('A'.$rowNo, $newDate);
-            $sheet->setCellValue('B'.$rowNo, $row2['ete_id']);
+            $sheet->setCellValue('B'.$rowNo, $row2['cte_id']);
             $sheet->setCellValue('C'.$rowNo, $ta_name);
-            $sheet->setCellValue('D'.$rowNo, $row2['corporate_agency']);
+            $sheet->setCellValue('D'.$rowNo, $row2['te_id']);
             $sheet->setCellValue('E'.$rowNo, $ca_name);
             $sheet->setCellValue('F'.$rowNo, $message1);
             $sheet->setCellValue('G'.$rowNo, $Commi);
@@ -343,7 +343,7 @@ if($payoutmessage == 'TotalPayout'){
             $sheet->setCellValue('I'.$rowNo, $Commi_Total);
             $sheet->setCellValue(
                 'J'.$rowNo,
-                ($row2['status'] == 0 ? 'Pending' : 'Paid')
+                ($row2['status'] == 2 ? 'Pending' : 'Paid')
             );
 
             $rowNo++;
@@ -375,7 +375,7 @@ if($payoutmessage == 'TotalPayout'){
 
 // if($payoutmessage == 'allPayout'){
 //     if($designation == 'travel_agent'){
-//         $stmt2 = " SELECT * FROM techno_enterprise_payout WHERE ete_id = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
+//         $stmt2 = " SELECT * FROM techno_enterprise_payout WHERE cte_id = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
 //     }else if($designation == 'corporate_agency'){
 //         $stmt2 = " SELECT * FROM techno_enterprise_payout WHERE corporate_agency = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
 //     }
@@ -388,8 +388,8 @@ if($payoutmessage == 'TotalPayout'){
 //         <table border="1" style="text-align:center">
 //             <tr>
 //                 <th >Date</th>
-//                 <th class="mobile_view">Super Techno Enterprise</th>
-//                 <th class="mobile_view">Super Techno Enterprise Name</th>
+//                 <th class="mobile_view">Chief TechnoEnterprise</th>
+//                 <th class="mobile_view">Chief TechnoEnterprise Name</th>
 //                 <th class="mobile_view">Techno Enterprise</th>
 //                 <th class="mobile_view">Techno Enterprise Name</th>
 //                 <th ><span class="long-name">Payout Message</th>
@@ -405,7 +405,7 @@ if($payoutmessage == 'TotalPayout'){
 //                 $id = $row2['id'];
 
 //                 // get the commission amount of BA's
-//                 $Commi = $row2['rte_amount'];
+//                 $Commi = $row2['cte_amount'];
                 
 //                 (int)$Commi_TDS = (int)$Commi*2/100;
 //                 (int)$Commi_Total = (int)$Commi-(int)$Commi_TDS; 
@@ -421,7 +421,7 @@ if($payoutmessage == 'TotalPayout'){
 //                 $message2 = $row2['message_details'];
 //                 $message2 =  str_replace('.','<br>',$message2); 
                 
-//                 $sql1= $conn->prepare("SELECT firstname,lastname FROM `travel_agent` where travel_agent_id='".$row2['ete_id']."'");
+//                 $sql1= $conn->prepare("SELECT firstname,lastname FROM `travel_agent` where travel_agent_id='".$row2['cte_id']."'");
 //                 $sql1->execute();
 //                 $sql1->setFetchMode(PDO::FETCH_ASSOC);
 //                 if($sql1->rowCount()>0){
@@ -430,7 +430,7 @@ if($payoutmessage == 'TotalPayout'){
 //                     }
 //                 } 
 
-//                 $sql2= $conn->prepare("SELECT firstname,lastname FROM `corporate_agency` where corporate_agency_id='".$row2['corporate_agency']."'");
+//                 $sql2= $conn->prepare("SELECT firstname,lastname FROM `corporate_agency` where corporate_agency_id='".$row2['te_id']."'");
 //                 $sql2->execute();
 //                 $sql2->setFetchMode(PDO::FETCH_ASSOC);
 //                 if($sql2->rowCount()>0){
@@ -441,9 +441,9 @@ if($payoutmessage == 'TotalPayout'){
 
 //                 $output .= '<tr>
 //                     <td >'.$newDate.'</td>
-//                     <td>'.$row2['ete_id'].'</td>
+//                     <td>'.$row2['cte_id'].'</td>
 //                     <td>'.$ta_name.'</td>
-//                     <td>'.$row2['corporate_agency'].'</td>
+//                     <td>'.$row2['te_id'].'</td>
 //                     <td>'.$ca_name.'</td>
 //                     <td class="message">'.$message1.'</td>
 //                     <td class="message">'.$message2.'</td>

@@ -29,7 +29,7 @@
             INNER JOIN chief_techno_enterprise ste
                 ON ca.reference_no = ste.chief_techno_enterprise_id
 
-            WHERE ste.reference_no = :user_id
+            WHERE ca.reference_no = :user_id
             AND ca.status IN (2,4)
             AND ste.status IN (1)
 

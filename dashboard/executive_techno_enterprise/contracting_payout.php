@@ -31,7 +31,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title>Super Techno Enterprise | TE Contracting Payout</title>
+        <title>Executive Techno Enterprise | TE Contracting Payout</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -263,7 +263,7 @@
                                                                                         $dt = $dt->format('Y-m-d');
 
                                                                                         // replace dot at end of the line with break statement
-                                                                                        $message1 = $row['ste_message'];
+                                                                                        $message1 = $row['ete_message'];
                                                                                         $message1 =  str_replace('.','<br>',$message1);  
 
                                                                                         if($row[$columnCommision] == "null"){
@@ -428,7 +428,7 @@
                                                             $dt = $dt->format('Y-m-d');
 
                                                             // replace dot at end of the line with break statement
-                                                            $message1 = $row['ste_message'];
+                                                            $message1 = $row['ete_message'];
                                                             $message1 =  str_replace('.','<br>',$message1);  
 
                                                             // total Amt Cal for BC 
@@ -455,7 +455,7 @@
                                                                     if($row['status'] == '1'){
                                                                         echo'<td><span class="badge bg-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                     }else{
-                                                                        echo'<td><span class="badge bg-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row[$columnDesignation].'","'.$row['ste_message'].'","'.$row[$columnCommision].'","'.$row['status'].'","PrevPayout")\'>Pending</span></td>';
+                                                                        echo'<td><span class="badge bg-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row[$columnDesignation].'","'.$row['ete_message'].'","'.$row[$columnCommision].'","'.$row['status'].'","PrevPayout")\'>Pending</span></td>';
                                                                     }
                                                             echo'</tr>';
 
@@ -581,7 +581,7 @@
                                                             $dt = $dt->format('Y-m-d');
 
                                                             // replace dot at end of the line with break statement
-                                                            $message1 = $row['ste_message'];
+                                                            $message1 = $row['ete_message'];
                                                             $message1 =  str_replace('.','<br>',$message1);  
 
                                                             // total Amt Cal for BC 
@@ -608,7 +608,7 @@
                                                                     if($row['status'] == '1'){
                                                                         echo'<td><span class="badge bg-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                     }else{
-                                                                        echo'<td><span class="badge bg-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row[$columnDesignation].'","'.$row['ste_message'].'","'.$row[$columnCommision].'","'.$row['status'].'","NextPayout")\'>Pending</span></td>';
+                                                                        echo'<td><span class="badge bg-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row[$columnDesignation].'","'.$row['ete_message'].'","'.$row[$columnCommision].'","'.$row['status'].'","NextPayout")\'>Pending</span></td>';
                                                                     }
                                                             echo'</tr>';
 
@@ -738,7 +738,7 @@
                                                             $dt = $dt->format('Y-m-d');
 
                                                             // replace dot at end of the line with break statement
-                                                            $message1 = $row['ste_message'];
+                                                            $message1 = $row['ete_message'];
                                                             $message1 =  str_replace('.','<br>',$message1);  
                                                             $message_details = $row['message_details'];
                                                             $message_details =  str_replace('.','<br>',$message_details);  
@@ -769,7 +769,7 @@
                                                                     if($row['status'] == '1'){
                                                                         echo'<td><span class="badge bg-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                     }else{
-                                                                        echo'<td><span class="badge bg-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row[$columnDesignation].'","'.$row['ste_message'].'","'.$row[$columnCommision].'","'.$row['status'].'","TotalPayout")\'>Pending</span></td>';
+                                                                        echo'<td><span class="badge bg-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row[$columnDesignation].'","'.$row['ete_message'].'","'.$row[$columnCommision].'","'.$row['status'].'","TotalPayout")\'>Pending</span></td>';
                                                                     }
                                                             echo'</tr>';
 

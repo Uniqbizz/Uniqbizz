@@ -13,19 +13,19 @@ $commission = $_GET['commission'];
 
 if($commission == "null"){
     //TDS calculation on commission Amount 
-    $tds = 5;
+    $tds = 2;
     $commissionTDS = '0';
     $totalAmt = '0';
 }else{
     //TDS calculation on commission Amount 
-    $tds = 5;
+    $tds = 2;
     $commissionTDS = $commission * $tds / 100;
     $totalAmt = $commission - $commissionTDS;
 }
     
 $date = date('F,Y', strtotime($dateCA));
 
-$bcNames = $conn -> prepare("SELECT * FROM super_techno_enterprise WHERE super_techno_enterprise_id = '".$bc."' AND status = 1");
+$bcNames = $conn -> prepare("SELECT * FROM executive_techno_enterprise WHERE executive_techno_enterprise_id = '".$bc."' AND status = 1");
 $bcNames -> execute();
 $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
 if($bcNames -> rowCount()>0){
@@ -125,14 +125,14 @@ if($caNames -> rowCount()>0){
                                         </td>
                                         <td class="col-md-5 col-sm-5 pt-3">
                                             <h6 style="padding:2px 0; font-weight: 700;">Pay For : TE Contracting </h6>
-                                            <h6 style="padding:2px 0; font-weight: 700;">Designation : Super Techno Dashboard</h6>
+                                            <h6 style="padding:2px 0; font-weight: 700;">Designation : Executive Techno Enterprise</h6>
                                             <h6 style="padding:2px 0; font-weight: 700;">Payout status : <?php echo $message_status == 0 ? 'Pending' : 'Paid' ; ?></h6>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>  
                             <div class="col-md-12 col-sm-12" style="" >
-                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; ">Corpoarte Agency Payout</h5>
+                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; ">Techno Enterprise Payout</h5>
                                 <div class="col-md-12 col-sm-12" style="text-align: left; margin-bottom:20px">
                                     <table class="orderTable text-center" style="padding-bottom:5px; margin:0px; border:1px solid #DDDDDD;">
                                         <thead>

@@ -22,7 +22,7 @@ $tableSearch = (substr($designation, 0, 1) === 'F' || substr($designation, 0, 1)
     ? substr($designation, 0, 1) 
     : substr($designation, 0, 2);
 
-$bcNames = $conn -> prepare("SELECT * FROM super_techno_enterprise WHERE super_techno_enterprise_id = '".$designation."' AND status = 1");
+$bcNames = $conn -> prepare("SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '".$designation."' AND status = 1");
 
 
 $bcNames -> execute();
@@ -78,7 +78,7 @@ if($bcNames -> rowCount()>0){
     <body>
         <div class="background" >
             <div class="container cont-btn d-flex justify-content-around pt-3 pb-4">
-                <a href="../../../customer_recruitment_payout.php" class="go-back"> Go Back</a>
+                <a href="../../../holiday_payout.php" class="go-back"> Go Back</a>
                 
                 <a href="#" id="generatePDF" class="download-btn">
                     <i class="fa fa-download " aria-hidden="true" style="color: white;" ></i> 

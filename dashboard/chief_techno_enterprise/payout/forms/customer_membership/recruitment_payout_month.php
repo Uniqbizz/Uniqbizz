@@ -11,13 +11,9 @@ $user_id = $_POST['user_id'] ?? '';
 $commision = $_POST['Commision'] ?? '';
 
 $user_id_str=substr($user_id,0,1) == 'F'?substr($user_id,0,1):substr($user_id,0,2);
-if($user_id_str =='MF' || $user_id_str =='SF' || $user_id_str=='BM'){
-    $message = "message_bm";
-}else if ($user_id_str =='F' || $user_id_str =='CA' || $user_id_str=='TE' || $user_id_str=='I'){
-    $message = "message_te";
-}else if($user_id_str =='TA'){
-    $message = "message_tc";
-}
+
+$message = "message_cte";
+
 
 if($totalAmountMessage){
     $stmt = " SELECT SUM($commision) as TotalPayout FROM ca_cu_payout WHERE $designation = '".$user_id."' AND YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."' ";
@@ -55,10 +51,10 @@ if($totalTableMessage){
                             ca.created_date,
                             ca.status,
                             ca.id,
-                            ca.message_bm,
+                            ca.message_cte,
                             ca.message_te,
                             ca.commision_te,
-                            ca.commision_bm,
+                            ca.commision_cte,
                             ca.travel_consultant,
                             ca.message_tc,
                             ca.commision_tc,

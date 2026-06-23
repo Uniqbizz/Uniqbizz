@@ -22,10 +22,10 @@ if($payoutmessage == 'PreviousPayout'){
                 ca.created_date,
                 ca.status,
                 ca.id,
-                ca.business_developement_manager,
-                ca.message_bdm,
-                ca.commision_bdm,
-                ca.status_bdm,
+                ca.cte_id,
+                ca.message_cte,
+                ca.commision_cte,
+                ca.status_cte,
                 ca.techno_enterprise,
                 ca.message_te,
                 ca.commision_te,
@@ -86,34 +86,34 @@ if($payoutmessage == 'PreviousPayout'){
 
             if($user_id_str == "ST"){
 
-                $amount = $row2['commision_bdm'];
+                $amount = $row2['commision_cte'];
                 $tds = round($amount * 2 / 100, 2);
                 $total = $amount - $tds;
 
-                $message = str_replace('.', PHP_EOL, $row2['message_bdm']);
+                $message = str_replace('.', PHP_EOL, $row2['message_cte']);
 
                 $sql1 = $conn->prepare("
                     SELECT firstname,lastname
-                    FROM super_techno_enterprise
-                    WHERE super_techno_enterprise_id = ?
+                    FROM chief_techno_enterprise
+                    WHERE chief_techno_enterprise_id = ?
                 ");
-                $sql1->execute([$row2['business_developement_manager']]);
+                $sql1->execute([$row2['cte_id']]);
 
                 $ta_name = '';
                 if($row1 = $sql1->fetch(PDO::FETCH_ASSOC)){
                     $ta_name = $row1['firstname'].' '.$row1['lastname'];
                 }
 
-                $statusText = ($row2['status_bdm'] == 1)
+                $statusText = ($row2['status_cte'] == 1)
                     ? 'Paid'
                     : 'Pending';
 
-                $paidDate = ($row2['status_bdm'] == 1)
+                $paidDate = ($row2['status_cte'] == 1)
                     ? $row2['paydate']
                     : 'NA';
 
                 $sheet->setCellValue('A'.$rowNo, $newDate);
-                $sheet->setCellValue('B'.$rowNo, $row2['business_developement_manager']);
+                $sheet->setCellValue('B'.$rowNo, $row2['cte_id']);
                 $sheet->setCellValue('C'.$rowNo, $ta_name);
                 $sheet->setCellValue('D'.$rowNo, $message);
                 $sheet->setCellValue('E'.$rowNo, $amount);
@@ -152,10 +152,10 @@ if($payoutmessage == 'NextPayout'){
                 ca.created_date,
                 ca.status,
                 ca.id,
-                ca.business_developement_manager,
-                ca.message_bdm,
-                ca.commision_bdm,
-                ca.status_bdm,
+                ca.cte_id,
+                ca.message_cte,
+                ca.commision_cte,
+                ca.status_cte,
                 ca.techno_enterprise,
                 ca.message_te,
                 ca.commision_te,
@@ -216,32 +216,32 @@ if($payoutmessage == 'NextPayout'){
 
             if($user_id_str == "ST"){
 
-                $amount = $row2['commision_bdm'];
+                $amount = $row2['commision_cte'];
                 $tds = round($amount * 2 / 100, 2);
                 $totalPayable = $amount - $tds;
 
-                $message = str_replace('.', ' ', $row2['message_bdm']);
+                $message = str_replace('.', ' ', $row2['message_cte']);
 
                 $ta_name = '';
 
                 $sql1 = $conn->prepare("
                     SELECT firstname,lastname
-                    FROM super_techno_enterprise
-                    WHERE super_techno_enterprise_id = ?
+                    FROM chief_techno_enterprise
+                    WHERE chief_techno_enterprise_id = ?
                 ");
-                $sql1->execute([$row2['business_developement_manager']]);
+                $sql1->execute([$row2['cte_id']]);
 
                 if($row1 = $sql1->fetch(PDO::FETCH_ASSOC)){
                     $ta_name = $row1['firstname'].' '.$row1['lastname'];
                 }
 
-                $status = ($row2['status_bdm'] == 1) ? 'Paid' : 'Pending';
-                $paidDate = ($row2['status_bdm'] == 1)
+                $status = ($row2['status_cte'] == 1) ? 'Paid' : 'Pending';
+                $paidDate = ($row2['status_cte'] == 1)
                     ? $row2['paydate']
                     : 'NA';
 
                 $sheet->setCellValue('A'.$rowNo, $newDate);
-                $sheet->setCellValue('B'.$rowNo, $row2['business_developement_manager']);
+                $sheet->setCellValue('B'.$rowNo, $row2['cte_id']);
                 $sheet->setCellValue('C'.$rowNo, $ta_name);
                 $sheet->setCellValue('D'.$rowNo, $message);
                 $sheet->setCellValue('E'.$rowNo, $amount);
@@ -279,10 +279,10 @@ if($payoutmessage == 'TotalPayout'){
                 ca.created_date,
                 ca.status,
                 ca.id,
-                ca.business_developement_manager,
-                ca.message_bdm,
-                ca.commision_bdm,
-                ca.status_bdm,
+                ca.cte_id,
+                ca.message_cte,
+                ca.commision_cte,
+                ca.status_cte,
                 ca.techno_enterprise,
                 ca.message_te,
                 ca.commision_te,
@@ -343,36 +343,36 @@ if($payoutmessage == 'TotalPayout'){
 
             if($user_id_str == "ST"){
 
-                $amount = $row2['commision_bdm'];
+                $amount = $row2['commision_cte'];
 
                 $tds = round($amount * 2 / 100, 2);
                 $totalPayable = $amount - $tds;
 
-                $message = str_replace('.', ' ', $row2['message_bdm']);
+                $message = str_replace('.', ' ', $row2['message_cte']);
 
                 $ta_name = '';
 
                 $sql1 = $conn->prepare("
                     SELECT firstname,lastname
-                    FROM super_techno_enterprise
-                    WHERE super_techno_enterprise_id = ?
+                    FROM chief_techno_enterprise
+                    WHERE chief_techno_enterprise_id = ?
                 ");
-                $sql1->execute([$row2['business_developement_manager']]);
+                $sql1->execute([$row2['cte_id']]);
 
                 if($row1 = $sql1->fetch(PDO::FETCH_ASSOC)){
                     $ta_name = $row1['firstname'].' '.$row1['lastname'];
                 }
 
-                $status = ($row2['status_bdm'] == 1)
+                $status = ($row2['status_cte'] == 1)
                     ? 'Paid'
                     : 'Pending';
 
-                $paidDate = ($row2['status_bdm'] == 1)
+                $paidDate = ($row2['status_cte'] == 1)
                     ? $row2['paydate']
                     : 'NA';
 
                 $sheet->setCellValue('A'.$rowNo, $newDate);
-                $sheet->setCellValue('B'.$rowNo, $row2['business_developement_manager']);
+                $sheet->setCellValue('B'.$rowNo, $row2['cte_id']);
                 $sheet->setCellValue('C'.$rowNo, $ta_name);
                 $sheet->setCellValue('D'.$rowNo, $message);
                 $sheet->setCellValue('E'.$rowNo, $amount);
@@ -406,7 +406,7 @@ if($payoutmessage == 'TotalPayout'){
 //not in use 
 if($payoutmessage == 'allPayout'){
     // if($user_id_str == 'BM' || $user_id_str == 'SF' || $user_id_str == 'MF'){
-    //     $stmt2 = " SELECT * FROM ca_cu_payout WHERE business_developement_manager = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
+    //     $stmt2 = " SELECT * FROM ca_cu_payout WHERE cte_id = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
     // }else if($user_id_str == 'TE' || $user_id_str == 'CA' || $user_id_str == 'F'){
     //     $stmt2 = " SELECT * FROM ca_cu_payout WHERE techno_enterprise = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
     // }
@@ -414,10 +414,10 @@ if($payoutmessage == 'allPayout'){
                     ca.created_date,
                     ca.status,
                     ca.id,
-                    ca.business_developement_manager,
-                    ca.message_bdm,
-                    ca.commision_bdm,
-                    ca.status_bdm,
+                    ca.cte_id,
+                    ca.message_cte,
+                    ca.commision_cte,
+                    ca.status_cte,
                     ca.techno_enterprise,
                     ca.message_te,
                     ca.commision_te,
@@ -471,7 +471,7 @@ if($payoutmessage == 'allPayout'){
                 $id = $row2['id'];
 
                 // get the commission amount of BA's
-                $BC_Commi = $row2['commision_bdm'];
+                $BC_Commi = $row2['commision_cte'];
                 $CA_Commi = $row2['commision_te'];
                 $ca_ta_Commi = $row2['ca_ta_amt_paid'];
                
@@ -489,7 +489,7 @@ if($payoutmessage == 'allPayout'){
                 $dt = $dt->format('Y-m-d');
 
                 // replace dot at end of the line with break statement
-                $message1 = $row2['message_bdm'];
+                $message1 = $row2['message_cte'];
                 $message1 =  str_replace('.','<br>',$message1); 
                 $message2 = $row2['message_te'];
                 $message2 =  str_replace('.','<br>',$message2); 
@@ -497,11 +497,11 @@ if($payoutmessage == 'allPayout'){
                 $message3 =  str_replace('.','<br>',$message3); 
                 
                 if($user_id_str == "SF"){
-                    $sql1= $conn->prepare("SELECT firstname,lastname FROM `sponsor_franchisee` where sponsor_franchisee_id='".$row2['business_developement_manager']."'");
+                    $sql1= $conn->prepare("SELECT firstname,lastname FROM `sponsor_franchisee` where sponsor_franchisee_id='".$row2['cte_id']."'");
                 }else if($user_id_str == "MF"){
-                    $sql1= $conn->prepare("SELECT firstname,lastname FROM `master_franchisee` where master_franchisee_id='".$row2['business_developement_manager']."'");
+                    $sql1= $conn->prepare("SELECT firstname,lastname FROM `master_franchisee` where master_franchisee_id='".$row2['cte_id']."'");
                 }else{
-                    $sql1= $conn->prepare("SELECT firstname,lastname FROM `business_developement_manager` where business_developement_manager_id='".$row2['business_developement_manager']."'");
+                    $sql1= $conn->prepare("SELECT firstname,lastname FROM `cte_id` where cte_id_id='".$row2['cte_id']."'");
                 }
                 $sql1->execute();
                 $sql1->setFetchMode(PDO::FETCH_ASSOC);
@@ -528,7 +528,7 @@ if($payoutmessage == 'allPayout'){
 
                 $output .= '<tr>
                     <td >'.$newDate.'</td>
-                    <td>'.$row2['business_developement_manager'].'</td>
+                    <td>'.$row2['cte_id'].'</td>
                     <td>'.$ta_name.'</td>
                     <td>'.$row2['techno_enterprise'].'</td>
                     <td>'.$ca_name.'</td>
@@ -536,7 +536,7 @@ if($payoutmessage == 'allPayout'){
                     <td style="text-align:center;">'.$BC_Commi.'</td>
                     <td style="text-align:center;">'.$BC_Commi_TDS.'/-</td>
                     <td style="text-align:center;">'.$BC_Commi_Total.'/-</td>';
-                    if($row2['status_bdm'] == 0){
+                    if($row2['status_cte'] == 0){
                         $output .='<td style="text-align:center;">Pending</td>';
                     }else{
                         $output .='<td style="text-align:center;">Paid</td>';
@@ -546,7 +546,7 @@ if($payoutmessage == 'allPayout'){
                 
                 $output .='<tr>
                     <td >'.$newDate.'</td>
-                    <td>'.$row2['business_developement_manager'].'</td>
+                    <td>'.$row2['cte_id'].'</td>
                     <td>'.$ta_name.'</td>
                     <td>'.$row2['techno_enterprise'].'</td>
                     <td>'.$ca_name.'</td>
