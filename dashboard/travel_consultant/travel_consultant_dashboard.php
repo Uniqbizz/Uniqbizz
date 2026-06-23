@@ -1,5 +1,7 @@
 <?php
     include_once '../dashboard_user_details.php';
+    include 'travel_consultant_model.php';
+    include 'urls.php';
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -252,6 +254,302 @@
                                                 </tr>
                                             </tbody>
                                         </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card section 3 -->
+                        <div class="row">
+                            <div class="col-lg-7 col-md-6 col-sm-12 col-12">
+                                <div class="card rounded-4 p-3 border border-1">
+                                    <h4 class="d-flex justify-content-between mb-0 textColor fw-bolder">Most Trending Packages
+                                        <a href="<?= $home_url ?>tour-list.php" class="fs-6">View All Packages</a>
+                                    </h4>
+                                    <hr>
+                                    <div id="packageCarousel" class="carousel slide" data-bs-ride="false">
+                                        <!-- Dynamic Slides -->
+                                        <div class="carousel-inner" id="carouselInner"></div>
+                                        <!-- Indicators -->
+                                        <div class="carousel-indicators customIndicators" id="carouselIndicators"></div>
+                                    </div>
+                                    <!-- ALL 12 CARDS -->
+                                    <div id="allCards" class="d-none">
+                                        <!-- CARD 1 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="<?= $home_url ?><?=$package_array[0]['image']?>" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder"><?=$package_array[0]['packname']?></h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[0]['duration']?>
+                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[0]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0 ">
+                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[0]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 2 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="<?= $home_url ?><?=$package_array[1]['image']?>" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder"><?=$package_array[1]['packname']?></h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[1]['duration']?>
+                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[1]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0 ">
+                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[1]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 3 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="<?= $home_url ?><?=$package_array[2]['image']?>" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder"><?=$package_array[2]['packname']?></h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[2]['duration']?>
+                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[2]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0 ">
+                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[2]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 4 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="<?= $home_url ?><?=$package_array[3]['image']?>" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder"><?=$package_array[3]['packname']?></h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[3]['duration']?>
+                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[3]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0 ">
+                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[3]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 5 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="<?= $home_url ?><?=$package_array[4]['image']?>" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder"><?=$package_array[4]['packname']?></h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[4]['duration']?>
+                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[4]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0 ">
+                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[4]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 6 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="<?= $home_url ?><?=$package_array[5]['image']?>" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder"><?=$package_array[5]['packname']?></h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[5]['duration']?>
+                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[5]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0 ">
+                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[5]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 7 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="<?= $home_url ?><?=$package_array[6]['image']?>" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder"><?=$package_array[6]['packname']?></h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[6]['duration']?>
+                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[6]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0 ">
+                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[6]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 8 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="<?= $home_url ?><?=$package_array[7]['image']?>" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder"><?=$package_array[7]['packname']?></h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[7]['duration']?>
+                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[7]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0 ">
+                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[7]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 9 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="<?= $home_url ?><?=$package_array[8]['image']?>" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder"><?=$package_array[8]['packname']?></h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[8]['duration']?>
+                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[8]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0 ">
+                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[8]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 10 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="<?= $home_url ?><?=$package_array[9]['image']?>" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder"><?=$package_array[9]['packname']?></h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[9]['duration']?>
+                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[9]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0 ">
+                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[9]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 11 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="<?= $home_url ?><?=$package_array[10]['image']?>" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder"><?=$package_array[10]['packname']?></h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[10]['duration']?>
+                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[10]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0 ">
+                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[10]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 12 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="<?= $home_url ?><?=$package_array[11]['image']?>" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder"><?=$package_array[11]['packname']?></h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[11]['duration']?>
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[11]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0 ">
+                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[11]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1462,6 +1760,124 @@
                 loadRecentActivities();
 
             });
+        </script>
+        <!-- Most Trending Packages -->
+        <script>
+            function buildCarousel() {
+                const carouselInner = document.getElementById("carouselInner");
+                const indicators = document.getElementById("carouselIndicators");
+                const cards = document.querySelectorAll(".package-card");
+                carouselInner.innerHTML = "";
+                indicators.innerHTML = "";
+                let cardsPerSlide = 3;
+                // xl
+                if (window.innerWidth >= 1280) {
+                    cardsPerSlide = 3;
+                }
+                // lg
+                else if (window.innerWidth >= 992) {
+                    cardsPerSlide = 2;
+                }
+
+                // md
+                else if (window.innerWidth >= 768) {
+                    cardsPerSlide = 2;
+                }
+
+                // sm
+                else if (window.innerWidth >=575 ) {
+                    cardsPerSlide = 2;
+                }
+                else {
+                    cardsPerSlide = 1;
+                }
+
+                // CREATE SLIDES
+                for (let i = 0; i < cards.length; i += cardsPerSlide) {
+                    // Slide
+                    const carouselItem = document.createElement("div");
+                    carouselItem.classList.add("carousel-item");
+                    if (i === 0) {
+                        carouselItem.classList.add("active");
+                    }
+
+                    // Row
+                    const row = document.createElement("div");
+                    row.classList.add("row", "g-3");
+
+                    // ADD CARDS
+                    for (
+                        let j = i;
+                        j < i + cardsPerSlide && j < cards.length;
+                        j++
+                    ) {
+
+                        const col = document.createElement("div");
+
+                        // Dynamic bootstrap columns
+                        if (cardsPerSlide === 3) {
+                            col.className =
+                                "col-lg-4 col-md-6 col-sm-6 col-12";
+                        }
+                        else if (cardsPerSlide === 2) {
+                            col.className =
+                                "col-md-6 col-sm-6 col-12";
+                        }
+                        else {
+                            col.className =
+                                "col-12";
+                        }
+
+                        col.innerHTML = cards[j].innerHTML;
+                        row.appendChild(col);
+                    }
+                    carouselItem.appendChild(row);
+                    carouselInner.appendChild(carouselItem);
+
+                    // INDICATORS
+                    const button = document.createElement("button");
+                    button.type = "button";
+                    button.setAttribute(
+                        "data-bs-target",
+                        "#packageCarousel"
+                    );
+
+                    button.setAttribute(
+                        "data-bs-slide-to",
+                        i / cardsPerSlide
+                    );
+                    if (i === 0) {
+                        button.classList.add("active");
+                    }
+                    indicators.appendChild(button);
+                }
+            }
+
+            // Initial Load
+            buildCarousel();
+
+            // Rebuild on Resize
+            window.addEventListener(
+                "resize",
+                buildCarousel
+            );
+
+        </script>
+        <script>
+            function toggleWishlist(button) {
+
+                button.classList.toggle("active");
+
+                const icon = button.querySelector("i");
+
+                if (button.classList.contains("active")) {
+                    icon.classList.remove("fa-regular");
+                    icon.classList.add("fa-solid");
+                } else {
+                    icon.classList.remove("fa-solid");
+                    icon.classList.add("fa-regular");
+                }
+            }
         </script>
     </body>
 </html>
