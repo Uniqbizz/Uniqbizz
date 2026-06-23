@@ -292,7 +292,8 @@
             professional_profile,
             business_profile,
             income_proof,
-            other_document)
+            other_document,
+            nominee_profile)
         VALUES ( 
             :application_id,
             :profile_pic ,
@@ -304,7 +305,8 @@
             :professional_profile,
             :business_profile,
             :income_proof,
-            :other_document)";
+            :other_document,
+            :nominee_profile)";
         $stmt6 =$conn->prepare($sql6);
 
         $stmt6->execute(array(
@@ -318,7 +320,7 @@
             ':professional_profile' => $professional_profile,
             ':business_profile' => $business_profile,
             ':income_proof' => $income_proof,
-            ':other_document' => $other_document
+            ':other_document' => $other_document,
             ':nominee_profile' => $nominee_profile
         ));
 

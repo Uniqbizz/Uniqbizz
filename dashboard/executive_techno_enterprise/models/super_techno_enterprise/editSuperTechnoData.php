@@ -72,6 +72,7 @@ $professional_profile           = $_POST['professional_profile'] ?? '';
 $business_profile               = $_POST['business_profile'] ?? '';
 $income_proof                   = $_POST['income_proof'] ?? '';
 $other_document                 = $_POST['other_document'] ?? '';
+$nominee_profile                = $_POST['nominee_profile'] ?? '';
 
 $title = "Super Techno Enterprise";
 $register_by = "1";
@@ -233,6 +234,7 @@ try {
         business_profile=:business_profile,
         income_proof=:income_proof,
         other_document=:other_document
+        nominee_profile=:nominee_profile
         WHERE application_id=:application_id");
 
     $stmt6->execute([
@@ -246,6 +248,7 @@ try {
         ':business_profile'=>$business_profile,
         ':income_proof'=>$income_proof,
         ':other_document'=>$other_document,
+        ':nominee_profile' => $nominee_profile,
         ':application_id'=>$application_id
     ]);
 

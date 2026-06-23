@@ -43,6 +43,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- add on 11-06-2026 by SV -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     </head>
     <body>
  
@@ -108,21 +109,21 @@
                             <div class="profileDetails">
                                 <div class="row">
                                     <div class="col-lg-2 col-md-2 col-sm-3 col-12 profilePicUserCol">
-                                        <img src="../assets/images/users/avatar-4.jpg" alt="" class="profilePicUser">
+                                        <img id="profilePic" src="../assets/images/users/avatar-4.jpg" alt="" class="profilePicUser">
                                     </div>
                                     <div class="col-lg-10 col-md-10 col-sm-9 col-12 profilePicDetails">
                                         <div class="d-flex gap-3">
-                                            <h2 class="fw-bolder text-white">Uriel Roberts</h2>
+                                            <h2 class="fw-bolder text-white" id="profileName"></h2>
                                             <p class="rounded-pill bg-success text-white fs-6 text-center px-2 py-1">Verified<i class="fa-solid fa-check ms-2"></i></span>  
                                         </div>
-                                        <p class="fs-5 text-white mb-2">STE26003 | <span>Super Techno Enterprise</span></p>
+                                        <p class="fs-5 text-white mb-2" id="profileId"><span id="profileType"></span></p>
                                         <p class="fs-5 text-white mb-2">Building Dreams <i class="fa-solid fa-circle mx-2 fa-2xs"></i> Exploring Destinations <i class="fa-solid fa-circle mx-2 fa-2xs"></i> Creating Leaders</p>
                                         <div class="d-flex gap-3 mb-2 profilePicCard1">
-                                            <p class="fs-5 text-white"><i class="fa-regular fa-envelope"></i> nkjsfdghs@gmail.com |</p> 
-                                            <p class="fs-5 text-white"><i class="fa-solid fa-phone"></i> +91 9876543210 |</p> 
-                                            <p class="fs-5 text-white"><i class="fa-solid fa-location-dot"></i> Dempo Towers, Panjim - Goa</p>
+                                            <p class="fs-5 text-white" id="profileEmail"><i class="fa-regular fa-envelope"></i></p> 
+                                            <p class="fs-5 text-white" id="profilePhone"><i class="fa-solid fa-phone"></i></p> 
+                                            <p class="fs-5 text-white" id="profileAddress"><i class="fa-solid fa-location-dot"></i></p>
                                         </div>
-                                        <p class="fs-5 text-white"><i class="fa-regular fa-calendar-days"></i> Member Since: 10 July 2026 </p>
+                                        <p class="fs-5 text-white" id="profileSince"><i class="fa-regular fa-calendar-days"></i></p>
                                     </div>
                                 </div>
                             </div>
@@ -202,19 +203,19 @@
                                                 <tbody>
                                                     <tr>
                                                         <th class="text-muted fontSize1 pe-0">Frist Name</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0">Uriel</td>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoFname"></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="text-muted fontSize1 pe-0" scope="row">Last Name</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0">Roberts</td>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoLname"></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="text-muted fontSize1 pe-0" scope="row">Date of Birth</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0">20-10-1990</td>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoDob"></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="text-muted fontSize1 pe-0" scope="row">Gender</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0">Male</td>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoGender"></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -224,19 +225,19 @@
                                                 <tbody>
                                                     <tr>
                                                         <th class="text-muted fontSize1 pe-0" scope="row">Mobile Number</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0">9812334568</td>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoPhone">9812334568</td>
                                                     </tr>
                                                     <tr>
                                                         <th class="text-muted fontSize1 pe-0" scope="row">Email Address</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0">goswamiab@gmail.com</td>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoEmail">goswamiab@gmail.com</td>
                                                     </tr>
                                                     <tr>
                                                         <th class="text-muted fontSize1 pe-0" scope="row">Nationality</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0">Indian</td>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoNatinality">Indian</td>
                                                     </tr>
                                                     <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">Marital Status</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0">Married</td>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Father / Spouse Name</th>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoFs"></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -254,22 +255,22 @@
                                     <div class="row">
                                         <div class="mx-3">
                                             <p class="text-muted mb-1">Address</p>
-                                            <p class="text-dark fw-bolder mb-2">Lal Darwaja, Salabatpura</p>
+                                            <p class="text-dark fw-bolder mb-2" id="resAdd">Lal Darwaja, Salabatpura</p>
                                         </div>
                                         <div class="col-lg-5 col-md-5 col-sm-5 col-5 pe-0">
                                             <table class="table">
                                                 <tbody>
                                                     <tr>
-                                                        <th class="text-muted fontSize1 pe-0">City</th>
+                                                        <th class="text-muted fontSize1 pe-0" >City</th>
                                                     </tr>
                                                     <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">State</th>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row" >State</th>
                                                     </tr>
                                                     <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">Country</th>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row" >Country</th>
                                                     </tr>
                                                     <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">Pincode</th>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row" >Pincode</th>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -278,16 +279,16 @@
                                             <table class="table">
                                                 <tbody>
                                                     <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">Surat</th>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="city">-</th>
                                                     </tr>
                                                     <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">Gujarat</th>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="state">-</th>
                                                     </tr>
                                                     <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">India</th>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="country">-</th>
                                                     </tr>
                                                     <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">441460</th>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="pincode">-</th>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -311,19 +312,19 @@
                                                 <tbody>
                                                     <tr>
                                                         <th class="text-muted fontSize1 pe-0">Occupation</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0">At enum a official vel</td>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="occName">NA</td>
                                                     </tr>
                                                     <tr>
                                                         <th class="text-muted fontSize1 pe-0" scope="row">Designation</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0">Super Techno Enterprise</td>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="occDes">NA</td>
                                                     </tr>
                                                     <tr>
                                                         <th class="text-muted fontSize1 pe-0" scope="row">Experience</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0">10+ Years</td>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="occExp">NA</td>
                                                     </tr>
                                                     <tr>
                                                         <th class="text-muted fontSize1 pe-0" scope="row">Monthly Income</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0">&#8377;50,000</td>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="occIncome">&#8377; 0</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -333,15 +334,15 @@
                                                 <tbody>
                                                     <tr>
                                                         <th class="text-muted fontSize1 pe-0" scope="row">Industry</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0">Travel</td>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="occInd">NA</td>
                                                     </tr>
                                                     <tr>
                                                         <th class="text-muted fontSize1 pe-0" scope="row">Organisation / Business</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0">NA</td>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="occOrg">NA</td>
                                                     </tr>
                                                     <tr>
                                                         <th class="text-muted fontSize1 pe-0" scope="row">Professional Summary</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0">NA</td>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="occSum">NA</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -428,16 +429,16 @@
                                                         <th class="text-muted fontSize1 pe-0">Nominee Name</th>
                                                     </tr>
                                                     <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">Relationship</th>
+                                                        <th class="text-muted fontSize1 pe-0">Relationship</th>
                                                     </tr>
                                                     <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">Mobile Number</th>
+                                                        <th class="text-muted fontSize1 pe-0">Mobile Number</th>
                                                     </tr>
                                                     <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">Date of Birth</th>
+                                                        <th class="text-muted fontSize1 pe-0">Date of Birth</th>
                                                     </tr>
                                                     <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">Address</th>
+                                                        <th class="text-muted fontSize1 pe-0">Address</th>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -446,19 +447,19 @@
                                             <table class="table">
                                                 <tbody>
                                                     <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">Aquila Mejia</th>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="nomineeName">NA</th>
                                                     </tr>
                                                     <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">Voluptas ad utue app</th>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="nomineeRelation">NA</th>
                                                     </tr>
                                                     <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">+919850325145</th>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="nomineePhone">NA</th>
                                                     </tr>
                                                     <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">20-05-1980</th>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="nomineeDob">NA</th>
                                                     </tr>
                                                     <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">Nilhil similique ipsa</th>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="nomineeAddress">NA</th>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -502,22 +503,22 @@
                                             <table class="table">
                                                 <tbody>
                                                     <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">Eden Andrews</th>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="accHolderName">NA</th>
                                                     </tr>
                                                     <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">Ocus sunt laborumd id</th>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="bankName">NA</th>
                                                     </tr>
                                                     <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">xxxxxxxx6688</th>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="accountNumber">NA</th>
                                                     </tr>
                                                     <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">SBIN0001234</th>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="ifscCode"></th>
                                                     </tr>
                                                     <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">Asher Olsen</th>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="branchName">NA</th>
                                                     </tr>
                                                     <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row">eden.andrews@upi</th>
+                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="upiId">NA</th>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -538,7 +539,7 @@
                                     <div class="document-card">
                                         <input type="file" id="file1" class="file-input d-none" accept="image/*,.pdf" data-preview="preview1" data-view="view1" data-download="download1">
                                         <label for="file1" class="upload-area">
-                                            <span class="document-status verified">Verified</span>
+                                            <span class="document-status verified"  data-document="profile_pic">Verified</span>
                                             <img id="preview1" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
                                             <div class="upload-overlay">
                                                 <i class="fa-solid fa-cloud-arrow-up"></i>
@@ -562,7 +563,7 @@
                                     <div class="document-card">
                                         <input type="file" id="file2" class="file-input d-none" accept="image/*,.pdf" data-preview="preview2" data-view="view2" data-download="download2">
                                         <label for="file2" class="upload-area">
-                                            <span class="document-status pending">Pending</span>
+                                            <span class="document-status pending" data-document="aadhar_card">Pending</span>
                                             <img id="preview2" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
                                             <div class="upload-overlay">
                                                 <i class="fa-solid fa-cloud-arrow-up"></i>
@@ -586,7 +587,7 @@
                                     <div class="document-card">
                                         <input type="file" id="file3" class="file-input d-none" accept="image/*,.pdf" data-preview="preview3" data-view="view3" data-download="download3">
                                         <label for="file3" class="upload-area">
-                                            <span class="document-status verified">Verified</span>
+                                            <span class="document-status verified" data-document="pan_card">Verified</span>
                                             <img id="preview3" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
                                             <div class="upload-overlay">
                                                 <i class="fa-solid fa-cloud-arrow-up"></i>
@@ -610,7 +611,7 @@
                                     <div class="document-card">
                                         <input type="file" id="file4" class="file-input d-none" accept="image/*,.pdf" data-preview="preview4" data-view="view4" data-download="download4">
                                         <label for="file4" class="upload-area">
-                                            <span class="document-status pending">Pending</span>
+                                            <span class="document-status pending" data-document="cancelled_cheque_bank_passbook">Pending</span>
                                             <img id="preview4" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
                                             <div class="upload-overlay">
                                                 <i class="fa-solid fa-cloud-arrow-up"></i>
@@ -634,7 +635,7 @@
                                     <div class="document-card">
                                         <input type="file" id="file5" class="file-input d-none" accept="image/*,.pdf" data-preview="preview5" data-view="view5" data-download="download5">
                                         <label for="file5" class="upload-area">
-                                            <span class="document-status verified">Verified</span>
+                                            <span class="document-status verified" data-document="resume_cv">Verified</span>
                                             <img id="preview5" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
                                             <div class="upload-overlay">
                                                 <i class="fa-solid fa-cloud-arrow-up"></i>
@@ -642,7 +643,7 @@
                                                 <small>or click to upload</small>
                                             </div>
                                         </label>
-                                        <p class="text-center fw-semibold mt-2">Voting Card</p>
+                                        <p class="text-center fw-semibold mt-2">Resume/CV</p>
                                         <div class="d-flex gap-2">
                                             <a id="view5" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
                                                 View
@@ -658,7 +659,7 @@
                                     <div class="document-card">
                                         <input type="file" id="file6" class="file-input d-none" accept="image/*,.pdf" data-preview="preview6" data-view="view6" data-download="download6">
                                         <label for="file6" class="upload-area">
-                                            <span class="document-status rejected">Rejected</span>
+                                            <span class="document-status rejected" data-document="address_proof">Rejected</span>
                                             <img id="preview6" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
                                             <div class="upload-overlay">
                                                 <i class="fa-solid fa-cloud-arrow-up"></i>
@@ -666,7 +667,7 @@
                                                 <small>or click to upload</small>
                                             </div>
                                         </label>
-                                        <p class="text-center fw-semibold mt-2">Payment Proof</p>
+                                        <p class="text-center fw-semibold mt-2">Address Proof</p>
                                         <div class="d-flex gap-2">
                                             <a id="view6" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
                                                 View
@@ -721,6 +722,7 @@
         <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
 
         <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!-- add on 11-06-2026 by SV END-->
         <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -812,6 +814,450 @@
                 downloadBtn.href = fileURL;
                 downloadBtn.download = file.name;
                 downloadBtn.classList.remove('disabled');
+            }
+        </script>
+        <script>
+
+            $(document).ready(function () {
+                //title card
+                $.ajax({
+                    url: 'models/profile/title_card.php',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        user_id: '<?= $userId ?>'
+                    },
+                    success: function (response) {
+
+                        if (response.status) {
+
+                            let profile = response.data;
+
+                            $('#profilePic').attr(
+                                'src',
+                                profile.profile_pic
+                                    ? '../../uploading/'+profile.profile_pic
+                                    : '../assets/images/users/avatar-4.jpg'
+                            );
+
+                            $('#profileName').text(profile.profile_name || '');
+
+                            $('#profileId').html(
+                                (profile.profile_id || '') +
+                                ' | <span id="profileType">' +
+                                (profile.profile_type || '') +
+                                '</span>'
+                            );
+
+                            $('#profileEmail').html(
+                                '<i class="fa-regular fa-envelope"></i> ' +
+                                (profile.profile_email || '') +
+                                ' |'
+                            );
+
+                            $('#profilePhone').html(
+                                '<i class="fa-solid fa-phone"></i> ' +
+                                (profile.profile_phone_prefix || '') +
+                                ' ' +
+                                (profile.profile_phone || '') +
+                                ' |'
+                            );
+
+                            $('#profileAddress').html(
+                                '<i class="fa-solid fa-location-dot"></i> ' +
+                                (profile.profile_address || '')
+                            );
+
+                            let memberSince = '';
+
+                            if (profile.profile_since) {
+                                let date = new Date(profile.profile_since);
+
+                                memberSince = date.toLocaleDateString('en-GB', {
+                                    day: 'numeric',
+                                    month: 'long',
+                                    year: 'numeric'
+                                });
+                            }
+
+                            $('#profileSince').html(
+                                '<i class="fa-regular fa-calendar-days"></i> Member Since: ' +
+                                memberSince
+                            );
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error);
+                    }
+                });
+                //status card
+                //personal information card
+                loadPersonalInfo('<?= $userId ?>');
+                //residential address
+                loadResidentialInfo('<?= $userId ?>');
+                //professional details
+                loadProfessionalInfo('<?= $userId ?>');
+                //nominee detals
+                loadNomineeInfo('<?= $userId ?>');
+                //bank details
+                loadBankInfo('<?= $userId ?>');
+                //documents
+                loadDocuments('<?= $userId ?>');
+            });
+            function loadPersonalInfo(userId) {
+
+                $.ajax({
+                    url: 'models/profile/personal_info_card.php',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        user_id: userId
+                    },
+                    success: function(response) {
+
+                        if (response.status) {
+
+                            let data = response.data;
+
+                            $('#perInfoFname').text(data.per_info_fname || '');
+                            $('#perInfoLname').text(data.per_info_lname || '');
+                            $('#perInfoDob').text(data.per_info_dob || '');
+                            $('#perInfoGender').text(data.per_info_gender || '');
+
+                            $('#perInfoPhone').text(
+                                (data.per_info_phone_prefix || '') + ' ' +
+                                (data.per_info_phone || '')
+                            );
+
+                            $('#perInfoEmail').text(data.per_info_email || '');
+                            $('#perInfoNatinality').text(data.per_info_nationality || '');
+                            $('#perInfoFs').text(data.per_info_father_spouse_name || '');
+
+                        } else {
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: response.message
+                            });
+
+                        }
+                    },
+                    error: function(xhr, status, error) {
+
+                        console.error(error);
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Unable to fetch personal information.'
+                        });
+
+                    }
+                });
+
+            }
+            function loadResidentialInfo(userId){
+                $.ajax({
+                    url: 'models/profile/residential_address.php',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        user_id: userId
+                    },
+                    success: function(response){
+
+                        if(response.status){
+
+                            $('#city').text(response.data.city_name);
+                            $('#state').text(response.data.state_name);
+                            $('#country').text(response.data.country_name);
+                            $('#pincode').text(response.data.pincode);
+                            $('#resAdd').text(response.data.resAdd);
+
+                        }
+
+                    }
+                });
+            }
+            function loadProfessionalInfo(userId){
+                $.ajax({
+                    url: 'models/profile/professional_details.php',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        user_id: userId
+                    },
+                    success: function(response) {
+
+                        if (response.status) {
+
+                            $('#occName').text(response.data.current_occupation);
+                            $('#occExp').text(response.data.current_experience);
+                            $('#occIncome').html('&#8377; ' + (response.data.current_income || 0));
+
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: response.message
+                            });
+                        }
+                    },
+                    error: function() {
+                        alert('Unable to fetch professional details.');
+                    }
+                });
+            }
+            function loadNomineeInfo(userId){
+                $.ajax({
+                    url: 'models/profile/nominee_details.php',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        user_id: userId
+                    },
+                    success: function(response){
+
+                        if(response.status){
+
+                            $('#nomineeName').text(response.data.nominee_name || '');
+                            $('#nomineeRelation').text(response.data.nominee_relation || '');
+
+                            $('#nomineePhone').text(
+                                (response.data.nominee_contact_cd || '') +
+                                ' ' +
+                                (response.data.nominee_contact_no || '')
+                            );
+
+                            $('#nomineeDob').text(response.data.nominee_date_of_birth || '');
+                            $('#nomineeAddress').text(response.data.nominee_address || '');
+
+                        }else{
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: response.message
+                            });
+                        }
+                    },
+                    error: function(){
+                        alert('Unable to fetch nominee details.');
+                    }
+                });
+            }
+            function loadBankInfo(userId){
+                $.ajax({
+                    url: 'models/profile/bank_info_card.php',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        user_id: userId
+                    },
+                    success: function(response){
+
+                        if(response.status){
+
+                            $('#accHolderName').text(response.data.account_holder_name || '');
+                            $('#bankName').text(response.data.bank_name || '');
+                            $('#accountNumber').text(response.data.account_number || '');
+                            $('#ifscCode').text(response.data.ifsc_code || '');
+                            $('#branchName').text(response.data.branch_name || '');
+                            $('#upiId').text(response.data.upi_id || '');
+
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: response.message
+                            });
+                        }
+                    },
+                    error: function(){
+                        alert('Unable to fetch bank details.');
+                    }
+                });
+            }
+            function loadDocuments(userId){
+
+                $.ajax({
+                    url: 'models/profile/document_details.php',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        user_id: userId
+                    },
+                    success: function(response){
+
+                        if(!response.status){
+                            alert(response.message);
+                            return;
+                        }
+
+                        const data = response.documents;
+                        const verification = response.verification || {};
+
+                        const docs = [
+                            {
+                                url: '../../uploading/'+data.profile_pic,
+                                status: verification.profile_pic,
+                                preview: 'preview1',
+                                view: 'view1',
+                                download: 'download1',
+                                docKey: 'profile_pic'
+                            },
+                            {
+                                url: '../../uploading/'+data.aadhar_card,
+                                status: verification.aadhar_card,
+                                preview: 'preview2',
+                                view: 'view2',
+                                download: 'download2',
+                                docKey: 'aadhar_card'
+                            },
+                            {
+                                url: '../../uploading/'+data.pan_card,
+                                status: verification.pan_card,
+                                preview: 'preview3',
+                                view: 'view3',
+                                download: 'download3',
+                                docKey: 'pan_card'
+                            },
+                            {
+                                url: '../../uploading/'+data.cancelled_cheque_bank_passbook,
+                                status: verification.bank_passbook,
+                                preview: 'preview4',
+                                view: 'view4',
+                                download: 'download4',
+                                docKey: 'bank_passbook'
+                            },
+                            {
+                                url: '../../uploading/'+data.resume_cv,
+                                status: verification.resume_cv,
+                                preview: 'preview5',
+                                view: 'view5',
+                                download: 'download5',
+                                docKey: 'resume_cv'
+                            },
+                            {
+                                url: '../../uploading/'+data.address_proof,
+                                status: verification.address_proof,
+                                preview: 'preview6',
+                                view: 'view6',
+                                download: 'download6',
+                                docKey: 'address_proof'
+                            },
+                            {
+                                url: '../../uploading/'+data.professional_profile,
+                                status: verification.professional_profile,
+                                preview: 'preview7',
+                                view: 'view7',
+                                download: 'download7',
+                                docKey: 'professional_profile'
+                            },
+                            {
+                                url: '../../uploading/'+data.business_profile,
+                                status: verification.business_profile,
+                                preview: 'preview8',
+                                view: 'view8',
+                                download: 'download8',
+                                docKey: 'business_profile'
+                            },
+                            {
+                                url: '../../uploading/'+data.income_proof,
+                                status: verification.income_proof,
+                                preview: 'preview9',
+                                view: 'view9',
+                                download: 'download9',
+                                docKey: 'income_proof'
+                            },
+                            {
+                                url: '../../uploading/'+data.other_document,
+                                status: verification.other_document,
+                                preview: 'preview10',
+                                view: 'view10',
+                                download: 'download10',
+                                docKey: 'other_document'
+                            },
+                            {
+                                url: '../../uploading/'+data.nominee_profile,
+                                status: verification.nominee_profile,
+                                preview: 'preview11',
+                                view: 'view11',
+                                download: 'download11',
+                                docKey: 'nominee_profile'
+                            }
+                        ];
+
+                        docs.forEach(function(doc){
+
+                            if(doc.url){
+
+                                $('#' + doc.view)
+                                    .attr('href', doc.url)
+                                    .removeClass('disabled');
+
+                                $('#' + doc.download)
+                                    .attr('href', doc.url)
+                                    .attr('download', '')
+                                    .removeClass('disabled');
+
+                                const ext = doc.url.split('.').pop().toLowerCase();
+
+                                if([
+                                    'jpg',
+                                    'jpeg',
+                                    'png',
+                                    'gif',
+                                    'webp',
+                                    'pdf'
+                                ].includes(ext)){
+
+                                    $('#' + doc.preview).attr('src', doc.url);
+                                }
+                            }
+
+                            const badge = document.querySelector(
+                                '[data-document="' + doc.docKey + '"]'
+                            );
+
+                            if(badge){
+
+                                badge.classList.remove(
+                                    'verified',
+                                    'approved',
+                                    'pending',
+                                    'rejected'
+                                );
+
+                                switch((doc.status || '').toLowerCase()){
+
+                                    case 'approved':
+                                        badge.innerHTML = 'Approved';
+                                        badge.classList.add('verified');
+                                        break;
+
+                                    case 'rejected':
+                                        badge.innerHTML = 'Rejected';
+                                        badge.classList.add('rejected');
+                                        break;
+
+                                    default:
+                                        badge.innerHTML = 'Pending';
+                                        badge.classList.add('pending');
+                                }
+                            }
+
+                        });
+
+                    },
+                    error: function(xhr, status, error){
+
+                        console.error(error);
+
+                        alert('Unable to load documents.');
+                    }
+                });
+
             }
         </script>
     </body>
