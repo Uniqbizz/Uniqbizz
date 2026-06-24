@@ -340,7 +340,7 @@
                                 <div class="card rounded-4 p-4 border border-1 h-80 shadow-sm">
                                     <h4 class="d-flex justify-content-between align-items-center mb-0 textColor fw-bolder">
                                         Upcoming Trips
-                                        <a href="<?= $base_url ?>order_history.php" class="fs-6 text-decoration-none">View All</a>
+                                        <a href="<?= $base_url_cust ?>order_history.php" class="fs-6 text-decoration-none">View All</a>
                                     </h4>
                                     <hr>
                                     <div class="text-center py-5">
@@ -858,22 +858,22 @@
                                     <div class="col-lg-12 mt-2">
                                         <div class="p-3 border border-2 rounded-4">
                                             <h4 class="d-flex justify-content-between mb-0 text-dark fw-bolder">Notifications & Alerts
-                                                <a href="#" class="fs-6">View All</a>
+                                                <!-- <a href="#" class="fs-6">View All</a> -->
                                             </h4>
                                             <div class="d-flex mt-2">
                                                 <div class="notificationDetail flex-grow-1">
                                                     <div class="d-flex gap-2">
-                                                        <div class="d-flex justify-content-center align-items-center">
+                                                        <!-- <div class="d-flex justify-content-center align-items-center">
                                                             <div class="notificationIcon">
                                                                <i class="ri-ticket-2-line"></i>
                                                             </div>
-                                                        </div>
-                                                        <p class="text-muted d-flex align-items-center mb-0">Your Coupon &#8377;1500 OFF is expiring in 2 days!</p>
+                                                        </div> -->
+                                                        <p class="text-muted d-flex align-items-center mb-0">No Notifications!</p>
                                                     </div>
                                                 </div>
-                                                <p class="text-muted fs-6 d-flex align-items-center mb-0 fw-bolder">2h ago</p>
+                                                <!-- <p class="text-muted fs-6 d-flex align-items-center mb-0 fw-bolder">2h ago</p> -->
                                             </div>
-                                            <div class="d-flex mt-2">
+                                            <!-- <div class="d-flex mt-2">
                                                 <div class="notificationDetail flex-grow-1">
                                                     <div class="d-flex gap-2">
                                                         <div class="d-flex justify-content-center align-items-center">
@@ -899,6 +899,19 @@
                                                 </div>
                                                 <p class="text-muted fs-6 d-flex align-items-center mb-0 fw-bolder">2h ago</p>
                                             </div>
+                                            <div class="d-flex mt-2">
+                                                <div class="notificationDetail flex-grow-1">
+                                                    <div class="d-flex gap-2">
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="notificationIcon">
+                                                               <i class="ri-ticket-2-line"></i>
+                                                            </div>
+                                                        </div>
+                                                        <p class="text-muted d-flex align-items-center mb-0">Your Coupon &#8377;1500 OFF is expiring in 2 days!</p>
+                                                    </div>
+                                                </div>
+                                                <p class="text-muted fs-6 d-flex align-items-center mb-0 fw-bolder">2h ago</p>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>

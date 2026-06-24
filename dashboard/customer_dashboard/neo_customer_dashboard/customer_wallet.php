@@ -695,60 +695,7 @@
                                                         </thead>
 
                                                         <tbody id="discountActivityBody" class="recentActivityTableBody" data-card-type="dw">
-                                                            <tr>
-                                                                <td>30 Jun 2024</td>
-
-                                                                <td>
-                                                                    <strong>Used on Goa Beach Escape</strong><br>
-                                                                    <small class="text-muted">
-                                                                        Booking ID: BK240630
-                                                                    </small>
-                                                                </td>
-
-                                                                <td>
-                                                                    <span class="debited">Debited</span>
-                                                                </td>
-
-                                                                <td class="text-danger fw-bold">-₹800</td>
-
-                                                                <td class="text-danger fw-bold">₹400</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>25 Jun 2024</td>
-
-                                                                <td>
-                                                                    <strong>Repeat Booking by Referred Customer</strong><br>
-                                                                    <small class="text-muted">
-                                                                        Booking ID: BK240625
-                                                                    </small>
-                                                                </td>
-
-                                                                <td>
-                                                                    <span class="credited">Credited</span>
-                                                                </td>
-
-                                                                <td class="text-success fw-bold">+₹500</td>
-
-                                                                <td class="text-success fw-bold">₹1,200</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>10 Jun 2024</td>
-
-                                                                <td>
-                                                                    <strong>Repeat Booking by Referred Customer</strong><br>
-                                                                    <small class="text-muted">
-                                                                        Booking ID: BK240610
-                                                                    </small>
-                                                                </td>
-
-                                                                <td>
-                                                                    <span class="credited">Credited</span>
-                                                                </td>
-
-                                                                <td class="text-success fw-bold">+₹700</td>
-
-                                                                <td class="text-success fw-bold">₹1,900</td>
-                                                            </tr>
+                                                            
                                                         </tbody>
 
                                                     </table>
