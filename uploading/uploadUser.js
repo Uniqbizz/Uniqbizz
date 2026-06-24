@@ -2,9 +2,11 @@
     if(userTYpe == 10){
         var uploadUrl = "../../uploading/upload.php";
         var transactuploadUrl = "../../uploading/upload.php";
+        var prevUrl = "../../uploading/";
     } else{
         var uploadUrl = "../uploading/upload.php";
         var transactuploadUrl = "../uploading/upload.php";
+        var prevUrl = "../uploading/";
     }
 
     //employee BCH and BDM pics upload
@@ -39,7 +41,7 @@
                     $('#profile_pic').val('');
                 }else{
                     $("#preview1").show();
-                    $("#img_pre1").attr("src","../uploading/"+data);
+                    $("#img_pre1").attr("src",prevUrl+data);
                     $("#img_path1").val(data);
                 }
                     
@@ -78,7 +80,7 @@
                     $('#id_proof').val('');
                 }else{
                     $("#preview2").show();
-                    $("#img_pre2").attr("src","../uploading/"+data);
+                    $("#img_pre2").attr("src",prevUrl+data);
                     $("#img_path2").val(data);
                 }
             }
@@ -116,7 +118,7 @@
                     $('#bank_details').val('');
                 }else{
                     $("#preview3").show();
-                    $("#img_pre3").attr("src","../uploading/"+data);
+                    $("#img_pre3").attr("src",prevUrl+data);
                     $("#img_path3").val(data);
                 }
             }
@@ -155,7 +157,7 @@
                     $('#upload_cheque').val('');
                 }else{
                     $("#previewcheque").show();
-                    $("#previewcheque1").attr("src", "../uploading/" + data);
+                    $("#previewcheque1").attr("src", prevUrl + data);
                     $("#previewcheque2").val(data);
                 }
                 
@@ -194,7 +196,7 @@
                     $('#upload_file1').val('');
                 }else{
                     $("#preview1").show();
-                    $("#img_pre1").attr("src","../uploading/"+data);
+                    $("#img_pre1").attr("src",prevUrl+data);
                     $("#img_path1").val(data);
                 }
             }
@@ -232,7 +234,7 @@
                     $('#upload_file2').val('');
                 }else{
                     $("#preview2").show();
-                    $("#img_pre2").attr("src","../uploading/"+data);
+                    $("#img_pre2").attr("src",prevUrl+data);
                     $("#img_path2").val(data);
                 }
             }
@@ -270,7 +272,7 @@
                     $('#upload_file3').val('');
                 }else{
                     $("#preview3").show();
-                    $("#img_pre3").attr("src","../uploading/"+data);
+                    $("#img_pre3").attr("src",prevUrl+data);
                     $("#img_path3").val(data);
                 }
             }
@@ -308,7 +310,7 @@
                     $('#upload_file4').val('');
                 }else{
                     $("#preview4").show();
-                    $("#img_pre4").attr("src","../uploading/"+data);
+                    $("#img_pre4").attr("src",prevUrl+data);
                     $("#img_path4").val(data);
                 }
             }
@@ -346,7 +348,7 @@
                     $('#upload_file5').val('');
                 }else{
                     $("#preview5").show();
-                    $("#img_pre5").attr("src","../uploading/"+data);
+                    $("#img_pre5").attr("src",prevUrl+data);
                     $("#img_path5").val(data);
                 }
             }
@@ -384,7 +386,7 @@
                     $('#upload_file6').val('');
                 }else{
                     $("#preview6").show();
-                    $("#img_pre6").attr("src","../uploading/"+data);
+                    $("#img_pre6").attr("src",prevUrl+data);
                     $("#img_path6").val(data);
                 }
             }
@@ -463,7 +465,7 @@
                     $('#pbank_details').val('');
                 }else{
                     //$("#ppreview3").show();
-                    $("#pimg_pre3").attr("src","../uploading/"+data);
+                    $("#pimg_pre3").attr("src",prevUrl+data);
                     $("#pimg_path3").val(data);
                 }
             }
@@ -500,7 +502,7 @@
                     $('#pupload_file1').val('');
                 }else{
                     //$("#preview1").show();
-                    $("#img_pre1").attr("src","../uploading/"+data);
+                    $("#img_pre1").attr("src",prevUrl+data);
                     $("#img_path1").val(data);
                 }
             }
@@ -538,7 +540,7 @@
                     $('#pupload_file2').val('');
                 }else{
                     //$("#apreview2").show();
-                    $("#aimg_pre2").attr("src","../uploading/"+data);
+                    $("#aimg_pre2").attr("src",prevUrl+data);
                     $("#aimg_path2").val(data);
                 }
             }
@@ -576,7 +578,7 @@
                     $('#pupload_file3').val('');
                 }else{
                     //$("#preview3").show();
-                    $("#img_pre3").attr("src","../uploading/"+data);
+                    $("#img_pre3").attr("src",prevUrl+data);
                     $("#img_path3").val(data);
                 }
             }
@@ -614,7 +616,7 @@
                     $('#pupload_file4').val('');
                 }else{
                     //$("#preview4").show();
-                    $("#img_pre4").attr("src","../uploading/"+data);
+                    $("#img_pre4").attr("src",prevUrl+data);
                     $("#img_path4").val(data);
                 }
             }
@@ -654,7 +656,7 @@
                     $('#pupload_file5').val('');
                 }else{
                     //$("#preview5").show();
-                    $("#img_pre5").attr("src","../uploading/"+data);
+                    $("#img_pre5").attr("src",prevUrl+data);
                     $("#img_path5").val(data);
                 }
             }
