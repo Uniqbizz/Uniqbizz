@@ -6,7 +6,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title>Travel Consultants List | Customer</title>
+        <title>Travel Consultants List </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -210,7 +210,7 @@
                                                         <thead>
                                                             <tr class="table-primary">
                                                                 <th data-ordering="false">TC ID & Full Name</th>
-                                                                <th data-ordering="false">TE ID & Name</th>
+                                                                <th data-ordering="false">TE/F ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
@@ -390,7 +390,7 @@
             function loadPendingTEList(){
 
                 $.ajax({
-                    url: 'models/techno_enterprise/ste_pending_tc_table_data.php',
+                    url: 'models/travel_consultant/ste_pending_tc_table_data.php',
                     type: 'POST',
                     dataType: 'json',
 
@@ -428,9 +428,14 @@
                         data: null,
                         render: function(data) {
                             return `
-                                <p class="fs-6 mb-0">
-                                    ${data.firstname || ''} ${data.lastname || ''}
-                                </p>
+                                <div>
+                                    <p class="fs-6 mb-0">
+                                        ${data.firstname || ''} ${data.lastname || ''}
+                                    </p>
+                                    <p class="fs-6 mb-0">
+                                        ${data.ca_travelagency_id || '-'}
+                                    </p>
+                                <div>
                             `;
                         }
                     },
@@ -443,7 +448,7 @@
                                         ${data.ref_firstname || '-'} ${data.ref_lastname || ''}
                                     </p>
                                     <p class="fs-6 mb-0">
-                                        ${data.super_techno_enterprise_id || '-'}
+                                        ${data.reference_id || '-'}
                                     </p>
                                 </div>
                             `;
@@ -512,7 +517,7 @@
                         }
                     },
                     {
-                        data: 'ca_travelgency_id',
+                        data: 'ca_travelagency_id',
                         orderable: false,
                         searchable: false,
                         render: function(data) {
@@ -548,7 +553,7 @@
 
                 $.ajax({
 
-                    url: 'models/techno_enterprise/ste_registered_tc_list.php',
+                    url: 'models/travel_consultant/ste_registered_tc_list.php',
 
                     type: 'POST',
 

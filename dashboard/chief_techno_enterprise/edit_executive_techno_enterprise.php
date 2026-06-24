@@ -1,14 +1,8 @@
 <?php
     include_once (__DIR__.'/../dashboard_user_details.php');
-    if ($userType == '34') {
-        $base_url_sidebar = "/ca.uniqbizz.com/dashboard/super_techno_enterprise/";
-        $base_url_asset = "/ca.uniqbizz.com/dashboard/";
-        $home_url = "/ca.uniqbizz.com/";
-    }else{
-        // $base_url_sidebar = "/ca.uniqbizz.com/dashboard/customer_dashboard/";
-        $base_url_asset = "/ca.uniqbizz.com/dashboard/";
-        $home_url = "/ca.uniqbizz.com/"; 
-    }
+    $id = $_POST['id'] ?? '';
+    $status = $_POST['status'] ?? '';
+    $edittype = $_POST['edittype'] ?? '';
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -47,7 +41,7 @@
         <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css" />
         
         <!-- Customer Dashboard CSS -->
-        <link rel="stylesheet" href="../assets/css/chief_techno_enterprise.css" />
+        <link rel="stylesheet" href="../assets/css/executive_techno_enterprise.css" />
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <style>
@@ -211,12 +205,7 @@
         <div id="layout-wrapper">
 
             <?php 
-                if ($userType == 34) {
-                    include_once(__DIR__ . '/chief_techno_header.php');
-                }else{
-
-                    include_once 'chief_techno_header.php'; 
-                }
+                include_once 'chief_techno_header.php'; 
             ?>
 
             <!-- removeNotificationModal -->
@@ -245,12 +234,7 @@
             </div><!-- /.modal -->
             <!-- ========== App Menu ========== -->
             <?php 
-                if ($userType == 34) {
-                    include_once(__DIR__ . '/chief_techno_sidebar.php');
-                }else{
-
                     include_once 'chief_techno_sidebar.php'; 
-                }
             ?>
 
             <!-- ============================================================== -->
@@ -267,7 +251,7 @@
                                     <h4 class="mb-sm-0">Executive Techno Enterprise</h4>
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="executive_techno_enterprise_list.php">View Executive Techno Enterprise</a></li>
+                                            <li class="breadcrumb-item"><a href="super_techno_enterprise_list.php">View Executive Techno Enterprise</a></li>
                                             <li class="breadcrumb-item active">Edit Executive Techno Enterprise</li>
                                         </ol>
                                     </div>
@@ -471,7 +455,7 @@
                                                 <div class="col-md-8 col-sm-8 col-9">
                                                     <div class="input-block">
                                                         <div class="verify-field">
-                                                            <label class="col-form-label">Alt Phone Number <span class="text-danger">*</span></label>
+                                                            <label class="col-form-label">Alt Phone No <span class="text-danger">*</span></label>
                                                             <?php //if ($status == 2) { ?>
                                                             <div class="verify-toggle">
                                                                 <input type="radio" name="verification_status[altPhone]" id="altPhone_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'altPhone', 'approved'); ?>>
@@ -533,8 +517,9 @@
                                                 </div>
                                                 <?php //} ?>
                                             </div>
-											<div class="upload-card" data-title="Profile Photo">
-												<input type="file" class="file-input" accept="image/*,.pdf">
+											<div class="upload-card" data-title="Profile Photo" data-index="1">
+                                                <input type="hidden" id="img_path1" value="">
+												<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file1">
 												<div class="upload-content">
 													<div class="upload-icon">
 														<i class="fa-solid fa-user"></i>
@@ -694,31 +679,31 @@
                                             <!-- Left Column -->
                                             <div class="col-md-6">
                                                 <div class="mb-2">
-                                                    <input type="checkbox" id="lead1" name="leadership[]" value="Sales Leadership" <?php // in_array('Sales Leadership', $selectedLeadership ?? []) ? 'checked' : '' ?>>
+                                                    <input type="checkbox" class="leadership" id="lead1" name="leadership[]" value="Sales Leadership" <?php // in_array('Sales Leadership', $selectedLeadership ?? []) ? 'checked' : '' ?>>
                                                     <label for="lead1">Sales Leadership</label>
                                                 </div>
 
                                                 <div class="mb-2">
-                                                    <input type="checkbox" id="lead2" name="leadership[]" value="Business Development" <?php // in_array('Business Development', $selectedLeadership ?? []) ? 'checked' : '' ?>>
+                                                    <input type="checkbox" class="leadership" id="lead2" name="leadership[]" value="Business Development" <?php // in_array('Business Development', $selectedLeadership ?? []) ? 'checked' : '' ?>>
                                                     <label for="lead2">Business Development</label>
                                                 </div>
 
                                                 <div class="mb-2">
-                                                    <input type="checkbox" id="lead3" name="leadership[]" value="Team Management" <?php // in_array('Team Management', $selectedLeadership ?? []) ? 'checked' : '' ?>>
+                                                    <input type="checkbox" class="leadership" id="lead3" name="leadership[]" value="Team Management" <?php // in_array('Team Management', $selectedLeadership ?? []) ? 'checked' : '' ?>>
                                                     <label for="lead3">Team Management</label>
                                                 </div>
                                                 <div class="mb-2">
-                                                    <input type="checkbox" id="lead4" name="leadership[]" value="Enterpreneurship" <?php // in_array('Enterpreneurship', $selectedLeadership ?? []) ? 'checked' : '' ?>>
+                                                    <input type="checkbox" class="leadership" id="lead4" name="leadership[]" value="Enterpreneurship" <?php // in_array('Enterpreneurship', $selectedLeadership ?? []) ? 'checked' : '' ?>>
                                                     <label for="lead4">Enterpreneurship</label>
                                                 </div>
 
                                                 <div class="mb-2">
-                                                    <input type="checkbox" id="lead5" name="leadership[]" value="Corporate Leader" <?php // in_array('Corporate Leader', $selectedLeadership ?? []) ? 'checked' : '' ?>>
+                                                    <input type="checkbox" class="leadership" id="lead5" name="leadership[]" value="Corporate Leader" <?php // in_array('Corporate Leader', $selectedLeadership ?? []) ? 'checked' : '' ?>>
                                                     <label for="lead5">Corporate Leader</label>
                                                 </div>
 
                                                 <div class="mb-2">
-                                                    <input type="checkbox" id="lead6" name="leadership[]" value="other" <?php // in_array('other', $selectedLeadership ?? []) ? 'checked' : '' ?>>
+                                                    <input type="checkbox" class="leadership" id="lead6" name="leadership[]" value="other" <?php // in_array('other', $selectedLeadership ?? []) ? 'checked' : '' ?>>
                                                     <label for="lead6">Other(Please Specify)</label>
                                                     <input type="text" name="other_leadership" id="otherLead" class="form-control mt-2" <?php //in_array('other', $selectedLeadership ?? []) ? 'style="display:block;' : 'style="display:none;' ?> " value="<?php // $leadership_experience_other; ?>">
                                                 </div>
@@ -806,14 +791,7 @@
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">Preferred Operating Region <span class="text-danger">*</span></label>
                                         <select class="form-select" id="OperatingState">
-                                            <?php   
-                                                if($operating_region == ''){
-                                                    echo '<option value=""> Operating Region Not Selected </option>';
-                                                }else{
-                                                    echo '<option value=" '.$operating_region.' "> '.$statenameLeader. ' (Already Selected) </option>';
-                                                }
-                                                
-                                            ?>
+                                            
                                             <option value=""> ---- Select State ---- </option>
                                             <?php
                                             require '../connect.php';
@@ -966,8 +944,9 @@
                                                 </div>
                                                 <?php //} ?>
                                             </div>
-											<div class="upload-card" data-title="Nominee Profile Photo">
-												<input type="file" class="file-input" accept="image/*,.pdf">
+											<div class="upload-card" data-title="Nominee Profile Photo" data-index="13">
+                                                <input type="hidden" id="img_path13" value="">
+												<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file13">
 												<div class="upload-content">
 													<div class="upload-icon">
 														<i class="fa-solid fa-user"></i>
@@ -1097,8 +1076,9 @@
                                             </div>
                                             <?php //} ?>
                                         </div>
-										<div class="upload-card" data-title="Aadhaar Card">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+										<div class="upload-card" data-title="Aadhaar Card" data-index="2">
+                                            <input type="hidden" id="img_path2" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file2">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-regular fa-id-card"></i>
@@ -1122,8 +1102,9 @@
                                             </div>
                                             <?php //} ?>
                                         </div>
-										<div class="upload-card" data-title="PAN Card">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+										<div class="upload-card" data-title="PAN Card" data-index="3">
+                                            <input type="hidden" id="img_path3" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file3">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-regular fa-credit-card"></i>
@@ -1147,8 +1128,9 @@
                                             </div>
                                             <?php //} ?>
                                         </div>
-										<div class="upload-card" data-title="Bank Passbook">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+										<div class="upload-card" data-title="Bank Passbook" data-index="4">
+                                            <input type="hidden" id="img_path4" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file4">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-building-columns"></i>
@@ -1172,8 +1154,9 @@
                                             </div>
                                             <?php //} ?>
                                         </div>
-										<div class="upload-card" data-title="Resume / CV">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+										<div class="upload-card" data-title="Resume / CV" data-index="5">
+                                            <input type="hidden" id="img_path5" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file5">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-regular fa-address-card"></i>
@@ -1196,8 +1179,9 @@
                                             </div>
                                             <?php //} ?>
                                         </div>
-										<div class="upload-card" data-title="Address Proof">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+										<div class="upload-card" data-title="Address Proof" data-index="6">
+                                            <input type="hidden" id="img_path6" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file6">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-regular fa-address-card"></i>
@@ -1221,8 +1205,9 @@
                                             </div>
                                             <?php //} ?>
                                         </div>
-										<div class="upload-card" data-title="Professional Profile">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+										<div class="upload-card" data-title="Professional Profile" data-index="7">
+                                            <input type="hidden" id="img_path7" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file7">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-file-invoice"></i>
@@ -1245,8 +1230,9 @@
                                             </div>
                                             <?php //} ?>
                                         </div>
-										<div class="upload-card" data-title="Business Profile">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+										<div class="upload-card" data-title="Business Profile" data-index="8">
+                                            <input type="hidden" id="img_path8" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file8">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-file-invoice"></i>
@@ -1269,8 +1255,9 @@
                                             </div>
                                             <?php //} ?>
                                         </div>
-										<div class="upload-card" data-title="Income Proof">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+										<div class="upload-card" data-title="Income Proof" data-index="9">
+                                            <input type="hidden" id="img_path9" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file9">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-file-invoice"></i>
@@ -1293,8 +1280,9 @@
                                             </div>
                                             <?php //} ?>
                                         </div>
-										<div class="upload-card" data-title="Other Document">
-											<input type="file" class="file-input" accept="image/*,.pdf">
+										<div class="upload-card" data-title="Other Document" data-index="10">
+                                            <input type="hidden" id="img_path10" value="">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file10">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-file-invoice"></i>
@@ -1308,470 +1296,22 @@
 								</div>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-center mb-4">
-							<div class="col-lg-12">
+                        <input type="hidden" id="editfor" name="editfor" value="<?= $edittype ?>">
+                        <input type="hidden" id="applicationId" name="applicationId" value="<?= $id ?>">
+                        <div class="row">
+                            <div class="col-lg-12">
                                 <div class="d-flex justify-content-end gap-4 submitBtnBackground">
-                                    <!-- <button class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="saveDraftAdd">Save as Draft</button> -->
-                                    <button class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="editChiefTechnoEnterprise">Submit</button>
+                                    <button type="button" class="btn actionBtn cancelBtn mb-2">Cancel</button>
                                 </div>
                             </div>
-						</div>
-                        <!-- <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <form> -->
-                                            <!-- <h3>Edit Chief Techno Enterprise</h3> -->
-
-                                                <!-- Attachments -->
-                                                <!-- <h4 class="my-2">Attachments</h4>
-                                                <div class="col-md-6 col-sm-6">  
-                                                    <div class="input-block mb-3">
-                                                        <div class="verify-field">
-                                                            <label class="col-form-label">Profile Picture
-                                                            <?php
-                                                                if ($profile_pic) {
-                                                                    
-                                                            ?>
-                                                                <a href="<?php echo '../../uploading/' . $profile_pic; ?>" download class="ms-3" title="Download">
-                                                                    <i class="fa fa-download fa-1x" aria-hidden="true"></i>
-                                                                </a>
-                                                            <?php
-                                                                }
-                                                            ?>
-                                                            </label>
-                                                            <?php if ($status == 2) { ?>
-                                                            <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[profile_pic]" id="profile_pic_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'profile_pic', 'approved'); ?> >
-                                                                <label class="verify-btn approve-btn" for="profile_pic_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[profile_pic]" id="profile_pic_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'profile_pic', 'rejected'); ?> >
-                                                                <label class="verify-btn reject-btn" for="profile_pic_reject"> Rejected </label>
-                                                            </div>
-                                                            <?php } ?>
-                                                        </div>
-                                                        <input class="form-control" type="file" name="file1" id="upload_file1">
-                                                    </div>
-                                                    <input type="hidden" id="img_path1" value="<?php echo $profile_pic;?>">
-                                                    <div id="preview1" >
-                                                        <div id="image_preview1">
-                                                            <?php
-                                                                if($profile_pic ==''){
-                                                                    echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre1" class="imgSize">';
-                                                                }else{
-                                                                    echo '<img src="../../uploading/'.$profile_pic.'" alt="Preview" id="img_pre1" class="imgSize">';?>
-                                                                    
-                                                            <?php } ?>
-                                                        </div>
-                                                    </div>
-                                                </div> 
-                                                <div class="col-md-6 col-sm-6">  
-                                                    <div class="input-block mb-3">
-                                                        <div class="verify-field">
-                                                            <label class="col-form-label">Aadhaar Card
-                                                            <?php
-                                                                if ($aadhar_card) {
-                                                                    
-                                                            ?>
-                                                                <a href="<?php echo '../../uploading/' . $aadhar_card; ?>" download class="ms-3" title="Download">
-                                                                    <i class="fa fa-download fa-1x" aria-hidden="true"></i>
-                                                                </a>
-                                                            <?php
-                                                                }
-                                                            ?>
-                                                            </label>
-                                                            <?php if ($status == 2) { ?>
-                                                            <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[aadhar_card]" id="aadhar_card_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'aadhar_card', 'approved'); ?> >
-                                                                <label class="verify-btn approve-btn" for="aadhar_card_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[aadhar_card]" id="aadhar_card_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'aadhar_card', 'rejected'); ?>>
-                                                                <label class="verify-btn reject-btn" for="aadhar_card_reject"> Rejected </label>
-                                                            </div>
-                                                            <?php } ?>
-                                                        </div>
-                                                        <input class="form-control" type="file" name="file2" id="upload_file2">
-                                                    </div>
-                                                    <input type="hidden" id="img_path2" value="<?php echo $aadhar_card;?>">
-                                                    <div id="preview2" >
-                                                        <div id="image_preview2">
-                                                            <?php
-                                                                if($aadhar_card ==''){
-                                                                    echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre2" class="imgSize">';
-                                                                }else{
-                                                                    echo '<img src="../../uploading/'.$aadhar_card.'" alt="Preview" id="img_pre2" class="imgSize">';?>
-                                                                    
-                                                            <?php } ?>
-                                                        </div>
-                                                    </div>
-                                                </div> 
-                                                <div class="col-md-6 col-sm-6">  
-                                                    <div class="input-block mb-3">
-                                                        <div class="verify-field">
-                                                            <label class="col-form-label">Pan Card
-                                                            <?php
-                                                                if ($pan_card) {
-                                                                    
-                                                            ?>
-                                                                <a href="<?php echo '../../uploading/' . $pan_card; ?>" download class="ms-3" title="Download">
-                                                                    <i class="fa fa-download fa-1x" aria-hidden="true"></i>
-                                                                </a>
-                                                            <?php
-                                                                }
-                                                            ?>
-                                                            </label>
-                                                            <?php if ($status == 2) { ?>
-                                                            <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[pan_card]" id="pan_card_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'pan_card', 'approved'); ?> >
-                                                                <label class="verify-btn approve-btn" for="pan_card_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[pan_card]" id="pan_card_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'pan_card', 'rejected'); ?> >
-                                                                <label class="verify-btn reject-btn" for="pan_card_reject"> Rejected </label>
-                                                            </div>
-                                                            <?php } ?>
-                                                        </div>
-                                                        <input class="form-control" type="file"name="file3" id="upload_file3">
-                                                    </div>
-                                                    <input type="hidden" id="img_path3" value="<?php echo $pan_card;?>">
-                                                    <div id="preview3" >
-                                                        <div id="image_preview3">
-                                                            <?php
-                                                                if($pan_card ==''){
-                                                                    echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre3" class="imgSize">';
-                                                                }else{
-                                                                    echo '<img src="../../uploading/'.$pan_card.'" alt="Preview" id="img_pre3" class="imgSize">';?>
-                                                                    
-                                                            <?php } ?>
-                                                        </div>
-                                                    </div>
-                                                </div> 
-                                                <div class="col-md-6 col-sm-6">  
-                                                    <div class="input-block mb-3">
-                                                        <div class="verify-field">
-                                                            <label class="col-form-label">Bank Passbook
-                                                            <?php
-                                                                if ($cancelled_cheque_bank_passbook) {
-                                                                    
-                                                            ?>
-                                                                <a href="<?php echo '../../uploading/' . $cancelled_cheque_bank_passbook; ?>" download class="ms-3" title="Download">
-                                                                    <i class="fa fa-download fa-1x" aria-hidden="true"></i>
-                                                                </a>
-                                                            <?php
-                                                                }
-                                                            ?>
-                                                            </label>
-                                                            <?php if ($status == 2) { ?>
-                                                            <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[bank_passbook]" id="bank_passbook_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'bank_passbook', 'approved'); ?> >
-                                                                <label class="verify-btn approve-btn" for="bank_passbook_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[bank_passbook]" id="bank_passbook_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'bank_passbook', 'rejected'); ?> >
-                                                                <label class="verify-btn reject-btn" for="bank_passbook_reject"> Rejected </label>
-                                                            </div>
-                                                            <?php } ?>
-                                                        </div>
-                                                        <input class="form-control" type="file" name="file4" id="upload_file4">
-                                                    </div>
-                                                    <input type="hidden" id="img_path4" value="<?php echo $cancelled_cheque_bank_passbook;?>">
-                                                    <div id="preview3" >
-                                                        <div id="image_preview4">
-                                                            <?php
-                                                                if($cancelled_cheque_bank_passbook ==''){
-                                                                    echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre4" class="imgSize">';
-                                                                }else{
-                                                                    echo '<img src="../../uploading/'.$cancelled_cheque_bank_passbook.'" alt="Preview" id="img_pre4" class="imgSize">';?>
-                                                                   
-                                                            <?php } ?>
-                                                        </div>
-                                                    </div>
-                                                </div> 
-                                                <div class="col-md-6 col-sm-6">  
-                                                    <div class="input-block mb-3">
-                                                        <div class="verify-field">
-                                                            <label class="col-form-label">Resume / CV
-                                                            <?php
-                                                                if ($resume_cv) {
-                                                                    
-                                                            ?>
-                                                                <a href="<?php echo '../../uploading/' . $resume_cv; ?>" download class="ms-3" title="Download">
-                                                                    <i class="fa fa-download fa-1x" aria-hidden="true"></i>
-                                                                </a>
-                                                            <?php
-                                                                }
-                                                            ?>
-                                                            </label>
-                                                            <?php if ($status == 2) { ?>
-                                                            <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[resume_cv]" id="resume_cv_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'resume_cv', 'approved'); ?> >
-                                                                <label class="verify-btn approve-btn" for="resume_cv_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[resume_cv]" id="resume_cv_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'resume_cv', 'rejected'); ?> >
-                                                                <label class="verify-btn reject-btn" for="resume_cv_reject"> Rejected </label>
-                                                            </div>
-                                                            <?php } ?>
-                                                        </div>
-                                                        <input class="form-control" type="file" name="file5" id="upload_file5">
-                                                    </div>
-                                                    <input type="hidden" id="img_path5" value="<?php echo $resume_cv;?>">
-                                                    <div id="preview3" >
-                                                        <div id="image_preview5">
-                                                            <?php
-                                                                if($resume_cv ==''){
-                                                                    echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre5" class="imgSize">';
-                                                                }else{
-                                                                    echo '<img src="../../uploading/'.$resume_cv.'" alt="Preview" id="img_pre5" class="imgSize">';?>
-                                                                    
-                                                            <?php } ?>
-                                                            
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 col-sm-6">  
-                                                    <div class="input-block mb-3">
-                                                        <div class="verify-field">
-                                                            <label class="col-form-label">Address Proof
-                                                            <?php
-                                                                if ($address_proof) {
-                                                                    
-                                                            ?>
-                                                                <a href="<?php echo '../../uploading/' . $address_proof; ?>" download class="ms-3" title="Download">
-                                                                    <i class="fa fa-download fa-1x" aria-hidden="true"></i>
-                                                                </a>
-                                                            <?php
-                                                                }
-                                                            ?>
-                                                            </label>
-                                                            <?php if ($status == 2) { ?>
-                                                            <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[address_proof]" id="address_proof_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'address_proof', 'approved'); ?>>
-                                                                <label class="verify-btn approve-btn" for="address_proof_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[address_proof]" id="address_proof_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'address_proof', 'rejected'); ?>>
-                                                                <label class="verify-btn reject-btn" for="address_proof_reject"> Rejected </label>
-                                                            </div>
-                                                            <?php } ?>
-                                                        </div>
-                                                        <input class="form-control" type="file" name="file6" id="upload_file6">
-                                                    </div>
-                                                    <input type="hidden" id="img_path6" value="<?php echo $address_proof;?>">
-                                                    <div id="preview3" >
-                                                        <div id="image_preview6">
-                                                            <?php
-                                                                if($address_proof ==''){
-                                                                    echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre6" class="imgSize">';
-                                                                }else{
-                                                                    echo '<img src="../../uploading/'.$address_proof.'" alt="Preview" id="img_pre6" class="imgSize">';?>
-                                                                    
-                                                            <?php } ?>
-                                                            
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 col-sm-6">  
-                                                    <div class="input-block mb-3">
-                                                        <div class="verify-field">
-                                                            <label class="col-form-label">Professional Profile
-                                                            <?php
-                                                                if ($professional_profile) {
-                                                                    
-                                                            ?>
-                                                                <a href="<?php echo '../../uploading/' . $professional_profile; ?>" download class="ms-3" title="Download">
-                                                                    <i class="fa fa-download fa-1x" aria-hidden="true"></i>
-                                                                </a>
-                                                            <?php
-                                                                }
-                                                            ?>
-                                                            </label>
-                                                            <?php if ($status == 2) { ?>
-                                                            <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[professional_profile]" id="professional_profile_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'professional_profile', 'approved'); ?>>
-                                                                <label class="verify-btn approve-btn" for="professional_profile_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[professional_profile]" id="professional_profile_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'professional_profile', 'rejected'); ?>>
-                                                                <label class="verify-btn reject-btn" for="professional_profile_reject"> Rejected </label>
-                                                            </div>
-                                                            <?php } ?>
-                                                        </div>
-                                                        <input class="form-control" type="file" name="file7" id="upload_file7">
-                                                    </div>
-                                                    <input type="hidden" id="img_path7" value="<?php echo $professional_profile;?>">
-                                                    <div id="preview3" >
-                                                        <div id="image_preview7">
-                                                            <?php
-                                                                if($professional_profile ==''){
-                                                                    echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre7" class="imgSize">';
-                                                                }else{
-                                                                    echo '<img src="../../uploading/'.$professional_profile.'" alt="Preview" id="img_pre7" class="imgSize">';?>
-                                                                    
-                                                            <?php } ?>
-                                                            
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 col-sm-6">  
-                                                    <div class="input-block mb-3">
-                                                        <div class="verify-field">
-                                                            <label class="col-form-label">Business Profile
-                                                            <?php
-                                                                if ($business_profile) {
-                                                                    
-                                                            ?>
-                                                                <a href="<?php echo '../../uploading/' . $business_profile; ?>" download class="ms-3" title="Download">
-                                                                    <i class="fa fa-download fa-1x" aria-hidden="true"></i>
-                                                                </a>
-                                                            <?php
-                                                                }
-                                                            ?>
-                                                            </label>
-                                                            <?php if ($status == 2) { ?>
-                                                            <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[business_profile]" id="business_profile_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'business_profile', 'approved'); ?> >
-                                                                <label class="verify-btn approve-btn" for="business_profile_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[business_profile]" id="business_profile_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'business_profile', 'rejected'); ?>>
-                                                                <label class="verify-btn reject-btn" for="business_profile_reject"> Rejected </label>
-                                                            </div>
-                                                            <?php } ?>
-
-                                                        </div>
-                                                        <input class="form-control" type="file" name="file8" id="upload_file8">
-                                                    </div>
-                                                    <input type="hidden" id="img_path8" value="<?php echo $business_profile;?>">
-                                                    <div id="preview3" >
-                                                        <div id="image_preview8">
-                                                            <?php
-                                                                if($business_profile ==''){
-                                                                    echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre8" class="imgSize">';
-                                                                }else{
-                                                                    echo '<img src="../../uploading/'.$business_profile.'" alt="Preview" id="img_pre8" class="imgSize">';?>
-                                                                    
-                                                            <?php } ?>
-                                                            
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 col-sm-6">  
-                                                    <div class="input-block mb-3">
-                                                        <div class="verify-field">
-                                                            <label class="col-form-label">Income Proof
-                                                            <?php
-                                                                if ($income_proof) {
-                                                                    
-                                                            ?>
-                                                                <a href="<?php echo '../../uploading/' . $income_proof; ?>" download class="ms-3" title="Download">
-                                                                    <i class="fa fa-download fa-1x" aria-hidden="true"></i>
-                                                                </a>
-                                                            <?php
-                                                                }
-                                                            ?>
-                                                            </label>
-                                                            <?php if ($status == 2) { ?>
-                                                            <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[income_proof]" id="income_proof_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'income_proof', 'approved'); ?> >
-                                                                <label class="verify-btn approve-btn" for="income_proof_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[income_proof]" id="income_proof_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'income_proof', 'rejected'); ?> >
-                                                                <label class="verify-btn reject-btn" for="income_proof_reject"> Rejected </label>
-                                                            </div>
-                                                            <?php } ?>
-                                                        </div>
-                                                        <input class="form-control" type="file" name="file9" id="upload_file9">
-                                                    </div>
-                                                    <input type="hidden" id="img_path9" value="<?php echo $income_proof;?>">
-                                                    <div id="preview3" >
-                                                        <div id="image_preview9">
-                                                            <?php
-                                                                if($income_proof ==''){
-                                                                    echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre9" class="imgSize">';
-                                                                }else{
-                                                                    echo '<img src="../../uploading/'.$income_proof.'" alt="Preview" id="img_pre9" class="imgSize">';?>
-                                                                    
-                                                            <?php } ?>
-                                                            
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 col-sm-6">  
-                                                    <div class="input-block mb-3">
-                                                        <div class="verify-field">
-                                                            <label class="col-form-label">Other Document
-                                                            <?php
-                                                                if ($other_document) {
-                                                                    
-                                                            ?>
-                                                                <a href="<?php echo '../../uploading/' . $other_document; ?>" download class="ms-3" title="Download">
-                                                                    <i class="fa fa-download fa-1x" aria-hidden="true"></i>
-                                                                </a>
-                                                            <?php
-                                                                }
-                                                            ?>
-                                                            </label>
-                                                            <?php if ($status == 2) { ?>
-                                                            <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[other_document]" id="other_document_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'other_document', 'approved'); ?> >
-                                                                <label class="verify-btn approve-btn" for="other_document_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[other_document]" id="other_document_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'other_document', 'rejected'); ?>>
-                                                                <label class="verify-btn reject-btn" for="other_document_reject"> Rejected </label>
-                                                            </div>
-                                                            <?php } ?>
-                                                        </div>
-                                                        <input class="form-control" type="file" name="file10" id="upload_file10">
-                                                    </div>
-                                                    <input type="hidden" id="img_path10" value="<?php echo $other_document;?>">
-                                                    <div id="preview3" >
-                                                        <div id="image_preview10">
-                                                            <?php
-                                                                if($other_document ==''){
-                                                                    echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre10" class="imgSize">';
-                                                                }else{
-                                                                    echo '<img src="../../uploading/'.$other_document.'" alt="Preview" id="img_pre10" class="imgSize">';?>
-                                                                    
-                                                            <?php } ?>
-                                                            
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-12 col-sm-12 <?php // empty($rejection_reason) ? 'd-none' : '' ?> " >
-                                                    <div class="input-block mb-3">
-                                                        <label class="col-form-label" for="flex_amount">Previous Rejection Reason<span class="text-danger">*</span></label>
-                                                        <textarea class="form-control"  rows="4" cols="50" readonly><?php // $rejection_reason ?> </textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12 col-sm-12 d-none" id="rejectReasonDiv">
-                                                    <div class="input-block mb-3">
-                                                        <label class="col-form-label" for="flex_amount">Reject Reason<span class="text-danger">*</span></label>
-                                                        <textarea class="form-control" id="reject_reason" rows="4" cols="50"></textarea>
-                                                    </div>
-                                                </div> -->
-                                            <!-- </div> -->
-
-                                            <!-- for edit data page -->
-                                            <!-- <input type="hidden" id="ref_id" name="ref_id" value="<?php echo $reference_no;?>"> CBD240001 -->
-                                            <!-- <input type="hidden" id="editfor" name="editfor" value="<?php echo $editfor;?>"> registered -->
-                                            <!-- <input type="hidden" id="id" name="id" value="<?php echo $id;?>"> BM250001 -->
-                                            <!-- <input type="hidden" id="registered" name="registered" value="<?php echo $usertype;?>"> BM250001 -->
-                                            <!-- <input type="hidden" id="testValue" name="testValue" value="<?php echo $testValue; ?>"> Business mentor -->
-                                            <!-- <input type="hidden" id="applicationId" name="applicationId" value="<?php echo $application_id; ?>"> applicationId will be use to update multiple tables for CTE,ETE,STE -->
-
-                                            <!-- <div class="submit-section d-flex  mb-4">
-                                                <?php if($status == 4){ ?>
-                                                <div class="col-md-4 col-sm-6">
-                                                    <button class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="saveDraftEdit">Save as Draft</button>
-                                                </div>
-                                                <?php } ?>
-                                                <div class="col-md-4 col-sm-6">    
-                                                    <button class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="editChiefTechnoEnterprise">Submit</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
+                        </div>
 
                     </div>
                 <!-- container-fluid -->
                 </div>
                 <!-- End Page-content -->
                 <?php 
-                    if ($userType == 34) {
-                        include_once(__DIR__ . '/chief_techno_footer.php');
-                    }else{
-
                         include_once "chief_techno_footer.php"; 
-                    }
                 ?>
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
@@ -1781,7 +1321,7 @@
             <i class="ri-arrow-up-line"></i>
         </button>
         <!--end back-to-top-->
-        
+        <?php include (__DIR__.'/../contact_modal.php') ?>
         <!-- JAVASCRIPT -->
         <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="../assets/libs/simplebar/simplebar.min.js"></script>
@@ -1798,21 +1338,12 @@
         <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
         <!-- !-- materialdesign icon js- -->
         <script src="../assets/js/pages/remix-icons-listing.js"></script>
-        <?php 
-            //if ($userType == 34) {
-        ?>
-        <!-- Vector map-->
-        <script src="<?php // $base_url ?>../assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
-        <script src="<?php // $base_url ?>../assets/libs/jsvectormap/maps/world-merc.js"></script>
-
-        <!--Swiper slider js-->
-        <script src="<?php // $base_url ?>../assets/libs/swiper/swiper-bundle.min.js"></script>
-        <?php
-           // }
-        ?>
+        
 
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
+        <script src="js/executive_techno_enterprise.js"></script>
+        <script src="../../uploading/uploadTechnoDashboard.js"></script>
         <!-- dialer logic scripts -->
         <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -1862,101 +1393,7 @@
             });
         </script>
         <!-- end dialer logic scripts -->
-        <script>
-            $('#payment_fee').on('change', function(){
-                var payment_fee = $(this).val();
-                if(payment_fee == "FOC"){
-                    $("#paymentModeBlock").addClass("d-none");
-                    $("#paymentFields").addClass("d-none");
-                    $("#payProof").addClass("d-none");
-                }else if(payment_fee == "null"){
-                    $("#paymentModeBlock").addClass("d-none");
-                    $("#paymentFields").addClass("d-none");
-                    $("#payProof").addClass("d-none");
-                }else{
-                    $("#paymentModeBlock").removeClass("d-none");
-                    $("#paymentFields").removeClass("d-none");
-                    $("#payProof").removeClass("d-none");
-                }
-            });
-
-            $('#paymentMode').on('click', function(){
-                var paymentMode = $(".payment:checked").val();
-                if(paymentMode == "cheque"){
-                    $("#chequeOpt").removeClass("d-none");
-                    $("#onlineOpt").addClass("d-none");
-                }else if(paymentMode == "online"){
-                    $("#onlineOpt").removeClass("d-none");
-                    $("#chequeOpt").addClass("d-none");
-                } else {
-                    $("#chequeOpt").addClass("d-none");
-                    $("#onlineOpt").addClass("d-none");
-                }
-            });
-        </script>
-        <!-- radio button background color on selected -->
-        <script>
-            document.querySelectorAll('.payment').forEach(radio => {
-                radio.addEventListener('change', function () {
-
-                    // Remove active class from all labels
-                    document.querySelectorAll('.payment-label').forEach(label => {
-                        label.classList.remove('ptMode');
-                    });
-
-                    // Add active class to selected radio's label
-                    this.closest('label').classList.add('ptMode');
-                });
-            });
-        </script>
-        <script>
-            document.querySelectorAll(".file-input").forEach(input => {
-                input.addEventListener("change", function () {
-                    const file = this.files[0];
-                    if (!file) return;
-                    const card = this.closest(".upload-card");
-                    const title = card.dataset.title;
-                    if (file.type.startsWith("image/")) {
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            card.innerHTML = `
-                                <input type="file" class="file-input" accept="image/*,.pdf">
-                                <div class="preview-wrapper">
-                                    <img src="${e.target.result}">
-                                    <div class="file-title">
-                                        ${title}
-                                    </div>
-                                </div>
-                            `;
-                            bindUploadEvents();
-                        };
-                        reader.readAsDataURL(file);
-                    } else {
-                        card.innerHTML = `
-                            <input type="file" class="file-input" accept="image/*,.pdf">
-                            <div class="pdf-preview">
-                                <i class="fa-solid fa-file-pdf"></i>
-                                <p class="mt-2 mb-0">${file.name}</p>
-                                <div class="file-title">
-                                    ${title}
-                                </div>
-                            </div>
-                        `;
-                        bindUploadEvents();
-                    }
-                });
-            });
-            function bindUploadEvents() {
-                document.querySelectorAll(".file-input").forEach(input => {
-                    if (input.dataset.bound) return;
-                    input.dataset.bound = "true";
-                    input.addEventListener("change", function () {
-                        const event = new Event("change");
-                        this.dispatchEvent(event);
-                    });
-                });
-            }
-        </script>
+    
         <!-- Buttons -->
         <script>
             document.querySelector(".cancelBtn").addEventListener("click", function () {
@@ -1964,17 +1401,481 @@
                     window.history.back();
                 }
             });
-            document.querySelector(".draftBtn").addEventListener("click", function () {
-                alert("Draft Saved Successfully");
-                // AJAX call here
-                // saveDraft();
+        </script>
+        <script>
+            function bindUploadEvents() {
+
+                document.querySelectorAll('.file-input').forEach(input => {
+
+                    if (input.dataset.bound) return;
+
+                    input.dataset.bound = "true";
+
+                    input.addEventListener('change', function () {
+
+                        const file = this.files[0];
+
+                        if (!file) return;
+
+                        const card = this.closest('.upload-card');
+                        const title = card.dataset.title;
+                        const index = card.dataset.index;
+
+                        if (file.type.startsWith('image/')) {
+
+                            const reader = new FileReader();
+
+                            reader.onload = function (e) {
+
+                                card.querySelector('.upload-content, .preview-wrapper, .pdf-preview')?.remove();
+
+                                let preview = card.querySelector('.preview-wrapper');
+
+                                if (!preview) {
+                                    $()
+                                    preview = document.createElement('div');
+                                    preview.className = 'preview-wrapper';
+
+                                    preview.innerHTML = `
+                                        <img src="${e.target.result}" id="img_path${index}">
+                                        <input type="hidden" id="img_path${index}" value="../../uploading/${filePath}">
+                                        <div class="file-title">
+                                            ${title}
+                                        </div>
+                                    `;
+
+                                    card.appendChild(preview);
+
+                                } else {
+
+                                    preview.querySelector('img').src = e.target.result;
+                                }
+                            };
+
+                            reader.readAsDataURL(file);
+
+                        } else {
+
+                            card.querySelector('.upload-content, .preview-wrapper, .pdf-preview')?.remove();
+
+                            let preview = document.createElement('div');
+
+                            preview.className = 'pdf-preview';
+
+                            preview.innerHTML = `
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <p class="mt-2 mb-0">${file.name}</p>
+                                <div class="file-title">
+                                    ${title}
+                                </div>
+                            `;
+
+                            card.appendChild(preview);
+                        }
+
+                        
+
+                    });
+
+                });
+
+            }
+            function loadExistingFile(cardSelector, filePath)
+            {
+                if (!filePath) return;
+
+                const card = document.querySelector(cardSelector);
+
+                if (!card) return;
+
+                const title = card.dataset.title;
+                const index = card.dataset.index;
+                card.querySelector(
+                    '.upload-content, .preview-wrapper, .pdf-preview'
+                )?.remove();
+
+                const extension = filePath.split('.').pop().toLowerCase();
+
+                const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'pdf'];
+
+                if (imageExtensions.includes(extension)) {
+
+                    const preview = document.createElement('div');
+
+                    preview.className = 'preview-wrapper';
+
+                    preview.innerHTML = `
+                        <img src="../../uploading/${filePath}">
+                        
+                        <div class="file-title">
+                            ${title}
+                        </div>
+                    `;
+
+                    card.appendChild(preview);
+                    const status =<?= $status ?>;
+                    if (status == 4) {
+                        $('.file-input').prop('disabled', false);
+                    }else{
+                        $('.file-input').prop('disabled', true);
+                    }
+
+                } else {
+
+                    const preview = document.createElement('div');
+
+                    preview.className = 'pdf-preview';
+
+                    preview.innerHTML = `
+                        <i class="fa-solid fa-file-pdf"></i>
+                        <p class="mt-2 mb-0">${filePath.split('/').pop()}</p>
+                        <div class="file-title">
+                            ${title}
+                        </div>
+                    `;
+
+                    card.appendChild(preview);
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                bindUploadEvents();
+                const id = '<?= $id ?>';
+                const edittype = '<?= $edittype ?>';
+                $.ajax({
+                    url: 'models/executive_techno_enterprise/edit_te_load_data.php',
+                    type: 'GET',
+                    data: {
+                        id: id,
+                        edittype: edittype
+                    },
+                    dataType: 'json',
+                    success: function(res)
+                    {
+                        if(!res.status){
+                            alert(res.message);
+                            return;
+                        }
+
+                        const data = res.data;
+                        // Personal Information
+                        $('#applicationId').val(data.application_id);
+                        $('#firstname').val(data.firstname);
+                        $('#lastname').val(data.lastname);
+                        $('#email').val(data.email);
+                        $('#phone').val(data.contact_no);
+                        $('#dob').val(data.date_of_birth);
+                        
+                        $('#nominee_name').val(data.nominee_name);
+                        $('#nominee_relation').val(data.nominee_relation);
+                        $('#businessPackage').val(data.amount);
+
+                        // Business Information
+                        $('#amount').val(data.amount);
+                        $('#gstNo').val(data.gst_no);
+
+                        // Address Information
+                        // Store for later use
+                        window.selectedState = data.state;
+                        window.selectedCity = data.city;
+
+                        // Start chain
+                        $('#country').val(data.country).trigger('change');
+                        $('#pincode').val(data.pincode);
+                        $('#address').val(data.address);
+
+                        // Payment Information
+                        if(data.payment_mode === 'cash'){
+                            $('#cashPayment').prop('checked', true).trigger('change');
+                        }
+
+                        if(data.payment_mode === 'online'){
+                            $('#onlinePayment').prop('checked', true).trigger('change');
+                            $('#transactionNo').val(data.transaction_no);
+                            $('#onlineOpt').removeClass('d-none');
+                        }
+
+                        if(data.payment_mode === 'cheque'){
+                            $('#chequePayment').prop('checked', true).trigger('change');
+
+                            $('#chequeNo').val(data.cheque_no);
+                            $('#chequeDate').val(data.cheque_date);
+                            $('#bankName').val(data.bank_name);
+
+                            $('#chequeOpt').removeClass('d-none');
+                        }
+
+                        // Update radio button styling
+                        $('.payment-label').removeClass('ptMode');
+                        $('.payment:checked').closest('label').addClass('ptMode');
+                        $('#note').val(data.note);
+                        $('#father_spouse_name').val(data.father_spouse_name);
+                        $('#aadharNo').val(data.aadhar_no);
+                        $('#panNo').val(data.pan_no);
+                        $('#country_cd_alt').val(data.alternative_country_code);
+                        $('#altPhone').val(data.alternative_contact_no);
+                        $('#occupation').val(data.current_occupation);
+                        $('#experience').val(data.current_experience);
+                        $('#annual_income').val(data.current_income);
+                        if (data.managed_team === 'yes') {
+                            $('#teamManagedYes').prop('checked', true);
+                        } else if (data.managed_team === 'no') {
+                            $('#teamManagedNo').prop('checked', true);
+                        }
+                        if (data.gender === 'male') {
+                            $('#test3').prop('checked', true);
+                        } else if (data.gender === 'female') {
+                            $('#test4').prop('checked', true);
+                        }else if (data.gender === 'others') {
+                            $('#test5').prop('checked', true);
+                        }
+                        $('#teamSize').text(data.team_description);
+                        $('.leadership').prop('checked', false);
+
+                        if (Array.isArray(data.leadership_experience)) {
+
+                            $('.leadership').each(function () {
+
+                                if (data.leadership_experience.includes($(this).val())) {
+
+                                    $(this).prop('checked', true);
+
+                                }
+
+                            });
+
+                        }
+                        $('#qualification').val(data.educational_qualification);
+                        loadExistingFile(
+                            '[data-index="1"]',
+                            data.profile_pic
+                        );
+                        $('#career_objective').val(data.career_objective);
+                        $('.teamExpected').prop('checked', false);
+
+                        $('input[name="teamExpected"][value="' + data.team_expected + '"]')
+                            .prop('checked', true);
+
+                        $('#OperatingState').val(data.operating_region);
+
+                        $('#nomineeName').val(data.nominee_name)
+                        $('#nomineeRelation').val(data.nominee_relation)
+                        $('#countryCdNominee').val(data.nominee_contact_cd)
+                        $('#nomineePhone').val(data.nominee_contact_no)
+                        $('#nomineeDob').val(data.nominee_date_of_birth)
+                        $('#nomineeAddress').val(data.nominee_address)
+                        $('#accHolderName').val(data.account_holder_name)
+                        $('#bankName').val(data.bank_name)
+                        $('#accountNumber').val(data.account_number)
+                        $('#confirmAccountNumber').val(data.account_number)
+                        $('#ifscCode').val(data.ifsc_code)
+                        $('#branchName').val(data.branch_name)
+                        loadExistingFile(
+                            '[data-index="2"]',
+                            data.pan_card
+                        );
+
+                        loadExistingFile(
+                            '[data-index="3"]',
+                            data.aadhar_card
+                        );
+
+                        loadExistingFile(
+                            '[data-index="4"]',
+                            data.cancelled_cheque_bank_passbook
+                        );
+
+                        loadExistingFile(
+                            '[data-index="4"]',
+                            data.bank_passbook
+                        );
+
+                        loadExistingFile(
+                            '[data-index="5"]',
+                            data.resume_cv
+                        );
+                        loadExistingFile(
+                            '[data-index="6"]',
+                            data.address_proof
+                        );
+
+                        loadExistingFile(
+                            '[data-index="7"]',
+                            data.professional_profile
+                        );
+
+                        loadExistingFile(
+                            '[data-index="8"]',
+                            data.business_profile
+                        );
+
+                        loadExistingFile(
+                            '[data-index="9"]',
+                            data.income_proof
+                        );
+
+                        loadExistingFile(
+                            '[data-index="10"]',
+                            data.other_document
+                        );
+                        loadExistingFile(
+                            '[data-index="13"]',
+                            data.nominee_profile
+                        );
+                    }
+                });
+                // Address Information
+                $('#country').on('change', function () {
+
+                    var countryID = $(this).val();
+
+                    if (countryID) {
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '../address/countrydata.php',
+                            data: {
+                                country_id: countryID
+                            },
+                            success: function (html) {
+
+                                $('#mystate').html(html);
+
+                                if (window.selectedState) {
+
+                                    $('#mystate')
+                                        .val(window.selectedState)
+                                        .trigger('change');
+
+                                    window.selectedState = null;
+                                } else {
+
+                                    $('#city').html('<option value="">Select state first</option>');
+                                }
+                            }
+                        });
+
+                    } else {
+
+                        $('#mystate').html('<option value="">Select country first</option>');
+                        $('#city').html('<option value="">Select state first</option>');
+                        $('#pin').val('');
+                    }
+                });
+                    
+                $('#mystate').on('change', function () {
+
+                    var stateID = $(this).val();
+
+                    if (stateID) {
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '../address/countrydata.php',
+                            data: {
+                                state_id: stateID
+                            },
+                            success: function (html) {
+
+                                $('#city').html(html);
+
+                                if (window.selectedCity) {
+
+                                    $('#city')
+                                        .val(window.selectedCity)
+                                        .trigger('change');
+
+                                    window.selectedCity = null;
+                                }
+                            }
+                        });
+
+                    } else {
+
+                        $('#city').html('<option value="">Select state first</option>');
+                        $('#pin').val('');
+                    }
+                });
+
+                $('#city').on('change', function () {
+
+                    var cityID = $(this).val();
+
+                    if (cityID) {
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '../address/pincode.php',
+                            data: {
+                                city_id: cityID
+                            },
+                            success: function (response) {
+
+                                response = $.trim(response);
+
+                                $('#pin').val(response || '');
+
+                            },
+                            error: function () {
+
+                                $('#pin').val('');
+
+                            }
+                        });
+
+                    } else {
+
+                        $('#pin').val('');
+
+                    }
+                });
             });
-            document.querySelector(".submitBtn").addEventListener("click", function (e) {
-                // Remove if button is inside form
-                e.preventDefault();
-                alert("Techno Enterprise Submitted Successfully");
-                // Submit form
-                // document.getElementById('yourForm').submit();
+            $(document).on('input', '#pin', function () {
+                this.value = this.value.replace(/\D/g, '');
+            });
+        </script>
+        <!-- Buttons -->
+        <script>
+            document.querySelector(".cancelBtn").addEventListener("click", function () {
+                if(confirm("Are you sure you want to cancel?")){
+                    location.href = "executive_techno_enterprise_list.php";
+                }
+            });
+            $('#businessPackage').on('change', function(){
+                var business_package_amount = $(this).val();
+                $('#amount').val(business_package_amount);
+            });
+            let today = new Date();
+
+            $(document).ready(function () {
+
+                let today = new Date();
+
+                // Calculate date 18 years ago
+                let maxDate = new Date(
+                    today.getFullYear() - 20,
+                    today.getMonth(),
+                    today.getDate()
+                );
+
+                // Format YYYY-MM-DD
+                let formattedDate = maxDate.toISOString().split('T')[0];
+
+                $('#dob').attr('max', formattedDate);
+
+            });
+            $('#dob').on('change', function () {
+
+                const selectedDate = new Date(this.value);
+
+                const maxDate = new Date();
+                maxDate.setFullYear(maxDate.getFullYear() - 20);
+
+                if (selectedDate > maxDate) {
+                    alert('Age must be at least 18 years.');
+                    $(this).val('');
+                }
+
             });
         </script>
     </body>

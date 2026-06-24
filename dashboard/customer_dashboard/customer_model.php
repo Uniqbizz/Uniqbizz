@@ -53,8 +53,8 @@
     $sqlCoupons->execute([":user_id" => $userId]);
 
     $couponData = $sqlCoupons->fetch(PDO::FETCH_ASSOC);
-    $cust_regiter_date=date('j M Y', strtotime($customer['register_date']));
-    $expiry_date = date('j M Y', strtotime($couponData['expiry_date']));
+    $cust_regiter_date = date('j M Y', strtotime($customer['register_date']));
+    $expiry_date = date('j M Y', strtotime($customer['register_date'] . ' +10 years'));
     //loyaty coupons
     $sqlLoyaltyCoupons = $conn->prepare("
         SELECT 

@@ -17,11 +17,20 @@
         */
 
         $sqlYears = $conn->prepare("
-            SELECT DISTINCT
-                YEAR(register_date) AS year
-            FROM corporate_agency
-            WHERE reference_no = :user_id
-            AND status IN (1,3)
+            SELECT DISTINCT year
+            FROM (
+                SELECT YEAR(ca.register_date) AS year
+                FROM corporate_agency ca
+                WHERE ca.reference_no = :user_id
+                AND ca.status IN (1,3)
+
+                UNION
+
+                SELECT YEAR(sf.register_date) AS year
+                FROM sub_franchisee sf
+                WHERE sf.reference_no = :user_id
+                AND sf.status IN (1,3)
+            ) years_data
             ORDER BY year DESC
         ");
 
@@ -63,23 +72,48 @@
             ':year'    => $selectedYear
         ]);
 
-        $trend = $sqlTrend->fetchAll(PDO::FETCH_ASSOC);
+        $teTrend = $sqlTrend->fetchAll(PDO::FETCH_ASSOC);
+
+        /*
+        |--------------------------------------------------------------------------
+        | SF Trend
+        |--------------------------------------------------------------------------
+        */
+
+        $sqlSFTrend = $conn->prepare("
+            SELECT
+                MONTH(register_date) AS month_no,
+                COUNT(*) AS sf_count
+            FROM sub_franchisee
+            WHERE reference_no = :user_id
+            AND YEAR(register_date) = :year
+            AND status IN (1,3)
+            GROUP BY MONTH(register_date)
+            ORDER BY MONTH(register_date)
+        ");
+
+        $sqlSFTrend->execute([
+            ':user_id' => $userId,
+            ':year'    => $selectedYear
+        ]);
+
+        $sfTrend = $sqlSFTrend->fetchAll(PDO::FETCH_ASSOC);
 
         echo json_encode([
             'status' => true,
-            'message' => 'TE trend fetched successfully',
+            'message' => 'TE / SF trend fetched successfully',
             'data' => [
-                'years' => $years,
+                'years'         => $years,
                 'selected_year' => $selectedYear,
-                'te_trend' => $trend
+                'te_trend'      => $teTrend,
+                'sf_trend'      => $sfTrend
             ]
         ]);
 
     } catch (Exception $e) {
 
         echo json_encode([
-            'status' => false,
+            'status'  => false,
             'message' => $e->getMessage()
         ]);
     }
-?>

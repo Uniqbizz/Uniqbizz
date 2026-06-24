@@ -457,3 +457,40 @@ $('#upload_file12').change(function () {
         }
     });
 });
+
+$('#upload_file13').change(function () {
+    var folder = 'profile_pic';
+
+    var file_data = $('#upload_file13').prop('files')[0];
+    var form_data = new FormData();
+    form_data.append('file', file_data);
+    form_data.append('folder', folder);
+    $.ajax({
+        url: uploadUrl,
+        type: "POST",
+        data: form_data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+            // console.log(data);
+            if(data == 1){
+                alert("Upload Failed");
+                $('#upload_file13').val('');
+            }else if(data == 2){
+                alert("Invalid file Extension");
+                $('#upload_file13').val('');
+            }else if(data == 3){
+                alert("Please select File");
+                $('#upload_file13').val('');
+            }else if(data == 4){
+                alert("File size is greater then 2 MB");
+                $('#upload_file13').val('');
+            }else{
+                // $("#preview1").show();
+                $("#img_pre13").attr("src","../../uploading/"+data);
+                $("#img_path13").val(data);
+            }
+        }
+    });
+});

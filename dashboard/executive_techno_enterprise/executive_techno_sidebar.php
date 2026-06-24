@@ -30,12 +30,12 @@
                 </li>
                 <li class="nav-item <?php echo ($current_page == 'techno_enterprise_list.php') ? 'active' : ''; ?>">
                     <a class="nav-link menu-link" href="techno_enterprise_list.php">
-                        <i class="ri-user-shared-2-line"></i> <span>Techno Enterprisee</span>
+                        <i class="ri-user-shared-2-line"></i> <span>TE | F | I</span>
                     </a>
                 </li>
                 <li class="nav-item <?php echo ($current_page == 'travel_consultants_list.php') ? 'active' : ''; ?>">
                     <a class="nav-link menu-link" href="travel_consultants_list.php">
-                        <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Travel Consultants</span>
+                        <i class="ri-user-shared-2-line"></i> <span data-key="t-home">TC | IBR</span>
                     </a>
                 </li>
                 <li class="nav-item <?php echo ($current_page == 'customers_list.php') ? 'active' : ''; ?>">
@@ -49,9 +49,9 @@
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarMultilevel">
                         <ul class="nav nav-sm flex-column">
-                            <li class="nav-item <?php echo ($current_page == 'recruitment_payout.php') ? 'active' : ''; ?>">
-                                <a href="recruitment_payout.php" class="nav-link menu-link">
-                                    <span data-key="recruitment-payout">TE Recruitment Payout</span>
+                            <li class="nav-item <?php echo ($current_page == 'contracting_payout.php') ? 'active' : ''; ?>">
+                                <a href="contracting_payout.php" class="nav-link menu-link">
+                                    <span data-key="contracting_payout.php">TE Recruitment Payout</span>
                                 </a>
                             </li>
                             <li class="nav-item <?php echo ($current_page == 'holiday_payout.php') ? 'active' : ''; ?>">

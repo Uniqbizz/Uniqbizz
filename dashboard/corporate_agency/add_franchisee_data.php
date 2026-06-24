@@ -52,7 +52,40 @@
     $fromWhom=$userType;
     $operation="Add";
 
-    $sql= "INSERT INTO `sub_franchisee` (firstname, lastname, nominee_name, nominee_relation, email, country_code, contact_no , date_of_birth, age, gender, gst_no, amount, profile_pic, pan_card, aadhar_card, voting_card, bank_passbook, payment_proof,country, state, city, pincode, address, payment_mode, cheque_no, cheque_date, bank_name, transaction_no, user_type, registrant, reference_no, register_by, status) VALUES (:firstname ,:lastname, :nominee_name, :nominee_relation, :email, :country_code, :contact_no, :bdate, :age, :gender , :gst_no, :amount, :profile_pic, :pan_card, :aadhar_card, :voting_card, :bank_passbook, :payment_proof, :country, :state, :city, :pincode,:address, :payment_mode, :cheque_no, :cheque_date, :bank_name, :transaction_no, :user_type,:registrant,  :reference_no, :register_by, :status)";
+    //commission and incentive 
+    $comm_per=0;
+    $ins_per=0;
+    //amount = 2,00,000
+    if ($amount == '200000') {
+        $comm_per=10;
+        $ins_per=10;
+    } 
+    //amount = 3,00,000
+    else if($amount == '300000') {
+        $comm_per=15;
+        $ins_per=15;
+    }
+    //amount = 4,00,000
+    else if($amount == '400000') {
+        $comm_per=20;
+        $ins_per=20;
+    }
+    //amount = 5,00,000
+    else if($amount >= '500000') {
+        $comm_per=30;
+        $ins_per=20;
+    }
+
+    $sql= "INSERT INTO `sub_franchisee` (firstname, lastname, nominee_name, nominee_relation, email, country_code, contact_no ,
+                        current_commission_per,current_incentive_per,date_of_birth, age, gender, gst_no, amount, profile_pic, 
+                        pan_card, aadhar_card, voting_card, bank_passbook, payment_proof,country, state, city, pincode, 
+                        address, payment_mode, cheque_no, cheque_date, bank_name, transaction_no, user_type, registrant, 
+                        reference_no, register_by, status) 
+                        VALUES (:firstname ,:lastname, :nominee_name, :nominee_relation, :email, :country_code, :contact_no, 
+                        current_commission_per,:current_incentive_per,:bdate, :age, :gender , :gst_no, :amount, :profile_pic, 
+                        :pan_card, :aadhar_card, :voting_card, :bank_passbook, :payment_proof, :country, :state, :city, 
+                        :pincode,:address, :payment_mode, :cheque_no, :cheque_date, :bank_name, :transaction_no, :user_type,
+                        :registrant,  :reference_no, :register_by,:status)";
     $stmt3 =$conn->prepare($sql);
 
     $result2=$stmt3->execute(array(
@@ -78,6 +111,8 @@
         ':gender' => $gender,
         ':gst_no' => $gst_no,
         ':amount' => $amount,
+        ':current_commission_per' => $comm_per,
+        ':current_incentive_per' => $ins_per,
         ':profile_pic' => $profile_pic,
         ':pan_card' => $pan_card,
         ':aadhar_card' => $aadhar_card,
