@@ -1,6 +1,11 @@
-
-    var uploadUrl = "../uploading/upload.php";
-    var transactuploadUrl = "../uploading/upload.php";
+    var userTYpe = $('#userType').val();
+    if(userTYpe == 10){
+        var uploadUrl = "../../uploading/upload.php";
+        var transactuploadUrl = "../../uploading/upload.php";
+    } else{
+        var uploadUrl = "../uploading/upload.php";
+        var transactuploadUrl = "../uploading/upload.php";
+    }
 
     //employee BCH and BDM pics upload
     // ** Profile Pic upload **
