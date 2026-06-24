@@ -209,7 +209,7 @@
                                                         <p class="fw-bolder teActiveBtn rounded-pill text-center mb-0">Active</p>
                                                     </td>
                                                     <td>
-                                                        <a href="edit_executive_techno_enterprise.php">
+                                                        <a href="#">
                                                             <p class="fw-bolder teViewBtn text-center mb-0"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
                                                         </a>
                                                     </td>
@@ -228,7 +228,7 @@
                                                         <p class="fw-bolder teActiveBtn rounded-pill text-center mb-0">Active</p>
                                                     </td>
                                                     <td>
-                                                        <a href="edit_executive_techno_enterprise.php">
+                                                        <a href="#">
                                                             <p class="fw-bolder teViewBtn text-center mb-0"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
                                                         </a>
                                                     </td>
@@ -247,7 +247,7 @@
                                                         <p class="fw-bolder teDeletedBtn rounded-pill text-center mb-0">Deactive</p>
                                                     </td>
                                                     <td>
-                                                        <a href="edit_executive_techno_enterprise.php">
+                                                        <a href="#">
                                                             <p class="fw-bolder teViewBtn text-center mb-0"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
                                                         </a>
                                                     </td>
@@ -661,7 +661,7 @@
                                                 <p class="fw-bolder teActiveBtn rounded-pill text-center mb-0">Confirmed</p>
                                             </td>
                                             <td>
-                                                <a href="edit_executive_techno_enterprise.php">
+                                                <a href="#">
                                                     <p class="fw-bolder teViewBtn text-center mb-0"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
                                                 </a>
                                             </td>
@@ -683,7 +683,7 @@
                                                 <p class="fw-bolder tePendingBtn rounded-pill text-center mb-0">Pending</p>
                                             </td>
                                             <td>
-                                                <a href="edit_executive_techno_enterprise.php">
+                                                <a href="#">
                                                     <p class="fw-bolder teViewBtn text-center mb-0"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
                                                 </a>
                                             </td>
@@ -705,7 +705,7 @@
                                                 <p class="fw-bolder teActiveBtn rounded-pill text-center mb-0">Confirmed</p>
                                             </td>
                                             <td>
-                                                <a href="edit_executive_techno_enterprise.php">
+                                                <a href="#">
                                                     <p class="fw-bolder teViewBtn text-center mb-0"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
                                                 </a>
                                             </td>
@@ -727,7 +727,7 @@
                                                 <p class="fw-bolder tePendingBtn rounded-pill text-center mb-0">Pending</p>
                                             </td>
                                             <td>
-                                                <a href="edit_executive_techno_enterprise.php">
+                                                <a href="#">
                                                     <p class="fw-bolder teViewBtn text-center mb-0"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
                                                 </a>
                                             </td>
