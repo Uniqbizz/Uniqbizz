@@ -2275,11 +2275,11 @@
         <script src="../assets/js/pages/remix-icons-listing.js"></script>
         
         <!-- Vector map-->
-        <script src="<?= $base_url ?>../assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
-        <script src="<?= $base_url ?>../assets/libs/jsvectormap/maps/world-merc.js"></script>
+        <script src="../assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+        <script src="../assets/libs/jsvectormap/maps/world-merc.js"></script>
 
         <!--Swiper slider js-->
-        <script src="<?= $base_url ?>../assets/libs/swiper/swiper-bundle.min.js"></script>
+        <script src="../assets/libs/swiper/swiper-bundle.min.js"></script>
         
 
         <!-- App js -->
