@@ -160,7 +160,7 @@
 
                                                 <div>
                                                     <span>Valid Till</span>
-                                                    <strong> 11 April 2034</strong>
+                                                    <strong><?= $expiry_date ?></strong>
                                                 </div>
 
                                             </div>
@@ -209,7 +209,7 @@
                                             </h2>
                                             
                                                     <p class="vxq-active-membership-validity">
-                                                        Valid till 11 April 2034
+                                                        Valid till <?= $expiry_date ?>
                                             </p>
                                     
                                             <p class="vxq-active-membership-description">
@@ -383,7 +383,7 @@
                                         </div>
 
                                         <div class="svz-highlight-content">
-                                            <h3>₹21,500</h3>
+                                            <h3>₹0</h3>
                                             <p>Total Savings</p>
                                             <span>All time savings till date</span>
                                         </div>
@@ -396,7 +396,7 @@
                                         </div>
 
                                         <div class="svz-highlight-content">
-                                            <h3>4</h3>
+                                            <h3>0</h3>
                                             <p>Trips Booked</p>
                                             <span>All trips booked till date</span>
                                         </div>
@@ -409,7 +409,7 @@
                                         </div>
 
                                         <div class="svz-highlight-content">
-                                            <h3>₹6,250</h3>
+                                            <h3>₹0</h3>
                                             <p>Cashback Earned</p>
                                             <span>Total cashback till date</span>
                                         </div>
@@ -422,7 +422,7 @@
                                         </div>
 
                                         <div class="svz-highlight-content">
-                                            <h3>12</h3>
+                                            <h3>0</h3>
                                             <p>Coupons Unlocked</p>
                                             <span>Total coupons unlocked</span>
                                         </div>

@@ -24,11 +24,21 @@
 
                 /* Recruitment Commission */
                 (
-                    SELECT COALESCE(SUM(ste_amount),0)
-                    FROM techno_enterprise_payout
-                    WHERE ste_id = :user_id
-                    AND MONTH(created_date)=:current_month
-                    AND YEAR(created_date)=:current_year
+                    (
+                        SELECT COALESCE(SUM(ste_amount),0)
+                        FROM techno_enterprise_payout
+                        WHERE ste_id = :user_id
+                        AND MONTH(created_date)=:current_month
+                        AND YEAR(created_date)=:current_year
+                    )
+                    +
+                    (
+                        SELECT COALESCE(SUM(commission_mf),0)
+                        FROM sub_franchisee_payout
+                        WHERE master_franchisee = :user_id
+                        AND MONTH(created_date)=:current_month
+                        AND YEAR(created_date)=:current_year
+                    )
                 ) AS recruitment,
 
                 /* Neo Select Commission */
@@ -72,11 +82,21 @@
             SELECT
 
                 (
-                    SELECT COALESCE(SUM(ste_amount),0)
-                    FROM techno_enterprise_payout
-                    WHERE ste_id = :user_id
-                    AND MONTH(created_date)=:prev_month
-                    AND YEAR(created_date)=:prev_year
+                    (
+                        SELECT COALESCE(SUM(ste_amount),0)
+                        FROM techno_enterprise_payout
+                        WHERE ste_id = :user_id
+                        AND MONTH(created_date)=:prev_month
+                        AND YEAR(created_date)=:prev_year
+                    )
+                    +
+                    (
+                        SELECT COALESCE(SUM(commission_mf),0)
+                        FROM sub_franchisee_payout
+                        WHERE master_franchisee = :user_id
+                        AND MONTH(created_date)=:prev_month
+                        AND YEAR(created_date)=:prev_year
+                    )
                 ) AS recruitment,
 
                 (

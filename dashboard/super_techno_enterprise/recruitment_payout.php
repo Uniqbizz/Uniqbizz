@@ -17,13 +17,12 @@
     $tdsPercentage = 2/100;
 
     // for displaying result for specific loged in user 
-    
-    $columnDesignation = 'ste_id';
-    $columnMessage = 'ste_message';
-    $columnCommision = 'ste_amount';
-    $columnStatus = 'ste_status';
-    $tablename='techno_enterprise_payout';
-    $tablename_paid='techno_enterprise_payout_paid';
+    $columnDesignation = 'business_mentor';
+    $columnMessage = 'message_bm';
+    $columnCommision = 'commision_bm';
+    $columnStatus = 'status_bm';
+    $tablename='ca_ta_payout';
+    $tablename_paid='ca_ta_payout_paid';
 ?>
 
 <!doctype html>
@@ -31,7 +30,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title>Super Techno Enterprise | TE Recruitment Payout</title>
+        <title>Super Techno Enterprise | TC Recruitment Payout</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -110,15 +109,15 @@
                             <div class="col-lg-12">
                                 <div class="col-12"> <!-- Page title -->
                                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                        <h4 class="mb-sm-0">TE Recruitment Payout</h4>
-                                        <div class="page-title-right">
+                                        <h4 class="mb-sm-0">TC Recruitment Payout</h4>
+                                        <!-- <div class="page-title-right">
                                             <ol class="breadcrumb m-0">
                                                 <li class="breadcrumb-item">
                                                     <a href="super_techno_dashboard.php">Dashboard</a>
                                                 </li>
                                                 <li class="breadcrumb-item active">Payout</li>
                                             </ol>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div> <!-- page title end -->
                                 <div class="card">
@@ -242,20 +241,20 @@
                                                                                             ca.created_date,
                                                                                             ca.status,
                                                                                             ca.id,
-                                                                                            ca.ste_id,
-                                                                                            ca.ste_message,
-                                                                                            ca.ste_amount,
-                                                                                            ca.ste_status,
-                                                                                            ca.te_id,
-                                                                                            ca.te_message,
-                                                                                            ca.te_amount,
-                                                                                            ca.te_staus,
+                                                                                            ca.business_mentor,
+                                                                                            ca.message_bm,
+                                                                                            ca.commision_bm,
+                                                                                            ca.status_bm,
+                                                                                            ca.techno_enterprise,
+                                                                                            ca.message_te,
+                                                                                            ca.commision_te,
+                                                                                            ca.status_te,
                                                                                             COALESCE(cap.status, 0) AS status,
                                                                                             cap.date AS paydate
                                                                                         FROM $tablename ca
                                                                                         LEFT JOIN $tablename_paid cap 
                                                                                             ON cap.$columnDesignation = ca.$columnDesignation
-                                                                                            AND cap.te_id = ca.te_id
+                                                                                            AND cap.techno_enterprise = ca.techno_enterprise
                                                                                         WHERE ca.$columnDesignation = '".$userId."' ";
                                                                                 $stmt = $conn -> prepare($sql);
                                                                                 $stmt -> execute();
@@ -401,20 +400,20 @@
                                                                 ca.created_date,
                                                                 ca.status,
                                                                 ca.id,
-                                                                ca.ste_id,
-                                                                ca.ste_message,
-                                                                ca.ste_amount,
-                                                                ca.ste_status,
-                                                                ca.te_id,
-                                                                ca.te_message,
-                                                                ca.te_amount,
-                                                                ca.te_staus,
+                                                                ca.business_mentor,
+                                                                ca.message_bm,
+                                                                ca.commision_bm,
+                                                                ca.status_bm,
+                                                                ca.techno_enterprise,
+                                                                ca.message_te,
+                                                                ca.commision_te,
+                                                                ca.status_te,
                                                                 COALESCE(cap.status, 0) AS status,
                                                                 cap.date AS paydate
                                                             FROM $tablename ca
                                                             LEFT JOIN $tablename_paid cap 
                                                                 ON cap.$columnDesignation = ca.$columnDesignation
-                                                                AND cap.te_id = ca.te_id
+                                                                AND cap.techno_enterprise = ca.techno_enterprise
                                                                 AND YEAR(cap.date) = '".$prevDateYear."'
                                                                 AND MONTH(cap.date) = '".$prevDateMonth."'
                                                             WHERE ca.$columnDesignation = '".$userId."' 
@@ -555,20 +554,20 @@
                                                                 ca.created_date,
                                                                 ca.status,
                                                                 ca.id,
-                                                                ca.ste_id,
-                                                                ca.ste_message,
-                                                                ca.ste_amount,
-                                                                ca.ste_status,
-                                                                ca.te_id,
-                                                                ca.te_message,
-                                                                ca.te_amount,
-                                                                ca.te_staus,
+                                                                ca.business_mentor,
+                                                                ca.message_bm,
+                                                                ca.commision_bm,
+                                                                ca.status_bm,
+                                                                ca.techno_enterprise,
+                                                                ca.message_te,
+                                                                ca.commision_te,
+                                                                ca.status_te,
                                                                 COALESCE(cap.status, 0) AS status,
                                                                 cap.date AS paydate
                                                             FROM $tablename ca
                                                             LEFT JOIN $tablename_paid cap 
                                                                 ON cap.$columnDesignation = ca.$columnDesignation
-                                                                AND cap.te_id = ca.te_id
+                                                                AND cap.techno_enterprise = ca.techno_enterprise
                                                                 AND YEAR(cap.date) = '".$nextDateYear."'
                                                                 AND MONTH(cap.date) = '".$nextDateMonth."'
                                                             WHERE ca.$columnDesignation = '".$userId."' 

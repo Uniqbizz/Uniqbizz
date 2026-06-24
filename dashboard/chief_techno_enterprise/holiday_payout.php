@@ -1,48 +1,22 @@
 <?php
 
-    include_once '../dashboard_user_details.php';
+    include_once (__DIR__.'/../dashboard_user_details.php');
 
     // get current date to show next payout amount  and pass it in sql @ line 129
     $date = date('F,Y'); //month and year. 'F' - month in Text form
     $nextDateMonth = date('m'); //month in number form
     $nextDateYear = date('Y'); //year
-    // echo "Next Date ".$date .' ;' ;
-    // echo "Next Month ".$nextDateMonth.' ;';
-    // echo "Next Year ".$nextDateYear.' ;';
-    // echo '<br>';
 
     // get Previous date to show Previous payout amount  and pass it in sql @ line 111
     $prevdate = date(" F,Y", strtotime("-1 months")); //month and year. 'F' - month in Text form. '-1' to get prev month
     $prevDateMonth = date('m', strtotime("-1 months")); //month in number form. '-1' to get prev month
     $prevDateYear = date('Y');  //Year in number form. 
-    // echo "prev Date ".$prevdate.' ;';
-    // echo "prev Month ".$prevDateMonth.' ;';
-    // echo "prev year ".$prevDateYear.' ;';
 
     $tdsPercentage = 2/100;
-
-    // for displaying result for specific loged in user 
-    if($userType == '26' || $userType == '28' || $userType == '30'){ //business Mentor/ Master Franchisee/ Sponsor Franchisee
-        $columnDesignation = 'business_mentor';
-        $columnMessage = 'message_bm';
-        $columnCommision = 'commision_bm';
-        $columnStatus = 'status_bm';
-    }else if($userType == '16' || $userType == '29' || $userType =='32' || $userType == '35' || $userType == '10'){ //Techno Enterprise / Corporate Agency/ Franchisee/ Institution // remove user type 10 later
-        $columnDesignation = 'techno_enterprise';
-        $columnMessage = 'message_te';
-        $columnCommision = 'commision_te';
-        $columnStatus = 'status_te';
-    }else if($userType == '11'){ // Travel Consultant
-        $columnDesignation = 'travel_consultant';
-        $columnMessage = 'message_tc';
-        $columnCommision = 'commision_tc';
-        $columnStatus = 'status_tc';
-    }else if($userType == '10'){ // Customer
-        $columnDesignation = 'customer';
-        $columnMessage = 'message_cu';
-        $columnCommision = 'cu_amount_paid';
-        $columnStatus = 'status_cu';
-    }
+    $columnDesignation = 'cte_id';
+    $columnMessage = 'message_cte';
+    $columnCommision = 'commission_cte';
+    $columnStatus = 'status_cte';
 ?>
 
 <!doctype html>
@@ -130,14 +104,14 @@
                                 <div class="col-12"> <!-- Page title -->
                                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                                         <h4 class="mb-sm-0">Holiday Account Payout</h4>
-                                        <div class="page-title-right">
+                                        <!-- <div class="page-title-right">
                                             <ol class="breadcrumb m-0">
                                                 <li class="breadcrumb-item">
-                                                    <a href="chief_techno_dashboard.php">Dashboard</a>
+                                                    <a href="executive_techno_dashboard.php">Dashboard</a>
                                                 </li>
                                                 <li class="breadcrumb-item active">Payout</li>
                                             </ol>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div> <!-- page title end -->
                                 <div class="card">
@@ -762,7 +736,11 @@
             <i class="ri-arrow-up-line"></i>
         </button>
         <!--end back-to-top-->
-
+        <!-- contact card pop up  start-->
+        <button type="button" class="contactBtn btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            <i class="ri-phone-fill"></i>
+        </button>
+        <?php include (__DIR__.'/../contact_modal.php') ?>
         <!-- JAVASCRIPT -->
         <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="../assets/libs/simplebar/simplebar.min.js"></script>
@@ -795,16 +773,7 @@
 
         <!-- custom js  -->
         <script src="../payout/customer_membership.js"></script>
-        <!-- Chart JS -->
-        <!-- <script src="../assets/libs/chart.js/chart.umd.js"></script> -->
-
-        <!-- chartjs init -->
-        <!-- <script src="../assets/js/pages/chartjs.init.js"></script> -->
-
-        <!-- Dashboard init -->
-        <!-- <script src="../assets/js/pages/dashboard-job.init.js"></script> -->
-
-        <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
+       
 
         <!-- Required datatable js -->
         <script src="../assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -821,6 +790,53 @@
                 $("#total_payout_table").DataTable();
             });
 
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const callBtn = document.getElementById("callBtn");
+
+                if (callBtn) {
+                    callBtn.addEventListener("click", function(e) {
+
+                        let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+                        if (!isMobile) {
+                            e.preventDefault();
+
+                            alert("📞 Calling works only on mobile devices.\nPlease dial 8010892265 from your phone.");
+                            location.reload();
+
+                            // Optional clipboard copy (safe fallback)
+                            if (navigator.clipboard) {
+                                navigator.clipboard.writeText("8010892265");
+                            }
+                        }
+                    });
+                }
+
+            });
+        </script>
+
+        <script>
+            var modal = document.getElementById('staticBackdrop');
+
+            // Store the element that opened the modal
+            let lastFocusedElement;
+
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('[data-bs-toggle="modal"]')) {
+                    lastFocusedElement = e.target;
+                }
+            });
+
+            modal.addEventListener('hidden.bs.modal', function () {
+                if (lastFocusedElement) {
+                    lastFocusedElement.focus();
+                } else {
+                    document.body.focus();
+                }
+            });
         </script>
     </body>
 </html>

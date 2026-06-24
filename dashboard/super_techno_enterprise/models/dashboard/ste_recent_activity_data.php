@@ -22,7 +22,7 @@
             WHERE reference_no = :user_id
             AND status IN (1,3)
             ORDER BY register_date DESC
-            LIMIT 10
+            LIMIT 2
         ");
 
         $sqlTE->execute([
@@ -34,6 +34,36 @@
             $activities[] = [
                 'type' => 'te',
                 'title' => 'New Techno Enterprise Added',
+                'description' => $row['name'],
+                'date' => $row['activity_date']
+            ];
+        }
+        /*
+        |--------------------------------------------------------------------------
+        | New F Added
+        |--------------------------------------------------------------------------
+        */
+
+        $sqlF = $conn->prepare("
+            SELECT
+                CONCAT(firstname,' ',lastname) AS name,
+                register_date AS activity_date
+            FROM sub_franchisee
+            WHERE reference_no = :user_id
+            AND status IN (1,3)
+            ORDER BY register_date DESC
+            LIMIT 2
+        ");
+
+        $sqlF->execute([
+            ':user_id' => $userId
+        ]);
+
+        foreach($sqlF->fetchAll(PDO::FETCH_ASSOC) as $row){
+
+            $activities[] = [
+                'type' => 'f',
+                'title' => 'New Franchisee Added',
                 'description' => $row['name'],
                 'date' => $row['activity_date']
             ];
@@ -57,7 +87,7 @@
             WHERE ca.reference_no = :user_id
             AND cu.status IN (1,3)
             ORDER BY cu.register_date DESC
-            LIMIT 10
+            LIMIT 2
         ");
 
         $sqlCU->execute([
@@ -76,7 +106,7 @@
 
         /*
         |--------------------------------------------------------------------------
-        | Recruitment Commission
+        | TE Recruitment Commission
         |--------------------------------------------------------------------------
         */
 
@@ -87,7 +117,7 @@
             FROM techno_enterprise_payout
             WHERE ste_id = :user_id
             ORDER BY created_date DESC
-            LIMIT 10
+            LIMIT 2
         ");
 
         $sqlRecruitment->execute([
@@ -98,12 +128,69 @@
 
             $activities[] = [
                 'type' => 'recruitment',
-                'title' => 'Recruitment Commission Credited',
+                'title' => 'TE Recruitment Commission Credited',
                 'description' => '+ ₹ '.number_format($row['ste_amount']),
                 'date' => $row['created_date']
             ];
         }
+        /*
+        |--------------------------------------------------------------------------
+        | Francisee Recruitment Commission
+        |--------------------------------------------------------------------------
+        */
 
+        $sqlFRecruitment = $conn->prepare("
+            SELECT
+                commission_mf,
+                created_date
+            FROM sub_franchisee_payout
+            WHERE master_franchisee = :user_id
+            ORDER BY created_date DESC
+            LIMIT 2
+        ");
+
+        $sqlFRecruitment->execute([
+            ':user_id' => $userId
+        ]);
+
+        foreach($sqlFRecruitment->fetchAll(PDO::FETCH_ASSOC) as $row){
+
+            $activities[] = [
+                'type' => 'recruitment',
+                'title' => 'Franchisee Recruitment Commission Credited',
+                'description' => '+ ₹ '.number_format($row['commission_mf']),
+                'date' => $row['created_date']
+            ];
+        }
+        /*
+        |--------------------------------------------------------------------------
+        | Holiday Account Commission
+        |--------------------------------------------------------------------------
+        */
+
+        $sqlCRecruitment = $conn->prepare("
+            SELECT
+                commision_bm,
+                created_date
+            FROM ca_cu_payout
+            WHERE business_mentor = :user_id
+            ORDER BY created_date DESC
+            LIMIT 2
+        ");
+
+        $sqlCRecruitment->execute([
+            ':user_id' => $userId
+        ]);
+
+        foreach($sqlCRecruitment->fetchAll(PDO::FETCH_ASSOC) as $row){
+
+            $activities[] = [
+                'type' => 'customer',
+                'title' => 'Holiday Account Commission Credited',
+                'description' => '+ ₹ '.number_format($row['commission_zm']),
+                'date' => $row['created_date']
+            ];
+        }
         /*
         |--------------------------------------------------------------------------
         | Booking Commission
@@ -117,7 +204,7 @@
             FROM product_payout
             WHERE bm_id = :user_id
             ORDER BY created_date DESC
-            LIMIT 10
+            LIMIT 2
         ");
 
         $sqlBooking->execute([
@@ -140,8 +227,8 @@
         |--------------------------------------------------------------------------
         */
 
-        usort($activities, function($a, $b){
-            return strtotime($b['date']) - strtotime($a['date']);
+        usort($activities, function ($a, $b) {
+            return strtotime($b['date']) <=> strtotime($a['date']);
         });
 
         $activities = array_slice($activities, 0, 5);

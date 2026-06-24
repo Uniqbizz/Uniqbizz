@@ -10,7 +10,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title> Techno Enterprise List | Customer</title>
+        <title> Techno Enterprise List  </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -95,11 +95,11 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Edit Techno Enterprise</h4>
+                                    <h4 class="mb-sm-0">Edit Techno Enterprise </h4>
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="techno_enterprise_list.php">Techno Enterprise</a></li>
-                                            <li class="breadcrumb-item active">Edit Techno Enterprise</li>
+                                            <li class="breadcrumb-item"><a href="techno_enterprise_list.php">Techno Enterprise </a></li>
+                                            <li class="breadcrumb-item active">Edit Techno Enterprise </li>
                                         </ol>
                                     </div>
                                 </div>
@@ -114,7 +114,7 @@
                                             <i class="fa-solid fa-user-group addTEIcon"></i>
                                         </div>
                                         <div class="align-content-center">
-                                            <h1 class="fw-bolder text-white">Edit Techno Enterprise</h1>
+                                            <h1 class="fw-bolder text-white">Edit Techno Enterprise </h1>
                                             <p class="fs-5 text-white mb-0">Fill in the details below to register a new Techno Enterprise under your network.</p>
                                         </div>
                                     </div>
@@ -161,7 +161,7 @@
                                             <option value="" selected >Select gender</option>
                                             <option value="male">Male</option>
                                             <option value="female">Female</option>
-                                            <option value="other">Other</option>
+                                            <option value="others">Others</option>
                                         </select>
                                     </div>
                                 </div>
@@ -205,39 +205,7 @@
                             </div>
                         </div>
                         <!-- Card Section 2 -->
-                        <div class="card rounded-4 p-3 border-1">
-                            <div class="row">
-                                <div class="d-flex gap-2">
-                                    <p class="fw-bolder addTENum">02</p>
-                                    <h4 class="fw-bolder text-dark align-content-center">Business Information</h4>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                                    <div class="mb-3">
-                                        <label for="businessPackage" class="form-label fw-bold">Business Package / Amount <span class="text-danger fw-bolder">*</span></label>
-                                        <select class="form-select genderSelect" id="businessPackage" required>
-                                            <option value="" selected >Select business package </option>
-                                            <option value="200000">&#8377 2,00,000</option>
-                                            <option value="300000">&#8377 3,00,000</option>
-                                            <option value="500000">&#8377 5,00,000</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                                    <div class="mb-3">
-                                        <label for="amount" class="form-label fw-bold">Enter Amount <span class="text-danger fw-bolder">*</span></label>
-                                        <input type="text" class="form-control" id="amount" placeholder="Enter amount" required>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                                    <div class="mb-3">
-                                        <label for="gstNo" class="form-label fw-bold">GST No </label>
-                                        <input type="email" class="form-control" id="gstNo" placeholder="Enter GST number">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card Section 3 -->
-                        <div class="card rounded-4 p-3 border-1">
+                         <div class="card rounded-4 p-3 border-1">
                             <div class="row">
                                 <div class="d-flex gap-2">
                                     <p class="fw-bolder addTENum">03</p>
@@ -291,6 +259,39 @@
                                     <div class="mb-3">
                                         <label for="address" class="form-label fw-bold">Address<span class="text-danger fw-bolder">*</span></label>
                                         <textarea class="form-control" id="address" rows="3" placeholder="Enter complete address"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card Section 3 -->
+                        <div class="card rounded-4 p-3 border-1">
+                            <div class="row">
+                                <div class="d-flex gap-2">
+                                    <p class="fw-bolder addTENum">02</p>
+                                    <h4 class="fw-bolder text-dark align-content-center">Business Information</h4>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="businessPackage" class="form-label fw-bold">Business Package / Amount <span class="text-danger fw-bolder">*</span></label>
+                                        <select class="form-select genderSelect" id="businessPackage" required>
+                                            <option value="" selected >Select business package </option>
+                                            <option value="200000">&#8377 2,00,000</option>
+                                            <option value="300000">&#8377 3,00,000</option>
+                                            <option value="500000">&#8377 5,00,000</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="amount" class="form-label fw-bold">Enter Amount <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="text" class="form-control" id="amount" placeholder="Enter amount" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="gstNo" class="form-label fw-bold">GST No </label>
+                                        <input type="email" class="form-control" id="gstNo" placeholder="Enter GST number">
                                     </div>
                                 </div>
                             </div>
@@ -373,7 +374,7 @@
                             <div class="row g-3">
                                 <!-- Profile Photo -->
                                 <div class="col-lg-2 col-md-4 col-6">
-                                    <input type="hidden" id="img_path1" value=""> <!-- image file path --> 
+                                    <!-- image file path --> 
                                     <div class="upload-card" data-title="Profile Photo" data-index="1">
                                         <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file1">
                                         <div class="upload-content">
@@ -389,7 +390,6 @@
 
                                 <!-- Aadhaar -->
                                 <div class="col-lg-2 col-md-4 col-6">
-                                    <input type="hidden" id="img_path2" value="">
                                     <div class="upload-card" data-title="Aadhaar Card" data-index="2">
                                         <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file2">
                                         <div class="upload-content">
@@ -405,7 +405,6 @@
 
                                 <!-- PAN -->
                                 <div class="col-lg-2 col-md-4 col-6">
-                                    <input type="hidden" id="img_path3" value="">
                                     <div class="upload-card" data-title="PAN Card" data-index="3">
                                         <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file3">
                                         <div class="upload-content">
@@ -421,7 +420,7 @@
 
                                 <!-- Bank Passbook -->
                                 <div class="col-lg-2 col-md-4 col-6">
-                                    <input type="hidden" id="img_path4" value="">
+                                    
                                     <div class="upload-card" data-title="Bank Passbook" data-index="4">
                                         <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file4">
                                         <div class="upload-content">
@@ -437,7 +436,7 @@
 
                                 <!-- Voting -->
                                 <div class="col-lg-2 col-md-4 col-6">
-                                    <input type="hidden" id="img_path11" value="">
+                                    
                                     <div class="upload-card" data-title="Voting Card" data-index="11">
                                         <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file11">
                                         <div class="upload-content">
@@ -453,7 +452,7 @@
 
                                 <!-- Payment Proof -->
                                 <div class="col-lg-2 col-md-4 col-6">
-                                    <input type="hidden" id="img_path12" value="">
+                                    
                                     <div class="upload-card" data-title="Payment Proof" data-index="12">
                                         <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file12">
                                         <div class="upload-content">
@@ -469,7 +468,7 @@
                             </div>
                         </div>
                         <!-- Card Section 6 -->
-                        <div class="card rounded-4 p-3 border-1">
+                        <!-- <div class="card rounded-4 p-3 border-1">
                             <div class="d-flex gap-2">
                                 <p class="fw-bolder addTENum">06</p>
                                 <h4 class="fw-bolder text-dark align-content-center">Additional Notes</h4>
@@ -482,7 +481,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <input type="hidden" id="editfor" name="editfor" value="<?= $edittype ?>">
                         <input type="hidden" id="id" name="id" value="<?= $id ?>">
                         <div class="row">
@@ -495,7 +494,7 @@
                                     <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftEdit">Save Draft</button>
                                     <button type="submit" class="btn actionBtn submitBtn mb-2" id="editTechnoEnterprise">
                                         <i class="fa-regular fa-paper-plane me-2"></i>
-                                        Submit Techno Enterprise
+                                        Submit Techno Enterprise 
                                     </button>
                                     <?php
                                         }
@@ -642,13 +641,6 @@
                         const title = card.dataset.title;
                         const index = card.dataset.index;
 
-                        const hiddenField = document.getElementById(
-                            'img_path' + index
-                        );
-
-                        // Store filename or path
-                        hiddenField.value = file.name;
-
                         if (file.type.startsWith('image/')) {
 
                             const reader = new FileReader();
@@ -660,12 +652,13 @@
                                 let preview = card.querySelector('.preview-wrapper');
 
                                 if (!preview) {
-
+                                    $()
                                     preview = document.createElement('div');
                                     preview.className = 'preview-wrapper';
 
                                     preview.innerHTML = `
-                                        <img src="${e.target.result}">
+                                        <img src="${e.target.result}" id="img_path${index}">
+                                        <input type="hidden" id="img_path${index}" value="../../uploading/${filePath}">
                                         <div class="file-title">
                                             ${title}
                                         </div>
@@ -700,9 +693,7 @@
                             card.appendChild(preview);
                         }
 
-                        console.log("File Input :", this.id);
-                        console.log("Hidden Field :", hiddenField.id);
-                        console.log("Selected File :", file.name);
+                        
 
                     });
 
@@ -718,7 +709,7 @@
                 if (!card) return;
 
                 const title = card.dataset.title;
-
+                const index = card.dataset.index;
                 card.querySelector(
                     '.upload-content, .preview-wrapper, .pdf-preview'
                 )?.remove();
@@ -735,13 +726,19 @@
 
                     preview.innerHTML = `
                         <img src="../../uploading/${filePath}">
+                        <input type="hidden" id="img_path${index}" value="../../uploading/${filePath}">
                         <div class="file-title">
                             ${title}
                         </div>
                     `;
 
                     card.appendChild(preview);
-                    $('.file-input').prop('disabled', true);
+                    const status =<?= $status ?>;
+                    if (status == 4) {
+                        $('.file-input').prop('disabled', false);
+                    }else{
+                        $('.file-input').prop('disabled', true);
+                    }
 
                 } else {
 
@@ -983,6 +980,38 @@
             $('#businessPackage').on('change', function(){
                 var business_package_amount = $(this).val();
                 $('#amount').val(business_package_amount);
+            });
+            let today = new Date();
+
+            $(document).ready(function () {
+
+                let today = new Date();
+
+                // Calculate date 18 years ago
+                let maxDate = new Date(
+                    today.getFullYear() - 20,
+                    today.getMonth(),
+                    today.getDate()
+                );
+
+                // Format YYYY-MM-DD
+                let formattedDate = maxDate.toISOString().split('T')[0];
+
+                $('#dob').attr('max', formattedDate);
+
+            });
+            $('#dob').on('change', function () {
+
+                const selectedDate = new Date(this.value);
+
+                const maxDate = new Date();
+                maxDate.setFullYear(maxDate.getFullYear() - 20);
+
+                if (selectedDate > maxDate) {
+                    alert('Age must be at least 18 years.');
+                    $(this).val('');
+                }
+
             });
             // document.querySelector(".draftBtn").addEventListener("click", function () {
             //     alert("Draft Saved Successfully");

@@ -7,28 +7,39 @@
     try {
 
         $sql = $conn->prepare("
-            SELECT
-                cu.ca_customer_id,
-                cu.firstname,
-                cu.lastname,
-                cu.contact_no,
-                cu.email,
-                cu.register_date,
-                cu.status,
-                ta.ca_travelagency_id,
-                ta.firstname AS ref_firstname,
-                ta.lastname AS ref_lastname
+            SELECT *
+            FROM (
 
-            FROM ca_customer cu
-            INNER JOIN ca_travelagency ta
-                ON cu.ta_reference_no = ta.ca_travelagency_id 
-            INNER JOIN corporate_agency ca
-                ON ta.reference_no = ca.corporate_agency_id
+                SELECT
+                    cu.id,
+                    cu.ca_customer_id,
+                    cu.firstname,
+                    cu.lastname,
+                    cu.contact_no,
+                    cu.email,
+                    cu.register_date,
+                    cu.status,
 
-            WHERE ca.reference_no = :user_id
-            AND cu.status IN (0)
+                    ta.ca_travelagency_id,
+                    ta.firstname AS ref_firstname,
+                    ta.lastname AS ref_lastname,
 
-            ORDER BY cu.id DESC
+                    'TE' AS ref_type
+
+                FROM ca_customer cu
+
+                INNER JOIN ca_travelagency ta
+                    ON cu.ta_reference_no = ta.ca_travelagency_id
+
+                INNER JOIN corporate_agency ca
+                    ON ta.reference_no = ca.corporate_agency_id
+
+                WHERE ca.reference_no = :user_id
+                AND cu.status = 0
+
+            ) x
+
+            ORDER BY x.id DESC
         ");
 
         $sql->execute([
@@ -53,4 +64,33 @@
     }
 
     exit;
+
+    // UNION ALL
+
+    //             SELECT
+    //                 cu.id,
+    //                 cu.ca_customer_id,
+    //                 cu.firstname,
+    //                 cu.lastname,
+    //                 cu.contact_no,
+    //                 cu.email,
+    //                 cu.register_date,
+    //                 cu.status,
+
+    //                 ta.ca_travelagency_id,
+    //                 ta.firstname AS ref_firstname,
+    //                 ta.lastname AS ref_lastname,
+
+    //                 'F' AS ref_type
+
+    //             FROM ca_customer cu
+
+    //             INNER JOIN ca_travelagency ta
+    //                 ON cu.ta_reference_no = ta.ca_travelagency_id
+
+    //             INNER JOIN sub_franchisee sf
+    //                 ON ta.reference_no = sf.sub_franchisee_id
+
+    //             WHERE sf.reference_no = :user_id
+    //             AND cu.status = 0
 ?>

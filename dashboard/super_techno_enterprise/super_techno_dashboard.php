@@ -93,7 +93,7 @@
                                             <i class="fa-solid fa-user-group fa-xl"></i>
                                         </div>
                                         <div class="">
-                                            <p class="mb-1 fs-6 fw-bold">Techno Enterprises</p>
+                                            <p class="mb-1 fs-6 fw-bold">Techno Enterprise</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="teCount">0</h4>
                                             <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
@@ -137,7 +137,7 @@
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Total Earnings</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="total_com">&#8377; 0</h4>
-                                            <a href="recruitment_payout.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <a href="contracting_payout.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -282,7 +282,7 @@
                                         <p class="commission-title fs-5 mb-0">
                                             Recent Activities
                                         </p>
-<!-- 
+                                        <!-- 
                                         <a href="#" class="fs-6 fw-bold">
                                             View All
                                         </a> -->
@@ -314,7 +314,7 @@
                                         <table class="table">
                                             <thead>
                                                 <tr class="table-active">
-                                                    <th scope="col">TE Name</th>
+                                                    <th scope="col">Techno Enterprise Name</th>
                                                     <th scope="col">No. of Travel Consultants</th>
                                                     <th scope="col">Neo Select Members</th>
                                                 </tr>
@@ -333,8 +333,8 @@
                             <div class="supportDetails">
                                 <h3 class="text-white fw-bolder fs-2">Need Help Planning?</h3>
                                 <p class="text-white fw-normal fs-5">Our travel experts are here for you.</p>
-                                <a href="#">
-                                    <div class="supportBtn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                    <div class="supportBtn">
                                         <p class="fs-5 mb-0 fw-bolder">Contact Support</p>
                                     </div>
                                 </a>
@@ -623,17 +623,13 @@
 
                         let chartData = Array(12).fill(0);
 
-                        $.each(
-                            res.data.customer_trend,
-                            function(index, item) {
+                        $.each(res.data.customer_trend, function(index, item) {
 
-                                let monthIndex =
-                                    parseInt(item.month_no) - 1;
+                            let monthIndex = parseInt(item.month) - 1;
 
-                                chartData[monthIndex] =
-                                    parseInt(item.customer_count) || 0;
-                            }
-                        );
+                            chartData[monthIndex] = parseInt(item.total) || 0;
+
+                        });
 
                         customerTrendChart.data.datasets[0].data =
                             chartData;
@@ -790,7 +786,7 @@
                             '\u20B9' + bookingAmount.toLocaleString('en-IN')
                         );
 
-                        $('#totalEarnings').text(
+                        $('#paidEarnings').text(
                             '\u20B9' + totalEarnings.toLocaleString('en-IN')
                         );
 
@@ -922,8 +918,7 @@
                     'Jul','Aug','Sep','Oct','Nov','Dec'
                 ];
 
-                const ctx =
-                    document.getElementById('enrollmentTrendChart');
+                const ctx = document.getElementById('enrollmentTrendChart');
 
                 enrollmentTrendChart = new Chart(ctx, {
 
@@ -933,49 +928,91 @@
 
                         labels: months,
 
-                        datasets: [{
-                            label: 'Enrollments',
-                            data: Array(12).fill(0),
+                        datasets: [
 
-                            borderColor: '#1DB56C',
+                                {
+                                    label: 'TE',
+                                    data: Array(12).fill(0),
+                                    borderColor: '#1DB56C',
+                                    backgroundColor: '#1DB56C',
+                                    backgroundColor: function(context) {
 
-                            backgroundColor: function(context) {
+                                        const chart = context.chart;
+                                        const ctx = chart.ctx;
+                                        const chartArea = chart.chartArea;
 
-                                const chart = context.chart;
-                                const ctx = chart.ctx;
-                                const chartArea = chart.chartArea;
+                                        if (!chartArea) {
+                                            return null;
+                                        }
 
-                                if (!chartArea) {
-                                    return null;
+                                        const gradient = ctx.createLinearGradient(
+                                            0,
+                                            chartArea.top,
+                                            0,
+                                            chartArea.bottom
+                                        );
+
+                                        gradient.addColorStop(
+                                            0,
+                                            'rgba(47, 255, 64, 0.3)'
+                                        );
+
+                                        gradient.addColorStop(
+                                            1,
+                                            'rgba(47, 255, 71, 0.02)'
+                                        );
+
+                                        return gradient;
+                                    },
+                                    fill: true,
+                                    tension: 0.4,
+                                    pointRadius: 4,
+                                    pointHoverRadius: 6,
+                                    pointBackgroundColor: '#1DB56C'
                                 }
 
-                                const gradient =
-                                    ctx.createLinearGradient(
-                                        0,
-                                        chartArea.top,
-                                        0,
-                                        chartArea.bottom
-                                    );
+                                // {
+                                //     label: 'SF',
+                                //     data: Array(12).fill(0),
+                                //     borderColor: '#3B82F6',
+                                //     backgroundColor: '#3B82F6',
+                                //     backgroundColor: function(context) {
 
-                                gradient.addColorStop(
-                                    0,
-                                    'rgba(29,181,108,0.30)'
-                                );
+                                //         const chart = context.chart;
+                                //         const ctx = chart.ctx;
+                                //         const chartArea = chart.chartArea;
 
-                                gradient.addColorStop(
-                                    1,
-                                    'rgba(29,181,108,0.02)'
-                                );
+                                //         if (!chartArea) {
+                                //             return null;
+                                //         }
 
-                                return gradient;
-                            },
+                                //         const gradient = ctx.createLinearGradient(
+                                //             0,
+                                //             chartArea.top,
+                                //             0,
+                                //             chartArea.bottom
+                                //         );
 
-                            fill: true,
-                            tension: 0.4,
-                            pointRadius: 4,
-                            pointHoverRadius: 6,
-                            pointBackgroundColor: '#1DB56C'
-                        }]
+                                //         gradient.addColorStop(
+                                //             0,
+                                //             'rgba(47,107,255,0.30)'
+                                //         );
+
+                                //         gradient.addColorStop(
+                                //             1,
+                                //             'rgba(47,107,255,0.02)'
+                                //         );
+
+                                //         return gradient;
+                                //     },
+                                //     fill: true,
+                                //     tension: 0.4,
+                                //     pointRadius: 4,
+                                //     pointHoverRadius: 6,
+                                //     pointBackgroundColor: '#3B82F6'
+                                // }
+
+                            ]
                     },
 
                     options: {
@@ -985,7 +1022,7 @@
 
                         plugins: {
                             legend: {
-                                display: false
+                                display: true
                             }
                         },
 
@@ -1005,10 +1042,10 @@
                             }
 
                         }
+
                     }
 
                 });
-
             }
             function loadEnrollmentTrendChart(year = '') {
 
@@ -1032,7 +1069,7 @@
 
                         /*
                         |--------------------------------------------------------------------------
-                        | Populate Years
+                        | Populate Year Dropdown
                         |--------------------------------------------------------------------------
                         */
 
@@ -1059,26 +1096,57 @@
 
                         /*
                         |--------------------------------------------------------------------------
-                        | Chart Data
+                        | TE Data
                         |--------------------------------------------------------------------------
                         */
 
-                        let chartData = Array(12).fill(0);
+                        let teData = Array(12).fill(0);
 
                         $.each(res.data.te_trend, function(i, row) {
 
                             let monthIndex =
                                 parseInt(row.month_no) - 1;
 
-                            chartData[monthIndex] =
+                            teData[monthIndex] =
                                 parseInt(row.te_count) || 0;
 
                         });
 
-                        enrollmentTrendChart.data.datasets[0].data =
-                            chartData;
+                        /*
+                        |--------------------------------------------------------------------------
+                        | SF Data
+                        |--------------------------------------------------------------------------
+                        */
+
+                        // let sfData = Array(12).fill(0);
+
+                        // $.each(res.data.sf_trend, function(i, row) {
+
+                        //     let monthIndex =
+                        //         parseInt(row.month_no) - 1;
+
+                        //     sfData[monthIndex] =
+                        //         parseInt(row.sf_count) || 0;
+
+                        // });
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Update Chart
+                        |--------------------------------------------------------------------------
+                        */
+
+                        enrollmentTrendChart.data.datasets[0].data = teData;
+                        // enrollmentTrendChart.data.datasets[1].data = sfData;
 
                         enrollmentTrendChart.update();
+
+                    },
+
+                    error: function(xhr, status, error) {
+
+                        console.error('Chart Load Error:', error);
+                        console.log(xhr.responseText);
 
                     }
 
@@ -1113,11 +1181,22 @@
                         } else {
 
                             $.each(res.data, function(index, row) {
+                                let badge = '';
 
+                                if (
+                                    row.te_id.startsWith('TE') ||
+                                    row.te_id.startsWith('CA')
+                                ) {
+                                    badge = '<span class="badge bg-primary ms-1">TE</span>';
+                                } else if (
+                                    row.te_id.startsWith('F')
+                                ) {
+                                    badge = '<span class="badge bg-success ms-1">F</span>';
+                                }
                                 html += `
                                     <tr>
                                         <th scope="row">
-                                            ${row.te_name}
+                                            ${badge} ${row.te_name} 
                                         </th>
 
                                         <td class="text-center">

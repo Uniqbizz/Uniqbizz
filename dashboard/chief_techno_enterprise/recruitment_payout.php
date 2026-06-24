@@ -1,6 +1,6 @@
 <?php
 
-    include_once '../dashboard_user_details.php';
+    include_once (__DIR__.'/../dashboard_user_details.php');
 
     // get current date to show next payout amount  and pass it in sql @ line 129
     $date = date('F,Y'); //month and year. 'F' - month in Text form
@@ -17,27 +17,12 @@
     $tdsPercentage = 2/100;
 
     // for displaying result for specific loged in user 
-    if($userType == '3'){
-        $columnDesignation = 'business_mentor';
-        $columnMessage = 'message_bm';
-        $columnCommision = 'commision_bm';
-        $columnStatus = 'status_bm';
-    }else if($userType == '16' || $userType == '29'){
-        $columnDesignation = 'techno_enterprise';
-        $columnMessage = 'message_te';
-        $columnCommision = 'commision_te';
-        $columnStatus = 'status_te';
-    }else if($userType == '28' || $userType == '26' || $userType == '30' || $userType =='35' || $userType == '10') { // remove userType 10 after making the page functional
-        $columnDesignation = 'business_mentor';
-        $columnMessage = 'message_bm';
-        $columnCommision = 'commision_bm';
-        $columnStatus = 'status_bm';
-    }else if($userType == '25' || $userType == '31') {
-        $columnDesignation = 'business_mentor';
-        $columnMessage = 'message_bm';
-        $columnCommision = 'commision_bm';
-        $columnStatus = 'status_bm';
-    }
+    $columnDesignation = 'business_mentor';
+    $columnMessage = 'message_bm';
+    $columnCommision = 'commision_bm';
+    $columnStatus = 'status_bm';
+    $tablename='ca_ta_payout';
+    $tablename_paid='ca_ta_payout_paid';
 ?>
 
 <!doctype html>
@@ -45,7 +30,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title>Chief Techno Enterprise dashboard | TE Recruitment Payout</title>
+        <title>Super Techno Enterprise | TC Recruitment Payout</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -68,9 +53,9 @@
         <link href="../assets/css/custom.min.css" rel="stylesheet" type="text/css" />
         <!-- custom Css developer-->
         <link rel="stylesheet" href="../assets/css/custom.css" />
-        <link rel="stylesheet" href="../assets/css/chief_techno_enterprise.css" />
+        <link rel="stylesheet" href="../assets/css/executive_techno_enterprise.css" />
 
-        <link href="../payout/payout.css" rel="stylesheet" type="text/css" /> 
+        <link href="payout/payout.css" rel="stylesheet" type="text/css" /> 
 
         <!-- DataTables -->
         <link href="../assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
@@ -84,7 +69,7 @@
         <!-- Begin page -->
         <div id="layout-wrapper">
 
-            <?php include_once 'chief_techno_header.php'; ?>
+            <?php include_once 'executive_techno_header.php'; ?>
 
             <!-- removeNotificationModal -->
             <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
@@ -112,7 +97,7 @@
             </div><!-- /.modal -->
             <!-- ========== App Menu ========== -->
 
-            <?php include_once 'chief_techno_sidebar.php'; ?>
+            <?php include_once 'executive_techno_sidebar.php'; ?>
 
             <!-- ============================================================== -->
             <!-- Start right Content here -->
@@ -124,15 +109,15 @@
                             <div class="col-lg-12">
                                 <div class="col-12"> <!-- Page title -->
                                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                        <h4 class="mb-sm-0">TE Recruitment Payout</h4>
-                                        <div class="page-title-right">
+                                        <h4 class="mb-sm-0">TC Recruitment Payout</h4>
+                                        <!-- <div class="page-title-right">
                                             <ol class="breadcrumb m-0">
                                                 <li class="breadcrumb-item">
-                                                    <a href="chief_techno_dashboard.php">Dashboard</a>
+                                                    <a href="executive_techno_dashboard.php">Dashboard</a>
                                                 </li>
                                                 <li class="breadcrumb-item active">Payout</li>
                                             </ol>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div> <!-- page title end -->
                                 <div class="card">
@@ -147,7 +132,7 @@
                                                                     <div class="m-0 mt-2 p-2 ms-n2">
                                                                         <p class="font-size-14">Previous Payout<span class="fw-bold font-size-10 ms-4"><?php echo "$prevdate" ?></span></p>
                                                                         <?php 
-                                                                            $previousPayout = $conn -> prepare("SELECT SUM($columnCommision) as previousPayout FROM ca_ta_payout WHERE $columnDesignation = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
+                                                                            $previousPayout = $conn -> prepare("SELECT SUM($columnCommision) as previousPayout FROM $tablename WHERE $columnDesignation = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
                                                                             $previousPayout -> execute();
                                                                             $previousPayout -> setFetchMode(PDO::FETCH_ASSOC);
                                                                             if($previousPayout -> rowCount()>0){
@@ -171,7 +156,7 @@
                                                                     <div class="m-0 mt-2 p-2">
                                                                         <p class="font-size-14">Next Payout<span class="fw-bold font-size-10 date-layout "><?php echo "$date" ?></span></p>
                                                                         <?php 
-                                                                            $nextPayout = $conn -> prepare("SELECT SUM($columnCommision) as nextPayout FROM ca_ta_payout WHERE $columnDesignation = '".$userId."'  AND  YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
+                                                                            $nextPayout = $conn -> prepare("SELECT SUM($columnCommision) as nextPayout FROM $tablename WHERE $columnDesignation = '".$userId."'  AND  YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
                                                                             $nextPayout -> execute();
                                                                             $nextPayout -> setFetchMode(PDO::FETCH_ASSOC);
                                                                             if($nextPayout -> rowCount()>0){
@@ -207,7 +192,7 @@
                                                                         </p>
                                                                     </div>
                                                                     <?php 
-                                                                        $totalPayout = "SELECT SUM($columnCommision) as total_payable FROM ca_ta_payout WHERE $columnDesignation = '".$userId."'  AND  $columnStatus = '1'";
+                                                                        $totalPayout = "SELECT SUM($columnCommision) as total_payable FROM $tablename WHERE $columnDesignation = '".$userId."'  AND  $columnStatus = '1'";
                                                                         $Payout = $conn -> prepare($totalPayout);
                                                                         $Payout -> execute();
                                                                         $Payout -> setFetchMode(PDO::FETCH_ASSOC);
@@ -266,8 +251,8 @@
                                                                                             ca.status_te,
                                                                                             COALESCE(cap.status, 0) AS status,
                                                                                             cap.date AS paydate
-                                                                                        FROM ca_ta_payout ca
-                                                                                        LEFT JOIN ca_ta_payout_paid cap 
+                                                                                        FROM $tablename ca
+                                                                                        LEFT JOIN $tablename_paid cap 
                                                                                             ON cap.$columnDesignation = ca.$columnDesignation
                                                                                             AND cap.techno_enterprise = ca.techno_enterprise
                                                                                         WHERE ca.$columnDesignation = '".$userId."' ";
@@ -327,7 +312,7 @@
                         </div>
                     </div> <!-- container-fluid -->
                 </div><!-- End Page-content -->
-                <?php include_once "chief_techno_footer.php" ?>
+                <?php include_once "executive_techno_footer.php" ?>
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
         
@@ -352,7 +337,7 @@
                                     <p class="font-size-18 pt-2">Previous Payout<span class="fw-bold font-size-12 date-layout1 layout-1"><?php echo "$prevdate" ?></span></p>
                                     <div class="d-flex justify-content-between">
                                         <?php 
-                                            $previousPayout = $conn -> prepare("SELECT SUM($columnCommision) as previousPayout FROM ca_ta_payout WHERE $columnDesignation = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
+                                            $previousPayout = $conn -> prepare("SELECT SUM($columnCommision) as previousPayout FROM $tablename WHERE $columnDesignation = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
                                             $previousPayout -> execute();
                                             $previousPayout -> setFetchMode(PDO::FETCH_ASSOC);
                                             if($previousPayout -> rowCount()>0){
@@ -425,8 +410,8 @@
                                                                 ca.status_te,
                                                                 COALESCE(cap.status, 0) AS status,
                                                                 cap.date AS paydate
-                                                            FROM ca_ta_payout ca
-                                                            LEFT JOIN ca_ta_payout_paid cap 
+                                                            FROM $tablename ca
+                                                            LEFT JOIN $tablename_paid cap 
                                                                 ON cap.$columnDesignation = ca.$columnDesignation
                                                                 AND cap.techno_enterprise = ca.techno_enterprise
                                                                 AND YEAR(cap.date) = '".$prevDateYear."'
@@ -505,7 +490,7 @@
                                     <p class="font-size-18 pt-3">Next Payout<span class="fw-bold font-size-12 date-layout layout-1"><?php echo "$date" ?></span></p>
                                     <div class="d-flex justify-content-between">
                                         <?php 
-                                            $nextPayout = $conn -> prepare("SELECT SUM($columnCommision) as nextPayout FROM ca_ta_payout WHERE $columnDesignation = '".$userId."'  AND  YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
+                                            $nextPayout = $conn -> prepare("SELECT SUM($columnCommision) as nextPayout FROM $tablename WHERE $columnDesignation = '".$userId."'  AND  YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
                                             $nextPayout -> execute();
                                             $nextPayout -> setFetchMode(PDO::FETCH_ASSOC);
                                             if($nextPayout -> rowCount()>0){
@@ -579,8 +564,8 @@
                                                                 ca.status_te,
                                                                 COALESCE(cap.status, 0) AS status,
                                                                 cap.date AS paydate
-                                                            FROM ca_ta_payout ca
-                                                            LEFT JOIN ca_ta_payout_paid cap 
+                                                            FROM $tablename ca
+                                                            LEFT JOIN $tablename_paid cap 
                                                                 ON cap.$columnDesignation = ca.$columnDesignation
                                                                 AND cap.techno_enterprise = ca.techno_enterprise
                                                                 AND YEAR(cap.date) = '".$nextDateYear."'
@@ -661,7 +646,7 @@
                                     <p class="font-size-18 pt-3">Total Payout<span class="fw-bold font-size-12 date-layout layout-1"><?php echo "$date" ?></span></p>
                                     <div class="d-flex justify-content-between">
                                         <?php 
-                                            $totalPayout = "SELECT SUM($columnCommision) as total_payable FROM ca_ta_payout WHERE $columnDesignation = '".$userId."'  AND  $columnStatus = '1'";
+                                            $totalPayout = "SELECT SUM($columnCommision) as total_payable FROM $tablename WHERE $columnDesignation = '".$userId."'  AND  $columnStatus = '1'";
                                             $Payout = $conn -> prepare($totalPayout);
                                             $Payout -> execute();
                                             $Payout -> setFetchMode(PDO::FETCH_ASSOC);
@@ -720,20 +705,20 @@
                                                                 ca.created_date,
                                                                 ca.status,
                                                                 ca.id,
-                                                                ca.business_mentor,
-                                                                ca.message_bm,
-                                                                ca.commision_bm,
-                                                                ca.status_bm,
-                                                                ca.techno_enterprise,
-                                                                ca.message_te,
-                                                                ca.commision_te,
-                                                                ca.status_te,
+                                                                ca.ste_id,
+                                                                ca.ste_message,
+                                                                ca.ste_amount,
+                                                                ca.ste_status,
+                                                                ca.te_id,
+                                                                ca.te_message,
+                                                                ca.te_amount,
+                                                                ca.te_staus,
                                                                 COALESCE(cap.status, 0) AS status,
                                                                 cap.date AS paydate
-                                                            FROM ca_ta_payout ca
-                                                            LEFT JOIN ca_ta_payout_paid cap 
+                                                            FROM $tablename ca
+                                                            LEFT JOIN $tablename_paid cap 
                                                                 ON cap.$columnDesignation = ca.$columnDesignation
-                                                                AND cap.techno_enterprise = ca.techno_enterprise
+                                                                AND cap.te_id = ca.te_id
                                                             WHERE ca.$columnDesignation = '".$userId."' AND ca.$columnStatus = '1' ";
                                                     $stmt -> execute();
                                                     // print_r($stmt);
@@ -819,7 +804,11 @@
             <i class="ri-arrow-up-line"></i>
         </button>
         <!--end back-to-top-->
-
+        <!-- contact card pop up  start-->
+        <button type="button" class="contactBtn btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            <i class="ri-phone-fill"></i>
+        </button>
+        <?php include (__DIR__.'/../contact_modal.php') ?>
         <!-- JAVASCRIPT -->
         <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="../assets/libs/simplebar/simplebar.min.js"></script>
@@ -846,7 +835,7 @@
         <script src="../assets/js/app.js"></script>
 
         <!-- custom js  -->
-        <script src="../payout/payout.js"></script>
+        <script src="payout/payout.js"></script>
 
         <!-- Required datatable js -->
         <script src="../assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>

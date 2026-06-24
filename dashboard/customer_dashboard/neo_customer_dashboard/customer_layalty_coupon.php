@@ -260,9 +260,9 @@
 
                                 <!-- TABS -->
 
-                                <div class="tabs-wrapper py-2 d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+                                <div class="tabs-wrapper py-2">
 
-                                    <div class="coupon-tabs-nav d-flex gap-3 flex-wrap">
+                                    <div class="coupon-tabs-nav d-flex justify-content-between align-items-center">
 
                                         <button class="coupon-tab active" data-filter="all">
                                             All Loyalty Coupons

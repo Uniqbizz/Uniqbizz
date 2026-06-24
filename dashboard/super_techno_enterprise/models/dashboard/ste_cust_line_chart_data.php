@@ -17,18 +17,31 @@ try {
     */
 
     $sqlYears = $conn->prepare("
-        SELECT DISTINCT
-            YEAR(cu.register_date) AS year
+        SELECT YEAR(cu.register_date) AS year
         FROM ca_customer cu
         INNER JOIN ca_travelagency ta
             ON cu.ta_reference_no = ta.ca_travelagency_id
-        INNER JOIN corporate_agency ca
-            ON ta.reference_no = ca.corporate_agency_id
-        WHERE ca.reference_no = :user_id
+        INNER JOIN corporate_agency corp
+            ON ta.reference_no = corp.corporate_agency_id
+        WHERE corp.reference_no = :user_id
         AND cu.status IN (1,3)
         AND ta.status IN (1,3)
-        AND ca.status IN (1,3)
-        ORDER BY year DESC
+        AND corp.status IN (1,3)
+
+        UNION
+
+        SELECT YEAR(cu.register_date) AS year
+        FROM ca_customer cu
+        INNER JOIN ca_travelagency ta
+            ON cu.ta_reference_no = ta.ca_travelagency_id
+        INNER JOIN sub_franchisee sf
+            ON ta.reference_no = sf.sub_franchisee_id
+        WHERE sf.reference_no = :user_id
+        AND cu.status IN (1,3)
+        AND ta.status IN (1,3)
+        AND sf.status IN (1,3)
+
+        ORDER BY year DESC;
     ");
 
     $sqlYears->execute([
@@ -45,20 +58,37 @@ try {
 
     $sqlCustomerTrend = $conn->prepare("
         SELECT
-            MONTH(cu.register_date) AS month_no,
-            COUNT(*) AS customer_count
-        FROM ca_customer cu
-        INNER JOIN ca_travelagency ta
-            ON cu.ta_reference_no = ta.ca_travelagency_id
-        INNER JOIN corporate_agency ca
-            ON ta.reference_no = ca.corporate_agency_id
-        WHERE ca.reference_no = :user_id
-        AND YEAR(cu.register_date) = :selected_year
-        AND cu.status IN (1,3)
-        AND ta.status IN (1,3)
-        AND ca.status IN (1,3)
-        GROUP BY MONTH(cu.register_date)
-        ORDER BY MONTH(cu.register_date)
+        MONTH(register_date) AS month,
+        COUNT(*) AS total
+        FROM (
+            SELECT cu.register_date
+            FROM ca_customer cu
+            INNER JOIN ca_travelagency ta
+                ON cu.ta_reference_no = ta.ca_travelagency_id
+            INNER JOIN corporate_agency corp
+                ON ta.reference_no = corp.corporate_agency_id
+            WHERE corp.reference_no = :user_id
+            AND YEAR(cu.register_date) = :selected_year
+            AND cu.status IN (1,3)
+            AND ta.status IN (1,3)
+            AND corp.status IN (1,3)
+
+            UNION ALL
+
+            SELECT cu.register_date
+            FROM ca_customer cu
+            INNER JOIN ca_travelagency ta
+                ON cu.ta_reference_no = ta.ca_travelagency_id
+            INNER JOIN sub_franchisee sf
+                ON ta.reference_no = sf.sub_franchisee_id
+            WHERE sf.reference_no = :user_id
+            AND YEAR(cu.register_date) = :selected_year
+            AND cu.status IN (1,3)
+            AND ta.status IN (1,3)
+            AND sf.status IN (1,3)
+        ) x
+        GROUP BY MONTH(register_date)
+        ORDER BY MONTH(register_date)
     ");
 
     $sqlCustomerTrend->execute([
