@@ -6,7 +6,7 @@
     width:100%;
     padding:35px;
     background:#f8f9ff;
-    font-family:Arial,sans-serif;
+    font-family: 'Inter', sans-serif !important;
 }
 
 /* =========================================
@@ -344,7 +344,7 @@
     border:1px solid #ececf3;
     border-radius:28px;
     box-sizing:border-box;
-    font-family:Arial, sans-serif;
+    font-family: 'Inter', sans-serif !important;
 }
 
 .svz-membership-highlight-card{
@@ -470,7 +470,7 @@
     radial-gradient(circle at center, rgba(255,255,255,0.08) 0%, transparent 45%),
     linear-gradient(90deg,#4320d9 0%, #6535f5 50%, #5a2fe8 100%);
  
-    font-family:Arial, sans-serif;
+    font-family: 'Inter', sans-serif !important;
 }
  
 /* subtle center glow */
