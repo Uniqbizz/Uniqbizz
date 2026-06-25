@@ -1,6 +1,7 @@
 <?php
 session_start();
 require '../connect.php';
+header('Content-Type:application/json');
 $username=$_POST['username'];
 $password=$_POST['password'];
 $user_type=$_POST['user_type'];
@@ -485,6 +486,7 @@ if($stmt->rowCount()>0){
 		// echo '1';
 		$response = [
 			"status" => 1,
+			"message" => "Login Successful",
 			"user_type" => $user_type,
 			"user_id" => $_SESSION["user_id"],
 			"customer_type" => $_SESSION["customer_type"] ?? ''
@@ -495,9 +497,13 @@ if($stmt->rowCount()>0){
 		echo '0';
 	}
 }
-	else{
-		echo '0';
-	}
+else{
+	echo json_encode([
+						"status" => 0,
+						"message" => "Invalid credentials"
+					]);
+	exit;
+}
 
 
 $stmt2 = $conn->prepare("SELECT * FROM user_type where id='".$_SESSION["user_type_id_value"]."' AND status='1' ");
@@ -512,9 +518,13 @@ if($stmt2->rowCount()>0){
 		# code...
 		$_SESSION["user_type_name"] = $row2['name'];
 }
-	else{
-		echo '0';
-	}
+else{
+	echo json_encode([
+						"status" => 0,
+						"message" => "Invalid credentials"
+					]);
+	exit;
+}
 
 	// if(isset($_SESSION["username"])) {
  //    header("Location:index.php");

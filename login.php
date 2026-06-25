@@ -57,6 +57,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
         <style>
             .loginImage {
                 width: 100% !important;
@@ -379,6 +380,7 @@
         <script src="assets/js/main.js"></script>
         <script src="login_data/login.js"></script>
         <script type="text/javascript" src="logout/logout.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             // let selectedProfile = "Techno Enterprise";
             // let selectedProfileId = "TE25001";
@@ -555,50 +557,78 @@
                         username: username,
                         password: password,
                         user_type: user_type,
-                        remember_me:remember_me
+                        remember_me: remember_me
                     },
                     dataType: "json",
+
                     success: function(res)
                     {
                         console.log(res);
 
                         if(res.status == 1)
                         {
-                            if (res.user_type == "10" &&
-                                res.customer_type == "Neo Select")
-                            {
-                                location.href = "dashboard/customer_dashboard/customer_dashboard.php";
-                            }
-                            else if (res.user_type == "33" &&
-                                    res.user_id == "IBRGA26004")
-                            {
-                                location.href = "dashboard/institute_branch_manager/index.php";
-                            }
-                            else if (res.user_type == "35")
-                            {
-                                location.href = "dashboard/super_techno_enterprise/super_techno_dashboard.php";
-                            }else if (res.user_type == "34") {
-                                location.href = "dashboard/executive_techno_enterprise/executive_techno_dashboard.php";
-                            }
-                            else if (res.user_type == "16") {
-                                location.href = "dashboard/techno_enterprise/techno_dashboard.php";
-                            } 
-                            else if (res.user_type == "36") {
-                                location.href = "dashboard/chief_techno_enterprise/chief_techno_dashboard.php";
-                            } 
-                            else
-                            {
-                                location.href = "dashboard/index.php";
-                            }
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Login Successful',
+                                text: res.message,
+                                timer: 1500,
+                                showConfirmButton: false
+                            }).then(() => {
+
+                                if (res.user_type == "10" &&
+                                    res.customer_type == "Neo Select")
+                                {
+                                    location.href = "dashboard/customer_dashboard/customer_dashboard.php";
+                                }
+                                else if (res.user_type == "33" &&
+                                        res.user_id == "IBRGA26004")
+                                {
+                                    location.href = "dashboard/institute_branch_manager/index.php";
+                                }
+                                else if (res.user_type == "35")
+                                {
+                                    location.href = "dashboard/super_techno_enterprise/super_techno_dashboard.php";
+                                }
+                                else if (res.user_type == "34")
+                                {
+                                    location.href = "dashboard/executive_techno_enterprise/executive_techno_dashboard.php";
+                                }
+                                else if (res.user_type == "16")
+                                {
+                                    location.href = "dashboard/techno_enterprise/techno_dashboard.php";
+                                }
+                                else if (res.user_type == "36")
+                                {
+                                    location.href = "dashboard/chief_techno_enterprise/chief_techno_dashboard.php";
+                                }
+                                else
+                                {
+                                    location.href = "dashboard/index.php";
+                                }
+
+                            });
                         }
                         else
                         {
-                            alert("Username and password not correct");
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Login Failed',
+                                text: res.message,
+                                confirmButtonText: 'OK'
+                            });
                         }
                     },
+
                     error: function(xhr)
                     {
                         console.log(xhr.responseText);
+
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Server Error',
+                            text: 'Unable to process your request at the moment. Please try again later.',
+                            confirmButtonText: 'OK'
+                        });
                     }
                 });
             }

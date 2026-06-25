@@ -17,7 +17,8 @@
                 c.used_date,
                 c.user_id,
                 cu.used_on,
-                cu.transaction_id
+                cu.transaction_id,
+                COUNT(*) AS coupon_count
 
             FROM cu_coupons c
 
@@ -165,10 +166,11 @@
         /*
         GET LATEST COUPONS
         USED + UNUSED
+        EACH COUPON IS A SEPARATE ENTRY
         */
         $sqlCoupons = $conn->prepare("
 
-            SELECT 
+            SELECT
                 c.code,
                 c.coupon_amt,
                 c.usage_status,
@@ -176,18 +178,18 @@
                 c.used_date,
                 c.user_id,
                 cu.used_on,
-                cu.transaction_id
+                cu.transaction_id,
+                1 AS coupon_count
 
             FROM loyalty_coupon c
 
-            LEFT JOIN loyalty_coupon_utilization cu 
+            LEFT JOIN loyalty_coupon_utilization cu
                 ON c.code = cu.coupon_code
 
             WHERE c.user_id = :user_id
 
-            ORDER BY 
-                c.usage_status DESC,
-                CASE 
+            ORDER BY
+                CASE
                     WHEN c.usage_status = 1 THEN c.used_date
                     ELSE c.created_date
                 END DESC
@@ -213,7 +215,6 @@
         */
         foreach ($coupons as $coupon) {
 
-            // Entry type
             $coupon['entry_type'] =
                 ($coupon['usage_status'] == 1)
                 ? 'used_coupon'
@@ -227,32 +228,33 @@
         IF TOTAL ENTRIES ARE LESS THAN 3
         FILL REMAINING WITH PLACEHOLDER
         */
-        if ($allCoupons) {
-            while (count($allCoupons) < 3) {
+        while (count($allCoupons) < 3) {
 
-                $allCoupons[] = [
+            $allCoupons[] = [
 
-                    "code" => "Credited",
+                "code" => "Credited",
 
-                    "coupon_amt" => null,
+                "coupon_amt" => null,
 
-                    "usage_status" => 0,
+                "usage_status" => 0,
 
-                    "created_date" => date("Y-m-d H:i:s"),
+                "created_date" => date("Y-m-d H:i:s"),
 
-                    "used_date" => null,
+                "used_date" => null,
 
-                    "user_id" => $userId,
+                "user_id" => $userId,
 
-                    "used_on" => null,
+                "used_on" => null,
 
-                    "transaction_id" => null,
+                "transaction_id" => null,
 
-                    "entry_type" => "credited"
-                ];
-            }
+                "coupon_count" => 1,
+
+                "entry_type" => "credited"
+            ];
         }
-        
+
+
         /*
         FINAL RESPONSE
         */
