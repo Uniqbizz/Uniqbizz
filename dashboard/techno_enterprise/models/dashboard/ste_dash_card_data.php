@@ -107,7 +107,6 @@
         'status' => true,
         'message' => 'Data fetched successfully',
         'data' => [
-            'te_count' => (int)$data['te_count'],
             'tc_count' => (int)$data['tc_count'],
             'cu_count' => (int)$data['cu_count'],
             'all_earning' => (int)$data['all_earning'],
