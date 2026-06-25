@@ -1015,6 +1015,9 @@ body {
     display: flex;
     justify-content: space-between;
 }
+.pendingData, .registerData {
+    height: 150px;
+}
 /* =========================================
    TABLET + SMALL LAPTOP (1024px)
 ========================================= */

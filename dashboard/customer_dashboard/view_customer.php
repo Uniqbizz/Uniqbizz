@@ -1332,6 +1332,13 @@
                                                                     
                                                                 }
                                                             ?>
+                                                            <div class="d-flex justify-content-center">
+                                                                <div>
+                                                                    <img src="../assets/images/pendingData.png" alt="Package" class="pendingData img-fluid w-100">
+                                                                    <p class="fw-bolder fs-5 text-center mb-1">No pending referrals yet</p>
+                                                                    <p class="fw-muted fs-6 text-center">When someone uses your referral link, they'll appear here.</p>
+                                                                </div>
+                                                            </div>
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -1811,10 +1818,10 @@
                                                                     
                                                                 }else if( $userType == "26" || $userType =="28" || $userType =="30"){
                                                                     $stmt2 = $conn->prepare("SELECT sub_franchisee_id AS suser_id FROM `sub_franchisee` WHERE reference_no = ?
-                                                                                            UNION ALL
-                                                                                            SELECT corporate_agency_id AS suser_id FROM `corporate_agency` WHERE reference_no = ?
-                                                                                            UNION ALL
-                                                                                            SELECT institution_id AS suser_id FROM `institution` WHERE reference_no = ? ");
+                                                                        UNION ALL
+                                                                        SELECT corporate_agency_id AS suser_id FROM `corporate_agency` WHERE reference_no = ?
+                                                                        UNION ALL
+                                                                        SELECT institution_id AS suser_id FROM `institution` WHERE reference_no = ? ");
                                                                     
                                                                     $stmt2->execute([$userId,$userId,$userId]);
                                                                     $referrals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
@@ -2315,6 +2322,13 @@
                                                                     
                                                                 }
                                                             ?>
+                                                            <div class="d-flex justify-content-center">
+                                                                <div>
+                                                                    <img src="../assets/images/registerData.png" alt="Package" class="registerData img-fluid w-100">
+                                                                    <p class="fw-bolder fs-5 mb-1">No registered referrals yet</p>
+                                                                    <p class="fw-muted fs-6">Registered referrals will appear here.</p>
+                                                                </div>
+                                                            </div>
                                                         </tbody>
                                                     </table>
                                                 </div>
