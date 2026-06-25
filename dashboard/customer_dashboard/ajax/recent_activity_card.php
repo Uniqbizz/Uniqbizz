@@ -9,26 +9,29 @@
         */
         $sqlUsedCoupons = $conn->prepare("
 
-            SELECT 
-                c.code,
-                c.coupon_amt,
-                c.usage_status,
-                c.created_date,
-                c.used_date,
-                c.user_id,
-                cu.used_on,
+            SELECT
                 cu.transaction_id,
-                COUNT(*) AS coupon_count
+                COUNT(c.code) AS coupon_count,
+                SUM(c.coupon_amt) AS coupon_amt,
+                MAX(c.used_date) AS used_date,
+                MAX(c.created_date) AS created_date,
+                MAX(cu.used_on) AS used_on,
+                c.user_id,
+                1 AS usage_status
 
             FROM cu_coupons c
 
-            LEFT JOIN coupon_utilization cu 
+            INNER JOIN coupon_utilization cu
                 ON c.code = cu.coupon_code
 
             WHERE c.user_id = :user_id
             AND c.usage_status = 1
 
-            ORDER BY c.used_date DESC
+            GROUP BY
+                cu.transaction_id,
+                c.user_id
+
+            ORDER BY MAX(c.used_date) DESC
 
             LIMIT 3
         ");
@@ -37,8 +40,7 @@
             ":user_id" => $userId
         ]);
 
-        $usedCoupons =
-            $sqlUsedCoupons->fetchAll(PDO::FETCH_ASSOC);
+        $usedCoupons = $sqlUsedCoupons->fetchAll(PDO::FETCH_ASSOC);
 
 
         /*
@@ -46,27 +48,32 @@
         */
         $sqlCouponTotal = $conn->prepare("
 
-            SELECT 
+            SELECT
 
                 COUNT(*) AS total_coupon_count,
 
-                COALESCE(SUM(coupon_amt), 0)
-                AS total_coupon_amount,
+                COALESCE(
+                    SUM(coupon_amt),
+                    0
+                ) AS total_coupon_amount,
 
                 COUNT(
-                    CASE 
-                        WHEN usage_status = 1 
+                    CASE
+                        WHEN usage_status = 1
                         THEN 1
                     END
                 ) AS used_coupon_count,
 
-                COALESCE(SUM(
-                    CASE 
-                        WHEN usage_status = 1 
-                        THEN coupon_amt 
-                        ELSE 0 
-                    END
-                ), 0) AS used_coupon_amount
+                COALESCE(
+                    SUM(
+                        CASE
+                            WHEN usage_status = 1
+                            THEN coupon_amt
+                            ELSE 0
+                        END
+                    ),
+                    0
+                ) AS used_coupon_amount
 
             FROM cu_coupons
 
@@ -77,8 +84,7 @@
             ":user_id" => $userId
         ]);
 
-        $couponTotals =
-            $sqlCouponTotal->fetch(PDO::FETCH_ASSOC);
+        $couponTotals = $sqlCouponTotal->fetch(PDO::FETCH_ASSOC);
 
 
         /*
@@ -86,42 +92,36 @@
         */
         $allCoupons = [];
 
+        foreach ($usedCoupons as $coupon) {
 
-        /*
-        ADD USED ENTRIES
-        */
-        foreach($usedCoupons as $coupon){
+            $coupon['entry_type'] = 'used_coupon';
 
             $allCoupons[] = $coupon;
         }
 
 
         /*
-        IF USED ENTRIES ARE LESS THAN 3
-        ADD MEMBERSHIP ACTIVATION ENTRY
+        IF LESS THAN 3 ENTRIES
+        ADD MEMBERSHIP ENTRY
         */
-        if(count($usedCoupons) < 3){
+        if (count($allCoupons) < 3) {
 
-            $remainingSlots =
-                3 - count($usedCoupons);
-
-            // ONLY ADD ONCE
             $allCoupons[] = [
 
-                "code" => "MEMBERSHIP",
-
-                "coupon_amt" =>
-                    $couponTotals['total_coupon_amount'],
+                "transaction_id" => null,
 
                 "coupon_count" =>
                     $couponTotals['total_coupon_count'],
+
+                "coupon_amt" =>
+                    $couponTotals['total_coupon_amount'],
 
                 "usage_status" => 0,
 
                 "created_date" =>
                     !empty($usedCoupons)
-                    ? $usedCoupons[0]['created_date']
-                    : date("Y-m-d H:i:s"),
+                        ? $usedCoupons[0]['created_date']
+                        : date("Y-m-d H:i:s"),
 
                 "used_date" => null,
 
@@ -129,18 +129,13 @@
 
                 "used_on" => null,
 
-                "transaction_id" => null,
+                "entry_type" => "membership_activation",
 
-                "entry_type" => "membership_activation"
+                "code" => "MEMBERSHIP"
             ];
         }
 
-
-        /*
-        LIMIT TOTAL TO 3
-        */
-        $allCoupons =
-            array_slice($allCoupons, 0, 3);
+        $allCoupons = array_slice($allCoupons, 0, 3);
 
 
         /*

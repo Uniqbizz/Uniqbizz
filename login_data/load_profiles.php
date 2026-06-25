@@ -29,6 +29,7 @@
                 ON ut.id = l.user_type_id
 
             WHERE l.username = :email
+            AND user_type_id IN(24, 25, 26, 16, 11, 10, 28, 29, 30, 32, 33, 34, 35, 36)
             AND l.status = 1
 
             ORDER BY l.id
