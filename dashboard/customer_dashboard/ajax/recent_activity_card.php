@@ -223,30 +223,32 @@
         IF TOTAL ENTRIES ARE LESS THAN 3
         FILL REMAINING WITH PLACEHOLDER
         */
-        while (count($allCoupons) < 3) {
-
-            $allCoupons[] = [
-
-                "code" => "Credited",
-
-                "coupon_amt" => null,
-
-                "usage_status" => 0,
-
-                "created_date" => date("Y-m-d H:i:s"),
-
-                "used_date" => null,
-
-                "user_id" => $userId,
-
-                "used_on" => null,
-
-                "transaction_id" => null,
-
-                "coupon_count" => 1,
-
-                "entry_type" => "credited"
-            ];
+        if ($allCoupons) {
+            while (count($allCoupons) < 3) {
+    
+                $allCoupons[] = [
+    
+                    "code" => "Credited",
+    
+                    "coupon_amt" => null,
+    
+                    "usage_status" => 0,
+    
+                    "created_date" => date("Y-m-d H:i:s"),
+    
+                    "used_date" => null,
+    
+                    "user_id" => $userId,
+    
+                    "used_on" => null,
+    
+                    "transaction_id" => null,
+    
+                    "coupon_count" => 1,
+    
+                    "entry_type" => "credited"
+                ];
+            }
         }
 
 
