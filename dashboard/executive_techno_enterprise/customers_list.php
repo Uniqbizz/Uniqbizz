@@ -308,7 +308,7 @@
                                     </p>
 
                                     <p class="fs-6 mb-0">
-                                        ${data.super_techno_enterprise_id || '-'}
+                                        ${data.ca_travelagency_id || '-'}
                                     </p>
                                 </div>
                             `;
@@ -440,7 +440,7 @@
                                         ${data.ref_firstname || '-'} ${data.ref_lastname || ''}
                                     </p>
                                     <p class="fs-6 mb-0">
-                                        ${data.super_techno_enterprise_id || '-'}
+                                        ${data.ca_travelagency_id || '-'}
                                     </p>
                                 </div>
                             `;

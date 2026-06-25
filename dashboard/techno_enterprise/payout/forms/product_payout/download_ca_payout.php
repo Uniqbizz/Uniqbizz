@@ -164,12 +164,7 @@ if($caNames -> rowCount()>0){
                                 </tbody>
                             </table>  
                             <div class="col-md-12 col-sm-12" >
-                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; "><?=($tableSearch == "CA" || $tableSearch == "TE") ? "Techno Enterprise" :
-                                                                                                    ($tableSearch == "F"  ? "Franchisee" :
-                                                                                                    ($tableSearch == "BM" ? "Business Mentor" :
-                                                                                                    ($tableSearch == "SF" ? "Sponsor Franchisee" :
-                                                                                                    ($tableSearch == "MF" ? "Master Franchisee" :
-                                                                                                    ($tableSearch == "I" ? "Institution":"Travel Consultant")))));?> Payout</h5>
+                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; ">Techno Enterprise Payout</h5>
                                 <div class="col-md-12 col-sm-12" style="text-align: left; margin-bottom:20px">
                                     <table class="orderTable text-center" style="padding-bottom:5px; margin:0px; border:1px solid #DDDDDD;">
                                         <thead>

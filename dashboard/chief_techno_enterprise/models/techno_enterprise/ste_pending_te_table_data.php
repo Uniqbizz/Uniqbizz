@@ -20,7 +20,7 @@
 
                 ste.firstname AS ref_firstname,
                 ste.lastname AS ref_lastname,
-                ste.super_techno_enterprise_id,
+                ste.super_techno_enterprise_id AS reference_id,
 
                 'corporate_agency' AS source_table
 
@@ -52,7 +52,7 @@
 
                 ste.firstname AS ref_firstname,
                 ste.lastname AS ref_lastname,
-                ste.super_techno_enterprise_id,
+                ste.super_techno_enterprise_id AS reference_id,
 
                 'sub_franchisee' AS source_table
 
@@ -84,7 +84,7 @@
 
                 ste.firstname AS ref_firstname,
                 ste.lastname AS ref_lastname,
-                ste.executive_techno_enterprise_id,
+                ste.executive_techno_enterprise_id AS reference_id,
 
                 'institution' AS source_table
 

@@ -51,7 +51,7 @@
 
                     ste.firstname AS ref_firstname,
                     ste.lastname AS ref_lastname,
-                    ste.super_techno_enterprise_id
+                    ste.super_techno_enterprise_id AS reference_id
 
                 FROM corporate_agency ca
 
@@ -85,7 +85,7 @@
 
                     ste.firstname AS ref_firstname,
                     ste.lastname AS ref_lastname,
-                    ste.super_techno_enterprise_id
+                    ste.super_techno_enterprise_id AS reference_id
 
                 FROM sub_franchisee sf
 
@@ -118,7 +118,7 @@
 
                     ste.firstname AS ref_firstname,
                     ste.lastname AS ref_lastname,
-                    ste.executive_techno_enterprise_id
+                    ste.executive_techno_enterprise_id AS reference_id
 
                 FROM institution i
 

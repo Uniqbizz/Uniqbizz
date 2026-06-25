@@ -145,7 +145,7 @@
                                                         <thead>
                                                             <tr class="table-primary">
                                                                 <th data-ordering="false">Full Name</th>
-                                                                <th data-ordering="false">Reference ID & Name</th>
+                                                                <th data-ordering="false">TC ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
@@ -209,8 +209,8 @@
                                                     <table id="example-dataTable-2" class="table table-striped table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                                         <thead>
                                                             <tr class="table-primary">
-                                                                <th data-ordering="false">TE ID & Full Name</th>
-                                                                <th data-ordering="false">Reference ID & Name</th>
+                                                                <th data-ordering="false">Customer ID & Full Name</th>
+                                                                <th data-ordering="false">TC ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Membership (&#8377;)</th>
                                                                 <th data-ordering="false">Joining Date</th>
@@ -308,7 +308,7 @@
                                     </p>
 
                                     <p class="fs-6 mb-0">
-                                        ${data.techno_enterprise_id || '-'}
+                                        ${data.ca_travelagency_id || '-'}
                                     </p>
                                 </div>
                             `;
@@ -440,7 +440,7 @@
                                         ${data.ref_firstname || '-'} ${data.ref_lastname || ''}
                                     </p>
                                     <p class="fs-6 mb-0">
-                                        ${data.techno_enterprise_id || '-'}
+                                        ${data.ca_travelagency_id || '-'}
                                     </p>
                                 </div>
                             `;
