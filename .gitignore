@@ -34,6 +34,7 @@ uploading/terms_condition
 uploading/voting
 uploading/voting_card
 dashboard/customer_dashboard/urls.php
+dashboard/travel_consultant/urls.php
 vendor/
 /composer.phar
 uploading/address_proof
