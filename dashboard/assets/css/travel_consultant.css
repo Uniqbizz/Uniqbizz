@@ -928,6 +928,32 @@ body {
     border-radius: 20px !important;
     background: #5b5ff6 !important;
 }
+.chart-wrapper{
+    position:relative;
+    width:200px;
+    height:200px;
+}
+
+.chart-center{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    text-align:center;
+    z-index:10;
+}
+
+.chart-center h4{
+    margin:0;
+    font-size:20px;
+    font-weight:700;
+}
+
+.chart-center p{
+    margin:0;
+    font-size:11px;
+    color:#6c757d;
+}
 /* =========================================
    TABLET + SMALL LAPTOP (1024px)
 ========================================= */

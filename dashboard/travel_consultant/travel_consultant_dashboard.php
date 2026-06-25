@@ -736,249 +736,110 @@
                                 </table>
                             </div>
                         </div>
-                        <!-- Card section 2 -->
-                        <div class="row">
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-12">
-                                <div class="card rounded-4 p-3 stCard1">
-                                    <div class="d-flex gap-3">
-                                        <div class="stIcon stIcon1">
-                                            <i class="fa-solid fa-user-group fa-xl"></i>
-                                        </div>
-                                        <div class="">
-                                            <p class="mb-1 fs-6 fw-bold">Techno Enterprises</p>
-                                            <h4 class="fw-bolder text-dark mb-1" id="teCount">0</h4>
-                                            <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-12">
-                                <div class="card rounded-4 p-3 stCard2">
-                                    <div class="d-flex gap-3">
-                                        <div class="stIcon stIcon2">
-                                            <i class="fa-solid fa-user-group fa-xl"></i>
-                                        </div>
-                                        <div class="">
-                                            <p class="mb-1 fs-6 fw-bold">Travel Consultants</p>
-                                            <h4 class="fw-bolder text-dark mb-1" id="tcCount">0</h4>
-                                            <a href="travel_consultants_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-12">
-                                <div class="card rounded-4 p-3 stCard3">
-                                    <div class="d-flex gap-3">
-                                        <div class="stIcon stIcon3">
-                                            <i class="fa-solid fa-user-group fa-xl"></i>
-                                        </div>
-                                        <div class="">
-                                            <p class="mb-1 fs-6 fw-bold">Customers</p>
-                                            <h4 class="fw-bolder text-dark mb-1" id="cuCount">0</h4>
-                                            <a href="customers_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-12">
-                                <div class="card rounded-4 p-3 stCard4">
-                                    <div class="d-flex gap-3">
-                                        <div class="stIcon stIcon4">
-                                            <i class="fa-solid fa-wallet fa-xl"></i>
-                                        </div>
-                                        <div class="">
-                                            <p class="mb-1 fs-6 fw-bold">Total Earnings</p>
-                                            <h4 class="fw-bolder text-dark mb-1" id="total_com">&#8377; 0</h4>
-                                            <a href="recruitment_payout.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card section 3 -->
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-2">
-                                <div class="commission-card px-2">
-                                    <div class="commission-title">
-                                        Commission Earned This Month
-                                    </div>
-                                    <div class="commission-wrapper gap-2">
-                                        <div class="chart-container">
-                                            <canvas id="commissionChart"></canvas>
-                                            <div class="center-text">
-                                                <p>Total Earnings</p>
-                                                <h2 id="paidEarnings">&#8377; 0</h2>
-                                            </div>
-                                        </div>
-                                        <div class="legend-section-details">
-                                            <div class="legend-section">
-                                                <div class="legend-item">
-                                                    <div class="legend-left">
-                                                        <span class="dot" style="background:#5B2EFF"></span>
-                                                        <span>Recruitment Commission</span>
-                                                    </div>
-                                                    <div class="amount" id="recruitmentAmount"> &#8377; 0</div>
-                                                    <div class="percent" id="recruitmentPercent">0%</div>
-                                                </div>
-                                                <div class="legend-item">
-                                                    <div class="legend-left">
-                                                        <span class="dot" style="background:#2563EB"></span>
-                                                        <span>Neo Select Commission</span>
-                                                    </div>
-                                                    <div class="amount" id="neoAmount"> &#8377; 0</div>
-                                                    <div class="percent" id="neoPercent">0%</div>
-                                                </div>
-                                                <div class="legend-item">
-                                                    <div class="legend-left">
-                                                        <span class="dot" style="background:#00C46A"></span>
-                                                        <span>Booking Commission</span>
-                                                    </div>
-                                                    <div class="amount" id="bookingAmount"> &#8377; 0</div>
-                                                    <div class="percent" id="bookingPercent">0%</div>
-                                                </div>
-                                                <!-- <div class="report-link">
-                                                    <a href="#">
-                                                        View Commission Report →
-                                                    </a>
-                                                </div> -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-2">
-                                <div class="commission-card px-2">
-                                    <div class="commission-title">
-                                        My Wallet
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-12 col-sm-6 col-12">
-                                            <div class="card rounded-4 p-3 stWalletCard1">
-                                                <div class="d-flex justify-content-between">
-                                                    <div class="">
-                                                        <p class="mb-1 fs-6 fw-bold">Paid Payout</p>
-                                                        <h4 class="fw-bolder text-dark mb-1" id="total_paid_earning">&#8377; 0</h4>
-                                                    </div>
-                                                    <div class="stWalletIcon1">
-                                                        <i class="fa-solid fa-wallet"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-12 col-sm-6 col-12">
-                                            <div class="card rounded-4 p-3 stWalletCard2">
-                                                <div class="d-flex justify-content-between">
-                                                    <div class="">
-                                                        <p class="mb-1 fs-6 fw-bold">Pending Payout</p>
-                                                        <h4 class="fw-bolder text-dark mb-1" id="total_pending_earning">&#8377; 0</h4>
-                                                    </div>
-                                                    <div class="stWalletIcon2">
-                                                        <i class="fa-regular fa-hourglass"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- <div class="row d-flex justify-content-center">
-                                        <div class="col-lg-5">
-                                            <a href="#">
-                                                <div class="stWalletBtn">
-                                                    <p class="fs-5 mb-0 fw-bolder">Withdraw <i class="fa-solid fa-arrow-right"></i></p>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div> -->
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card section 4 -->
-                        <div class="row mt-3">
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="cardChart card border-1">
-                                    <div class="card-title d-flex justify-content-between p-2">
-                                        <p class="commission-title fs-5">Customer Count (Yearly)</p>
-                                        <p class="">
-                                            <select class="form-select yearSelect py-1" id="yearFilter">
-                                                
-                                            </select>
-                                        </p>
-                                    </div>
-                                    <div class="card-body">
-                                        <canvas id="customerTrendChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="cardChart card border-1">
-                                    <div class="card-title d-flex justify-content-between p-2">
-                                        <p class="commission-title fs-5">Techno Enterprise Enrollment Count (Yearly)</p>
-                                        <p class="">
-                                            <select class="form-select yearSelect py-1" id="enrollmentYearFilter">
-                                            </select>
-                                        </p>
-                                    </div>
-                                    <div class="card-body">
-                                        <canvas id="enrollmentTrendChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <!-- Card section 5 -->
-                        <div class="row">
-                            <div class="col-lg-5 col-sm-12 col-12">
-
-                                <div class="card rounded-4 border-1 p-3 h-100">
-
+                         <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-12 col-12 mb-3">
+                                <div class="card rounded-4 border-1 p-3 mb-0">
                                     <div class="card-title d-flex justify-content-between align-items-center">
-
                                         <p class="commission-title fs-5 mb-0">
                                             Recent Activities
                                         </p>
-<!-- 
                                         <a href="#" class="fs-6 fw-bold">
                                             View All
-                                        </a> -->
-
+                                        </a>
                                     </div>
-
-                                    <div
-                                        class="cardDetails mt-3"
-                                        id="recentActivitiesContainer"
-                                    >
-
-                                        <div class="text-center py-4">
-                                            Loading...
+                                    <div class="cardDetails" id="#">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <div class="d-flex gap-2">
+                                                <div class="tcPackageIcon tcPackageIcon1">
+                                                    <i class="fa-solid fa-user-group fa-xl"></i>
+                                                </div>
+                                                <p class="mb-0 align-content-center fs-6 fw-bold">Added a new Neo Select Cusomer</p>
+                                            </div>
+                                            <p class="text-muted mb-0 align-content-center">10:30 AM</p>
                                         </div>
-
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <div class="d-flex gap-2">
+                                                <div class="tcPackageIcon tcPackageIcon1">
+                                                    <i class="fa-solid fa-user-group fa-xl"></i>
+                                                </div>
+                                                <p class="mb-0 align-content-center fs-6 fw-bold">Customer Priya Dessai activated holiday account</p>
+                                            </div>
+                                            <p class="text-muted mb-0 align-content-center">09:45 AM</p>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <div class="d-flex gap-2">
+                                                <div class="tcPackageIcon tcPackageIcon1">
+                                                    <i class="fa-solid fa-user-group fa-xl"></i>
+                                                </div>
+                                                <p class="mb-0 align-content-center fs-6 fw-bold">New booking from Rahul Kumar</p>
+                                            </div>
+                                            <p class="text-muted mb-0 align-content-center">Yesterday</p>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <div class="d-flex gap-2">
+                                                <div class="tcPackageIcon tcPackageIcon1">
+                                                    <i class="fa-solid fa-user-group fa-xl"></i>
+                                                </div>
+                                                <p class="mb-0 align-content-center fs-6 fw-bold">Commission of &#8377;500 earned from activation</p>
+                                            </div>
+                                            <p class="text-muted mb-0 align-content-center">Yesterday</p>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <div class="d-flex gap-2">
+                                                <div class="tcPackageIcon tcPackageIcon1">
+                                                    <i class="fa-solid fa-user-group fa-xl"></i>
+                                                </div>
+                                                <p class="mb-0 align-content-center fs-6 fw-bold">Follow up done with Anita Mehta</p>
+                                            </div>
+                                            <p class="text-muted mb-0 align-content-center">Yesterday</p>
+                                        </div>
                                     </div>
-
                                 </div>
-
                             </div>
-                            <div class="col-lg-7 col-sm-12 col-12">
-                                <div class="card rounded-4 border-1 p-3">
-                                    <div class="card-title d-flex justify-content-start">
-                                        <p class="commission-title fs-5 mb-1">
-                                            Techno Enterprise Performance
-                                        </p>
+                            <div class="col-lg-7 col-md-7 col-sm-12 col-12 mb-3">
+                                <div class="card border-1 p-3 rounded-4 mb-0">
+                                    <h5 class="fw-bold mb-4">Commission Breakdown</h5>
+                                    <div class="row align-items-center">
+                                        <!-- Donut Chart -->
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-12 text-center">
+                                            <div class="chart-wrapper">
+                                                <div id="commissionChart"></div>
+
+                                                <div class="chart-center">
+                                                    <h4>₹ 24,000</h4>
+                                                    <p>Total Commission</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Legend -->
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                                            <div class="mb-4">
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <span class="legend-dot bg-primary"></span>
+                                                    <span class="fw-semibold ms-2">From Activation</span>
+                                                </div>
+                                                <p class="mb-0 text-secondary ms-4">
+                                                    ₹ 18,000 (75%)
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <span class="legend-dot bg-success"></span>
+                                                    <span class="fw-semibold ms-2">From Trip Completed</span>
+                                                </div>
+                                                <p class="mb-0 text-secondary ms-4">
+                                                    ₹ 6,000 (25%)
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="cardDetails">
-                                        <table class="table">
-                                            <thead>
-                                                <tr class="table-active">
-                                                    <th scope="col">TE Name</th>
-                                                    <th scope="col">No. of Travel Consultants</th>
-                                                    <th scope="col">Neo Select Members</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tePerformanceBody">
-                                                
-                                            </tbody>
-                                        </table>
+                                    <div class="mt-4 fw-medium text-secondary">
+                                        More activations and completed trips = More earnings! 🎉
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                         </div>
                         <!-- card section 6 -->
                         <div class="supportImagePosition mt-2">
                             <img src="../assets/images/supportImage.png" alt="Referral Image" class="supportImage">
@@ -1035,6 +896,7 @@
         <script src="../assets/js/app.js"></script>
         <!-- Chart -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
         <!-- <script src="../assets/libs/chart.js/Chart-2.5.0.min.js"></script> -->
 
 
@@ -1134,810 +996,6 @@
 
             });
 
-        </script>
-        <!-- dialer logic -->
-        
-        <script>
-            
-            let commissionChart = null;
-            let customerTrendChart;
-
-            function initializeCustomerTrendChart() {
-
-                const months = [
-                    'Jan','Feb','Mar','Apr','May','Jun',
-                    'Jul','Aug','Sep','Oct','Nov','Dec'
-                ];
-
-                customerTrendChart = new Chart(
-                    document.getElementById('customerTrendChart'),
-                    {
-                        type: 'line',
-                        data: {
-                            labels: months,
-                            datasets: [{
-                                label: 'Customers',
-                                data: Array(12).fill(0),
-                                borderColor: '#2F6BFF',
-                                backgroundColor: function(context) {
-
-                                    const chart = context.chart;
-                                    const ctx = chart.ctx;
-                                    const chartArea = chart.chartArea;
-
-                                    if (!chartArea) {
-                                        return null;
-                                    }
-
-                                    const gradient = ctx.createLinearGradient(
-                                        0,
-                                        chartArea.top,
-                                        0,
-                                        chartArea.bottom
-                                    );
-
-                                    gradient.addColorStop(
-                                        0,
-                                        'rgba(47,107,255,0.30)'
-                                    );
-
-                                    gradient.addColorStop(
-                                        1,
-                                        'rgba(47,107,255,0.02)'
-                                    );
-
-                                    return gradient;
-                                },
-                                fill: true,
-                                tension: 0.4,
-                                pointRadius: 4,
-                                pointHoverRadius: 6,
-                                pointBackgroundColor: '#2F6BFF'
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: {
-                                    display: false
-                                }
-                            },
-                            scales: {
-                                x: {
-                                    grid: {
-                                        display: false
-                                    }
-                                },
-                                y: {
-                                    beginAtZero: true,
-                                    grid: {
-                                        color: '#edf1f7'
-                                    }
-                                }
-                            }
-                        }
-                    }
-                );
-
-            }
-            let yearsLoaded = false;
-
-            function loadCustomerTrendChart(year = '') {
-
-                $.ajax({
-                    url: 'models/dashboard/ste_cust_line_chart_data.php',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        year: year
-                    },
-                    success: function(res) {
-
-                        if (!res.status) {
-                            return;
-                        }
-
-                        /*
-                        |--------------------------------------------------------------------------
-                        | Load Years Only Once
-                        |--------------------------------------------------------------------------
-                        */
-
-                        if (!yearsLoaded) {
-
-                            let options = '';
-
-                            $.each(res.data.years, function(i, year) {
-
-                                options += `
-                                    <option value="${year}">
-                                        ${year}
-                                    </option>
-                                `;
-
-                            });
-
-                            $('#yearFilter').html(options);
-
-                            $('#yearFilter').val(
-                                res.data.selected_year
-                            );
-
-                            yearsLoaded = true;
-                        }
-
-                        /*
-                        |--------------------------------------------------------------------------
-                        | Chart Data
-                        |--------------------------------------------------------------------------
-                        */
-
-                        let chartData = Array(12).fill(0);
-
-                        $.each(
-                            res.data.customer_trend,
-                            function(index, item) {
-
-                                let monthIndex =
-                                    parseInt(item.month_no) - 1;
-
-                                chartData[monthIndex] =
-                                    parseInt(item.customer_count) || 0;
-                            }
-                        );
-
-                        customerTrendChart.data.datasets[0].data =
-                            chartData;
-
-                        customerTrendChart.update();
-
-                    }
-                });
-
-            }
-            function initializeChart() {
-
-                const canvas = document.getElementById('commissionChart');
-
-                if (!canvas) {
-                    return;
-                }
-
-                const ctx = canvas.getContext('2d');
-
-                // Destroy existing chart if any
-                if (commissionChart) {
-                    commissionChart.destroy();
-                }
-
-                commissionChart = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: [
-                            'Recruitment Commission',
-                            'Neo Select Commission',
-                            'Booking Commission'
-                        ],
-                        datasets: [{
-                            data: [1],
-                            backgroundColor: ['#E5E7EB'],
-                            borderWidth: 3,
-                            borderColor: '#fff'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        cutout: '70%',
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        }
-                    }
-                });
-            }
-
-            function loadData() {
-
-                /*
-                |--------------------------------------------------------------------------
-                | User & Dashboard Counts
-                |--------------------------------------------------------------------------
-                */
-
-                $.when(
-
-                    $.ajax({
-                        url: 'models/dashboard/ste_model.php',
-                        type: 'POST',
-                        dataType: 'json'
-                    }),
-
-                    $.ajax({
-                        url: 'models/dashboard/ste_dash_card_data.php',
-                        type: 'POST',
-                        dataType: 'json'
-                    })
-
-                ).done(function (userRes, dashRes) {
-
-                    const user = userRes[0];
-                    const dash = dashRes[0];
-
-                    if (user.status && user.data) {
-
-                        $('#userName').text(
-                            (user.data.firstname || '') +
-                            ' ' +
-                            (user.data.lastname || '')
-                        );
-
-                    }
-
-                    if (dash.status && dash.data) {
-
-                        $('#teCount').text(dash.data.te_count || 0);
-                        $('#tcCount').text(dash.data.tc_count || 0);
-                        $('#cuCount').text(dash.data.cu_count || 0);
-                        $('#total_com').text('\u20B9' + (dash.data.all_earning || 0));
-                        $('#total_paid_earning').text('\u20B9' + (dash.data.all_paid_earning || 0));
-                        $('#total_pending_earning').text('\u20B9' + (dash.data.all_pending_earning || 0));
-
-                    }
-
-                }).fail(function (xhr, status, error) {
-
-                    console.error('Dashboard Error:', error);
-
-                });
-
-
-                /*
-                |--------------------------------------------------------------------------
-                | Commission Chart Data
-                |--------------------------------------------------------------------------
-                */
-
-                $.ajax({
-                    url: 'models/dashboard/ste_com_piechart_data.php',
-                    type: 'POST',
-                    dataType: 'json',
-
-                    success: function (res) {
-
-                        if (!res.status || !res.data) {
-                            return;
-                        }
-
-                        const recruitmentAmount =
-                            Number(res.data.recruitment?.amount || 0);
-
-                        const neoAmount =
-                            Number(res.data.neo_select?.amount || 0);
-
-                        const bookingAmount =
-                            Number(res.data.booking?.amount || 0);
-
-                        const totalEarnings =
-                            Number(res.data.total_earnings || 0);
-
-
-                        /*
-                        |--------------------------------------------------------------------------
-                        | Amounts
-                        |--------------------------------------------------------------------------
-                        */
-
-                        $('#recruitmentAmount').text(
-                            '\u20B9' + recruitmentAmount.toLocaleString('en-IN')
-                        );
-
-                        $('#neoAmount').text(
-                            '\u20B9' + neoAmount.toLocaleString('en-IN')
-                        );
-
-                        $('#bookingAmount').text(
-                            '\u20B9' + bookingAmount.toLocaleString('en-IN')
-                        );
-
-                        $('#totalEarnings').text(
-                            '\u20B9' + totalEarnings.toLocaleString('en-IN')
-                        );
-
-
-                        /*
-                        |--------------------------------------------------------------------------
-                        | Percentages
-                        |--------------------------------------------------------------------------
-                        */
-
-                        const recruitmentPercent =
-                            Number(res.data.recruitment?.percentage || 0);
-
-                        const neoPercent =
-                            Number(res.data.neo_select?.percentage || 0);
-
-                        const bookingPercent =
-                            Number(res.data.booking?.percentage || 0);
-
-                        $('#recruitmentPercent').text(
-                            recruitmentPercent.toFixed(1) + '%'
-                        );
-
-                        $('#neoPercent').text(
-                            neoPercent.toFixed(1) + '%'
-                        );
-
-                        $('#bookingPercent').text(
-                            bookingPercent.toFixed(1) + '%'
-                        );
-
-
-                        /*
-                        |--------------------------------------------------------------------------
-                        | Growth Percentage (Optional)
-                        |--------------------------------------------------------------------------
-                        */
-
-                        if ($('#growthPercentage').length) {
-
-                            const growth =
-                                Number(
-                                    res.data.month_comparison?.growth_percentage || 0
-                                );
-
-                            $('#growthPercentage').text(
-                                growth.toFixed(1) + '%'
-                            );
-
-                        }
-
-
-                        /*
-                        |--------------------------------------------------------------------------
-                        | Center Text
-                        |--------------------------------------------------------------------------
-                        */
-
-                        if (totalEarnings <= 0) {
-                            $('.center-text p').text('No Earnings Yet');
-                        } else {
-                            $('.center-text p').text('Total Earnings');
-                        }
-
-
-                        /*
-                        |--------------------------------------------------------------------------
-                        | Update Doughnut Chart
-                        |--------------------------------------------------------------------------
-                        */
-
-                        if (commissionChart) {
-
-                            const chartTotal =
-                                recruitmentPercent +
-                                neoPercent +
-                                bookingPercent;
-
-                            if (chartTotal <= 0) {
-
-                                commissionChart.data.datasets[0].data = [1];
-
-                                commissionChart.data.datasets[0].backgroundColor = [
-                                    '#E5E7EB'
-                                ];
-
-                            } else {
-
-                                commissionChart.data.datasets[0].data = [
-                                    recruitmentPercent,
-                                    neoPercent,
-                                    bookingPercent
-                                ];
-
-                                commissionChart.data.datasets[0].backgroundColor = [
-                                    '#5B2EFF',
-                                    '#2563EB',
-                                    '#00C46A'
-                                ];
-
-                            }
-
-                            commissionChart.update();
-
-                        }
-
-                    },
-
-                    error: function (xhr, status, error) {
-
-                        console.error(
-                            'Commission Chart Error:',
-                            error
-                        );
-
-                    }
-
-                });
-
-            }
-
-            let enrollmentTrendChart;
-            let enrollmentYearsLoaded = false;
-
-            function initializeEnrollmentTrendChart() {
-
-                const months = [
-                    'Jan','Feb','Mar','Apr','May','Jun',
-                    'Jul','Aug','Sep','Oct','Nov','Dec'
-                ];
-
-                const ctx =
-                    document.getElementById('enrollmentTrendChart');
-
-                enrollmentTrendChart = new Chart(ctx, {
-
-                    type: 'line',
-
-                    data: {
-
-                        labels: months,
-
-                        datasets: [{
-                            label: 'Enrollments',
-                            data: Array(12).fill(0),
-
-                            borderColor: '#1DB56C',
-
-                            backgroundColor: function(context) {
-
-                                const chart = context.chart;
-                                const ctx = chart.ctx;
-                                const chartArea = chart.chartArea;
-
-                                if (!chartArea) {
-                                    return null;
-                                }
-
-                                const gradient =
-                                    ctx.createLinearGradient(
-                                        0,
-                                        chartArea.top,
-                                        0,
-                                        chartArea.bottom
-                                    );
-
-                                gradient.addColorStop(
-                                    0,
-                                    'rgba(29,181,108,0.30)'
-                                );
-
-                                gradient.addColorStop(
-                                    1,
-                                    'rgba(29,181,108,0.02)'
-                                );
-
-                                return gradient;
-                            },
-
-                            fill: true,
-                            tension: 0.4,
-                            pointRadius: 4,
-                            pointHoverRadius: 6,
-                            pointBackgroundColor: '#1DB56C'
-                        }]
-                    },
-
-                    options: {
-
-                        responsive: true,
-                        maintainAspectRatio: false,
-
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        },
-
-                        scales: {
-
-                            x: {
-                                grid: {
-                                    display: false
-                                }
-                            },
-
-                            y: {
-                                beginAtZero: true,
-                                grid: {
-                                    color: '#edf1f7'
-                                }
-                            }
-
-                        }
-                    }
-
-                });
-
-            }
-            function loadEnrollmentTrendChart(year = '') {
-
-                $.ajax({
-
-                    url: 'models/dashboard/ste_te_line_chart_data.php',
-
-                    type: 'POST',
-
-                    dataType: 'json',
-
-                    data: {
-                        year: year
-                    },
-
-                    success: function(res) {
-
-                        if (!res.status) {
-                            return;
-                        }
-
-                        /*
-                        |--------------------------------------------------------------------------
-                        | Populate Years
-                        |--------------------------------------------------------------------------
-                        */
-
-                        if (!enrollmentYearsLoaded) {
-
-                            let options = '';
-
-                            $.each(res.data.years, function(i, year) {
-
-                                options += `
-                                    <option value="${year}">
-                                        ${year}
-                                    </option>
-                                `;
-
-                            });
-
-                            $('#enrollmentYearFilter')
-                                .html(options)
-                                .val(res.data.selected_year);
-
-                            enrollmentYearsLoaded = true;
-                        }
-
-                        /*
-                        |--------------------------------------------------------------------------
-                        | Chart Data
-                        |--------------------------------------------------------------------------
-                        */
-
-                        let chartData = Array(12).fill(0);
-
-                        $.each(res.data.te_trend, function(i, row) {
-
-                            let monthIndex =
-                                parseInt(row.month_no) - 1;
-
-                            chartData[monthIndex] =
-                                parseInt(row.te_count) || 0;
-
-                        });
-
-                        enrollmentTrendChart.data.datasets[0].data =
-                            chartData;
-
-                        enrollmentTrendChart.update();
-
-                    }
-
-                });
-
-            }
-            function loadTEPerformance() {
-
-                $.ajax({
-                    url: 'models/dashboard/ste_te_performance_data.php',
-                    type: 'POST',
-                    dataType: 'json',
-
-                    success: function(res) {
-
-                        if (!res.status) {
-                            return;
-                        }
-
-                        let html = '';
-
-                        if (res.data.length === 0) {
-
-                            html = `
-                                <tr>
-                                    <td colspan="3" class="text-center py-4">
-                                        No data found
-                                    </td>
-                                </tr>
-                            `;
-
-                        } else {
-
-                            $.each(res.data, function(index, row) {
-
-                                html += `
-                                    <tr>
-                                        <th scope="row">
-                                            ${row.te_name}
-                                        </th>
-
-                                        <td class="text-center">
-                                            ${row.tc_count}
-                                        </td>
-
-                                        <td class="text-center">
-                                            ${row.cu_count}
-                                        </td>
-                                    </tr>
-                                `;
-
-                            });
-
-                        }
-
-                        $('#tePerformanceBody').html(html);
-
-                    },
-
-                    error: function(xhr, status, error) {
-
-                        console.error(
-                            'TE Performance Error:',
-                            error
-                        );
-
-                    }
-
-                });
-
-            }
-            function loadRecentActivities() {
-
-                $.ajax({
-                    url: 'models/dashboard/ste_recent_activity_data.php',
-                    type: 'POST',
-                    dataType: 'json',
-
-                    success: function(res) {
-
-                        if (!res.status) {
-                            return;
-                        }
-
-                        let html = '';
-
-                        $.each(res.data, function(index, row) {
-
-                            let iconClass = 'stRecentIcon1';
-                            let icon = 'fa-user-group';
-                            let textClass = 'text-muted';
-
-                            if (row.type === 'customer') {
-
-                                iconClass = 'stRecentIcon2';
-                                icon = 'fa-user-group';
-
-                            } else if (row.type === 'recruitment') {
-
-                                iconClass = 'stRecentIcon4';
-                                icon = 'fa-indian-rupee-sign';
-                                textClass = 'text-success';
-
-                            } else if (row.type === 'booking') {
-
-                                iconClass = 'stRecentIcon5';
-                                icon = 'fa-indian-rupee-sign';
-                                textClass = 'text-success';
-
-                            }
-
-                            let activityTime = new Date(row.date).toLocaleTimeString(
-                                'en-IN',
-                                {
-                                    hour: '2-digit',
-                                    minute: '2-digit'
-                                }
-                            );
-
-                            html += `
-                                <div class="d-flex justify-content-between mb-3">
-
-                                    <div class="d-flex gap-2">
-
-                                        <div class="tcPackageIcon ${iconClass}">
-                                            <i class="fa-solid ${icon} fa-xl"></i>
-                                        </div>
-
-                                        <div>
-
-                                            <p class="mb-1 fs-6 fw-bold">
-                                                ${row.title}
-                                            </p>
-
-                                            <p class="mb-0 fs-6 ${textClass}">
-                                                ${row.description}
-                                            </p>
-
-                                        </div>
-
-                                    </div
-
-                                </div>
-                            `;
-                        });
-
-                        if (html === '') {
-
-                            html = `
-                                <div class="text-center py-5">
-
-                                    <i class="fa-solid fa-clock-rotate-left fa-3x text-muted mb-3"></i>
-
-                                    <p class="text-muted mb-0">
-                                        No Recent Activities Found
-                                    </p>
-
-                                </div>
-                            `;
-                        }
-
-                        $('#recentActivitiesContainer').html(html);
-
-                    }
-                });
-            }
-            $(document).on(
-                'change',
-                '#enrollmentYearFilter',
-                function() {
-
-                    loadEnrollmentTrendChart(
-                        $(this).val()
-                    );
-
-                }
-            );
-            $(document).on(
-                'change',
-                '#yearFilter',
-                function() {
-
-                    loadCustomerTrendChart(
-                        $(this).val()
-                    );
-
-                }
-            );
-            $(document).ready(function() {
-
-                initializeChart();
-
-                initializeCustomerTrendChart();
-
-                loadData();
-
-                loadCustomerTrendChart();
-                
-                initializeEnrollmentTrendChart();
-
-                loadEnrollmentTrendChart();
-
-                loadTEPerformance();
-
-                loadRecentActivities();
-
-            });
         </script>
         <!-- Most Trending Packages -->
         <script>
@@ -2056,6 +1114,151 @@
                     icon.classList.add("fa-regular");
                 }
             }
+        </script>
+        <script>
+            var options = {
+                series: [75, 25],
+                chart: {
+                    type: 'donut',
+                    height: 200
+                },
+                colors: ['#3366F5', '#A8E6B8'],
+                legend: {
+                    show: false
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    width: 0
+                },
+                plotOptions: {
+                    pie: {
+                        donut: {
+                            size: '75%'
+                        }
+                    }
+                }
+            };
+
+            new ApexCharts(
+                document.querySelector("#commissionChart"),
+                options
+            ).render();
+        </script>
+        <script>
+            const ctx = document.getElementById('customerTrendChart');
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        data: [4, 8, 12, 15, 18, 22],
+                        borderColor: '#3B82F6',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#3B82F6',
+                        pointBorderColor: '#3B82F6',
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        fill: true,
+                        tension: 0.4,
+                        backgroundColor: (context) => {
+                            const chart = context.chart;
+                            const { ctx, chartArea } = chart;
+
+                            if (!chartArea) return null;
+
+                            const gradient = ctx.createLinearGradient(
+                                0,
+                                chartArea.top,
+                                0,
+                                chartArea.bottom
+                            );
+
+                            gradient.addColorStop(0, 'rgba(59,130,246,0.20)');
+                            gradient.addColorStop(1, 'rgba(59,130,246,0.01)');
+
+                            return gradient;
+                        }
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: true
+                        }
+                    },
+
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            border: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#6B7280',
+                                font: {
+                                    weight: '600'
+                                }
+                            }
+                        },
+
+                        y: {
+                            beginAtZero: true,
+                            max: 40,
+                            ticks: {
+                                stepSize: 10,
+                                color: '#6B7280',
+                                font: {
+                                    weight: '600'
+                                }
+                            },
+                            grid: {
+                                color: '#EEF2F7'
+                            },
+                            border: {
+                                display: false
+                            }
+                        }
+                    }
+                },
+
+                plugins: [{
+                    id: 'valueLabels',
+                    afterDatasetsDraw(chart) {
+                        const { ctx } = chart;
+
+                        chart.data.datasets.forEach((dataset, datasetIndex) => {
+                            const meta = chart.getDatasetMeta(datasetIndex);
+
+                            meta.data.forEach((point, index) => {
+                                ctx.save();
+
+                                ctx.fillStyle = '#3B82F6';
+                                ctx.font = 'bold 14px Arial';
+                                ctx.textAlign = 'center';
+
+                                ctx.fillText(
+                                    dataset.data[index],
+                                    point.x,
+                                    point.y - 12
+                                );
+
+                                ctx.restore();
+                            });
+                        });
+                    }
+                }]
+            });
         </script>
     </body>
 </html>
