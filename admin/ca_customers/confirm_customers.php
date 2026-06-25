@@ -305,19 +305,31 @@ if ($result) {
 						'Premium Plus' => ['tc' => 1500, 'te' => 750, 'bm' => 225],
 						'Premium Select' => ['tc' => 1000, 'te' => 500, 'bm' => 150],
 						'Premium Select Lite' => ['tc' => 1000, 'te' => 500, 'bm' => 150],
-						'Neo Select' => ['tc' => 1000, 'te' => 500, 'bm' => 150], // commission for STE, ETE and CTE
+						'Neo Select' => ['tc' => 1000, 'te' => 500, 'bm' => 150, 'st' => 150, 'et' => 45, 'ct' => 13.50 ], // commission for STE, ETE and CTE
 						'Neo Select Ultra' => ['tc' => 1000, 'te' => 500, 'bm' => 150]
 
 					];
 
 					$tc_commi = $commissionRates[$customer_type]['tc'] ?? 0;
 					$te_commi = $commissionRates[$customer_type]['te'] ?? 0;
+
 					$bm_commi = $commissionRates[$customer_type]['bm'] ?? 0; 
-					$bdm_commi = '0';  
+					$bm_commi = $commissionRates[$customer_type]['st'] ?? 0; 
+					
+					$bdm_commi = $commissionRates[$customer_type]['et'] ?? 0; 
+					$bcm_commi = $commissionRates[$customer_type]['ct'] ?? 0; 
+					// $bdm_commi = '0';  
 					
 					$message_bdm = "NA";
 					$commision_bdm = $bdm_commi;  
-					$bm_desig=substr($BmId,0,2) == 'BH'?'BH':(substr($BmId,0,2) == 'BM'?'BM'(substr($BmId,0,2) == 'ST'?'STE':'NA'));
+
+					$prefix = substr($BmId, 0, 2);
+					$designationMap = [
+						'BH' => 'BH',
+						'BM' => 'BM',
+						'ST' => 'STE'
+					];
+					$bm_desig = $designationMap[$prefix] ?? 'NA';
 					
 					$message_bdm = "BDM - ".$BmName." ".$BdmId." earned nothing on onboarding Customer . Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-. With Reference of Business Mentor ".$BmName." ".$BmId.".";
 					$commision_bdm = $bdm_commi;
