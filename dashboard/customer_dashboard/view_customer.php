@@ -95,12 +95,12 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">View Customer</h4>
+                                    <h4 class="mb-sm-0">Refer & Earn</h4>
 
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="<?= $base_url_cust ?>customer_dashboard.php">Dashboard</a></li>
-                                            <li class="breadcrumb-item active">View Customer</li>
+                                            <li class="breadcrumb-item active">Refer & Earn</li>
                                         </ol>
                                     </div>
 
@@ -108,6 +108,76 @@
                             </div>
                         </div>
                         <!-- end page title -->
+                        <!-- Card section 1 -->
+                        <div class="row">
+                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
+                                <div class="card rounded-4 border-1 p-3">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-3 align-content-center">
+                                            <div class="referIcon referIcon1">
+                                                <i class="fa-solid fa-user fa-xl"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-9 col-md-9 col-sm-9 col-9">
+                                            <p class="mb-0 fw-bolder">Total Referrals</p>
+                                            <div class="d-flex justify-content-between">
+                                                <p class="mb-0 fs-5 fw-bolder">0</p>
+                                                <p class="mb-0"><i class="fa-solid fa-user-group fa-lg" style="color: #35239a;"></i></p>
+                                            </div>
+                                            <p class="mb-0 text-muted fs-6">All time</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
+                                <div class="card rounded-4 border-1 p-3">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-3 align-content-center">
+                                            <div class="referIcon referIcon2">
+                                                <i class="fa-solid fa-clock fa-xl"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-9 col-md-9 col-sm-9 col-9">
+                                            <p class="mb-0 fw-bolder">Pending Referrals</p>
+                                            <p class="mb-0 fs-5 fw-bolder">0</p>
+                                            <p class="mb-0 text-muted fs-6">Awaiting registration</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
+                                <div class="card rounded-4 border-1 p-3">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-3 align-content-center">
+                                            <div class="referIcon referIcon3">
+                                                <i class="fa-solid fa-user-check fa-xl"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-9 col-md-9 col-sm-9 col-9">
+                                            <p class="mb-0 fw-bolder">Registered Referrals</p>
+                                            <p class="mb-0 fs-5 fw-bolder">0</p>
+                                            <p class="mb-0 text-muted fs-6">Successfully joined</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
+                                <div class="card rounded-4 border-1 p-3">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-3 align-content-center">
+                                            <div class="referIcon referIcon4">
+                                                <i class="fa-solid fa-gift fa-xl"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-9 col-md-9 col-sm-9 col-9">
+                                            <p class="mb-0 fw-bolder">Rewards Earned</p>
+                                            <p class="mb-0 fs-5 fw-bolder textViolet">&#8377;0</p>
+                                            <p class="mb-0 text-muted fs-6">Total cashback</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="row">
                             <div class="col">
