@@ -178,7 +178,31 @@
                                 </div>
                             </div>
                         </div>
-
+                        <!-- Card section 2 -->
+                        <div class="card rounded-4 border-1 p-3 referalCard">
+                            <div class="referalSize">
+                                <div class="">
+                                    <h3 class="textViolet fw-bolder">Why Referrals Matter?</h3>
+                                    <p class="mb-2 fs-5 text-muted">Share the joy of travel and earn rewards while doing it!</p>
+                                    <div class="d-flex gap-2">
+                                        <p class="mb-2 align-content-center"><i class="fa-regular fa-circle-check text-muted"></i></p>
+                                        <p class="mb-2 fs-5 text-muted">Earn cashback for every friend who joins and travels.</p>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <p class="mb-2 align-content-center"><i class="fa-regular fa-circle-check text-muted"></i></p>
+                                        <p class="mb-2 fs-5 text-muted">More referrals = More savings on your trips.</p>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <p class="mb-2 align-content-center"><i class="fa-regular fa-circle-check text-muted"></i></p>
+                                        <p class="mb-2 fs-5 text-muted">Easy to share, easy to earn!</p>
+                                    </div>
+                                    <p class="mb-2 fs-5 fw-bolder textViolet">Your friends get great travel deals, and you get rewards. It's a win-win!</p>
+                                </div>
+                                <div>
+                                    <img src="../assets/images/referalImage.png" alt="Package" class="referalImageWidth img-fluid w-100">
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col">
 

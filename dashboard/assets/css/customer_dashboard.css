@@ -1004,6 +1004,17 @@ body {
 .textViolet {
     color: #35239a;
 }
+.referalCard {
+    background-color: #f8f7fe;
+}
+.referalImageWidth {
+    width: 100%;
+    height: 200px;
+}
+.referalSize {
+    display: flex;
+    justify-content: space-between;
+}
 /* =========================================
    TABLET + SMALL LAPTOP (1024px)
 ========================================= */
@@ -1196,6 +1207,14 @@ body {
     .donutWrapper {
         width: 180px;
         height: 180px;
+    }
+    .referalSize {
+        display: block;
+        justify-content: space-between;
+    }
+    .referalImageWidth {
+        width: 100%;
+        height: 300px;
     }
 }
 
