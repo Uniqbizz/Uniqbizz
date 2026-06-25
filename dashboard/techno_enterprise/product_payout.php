@@ -30,7 +30,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title> Super Techno Enterprisee | Product Payout </title>
+        <title> Techno Enterprisee | Product Payout </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -133,8 +133,8 @@
                                                                         <p>Previous Payout<span class="fw-bold ms-4"><?php echo "$prevdate" ?></span></p>
                                                                         <?php 
 
-                                                                            $userIdCommi = 'bm_id';
-                                                                            $amtCal = 'bm_amt';
+                                                                            $userIdCommi = 'te_id';
+                                                                            $amtCal = 'te_amt';
 
                                                                             $previousPayout = $conn -> prepare("SELECT SUM(($amtCal)) as previousPayout FROM product_payout WHERE $userIdCommi = '".$userId."' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
                                                                             $previousPayout -> execute();
@@ -161,8 +161,8 @@
                                                                     <div class="m-0 mt-2 p-2">
                                                                         <p>Next Payout<span class="fw-bold date-layout "><?php echo "$date" ?></span></p>
                                                                         <?php 
-                                                                            $userIdCommi = 'bm_id';
-                                                                            $amtCal = 'bm_amt';
+                                                                            $userIdCommi = 'te_id';
+                                                                            $amtCal = 'te_amt';
                                                                             $nextPayout = $conn -> prepare("SELECT SUM(($amtCal)) as nextPayout FROM product_payout WHERE $userIdCommi = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
                                                                             $nextPayout -> execute();
                                                                             $nextPayout -> setFetchMode(PDO::FETCH_ASSOC);
@@ -200,8 +200,8 @@
                                                                         </p>
                                                                     </div>
                                                                     <?php 
-                                                                        $userIdCommi = 'bm_id';
-                                                                        $amtCal = 'bm_amt';
+                                                                        $userIdCommi = 'te_id';
+                                                                        $amtCal = 'te_amt';
 
                                                                         $totalPayout = "SELECT SUM($amtCal) as total_payable FROM product_payout WHERE $userIdCommi = '".$userId."' ";
                                                                         $Payout = $conn -> prepare($totalPayout);
@@ -255,7 +255,7 @@
                                                                             <?php
 
                                                                                 
-                                                                                $sql = "SELECT * FROM `product_payout` WHERE  bm_id = '".$userId."'   ";
+                                                                                $sql = "SELECT * FROM `product_payout` WHERE  te_id = '".$userId."'   ";
                                                                                                                                                                 
                                                                                 $stmt = $conn -> prepare($sql);
                                                                                 $stmt -> execute();
@@ -285,10 +285,10 @@
                                                                                         $no_of_child = $row['no_of_child'] ;
 
                                                                                         //customer part remaining
-                                                                                        $id = $row['bm_id'];
-                                                                                        $message = $row['bm_mess'];
-                                                                                        $amt = $row['bm_amt'];
-                                                                                        $status = $row['bm_status'];
+                                                                                        $id = $row['te_id'];
+                                                                                        $message = $row['te_mess'];
+                                                                                        $amt = $row['te_amt'];
+                                                                                        $status = $row['te_status'];
                                                                                         $tds = $amt * $tdsPercentage;
                                                                                         $total = $amt - $tds;
                                                                                         
@@ -304,7 +304,11 @@
                                                                                                 echo'
                                                                                                 <td >'.$amt.'</td>
                                                                                                 <td >'.$tds.'</td>
-                                                                                                <td >'.$total.'</td>';
+                                                                                                <td >'.$total.'
+                                                                                                    <a href="payout/forms/product_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$userId.'&date='.$dt.'&message='.$message.'&message_status='.$status.'&commission='.$amt.'">
+                                                                                                        <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
+                                                                                                    </a>
+                                                                                                </td>';
                                                                                                 if($status == '1'){
                                                                                                     echo'<td><span class="badge bg-success fw-bold ms-4">Paid</span></td>';
                                                                                                 }else{
@@ -360,8 +364,8 @@
                                     <div class="d-flex justify-content-between">
                                         <?php 
 
-                                            $userIdCommi = 'bm_id';
-                                            $amtCal = 'bm_amt';
+                                            $userIdCommi = 'te_id';
+                                            $amtCal = 'te_amt';
                                             
                                             $previousPayout = $conn -> prepare("SELECT SUM(($amtCal)) as previousPayout FROM product_payout WHERE $userIdCommi = '".$userId."' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
                                             $previousPayout -> execute();
@@ -378,9 +382,9 @@
                                             }
                                         ?>
                                         
-                                        <!-- <a href="payout/forms/product_payout/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout">
+                                        <a href="payout/forms/product_payout/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout">
                                             <i class="bx bx-download download-icon status1 paystatus" style="font-size: 20px; color: black; margin-left: 20%;"></i>
-                                        </a> -->
+                                        </a>
                                     </div>
                                     
                                     
@@ -431,7 +435,7 @@
                                                 <?php
 
                                                     
-                                                    $sql = "SELECT * FROM `product_payout` WHERE  bm_id = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ";
+                                                    $sql = "SELECT * FROM `product_payout` WHERE  te_id = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ";
                                                                                                         
                                                     $stmt = $conn -> prepare($sql);
                                                     $stmt -> execute();
@@ -463,10 +467,10 @@
 
                                                             //customer part remaining
                                                             
-                                                            $id = $row['bm_id'];
-                                                            $message = $row['bm_mess'];
-                                                            $amt = $row['bm_amt'];
-                                                            $status = $row['bm_status'];
+                                                            $id = $row['te_id'];
+                                                            $message = $row['te_mess'];
+                                                            $amt = $row['te_amt'];
+                                                            $status = $row['te_status'];
                                                             $tds = $amt * $tdsPercentage;
                                                             $total = $amt - $tds;
 
@@ -526,8 +530,8 @@
                                     <div class="d-flex justify-content-between">
                                         <?php 
                                             
-                                            $userIdCommi = 'bm_id';
-                                            $amtCal = 'bm_amt';
+                                            $userIdCommi = 'te_id';
+                                            $amtCal = 'te_amt';
                                             
                                             $nextPayout = $conn -> prepare("SELECT SUM(($amtCal)) as nextPayout FROM product_payout WHERE $userIdCommi = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
                                             $nextPayout -> execute();
@@ -596,7 +600,7 @@
                                                 <?php
 
                                                     
-                                                    $sql = "SELECT * FROM `product_payout` WHERE  bm_id = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."'  ";
+                                                    $sql = "SELECT * FROM `product_payout` WHERE  te_id = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."'  ";
                                                                                                         
                                                     $stmt = $conn -> prepare($sql);
                                                     $stmt -> execute();
@@ -627,10 +631,10 @@
 
                                                             //customer part remaining
                                                             
-                                                            $id = $row['bm_id'];
-                                                            $message = $row['bm_mess'];
-                                                            $amt = $row['bm_amt'];
-                                                            $status = $row['bm_status'];
+                                                            $id = $row['te_id'];
+                                                            $message = $row['te_mess'];
+                                                            $amt = $row['te_amt'];
+                                                            $status = $row['te_status'];
                                                             $tds = $amt * $tdsPercentage;
                                                             $total = $amt - $tds;
 
@@ -692,8 +696,8 @@
                                     <div class="d-flex justify-content-between">
                                         <?php 
                                            
-                                            $userIdCommi = 'bm_id';
-                                            $amtCal = 'bm_amt';
+                                            $userIdCommi = 'te_id';
+                                            $amtCal = 'te_amt';
                                             
                                             $totalPayout = "SELECT SUM($amtCal) as total_payable FROM product_payout WHERE $userIdCommi = '".$userId."' ";
                                             $Payout = $conn -> prepare($totalPayout);
@@ -776,7 +780,7 @@
                                                 <?php
 
                                                     
-                                                    $sql = "SELECT * FROM `product_payout` WHERE  bm_id = '".$userId."'   ";
+                                                    $sql = "SELECT * FROM `product_payout` WHERE  te_id = '".$userId."'   ";
                                                                                                         
                                                     $stmt = $conn -> prepare($sql);
                                                     $stmt -> execute();
@@ -807,10 +811,10 @@
 
                                                             //customer part remaining
                                                             
-                                                            $id = $row['bm_id'];
-                                                            $message = $row['bm_mess'];
-                                                            $amt = $row['bm_amt'];
-                                                            $status = $row['bm_status'];
+                                                            $id = $row['te_id'];
+                                                            $message = $row['te_mess'];
+                                                            $amt = $row['te_amt'];
+                                                            $status = $row['te_status'];
                                                             $tds = $amt * $tdsPercentage;
                                                             $total = $amt - $tds;
 
