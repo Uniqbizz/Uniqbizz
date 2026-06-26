@@ -207,6 +207,7 @@ if ($result) {
 							$BmName = $row10['registrant'];
 						}
 					}
+
 					//if TE ref is a BM
 					if(substr($BmId,0,2) == 'BM'){
 						//bm details
@@ -236,6 +237,53 @@ if ($result) {
 							$commision_bdm = $bdm_commi;
 						}
 					}
+
+					//if TE ref is a STE
+					else if(substr($BmId,0,2) == 'ST'){
+						//STE details
+						$sql11 = $conn->prepare("SELECT * FROM super_techno_enterprise WHERE super_techno_enterprise_id = '".$BmId."'");
+						$sql11->execute();
+						$sql11->setFetchMode(PDO::FETCH_ASSOC);
+						if($sql11->rowCount()>0){
+							foreach(($sql11->fetchAll()) as $key11 => $row11){
+								$BmId = $row11['super_techno_enterprise_id'];
+								$BmName = $row11['firstname']. ' ' .$row11['lastname'];
+								$BdmId = $row11['reference_no'];
+								$BdmName = $row11['registrant'];
+							}
+						}
+						
+						//ETE deatils
+						$sql12 = $conn->prepare("SELECT * FROM 	executive_techno_enterprise WHERE executive_techno_enterprise_id = '".$BdmId."'");
+						$sql12->execute();
+						$sql12->setFetchMode(PDO::FETCH_ASSOC);
+						if($sql12->rowCount()>0){
+							foreach(($sql12->fetchAll()) as $key12 => $row12){
+								$BdmId = $row12['executive_techno_enterprise_id'];
+								$BdmName = $row12['firstname']. ' ' .$row12['lastname'];
+								$cteId = $row12['reference_no'];
+								$cteName = $row12['registrant'];
+							}
+						}
+
+						//CTE deatils (Not require as we are getting it directly from ETE reference columns)
+						// $sql13 = $conn->prepare("SELECT * FROM 	chief_techno_enterprise WHERE chief_techno_enterprise_id = '".$BdmId."'");
+						// $sql13->execute();
+						// $sql13->setFetchMode(PDO::FETCH_ASSOC);
+						// if($sql13->rowCount()>0){
+						// 	foreach(($sql13->fetchAll()) as $key13 => $row13){
+						// 		$BdmId = $row13['chief_techno_enterprise_id'];
+						// 		$BdmName = $row13['firstname']. ' ' .$row13['lastname'];
+						// 	}
+						// }
+
+						// if no commission is their
+						$message_cte = "CTE - ".$cteName." ".$cteId." earned nothing on onboarding Customer . Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-. With Reference of Super Techno Enterprise ".$BdmName." ".$BdmId.".";
+						// if  commission is their
+						// $message_cte = "CTE - ".$cteName." ".$cteId." earned Rs.".$cte_commi."/- on onboarding Customer . Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-. With Reference of Super Techno Enterprise ".$BdmName." ".$BdmId.".";
+						$commision_cte = '0';
+					}
+
 					//if TE ref is BDM
 					else if(substr($BmId,0,2) == 'BH'){
 												
@@ -258,19 +306,34 @@ if ($result) {
 						'Premium Plus' => ['tc' => 1500, 'te' => 750, 'bm' => 225],
 						'Premium Select' => ['tc' => 1000, 'te' => 500, 'bm' => 150],
 						'Premium Select Lite' => ['tc' => 1000, 'te' => 500, 'bm' => 150],
-						'Neo Select' => ['tc' => 1000, 'te' => 500, 'bm' => 150],
+						'Neo Select' => ['tc' => 1000, 'te' => 500, 'bm' => 150, 'st' => 150, 'et' => 45, 'ct' => 13.50 ], // commission for STE, ETE and CTE
 						'Neo Select Ultra' => ['tc' => 1000, 'te' => 500, 'bm' => 150]
 
 					];
 
 					$tc_commi = $commissionRates[$customer_type]['tc'] ?? 0;
 					$te_commi = $commissionRates[$customer_type]['te'] ?? 0;
+
 					$bm_commi = $commissionRates[$customer_type]['bm'] ?? 0; 
-					 
+					$bm_commi = $commissionRates[$customer_type]['st'] ?? 0; 
+					
+					$bdm_commi = $commissionRates[$customer_type]['et'] ?? 0; 
+					$bcm_commi = $commissionRates[$customer_type]['ct'] ?? 0; 
+					// $bdm_commi = '0';  
 					
 					$message_bdm = "NA";
 					$commision_bdm = $bdm_commi;  
-					$bm_desig=substr($BmId,0,2) == 'BH'?'BH':(substr($BmId,0,2) == 'BM'?'BM':'NA');
+
+					$prefix = substr($BmId, 0, 2);
+					$designationMap = [
+						'BH' => 'BH',
+						'BM' => 'BM',
+						'ST' => 'STE'
+					];
+					$bm_desig = $designationMap[$prefix] ?? 'NA';
+					
+					$message_bdm = "BDM - ".$BmName." ".$BdmId." earned nothing on onboarding Customer . Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-. With Reference of Business Mentor ".$BmName." ".$BmId.".";
+					$commision_bdm = $bdm_commi;
 		
 					$message_bm = $bm_desig ." - ".$BmName." ".$BmId." earned Rs.".$bm_commi."/- on onboarding Customer . Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-. With Reference of Techno Enterprise ".$te_name." ".$te_id.".";
 					$commision_bm = $bm_commi;
@@ -760,6 +823,10 @@ if ($result) {
 				$insertCAL = $conn -> prepare($insertCALSql);
 				$result4 = $insertCAL -> execute(array(
 		
+					':cte_id' => $cteId ?? '',
+					':message_cte' => $message_cte ?? '',
+					':commision_cte' => $commision_cte ?? '',
+
 					':business_development_manager' => $BdmId,
 					':message_bdm' => $message_bdm,
 					':commision_bdm' => $commision_bdm,

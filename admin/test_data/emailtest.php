@@ -50,6 +50,18 @@ $tablename = $_POST["tablename"];
     $tname='sub_franchisee';
 }else if($tablename == 30){
     $tname='sponsor_franchisee';
+}else if($tablename == 31){
+    $tname='zonal_manager';
+}else if($tablename == 32){
+    $tname='institution';
+}else if($tablename == 33){
+    $tname='institution_branch_manager';
+}else if($tablename == 34){
+    $tname='executive_techno_enterprise';
+}else if($tablename == 35){
+    $tname='super_techno_enterprise';
+}else if($tablename == 36){
+    $tname='chief_techno_enterprise';
 }else{
     
 }

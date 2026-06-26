@@ -127,7 +127,7 @@
                                                     <tr>
                                                         <th>Id</th>
                                                         <th>Full Name</th>
-                                                        <th>Reference ID / Name</th>
+                                                        <!-- <th>Reference ID / Name</th> -->
                                                         <th>Phone / Email</th>
                                                         <th>Address</th>
                                                         <th>Joining Date</th>
@@ -181,9 +181,6 @@
                                                                 echo '<tr>
                                                                     <td>' . $row['id'] . '</td>
                                                                     <td>' . $label . $row['firstname'] . ' ' . $row['lastname'] . '</td>
-                                                                    <td><p class="mb-1">' . $row['reference_no'] . '</p>
-                                                                        <p class="mb-0">' . $row['registrant'] . '</p>
-                                                                    </td>
                                                                     <td>
                                                                         <p class="mb-1">+' . $row['country_code'] . ' ' . $row['contact_no'] . '</p>
                                                                         <p class="mb-0">' . $row['email'] . '</p>
@@ -225,7 +222,7 @@
                                                                                                                 "' . strtolower($row['user_type']) . '"
                                                                                                                 )\' 
                                                                                                                 class="dropdown-item" data-bs-toggle="modal" >
-                                                                                                                    <i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit
+                                                                                                                    <i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Verify / Edit
                                                                                     </a>
                                                                                 </li>
                                                                                 <li>
@@ -241,7 +238,7 @@
                                                                                 </li>
                                                                                 <li>
                                                                                     <a href="#" 
-                                                                                        onclick=\'confirmfunc(
+                                                                                        onclick=\'openConfirmModal(
                                                                                                                 "' . $row["id"] . '",
                                                                                                                 "' . $row["email"] . '",
                                                                                                                 "' . strtolower($row['user_type']) . '"
@@ -296,7 +293,7 @@
                                                                                                                 "' . strtolower($row['user_type']) . '"
                                                                                                                 )\' 
                                                                                                                 class="dropdown-item" data-bs-toggle="modal" >
-                                                                                                                    <i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> View / Edit
+                                                                                                                    <i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit
                                                                                     </a>
                                                                                 </li>
                                                                                 <li>
@@ -882,29 +879,52 @@
                 
             };
 
-            function confirmfunc(id,email,usertype){ 
+            function openConfirmModal(id, email, usertype){
+                $("#confirm_id").val(id);
+                $("#confirm_email").val(email);
+                $("#confirm_usertype").val(usertype);
+            }
 
-                var dataString = 'id='+ id+'&uname='+email+'&usertype='+usertype;
-                $("#loading-overlay").show(); //loading screen
+            $('#confirmItemModal').on('hidden.bs.modal', function () {
+                $("#confirm_id").val('');
+                $("#confirm_email").val('');
+                $("#confirm_usertype").val('');
+                $("#confirm_remark").val('');
+            });
+            
+            $("#confirmNowBtn").click(function () {
+
+                var id = $("#confirm_id").val();
+                var email = $("#confirm_email").val();
+                var usertype = $("#confirm_usertype").val();
+                var remark = $("#confirm_remark").val().trim();
+
+                if (remark == "") {
+                    alert("Please enter remark");
+                    return;
+                }
+                var dataString = 'id='+ id+'&email='+email+'&usertype='+usertype+'&remark='+remark;
+                // console.log(dataString);
+                $("#loading-overlay").show();
+
                 $.ajax({
                     type: "POST",
                     url: "confirmChiefTechno.php",
                     data: dataString,
-                    cache: false,
-                    success:function(data){
-                        if(data == 1){
-                            $("#loading-overlay").hide(); //loading screen
-                            alert("Email and Password sent via sms and email");
-                            window.location.reload();
-                        }
-                        else{
-                            $("#loading-overlay").hide(); //loading screen
+                    success: function (data) {
+
+                        $("#loading-overlay").hide();
+
+                        if (data == 1) {
+                            alert("Email and Password sent via SMS and Email");
+                            location.reload();
+                        } else {
                             alert("Failed to confirm");
                         }
                     }
                 });
-                
-            };
+
+            });
 
             function overviewPage(id,ref,cut,st,ct,message){
 

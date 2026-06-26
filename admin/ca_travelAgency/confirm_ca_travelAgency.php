@@ -182,6 +182,50 @@ if ($user_type_id == '11') {
 							$bm_commi = '0'; 
 							$message_bm = "BDM - ".$BmName." ".$BmId." commission not applicable on recruting Travel Consultant . Name of the Travel Consultant - " .$name." ".$uid. ". Recruitment Fee - Rs.".$amount."/-. With Reference of Techno Enterprise ".$te_name." ".$te_id.".";
 							$commision_bm = $bm_commi;
+						} else if($ref_id == "ST"){
+							//STE details
+							$sql11 = $conn->prepare("SELECT * FROM super_techno_enterprise WHERE super_techno_enterprise_id = '".$BmId."'");
+							$sql11->execute();
+							$sql11->setFetchMode(PDO::FETCH_ASSOC);
+							if($sql11->rowCount()>0){
+								foreach(($sql11->fetchAll()) as $key11 => $row11){
+									$BmId = $row11['super_techno_enterprise_id'];
+									$BmName = $row11['firstname']. ' ' .$row11['lastname'];
+									$BdmId = $row11['reference_no'];
+									$BdmName = $row11['registrant'];
+								}
+							}
+							
+							//ETE deatils
+							$sql12 = $conn->prepare("SELECT * FROM 	executive_techno_enterprise WHERE executive_techno_enterprise_id = '".$BdmId."'");
+							$sql12->execute();
+							$sql12->setFetchMode(PDO::FETCH_ASSOC);
+							if($sql12->rowCount()>0){
+								foreach(($sql12->fetchAll()) as $key12 => $row12){
+									$BdmId = $row12['executive_techno_enterprise_id'];
+									$BdmName = $row12['firstname']. ' ' .$row12['lastname'];
+									$BcmId = $row12['reference_no'];
+									$BcmName = $row12['registrant'];
+								}
+							}
+
+							//CTE deatils (Not require as we are getting it directly from ETE reference columns)
+							// $sql13 = $conn->prepare("SELECT * FROM 	chief_techno_enterprise WHERE chief_techno_enterprise_id = '".$BdmId."'");
+							// $sql13->execute();
+							// $sql13->setFetchMode(PDO::FETCH_ASSOC);
+							// if($sql13->rowCount()>0){
+							// 	foreach(($sql13->fetchAll()) as $key13 => $row13){
+							// 		$BdmId = $row13['chief_techno_enterprise_id'];
+							// 		$BdmName = $row13['firstname']. ' ' .$row13['lastname'];
+							// 	}
+							// }
+							if($amount == "FOC"){
+								$bm_commi = '0'; 
+							}else{
+								$bm_commi = '300'; 
+							}
+							$message_bm = "STE - ".$BmName." ".$BmId." earned Rs.".$bm_commi."/- on recruting Travel Consultant . Name of the Travel Consultant - " .$name." ".$uid. ". Recruitment Fee - Rs.".$amount."/-. With Reference of Techno Enterprise ".$te_name." ".$te_id.".";
+							$commision_bm = $bm_commi;
 						}
 							
 						if($amount == "FOC"){
@@ -429,7 +473,7 @@ if ($user_type_id == '11') {
 						$ca_ta_amt_paid = $amount;
 	
 					}
-	
+
 					$insertCALSql = "INSERT INTO `ca_ta_payout` (business_mentor, message_bm, commision_bm, techno_enterprise, message_te, commision_te, travel_consultant, message_tc, tc_amt_paid, status) VALUES (:business_mentor, :message_bm, :commision_bm,  :techno_enterprise, :message_te, :commision_te, :travel_consultant, :message_tc, :tc_amt_paid, :status) ";
 					$insertCAL = $conn -> prepare($insertCALSql);
 					$result4 = $insertCAL -> execute(array(

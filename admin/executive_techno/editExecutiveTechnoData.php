@@ -6,7 +6,7 @@ $current_year = date('Y');
 
 // additional information to check if user is registered or not
 $ref_id = $_POST["ref_id"]; // reference of the user - ETE260003
-$editfor = $_POST["editfor"]; // pending or confirm
+$editfor = $_POST["editfor"]; // pending or registered
 $identifier_id = $_POST["id"]; // ExecutiveTE id value if user is not confirmed - 11 , if confirmed - STE2600011
 
 // Personal Details
@@ -273,7 +273,7 @@ try {
         $stmt8 = $conn->prepare($sql8);
         $result8 = $stmt8->execute([
             ':email' => $email,
-            ':user_id' => $ref_id,
+            ':user_id' => $identifier_id,
             ':user_type_id' => $user_type_id
         ]);
     }

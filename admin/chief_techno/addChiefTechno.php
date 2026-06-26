@@ -138,7 +138,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 											<div class="col-md-6 col-sm-6">
 												<div class="input-block mb-3">
 													<label class="col-form-label">Date of Birth <span class="text-danger">*</span></label>
-													<input class="form-control" type="date" id="dob" max="<?php echo $ageLimit; ?>">
+													<input class="form-control" type="date" id="dob" value="1900-01-01" max="<?php echo $ageLimit; ?>">
 												</div>
 											</div>
 											<div class="col-md-6 col-sm-12">
@@ -178,7 +178,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 													<div class="col-md-8 col-sm-8 col-9">
 														<div class="input-block">
 															<label class="col-form-label">Phone Number <span class="text-danger">*</span></label>
-															<input class="form-control" type="number" id="phone" placeholder="Enter Phone Number">
+															<input class="form-control" type="tel" id="phone" placeholder="Enter Phone Number" maxlength="10">
 														</div>
 													</div>
 												</div>
@@ -210,7 +210,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 													<div class="col-md-8 col-sm-8 col-9">
 														<div class="input-block">
 															<label class="col-form-label">Alt Phone Number <span class="text-danger">*</span></label>
-															<input class="form-control" type="number" id="altPhone" placeholder="Enter Alternative Phone Number">
+															<input class="form-control" type="tel" id="altPhone" placeholder="Enter Alternative Phone Number" maxlength="10">
 														</div>
 													</div>
 												</div>
@@ -477,7 +477,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 													<div class="col-md-8 col-sm-8 col-9">
 														<div class="input-block">
 															<label class="col-form-label">Nominee Phone Number <span class="text-danger">*</span></label>
-															<input class="form-control" type="number" id="nomineePhone" placeholder="Enter Nominee Phone Number">
+															<input class="form-control" type="tel" id="nomineePhone" placeholder="Enter Nominee Phone Number" maxlength="10">
 														</div>
 													</div>
 												</div>
@@ -485,7 +485,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 											<div class="col-md-6 col-sm-6">
 												<div class="input-block mb-3">
 													<label class="col-form-label">Date of Birth <span class="text-danger">*</span></label>
-													<input class="form-control" type="date" id="nomineeDob" max="<?php echo $ageLimit; ?>">
+													<input class="form-control" type="date" id="nomineeDob" value="1900-01-01" max="<?php echo $ageLimit; ?>">
 												</div>
 											</div>
 											<div class="col-md-12 col-sm-6">
@@ -660,7 +660,12 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 										</div>
 										<input type="hidden" id="testValue" name="testValue" value="36"> <!-- Chief TE -->
 										<div class="d-flex justify-content-center mb-4">
-											<button type="submit" class="btn btn-primary px-5 py-2" id="addChiefTechnoEnterprise">Submit</button>
+											<div class="col-md-4 col-sm-6">
+                                                <button class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="saveDraftAdd">Save as Draft</button>
+											</div>
+											<div class="col-md-4 col-sm-6">
+												<button type="submit" class="btn btn-primary px-5 py-2" id="addChiefTechnoEnterprise">Submit</button>
+											</div>
 										</div>
 									</form>
 								</div>

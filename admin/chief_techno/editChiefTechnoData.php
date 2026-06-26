@@ -6,10 +6,14 @@ $current_year = date('Y');
 
 // additional information to check if user is registered or not
 $ref_id = $_POST["ref_id"]; // reference of the user - ETE260003
-$editfor = $_POST["editfor"]; // pending or confirm
+$editfor = $_POST["editfor"]; // pending or registered
 $identifier_id = $_POST["id"]; // ChiefTE id value if user is not confirmed - 11 , if confirmed - STE2600011
+$application_id_no = $_POST["application_id"]; // application_id
 
 // Personal Details
+$verification_status  = $_POST['verification_status'] ?? '';
+$reject_reason        = $_POST['reject_reason'] ?? '';
+$actionType           = $_POST['action_type'] ?? ''; // submit OR draft
 $designation          = $_POST['designation'] ?? '';
 $user_id_name         = $_POST['user_id_name'] ?? '';
 $reference_name       = $_POST['reference_name'] ?? '';
@@ -73,21 +77,49 @@ $business_profile               = $_POST['business_profile'] ?? '';
 $income_proof                   = $_POST['income_proof'] ?? '';
 $other_document                 = $_POST['other_document'] ?? '';
 
-$title = "Chief Techno Enterprise";
 $register_by = "1";
 $fromWhom = "1";
-$operation = "Update";
 $user_type_id = "34";
+$operation = "Update";
+$title="Chief Techo Enterprise";
+$message2 = "";
+$resubmittedStatus = "";
+
+// check if at least one rejected field found - will be used for inserting data in user_verification table
+$verificationStatus = json_decode($verification_status, true);
+$hasRejected = in_array('rejected', $verificationStatus ?? []);
+$hasApproved = in_array('approved', $verificationStatus ?? []) && !in_array('rejected', $verificationStatus ?? []);
 
 $birthYear = !empty($bdate) ? date('Y', strtotime($bdate)) : $current_year;
 $age = $current_year - $birthYear;
 
+$stmtResubmit = $conn->prepare("SELECT * FROM `user_verification` WHERE application_id= :application_id ORDER BY id DESC LIMIT 1");
+$stmtResubmit->execute([':application_id' => $application_id_no]);
+$stmtResubmit->setFetchMode(PDO::FETCH_ASSOC);
+if ($stmtResubmit->rowCount() > 0) {
+    foreach (($stmtResubmit->fetchAll()) as $rowResubmitted) {
+        $actionType = 'Resubmitted';
+    }
+}
+
 try {
 
     if ($editfor == 'pending') {
+        if($actionType == 'draft'){
+            $message = "Chief Techno Enterprise Form Saved as draft by Admin from Pending list";
+            $status= '4';
+        }else if($actionType == 'Resubmitted'){
+            $message = "Chief Techno Enterprise Form Resubmitted by Admin from Pending list";
+            $status= '2';
+        }else if($actionType == 'submit'){
+            $message = "Chief Techno Enterprise Form Edited by Admin from Pending list";
+            $status= '2';
+        }
         $stmt = $conn->prepare("SELECT application_id FROM chief_techno_enterprise WHERE id = :id");
         $stmt->execute([':id' => $identifier_id]);
-    } else {
+    } else if ($editfor == 'registered') {
+        $message = "Chief Techno Enterprise Form Edited by Admin from Registed List";
+        $status= '1';
         $stmt = $conn->prepare("SELECT application_id FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = :id");
         $stmt->execute([':id' => $identifier_id]);
     }
@@ -120,7 +152,8 @@ try {
         state=:state,
         city=:city,
         pincode=:pincode,
-        address=:address
+        address=:address,
+        status=:status
         WHERE application_id=:application_id");
 
     $stmt1->execute([
@@ -142,6 +175,7 @@ try {
         ':city'=>$city,
         ':pincode'=>$pincode,
         ':address'=>$address,
+        ':status'=>$status,
         ':application_id'=>$application_id
     ]);
 
@@ -249,9 +283,9 @@ try {
         ':application_id'=>$application_id
     ]);
 
-    $message = ($editfor == 'pending')
-        ? "Updated Chief Techno Enterprise details from pending list"
-        : $identifier_id . " details updated from registered list";
+    // $message = ($editfor == 'pending')
+    //     ? "Updated Chief Techno Enterprise details from pending list111"
+    //     : $identifier_id . " details updated from registered list";
 
     $stmt7 = $conn->prepare("INSERT INTO logs
         (title,message,message2,reference_no,register_by,from_whom,operation)
@@ -261,7 +295,7 @@ try {
     $stmt7->execute([
         ':title'=>$title,
         ':message'=>$message,
-        ':message2'=>$message,
+        ':message2'=>$message2,
         ':reference_no'=>$ref_id,
         ':register_by'=>$register_by,
         ':from_whom'=>$fromWhom,
@@ -271,11 +305,114 @@ try {
     if($editfor == 'registered'){
         $sql8 = "UPDATE login SET username = :email WHERE user_id = :user_id AND user_type_id = :user_type_id";
         $stmt8 = $conn->prepare($sql8);
-        $result8 = $stmt8->execute([
+        $stmt8->execute([
             ':email' => $email,
-            ':user_id' => $ref_id,
+            ':user_id' => $identifier_id,
             ':user_type_id' => $user_type_id
         ]);
+    }
+
+    $stmt9 = $conn->prepare("INSERT INTO user_logs
+        (application_id,title,message,reference_no,operation,from_whom)
+        VALUES
+        (:application_id,:title,:message,:reference_no,:operation,:from_whom)");
+
+    $stmt9->execute([
+        ':application_id'=>$application_id,
+        ':title'=>$title,
+        ':message'=>$message,
+        ':reference_no'=>$register_by,
+        ':operation'=>$operation,
+        ':from_whom'=>$fromWhom
+    ]);
+
+    // code updated show resubmitted form value
+    if($editfor == "pending"){
+        if($actionType == "submit"){
+            if($hasRejected){
+                $stmt10 = $conn->prepare("INSERT INTO user_verification
+                    (application_id,rejection_reason,payload,verified_by,status)
+                    VALUES
+                    (:application_id,:rejection_reason,:payload,:verified_by,:status)");
+
+                $stmt10->execute([
+                    ':application_id'=>$application_id,
+                    ':rejection_reason'=>$reject_reason,
+                    ':payload'=>$verification_status,
+                    ':verified_by'=>$fromWhom,
+                    ':status'=> 2
+                ]);
+            }else if($hasApproved){
+                $stmt10 = $conn->prepare("INSERT INTO user_verification
+                    (application_id,approved_reason,payload,verified_by,status)
+                    VALUES
+                    (:application_id,:approved_reason,:payload,:verified_by,:status)");
+
+                $stmt10->execute([
+                    ':application_id'=>$application_id,
+                    ':approved_reason'=>"Admin has approved all the fields",
+                    ':payload'=>$verification_status,
+                    ':verified_by'=>$fromWhom,
+                    ':status'=> 1
+                ]);
+            }
+            // else {
+            //     $stmt10 = $conn->prepare("INSERT INTO user_verification
+            //         (application_id,approved_reason,payload,verified_by,status)
+            //         VALUES
+            //         (:application_id,:approved_reason,:payload,:verified_by,:status)");
+
+            //     $stmt10->execute([
+            //         ':application_id'=>$application_id,
+            //         ':approved_reason'=>"Approved without Marking Varification checks",
+            //         ':payload'=>$verification_status,
+            //         ':verified_by'=>$fromWhom,
+            //         ':status'=> 1
+            //     ]);
+            // }
+        }else if($actionType == "Resubmitted"){
+            if($hasRejected){
+                $stmt10 = $conn->prepare("INSERT INTO user_verification
+                    (application_id,rejection_reason,payload,verified_by,status)
+                    VALUES
+                    (:application_id,:rejection_reason,:payload,:verified_by,:status)");
+
+                $stmt10->execute([
+                    ':application_id'=>$application_id,
+                    ':rejection_reason'=>$reject_reason,
+                    ':payload'=>$verification_status,
+                    ':verified_by'=>$fromWhom,
+                    ':status'=> 3
+                ]);
+            } else if($hasApproved){
+                $stmt10 = $conn->prepare("INSERT INTO user_verification
+                    (application_id,approved_reason,payload,verified_by,status)
+                    VALUES
+                    (:application_id,:approved_reason,:payload,:verified_by,:status)");
+
+                $stmt10->execute([
+                    ':application_id'=>$application_id,
+                    ':approved_reason'=>"Admin has approved all the fields",
+                    ':payload'=>$verification_status,
+                    ':verified_by'=>$fromWhom,
+                    ':status'=> 1
+                ]);
+            }
+            // else {
+            //     $stmt10 = $conn->prepare("INSERT INTO user_verification
+            //         (application_id,approved_reason,payload,verified_by,status)
+            //         VALUES
+            //         (:application_id,:approved_reason,:payload,:verified_by,:status)");
+
+            //     $stmt10->execute([
+            //         ':application_id'=>$application_id,
+            //         ':approved_reason'=>"Approved without Marking Varification checks",
+            //         ':payload'=>$verification_status,
+            //         ':verified_by'=>$fromWhom,
+            //         ':status'=> 1
+            //     ]);
+            // }
+        }
     }
 
     $conn->commit();
@@ -286,6 +423,9 @@ try {
     if ($conn->inTransaction()) {
         $conn->rollBack();
     }
+
+    // Uncomment for debugging
+    echo $e->getMessage();
 
     echo 0;
 }
