@@ -9,7 +9,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title>Edit Super Techno Enterprise List | Customer</title>
+        <title>Edit Super Techno Enterprise List</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -1672,22 +1672,17 @@
                         $('#branchName').val(data.branch_name)
                         loadExistingFile(
                             '[data-index="2"]',
-                            data.pan_card
+                            data.aadhar_card
                         );
 
                         loadExistingFile(
                             '[data-index="3"]',
-                            data.aadhar_card
+                            data.pan_card
                         );
 
                         loadExistingFile(
                             '[data-index="4"]',
                             data.cancelled_cheque_bank_passbook
-                        );
-
-                        loadExistingFile(
-                            '[data-index="4"]',
-                            data.bank_passbook
                         );
 
                         loadExistingFile(

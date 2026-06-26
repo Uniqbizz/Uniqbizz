@@ -33,14 +33,6 @@
                     )
                     +
                     (
-                        SELECT COALESCE(SUM(commission_cte),0)
-                        FROM sub_franchisee_payout
-                        WHERE cte_id = :user_id
-                        AND MONTH(created_date)=:current_month
-                        AND YEAR(created_date)=:current_year
-                    )
-                    +
-                    (
                         SELECT COALESCE(SUM(commission_emp),0)
                         FROM institution_payout
                         WHERE employees = :user_id
@@ -93,14 +85,6 @@
                     (
                         SELECT COALESCE(SUM(ete_amount),0)
                         FROM techno_enterprise_payout
-                        WHERE cte_id = :user_id
-                        AND MONTH(created_date)=:prev_month
-                        AND YEAR(created_date)=:prev_year
-                    )
-                    +
-                    (
-                        SELECT COALESCE(SUM(commission_cte),0)
-                        FROM sub_franchisee_payout
                         WHERE cte_id = :user_id
                         AND MONTH(created_date)=:prev_month
                         AND YEAR(created_date)=:prev_year

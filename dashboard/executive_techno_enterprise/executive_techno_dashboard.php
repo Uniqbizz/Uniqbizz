@@ -1001,47 +1001,6 @@
                                     pointHoverRadius: 6,
                                     pointBackgroundColor: '#1DB56C'
                                 },
-
-                                {
-                                    label: 'SF',
-                                    data: Array(12).fill(0),
-                                    borderColor: '#3B82F6',
-                                    backgroundColor: '#3B82F6',
-                                    backgroundColor: function(context) {
-
-                                        const chart = context.chart;
-                                        const ctx = chart.ctx;
-                                        const chartArea = chart.chartArea;
-
-                                        if (!chartArea) {
-                                            return null;
-                                        }
-
-                                        const gradient = ctx.createLinearGradient(
-                                            0,
-                                            chartArea.top,
-                                            0,
-                                            chartArea.bottom
-                                        );
-
-                                        gradient.addColorStop(
-                                            0,
-                                            'rgba(47,107,255,0.30)'
-                                        );
-
-                                        gradient.addColorStop(
-                                            1,
-                                            'rgba(47,107,255,0.02)'
-                                        );
-
-                                        return gradient;
-                                    },
-                                    fill: true,
-                                    tension: 0.4,
-                                    pointRadius: 4,
-                                    pointHoverRadius: 6,
-                                    pointBackgroundColor: '#3B82F6'
-                                },
                                 {
                                     label: 'I',
                                     data: Array(12).fill(0),
@@ -1183,23 +1142,7 @@
 
                         });
 
-                        /*
-                        |--------------------------------------------------------------------------
-                        | SF Data
-                        |--------------------------------------------------------------------------
-                        */
-
-                        let sfData = Array(12).fill(0);
-
-                        $.each(res.data.sf_trend, function(i, row) {
-
-                            let monthIndex =
-                                parseInt(row.month_no) - 1;
-
-                            sfData[monthIndex] =
-                                parseInt(row.sf_count) || 0;
-
-                        });
+                        
                         /*
                         |--------------------------------------------------------------------------
                         | I Data
@@ -1213,7 +1156,7 @@
                             let monthIndex =
                                 parseInt(row.month_no) - 1;
 
-                            sfData[monthIndex] =
+                            iData[monthIndex] =
                                 parseInt(row.i_count) || 0;
 
                         });
@@ -1225,7 +1168,6 @@
                         */
 
                         enrollmentTrendChart.data.datasets[0].data = teData;
-                        enrollmentTrendChart.data.datasets[1].data = sfData;
                         enrollmentTrendChart.data.datasets[2].data = iData;
 
                         enrollmentTrendChart.update();
