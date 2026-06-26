@@ -87,9 +87,9 @@
                         <!-- Card section 2 -->
                         <div class="row">
                             <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                <div class="card rounded-4 p-3 stCard1">
+                                <div class="card rounded-4 p-3 stCard6">
                                     <div class="d-flex gap-3">
-                                        <div class="stIcon stIcon1">
+                                        <div class="stIcon stIcon6">
                                             <i class="fa-solid fa-user-group fa-xl"></i>
                                         </div>
                                         <div class="">
@@ -101,9 +101,9 @@
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                <div class="card rounded-4 p-3 stCard1">
+                                <div class="card rounded-4 p-3 stCard5">
                                     <div class="d-flex gap-3">
-                                        <div class="stIcon stIcon1">
+                                        <div class="stIcon stIcon5">
                                             <i class="fa-solid fa-user-group fa-xl"></i>
                                         </div>
                                         <div class="">
