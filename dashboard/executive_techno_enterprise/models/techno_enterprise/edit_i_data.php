@@ -46,7 +46,7 @@
 
     $message2 = '';
 
-    $user_type  = "29";
+    $user_type  = "32";
     $register_by = $userType;
 
     //commission and incentive 
@@ -90,17 +90,17 @@
         $status = '4';
 
         $message =
-            "Franchisee form saved as draft by {$userId} ({$userFname} {$userLname}) from Add Page";
+            "Institution form saved as draft by {$userId} ({$userFname} {$userLname}) from Add Page";
 
     } else {
 
         $status = '2';
 
         $message =
-            "Added new Franchisee. TE name - {$fname} {$lname}";
+            "Added new Institution. I name - {$fname} {$lname}";
 
         $message2 =
-            "Added new Franchisee by Super Franchisee";
+            "Added new Institution by Executive Techno Enterprise";
     }
 
     /* ---------------- EDIT MODE ---------------- */
@@ -112,16 +112,16 @@
         $identifier_field = 'id';
 
         $message =
-            "Updated Franchisee details from pending list";
+            "Updated Institution details from pending list";
 
         $message2 =
-            "Updated Franchisee details from pending list";
+            "Updated Institution details from pending list";
 
     } elseif ($status == '1') {
 
         $identifier_id = $_POST["id"] ?? '';
 
-        $identifier_field = 'sub_franchisee_id';
+        $identifier_field = 'institution_id';
 
         $message =
             $identifier_id . " Details has been updated from registered list";
@@ -142,7 +142,7 @@
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $sql = "
-            UPDATE sub_franchisee SET
+            UPDATE institution SET
 
                 firstname = :firstname,
                 lastname = :lastname,
@@ -264,7 +264,7 @@
 
             $result = $stmt->execute([
 
-                ':title' => 'Franchisee',
+                ':title' => 'Institution',
                 ':message' => $message,
                 ':message2' => $message2,
                 ':reference_no' => $userId,
