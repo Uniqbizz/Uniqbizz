@@ -38,7 +38,7 @@
         <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css" />
         <link rel="stylesheet" href="css/profile.css" />
         <!-- Customer Dashboard CSS -->
-        <link rel="stylesheet" href="../assets/css/execitive_techno_enterprise.css" />
+        <link rel="stylesheet" href="../assets/css/chief_techno_enterprise.css" />
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- add on 11-06-2026 by SV -->
@@ -51,7 +51,7 @@
         <div id="layout-wrapper">
 
             <?php 
-                    include_once 'execitive_techno_header.php'; 
+                    include_once 'chief_techno_header.php'; 
             ?>
 
             <!-- removeNotificationModal -->
@@ -80,7 +80,7 @@
             </div><!-- /.modal -->
             <!-- ========== App Menu ========== -->
             <?php 
-                    include_once 'execitive_techno_sidebar.php'; 
+                    include_once 'chief_techno_sidebar.php'; 
             ?>
 
             <!-- ============================================================== -->
@@ -96,7 +96,7 @@
                                     <h4 class="mb-sm-0">Profile</h4>
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="execitive_techno_dashboard.php">Dashboard</a></li>
+                                            <li class="breadcrumb-item"><a href="chief_techno_dashboard.php">Dashboard</a></li>
                                             <li class="breadcrumb-item active">View Profile</li>
                                         </ol>
                                     </div>
@@ -684,7 +684,7 @@
                     </div> <!-- container-fluid -->
                 </div><!-- End Page-content -->
                 <?php 
-                        include_once "execitive_techno_footer.php"; 
+                        include_once "chief_techno_footer.php"; 
                 ?>
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
