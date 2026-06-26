@@ -95,7 +95,7 @@
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Executive Techno Enterprises</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="eteCount">0</h4>
-                                            <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <a href="executive_techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -109,7 +109,7 @@
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Super Techno Enterprises</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="steCount">0</h4>
-                                            <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <a href="super_techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -123,7 +123,7 @@
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">TE | I</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="teCount">0</h4>
-                                            <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -137,7 +137,7 @@
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">TC | IBR</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="tcCount">0</h4>
-                                            <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <a href="travel_consultants_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -151,7 +151,7 @@
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Customers</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="cuCount">0</h4>
-                                            <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <a href="customers_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -165,7 +165,7 @@
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Total Income</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="total_com">&#8377; 0</h4>
-                                            <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <a href="contracting_payout.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>

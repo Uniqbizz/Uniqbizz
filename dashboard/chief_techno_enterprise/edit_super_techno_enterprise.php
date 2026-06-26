@@ -1687,11 +1687,11 @@
 
                         loadExistingFile(
                             '[data-index="5"]',
-                            data.resume_cv
+                            data.address_proof
                         );
                         loadExistingFile(
                             '[data-index="6"]',
-                            data.address_proof
+                            data.resume_cv
                         );
 
                         loadExistingFile(
