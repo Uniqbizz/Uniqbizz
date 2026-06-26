@@ -144,10 +144,10 @@
                     UPPER(LEFT(ste.gender, 1)),
                     LOWER(SUBSTRING(ste.gender, 2))
                 ) AS per_info_gender
-            FROM execitive_techno_enterprise ste
+            FROM executive_techno_enterprise ste
             LEFT JOIN countries cun
                 ON cun.id = ste.country
-            WHERE ste.execitive_techno_enterprise_id = :user_id
+            WHERE ste.executive_techno_enterprise_id = :user_id
             LIMIT 1
         ");
 

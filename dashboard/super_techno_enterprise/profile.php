@@ -149,7 +149,7 @@
                                         </div>
                                         <div class="align-content-center">
                                             <p class="fs-6 text-dark mb-0">KYC Status</p>
-                                            <p class="fs-5 fw-bold text-dark mb-0">Completed</p>
+                                            <p class="fs-5 fw-bold text-dark mb-0" id="kycStatus">Completed</p>
                                         </div>
                                     </div>
                                 </div>
@@ -160,7 +160,7 @@
                                         </div>
                                         <div class="align-content-center">
                                             <p class="fs-6 text-dark mb-0">Total Documents</p>
-                                            <p class="fs-5 fw-bold text-dark mb-0">5 / 6</p>
+                                            <p class="fs-5 fw-bold text-dark mb-0" id="docCount"></p>
                                         </div>
                                     </div>
                                 </div>
@@ -912,7 +912,29 @@
                         console.log(error);
                     }
                 });
+
                 //status card
+                $.ajax({
+                    url: 'models/profile/sub_title_card.php',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        user_id: '<?= $userId ?>'
+                    },
+                    success: function (response) {
+
+                        if (response.status) {
+
+                            let sub_profile = response.data;
+                            $('#docCount').text(sub_profile.uploaded_files+' / '+sub_profile.total_documents);
+                            $('#kycStatus').text(sub_profile.kyc_status)
+                        }
+                            
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error);
+                    }
+                });
                 //personal information card
                 loadPersonalInfo('<?= $userId ?>');
                 //residential address

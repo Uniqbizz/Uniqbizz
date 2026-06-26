@@ -32,7 +32,7 @@ try {
 
             uv.payload
 
-        FROM execitive_techno_enterprise ste
+        FROM executive_techno_enterprise ste
 
         LEFT JOIN documents doc
             ON doc.application_id = ste.application_id
@@ -40,7 +40,7 @@ try {
         LEFT JOIN user_verification uv
             ON uv.application_id = ste.application_id
 
-        WHERE ste.execitive_techno_enterprise_id = :user_id
+        WHERE ste.executive_techno_enterprise_id = :user_id
 
         LIMIT 1
     ");

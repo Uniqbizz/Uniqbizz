@@ -86,12 +86,13 @@ function submitAddForm(actionType) {
     var userType = $('#userType').val();
 
     // Attachments
-    var profile_pic = $(":hidden#img_path1").val().trim();
-    var aadhar_card = $(":hidden#img_path2").val().trim();
-    var pan_card = $(":hidden#img_path3").val().trim();
-    var passbook = $(":hidden#img_path4").val().trim();
-    var voting_card = $(":hidden#img_path11").val().trim();
-    var payment_proof = $(":hidden#img_path12").val().trim();
+    var profile_pic = aadhar_card = pan_card = passbook = voting_card = payment_proof = '';
+    var profile_pic_file = $("#upload_file1").val().trim();
+    var aadhar_card_file = $("#upload_file2").val().trim();
+    var pan_card_file = $("#upload_file3").val().trim();
+    var passbook_file = $("#upload_file4").val().trim();
+    var voting_card_file = $("#upload_file11").val().trim();
+    var payment_proof_file = $("#upload_file12").val().trim();
     // var note = $("#note").val().trim();
 
 
@@ -159,19 +160,13 @@ function submitAddForm(actionType) {
         } else if (paymentMode !== 'cash' && paymentMode !== 'cheque' && paymentMode !== 'online') {
             alert("Select payment Mode");
             return;
-        } else if (profile_pic === '') {
+        } else if (profile_pic_file === '') {
             alert('Please Upload profile Picture');
             return;
-        } else if (aadhar_card === '') {
+        } else if (aadhar_card_file === '') {
             alert('Please Upload Aadhar Card Picture');
             return;
-        } else if (pan_card === '') {
-            alert('Please Upload Pan Card Picture');
-            return;
-        } else if (passbook === '') {
-            alert('Please Upload Bank Passbook Picture');
-            return;
-        } else if (payment_proof == '') {
+        } else if (payment_proof_file == '') {
             alert("Add Payment Proof");
             return;
         }
@@ -203,6 +198,25 @@ function submitAddForm(actionType) {
         return;
     }
 
+    //get img url only if file exist
+    if (profile_pic_file !== '') {
+        profile_pic = $("#img_path1").val().trim();
+    }
+    if (aadhar_card_file !== '') {
+        aadhar_card = $("#img_path2").val().trim();
+    } 
+    if (pan_card_file !== '') {
+        pan_card = $("#img_path3").val().trim();
+    }
+    if (passbook_file !== '') {
+        passbook = $("#img_path4").val().trim();
+    } 
+    if (payment_proof_file !== '') {
+        payment_proof = $("#img_path12").val().trim();
+    }
+    if (voting_card_file !== '') {
+        voting_card = $("#img_path11").val().trim();
+    }
 
     var dataObj = {
         action_type: actionType, // draft or submit
@@ -323,12 +337,13 @@ function submitEditForm(actionType) {
     var userType = $('#userType').val();
 
     // Attachments
-    var profile_pic = $(":hidden#img_path1").val().trim();
-    var aadhar_card = $(":hidden#img_path2").val().trim();
-    var pan_card = $(":hidden#img_path3").val().trim();
-    var passbook = $(":hidden#img_path4").val().trim();
-    var voting_card = $(":hidden#img_path11").val().trim();
-    var payment_proof = $(":hidden#img_path12").val().trim();
+    var profile_pic = aadhar_card = pan_card = passbook = voting_card = payment_proof = '';
+    var profile_pic_file = $("#upload_file1").val().trim();
+    var aadhar_card_file = $("#upload_file2").val().trim();
+    var pan_card_file = $("#upload_file3").val().trim();
+    var passbook_file = $("#upload_file4").val().trim();
+    var voting_card_file = $("#upload_file11").val().trim();
+    var payment_proof_file = $("#upload_file12").val().trim();
     // var note = $("#note").val().trim();
 
     var dob_year = dob.substring(0, 4);
@@ -388,19 +403,13 @@ function submitEditForm(actionType) {
         } else if (paymentMode !== 'cash' && paymentMode !== 'cheque' && paymentMode !== 'online') {
             alert("Select payment Mode");
             return;
-        } else if (profile_pic === '') {
+        } else if (profile_pic_file === '') {
             alert('Please Upload profile Picture');
             return;
-        } else if (aadhar_card === '') {
+        } else if (aadhar_card_file === '') {
             alert('Please Upload Aadhar Card Picture');
             return;
-        } else if (pan_card === '') {
-            alert('Please Upload Pan Card Picture');
-            return;
-        } else if (passbook === '') {
-            alert('Please Upload Bank Passbook Picture');
-            return;
-        } else if (payment_proof == '') {
+        } else if (payment_proof_file == '') {
             alert("Add Payment Proof");
             return;
         }
@@ -428,7 +437,25 @@ function submitEditForm(actionType) {
         alert("Enter Proper Phone Number");
         return;
     }
-
+    //get img url only if file exist
+    if (profile_pic_file !== '') {
+        profile_pic = $("#img_path1").val().trim();
+    }
+    if (aadhar_card_file !== '') {
+        aadhar_card = $("#img_path2").val().trim();
+    } 
+    if (pan_card_file !== '') {
+        pan_card = $("#img_path3").val().trim();
+    }
+    if (passbook_file !== '') {
+        passbook = $("#img_path4").val().trim();
+    } 
+    if (payment_proof_file !== '') {
+        payment_proof = $("#img_path12").val().trim();
+    }
+    if (voting_card_file !== '') {
+        voting_card = $("#img_path11").val().trim();
+    }
     var dataObj = {
         action_type: actionType, // draft or submit
         editfor:editfor,

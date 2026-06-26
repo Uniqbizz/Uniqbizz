@@ -166,12 +166,6 @@ function submitAddForm(actionType) {
         } else if (aadhar_card_file === '') {
             alert('Please Upload Aadhar Card Picture');
             return;
-        } else if (pan_card_file === '') {
-            alert('Please Upload Pan Card Picture');
-            return;
-        } else if (passbook_file === '') {
-            alert('Please Upload Bank Passbook Picture');
-            return;
         } else if (payment_proof_file == '') {
             alert("Add Payment Proof");
             return;
@@ -413,12 +407,6 @@ function submitEditForm(actionType) {
             return;
         } else if (aadhar_card_file === '') {
             alert('Please Upload Aadhar Card Picture');
-            return;
-        } else if (pan_card_file === '') {
-            alert('Please Upload Pan Card Picture');
-            return;
-        } else if (passbook_file === '') {
-            alert('Please Upload Bank Passbook Picture');
             return;
         } else if (payment_proof_file == '') {
             alert("Add Payment Proof");

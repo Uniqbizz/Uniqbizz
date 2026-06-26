@@ -25,9 +25,9 @@ try {
             bd.branch_name,
             'NA' AS upi_id
         FROM bank_details bd
-        INNER JOIN execitive_techno_enterprise ste
+        INNER JOIN executive_techno_enterprise ste
             ON ste.application_id = bd.application_id
-        WHERE ste.execitive_techno_enterprise_id = :user_id
+        WHERE ste.executive_techno_enterprise_id = :user_id
         LIMIT 1
     ");
 
