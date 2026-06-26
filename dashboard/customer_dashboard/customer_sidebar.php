@@ -34,7 +34,7 @@
                     </a>
                 </li>
                 <li class="nav-item <?= ($current_page == 'order_history.php') ? 'active' : ''; ?>">
-                    <a class="nav-link menu-link" href="<?= $base_url?>order_history.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                    <a class="nav-link menu-link" href="<?= $base_url_cust?>order_history.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-calendar-check-line"></i> <span data-key="t-home">My Bookings</span>
                     </a>
                 </li>
@@ -59,7 +59,7 @@
                     </a>
                 </li>
                 <li class="nav-item <?= ($current_page == 'view_customer.php') ? 'active' : ''; ?>">
-                    <a class="nav-link menu-link" href="<?= $base_url?>view_customer.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                    <a class="nav-link menu-link" href="<?= $base_url_cust?>view_customer.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-group-line"></i> <span data-key="t-home">Refer & Earn</span>
                     </a>
                 </li>
@@ -83,7 +83,7 @@
                     </a>
                 </li>
                 <li class="nav-item <?= ($current_page == 'profile.php') ? 'active' : ''; ?>">
-                    <a class="nav-link menu-link" href="<?= $base_url?>profile.php">
+                    <a class="nav-link menu-link" href="<?= $base_url_cust?>profile.php">
                         <i class="ri-settings-3-line"></i>
                         <span>Settings</span>
                     </a>
@@ -99,7 +99,7 @@
                         </div>
                     </a>
                 </div>
-                <li class="nav-item <?= ($current_page == 'customer_benefit.php') ? 'active' : ''; ?>">
+                <li class="nav-item">
                     <a class="logoutBtn mylogout" href="<?= $base_url?>logout.php">
                         <i class="mdi mdi-logout d-flex justify-content-start align-items-center me-3"></i>
                         <span class="fs-5 mb-0 fw-bolder" data-key="t-logout">Logout</span>

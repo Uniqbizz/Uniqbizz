@@ -5,7 +5,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
-                <img src="<?= $base_url ?>assets/images/img-bot.png" alt="image-bot" class="mb-3">
+                <img src="../assets/images/img-bot.png" alt="image-bot" class="mb-3">
                 <h5 class="fw-bold" id="staticBackdropLabel">
                     Hi, how can we help?
                 </h5>

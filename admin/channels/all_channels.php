@@ -281,7 +281,7 @@ $date = date('Y');
 
             $.ajax({
                 type: 'POST',
-                url: '../payout/forms/get_users',
+                url: '../payout/forms/get_users.php',
                 data: "designation=" + designation,
                 success: function(e) {
                     // console.log(e);

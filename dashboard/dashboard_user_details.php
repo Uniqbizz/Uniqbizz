@@ -3,7 +3,58 @@
     require 'connect.php';
     session_start();
     if(!isset($_SESSION['username2']) || !isset($_SESSION['user_type_id_value']) || !isset($_SESSION['user_id']) ){
-        echo '<script>location.href = "../login.php";</script>';
+        //print_r($_SESSION);
+        //exit;
+?>  
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Session Expired</title>
+
+        <!-- SweetAlert2 CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+        <!-- SweetAlert2 JS -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+        <style>
+            body{
+                margin:0;
+                padding:0;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                height:100vh;
+                background:#f8f9fa;
+                font-family:Arial, Helvetica, sans-serif;
+            }
+        </style>
+    </head>
+    <body>
+
+    <script>
+    Swal.fire({
+        icon: 'warning',
+        title: 'Session Expired',
+        text: 'Your session has expired. Please login again.',
+        confirmButtonText: 'Login',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: true
+    }).then(function(result){
+        if(result.isConfirmed){
+            window.location.href = "../login.php";
+        }
+    });
+    </script>
+
+    </body>
+    </html>
+<?php
+    exit;
+        // echo '<script>location.href = "../login.php";</script>';
     }
 
      $userFname = $_SESSION['username2']; //first name of user 'Ryam'.
@@ -65,6 +116,18 @@
         $sql2 = "SELECT * FROM `institution` WHERE institution_id = '$userId' ";
     }else if($userType == '33'){
         $sql2 = "SELECT * FROM `institution_branch_manager` WHERE institution_branch_manager_id = '$userId' ";
+    }else if($userType == '34'){
+        $sql2 = "SELECT * FROM `executive_techno_enterprise` 
+                 LEFT JOIN documents ON user_id ='$userId'
+                 WHERE executive_techno_enterprise_id = '$userId'";
+    }else if($userType == '35'){
+        $sql2 = "SELECT * FROM `super_techno_enterprise` 
+                 LEFT JOIN documents ON user_id ='$userId'
+                 WHERE super_techno_enterprise_id = '$userId'";
+    }else if($userType == '36'){
+        $sql2 = "SELECT * FROM `chief_techno_enterprise` 
+                 LEFT JOIN documents ON user_id ='$userId'
+                 WHERE chief_techno_enterprise_id = '$userId'";
     }
 
     $stmt = $conn -> prepare($sql2);
@@ -124,6 +187,12 @@
         $directNext = "Franchisee";
     }else if($userType == '31'){ //RM
         $directNext = "Master Franchisee";
+    }else if($userType == '34'){ //ETE
+        $directNext = "Super Techno Enterprice";
+    }else if($userType == '35'){ //STE
+        $directNext = "Techno Enterprice";
+    }else if($userType == '36'){ //CTE
+        $directNext = "Executive Techno Enterprice";
     }
 
     $tdsPercentage=2/100;
