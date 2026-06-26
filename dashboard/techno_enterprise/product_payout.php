@@ -485,7 +485,11 @@
                                                                     echo'
                                                                     <td >'.$amt.'</td>
                                                                     <td >'.$tds.'</td>
-                                                                    <td >'.$total.'</td>';
+                                                                    <td >'.$total.'
+                                                                        <a href="payout/forms/product_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$userId.'&date='.$dt.'&message='.$message.'&message_status='.$status.'&commission='.$amt.'">
+                                                                            <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
+                                                                        </a>
+                                                                    </td>';
                                                                     if($status == '1'){
                                                                         echo'<td><span class="badge bg-success fw-bold ms-4">Paid</span></td>';
                                                                     }else{
@@ -649,7 +653,11 @@
                                                                     echo'
                                                                     <td >'.$amt.'</td>
                                                                     <td >'.$tds.'</td>
-                                                                    <td >'.$total.'</td>';
+                                                                    <td >'.$total.'
+                                                                        <a href="payout/forms/product_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$userId.'&date='.$dt.'&message='.$message.'&message_status='.$status.'&commission='.$amt.'">
+                                                                            <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
+                                                                        </a>
+                                                                    </td>';
                                                                     if($status == '1'){
                                                                         echo'<td><span class="badge bg-success fw-bold ms-4">Paid</span></td>';
                                                                     }else{
@@ -829,7 +837,11 @@
                                                                     echo'
                                                                     <td >'.$amt.'</td>
                                                                     <td >'.$tds.'</td>
-                                                                    <td >'.$total.'</td>';
+                                                                    <td >'.$total.'
+                                                                        <a href="payout/forms/product_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$userId.'&date='.$dt.'&message='.$message.'&message_status='.$status.'&commission='.$amt.'">
+                                                                            <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
+                                                                        </a>
+                                                                    </td>';
                                                                     if($status == '1'){
                                                                         echo'<td><span class="badge bg-success fw-bold ms-4">Paid</span></td>';
                                                                     }else{
