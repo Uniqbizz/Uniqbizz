@@ -212,7 +212,7 @@
                             <!-- <form id="loginForm"> -->
                                 <!-- STEP 1 -->
                                 <div id="step1">
-                                    <div class="text-center mb-3">
+                                    <div class="text-start mb-3">
                                         <div class="icon-circle">
                                             <i class="ri-mail-line"></i>
                                         </div>
@@ -243,7 +243,7 @@
 
                                 <!-- STEP 2 -->
                                 <div id="step2" style="display:none">
-                                    <div class="text-center mb-3">
+                                    <div class="text-start mb-3">
                                         <div class="icon-circle">
                                             <i class="ri-user-line"></i>
                                         </div>
@@ -253,8 +253,10 @@
                                         </p>
                                     </div>
                                     <div class="emailBox mb-3">
-                                        <i class="ri-mail-line"></i>
-                                        <span id="selectedEmail"></span>
+                                        <div>
+                                            <i class="ri-mail-line me-3"></i>
+                                            <span id="selectedEmail"></span>
+                                        </div>
                                         <a href="javascript:void(0)" onclick="backToEmail()">
                                             Change
                                         </a>
@@ -296,7 +298,7 @@
 
                                 <!-- STEP 3 -->
                                 <div id="step3" style="display:none">
-                                    <div class="text-center mb-3">
+                                    <div class="text-start mb-3">
                                         <div class="icon-circle">
                                             <i class="ri-lock-line"></i>
                                         </div>
@@ -306,15 +308,19 @@
                                         </p>
                                     </div>
                                     <div class="emailBox mb-3">
-                                        <i class="ri-mail-line"></i>
-                                        <span id="finalEmail"></span>
+                                        <div>
+                                            <i class="ri-mail-line me-3"></i>
+                                            <span id="finalEmail"></span>
+                                        </div>
                                         <a href="javascript:void(0)" onclick="backToEmail()">
                                             Change
                                         </a>
                                     </div>
                                     <div class="emailBox mb-3">
-                                        <i class="ri-user-line"></i>
-                                        <span id="finalProfile"></span>
+                                        <div>
+                                            <i class="ri-user-line me-3"></i>
+                                            <span id="finalProfile"></span>
+                                        </div>
                                         <a href="javascript:void(0)" onclick="backToProfile()">
                                             Change
                                         </a>
