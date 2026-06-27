@@ -18,7 +18,7 @@ try {
 
     $sqlUserDetails = $conn->prepare("
         SELECT
-            12 AS total_documents,
+            11 AS total_documents,
             (
                 CASE WHEN doc.profile_pic IS NOT NULL AND doc.profile_pic <> '' THEN 1 ELSE 0 END +
                 CASE WHEN doc.aadhar_card IS NOT NULL AND doc.aadhar_card <> '' THEN 1 ELSE 0 END +
@@ -29,7 +29,6 @@ try {
                 CASE WHEN doc.professional_profile IS NOT NULL AND doc.professional_profile <> '' THEN 1 ELSE 0 END +
                 CASE WHEN doc.business_profile IS NOT NULL AND doc.business_profile <> '' THEN 1 ELSE 0 END +
                 CASE WHEN doc.income_proof IS NOT NULL AND doc.income_proof <> '' THEN 1 ELSE 0 END +
-                CASE WHEN doc.payment_proof IS NOT NULL AND doc.payment_proof <> '' THEN 1 ELSE 0 END +
                 CASE WHEN doc.other_document IS NOT NULL AND doc.other_document <> '' THEN 1 ELSE 0 END +
                 CASE WHEN doc.nominee_profile IS NOT NULL AND doc.nominee_profile <> '' THEN 1 ELSE 0 END
             ) AS uploaded_files,

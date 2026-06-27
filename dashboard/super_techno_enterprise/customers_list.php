@@ -425,9 +425,14 @@
                         data: null,
                         render: function(data) {
                             return `
-                                <p class="fs-6 mb-0">
-                                    ${data.firstname || ''} ${data.lastname || ''}
-                                </p>
+                                <div>
+                                    <p class="fs-6 mb-0">
+                                        ${data.firstname || ''} ${data.lastname || ''}
+                                    </p>
+                                    <p class="fs-6 mb-0">
+                                        ${data.ca_customer_id || '-'}
+                                    </p>
+                                </div>
                             `;
                         }
                     },

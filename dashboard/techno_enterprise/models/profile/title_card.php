@@ -18,22 +18,17 @@ try {
 
     $sqlUserDetails = $conn->prepare("
         SELECT
-            ste.executive_techno_enterprise_id AS profile_id,
+            ste.corporate_agency_id AS profile_id,
             CONCAT(ste.firstname, ' ', ste.lastname) AS profile_name,
-            'Executive Techno Enterprise' AS profile_type,
+            'Techno Enterprise' AS profile_type,
             ste.address AS profile_address,
             ste.email AS profile_email,
             ste.country_code AS profile_phone_prefix,
             ste.contact_no AS profile_phone,
             ste.register_date AS profile_since,
-            doc.profile_pic
-            #uv.payload
-        FROM executive_techno_enterprise ste
-        #INNER JOIN user_verification uv
-        #    ON uv.application_id = ste.application_id
-        LEFT JOIN documents doc
-            ON doc.application_id = ste.application_id
-        WHERE ste.executive_techno_enterprise_id = :user_id
+            ste.profile_pic
+        FROM corporate_agency ste
+        WHERE ste.corporate_agency_id = :user_id
         LIMIT 1
     ");
 

@@ -308,7 +308,7 @@
                                     </p>
 
                                     <p class="fs-6 mb-0">
-                                        ${data.ca_travelagency_id || '-'}
+                                        ${data.ref_id || '-'}
                                     </p>
                                 </div>
                             `;
@@ -425,9 +425,14 @@
                         data: null,
                         render: function(data) {
                             return `
-                                <p class="fs-6 mb-0">
-                                    ${data.firstname || ''} ${data.lastname || ''}
-                                </p>
+                                <div>
+                                    <p class="fs-6 mb-0">
+                                        ${data.firstname || ''} ${data.lastname || ''}
+                                    </p>
+                                    <p class="fs-6 mb-0">
+                                        ${data.ca_customer_id || '-'}
+                                    </p>
+                                </div>
                             `;
                         }
                     },
@@ -440,7 +445,7 @@
                                         ${data.ref_firstname || '-'} ${data.ref_lastname || ''}
                                     </p>
                                     <p class="fs-6 mb-0">
-                                        ${data.ca_travelagency_id || '-'}
+                                        ${data.ref_id || '-'}
                                     </p>
                                 </div>
                             `;

@@ -287,7 +287,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                                 <div class="cardChart card border-1">
                                     <div class="card-title d-flex justify-content-between p-2">
-                                        <p class="commission-title fs-5">TE | F | I Enrollment Count (Yearly)</p>
+                                        <p class="commission-title fs-5">TE | I Enrollment Count (Yearly)</p>
                                         <p class="">
                                             <select class="form-select yearSelect py-1" id="enrollmentYearFilter">
                                             </select>
@@ -335,14 +335,14 @@
                                 <div class="card rounded-4 border-1 p-3">
                                     <div class="card-title d-flex justify-content-start">
                                         <p class="commission-title fs-5 mb-1">
-                                            TE | F | I Performance
+                                            TE | I Performance
                                         </p>
                                     </div>
                                     <div class="cardDetails">
                                         <table class="table">
                                             <thead>
                                                 <tr class="table-active">
-                                                    <th scope="col">TE|F|I Name</th>
+                                                    <th scope="col">TE|I Name</th>
                                                     <th scope="col">No. of TC/IBR</th>
                                                     <th scope="col">Neo Select Members</th>
                                                 </tr>

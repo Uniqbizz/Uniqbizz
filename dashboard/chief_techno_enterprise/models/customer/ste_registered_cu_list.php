@@ -41,7 +41,7 @@
                     cu.status,
                     cu.paid_amount,
 
-                    ta.ca_travelagency_id,
+                    ta.ca_travelagency_id AS ref_id,
                     ta.firstname AS ref_firstname,
                     ta.lastname AS ref_lastname,
 
@@ -77,47 +77,9 @@
                     cu.email,
                     cu.register_date,
                     cu.status,
-                    cu.paid_amount,
-
-                    ta.ca_travelagency_id,
-                    ta.firstname AS ref_firstname,
-                    ta.lastname AS ref_lastname,
-
-                    'F' AS ref_type
-
-                FROM ca_customer cu
-
-                INNER JOIN ca_travelagency ta
-                    ON cu.ta_reference_no = ta.ca_travelagency_id
-
-                INNER JOIN sub_franchisee sf
-                    ON ta.reference_no = sf.sub_franchisee_id
-
-                INNER JOIN super_techno_enterprise ste
-                    ON ta.reference_no = ste.super_techno_enterprise_id
-
-                INNER JOIN executive_techno_enterprise ete
-                    ON ste.reference_no = ete.executive_techno_enterprise_id
-
-                WHERE ete.reference_no = :user_id
-                AND cu.status IN (1,3)
-
-                $whereDate
-
-                UNION ALL
-
-                SELECT
-                    cu.id,
-                    cu.ca_customer_id,
-                    cu.firstname,
-                    cu.lastname,
-                    cu.contact_no,
-                    cu.email,
-                    cu.register_date,
-                    cu.status,
                     cu.paid_amount AS amount,
 
-                    ta.institution_branch_manager_id,
+                    ta.institution_branch_manager_id AS ref_id,
                     ta.firstname AS ref_firstname,
                     ta.lastname AS ref_lastname,
 

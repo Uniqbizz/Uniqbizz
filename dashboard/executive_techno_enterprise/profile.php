@@ -537,7 +537,7 @@
                                 <!-- Profile Photo -->
                                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                                     <div class="document-card">
-                                        <input type="file" id="file1" class="file-input d-none" accept="image/*,.pdf" data-preview="preview1" data-view="view1" data-download="download1">
+                                        <input type="file" id="file1" class="file-input d-none" accept="image/*,.pdf" data-preview="preview1" data-view="view1" data-download="download1" disabled>
                                         <label for="file1" class="upload-area">
                                             <span class="document-status verified"  data-document="profile_pic">Verified</span>
                                             <img id="preview1" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
@@ -561,7 +561,7 @@
                                 <!-- Aadhaar -->
                                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                                     <div class="document-card">
-                                        <input type="file" id="file2" class="file-input d-none" accept="image/*,.pdf" data-preview="preview2" data-view="view2" data-download="download2">
+                                        <input type="file" id="file2" class="file-input d-none" accept="image/*,.pdf" data-preview="preview2" data-view="view2" data-download="download2" disabled>
                                         <label for="file2" class="upload-area">
                                             <span class="document-status pending" data-document="aadhar_card">Pending</span>
                                             <img id="preview2" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
@@ -585,7 +585,7 @@
                                 <!-- PAN -->
                                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                                     <div class="document-card">
-                                        <input type="file" id="file3" class="file-input d-none" accept="image/*,.pdf" data-preview="preview3" data-view="view3" data-download="download3">
+                                        <input type="file" id="file3" class="file-input d-none" accept="image/*,.pdf" data-preview="preview3" data-view="view3" data-download="download3" disabled>
                                         <label for="file3" class="upload-area">
                                             <span class="document-status verified" data-document="pan_card">Verified</span>
                                             <img id="preview3" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
@@ -609,7 +609,7 @@
                                 <!-- Passbook -->
                                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                                     <div class="document-card">
-                                        <input type="file" id="file4" class="file-input d-none" accept="image/*,.pdf" data-preview="preview4" data-view="view4" data-download="download4">
+                                        <input type="file" id="file4" class="file-input d-none" accept="image/*,.pdf" data-preview="preview4" data-view="view4" data-download="download4" disabled>
                                         <label for="file4" class="upload-area">
                                             <span class="document-status pending" data-document="cancelled_cheque_bank_passbook">Pending</span>
                                             <img id="preview4" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
@@ -630,10 +630,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Voter -->
+                                <!-- Resume CV -->
                                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                                     <div class="document-card">
-                                        <input type="file" id="file5" class="file-input d-none" accept="image/*,.pdf" data-preview="preview5" data-view="view5" data-download="download5">
+                                        <input type="file" id="file5" class="file-input d-none" accept="image/*,.pdf" data-preview="preview5" data-view="view5" data-download="download5" disabled>
                                         <label for="file5" class="upload-area">
                                             <span class="document-status verified" data-document="resume_cv">Verified</span>
                                             <img id="preview5" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
@@ -654,10 +654,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Payment Proof -->
+                                <!-- Address Proof -->
                                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                                     <div class="document-card">
-                                        <input type="file" id="file6" class="file-input d-none" accept="image/*,.pdf" data-preview="preview6" data-view="view6" data-download="download6">
+                                        <input type="file" id="file6" class="file-input d-none" accept="image/*,.pdf" data-preview="preview6" data-view="view6" data-download="download6" disabled>
                                         <label for="file6" class="upload-area">
                                             <span class="document-status rejected" data-document="address_proof">Rejected</span>
                                             <img id="preview6" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
@@ -673,6 +673,126 @@
                                                 View
                                             </a>
                                             <a id="download6" class="py-1 btn btn-success disabled" download>
+                                                <i class="fa-solid fa-download"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Professional Profile -->
+                                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
+                                    <div class="document-card">
+                                        <!-- <input type="file" id="file6" class="file-input d-none" accept="image/*,.pdf" data-preview="preview6" data-view="view6" data-download="download6" disabled> -->
+                                        <label for="file7" class="upload-area">
+                                            <span class="document-status rejected" data-document="professional_profile">Rejected</span>
+                                            <img id="preview6" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
+                                            <div class="upload-overlay">
+                                                <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                <span>Drag & Drop</span>
+                                                <small>or click to upload</small> -->
+                                            </div>
+                                        </label>
+                                        <p class="text-center fw-semibold mt-2">Professional Profile</p>
+                                        <div class="d-flex gap-2">
+                                            <a id="view7" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
+                                                View
+                                            </a>
+                                            <a id="download7" class="py-1 btn btn-success disabled" download>
+                                                <i class="fa-solid fa-download"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Business Profile -->
+                                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
+                                    <div class="document-card">
+                                        <!-- <input type="file" id="file6" class="file-input d-none" accept="image/*,.pdf" data-preview="preview6" data-view="view6" data-download="download6" disabled> -->
+                                        <label for="file8" class="upload-area">
+                                            <span class="document-status rejected" data-document="business_profile">Rejected</span>
+                                            <img id="preview8" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
+                                            <div class="upload-overlay">
+                                                <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                <span>Drag & Drop</span>
+                                                <small>or click to upload</small> -->
+                                            </div>
+                                        </label>
+                                        <p class="text-center fw-semibold mt-2">Business Profile</p>
+                                        <div class="d-flex gap-2">
+                                            <a id="view8" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
+                                                View
+                                            </a>
+                                            <a id="download8" class="py-1 btn btn-success disabled" download>
+                                                <i class="fa-solid fa-download"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Income Proof -->
+                                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
+                                    <div class="document-card">
+                                        <!-- <input type="file" id="file6" class="file-input d-none" accept="image/*,.pdf" data-preview="preview6" data-view="view6" data-download="download6" disabled> -->
+                                        <label for="file9" class="upload-area">
+                                            <span class="document-status rejected" data-document="income_proof">Rejected</span>
+                                            <img id="preview9" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
+                                            <div class="upload-overlay">
+                                                <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                <span>Drag & Drop</span>
+                                                <small>or click to upload</small> -->
+                                            </div>
+                                        </label>
+                                        <p class="text-center fw-semibold mt-2">Income Proof</p>
+                                        <div class="d-flex gap-2">
+                                            <a id="view9" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
+                                                View
+                                            </a>
+                                            <a id="download9" class="py-1 btn btn-success disabled" download>
+                                                <i class="fa-solid fa-download"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Other Document -->
+                                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
+                                    <div class="document-card">
+                                        <!-- <input type="file" id="file6" class="file-input d-none" accept="image/*,.pdf" data-preview="preview6" data-view="view6" data-download="download6" disabled> -->
+                                        <label for="file10" class="upload-area">
+                                            <span class="document-status rejected" data-document="other_document">Rejected</span>
+                                            <img id="preview10" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
+                                            <div class="upload-overlay">
+                                                <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                <span>Drag & Drop</span>
+                                                <small>or click to upload</small> -->
+                                            </div>
+                                        </label>
+                                        <p class="text-center fw-semibold mt-2">Other Document</p>
+                                        <div class="d-flex gap-2">
+                                            <a id="view10" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
+                                                View
+                                            </a>
+                                            <a id="download10" class="py-1 btn btn-success disabled" download>
+                                                <i class="fa-solid fa-download"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Nominee Profile -->
+                                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
+                                    <div class="document-card">
+                                        <!-- <input type="file" id="file6" class="file-input d-none" accept="image/*,.pdf" data-preview="preview6" data-view="view6" data-download="download6" disabled> -->
+                                        <label for="file11" class="upload-area">
+                                            <span class="document-status rejected" data-document="nominee_profile">Rejected</span>
+                                            <img id="preview11" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
+                                            <div class="upload-overlay">
+                                                <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                <span>Drag & Drop</span>
+                                                <small>or click to upload</small> -->
+                                            </div>
+                                        </label>
+                                        <p class="text-center fw-semibold mt-2">Nominee Profile</p>
+                                        <div class="d-flex gap-2">
+                                            <a id="view11" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
+                                                View
+                                            </a>
+                                            <a id="download11" class="py-1 btn btn-success disabled" download>
                                                 <i class="fa-solid fa-download"></i>
                                             </a>
                                         </div>
@@ -1142,7 +1262,7 @@
 
                         const docs = [
                             {
-                                url: '../../uploading/'+data.profile_pic,
+                                url: data.profile_pic?'../../uploading/'+data.profile_pic:'',
                                 status: verification.profile_pic,
                                 preview: 'preview1',
                                 view: 'view1',
@@ -1150,7 +1270,7 @@
                                 docKey: 'profile_pic'
                             },
                             {
-                                url: '../../uploading/'+data.aadhar_card,
+                                url: data.aadhar_card?'../../uploading/'+data.aadhar_card:'',
                                 status: verification.aadhar_card,
                                 preview: 'preview2',
                                 view: 'view2',
@@ -1158,7 +1278,7 @@
                                 docKey: 'aadhar_card'
                             },
                             {
-                                url: '../../uploading/'+data.pan_card,
+                                url: data.pan_card?'../../uploading/'+data.pan_card:'',
                                 status: verification.pan_card,
                                 preview: 'preview3',
                                 view: 'view3',
@@ -1166,7 +1286,7 @@
                                 docKey: 'pan_card'
                             },
                             {
-                                url: '../../uploading/'+data.cancelled_cheque_bank_passbook,
+                                url: data.cancelled_cheque_bank_passbook?'../../uploading/'+data.cancelled_cheque_bank_passbook:'',
                                 status: verification.bank_passbook,
                                 preview: 'preview4',
                                 view: 'view4',
@@ -1174,7 +1294,7 @@
                                 docKey: 'bank_passbook'
                             },
                             {
-                                url: '../../uploading/'+data.resume_cv,
+                                url: data.resume_cv?'../../uploading/'+data.resume_cv:'',
                                 status: verification.resume_cv,
                                 preview: 'preview5',
                                 view: 'view5',
@@ -1182,7 +1302,7 @@
                                 docKey: 'resume_cv'
                             },
                             {
-                                url: '../../uploading/'+data.address_proof,
+                                url: data.address_proof?'../../uploading/'+data.address_proof:'',
                                 status: verification.address_proof,
                                 preview: 'preview6',
                                 view: 'view6',
@@ -1190,7 +1310,7 @@
                                 docKey: 'address_proof'
                             },
                             {
-                                url: '../../uploading/'+data.professional_profile,
+                                url: data.professional_profile?'../../uploading/'+data.professional_profile:'',
                                 status: verification.professional_profile,
                                 preview: 'preview7',
                                 view: 'view7',
@@ -1198,7 +1318,7 @@
                                 docKey: 'professional_profile'
                             },
                             {
-                                url: '../../uploading/'+data.business_profile,
+                                url: data.business_profile?'../../uploading/'+data.business_profile:'',
                                 status: verification.business_profile,
                                 preview: 'preview8',
                                 view: 'view8',
@@ -1206,7 +1326,7 @@
                                 docKey: 'business_profile'
                             },
                             {
-                                url: '../../uploading/'+data.income_proof,
+                                url: data.income_proof?'../../uploading/'+data.income_proof:'',
                                 status: verification.income_proof,
                                 preview: 'preview9',
                                 view: 'view9',
@@ -1214,7 +1334,7 @@
                                 docKey: 'income_proof'
                             },
                             {
-                                url: '../../uploading/'+data.other_document,
+                                url: data.other_document?'../../uploading/'+data.other_document:'',
                                 status: verification.other_document,
                                 preview: 'preview10',
                                 view: 'view10',
@@ -1222,13 +1342,14 @@
                                 docKey: 'other_document'
                             },
                             {
-                                url: '../../uploading/'+data.nominee_profile,
+                                url: data.nominee_profile?'../../uploading/'+data.nominee_profile:'',
                                 status: verification.nominee_profile,
                                 preview: 'preview11',
                                 view: 'view11',
                                 download: 'download11',
                                 docKey: 'nominee_profile'
                             }
+                            
                         ];
 
                         docs.forEach(function(doc){
@@ -1272,21 +1393,30 @@
                                     'rejected'
                                 );
 
-                                switch((doc.status || '').toLowerCase()){
+                                if (!doc.url) {
 
-                                    case 'approved':
-                                        badge.innerHTML = 'Approved';
-                                        badge.classList.add('verified');
-                                        break;
+                                    badge.innerHTML = 'Pending';
+                                    badge.classList.add('pending');
 
-                                    case 'rejected':
-                                        badge.innerHTML = 'Rejected';
-                                        badge.classList.add('rejected');
-                                        break;
+                                } else {
 
-                                    default:
-                                        badge.innerHTML = 'Pending';
-                                        badge.classList.add('pending');
+                                    switch ((doc.status || 'approved').toLowerCase()) {
+
+                                        case 'approved':
+                                            badge.innerHTML = 'Approved';
+                                            badge.classList.add('verified');
+                                            break;
+
+                                        case 'rejected':
+                                            badge.innerHTML = 'Rejected';
+                                            badge.classList.add('rejected');
+                                            break;
+
+                                        default:
+                                            badge.innerHTML = 'Approved';
+                                            badge.classList.add('verified');
+                                    }
+
                                 }
                             }
 
