@@ -63,7 +63,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="mt-2 text-center">
-                                <lord-icon src="../../../../cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
+                                <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
                                 <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
                                     <h4>Are you sure ?</h4>
                                     <p class="text-muted mx-4 mb-0">Are you sure you want to remove this Notification ?</p>
@@ -595,9 +595,9 @@
                                             <span class="document-status verified" data-document="pan_card">Verified</span>
                                             <img id="preview3" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
                                             <div class="upload-overlay">
-                                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
                                                 <span>Drag & Drop</span>
-                                                <small>or click to upload</small>
+                                                <small>or click to upload</small> -->
                                             </div>
                                         </label>
                                         <p class="text-center fw-semibold mt-2">PAN Card</p>
