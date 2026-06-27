@@ -976,6 +976,48 @@ body {
 .packageDetailBtn:hover a{
     color: #fff;
 }
+/* Refer Earn */
+.referIcon {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.referIcon1 {
+    background-color: #dad6f5;
+    color: #35239a;
+}
+.referIcon2 {
+    background-color: #d0f7d9;
+    color: #068c25;
+}
+.referIcon3 {
+    background-color: #cbdaf1;
+    color: #0d6efd;
+}
+.referIcon4 {
+    background-color: #f2e4cf;
+    color: #f49609;
+}
+.textViolet {
+    color: #35239a;
+}
+.referalCard {
+    background-color: #f8f7fe;
+}
+.referalImageWidth {
+    width: 100%;
+    height: 200px;
+}
+.referalSize {
+    display: flex;
+    justify-content: space-between;
+}
+.pendingData, .registerData {
+    height: 150px;
+}
 /* =========================================
    TABLET + SMALL LAPTOP (1024px)
 ========================================= */
@@ -1168,6 +1210,14 @@ body {
     .donutWrapper {
         width: 180px;
         height: 180px;
+    }
+    .referalSize {
+        display: block;
+        justify-content: space-between;
+    }
+    .referalImageWidth {
+        width: 100%;
+        height: 300px;
     }
 }
 

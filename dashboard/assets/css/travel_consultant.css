@@ -502,28 +502,32 @@ body {
     color: #f49609;
     border: 1px solid #f49609;
     font-weight: 900;
-    padding: 3px 0px;
+    padding: 3px 10px;
+    max-width: fit-content;
 }
 .teDraftBtn {
     background-color: #d8e8ff;
     color: #0996f4;
     border: 1px solid #095bf4;
     font-weight: 900;
-    padding: 3px 0px;
+    padding: 3px 10px;
+    max-width: fit-content;
 }
 .teDeletedBtn {
     background-color: #fee8e8;
     color: #f40909;
     border: 1px solid #f40909;
     font-weight: 900;
-    padding: 3px 5px;
+    padding: 3px 10px;
+    max-width: fit-content;
 }
 .teActiveBtn {
     background-color: #d6fbdf;
     color: #068c25;
     border: 1px solid #068c25;
     font-weight: 900;
-    padding: 3px 0px;
+    padding: 3px 10px;
+    max-width: fit-content;
 }
 .teViewBtn {
     background-color: #fff;
@@ -924,6 +928,32 @@ body {
     border-radius: 20px !important;
     background: #5b5ff6 !important;
 }
+.chart-wrapper{
+    position:relative;
+    width:200px;
+    height:200px;
+}
+
+.chart-center{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    text-align:center;
+    z-index:10;
+}
+
+.chart-center h4{
+    margin:0;
+    font-size:20px;
+    font-weight:700;
+}
+
+.chart-center p{
+    margin:0;
+    font-size:11px;
+    color:#6c757d;
+}
 /* =========================================
    TABLET + SMALL LAPTOP (1024px)
 ========================================= */
@@ -1039,7 +1069,15 @@ body {
    ONLY MOBILE (768px)
 ========================================= */
 
+@media (max-width: 767px) {
+    .table-responsive {
+        overflow-x: auto !important;
+    }
 
+    .table-responsive table {
+        min-width: 700px; /* adjust as needed */
+    }
+}
 
 @media (max-width: 660px) {
     .supportDetails h3 {
