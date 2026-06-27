@@ -114,14 +114,19 @@
                                     <div class="col-lg-10 col-md-10 col-sm-9 col-12 profilePicDetails">
                                         <div class="d-flex gap-3">
                                             <h2 class="fw-bolder text-white" id="profileName"></h2>
-                                            <p class="rounded-pill bg-success text-white fs-6 text-center px-2 py-1" id="verification_status"></span>  
+                                            <p class="rounded-pill bg-success text-white fs-6 text-center mb-0 verificationIcon" id="verification_status"></span>  
                                         </div>
                                         <p class="fs-5 text-white mb-2" id="profileId"><span id="profileType"></span></p>
                                         <p class="fs-5 text-white mb-2">Building Dreams <i class="fa-solid fa-circle mx-2 fa-2xs"></i> Exploring Destinations <i class="fa-solid fa-circle mx-2 fa-2xs"></i> Creating Leaders</p>
-                                        <div class="d-flex gap-3 mb-2 profilePicCard1">
-                                            <p class="fs-5 text-white" id="profileEmail"><i class="fa-regular fa-envelope"></i></p> 
-                                            <p class="fs-5 text-white" id="profilePhone"><i class="fa-solid fa-phone"></i></p> 
-                                            <p class="fs-5 text-white" id="profileAddress"><i class="fa-solid fa-location-dot"></i></p>
+                                        <div class="row mb-2 profilePicCard1">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-12 d-flex gap-3 profilePicCard2">
+                                                <p class="fs-5 text-white" id="profileEmail"><i class="fa-regular fa-envelope"></i></p> 
+                                                <p class="fs-5 text-white" id="profilePhone"><i class="fa-solid fa-phone"></i></p> 
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-12 d-flex gap-1">
+                                                <p class="text-white"><i class="fa-solid fa-location-dot mt-1"></i></p>
+                                                <p class="fs-5 text-white mb-0" id="profileAddress"></p>
+                                            </div>
                                         </div>
                                         <p class="fs-5 text-white" id="profileSince"><i class="fa-regular fa-calendar-days"></i></p>
                                     </div>
