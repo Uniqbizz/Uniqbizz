@@ -1181,7 +1181,7 @@
                         */
 
                         enrollmentTrendChart.data.datasets[0].data = teData;
-                        enrollmentTrendChart.data.datasets[2].data = iData;
+                        enrollmentTrendChart.data.datasets[1].data = iData;
 
                         enrollmentTrendChart.update();
 
