@@ -537,14 +537,14 @@
                                 <!-- Profile Photo -->
                                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                                     <div class="document-card">
-                                        <input type="file" id="file1" class="file-input d-none" accept="image/*,.pdf" data-preview="preview1" data-view="view1" data-download="download1" disabled>
+                                        <!-- <input type="file" id="file1" class="file-input d-none" accept="image/*,.pdf" data-preview="preview1" data-view="view1" data-download="download1" disabled> -->
                                         <label for="file1" class="upload-area">
                                             <span class="document-status verified"  data-document="profile_pic">Verified</span>
                                             <img id="preview1" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
                                             <div class="upload-overlay">
-                                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
                                                 <span>Drag & Drop</span>
-                                                <small>or click to upload</small>
+                                                <small>or click to upload</small> -->
                                             </div>
                                         </label>
                                         <p class="text-center fw-semibold mt-2">Profile Photo</p>
@@ -561,14 +561,14 @@
                                 <!-- Aadhaar -->
                                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                                     <div class="document-card">
-                                        <input type="file" id="file2" class="file-input d-none" accept="image/*,.pdf" data-preview="preview2" data-view="view2" data-download="download2" disabled>
+                                        <!-- <input type="file" id="file2" class="file-input d-none" accept="image/*,.pdf" data-preview="preview2" data-view="view2" data-download="download2" disabled> -->
                                         <label for="file2" class="upload-area">
                                             <span class="document-status pending" data-document="aadhar_card">Pending</span>
                                             <img id="preview2" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
                                             <div class="upload-overlay">
-                                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
                                                 <span>Drag & Drop</span>
-                                                <small>or click to upload</small>
+                                                <small>or click to upload</small> -->
                                             </div>
                                         </label>
                                         <p class="text-center fw-semibold mt-2">Aadhaar Card</p>
@@ -585,14 +585,14 @@
                                 <!-- PAN -->
                                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                                     <div class="document-card">
-                                        <input type="file" id="file3" class="file-input d-none" accept="image/*,.pdf" data-preview="preview3" data-view="view3" data-download="download3" disabled>
+                                        <!-- <input type="file" id="file3" class="file-input d-none" accept="image/*,.pdf" data-preview="preview3" data-view="view3" data-download="download3" disabled> -->
                                         <label for="file3" class="upload-area">
                                             <span class="document-status verified" data-document="pan_card">Verified</span>
                                             <img id="preview3" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
                                             <div class="upload-overlay">
-                                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
                                                 <span>Drag & Drop</span>
-                                                <small>or click to upload</small>
+                                                <small>or click to upload</small> -->
                                             </div>
                                         </label>
                                         <p class="text-center fw-semibold mt-2">PAN Card</p>
@@ -609,14 +609,14 @@
                                 <!-- Passbook -->
                                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                                     <div class="document-card">
-                                        <input type="file" id="file4" class="file-input d-none" accept="image/*,.pdf" data-preview="preview4" data-view="view4" data-download="download4" disabled>
+                                        <!-- <input type="file" id="file4" class="file-input d-none" accept="image/*,.pdf" data-preview="preview4" data-view="view4" data-download="download4" disabled> -->
                                         <label for="file4" class="upload-area">
                                             <span class="document-status pending" data-document="cancelled_cheque_bank_passbook">Pending</span>
                                             <img id="preview4" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
                                             <div class="upload-overlay">
-                                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
                                                 <span>Drag & Drop</span>
-                                                <small>or click to upload</small>
+                                                <small>or click to upload</small> -->
                                             </div>
                                         </label>
                                         <p class="text-center fw-semibold mt-2">Bank Passbook</p>
@@ -633,14 +633,14 @@
                                 <!-- Resume CV -->
                                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                                     <div class="document-card">
-                                        <input type="file" id="file5" class="file-input d-none" accept="image/*,.pdf" data-preview="preview5" data-view="view5" data-download="download5" disabled>
+                                        <!-- <input type="file" id="file5" class="file-input d-none" accept="image/*,.pdf" data-preview="preview5" data-view="view5" data-download="download5" disabled> -->
                                         <label for="file5" class="upload-area">
                                             <span class="document-status verified" data-document="resume_cv">Verified</span>
                                             <img id="preview5" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
                                             <div class="upload-overlay">
-                                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
                                                 <span>Drag & Drop</span>
-                                                <small>or click to upload</small>
+                                                <small>or click to upload</small> -->
                                             </div>
                                         </label>
                                         <p class="text-center fw-semibold mt-2">Resume/CV</p>
@@ -657,14 +657,14 @@
                                 <!-- Address Proof -->
                                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                                     <div class="document-card">
-                                        <input type="file" id="file6" class="file-input d-none" accept="image/*,.pdf" data-preview="preview6" data-view="view6" data-download="download6" disabled>
+                                        <!-- <input type="file" id="file6" class="file-input d-none" accept="image/*,.pdf" data-preview="preview6" data-view="view6" data-download="download6" disabled> -->
                                         <label for="file6" class="upload-area">
                                             <span class="document-status rejected" data-document="address_proof">Rejected</span>
                                             <img id="preview6" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
                                             <div class="upload-overlay">
-                                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
                                                 <span>Drag & Drop</span>
-                                                <small>or click to upload</small>
+                                                <small>or click to upload</small> -->
                                             </div>
                                         </label>
                                         <p class="text-center fw-semibold mt-2">Address Proof</p>
@@ -1291,7 +1291,7 @@
                                 preview: 'preview4',
                                 view: 'view4',
                                 download: 'download4',
-                                docKey: 'bank_passbook'
+                                docKey: 'cancelled_cheque_bank_passbook'
                             },
                             {
                                 url: data.resume_cv?'../../uploading/'+data.resume_cv:'',
