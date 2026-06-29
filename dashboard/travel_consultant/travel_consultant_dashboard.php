@@ -413,48 +413,13 @@
                                         <p class="commission-title fs-5 mb-0">
                                             Recent Activities
                                         </p>
-                                        <a href="#" class="fs-6 fw-bold">
+                                        <!-- <a href="#" class="fs-6 fw-bold">
                                             View All
-                                        </a>
+                                        </a> -->
                                     </div>
                                     <div class="cardDetails" id="recentActivities">
-                                        <div class="d-flex justify-content-between mb-1">
-                                            <div class="d-flex gap-2">
-                                                <div class="tcPackageIcon tcPackageIcon1">
-                                                    <i class="fa-solid fa-user-group fa-xl"></i>
-                                                </div>
-                                                <p class="mb-0 align-content-center fs-6 fw-bold">Added a new Neo Select Cusomer</p>
-                                            </div>
-                                            <p class="text-muted mb-0 align-content-center">10:30 AM</p>
-                                        </div>
-                                        <div class="d-flex justify-content-between mb-1">
-                                            <div class="d-flex gap-2">
-                                                <div class="tcPackageIcon tcPackageIcon2">
-                                                    <i class="fa-solid fa-user-check fa-xl"></i>
-                                                </div>
-                                                <p class="mb-0 align-content-center fs-6 fw-bold">Customer Priya Dessai activated holiday account</p>
-                                            </div>
-                                            <p class="text-muted mb-0 align-content-center">09:45 AM</p>
-                                        </div>
-                                        <div class="d-flex justify-content-between mb-1">
-                                            <div class="d-flex gap-2">
-                                                <div class="tcPackageIcon tcPackageIcon5">
-                                                    <i class="fa-solid fa-plane-departure fa-xl"></i>
-                                                </div>
-                                                <p class="mb-0 align-content-center fs-6 fw-bold">New booking from Rahul Kumar</p>
-                                            </div>
-                                            <p class="text-muted mb-0 align-content-center">Yesterday</p>
-                                        </div>
-                                        <div class="d-flex justify-content-between mb-1">
-                                            <div class="d-flex gap-2">
-                                                <div class="tcPackageIcon tcPackageIcon3">
-                                                    <i class="fa-solid fa-indian-rupee-sign fa-xl"></i>
-                                                </div>
-                                                <p class="mb-0 align-content-center fs-6 fw-bold">Commission of &#8377;500 earned from activation</p>
-                                            </div>
-                                            <p class="text-muted mb-0 align-content-center">Yesterday</p>
-                                        </div>
-                                        <div class="d-flex justify-content-between mb-1">
+                                        <!-- kept the code for future  scope -->
+                                        <!-- <div class="d-flex justify-content-between mb-1">
                                             <div class="d-flex gap-2">
                                                 <div class="tcPackageIcon tcPackageIcon1">
                                                     <i class="fa-solid fa-user fa-xl"></i>
@@ -462,7 +427,7 @@
                                                 <p class="mb-0 align-content-center fs-6 fw-bold">Follow up done with Anita Mehta</p>
                                             </div>
                                             <p class="text-muted mb-0 align-content-center">Yesterday</p>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -476,7 +441,7 @@
                                                 <div id="commissionChart"></div>
 
                                                 <div class="chart-center">
-                                                    <h4>₹ 24,000</h4>
+                                                    <h4 id="totalCommission">₹ 0</h4>
                                                     <p>Total Commission</p>
                                                 </div>
                                             </div>
@@ -488,8 +453,8 @@
                                                     <span class="legend-dot bg-primary"></span>
                                                     <span class="fw-semibold ms-2">From Activation</span>
                                                 </div>
-                                                <p class="mb-0 text-secondary ms-4">
-                                                    ₹ 18,000 (75%)
+                                                <p class="mb-0 text-secondary ms-4" id="activationCommission">
+                                                    ₹ 0 (0%)
                                                 </p>
                                             </div>
                                             <div>
@@ -497,8 +462,8 @@
                                                     <span class="legend-dot bg-success"></span>
                                                     <span class="fw-semibold ms-2">From Trip Completed</span>
                                                 </div>
-                                                <p class="mb-0 text-secondary ms-4">
-                                                    ₹ 6,000 (25%)
+                                                <p class="mb-0 text-secondary ms-4" id="tripCommission">
+                                                    ₹ 0 (0%)
                                                 </p>
                                             </div>
                                         </div>
@@ -794,151 +759,6 @@
             }
         </script>
         <script>
-            var options = {
-                series: [75, 25],
-                chart: {
-                    type: 'donut',
-                    height: 200
-                },
-                colors: ['#3366F5', '#A8E6B8'],
-                legend: {
-                    show: false
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                stroke: {
-                    width: 0
-                },
-                plotOptions: {
-                    pie: {
-                        donut: {
-                            size: '75%'
-                        }
-                    }
-                }
-            };
-
-            new ApexCharts(
-                document.querySelector("#commissionChart"),
-                options
-            ).render();
-        </script>
-        <script>
-            // const ctx = document.getElementById('customerTrendChart');
-
-            // new Chart(ctx, {
-            //     type: 'line',
-            //     data: {
-            //         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-            //         datasets: [{
-            //             data: [4, 8, 12, 15, 18, 22],
-            //             borderColor: '#3B82F6',
-            //             borderWidth: 3,
-            //             pointBackgroundColor: '#3B82F6',
-            //             pointBorderColor: '#3B82F6',
-            //             pointRadius: 4,
-            //             pointHoverRadius: 6,
-            //             fill: true,
-            //             tension: 0.4,
-            //             backgroundColor: (context) => {
-            //                 const chart = context.chart;
-            //                 const { ctx, chartArea } = chart;
-
-            //                 if (!chartArea) return null;
-
-            //                 const gradient = ctx.createLinearGradient(
-            //                     0,
-            //                     chartArea.top,
-            //                     0,
-            //                     chartArea.bottom
-            //                 );
-
-            //                 gradient.addColorStop(0, 'rgba(59,130,246,0.20)');
-            //                 gradient.addColorStop(1, 'rgba(59,130,246,0.01)');
-
-            //                 return gradient;
-            //             }
-            //         }]
-            //     },
-            //     options: {
-            //         responsive: true,
-            //         maintainAspectRatio: false,
-
-            //         plugins: {
-            //             legend: {
-            //                 display: false
-            //             },
-            //             tooltip: {
-            //                 enabled: true
-            //             }
-            //         },
-
-            //         scales: {
-            //             x: {
-            //                 grid: {
-            //                     display: false
-            //                 },
-            //                 border: {
-            //                     display: false
-            //                 },
-            //                 ticks: {
-            //                     color: '#6B7280',
-            //                     font: {
-            //                         weight: '600'
-            //                     }
-            //                 }
-            //             },
-
-            //             y: {
-            //                 beginAtZero: true,
-            //                 max: 40,
-            //                 ticks: {
-            //                     stepSize: 10,
-            //                     color: '#6B7280',
-            //                     font: {
-            //                         weight: '600'
-            //                     }
-            //                 },
-            //                 grid: {
-            //                     color: '#EEF2F7'
-            //                 },
-            //                 border: {
-            //                     display: false
-            //                 }
-            //             }
-            //         }
-            //     },
-
-            //     plugins: [{
-            //         id: 'valueLabels',
-            //         afterDatasetsDraw(chart) {
-            //             const { ctx } = chart;
-
-            //             chart.data.datasets.forEach((dataset, datasetIndex) => {
-            //                 const meta = chart.getDatasetMeta(datasetIndex);
-
-            //                 meta.data.forEach((point, index) => {
-            //                     ctx.save();
-
-            //                     ctx.fillStyle = '#3B82F6';
-            //                     ctx.font = 'bold 14px Arial';
-            //                     ctx.textAlign = 'center';
-
-            //                     ctx.fillText(
-            //                         dataset.data[index],
-            //                         point.x,
-            //                         point.y - 12
-            //                     );
-
-            //                     ctx.restore();
-            //                 });
-            //             });
-            //         }
-            //     }]
-            // });
-        </script>
-        <script>
             const home_url='<?= $home_url ?>';
             $(function () {
                 //title card plus trip slider
@@ -951,7 +771,7 @@
 
                         if (!res.status) return;
 
-                        $('#userName').text(res.customer.name);
+                        $('#userName').text(res.customer.firstname+' '+res.customer.lastname);
 
                         let html = '';
 
@@ -1728,7 +1548,108 @@
 
                 loadRecentActivities();
 
+                //commission chart
+                let commissionChart;
 
+                function loadCommissionBreakdown(){
+
+                    $.ajax({
+
+                        url:'ajax/dashboard/pie_chart_data.php',
+
+                        type:'POST',
+
+                        dataType:'json',
+
+                        success:function(res){
+
+                            if(!res.status) return;
+
+                            $('#totalCommission').html(
+                                '₹ '+Number(res.total).toLocaleString('en-IN')
+                            );
+
+                            $('#activationCommission').html(
+                                '₹ '+Number(res.activation).toLocaleString('en-IN')+
+                                ' ('+res.activationPercentage+'%)'
+                            );
+
+                            $('#tripCommission').html(
+                                '₹ '+Number(res.trip).toLocaleString('en-IN')+
+                                ' ('+res.tripPercentage+'%)'
+                            );
+
+                            let series;
+
+                            if(res.total==0){
+
+                                // Show grey donut instead of empty chart
+                                series=[100];
+
+                            }else{
+
+                                series=[
+                                    res.activationPercentage,
+                                    res.tripPercentage
+                                ];
+
+                            }
+
+                            if(commissionChart){
+                                commissionChart.destroy();
+                            }
+
+                            commissionChart = new ApexCharts(
+                                document.querySelector("#commissionChart"),
+                                {
+
+                                    series:series,
+
+                                    chart:{
+                                        type:'donut',
+                                        height:200
+                                    },
+
+                                    colors:res.total==0
+                                        ? ['#E5E7EB']
+                                        : ['#3366F5','#A8E6B8'],
+
+                                    legend:{
+                                        show:false
+                                    },
+
+                                    dataLabels:{
+                                        enabled:false
+                                    },
+
+                                    stroke:{
+                                        width:0
+                                    },
+
+                                    plotOptions:{
+                                        pie:{
+                                            donut:{
+                                                size:'75%'
+                                            }
+                                        }
+                                    },
+
+                                    tooltip:{
+                                        enabled:res.total>0
+                                    }
+
+                                }
+                            );
+
+                            commissionChart.render();
+
+                        }
+
+                    });
+
+                }
+
+                loadCommissionBreakdown();
             });
         </script>
     </body>
