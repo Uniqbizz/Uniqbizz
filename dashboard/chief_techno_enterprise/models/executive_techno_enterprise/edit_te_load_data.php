@@ -193,6 +193,18 @@
         }
     }
 
+    // verification
+    $stmt5 = $conn->prepare("SELECT * FROM `user_verification` WHERE application_id= :application_id");
+    $stmt5->execute([':application_id' => $application_id]);
+    $stmt5->setFetchMode(PDO::FETCH_ASSOC);
+
+    if ($stmt5->rowCount() > 0) {
+        foreach (($stmt5->fetchAll()) as $row5) {
+            $payload = $row5['payload'];
+            $rejection_reason = $row5['rejection_reason'];
+        }
+    }
+
     $response = [
         'status' => true,
         'data' => [
@@ -266,7 +278,11 @@
             'business_profile' => $business_profile,
             'income_proof' => $income_proof,
             'other_document' => $other_document,
-            'nominee_profile' => $nominee_profile
+            'nominee_profile' => $nominee_profile,
+
+            //verification
+            'payload' => $payload ?? [],
+            'rejection_reason' => $rejection_reason ?? ''
         ]
     ];
 

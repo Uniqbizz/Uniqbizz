@@ -1717,6 +1717,110 @@
                             '[data-index="13"]',
                             data.nominee_profile
                         );
+                        // -------------------------
+                        // Parse payload safely
+                        // -------------------------
+                        let payload = {};
+                        let rejectionReason = {};
+
+                        try {
+                            if (data.payload) {
+                                payload = JSON.parse(data.payload);
+
+                                // Treat empty array/object as no payload
+                                if (
+                                    (Array.isArray(payload) && payload.length === 0) ||
+                                    (typeof payload === "object" &&
+                                        !Array.isArray(payload) &&
+                                        Object.keys(payload).length === 0)
+                                ) {
+                                    payload = {};
+                                }
+                            }
+                        } catch (e) {
+                            payload = {};
+                        }
+
+                        try {
+                            if (data.rejection_reason) {
+                                rejectionReason = JSON.parse(data.rejection_reason);
+
+                                if (
+                                    (Array.isArray(rejectionReason) && rejectionReason.length === 0) ||
+                                    (typeof rejectionReason === "object" &&
+                                        !Array.isArray(rejectionReason) &&
+                                        Object.keys(rejectionReason).length === 0)
+                                ) {
+                                    rejectionReason = {};
+                                }
+                            }
+                        } catch (e) {
+                            rejectionReason = {};
+                        }
+
+
+                        // -------------------------
+                        // Set Verification Status
+                        // -------------------------
+                        $('.verify-toggle').each(function () {
+
+                            const $toggle = $(this);
+                            const $radios = $toggle.find('input[type="radio"]');
+
+                            if (!$radios.length) return;
+
+                            const field = $radios.first().attr('name').match(/\[(.*?)\]/)[1];
+
+                            // Default to approved if field missing
+                            const status = payload[field] ?? 'approved';
+
+                            // Check selected radio
+                            const $selectedRadio = $radios.filter('[value="' + status + '"]');
+                            $selectedRadio.prop('checked', true);
+
+                            // Hide unselected radio + label
+                            $radios.each(function () {
+
+                                const $radio = $(this);
+                                const $label = $('label[for="' + this.id + '"]');
+
+                                if ($radio.val() !== status) {
+                                    $radio.hide();
+                                    $label.hide();
+                                }
+
+                            });
+
+                            // Disable remaining radio
+                            $radios.prop('disabled', true);
+
+                            // -------------------------
+                            // Tooltip for rejected
+                            // -------------------------
+                            if (
+                                status === 'rejected' &&
+                                rejectionReason[field] &&
+                                rejectionReason[field].trim() !== ''
+                            ) {
+
+                                const $label = $('label[for="' + $selectedRadio.attr('id') + '"]');
+
+                                $label
+                                    .attr('title', rejectionReason[field])
+                                    .attr('data-bs-toggle', 'tooltip')
+                                    .attr('data-bs-placement', 'top');
+
+                                // Prevent duplicate tooltips
+                                const existing = bootstrap.Tooltip.getInstance($label[0]);
+                                if (existing) {
+                                    existing.dispose();
+                                }
+
+                                new bootstrap.Tooltip($label[0]);
+
+                            }
+
+                        });
                     }
                 });
                 // Address Information

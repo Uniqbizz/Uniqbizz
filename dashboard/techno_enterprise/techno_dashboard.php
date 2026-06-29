@@ -181,7 +181,7 @@
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Total Revenue</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="total_revenue">&#8377; 0</h4>
-                                            <a href="product_payout.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <a href="customers_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
