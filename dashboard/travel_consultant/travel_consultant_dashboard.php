@@ -209,7 +209,9 @@
                         <!-- Card section 3 -->
                         <div class="row">
                             <div class="col-lg-7 col-md-7 col-sm-12 col-12">
-
+                                <h4 class="d-flex justify-content-between mb-0 textColor fw-bolder mb-2">Most Trending Packages
+                                    <a href="<?= $home_url ?>tour-list.php" class="fs-6">View All Packages</a>
+                                </h4>
                                 <div id="packageCarousel" class="carousel slide" data-bs-ride="false">
 
                                     <div class="carousel-inner" id="carouselInner"></div>
