@@ -583,9 +583,9 @@
                 function cb(start, end) {
 
                     $('#selectedDate').html(
-                        start.format('MMMM D, YYYY') +
+                        start.format('MMM D, YYYY') +
                         ' - ' +
-                        end.format('MMMM D, YYYY')
+                        end.format('MMM D, YYYY')
                     );
 
                     window.startDate = start.format('YYYY-MM-DD');
