@@ -1,0 +1,60 @@
+#reportrange{
+    min-width: 280px;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    white-space: nowrap;
+}
+
+#reportrange span{
+    display: inline-block;
+}
+.stWalletBtn {
+    background-color: #4b38b3;
+    color:#fff;
+    border: 2px solid #4b38b3;
+    padding: 10px 15px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    width: fit-content !important;
+}
+.stWalletBtn:hover {
+    background-color: #fff;
+    color:#4b38b3;
+    border: 2px solid #4b38b3;
+}
+.dateInput {
+    width: 60px;
+    height: 38px;
+    padding: 4px;
+    border-radius: 6px;
+    border: 1px solid;
+}
+.countDownloadBtn {
+    display: flex !important;
+}
+@media (max-width: 992px) {
+    .teSectionSize {
+        display: flex !important;
+        justify-content: end !important;
+        gap: 10px !important;
+        margin-bottom: 10px;
+    }
+}
+@media (max-width: 576px) {
+    .teSectionSize {
+        display: block !important;
+        gap: 10px !important;
+    }
+    .countDownloadBtn {
+        display: flex;
+        justify-content: space-between !important;
+        margin-top: 10px;
+    }
+    .dateInput {
+        width: 100px;
+    }
+}
