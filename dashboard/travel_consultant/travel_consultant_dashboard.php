@@ -1,6 +1,6 @@
 <?php
-    include_once '../dashboard_user_details.php';
-    include 'travel_consultant_model.php';
+    include_once(__DIR__ . '/../dashboard_user_details.php');
+    // include 'travel_consultant_model.php';
     include 'urls.php';
 ?>
 <!doctype html>
@@ -105,11 +105,13 @@
                                                     <p class="mb-0 fw-bold text-black activationTitle">Holiday Account Activation</p>
                                                     <p class="mb-0 fw-normal text-black fs-6">(Neo Select Customers)</p>
                                                 </div>
-                                                <p class="fs-2 text-dark fw-bolder">22</p>
+                                                <p class="fs-2 text-dark fw-bolder" id="reg_cu_count">22</p>
                                                 <p class="fw-normal text-black fs-6">Total Active Customers</p>
-                                                <div class="activationBtn fw-bolder">
-                                                    View Customers <i class="fa-solid fa-arrow-right"></i>
-                                                </div>
+                                                <a href="#" class="text-decoration-none text-reset">
+                                                    <div class="activationBtn fw-bolder">
+                                                        View Customers <i class="fa-solid fa-arrow-right"></i>
+                                                    </div>
+                                                </a>
                                             </div>
                                         </div>
                                         <div class="activationIcon2">
@@ -133,22 +135,24 @@
                                             <div class="flex-grow-1">
                                                 <div class="align-content-center">
                                                     <p class="mb-0 fw-bold text-black earnedTitle">Commission Earned</p>
-                                                    <p class="mb-0 fw-bolder text-black fs-4">&#8377;24,000</p>
+                                                    <p class="mb-0 fw-bolder text-black fs-4" id="total_comm">&#8377;24,000</p>
                                                 </div>
-                                                <p class="text-dark fw-bolder fs-6">This Month</p>
+                                                <!-- <p class="text-dark fw-bolder fs-6"></p> -->
                                                 <div class="d-flex gap-3 cardSmallScreen">
                                                     <div class="card p-2 mb-2 rounded-4 justify-content-center">
                                                         <p class="mb-0 fs-6">From Activation</p>
-                                                        <p class="mb-0 fs-5 fw-bolder">&#8377; 18,00,000</p>
+                                                        <p class="mb-0 fs-5 fw-bolder" id="activation_amount">&#8377; 18,00,000</p>
                                                     </div>
                                                     <div class="card p-2 mb-2 rounded-4 justify-content-center">
                                                         <p class="mb-0 fs-6">From Trip Completed</p>
-                                                        <p class="mb-0 fs-5 fw-bolder">&#8377; 6,000</p>
+                                                        <p class="mb-0 fs-5 fw-bolder" id="trip_amount">&#8377; 6,000</p>
                                                     </div>
                                                 </div>
-                                                <div class="earnedBtn fw-bolder">
-                                                    View Commission <i class="fa-solid fa-arrow-right"></i>
-                                                </div>
+                                                <a href="#" class="text-decoration-none text-reset">
+                                                    <div class="earnedBtn fw-bolder">
+                                                        View Commission <i class="fa-solid fa-arrow-right"></i>
+                                                    </div>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -195,63 +199,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="recentNeoSelectCustomer">
-                                                <tr>
-                                                    <td>
-                                                        <p class="fw-bolder align-content-center fs-6 mb-0">Rahul Naik</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="fw-bolder fs-6 mb-0">98XXXXXX10</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="fw-bolder fs-6 mb-0">23 May 2024</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="fw-bolder teActiveBtn rounded-pill text-center mb-0">Active</p>
-                                                    </td>
-                                                    <td>
-                                                        <a href="#">
-                                                            <p class="fw-bolder teViewBtn text-center mb-0"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <p class="fw-bolder align-content-center fs-6 mb-0">Rahul Naik</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="fw-bolder fs-6 mb-0">98XXXXXX10</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="fw-bolder fs-6 mb-0">23 May 2024</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="fw-bolder teActiveBtn rounded-pill text-center mb-0">Active</p>
-                                                    </td>
-                                                    <td>
-                                                        <a href="#">
-                                                            <p class="fw-bolder teViewBtn text-center mb-0"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <p class="fw-bolder align-content-center fs-6 mb-0">Rahul Naik</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="fw-bolder fs-6 mb-0">98XXXXXX10</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="fw-bolder fs-6 mb-0">23 May 2024</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="fw-bolder teDeletedBtn rounded-pill text-center mb-0">Deactive</p>
-                                                    </td>
-                                                    <td>
-                                                        <a href="#">
-                                                            <p class="fw-bolder teViewBtn text-center mb-0"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
-                                                        </a>
-                                                    </td>
-                                                </tr>
+                                                
                                             </tbody>
                                         </table>
                                     </div>
@@ -261,297 +209,18 @@
                         <!-- Card section 3 -->
                         <div class="row">
                             <div class="col-lg-7 col-md-7 col-sm-12 col-12">
-                                <div class="card rounded-4 p-3 border border-1">
-                                    <h4 class="d-flex justify-content-between mb-0 textColor fw-bolder">Most Trending Packages
-                                        <a href="<?= $home_url ?>tour-list.php" class="fs-6">View All Packages</a>
-                                    </h4>
-                                    <hr>
-                                    <div id="packageCarousel" class="carousel slide" data-bs-ride="false">
-                                        <!-- Dynamic Slides -->
-                                        <div class="carousel-inner" id="carouselInner"></div>
-                                        <!-- Indicators -->
-                                        <div class="carousel-indicators customIndicators" id="carouselIndicators"></div>
-                                    </div>
-                                    <!-- ALL 12 CARDS -->
-                                    <div id="allCards" class="d-none">
-                                        <!-- CARD 1 -->
-                                        <div class="package-card">
-                                            <div class="card border border-1 rounded-4 mb-0">
-                                                <div class="packageCard">
-                                                    <img src="<?= $home_url ?><?=$package_array[0]['image']?>" alt="TripsImage" class="packageImage">
-                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
-                                                        <i class="fa-regular fa-heart"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="packageDetails p-3">
-                                                    <h6 class="text-dark fw-bolder"><?=$package_array[0]['packname']?></h6>
-                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[0]['duration']?>
-                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
-                                                    </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[0]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
-                                                    <a href="#">
-                                                        <div class="packageDetailBtn p-2 mb-0 ">
-                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[0]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- CARD 2 -->
-                                        <div class="package-card">
-                                            <div class="card border border-1 rounded-4 mb-0">
-                                                <div class="packageCard">
-                                                    <img src="<?= $home_url ?><?=$package_array[1]['image']?>" alt="TripsImage" class="packageImage">
-                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
-                                                        <i class="fa-regular fa-heart"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="packageDetails p-3">
-                                                    <h6 class="text-dark fw-bolder"><?=$package_array[1]['packname']?></h6>
-                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[1]['duration']?>
-                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
-                                                    </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[1]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
-                                                    <a href="#">
-                                                        <div class="packageDetailBtn p-2 mb-0 ">
-                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[1]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- CARD 3 -->
-                                        <div class="package-card">
-                                            <div class="card border border-1 rounded-4 mb-0">
-                                                <div class="packageCard">
-                                                    <img src="<?= $home_url ?><?=$package_array[2]['image']?>" alt="TripsImage" class="packageImage">
-                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
-                                                        <i class="fa-regular fa-heart"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="packageDetails p-3">
-                                                    <h6 class="text-dark fw-bolder"><?=$package_array[2]['packname']?></h6>
-                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[2]['duration']?>
-                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
-                                                    </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[2]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
-                                                    <a href="#">
-                                                        <div class="packageDetailBtn p-2 mb-0 ">
-                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[2]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- CARD 4 -->
-                                        <div class="package-card">
-                                            <div class="card border border-1 rounded-4 mb-0">
-                                                <div class="packageCard">
-                                                    <img src="<?= $home_url ?><?=$package_array[3]['image']?>" alt="TripsImage" class="packageImage">
-                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
-                                                        <i class="fa-regular fa-heart"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="packageDetails p-3">
-                                                    <h6 class="text-dark fw-bolder"><?=$package_array[3]['packname']?></h6>
-                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[3]['duration']?>
-                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
-                                                    </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[3]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
-                                                    <a href="#">
-                                                        <div class="packageDetailBtn p-2 mb-0 ">
-                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[3]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- CARD 5 -->
-                                        <div class="package-card">
-                                            <div class="card border border-1 rounded-4 mb-0">
-                                                <div class="packageCard">
-                                                    <img src="<?= $home_url ?><?=$package_array[4]['image']?>" alt="TripsImage" class="packageImage">
-                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
-                                                        <i class="fa-regular fa-heart"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="packageDetails p-3">
-                                                    <h6 class="text-dark fw-bolder"><?=$package_array[4]['packname']?></h6>
-                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[4]['duration']?>
-                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
-                                                    </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[4]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
-                                                    <a href="#">
-                                                        <div class="packageDetailBtn p-2 mb-0 ">
-                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[4]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- CARD 6 -->
-                                        <div class="package-card">
-                                            <div class="card border border-1 rounded-4 mb-0">
-                                                <div class="packageCard">
-                                                    <img src="<?= $home_url ?><?=$package_array[5]['image']?>" alt="TripsImage" class="packageImage">
-                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
-                                                        <i class="fa-regular fa-heart"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="packageDetails p-3">
-                                                    <h6 class="text-dark fw-bolder"><?=$package_array[5]['packname']?></h6>
-                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[5]['duration']?>
-                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
-                                                    </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[5]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
-                                                    <a href="#">
-                                                        <div class="packageDetailBtn p-2 mb-0 ">
-                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[5]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- CARD 7 -->
-                                        <div class="package-card">
-                                            <div class="card border border-1 rounded-4 mb-0">
-                                                <div class="packageCard">
-                                                    <img src="<?= $home_url ?><?=$package_array[6]['image']?>" alt="TripsImage" class="packageImage">
-                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
-                                                        <i class="fa-regular fa-heart"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="packageDetails p-3">
-                                                    <h6 class="text-dark fw-bolder"><?=$package_array[6]['packname']?></h6>
-                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[6]['duration']?>
-                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
-                                                    </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[6]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
-                                                    <a href="#">
-                                                        <div class="packageDetailBtn p-2 mb-0 ">
-                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[6]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- CARD 8 -->
-                                        <div class="package-card">
-                                            <div class="card border border-1 rounded-4 mb-0">
-                                                <div class="packageCard">
-                                                    <img src="<?= $home_url ?><?=$package_array[7]['image']?>" alt="TripsImage" class="packageImage">
-                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
-                                                        <i class="fa-regular fa-heart"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="packageDetails p-3">
-                                                    <h6 class="text-dark fw-bolder"><?=$package_array[7]['packname']?></h6>
-                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[7]['duration']?>
-                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
-                                                    </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[7]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
-                                                    <a href="#">
-                                                        <div class="packageDetailBtn p-2 mb-0 ">
-                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[7]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- CARD 9 -->
-                                        <div class="package-card">
-                                            <div class="card border border-1 rounded-4 mb-0">
-                                                <div class="packageCard">
-                                                    <img src="<?= $home_url ?><?=$package_array[8]['image']?>" alt="TripsImage" class="packageImage">
-                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
-                                                        <i class="fa-regular fa-heart"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="packageDetails p-3">
-                                                    <h6 class="text-dark fw-bolder"><?=$package_array[8]['packname']?></h6>
-                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[8]['duration']?>
-                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
-                                                    </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[8]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
-                                                    <a href="#">
-                                                        <div class="packageDetailBtn p-2 mb-0 ">
-                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[8]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- CARD 10 -->
-                                        <div class="package-card">
-                                            <div class="card border border-1 rounded-4 mb-0">
-                                                <div class="packageCard">
-                                                    <img src="<?= $home_url ?><?=$package_array[9]['image']?>" alt="TripsImage" class="packageImage">
-                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
-                                                        <i class="fa-regular fa-heart"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="packageDetails p-3">
-                                                    <h6 class="text-dark fw-bolder"><?=$package_array[9]['packname']?></h6>
-                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[9]['duration']?>
-                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
-                                                    </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[9]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
-                                                    <a href="#">
-                                                        <div class="packageDetailBtn p-2 mb-0 ">
-                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[9]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- CARD 11 -->
-                                        <div class="package-card">
-                                            <div class="card border border-1 rounded-4 mb-0">
-                                                <div class="packageCard">
-                                                    <img src="<?= $home_url ?><?=$package_array[10]['image']?>" alt="TripsImage" class="packageImage">
-                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
-                                                        <i class="fa-regular fa-heart"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="packageDetails p-3">
-                                                    <h6 class="text-dark fw-bolder"><?=$package_array[10]['packname']?></h6>
-                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[10]['duration']?>
-                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
-                                                    </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[10]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
-                                                    <a href="#">
-                                                        <div class="packageDetailBtn p-2 mb-0 ">
-                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[10]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- CARD 12 -->
-                                        <div class="package-card">
-                                            <div class="card border border-1 rounded-4 mb-0">
-                                                <div class="packageCard">
-                                                    <img src="<?= $home_url ?><?=$package_array[11]['image']?>" alt="TripsImage" class="packageImage">
-                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
-                                                        <i class="fa-regular fa-heart"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="packageDetails p-3">
-                                                    <h6 class="text-dark fw-bolder"><?=$package_array[11]['packname']?></h6>
-                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[11]['duration']?>
-                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
-                                                    </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[11]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
-                                                    <a href="#">
-                                                        <div class="packageDetailBtn p-2 mb-0 ">
-                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[11]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+
+                                <div id="packageCarousel" class="carousel slide" data-bs-ride="false">
+
+                                    <div class="carousel-inner" id="carouselInner"></div>
+
+                                    <div class="carousel-indicators customIndicators"
+                                        id="carouselIndicators"></div>
+
                                 </div>
+
+                                <div id="packageCards" class="d-none"></div>
+
                             </div>
                             <div class="col-lg-5 col-md-5 col-sm-12 col-12">
                                 <div class="card rounded-4 border-1 p-3">
@@ -643,7 +312,7 @@
                                             <th scope="col" class="text-muted">Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="recentNeoSelectCustomer">
+                                    <tbody id="recentCustomerBooking">
                                         <tr>
                                             <td>
                                                 <p class="fw-bolder align-content-center fs-6 mb-0">Rahul Naik</p>
@@ -748,7 +417,7 @@
                                             View All
                                         </a>
                                     </div>
-                                    <div class="cardDetails" id="#">
+                                    <div class="cardDetails" id="recentActivities">
                                         <div class="d-flex justify-content-between mb-1">
                                             <div class="d-flex gap-2">
                                                 <div class="tcPackageIcon tcPackageIcon1">
@@ -760,8 +429,8 @@
                                         </div>
                                         <div class="d-flex justify-content-between mb-1">
                                             <div class="d-flex gap-2">
-                                                <div class="tcPackageIcon tcPackageIcon1">
-                                                    <i class="fa-solid fa-user-group fa-xl"></i>
+                                                <div class="tcPackageIcon tcPackageIcon2">
+                                                    <i class="fa-solid fa-user-check fa-xl"></i>
                                                 </div>
                                                 <p class="mb-0 align-content-center fs-6 fw-bold">Customer Priya Dessai activated holiday account</p>
                                             </div>
@@ -769,8 +438,8 @@
                                         </div>
                                         <div class="d-flex justify-content-between mb-1">
                                             <div class="d-flex gap-2">
-                                                <div class="tcPackageIcon tcPackageIcon1">
-                                                    <i class="fa-solid fa-user-group fa-xl"></i>
+                                                <div class="tcPackageIcon tcPackageIcon5">
+                                                    <i class="fa-solid fa-plane-departure fa-xl"></i>
                                                 </div>
                                                 <p class="mb-0 align-content-center fs-6 fw-bold">New booking from Rahul Kumar</p>
                                             </div>
@@ -778,8 +447,8 @@
                                         </div>
                                         <div class="d-flex justify-content-between mb-1">
                                             <div class="d-flex gap-2">
-                                                <div class="tcPackageIcon tcPackageIcon1">
-                                                    <i class="fa-solid fa-user-group fa-xl"></i>
+                                                <div class="tcPackageIcon tcPackageIcon3">
+                                                    <i class="fa-solid fa-indian-rupee-sign fa-xl"></i>
                                                 </div>
                                                 <p class="mb-0 align-content-center fs-6 fw-bold">Commission of &#8377;500 earned from activation</p>
                                             </div>
@@ -788,7 +457,7 @@
                                         <div class="d-flex justify-content-between mb-1">
                                             <div class="d-flex gap-2">
                                                 <div class="tcPackageIcon tcPackageIcon1">
-                                                    <i class="fa-solid fa-user-group fa-xl"></i>
+                                                    <i class="fa-solid fa-user fa-xl"></i>
                                                 </div>
                                                 <p class="mb-0 align-content-center fs-6 fw-bold">Follow up done with Anita Mehta</p>
                                             </div>
@@ -897,11 +566,6 @@
         <!-- Chart -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-        <!-- <script src="../assets/libs/chart.js/Chart-2.5.0.min.js"></script> -->
-
-
-        <!-- Dashboard init  popular candidates section js file-->
-        <!-- <script src="../assets/js/pages/dashboard-job.init.js"></script> -->
 
         <script src="../assets/js/js-confetti.js"></script>
 
@@ -1089,9 +753,23 @@
                 }
             }
 
-            // Initial Load
-            buildCarousel();
+            // buildCarousel();
+            // Destroy old instance if exists
+            const carouselEl = document.getElementById('packageCarousel');
 
+            let carousel = bootstrap.Carousel.getInstance(carouselEl);
+
+            if (carousel) {
+                carousel.dispose();
+            }
+
+            // Create new instance
+            carousel = new bootstrap.Carousel(carouselEl, {
+                interval: false,
+                ride: false,
+                touch: true,
+                wrap: true
+            });
             // Rebuild on Resize
             window.addEventListener(
                 "resize",
@@ -1147,117 +825,910 @@
             ).render();
         </script>
         <script>
-            const ctx = document.getElementById('customerTrendChart');
+            // const ctx = document.getElementById('customerTrendChart');
 
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                    datasets: [{
-                        data: [4, 8, 12, 15, 18, 22],
-                        borderColor: '#3B82F6',
-                        borderWidth: 3,
-                        pointBackgroundColor: '#3B82F6',
-                        pointBorderColor: '#3B82F6',
-                        pointRadius: 4,
-                        pointHoverRadius: 6,
-                        fill: true,
-                        tension: 0.4,
-                        backgroundColor: (context) => {
-                            const chart = context.chart;
-                            const { ctx, chartArea } = chart;
+            // new Chart(ctx, {
+            //     type: 'line',
+            //     data: {
+            //         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            //         datasets: [{
+            //             data: [4, 8, 12, 15, 18, 22],
+            //             borderColor: '#3B82F6',
+            //             borderWidth: 3,
+            //             pointBackgroundColor: '#3B82F6',
+            //             pointBorderColor: '#3B82F6',
+            //             pointRadius: 4,
+            //             pointHoverRadius: 6,
+            //             fill: true,
+            //             tension: 0.4,
+            //             backgroundColor: (context) => {
+            //                 const chart = context.chart;
+            //                 const { ctx, chartArea } = chart;
 
-                            if (!chartArea) return null;
+            //                 if (!chartArea) return null;
 
-                            const gradient = ctx.createLinearGradient(
-                                0,
-                                chartArea.top,
-                                0,
-                                chartArea.bottom
+            //                 const gradient = ctx.createLinearGradient(
+            //                     0,
+            //                     chartArea.top,
+            //                     0,
+            //                     chartArea.bottom
+            //                 );
+
+            //                 gradient.addColorStop(0, 'rgba(59,130,246,0.20)');
+            //                 gradient.addColorStop(1, 'rgba(59,130,246,0.01)');
+
+            //                 return gradient;
+            //             }
+            //         }]
+            //     },
+            //     options: {
+            //         responsive: true,
+            //         maintainAspectRatio: false,
+
+            //         plugins: {
+            //             legend: {
+            //                 display: false
+            //             },
+            //             tooltip: {
+            //                 enabled: true
+            //             }
+            //         },
+
+            //         scales: {
+            //             x: {
+            //                 grid: {
+            //                     display: false
+            //                 },
+            //                 border: {
+            //                     display: false
+            //                 },
+            //                 ticks: {
+            //                     color: '#6B7280',
+            //                     font: {
+            //                         weight: '600'
+            //                     }
+            //                 }
+            //             },
+
+            //             y: {
+            //                 beginAtZero: true,
+            //                 max: 40,
+            //                 ticks: {
+            //                     stepSize: 10,
+            //                     color: '#6B7280',
+            //                     font: {
+            //                         weight: '600'
+            //                     }
+            //                 },
+            //                 grid: {
+            //                     color: '#EEF2F7'
+            //                 },
+            //                 border: {
+            //                     display: false
+            //                 }
+            //             }
+            //         }
+            //     },
+
+            //     plugins: [{
+            //         id: 'valueLabels',
+            //         afterDatasetsDraw(chart) {
+            //             const { ctx } = chart;
+
+            //             chart.data.datasets.forEach((dataset, datasetIndex) => {
+            //                 const meta = chart.getDatasetMeta(datasetIndex);
+
+            //                 meta.data.forEach((point, index) => {
+            //                     ctx.save();
+
+            //                     ctx.fillStyle = '#3B82F6';
+            //                     ctx.font = 'bold 14px Arial';
+            //                     ctx.textAlign = 'center';
+
+            //                     ctx.fillText(
+            //                         dataset.data[index],
+            //                         point.x,
+            //                         point.y - 12
+            //                     );
+
+            //                     ctx.restore();
+            //                 });
+            //             });
+            //         }
+            //     }]
+            // });
+        </script>
+        <script>
+            const home_url='<?= $home_url ?>';
+            $(function () {
+                //title card plus trip slider
+                $.ajax({
+                    url: 'travel_consultant_model.php',
+                    type: 'GET',
+                    dataType: 'json',
+
+                    success: function(res) {
+
+                        if (!res.status) return;
+
+                        $('#userName').text(res.customer.name);
+
+                        let html = '';
+
+                        res.packages.forEach(function(pkg){
+
+                            html += `
+                                <div class="package-card">
+                                    <div class="card border border-1 rounded-4 mb-0">
+
+                                        <div class="packageCard">
+
+                                            <img src="${home_url}${pkg.image}"
+                                                alt="TripsImage"
+                                                class="packageImage">
+
+                                            <div class="heartIcon"
+                                                onclick="toggleWishlist(this)">
+                                                <i class="fa-regular fa-heart"></i>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="packageDetails p-3">
+
+                                            <h6 class="text-dark fw-bolder">
+                                                ${pkg.packname}
+                                            </h6>
+
+                                            <p class="text-muted fs-6 d-flex justify-content-between">
+
+                                                ${pkg.duration}
+
+                                                <span class="fs-6 text-muted fw-normal">
+                                                    <i class="fa-solid fa-star" style="color:#fdd611;"></i>
+                                                    4.8 (120)
+                                                </span>
+
+                                            </p>
+
+                                            <p class="mb-3 fw-bolder textColor fs-5">
+
+                                                ₹ ${Number(pkg.price).toLocaleString('en-IN')}
+
+                                                <span class="fs-6 text-muted fw-normal">
+                                                    /person
+                                                </span>
+
+                                            </p>
+
+                                            <a href="${home_url}tour-details.php?pacId=${pkg.packid}">
+
+                                                <div class="packageDetailBtn p-2 mb-0">
+
+                                                    <span class="fs-6 mb-0 fw-bolder">
+                                                        View Details
+                                                    </span>
+
+                                                </div>
+
+                                            </a>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            `;
+                        });
+
+                        $('#packageCards').html(html);
+
+                        if (res.packages.length === 0) {
+
+                            $('#carouselInner').html(`
+                                <div class="carousel-item active">
+                                    <div class="text-center py-5">
+                                        <img src="../assets/images/registerData.png"
+                                            class="img-fluid"
+                                            style="max-width:220px">
+
+                                        <h5 class="mt-3">No packages available</h5>
+
+                                        <p class="text-muted">
+                                            Packages will appear here.
+                                        </p>
+                                    </div>
+                                </div>
+                            `);
+
+                            $('#carouselIndicators').empty();
+
+                        } else {
+
+                            buildCarousel();
+
+                        }
+
+                    }
+                });
+                //customer count plus commission cards
+                $.ajax({
+                    url: 'ajax/dashboard/card_data.php', 
+                    type: 'GET',
+                    dataType: 'json',
+
+                    beforeSend: function () {
+                        // Optional: Show loader
+                    },
+
+                    success: function (res) {
+
+                        if (res.status) {
+
+                            $('#reg_cu_count').text(res.data.reg_cu_count || 0);
+
+                            $('#activation_amount').html(
+                                '&#8377; ' + Number(res.data.activation_amount || 0).toLocaleString('en-IN')
                             );
 
-                            gradient.addColorStop(0, 'rgba(59,130,246,0.20)');
-                            gradient.addColorStop(1, 'rgba(59,130,246,0.01)');
+                            $('#trip_amount').html(
+                                '&#8377; ' + Number(res.data.trip_amount || 0).toLocaleString('en-IN')
+                            );
 
-                            return gradient;
-                        }
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                            $('#total_comm').html(
+                                '&#8377; ' + Number(res.data.total_comm || 0).toLocaleString('en-IN')
+                            );
 
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            enabled: true
+                        } else {
+
+                            console.log(res.message);
+
+                            $('#reg_cu_count').text('0');
+                            $('#activation_amount').html('&#8377; 0');
+                            $('#trip_amount').html('&#8377; 0');
+                            $('#total_comm').html('&#8377; 0');
                         }
                     },
 
-                    scales: {
-                        x: {
-                            grid: {
-                                display: false
-                            },
-                            border: {
-                                display: false
-                            },
-                            ticks: {
-                                color: '#6B7280',
-                                font: {
-                                    weight: '600'
-                                }
+                    error: function (xhr, status, error) {
+
+                        console.error(error);
+
+                        $('#reg_cu_count').text('0');
+                        $('#activation_amount').html('&#8377; 0');
+                        $('#trip_amount').html('&#8377; 0');
+                        $('#total_comm').html('&#8377; 0');
+                    }
+
+                });
+                //customer count chart 
+                let customerTrendChart = null;
+
+                function loadCustomerGrowth(year = ''){
+
+                    $.ajax({
+
+                        url:'ajax/dashboard/cust_growth_chart_data.php',
+                        type:'POST',
+                        data:{
+                            year:year
+                        },
+                        dataType:'json',
+
+                        success:function(res){
+
+                            if(!res.status){
+                                return;
                             }
+
+                            // Populate Year Dropdown
+                            if($('#yearFilter option').length==0){
+
+                                let option='';
+
+                                $.each(res.years,function(i,yr){
+
+                                    option += `<option value="${yr}">${yr}</option>`;
+
+                                });
+
+                                $('#yearFilter').html(option);
+                            }
+
+                            $('#yearFilter').val(res.selectedYear);
+
+                            if(customerTrendChart){
+                                customerTrendChart.destroy();
+                            }
+
+                            const ctx=document.getElementById('customerTrendChart');
+                            const maxValue = Math.max(...res.data);
+
+                            customerTrendChart=new Chart(ctx,{
+
+                                type:'line',
+
+                                data:{
+
+                                    labels:res.labels,
+
+                                    datasets:[{
+
+                                        data:res.data,
+
+                                        borderColor:'#3B82F6',
+
+                                        borderWidth:3,
+
+                                        pointBackgroundColor:'#3B82F6',
+
+                                        pointBorderColor:'#3B82F6',
+
+                                        pointRadius:4,
+
+                                        pointHoverRadius:6,
+
+                                        fill:true,
+
+                                        tension:0.4,
+
+                                        backgroundColor:(context)=>{
+
+                                            const chart=context.chart;
+                                            const {ctx,chartArea}=chart;
+
+                                            if(!chartArea) return null;
+
+                                            const gradient=ctx.createLinearGradient(
+                                                0,
+                                                chartArea.top,
+                                                0,
+                                                chartArea.bottom
+                                            );
+
+                                            gradient.addColorStop(0,'rgba(59,130,246,0.20)');
+                                            gradient.addColorStop(1,'rgba(59,130,246,0.01)');
+
+                                            return gradient;
+                                        }
+
+                                    }]
+
+                                },
+
+                                options:{
+
+                                    responsive:true,
+
+                                    maintainAspectRatio:false,
+
+                                    plugins:{
+
+                                        legend:{
+                                            display:false
+                                        },
+
+                                        tooltip:{
+                                            enabled:true
+                                        }
+
+                                    },
+
+                                    scales:{
+
+                                        x:{
+
+                                            grid:{
+                                                display:false
+                                            },
+
+                                            border:{
+                                                display:false
+                                            },
+
+                                            ticks:{
+
+                                                color:'#6B7280',
+
+                                                font:{
+                                                    weight:'600'
+                                                }
+
+                                            }
+
+                                        },
+
+                                        
+
+                                        y: {
+                                            beginAtZero: true,
+                                            max: maxValue === 0 ? 10 : undefined,
+                                            suggestedMax: maxValue === 0 ? undefined : maxValue + 1,
+                                            ticks: {
+                                                stepSize: 1,
+                                                precision: 0,
+                                                color: '#6B7280',
+                                                font: {
+                                                    weight: '600'
+                                                }
+                                            },
+                                            grid: {
+                                                color: '#EEF2F7'
+                                            },
+                                            border: {
+                                                display: false
+                                            }
+                                        }
+
+                                    }
+
+                                },
+
+                                plugins:[{
+
+                                    id:'valueLabels',
+
+                                    afterDatasetsDraw(chart){
+
+                                        const {ctx}=chart;
+
+                                        chart.data.datasets.forEach((dataset,datasetIndex)=>{
+
+                                            const meta=chart.getDatasetMeta(datasetIndex);
+
+                                            meta.data.forEach((point,index)=>{
+
+                                                ctx.save();
+
+                                                ctx.fillStyle='#3B82F6';
+
+                                                ctx.font='bold 14px Arial';
+
+                                                ctx.textAlign='center';
+
+                                                ctx.fillText(
+                                                    dataset.data[index],
+                                                    point.x,
+                                                    point.y-12
+                                                );
+
+                                                ctx.restore();
+
+                                            });
+
+                                        });
+
+                                    }
+
+                                }]
+
+                            });
+
+                        }
+
+                    });
+
+                }
+
+                loadCustomerGrowth();
+                //on year chage for customet count chart
+                $('#yearFilter').on('change',function(){
+    
+                    loadCustomerGrowth($(this).val());
+    
+                });
+                //recent neo customers
+                function loadRecentNeoSelectCustomers(){
+
+                    $.ajax({
+
+                        url: 'ajax/dashboard/recent_cu_list.php', //change to your php file
+
+                        type: 'POST',
+
+                        dataType: 'json',
+
+                        success:function(res){
+
+                            let html = '';
+
+                            if(res.status && res.data.length > 0){
+
+                                $.each(res.data,function(i,row){
+
+                                    let statusClass = '';
+
+                                    switch(row.status.toLowerCase()){
+
+                                        case 'active':
+                                            statusClass = 'teActiveBtn';
+                                            break;
+
+                                        case 'pending':
+                                            statusClass = 'tePendingBtn';
+                                            break;
+
+                                        case 'deactive':
+                                            statusClass = 'teDeletedBtn';
+                                            break;
+
+                                        case 'deleted':
+                                            statusClass = 'teDeletedBtn';
+                                            break;
+
+                                        default:
+                                            statusClass = 'tePendingBtn';
+
+                                    }
+
+                                    let date = new Date(row.register_date);
+
+                                    let enrolledDate = date.toLocaleDateString('en-GB',{
+                                        day:'2-digit',
+                                        month:'short',
+                                        year:'numeric'
+                                    });
+
+                                    html += `
+                                        <tr>
+
+                                            <td>
+                                                <p class="fw-bolder align-content-center fs-6 mb-0">
+                                                    ${row.cust_name}
+                                                </p>
+                                            </td>
+
+                                            <td>
+                                                <p class="fw-bolder fs-6 mb-0">
+                                                    ${row.phone}
+                                                </p>
+                                            </td>
+
+                                            <td>
+                                                <p class="fw-bolder fs-6 mb-0">
+                                                    ${enrolledDate}
+                                                </p>
+                                            </td>
+
+                                            <td>
+                                                <p class="fw-bolder ${statusClass} rounded-pill text-center mb-0">
+                                                    ${row.status}
+                                                </p>
+                                            </td>
+
+                                            <td>
+                                                <a href="edit_customer.php?id=${row.ca_customer_id}">
+                                                    <p class="fw-bolder teViewBtn text-center mb-0">
+                                                        <i class="fa-solid fa-eye me-2 mt-1"></i>View
+                                                    </p>
+                                                </a>
+                                            </td>
+
+                                        </tr>
+                                    `;
+
+                                });
+
+                            }else{
+
+                                html = `
+                                    <tr>
+                                        <td colspan="5" class="text-center py-4">
+                                            No Customers Found
+                                        </td>
+                                    </tr>
+                                `;
+
+                            }
+
+                            $('#recentNeoSelectCustomer').html(html);
+
                         },
 
-                        y: {
-                            beginAtZero: true,
-                            max: 40,
-                            ticks: {
-                                stepSize: 10,
-                                color: '#6B7280',
-                                font: {
-                                    weight: '600'
-                                }
-                            },
-                            grid: {
-                                color: '#EEF2F7'
-                            },
-                            border: {
-                                display: false
-                            }
+                        error:function(){
+
+                            $('#recentNeoSelectCustomer').html(`
+                                <tr>
+                                    <td colspan="5" class="text-center py-4">
+                                        Unable to load data.
+                                    </td>
+                                </tr>
+                            `);
+
                         }
-                    }
-                },
 
-                plugins: [{
-                    id: 'valueLabels',
-                    afterDatasetsDraw(chart) {
-                        const { ctx } = chart;
+                    });
 
-                        chart.data.datasets.forEach((dataset, datasetIndex) => {
-                            const meta = chart.getDatasetMeta(datasetIndex);
+                }
+                loadRecentNeoSelectCustomers();
+                //recent bookings
+                function loadRecentBookings() {
 
-                            meta.data.forEach((point, index) => {
-                                ctx.save();
+                    $.ajax({
 
-                                ctx.fillStyle = '#3B82F6';
-                                ctx.font = 'bold 14px Arial';
-                                ctx.textAlign = 'center';
+                        url: 'ajax/dashboard/recent_booking.php', 
+                        type: 'POST',
+                        dataType: 'json',
 
-                                ctx.fillText(
-                                    dataset.data[index],
-                                    point.x,
-                                    point.y - 12
-                                );
+                        success: function(res) {
 
-                                ctx.restore();
-                            });
+                            let html = '';
+
+                            if (res.status && res.data.length > 0) {
+
+                                $.each(res.data, function(i, booking) {
+
+                                    let statusClass = '';
+
+                                    switch (booking.booking_status.toLowerCase()) {
+
+                                        case 'confirmed':
+                                        case 'completed':
+                                        case 'traveling':
+                                            statusClass = 'teActiveBtn';
+                                            break;
+
+                                        case 'pending':
+                                            statusClass = 'tePendingBtn';
+                                            break;
+
+                                        case 'canceled':
+                                        case 'cancelled':
+                                        case 'refunded':
+                                            statusClass = 'teDeletedBtn';
+                                            break;
+
+                                        default:
+                                            statusClass = 'tePendingBtn';
+
+                                    }
+
+                                    let travelDate = new Date(booking.travel_date).toLocaleDateString('en-GB', {
+                                        day: '2-digit',
+                                        month: 'short',
+                                        year: 'numeric'
+                                    });
+
+                                    let amount = parseFloat(booking.amount || 0).toLocaleString('en-IN', {
+                                        minimumFractionDigits: 0,
+                                        maximumFractionDigits: 2
+                                    });
+
+                                    html += `
+                                        <tr>
+
+                                            <td>
+                                                <p class="fw-bolder align-content-center fs-6 mb-0">
+                                                    ${booking.name}
+                                                </p>
+                                                <p class="fw-bolder align-content-center fs-6 mb-0">
+                                                    ${booking.customer_id}
+                                                </p>
+                                            </td>
+
+                                            <td>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <img src="${'../../'+booking.package_image}"
+                                                        alt="${booking.package_name}"
+                                                        class="rounded-3"
+                                                        style="width:40px;height:40px;object-fit:cover;">
+
+                                                    <p class="fw-bolder fs-6 mb-0">
+                                                        ${booking.package_name}
+                                                    </p>
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <p class="fw-bolder fs-6 mb-0">
+                                                    ${travelDate}
+                                                </p>
+                                            </td>
+
+                                            <td>
+                                                <p class="fw-bolder fs-6 mb-0">
+                                                    &#8377; ${amount}
+                                                </p>
+                                            </td>
+
+                                            <td>
+                                                <p class="fw-bolder ${statusClass} rounded-pill text-center mb-0">
+                                                    ${booking.booking_status}
+                                                </p>
+                                            </td>
+
+                                            <td>
+                                                <a href="booking-details.php?order_id=${booking.order_id}">
+                                                    <p class="fw-bolder teViewBtn text-center mb-0">
+                                                        <i class="fa-solid fa-eye me-2 mt-1"></i>View
+                                                    </p>
+                                                </a>
+                                            </td>
+
+                                        </tr>
+                                    `;
+
+                                });
+
+                            } else {
+
+                                html = `
+                                    <tr>
+                                        <td colspan="6" class="text-center py-4 fw-bold">
+                                            No Recent Bookings Found
+                                        </td>
+                                    </tr>
+                                `;
+
+                            }
+
+                            $('#recentCustomerBooking').html(html);
+
+                        },
+
+                        error: function() {
+
+                            $('#recentCustomerBooking').html(`
+                                <tr>
+                                    <td colspan="6" class="text-center py-4 text-danger fw-bold">
+                                        Unable to load bookings.
+                                    </td>
+                                </tr>
+                            `);
+
+                        }
+
+                    });
+
+                }
+
+                loadRecentBookings();
+
+                //recent activities
+                function loadRecentActivities() {
+
+                    $.ajax({
+
+                        url: 'ajax/dashboard/recent_activities_data.php', 
+                        type: 'POST',
+                        dataType: 'json',
+
+                        success: function(res) {
+
+                            let html = '';
+
+                            if (res.status && res.data.length > 0) {
+
+                                $.each(res.data, function(index, activity) {
+
+                                    let icon = '';
+                                    let iconClass = '';
+
+                                    switch (activity.type) {
+
+                                        case 'pending_customer':
+                                            icon = 'fa-user-group';
+                                            iconClass = 'tcPackageIcon1';
+                                            break;
+
+                                        case 'customer_activation':
+                                            icon = 'fa-user-check';
+                                            iconClass = 'tcPackageIcon2';
+                                            break;
+
+                                        case 'commission':
+                                            icon = 'fa-indian-rupee-sign';
+                                            iconClass = 'tcPackageIcon3';
+                                            break;
+
+                                        case 'booking':
+                                            icon = 'fa-plane-departure';
+                                            iconClass = 'tcPackageIcon5';
+                                            break;
+
+                                        default:
+                                            icon = 'fa-circle-info';
+                                            iconClass = 'tcPackageIcon1';
+
+                                    }
+
+                                    let activityTime = formatActivityTime(activity.date);
+
+                                    html += `
+                                        <div class="d-flex justify-content-between mb-1">
+
+                                            <div class="d-flex gap-2">
+
+                                                <div class="tcPackageIcon ${iconClass}">
+                                                    <i class="fa-solid ${icon} fa-xl"></i>
+                                                </div>
+
+                                                <p class="mb-0 align-content-center fs-6 fw-bold">
+                                                    ${activity.title}
+                                                </p>
+
+                                            </div>
+
+                                            <p class="text-muted mb-0 align-content-center text-nowrap">
+                                                ${activityTime}
+                                            </p>
+
+                                        </div>
+                                    `;
+
+                                });
+
+                            } else {
+
+                                html = `
+                                    <div class="text-center py-4 fw-bold text-muted">
+                                        No Recent Activities
+                                    </div>
+                                `;
+
+                            }
+
+                            $('#recentActivities').html(html);
+
+                        },
+
+                        error: function() {
+
+                            $('#recentActivities').html(`
+                                <div class="text-center py-4 text-danger fw-bold">
+                                    Unable to load activities.
+                                </div>
+                            `);
+
+                        }
+
+                    });
+
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Format Time
+                |--------------------------------------------------------------------------
+                */
+
+                function formatActivityTime(dateString) {
+
+                    const activityDate = new Date(dateString);
+                    const now = new Date();
+
+                    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                    const activityDay = new Date(activityDate.getFullYear(), activityDate.getMonth(), activityDate.getDate());
+
+                    const diffDays = Math.floor((today - activityDay) / (1000 * 60 * 60 * 24));
+
+                    if (diffDays === 0) {
+
+                        return activityDate.toLocaleTimeString('en-IN', {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: true
                         });
+
                     }
-                }]
+
+                    if (diffDays === 1) {
+
+                        return 'Yesterday';
+
+                    }
+
+                    return activityDate.toLocaleDateString('en-IN', {
+                        day: '2-digit',
+                        month: 'short'
+                    });
+
+                }
+
+
+                loadRecentActivities();
+
+
             });
         </script>
     </body>
