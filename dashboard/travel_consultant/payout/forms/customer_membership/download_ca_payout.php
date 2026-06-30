@@ -22,7 +22,7 @@ $tableSearch = (substr($designation, 0, 1) === 'F' || substr($designation, 0, 1)
     ? substr($designation, 0, 1) 
     : substr($designation, 0, 2);
 
-$bcNames = $conn -> prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$designation."' AND status = 1");
+$bcNames = $conn -> prepare("SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '".$designation."' AND status = 1");
 
 
 $bcNames -> execute();
@@ -114,7 +114,7 @@ if($bcNames -> rowCount()>0){
                                             <h6 style="padding:2px 10px; font-weight: 700;">Month : <?php echo $date; ?></h6>
                                         </td>
                                         <td class="col-md-5 col-sm-5 pt-3">
-                                            <h6 style="padding:2px 0; font-weight: 700;">Pay For : Techno Enterprise Payout</h6>
+                                            <h6 style="padding:2px 0; font-weight: 700;">Pay For : Travel Consultant Payout</h6>
                                             <h6 style="padding:2px 0; font-weight: 700;">Pay date : <?=$paydate?> </h6>
                                             <h6 style="padding:2px 0; font-weight: 700;">Payout status : <?=$message_status == 2 ? 'Pending' :($message_status == 1?'Paid':'')?></h6>
                                         </td>

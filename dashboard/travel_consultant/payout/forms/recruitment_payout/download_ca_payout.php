@@ -18,19 +18,21 @@ $totalAmt = $commission - $commissionTDS;
 
 $date = date('F,Y', strtotime($dateCA));
 
-$tableSearch = (substr($designation, 0, 1) === 'F' || substr($designation, 0, 1) === 'I') 
+$tableSearch = (substr($designation, 0, 1) === 'F') 
     ? substr($designation, 0, 1) 
     : substr($designation, 0, 2);
 
-$bcNames = $conn -> prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$designation."' AND status = 1");
+$bcNames = $conn -> prepare("SELECT * FROM super_techno_enterprise WHERE super_techno_enterprise_id = '".$designation."' AND status = 1");
 
 
 $bcNames -> execute();
 $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
 if($bcNames -> rowCount()>0){
     foreach(($bcNames -> fetchAll()) as $key => $row){
+        
         $firstname = $row['firstname'];
         $lastname = $row['lastname'];
+        
     }
 }  
 
@@ -78,7 +80,7 @@ if($bcNames -> rowCount()>0){
     <body>
         <div class="background" >
             <div class="container cont-btn d-flex justify-content-around pt-3 pb-4">
-                <a href="../../../holiday_payout.php" class="go-back"> Go Back</a>
+                <a href="../../../recruitment_payout.php" class="go-back"> Go Back</a>
                 
                 <a href="#" id="generatePDF" class="download-btn">
                     <i class="fa fa-download " aria-hidden="true" style="color: white;" ></i> 
@@ -114,7 +116,7 @@ if($bcNames -> rowCount()>0){
                                             <h6 style="padding:2px 10px; font-weight: 700;">Month : <?php echo $date; ?></h6>
                                         </td>
                                         <td class="col-md-5 col-sm-5 pt-3">
-                                            <h6 style="padding:2px 0; font-weight: 700;">Pay For : Techno Enterprise Payout</h6>
+                                            <h6 style="padding:2px 0; font-weight: 700;">Pay For : Techno Enterprise </h6>
                                             <h6 style="padding:2px 0; font-weight: 700;">Pay date : <?=$paydate?> </h6>
                                             <h6 style="padding:2px 0; font-weight: 700;">Payout status : <?=$message_status == 2 ? 'Pending' :($message_status == 1?'Paid':'')?></h6>
                                         </td>
@@ -122,7 +124,7 @@ if($bcNames -> rowCount()>0){
                                 </tbody>
                             </table>  
                             <div class="col-md-12 col-sm-12" >
-                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; ">Holiday Account Payout</h5>
+                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; ">Super Techno Enterprise Payout</h5>
                                 <div class="col-md-12 col-sm-12" style="text-align: left; margin-bottom:20px">
                                     <table class="orderTable text-center" style="padding-bottom:5px; margin:0px; border:1px solid #DDDDDD;">
                                         <thead>
