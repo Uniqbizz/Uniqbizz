@@ -422,7 +422,9 @@
                             return `
                                 <div>
                                     <p class="fs-6 mb-0">
-                                        ${data.ref_firstname || '-'} ${data.ref_lastname || ''}
+                                        ${data.ref_firstname || '-'}
+                                        </br> 
+                                        ${data.ref_lastname || ''}
                                     </p>
                                     <p class="fs-6 mb-0">
                                         ${data.ca_travelagency_id || '-'}
@@ -530,6 +532,7 @@
                         data: 'ca_customer_id',
                         orderable: false,
                         searchable: false,
+                        className: 'none',
                         render: function(data) {
 
                             return `
