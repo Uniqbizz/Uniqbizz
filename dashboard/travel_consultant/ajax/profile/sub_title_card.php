@@ -24,7 +24,7 @@ try {
                 CASE WHEN ste.aadhar_card IS NOT NULL AND ste.aadhar_card <> '' THEN 1 ELSE 0 END +
                 CASE WHEN ste.pan_card IS NOT NULL AND ste.pan_card <> '' THEN 1 ELSE 0 END +
                 CASE WHEN ste.voting_card IS NOT NULL AND ste.voting_card <> '' THEN 1 ELSE 0 END +
-                CASE WHEN ste.bank_passbook IS NOT NULL AND ste.bank_passbook <> '' THEN 1 ELSE 0 END +
+                CASE WHEN ste.passbook IS NOT NULL AND ste.passbook <> '' THEN 1 ELSE 0 END +
                 CASE WHEN ste.payment_proof IS NOT NULL AND ste.payment_proof <> '' THEN 1 ELSE 0 END 
             ) AS uploaded_files,
             CASE
@@ -38,9 +38,9 @@ try {
                 ELSE 'Incomplete'
             END AS kyc_status
 
-        FROM corporate_agency ste
+        FROM ca_travelagency ste
 
-        WHERE ste.corporate_agency_id = :user_id
+        WHERE ste.ca_travelagency_id = :user_id
 
         LIMIT 1
         

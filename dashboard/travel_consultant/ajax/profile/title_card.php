@@ -18,17 +18,17 @@ try {
 
     $sqlUserDetails = $conn->prepare("
         SELECT
-            ste.corporate_agency_id AS profile_id,
+            ste.ca_travelagency_id AS profile_id,
             CONCAT(ste.firstname, ' ', ste.lastname) AS profile_name,
-            'Techno Enterprise' AS profile_type,
+            'Travel Consultant' AS profile_type,
             ste.address AS profile_address,
             ste.email AS profile_email,
             ste.country_code AS profile_phone_prefix,
             ste.contact_no AS profile_phone,
             ste.register_date AS profile_since,
             ste.profile_pic
-        FROM corporate_agency ste
-        WHERE ste.corporate_agency_id = :user_id
+        FROM ca_travelagency ste
+        WHERE ste.ca_travelagency_id = :user_id
         LIMIT 1
     ");
 

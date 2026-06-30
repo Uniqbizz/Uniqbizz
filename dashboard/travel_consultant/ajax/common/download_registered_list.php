@@ -21,10 +21,6 @@
 
         switch ($type) {
 
-            case 'tc':
-                $alias = 'ta';
-                break;
-
             case 'cu':
                 $alias = 'cu';
                 break;
@@ -41,61 +37,7 @@
             $params[':end_date']   = $endDate;
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | TRAVEL CONSULTANT
-        |--------------------------------------------------------------------------
-        */
-
-        if ($type == 'tc') {
-
-            $sql = "
-                SELECT *
-                FROM (
-
-                    SELECT
-                        ta.id AS row_id,
-                        ta.ca_travelagency_id AS id,
-                        CONCAT(ta.firstname,' ',ta.lastname) AS full_name,
-
-                        CONCAT(ca.firstname,' ',ca.lastname) AS reference_name,
-                        ca.corporate_agency_id AS reference_id,
-
-                        ta.contact_no,
-                        ta.email,
-                        ta.register_date,
-                        ta.amount,
-
-                        CASE
-                            WHEN ta.status = 1 THEN 'Active'
-                            WHEN ta.status = 3 THEN 'Inactive'
-                            ELSE 'Rejected'
-                        END AS status
-
-                    FROM ca_travelagency ta
-
-                    INNER JOIN corporate_agency ca
-                        ON ta.reference_no = ca.corporate_agency_id
-
-                    WHERE ta.reference_no = :user_id
-                    AND ta.status IN (1,3)
-
-                    $whereDate
-                ) x
-
-                ORDER BY x.row_id DESC
-            ";
-
-            $fileName = 'Registered_TC_List.xlsx';
-        }
-
-        /*
-        |--------------------------------------------------------------------------
-        | CUSTOMER
-        |--------------------------------------------------------------------------
-        */
-
-        elseif ($type == 'cu') {
+        if ($type == 'cu') {
 
             $sql = "
                 SELECT *
@@ -126,10 +68,7 @@
                     INNER JOIN ca_travelagency ta
                         ON cu.ta_reference_no = ta.ca_travelagency_id
 
-                    INNER JOIN corporate_agency ca
-                        ON ta.reference_no = ca.corporate_agency_id
-
-                    WHERE ta.reference_no = :user_id
+                    WHERE cu.ta_reference_no = :user_id
                     AND cu.status IN (1,3)
 
                     $whereDate

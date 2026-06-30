@@ -1,11 +1,9 @@
 <?php
     include (__DIR__.'/urls.php');
     include_once(__DIR__ . '/../dashboard_user_details.php');
-    include (__DIR__ .'/customer_model.php');
-    include (__DIR__ .'/customer_mapping.php');
 
-    $id = $_GET['vkvbvjfgfikix'];
-    $editfor = $_GET['editfor'];
+    $id = $_POST['vkvbvjfgfikix'];
+    $editfor = $_POST['editfor'];
 
     $stmt = $conn->prepare("SELECT * FROM `ca_customer` WHERE ca_customer_id='" . $id . "' OR id='" . $id . "' ");
     $stmt->execute();
@@ -110,7 +108,7 @@
     <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css" />
     <link href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
     <!-- Customer Dashboard CSS -->
-    <link rel="stylesheet" href="../assets/css/customer_dashboard.css" />
+    <link rel="stylesheet" href="../assets/css/travel_consultant.css" />
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -122,7 +120,7 @@
     <div id="layout-wrapper">
 
         <?php 
-            include_once(__DIR__ . '/customer_header.php');
+            include_once(__DIR__ . '/travel_consultant_header.php');
         ?>
         <!-- removeNotificationModal -->
         <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
@@ -151,7 +149,7 @@
         <!-- ========== App Menu ========== -->
 
         <?php 
-            include_once(__DIR__ . '/customer_sidebar.php');
+            include_once(__DIR__ . '/travel_consultant_sidebar.php');
         ?>
         <!-- ============================================================== -->
         <!-- Start right Content here -->
@@ -168,7 +166,7 @@
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item">
-                                            <a href="view_customer.php">View Customer</a>
+                                            <a href="customer_list.php">View Customer</a>
                                         </li>
                                         <li class="breadcrumb-item active">Edit</li>
                                     </ol>
@@ -410,9 +408,9 @@
                                                             }
                                                         ?>
                                                         </label><br />
-                                                        <input class="form-control" type="file" name="file1" id="upload_file1" disabled>
+                                                        <input class="form-control" type="file" name="file1" id="upload_file1">
                                                     </div>
-                                                    <input type="hidden" id="img_path1" value="<?php echo $profile_pic; ?>" >
+                                                    <input type="hidden" id="img_path1" value="<?php echo $profile_pic; ?>">
                                                     <div id="preview1">
                                                         <div id="image_preview1">
                                                             <?php
@@ -439,7 +437,7 @@
                                                             }
                                                         ?>
                                                         </label><br />
-                                                        <input class="form-control" type="file" name="file2" id="upload_file2" disabled>
+                                                        <input class="form-control" type="file" name="file2" id="upload_file2">
                                                     </div>
                                                     <input type="hidden" id="img_path2" value="<?php echo $aadhar_card; ?>">
                                                     <div id="preview2">
@@ -471,7 +469,7 @@
                                                             }
                                                         ?>
                                                         </label><br />
-                                                        <input class="form-control" type="file" name="file3" id="upload_file3" disabled>
+                                                        <input class="form-control" type="file" name="file3" id="upload_file3">
                                                     </div>
                                                     <input type="hidden" id="img_path3" value="<?php echo $pan_card; ?>">
                                                     <div id="preview3">
@@ -500,7 +498,7 @@
                                                             }
                                                         ?>
                                                         </label><br />
-                                                        <input class="form-control" type="file" name="file4" id="upload_file4" disabled>
+                                                        <input class="form-control" type="file" name="file4" id="upload_file4">
                                                     </div>
                                                     <input type="hidden" id="img_path4" value="<?php echo $bank_passbook; ?>">
                                                     <div id="preview4">
@@ -532,7 +530,7 @@
                                                             }
                                                         ?>
                                                         </label><br />
-                                                        <input class="form-control" type="file" name="file5" id="upload_file5" disabled>
+                                                        <input class="form-control" type="file" name="file5" id="upload_file5">
                                                     </div>
                                                     <input type="hidden" id="img_path5" value="<?php echo $voting_card; ?>">
                                                     <div id="preview5">
@@ -580,7 +578,7 @@
 
                                                 <!-- for edit data page -->
                                                 <input type="hidden" id="ref_id" name="ref_id" value="<?php echo $reference_no; ?>">
-                                                <input type="hidden" id="editfor" name="editfor" value="<?php echo $editfor; ?>">
+                                                <!-- <input type="hidden" id="editfor" name="editfor" value="<?php //echo $editfor; ?>"> -->
                                                 <input type="hidden" id="id" name="id" value="<?php echo $id; ?>">
                                                 <input type="hidden" id="registrant_id" name="registrant_id" value="<?php echo $userId; ?>">
                                                 <input type="hidden" id="register_by" name="register_by" value="<?php echo $userType; ?>"> <!-- User type for table col register_by -->
@@ -593,7 +591,7 @@
                                                     <!-- <button type="submit" class="btn btn-primary px-5 py-2" id="edit-customer">Submit</button> -->
                                                     <button type="button"
                                                             class="btn btn-primary px-5 py-2"
-                                                            onclick="window.location.href='view_customer.php';">
+                                                            onclick="window.location.href='customer_list.php';">
                                                         Cancel
                                                     </button>
                                                 </div>
@@ -607,7 +605,7 @@
                 </div> <!-- container-fluid -->
             </div><!-- End Page-content -->
             <?php 
-                include_once(__DIR__ . '/customer_footer.php');
+                include_once(__DIR__ . '/travel_consultant_footer.php');
             ?>
         </div><!-- end main content-->
     </div><!-- END layout-wrapper -->

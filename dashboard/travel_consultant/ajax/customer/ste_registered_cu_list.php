@@ -43,16 +43,14 @@
 
                     ta.ca_travelagency_id,
                     ta.firstname AS ref_firstname,
-                    ta.lastname AS ref_lastname,
-
-                    'TE' AS ref_type
+                    ta.lastname AS ref_lastname
 
                 FROM ca_customer cu
 
                 INNER JOIN ca_travelagency ta
                     ON cu.ta_reference_no = ta.ca_travelagency_id
 
-                WHERE ta.reference_no = :user_id
+                WHERE cu.ta_reference_no = :user_id
                 AND cu.status IN (1,3)
 
                 $whereDate

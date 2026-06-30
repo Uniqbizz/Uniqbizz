@@ -21,13 +21,13 @@ try {
             ste.profile_pic,
             ste.aadhar_card,
             ste.pan_card,
-            ste.bank_passbook,
+            ste.passbook,
             ste.voting_card,
             ste.payment_proof
 
-        FROM corporate_agency ste
+        FROM ca_travelagency ste
 
-        WHERE ste.corporate_agency_id = :user_id
+        WHERE ste.ca_travelagency_id = :user_id
 
         LIMIT 1
     ");

@@ -24,8 +24,8 @@ try {
             ste.nominee_contact_no,
             ste.nominee_date_of_birth,
             ste.nominee_address
-        FROM corporate_agency ste
-        WHERE ste.corporate_agency_id = :user_id
+        FROM ca_travelagency ste
+        WHERE ste.ca_travelagency_id = :user_id
         LIMIT 1
     ");
 

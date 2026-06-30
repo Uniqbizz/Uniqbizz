@@ -23,14 +23,14 @@ try {
             cun.country_name,
             ste.pincode,
             ste.address AS resAdd
-        FROM corporate_agency ste
+        FROM ca_travelagency ste
         LEFT JOIN cities cty
             ON cty.id = ste.city
         LEFT JOIN states sta
             ON sta.id = ste.state
         LEFT JOIN countries cun
             ON cun.id = ste.country
-        WHERE ste.corporate_agency_id = :user_id
+        WHERE ste.ca_travelagency_id = :user_id
         LIMIT 1
     ");
 
