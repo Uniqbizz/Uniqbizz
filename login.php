@@ -611,6 +611,10 @@
                                 {
                                     location.href = "dashboard/travel_consultant/travel_consultant_dashboard.php";
                                 }
+                                else if (res.user_type == "29")
+                                {
+                                    location.href = "dashboard/franchisee/franchisee_dashboard.php";
+                                }
                                 else
                                 {
                                     location.href = "dashboard/index.php";
