@@ -166,7 +166,7 @@
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item">
-                                            <a href="customer_list.php">View Customer</a>
+                                            <a href="customers_list.php">View Customer</a>
                                         </li>
                                         <li class="breadcrumb-item active">Edit</li>
                                     </ol>
@@ -324,7 +324,7 @@
                                                 <div class="col-md-6 col-sm-6 col-12" id="couponFee">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="payment_fee">Payment Fee<span class="text-danger">*</span></label>
-                                                        <select class="form-select" id="payment_fee" aria-label="Floating label select example" disabled>
+                                                        <select class="form-select" id="payment_fee" aria-label="Floating label select example">
                                                             <option value="null">--Select Payment Fee--</option>
                                                             <option value="FOC" <?= $customer_type == "Free" ? 'selected':''; ?>>Free</option>
                                                             <option value="10000" <?= $customer_type == "Prime" ? 'selected' : ''; ?>>Prime: <span>&#8377 </span>10,000/-</option>
@@ -408,7 +408,7 @@
                                                             }
                                                         ?>
                                                         </label><br />
-                                                        <input class="form-control" type="file" name="file1" id="upload_file1">
+                                                        <input class="form-control" type="file" name="file1" id="upload_file1" disabled>
                                                     </div>
                                                     <input type="hidden" id="img_path1" value="<?php echo $profile_pic; ?>">
                                                     <div id="preview1">
@@ -437,7 +437,7 @@
                                                             }
                                                         ?>
                                                         </label><br />
-                                                        <input class="form-control" type="file" name="file2" id="upload_file2">
+                                                        <input class="form-control" type="file" name="file2" id="upload_file2" disabled>
                                                     </div>
                                                     <input type="hidden" id="img_path2" value="<?php echo $aadhar_card; ?>">
                                                     <div id="preview2">
@@ -469,7 +469,7 @@
                                                             }
                                                         ?>
                                                         </label><br />
-                                                        <input class="form-control" type="file" name="file3" id="upload_file3">
+                                                        <input class="form-control" type="file" name="file3" id="upload_file3" disabled>
                                                     </div>
                                                     <input type="hidden" id="img_path3" value="<?php echo $pan_card; ?>">
                                                     <div id="preview3">
@@ -498,7 +498,7 @@
                                                             }
                                                         ?>
                                                         </label><br />
-                                                        <input class="form-control" type="file" name="file4" id="upload_file4">
+                                                        <input class="form-control" type="file" name="file4" id="upload_file4" disabled>
                                                     </div>
                                                     <input type="hidden" id="img_path4" value="<?php echo $bank_passbook; ?>">
                                                     <div id="preview4">
@@ -530,7 +530,7 @@
                                                             }
                                                         ?>
                                                         </label><br />
-                                                        <input class="form-control" type="file" name="file5" id="upload_file5">
+                                                        <input class="form-control" type="file" name="file5" id="upload_file5" disabled>
                                                     </div>
                                                     <input type="hidden" id="img_path5" value="<?php echo $voting_card; ?>">
                                                     <div id="preview5">
@@ -624,11 +624,6 @@
     <!-- jquery -->
     <script src="../assets/js/jquery/jquery-3.7.1.min.js"></script>
 
-    <script src="../assets/js/submitdata.js"></script>
-
-    <!-- file upload code js file -->
-    <script src="../../uploading/uploadUser.js"></script>
-
     <!-- !-- materialdesign icon js- -->
     <script src="../assets/js/pages/remix-icons-listing.js"></script>
     
@@ -653,171 +648,9 @@
     <!-- App js -->
     <script src="../assets/js/app.js"></script>
 
-    <script>
+    <script src="../../uploading/uploadTechnoDashboard.js"></script>
 
-        $(document).ready(function() {
-            var paymentMode = $(".payment:checked").val();
-            var payment_fee = $('#payment_fee').val()
-            if (paymentMode == "cheque") {
-                $("#chequeOpt").removeClass("d-none");
-                $("#onlineOpt").addClass("d-none");
-            } else if (paymentMode == "online") {
-                $("#onlineOpt").removeClass("d-none");
-                $("#chequeOpt").addClass("d-none");
-            } else {
-                $("#chequeOpt").addClass("d-none");
-                $("#onlineOpt").addClass("d-none");
-            }
-            var state = $('#mystate').val();
-        });
-
-        $('#country').on('change', function() {
-            var countryID = $(this).val();
-            if (countryID) {
-                $.ajax({
-                    type: 'POST',
-                    url: '../address/countrydata.php',
-                    data: 'country_id=' + countryID,
-                    success: function(htmll) {
-                        $('#mystate').html(htmll);
-                        $('#city').html('<option value="">Select state first</option>');
-                    }
-                });
-            } else {
-                $('#mystate').html('<option value="">Select country first</option>');
-                $('#city').html('<option value="">Select state first</option>');
-                $('#pin').val('');
-            }
-        });
-
-        $('#mystate').on('change', function() {
-            var stateID = $(this).val();
-            if (stateID) {
-                $.ajax({
-                    type: 'POST',
-                    url: '../address/countrydata.php',
-                    data: 'state_id=' + stateID,
-                    success: function(html) {
-                        $('#city').html(html);
-                    }
-                });
-            } else {
-                $('#city').html('<option value="">Select state first</option>');
-                $('#pin').val('');
-            }
-            
-        });
-
-        function toggleDiv(show) {
-            document.getElementById("paymentMode").classList.toggle("d-none", !show);
-            document.getElementById("payOpt").classList.toggle("d-none", !show);
-            document.getElementById("payProof").classList.toggle("d-none", !show);
-            let paymentFee = document.getElementById("payment_fee");
-            paymentFee.value = show ? "10000" : "FOC";
-
-        }
-
-        $('#city').on('change', function() {
-            var cityID = $(this).val();
-            if (cityID) {
-                $.ajax({
-                    type: 'POST',
-                    url: '../address/pincode.php',
-                    data: 'city_id=' + cityID,
-                    success: function(response) {
-                        $('#pin').val(response);
-                    }
-                });
-            } else {
-                $('#city').html('<option value="">Select state first</option>');
-                $('#pin').val('');
-            }
-        });
-       //payment type
-         $('#payment_fee').on('change', function() {
-            var payval=$(this).val();
-            if (payval != 'FOC') {
-                $('#paymentMode').removeClass('d-none');
-                $('#payProof').removeClass('d-none');
-                $('#payOpt').removeClass('d-none');
-            }else{
-                $('#paymentMode').addClass('d-none');
-                $('#payProof').addClass('d-none');
-                $('#payOpt').addClass('d-none');
-            }
-        });
-        // payment mode
-        $('#paymentMode').on('click', function() {
-            var paymentMode = $(".payment:checked").val();
-            if (paymentMode == "cheque") {
-                $("#chequeOpt").removeClass("d-none");
-                $("#onlineOpt").addClass("d-none");
-                $("#transactionNo").val("");
-            } else if (paymentMode == "online") {
-                $("#onlineOpt").removeClass("d-none");
-                $("#chequeOpt").addClass("d-none");
-                $("#chequeNo").val("");
-                $("#chequeDate").val("");
-                $("#bankName").val("");
-            } else {
-                $("#chequeOpt").addClass("d-none");
-                $("#onlineOpt").addClass("d-none");
-                $("#chequeNo").val("");
-                $("#chequeDate").val("");
-                $("#bankName").val("");
-                $("#transactionNo").val("");
-            }
-        });
-    </script>
-    <!-- dialer logic scripts -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-
-            const callBtn = document.getElementById("callBtn");
-
-            if (callBtn) {
-                callBtn.addEventListener("click", function(e) {
-
-                    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-                    if (!isMobile) {
-                        e.preventDefault();
-
-                        alert("📞 Calling works only on mobile devices.\nPlease dial 8010892265 from your phone.");
-                        location.reload();
-
-                        // Optional clipboard copy (safe fallback)
-                        if (navigator.clipboard) {
-                            navigator.clipboard.writeText("8010892265");
-                        }
-                    }
-                });
-            }
-
-        });
-    </script>
-
-    <script>
-        var modal = document.getElementById('staticBackdrop');
-
-        // Store the element that opened the modal
-        let lastFocusedElement;
-
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('[data-bs-toggle="modal"]')) {
-                lastFocusedElement = e.target;
-            }
-        });
-
-        modal.addEventListener('hidden.bs.modal', function () {
-            if (lastFocusedElement) {
-                lastFocusedElement.focus();
-            } else {
-                document.body.focus();
-            }
-        });
-    </script>
-    <!-- end dialer logic scripts -->
+    <script src="js/customer.js"></script>
 </body>
 
 </html>

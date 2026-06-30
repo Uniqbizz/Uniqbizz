@@ -197,6 +197,7 @@
                                                                 <th data-ordering="false">Customer ID & Full Name</th>
                                                                 <th data-ordering="false">TC ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
+                                                                <th data-ordering="false">Membership Type</th>
                                                                 <th data-ordering="false">Membership (&#8377;)</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
@@ -339,16 +340,16 @@
                         data: 'status',
                         render: function(status){
 
-                            if(status == 1){
+                            if(status == 0){
 
-                                return `
-                                    <p class="teApprovedBtn rounded-pill text-center mb-0">
-                                        Active
+                               return `
+                                    <p class="teDeletedBtn rounded-pill text-center mb-0">
+                                        Deleted
                                     </p>
                                 `;
                             }
 
-                            if(status == 3){
+                            if(status == 2){
 
                                 return `
                                     <p class="tePendingBtn rounded-pill text-center mb-0">
@@ -356,12 +357,6 @@
                                     </p>
                                 `;
                             }
-
-                            return `
-                                <p class="teDeletedBtn rounded-pill text-center mb-0">
-                                    Inactive
-                                </p>
-                            `;
                         }
                     }
                 ],
@@ -450,6 +445,21 @@
                                         ${data.email || '-'}
                                     </p>
                                 </div>
+                            `;
+                        }
+                    },
+                    {
+                        data: 'type',
+                        render: function(data) {
+
+                            if(!data || data == 0) {
+                                return '-';
+                            }
+                            const formattedData = data.replace(/\s*\/\s*/g, "<br>");
+                            return `
+                                <p class="fs-6 mb-0">
+                                    ${formattedData}
+                                </p>
                             `;
                         }
                     },
