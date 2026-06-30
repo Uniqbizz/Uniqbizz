@@ -607,6 +607,10 @@
                                 {
                                     location.href = "dashboard/chief_techno_enterprise/chief_techno_dashboard.php";
                                 }
+                                else if (res.user_type == "11")
+                                {
+                                    location.href = "dashboard/travel_consultant/travel_consultant_dashboard.php";
+                                }
                                 else
                                 {
                                     location.href = "dashboard/index.php";
