@@ -180,8 +180,8 @@
                                         </div>
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Total Revenue</p>
-                                            <h4 class="fw-bolder text-dark mb-1" id="total_revenue">&#8377; 2,00,00,000</h4>
-                                            <a href="product_payout.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <h4 class="fw-bolder text-dark mb-1" id="total_revenue">&#8377; 0</h4>
+                                            <a href="customers_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -332,19 +332,19 @@
                                         </p>
                                         <ul class="nav nav-pills mb-3 gap-1" id="pills-tab" role="tablist">
                                             <li class="nav-item m-0">
-                                                <button class="nav-link active" data-bs-toggle="pill"
+                                                <button class="nav-link  periodFilter" data-bs-toggle="pill"
                                                     data-bs-target="#today">Today</button>
                                             </li>
                                             <li class="nav-item m-0">
-                                                <button class="nav-link" data-bs-toggle="pill"
+                                                <button class="nav-link periodFilter" data-bs-toggle="pill"
                                                     data-bs-target="#week">Week</button>
                                             </li>
                                             <li class="nav-item m-0">
-                                                <button class="nav-link" data-bs-toggle="pill"
+                                                <button class="nav-link periodFilter" data-bs-toggle="pill"
                                                     data-bs-target="#month">Month</button>
                                             </li>
                                             <li class="nav-item m-0">
-                                                <button class="nav-link" data-bs-toggle="pill"
+                                                <button class="nav-link active periodFilter" data-bs-toggle="pill"
                                                     data-bs-target="#year">Year</button>
                                             </li>
                                         </ul>
@@ -359,137 +359,29 @@
                                                     <th scope="col">Earnings (&#8377;)</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="#">
-                                                <tr class="">
-                                                    <td>
-                                                        <p class="mb-0">TC001</p>
-                                                        <p class="mb-0">Rohit Sharma</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="mb-0 text-center">22</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="mb-0 text-center">55,000</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="mb-0 text-center">11,000</p>
-                                                    </td>
-                                                </tr>
-                                                <tr class="">
-                                                    <td>
-                                                        <p class="mb-0">TC001</p>
-                                                        <p class="mb-0">Rohit Sharma</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="mb-0 text-center">22</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="mb-0 text-center">55,000</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="mb-0 text-center">11,000</p>
-                                                    </td>
-                                                </tr>
-                                                <tr class="">
-                                                    <td>
-                                                        <p class="mb-0">TC001</p>
-                                                        <p class="mb-0">Rohit Sharma</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="mb-0 text-center">22</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="mb-0 text-center">55,000</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="mb-0 text-center">11,000</p>
-                                                    </td>
-                                                </tr>
-                                                <tr class="">
-                                                    <td>
-                                                        <p class="mb-0">TC001</p>
-                                                        <p class="mb-0">Rohit Sharma</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="mb-0 text-center">22</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="mb-0 text-center">55,000</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="mb-0 text-center">11,000</p>
-                                                    </td>
-                                                </tr>
+                                            <tbody id="topTcTableBody">
+                                                
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-6 col-sm-12 col-12">
-                                <div class="card rounded-4 border-1 p-3">
+                                <div class="card rounded-4 border-1 p-3" >
                                     <div class="card-title cardDisplay">
                                         <p class="commission-title fs-5 mb-1">
                                             Consultants Need Attention
                                         </p>
                                     </div>
-                                    <div class="d-flex gap-2 mt-2">
-                                        <div class="iconTE">
-                                            <i class="fa-solid fa-tree fa-xl"></i>
-                                        </div>
-                                        <div>
-                                            <p class="fs-5 mb-0 fw-bold">TC014</p>
-                                            <p class="fs-6 mb-0">No Neo Select in last 15 days</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex gap-2 mt-2">
-                                        <div class="iconTE">
-                                            <i class="fa-solid fa-tree fa-xl"></i>
-                                        </div>
-                                        <div>
-                                            <p class="fs-5 mb-0 fw-bold">TC014</p>
-                                            <p class="fs-6 mb-0">No Neo Select in last 15 days</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex gap-2 mt-2">
-                                        <div class="iconTE">
-                                            <i class="fa-solid fa-tree fa-xl"></i>
-                                        </div>
-                                        <div>
-                                            <p class="fs-5 mb-0 fw-bold">TC014</p>
-                                            <p class="fs-6 mb-0">No Neo Select in last 15 days</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex gap-2 mt-2">
-                                        <div class="iconTE">
-                                            <i class="fa-solid fa-tree fa-xl"></i>
-                                        </div>
-                                        <div>
-                                            <p class="fs-5 mb-0 fw-bold">TC014</p>
-                                            <p class="fs-6 mb-0">No Neo Select in last 15 days</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex gap-2 mt-2">
-                                        <div class="iconTE">
-                                            <i class="fa-solid fa-tree fa-xl"></i>
-                                        </div>
-                                        <div>
-                                            <p class="fs-5 mb-0 fw-bold">TC014</p>
-                                            <p class="fs-6 mb-0">No Neo Select in last 15 days</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex gap-2 mt-2">
-                                        <div class="iconTE">
-                                            <i class="fa-solid fa-tree fa-xl"></i>
-                                        </div>
-                                        <div>
-                                            <p class="fs-5 mb-0 fw-bold">TC014</p>
-                                            <p class="fs-6 mb-0">No Neo Select in last 15 days</p>
+                                    <div id="consultantAttentionList">
+                                        <div class="text-center py-3">
+                                            Loading...
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row mt-3">
+                        <!-- <div class="row mt-3">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                                 <div class="card rounded-4 border-1 p-3">
                                     <div class="card-title cardDisplay">
@@ -498,7 +390,7 @@
                                         </p>
                                         <ul class="nav nav-pills mb-3 gap-1" id="pills-tab" role="tablist">
                                             <li class="nav-item m-0">
-                                                <button class="nav-link active" data-bs-toggle="pill"
+                                                <button class="nav-link" data-bs-toggle="pill"
                                                     data-bs-target="#today">Today</button>
                                             </li>
                                             <li class="nav-item m-0">
@@ -510,7 +402,7 @@
                                                     data-bs-target="#month">Month</button>
                                             </li>
                                             <li class="nav-item m-0">
-                                                <button class="nav-link" data-bs-toggle="pill"
+                                                <button class="nav-link active" data-bs-toggle="pill"
                                                     data-bs-target="#year">Year</button>
                                             </li>
                                         </ul>
@@ -637,7 +529,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- card section 6 -->
                         <div class="supportImagePosition mt-2">
                             <img src="../assets/images/supportImage.png" alt="Referral Image" class="supportImage">
@@ -1390,6 +1282,139 @@
                 });
 
             }
+            function loadPerformanceData(period){
+                $.ajax({
+                    url: 'models/dashboard/te_tc_performance_data.php',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        period: period
+                    },
+                    success: function(res){
+
+                        let html = '';
+
+                        if(res.status && res.data.length > 0){
+
+                            $.each(res.data, function(index, tc){
+
+                                html += `
+                                    <tr>
+                                        <td>
+                                            <p class="mb-0">${tc.tc_id}</p>
+                                            <p class="mb-0">${tc.tc_name}</p>
+                                        </td>
+                                        <td>
+                                            <p class="mb-0 text-center">
+                                                ${parseInt(tc.cu_count || 0).toLocaleString()}
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="mb-0 text-center">
+                                                ${(parseFloat(tc.tc_revenue || 0)).toLocaleString('en-IN')}
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="mb-0 text-center">
+                                                ${(parseFloat(tc.tc_earning || 0)).toLocaleString('en-IN')}
+                                            </p>
+                                        </td>
+                                    </tr>
+                                `;
+                            });
+
+                        } else {
+
+                            html = `
+                                <tr>
+                                    <td colspan="4" class="text-center py-4 text-muted fw-bold">
+                                        No Data Found
+                                    </td>
+                                </tr>
+                            `;
+                        }
+
+                        $('#topTcTableBody').html(html);
+                    },
+                    error: function(){
+
+                        $('#topTcTableBody').html(`
+                            <tr>
+                                <td colspan="4" class="text-center py-4 text-danger fw-bold">
+                                    Unable to load data
+                                </td>
+                            </tr>
+                        `);
+                    }
+                });
+            }
+            function loadConsultantsNeedAttention(){
+
+                $.ajax({
+                    url: 'models/dashboard/consultants_need_attention.php',
+                    type: 'GET',
+                    dataType: 'json',
+
+                    success: function(response){
+
+                        let html = '';
+
+                        if(response.status && response.data.length > 0){
+
+                            $.each(response.data,function(index,row){
+
+                                let message = '';
+
+                                if(row.last_customer_date === null){
+
+                                    message = 'No Neo Select enrolled yet';
+                                }else{
+
+                                    message = 'No Neo Select in last ' + row.inactive_days + ' days';
+                                }
+
+                                html += `
+                                    <div class="d-flex gap-2 mt-2">
+                                        <div class="iconTE">
+                                            <i class="fa-solid fa-tree fa-xl"></i>
+                                        </div>
+                                        <div>
+                                            <p class="fs-5 mb-0 fw-bold">${row.tc_id}</p>
+                                            <p class="fs-6 mb-0">${message}</p>
+                                        </div>
+                                    </div>
+                                `;
+                            });
+
+                        }else{
+
+                            html = `
+                                <div class="text-center py-3">
+                                    No inactive consultants found
+                                </div>
+                            `;
+                        }
+
+                        $('#consultantAttentionList').html(html);
+                    },
+
+                    error: function(){
+
+                        $('#consultantAttentionList').html(`
+                            <div class="text-center py-3 text-danger">
+                                Unable to load data
+                            </div>
+                        `);
+                    }
+                });
+            }
+            $(document).on('click', '.periodFilter', function () {
+
+                let period = $(this).text().trim().toLowerCase();
+
+                loadPerformanceData(period);
+
+            });
             
             $(document).on(
                 'change',
@@ -1426,6 +1451,8 @@
                 initializeEnrollmentTrendChart();
 
                 loadEnrollmentTrendChart();
+                loadPerformanceData('year');
+                loadConsultantsNeedAttention();
 
             });
         </script>

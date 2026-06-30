@@ -13,10 +13,10 @@
     $prevDateYear = date('Y');  //Year in number form. 
 
     $tdsPercentage = 2/100;
-    $columnDesignation = 'business_mentor';
-    $columnMessage = 'message_bm';
-    $columnCommision = 'commision_bm';
-    $columnStatus = 'status_bm';
+    $columnDesignation = 'techno_enterprise';
+    $columnMessage = 'message_te';
+    $columnCommision = 'commision_te';
+    $columnStatus = 'status_te';
 ?>
 
 <!doctype html>
@@ -24,7 +24,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title>Super Techno Enterprise Dashboard | Holiday Account Payout</title>
+        <title>Techno Enterprise Dashboard | Holiday Account Payout</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -257,7 +257,7 @@
                                                                                                 <td class="text-end">'.$CommAmt.'</td>
                                                                                                 <td class="text-end">'.$tds.'</td>
                                                                                                 <td class="text-end">'.$totalAmt.'
-                                                                                                    <a href="payout/forms/customer_membership/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$row[$columnDesignation].'&date='.$dt.'&message='.$message1.'&message_status='.$row[$columnStatus].'&commission='.$row[$columnCommision].'">
+                                                                                                    <a href="payout/forms/customer_membership/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$userId.'&date='.$dt.'&message='.$message1.'&message_status='.$row[$columnStatus].'&commission='.$row[$columnCommision].'">
                                                                                                         <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                                                     </a>
                                                                                                 </td>';
@@ -400,7 +400,7 @@
                                                                     <td class="text-end">'.$CommAmt.'</td>
                                                                     <td class="text-end">'.$tds.'</td>
                                                                     <td class="text-end">'.$totalAmt.'
-                                                                        <a href="payout/forms/customer_membership/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$row[$columnDesignation].'&date='.$dt.'&message='.$message1.'&message_status='.$row[$columnStatus].'&commission='.$row[$columnCommision].'">
+                                                                        <a href="payout/forms/customer_membership/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$userId.'&date='.$dt.'&message='.$message1.'&message_status='.$row[$columnStatus].'&commission='.$row[$columnCommision].'">
                                                                             <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                         </a>
                                                                     </td>';
@@ -535,7 +535,7 @@
                                                                     <td class="text-end">'.$CommAmt.'</td>
                                                                     <td class="text-end">'.$tds.'</td>
                                                                     <td class="text-end">'.$totalAmt.'
-                                                                        <a href="payout/forms/customer_membership/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$row[$columnDesignation].'&date='.$dt.'&message='.$message1.'&message_status='.$row[$columnStatus].'&commission='.$row[$columnCommision].'">
+                                                                        <a href="payout/forms/customer_membership/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$userId.'&date='.$dt.'&message='.$message1.'&message_status='.$row[$columnStatus].'&commission='.$row[$columnCommision].'">
                                                                             <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                         </a>
                                                                     </td>';
@@ -675,7 +675,7 @@
                                                                     <td class="text-end">'.$CommAmt.'</td>
                                                                     <td class="text-end">'.$tds.'</td>
                                                                     <td class="text-end">'.$totalAmt.'
-                                                                        <a href="payout/forms/customer_membership/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$row[$columnDesignation].'&date='.$dt.'&message='.$message1.'&message_status='.$row[$columnStatus].'&commission='.$row[$columnCommision].'">
+                                                                        <a href="payout/forms/customer_membership/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$userId.'&date='.$dt.'&message='.$message1.'&message_status='.$row[$columnStatus].'&commission='.$row[$columnCommision].'">
                                                                             <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                         </a>
                                                                     </td>';

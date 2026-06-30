@@ -3,9 +3,58 @@
     require 'connect.php';
     session_start();
     if(!isset($_SESSION['username2']) || !isset($_SESSION['user_type_id_value']) || !isset($_SESSION['user_id']) ){
-        print_r($_SESSION);
-        exit;
-        echo '<script>location.href = "../login.php";</script>';
+        //print_r($_SESSION);
+        //exit;
+?>  
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Session Expired</title>
+
+        <!-- SweetAlert2 CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+        <!-- SweetAlert2 JS -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+        <style>
+            body{
+                margin:0;
+                padding:0;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                height:100vh;
+                background:#f8f9fa;
+                font-family:Arial, Helvetica, sans-serif;
+            }
+        </style>
+    </head>
+    <body>
+
+    <script>
+    Swal.fire({
+        icon: 'warning',
+        title: 'Session Expired',
+        text: 'Your session has expired. Please login again.',
+        confirmButtonText: 'Login',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: true
+    }).then(function(result){
+        if(result.isConfirmed){
+            window.location.href = "../login.php";
+        }
+    });
+    </script>
+
+    </body>
+    </html>
+<?php
+    exit;
+        // echo '<script>location.href = "../login.php";</script>';
     }
 
      $userFname = $_SESSION['username2']; //first name of user 'Ryam'.

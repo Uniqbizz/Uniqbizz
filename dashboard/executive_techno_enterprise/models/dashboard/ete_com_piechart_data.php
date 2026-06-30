@@ -33,14 +33,6 @@
                     )
                     +
                     (
-                        SELECT COALESCE(SUM(commission_zm),0)
-                        FROM sub_franchisee_payout
-                        WHERE zonal_manager = :user_id
-                        AND MONTH(created_date)=:current_month
-                        AND YEAR(created_date)=:current_year
-                    )
-                    +
-                    (
                         SELECT COALESCE(SUM(commission_bm_mf_sf),0)
                         FROM institution_payout
                         WHERE bm_mf_sf = :user_id
@@ -94,14 +86,6 @@
                         SELECT COALESCE(SUM(ete_amount),0)
                         FROM techno_enterprise_payout
                         WHERE ete_id = :user_id
-                        AND MONTH(created_date)=:prev_month
-                        AND YEAR(created_date)=:prev_year
-                    )
-                    +
-                    (
-                        SELECT COALESCE(SUM(commission_zm),0)
-                        FROM sub_franchisee_payout
-                        WHERE zonal_manager = :user_id
                         AND MONTH(created_date)=:prev_month
                         AND YEAR(created_date)=:prev_year
                     )

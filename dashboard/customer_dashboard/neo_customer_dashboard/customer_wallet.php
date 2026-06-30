@@ -1323,7 +1323,7 @@
                                                     : 'text-success'}
                                                 fw-bold
                                             ">
-                                                ${valuePrefix}1
+                                                ${valuePrefix}${item.coupon_count}
                                             </td>
 
                                             <td class="

@@ -132,7 +132,7 @@
                                                         <thead>
                                                             <tr class="table-primary">
                                                                 <th data-ordering="false">Full Name</th>
-                                                                <th data-ordering="false">Reference ID & Name</th>
+                                                                <th data-ordering="false">TE ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
@@ -195,7 +195,7 @@
                                                         <thead>
                                                             <tr class="table-primary">
                                                                 <th data-ordering="false">TC ID & Full Name</th>
-                                                                <th data-ordering="false">TE/F ID & Name</th>
+                                                                <th data-ordering="false">TE ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
@@ -212,7 +212,11 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div class="btn" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 35px; border-radius: 50%;">
+                            <a href="#" style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
+                                <i class="fa-solid fa-circle-plus fa-beat-fade fa-3x" style="color: #4b38b3;"></i>
+                            </a>
+                        </div>
                     </div> <!-- container-fluid -->
 
                 </div><!-- End Page-content -->
@@ -233,9 +237,9 @@
         </button>
         <!--end back-to-top-->
         <!-- contact card pop up  start-->
-        <button type="button" class="contactBtn btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        <!-- <button type="button" class="contactBtn btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             <i class="ri-phone-fill"></i>
-        </button>
+        </button> -->
         <?php include (__DIR__.'/../contact_modal.php') ?>
         <!-- JAVASCRIPT -->
         <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -558,7 +562,12 @@
                         if(res.status && res.data.length > 0){
 
                             tcRegTable.rows.add(res.data);
-                            $('#rowCount').val(res.data.length);
+                            tcRegTable.on('draw.dt', function () {
+                                $('#rowCount').val(
+                                    tcRegTable.rows({ search: 'applied' }).count()
+                                );
+                            });
+                            // $('#rowCount').val(res.data.length);
 
                         }
 

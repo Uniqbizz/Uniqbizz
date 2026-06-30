@@ -5,7 +5,7 @@
     $current_year = date('Y'); 
 
     //personal details - table "chief_techno_enterprise"
-    
+    $actionType           = $_POST['action_type'] ?? '';
     $firstname            = $_POST['firstname'] ?? '';
     $lastname             = $_POST['lastname'] ?? '';
     $father_spouse_name   = $_POST['father_spouse_name'] ?? '';
@@ -66,11 +66,26 @@
     $income_proof                   = $_POST['income_proof'] ?? '';
     $other_document                 = $_POST['other_document'] ?? '';
 
+    if($actionType == 'draft'){
+        // data insertion for logs tables 
+        $status= '4';
+        $message="Chief Techo Enterprise form saved as draft by admin from Add Page";
+    }else{
+        // data insertion for logs tables 
+	    $status= '2';
+        $message="Added new Chief Techo Enterprise by admin";
+        $message2="Added new Chief Techo Enterprise by admin";
+    }
+
+    $title="Chief Techo Enterprise";
+    $operation="Add";
     $user_type="36";
-    $register_by="1";
-	$status= '2';
+    $register_by="1"; 
+    $fromWhom="1";
     $age = '';
     $application_id = '';
+    $message2 = '';
+
     // genarate uniq application id 
     function getApplication() {
         return 'CTEAPP' . strtoupper(bin2hex(random_bytes(4)));
@@ -83,13 +98,6 @@
         $birth_year = $birthYear[0];
         $age = $current_year - $birth_year;
     }
-
-    // data insertion for logs tables 
-    $title="Chief Techo Enterprise";
-    $message="Added new Chief Techo Enterprise by admin";
-    $message2="Added new Chief Techo Enterprise by admin";
-    $fromWhom="1";
-	$operation="Add";
 
     try {
 
@@ -321,10 +329,22 @@
         $stmt7->execute(array(
             ':title' => $title,
             ':message' => $message,
-            ':message2' =>$message2,
+            ':message2' =>$message2 ?? '',
             ':register_by' => $register_by,
             ':from_whom' => $fromWhom,
             ':operation' => $operation
+        ));
+
+        $sql8= "INSERT INTO user_logs (application_id, title, message, reference_no, operation, from_whom) VALUES (:application_id, :title ,:message, :reference_no, :operation, :from_whom)";
+        $stmt8 =$conn->prepare($sql8);
+
+        $stmt8->execute(array(
+            ':application_id' => $application_id,
+            ':title' => $title,
+            ':message' => $message,
+            ':reference_no' => $register_by,
+            ':operation' => $operation,
+            ':from_whom' => $fromWhom
         ));
 
         $conn->commit();

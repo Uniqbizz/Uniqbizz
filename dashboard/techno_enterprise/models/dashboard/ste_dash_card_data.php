@@ -22,7 +22,7 @@
                         ON cu.ta_reference_no = ta.ca_travelagency_id
                     INNER JOIN corporate_agency ca
                         ON ta.reference_no = ca.corporate_agency_id
-                    WHERE ca.reference_no = :user_id
+                    WHERE ta.reference_no = :user_id
                     AND cu.status IN (1,3)
                     AND ta.status IN (1,3)
                     AND ca.status IN (1,3)
@@ -107,7 +107,6 @@
         'status' => true,
         'message' => 'Data fetched successfully',
         'data' => [
-            'te_count' => (int)$data['te_count'],
             'tc_count' => (int)$data['tc_count'],
             'cu_count' => (int)$data['cu_count'],
             'all_earning' => (int)$data['all_earning'],

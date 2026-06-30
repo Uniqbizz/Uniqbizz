@@ -621,7 +621,12 @@
                         if(res.status && res.data.length > 0){
 
                             teRegTable.rows.add(res.data);
-                            $('#rowCount').val(res.data.length);
+                            teRegTable.on('draw.dt', function () {
+                                $('#rowCount').val(
+                                    teRegTable.rows({ search: 'applied' }).count()
+                                );
+                            });
+                            // $('#rowCount').val(res.data.length);
 
                         }
 

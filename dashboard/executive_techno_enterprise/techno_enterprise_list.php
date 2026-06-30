@@ -6,7 +6,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title> Techno Enterprise | Franchisee | Institution List</title>
+        <title> Techno Enterprise | Institution List</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -97,12 +97,12 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Techno Enterprise | Franchisee | Institution</h4>
+                                    <h4 class="mb-sm-0">Techno Enterprise | Institution</h4>
 
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="executive_techno_dashboard.php">Dashboard</a></li>
-                                            <li class="breadcrumb-item active">View Techno Enterprise | Franchisee | Institution</li>
+                                            <li class="breadcrumb-item active">View Techno Enterprise | Institution</li>
                                         </ol>
                                     </div>
 
@@ -123,8 +123,8 @@
                                                         <i class="fa-solid fa-hourglass-half fa-xl"></i>
                                                     </div>
                                                     <div class="align-content-end">
-                                                        <h5 class="card-title text-dark mb-0">Pending Techno Enterprise | Franchisee | Institution List</h5>
-                                                        <p class="text-muted fs-6 mb-0">Techno Enterprise | Franchisee | Institution pending for approval</p>
+                                                        <h5 class="card-title text-dark mb-0">Pending Techno Enterprise | Institution List</h5>
+                                                        <p class="text-muted fs-6 mb-0">Techno Enterprise | Institution pending for approval</p>
                                                     </div>
                                                 </div>    
                                                 <div class="card-body">
@@ -158,8 +158,8 @@
                                                                     <i class="ri-verified-badge-line" style="font-size: 30px;"></i>
                                                                 </div>
                                                                 <div class="align-content-end">
-                                                                    <h5 class="card-title text-dark mb-0">Registered Techno Enterprise | Franchisee | Institution List</h5>
-                                                                    <p class="text-muted fs-6 mb-0">All approved and active Techno Enterprises | Franchisee | Institution</p>
+                                                                    <h5 class="card-title text-dark mb-0">Registered Techno Enterprise | Institution List</h5>
+                                                                    <p class="text-muted fs-6 mb-0">All approved and active Techno Enterprises | Institution</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -196,7 +196,7 @@
                                                     <table id="example-dataTable-2" class="table table-striped table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                                         <thead>
                                                             <tr class="table-primary">
-                                                                <th data-ordering="false">TE | F | I ID & Full Name</th>
+                                                                <th data-ordering="false">TE | I ID & Full Name</th>
                                                                 <th data-ordering="false">Reference ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Amt (&#8377;)</th>
@@ -312,7 +312,7 @@
                                     </p>
 
                                     <p class="fs-6 mb-0">
-                                        ${data.super_techno_enterprise_id || '-'}
+                                        ${data.reference_id || '-'}
                                     </p>
                                 </div>
                             `;
@@ -488,7 +488,7 @@
                                         ${data.ref_firstname || '-'} ${data.ref_lastname || ''}
                                     </p>
                                     <p class="fs-6 mb-0">
-                                        ${data.super_techno_enterprise_id || '-'}
+                                        ${data.reference_id || '-'}
                                     </p>
                                 </div>
                             `;
@@ -641,7 +641,12 @@
                         if(res.status && res.data.length > 0){
 
                             teRegTable.rows.add(res.data);
-                            $('#rowCount').val(res.data.length);
+                            teRegTable.on('draw.dt', function () {
+                                $('#rowCount').val(
+                                    teRegTable.rows({ search: 'applied' }).count()
+                                );
+                            });
+                            // $('#rowCount').val(res.data.length);
 
                         }
 

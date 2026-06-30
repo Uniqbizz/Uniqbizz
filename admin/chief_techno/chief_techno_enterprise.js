@@ -1,10 +1,51 @@
-// @@@@****#### executive_techno_enterprise start by admin @@@@****####
-// Add executive_techno_enterprise by admin
+//age calculation
+var today = new Date();
+var currentYear = today.getFullYear();
+
+$("#email").keyup(function () {
+    var email = $("#email").val().trim();
+    var testValue = $("#testValue").val().trim();
+    emailtest(email, testValue);
+});
+
+var emailtest = (emailtest, testValue) => {
+    $.ajax({
+        type: "POST",
+        url: "../test_data/emailtest.php",
+        data: "email=" + emailtest + "&tablename=" + testValue,
+        success: function (response) {
+            if (response == 1) {
+                $("#testemails").html(
+                    '<input type="hidden"  id="testemail" value="1" >'
+                );
+            } else {
+                $("#testemails").html(
+                    '<input  type="hidden" id="testemail" value="0" >'
+                );
+                // return false;
+            }
+        },
+    });
+};
+
 $("#addChiefTechnoEnterprise").on("click", function (e) {
     e.preventDefault();
-    // console.log('Add customer button clicked');
+    submitAddForm('submit');
+});
 
-    var mobileRegex = /^[0-9]{10}$/;
+$("#saveDraftAdd").on("click", function (e) {
+    e.preventDefault();
+    submitAddForm('draft');
+});
+
+// @@@@****#### executive_techno_enterprise start by admin @@@@****####
+// Add executive_techno_enterprise by admin
+function submitAddForm(actionType) {
+    // e.preventDefault();
+    // console.log('Add customer button clicked '+actionType);
+
+    var phoneReg = /^[0-9]{10}$/;
+    var emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     // get all values of checkbox and store it in hidden field in json format
     let selected = [];
@@ -82,152 +123,205 @@ $("#addChiefTechnoEnterprise").on("click", function (e) {
     var income_proof = $(":hidden#img_path9").val().trim();
     var other_document = $(":hidden#img_path10").val().trim();
 
+    var testE = $("#testemail").val(); // Email Validation Only one email address should be present in one user table
 
-    if (firstname.length < 3) {
-        alert("Enter proper first name");
-    }
-    else if (lastname.length < 3) {
-        alert("Enter proper last name");
-    }
-    else if (phone.length !== 10) {
-        alert("Enter valid mobile number");
-    }
-    else if (email === "") {
-        alert("Enter email address");
-    }
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        alert("Enter valid email address");
-    }
-    else if (country === "") {
-        alert("Select Country");
-    }
-    else if (mystate === "") {
-        alert("Select State");
-    }
-    else if (city === "") {
-        alert("Select City");
-    }
-    else if (address === "") {
-        alert("Enter Address");
-    }
-    else if (nominee_name === "") {
-        alert("Enter Nominee Name");
-    }
-    else if (acc_holder_name === "") {
-        alert("Enter account holder name");
-    }
-    else if (bank_name === "") {
-        alert("Enter bank name");
-    }
-    else if (account_number === "") {
-        alert("Enter account number");
-    }
-    else if (ifsc_code === "") {
-        alert("Enter IFSC code");
+    // ======================
+    // VALIDATION ONLY FOR SUBMIT
+    // ======================
+    if (actionType === 'submit') {
+        
+        if (firstname.length < 3) {
+            alert("Enter proper first name");
+            return;
+        }
+        else if (lastname.length < 3) {
+            alert("Enter proper last name");
+            return;
+        }
+        else if (phone.length !== 10) {
+            alert("Enter valid mobile number");
+            return;
+        }
+        else if (email === "") {
+            alert("Enter email address");
+            return;
+        }
+        else if (!emailReg.test(email)) {
+            alert("Enter valid email address");
+            return;
+        }
+        else if (country === "") {
+            alert("Select Country");
+            return;
+        }
+        else if (mystate === "") {
+            alert("Select State");
+            return;
+        }
+        else if (city === "") {
+            alert("Select City");
+            return;
+        }
+        else if (address === "") {
+            alert("Enter Address");
+            return;
+        }
+        else if (nominee_name === "") {
+            alert("Enter Nominee Name");
+            return;
+        }
+        else if (acc_holder_name === "") {
+            alert("Enter account holder name");
+            return;
+        }
+        else if (bank_name === "") {
+            alert("Enter bank name");
+            return;
+        }
+        else if (account_number === "") {
+            alert("Enter account number");
+            return;
+        }
+        else if (ifsc_code === "") {
+            alert("Enter IFSC code");
+            return;
+        } 
+        else if (!phoneReg.test(phone)) {
+            alert("Enter Valid Mobile Number");
+            return;
+        }
+        // else if (!mobileRegex.test(alt_phone)) {
+        //     alert("Enter Valid Alternate Mobile Number");
+        // return;
+        // }
+        // else if (phone === alt_phone) {
+        //     alert("Mobile Number and Alternate Mobile Number cannot be the same");
+        // return;
+        // }
+        else if (account_number !== confirm_account_number) {
+            alert("Account Number and Confirm Account Number do not match");
+            return;
+        } 
+        else if (profile_pic === "") {
+            alert("Upload Profile Picture");
+            return;
+        }
+        else if (testE == "1") {
+            alert("Email already exists");
+            return;
+        }
+        else if (!phoneReg.test(phone)) {
+            alert("Contact Number Must be 10 Digit");
+            return;
+        }
+        else if (!phoneReg.test(alt_phone)) {
+            alert("Alternate Contact Number Must be 10 Digit");
+            return;
+        }
+        else if (!phoneReg.test(nominee_phone)) {
+            alert("Nominee Contact Number Must be 10 Digit");
+            return;
+        }
     } 
-    else if (!mobileRegex.test(phone)) {
-        alert("Enter Valid Mobile Number");
-    }
-    // else if (!mobileRegex.test(alt_phone)) {
-    //     alert("Enter Valid Alternate Mobile Number");
-    // }
-    // else if (phone === alt_phone) {
-    //     alert("Mobile Number and Alternate Mobile Number cannot be the same");
-    // }
-    else if (account_number !== confirm_account_number) {
-        alert("Account Number and Confirm Account Number do not match");
-    } 
-    else if (profile_pic === "") {
-        alert("Upload Profile Picture");
-    }
-    else {
 
-        var dataObj = {
-            firstname: firstname,
-            lastname: lastname,
-            father_spouse_name: father_spouse_name,
-            email: email,
-            dob: dob,
-            gender: gender,
-            country_code: country_cd,
-            phone: phone,
-            country_code_alt: country_cd_alt,
-            alt_phone: alt_phone,
-            aadhar_no: aadhar_No,
-            pan_no: pan_no,
+    var dataObj = {
+        action_type: actionType, // draft or submit
+        firstname: firstname,
+        lastname: lastname,
+        father_spouse_name: father_spouse_name,
+        email: email,
+        dob: dob,
+        gender: gender,
+        country_code: country_cd,
+        phone: phone,
+        country_code_alt: country_cd_alt,
+        alt_phone: alt_phone,
+        aadhar_no: aadhar_No,
+        pan_no: pan_no,
 
-            country: country,
-            state: mystate,
-            city: city,
-            pincode: pin,
-            address: address,
+        country: country,
+        state: mystate,
+        city: city,
+        pincode: pin,
+        address: address,
 
-            occupation: occupation,
-            experience: experience,
-            annual_income: annual_income,
-            team_managed: team_managed,
-            team_size: team_size,
-            leadership_json: leadership_json,
-            other_lead: other_lead,
+        occupation: occupation,
+        experience: experience,
+        annual_income: annual_income,
+        team_managed: team_managed,
+        team_size: team_size,
+        leadership_json: leadership_json,
+        other_lead: other_lead,
 
-            qualification: qualification,
+        qualification: qualification,
 
-            career_objective: career_objective,
-            team_expected: team_expected,
-            operating_state: operating_state,
+        career_objective: career_objective,
+        team_expected: team_expected,
+        operating_state: operating_state,
 
-            nominee_name: nominee_name,
-            nominee_relation: nominee_relation,
-            country_cd_nominee: country_cd_nominee,
-            nominee_phone: nominee_phone,
-            nominee_dob: nominee_dob,
-            nominee_address: nominee_address,
+        nominee_name: nominee_name,
+        nominee_relation: nominee_relation,
+        country_cd_nominee: country_cd_nominee,
+        nominee_phone: nominee_phone,
+        nominee_dob: nominee_dob,
+        nominee_address: nominee_address,
 
-            acc_holder_name: acc_holder_name,
-            bank_name: bank_name,
-            account_number: account_number,
-            ifsc_code: ifsc_code,
-            branch_name: branch_name,
+        acc_holder_name: acc_holder_name,
+        bank_name: bank_name,
+        account_number: account_number,
+        ifsc_code: ifsc_code,
+        branch_name: branch_name,
 
-            profile_pic: profile_pic,
-            aadhar_card: aadhar_card,
-            pan_card: pan_card,
-            passbook: passbook,
-            resume_cv: resume_cv,
-            address_proof: address_proof,
-            professional_profile: professional_profile,
-            business_profile: business_profile,
-            income_proof: income_proof,
-            other_document: other_document
-        };
-        // console.log(dataObj);
+        profile_pic: profile_pic,
+        aadhar_card: aadhar_card,
+        pan_card: pan_card,
+        passbook: passbook,
+        resume_cv: resume_cv,
+        address_proof: address_proof,
+        professional_profile: professional_profile,
+        business_profile: business_profile,
+        income_proof: income_proof,
+        other_document: other_document
+    };
+    // console.log(dataObj);
 
-        $("#addChiefTechnoEnterprise").attr("disabled", "disabled");
-        // console.log(dataString);
-        $("#loading-overlay").show(); //loading screen
-        $.ajax({
-            type: "POST",
-            url: "addChiefTechnoData.php",
-            data: dataObj,
-            cache: false,
-            success: function (data) {
-                console.log(data);
-                if (data == 1) {
-                    $("#loading-overlay").hide(); //loading screen
-                    alert("Added Successfuly");
-                    location.href = "chief_techno.php";
-                } else {
-                    $("#loading-overlay").hide(); //loading screen
-                    alert("Failed");
-                }
-            },
-        });
-    }
-});
-// Edit business_trainee by admin
+    $("#addChiefTechnoEnterprise").attr("disabled", "disabled");
+    // console.log(dataString);
+    $("#loading-overlay").show(); //loading screen
+    $.ajax({
+        type: "POST",
+        url: "addChiefTechnoData.php",
+        data: dataObj,
+        cache: false,
+        success: function (data) {
+            console.log(data);
+            if (data == 1) {
+                $("#loading-overlay").hide(); //loading screen
+                alert("Added Successfuly");
+                location.href = "chief_techno.php";
+            } else {
+                $("#loading-overlay").hide(); //loading screen
+                alert("Failed");
+            }
+        },
+    });
+    
+};
+
+
 $("#editChiefTechnoEnterprise").on("click", function (e) {
     e.preventDefault();
-    // console.log('Add customer button clicked');
+    submitEditForm('submit');
+});
+
+$("#saveDraftEdit").on("click", function (e) {
+    e.preventDefault();
+    submitEditForm('draft');
+});
+// Edit business_trainee by admin
+function submitEditForm(actionType) {
+    // e.preventDefault();
+    // console.log('Add customer button clicked '+actionType);
 
     var mobileRegex = /^[0-9]{10}$/;
 
@@ -243,7 +337,7 @@ $("#editChiefTechnoEnterprise").on("click", function (e) {
     // var user_id_name = $("#user_id_name").val();
     // var reference_name = $("#reference_name").val();
     var application_id = $("#applicationId").val();
-    var editfor = $("#editfor").val().trim(); // pending or confirm
+    var editfor = $("#editfor").val().trim(); // pending or registered
     var ref_id = $("#ref_id").val().trim(); // reference of the user - ETE260003
     var id = $("#id").val().trim(); // ChiefTE id value if user is not registered - 11 , if registered - STE2600011
     var firstname = $("#firstname").val().trim();
@@ -311,150 +405,237 @@ $("#editChiefTechnoEnterprise").on("click", function (e) {
     var income_proof = $(":hidden#img_path9").val().trim();
     var other_document = $(":hidden#img_path10").val().trim();
 
+    var testE = $("#testemail").val(); // Email Validation Only one email address should be present in one user table
 
-    if (firstname.length < 3) {
-        alert("Enter proper first name");
-    }
-    else if (lastname.length < 3) {
-        alert("Enter proper last name");
-    }
-    else if (phone.length !== 10) {
-        alert("Enter valid mobile number");
-    }
-    else if (email === "") {
-        alert("Enter email address");
-    }
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        alert("Enter valid email address");
-    }
-    else if (country === "") {
-        alert("Select Country");
-    }
-    else if (mystate === "") {
-        alert("Select State");
-    }
-    else if (city === "") {
-        alert("Select City");
-    }
-    else if (address === "") {
-        alert("Enter Address");
-    }
-    else if (nominee_name === "") {
-        alert("Enter Nominee Name");
-    }
-    else if (acc_holder_name === "") {
-        alert("Enter account holder name");
-    }
-    else if (bank_name === "") {
-        alert("Enter bank name");
-    }
-    else if (account_number === "") {
-        alert("Enter account number");
-    }
-    else if (ifsc_code === "") {
-        alert("Enter IFSC code");
-    } 
-    else if (!mobileRegex.test(phone)) {
-        alert("Enter Valid Mobile Number");
-    }
-    // else if (!mobileRegex.test(alt_phone)) {
-    //     alert("Enter Valid Alternate Mobile Number");
-    // }
-    // else if (phone === alt_phone) {
-    //     alert("Mobile Number and Alternate Mobile Number cannot be the same");
-    // }
-    else if (account_number !== confirm_account_number) {
-        alert("Account Number and Confirm Account Number do not match");
-    } 
-    else if (profile_pic === "") {
-        alert("Upload Profile Picture");
-    } 
-    else {
+    var phoneReg = /^[0-9]{10}$/;
 
-        var dataObj = {
-            application_id: application_id,
-            editfor: editfor,
-            ref_id: ref_id,
-            id: id,
-            firstname: firstname,
-            lastname: lastname,
-            father_spouse_name: father_spouse_name,
-            email: email,
-            dob: dob,
-            gender: gender,
-            country_code: country_cd,
-            phone: phone,
-            country_code_alt: country_cd_alt,
-            alt_phone: alt_phone,
-            aadhar_no: aadhar_No,
-            pan_no: pan_no,
+    //radio button approve/reject Store data in array format
+    function getVerificationStatus() {
+        let verificationStatus = {};
 
-            country: country,
-            state: mystate,
-            city: city,
-            pincode: pin,
-            address: address,
+        $("input[type='radio'][name^='verification_status']").each(function () {
+            let name = $(this).attr("name");
+            let match = name.match(/\[(.*?)\]/);
 
-            occupation: occupation,
-            experience: experience,
-            annual_income: annual_income,
-            team_managed: team_managed,
-            team_size: team_size,
-            leadership_json: leadership_json,
-            other_lead: other_lead,
+            if (match && match[1]) {
+                let field = match[1];
 
-            qualification: qualification,
-
-            career_objective: career_objective,
-            team_expected: team_expected,
-            operating_state: operating_state,
-
-            nominee_name: nominee_name,
-            nominee_relation: nominee_relation,
-            country_cd_nominee: country_cd_nominee,
-            nominee_phone: nominee_phone,
-            nominee_dob: nominee_dob,
-            nominee_address: nominee_address,
-
-            acc_holder_name: acc_holder_name,
-            bank_name: bank_name,
-            account_number: account_number,
-            ifsc_code: ifsc_code,
-            branch_name: branch_name,
-
-            profile_pic: profile_pic,
-            aadhar_card: aadhar_card,
-            pan_card: pan_card,
-            passbook: passbook,
-            resume_cv: resume_cv,
-            address_proof: address_proof,
-            professional_profile: professional_profile,
-            business_profile: business_profile,
-            income_proof: income_proof,
-            other_document: other_document
-        };
-        // console.log(dataObj);
-
-        $("#editChiefTechnoEnterprise").attr("disabled", "disabled");
-        // console.log(dataString);
-        $("#loading-overlay").show(); //loading screen
-        $.ajax({
-            type: "POST",
-            url: "editChiefTechnoData.php",
-            data: dataObj,
-            cache: false,
-            success: function (data) {
-                console.log(data);
-                if (data == 1) {
-                    $("#loading-overlay").hide(); //loading screen
-                    alert("Edit Successfuly");
-                    location.href = "chief_techno.php";
-                } else {
-                    $("#loading-overlay").hide(); //loading screen
-                    alert("Failed");
+                // Initialize field once
+                if (!(field in verificationStatus)) {
+                    verificationStatus[field] = 'pending';
                 }
-            },
+
+                // If this radio is checked, update its value
+                if ($(this).is(':checked')) {
+                    verificationStatus[field] = $(this).val();
+                }
+            }
         });
+
+        return verificationStatus;
     }
-});
+
+    // function call check which radio button selected
+    let verificationStatus = getVerificationStatus();
+    // convert data to json
+    let verification_status = JSON.stringify(verificationStatus);
+    // get value of rejected field
+    let reject_reason = $("#reject_reason").val().trim();
+
+    // ======================
+    // VALIDATION ONLY FOR SUBMIT
+    // ======================
+    if (actionType === 'submit') {
+
+        if (firstname.length < 3) {
+            alert("Enter proper first name");
+            return;
+        }
+        else if (lastname.length < 3) {
+            alert("Enter proper last name");
+            return;
+        }
+        else if (phone.length !== 10) {
+            alert("Enter valid mobile number");
+            return;
+        }
+        else if (email === "") {
+            alert("Enter email address");
+            return;
+        }
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            alert("Enter valid email address");
+            return;
+        }
+        else if (country === "") {
+            alert("Select Country");
+            return;
+        }
+        else if (mystate === "") {
+            alert("Select State");
+            return;
+        }
+        else if (city === "") {
+            alert("Select City");
+            return;
+        }
+        else if (address === "") {
+            alert("Enter Address");
+            return;
+        }
+        else if (nominee_name === "") {
+            alert("Enter Nominee Name");
+            return;
+        }
+        else if (acc_holder_name === "") {
+            alert("Enter account holder name");
+            return;
+        }
+        else if (bank_name === "") {
+            alert("Enter bank name");
+            return;
+        }
+        else if (account_number === "") {
+            alert("Enter account number");
+            return;
+        }
+        else if (ifsc_code === "") {
+            alert("Enter IFSC code");
+            return;
+        } 
+        else if (!mobileRegex.test(phone)) {
+            alert("Enter Valid Mobile Number");
+            return;
+        }
+        // else if (!mobileRegex.test(alt_phone)) {
+        //     alert("Enter Valid Alternate Mobile Number");
+        // return;
+        // }
+        // else if (phone === alt_phone) {
+        //     alert("Mobile Number and Alternate Mobile Number cannot be the same");
+        // return;
+        // }
+        else if (account_number !== confirm_account_number) {
+            alert("Account Number and Confirm Account Number do not match");
+            return;
+        } 
+        else if (profile_pic === "") {
+            alert("Upload Profile Picture");
+            return;
+        } 
+        else if (testE == "1") {
+            alert("Email already exists");
+            return;
+        }
+        else if (!phoneReg.test(phone)) {
+            alert("Contact Number Must be 10 Digit");
+            return;
+        }
+        else if (!phoneReg.test(alt_phone)) {
+            alert("Alternate Contact Number Must be 10 Digit");
+            return;
+        }
+        else if (!phoneReg.test(nominee_phone)) {
+            alert("Nominee Contact Number Must be 10 Digit");
+            return;
+        }
+
+        // if even one rejected value is found then check for rejected reason value
+        let hasRejected = Object.values(verificationStatus).includes("rejected");
+        if (hasRejected && reject_reason === '') {
+            alert("Please enter reject reason");
+            return;
+        }
+
+    }
+
+    var dataObj = {
+        verification_status: verification_status,
+        reject_reason: reject_reason,
+        action_type: actionType, // draft or submit
+        application_id: application_id,
+        editfor: editfor,
+        ref_id: ref_id,
+        id: id,
+        firstname: firstname,
+        lastname: lastname,
+        father_spouse_name: father_spouse_name,
+        email: email,
+        dob: dob,
+        gender: gender,
+        country_code: country_cd,
+        phone: phone,
+        country_code_alt: country_cd_alt,
+        alt_phone: alt_phone,
+        aadhar_no: aadhar_No,
+        pan_no: pan_no,
+
+        country: country,
+        state: mystate,
+        city: city,
+        pincode: pin,
+        address: address,
+
+        occupation: occupation,
+        experience: experience,
+        annual_income: annual_income,
+        team_managed: team_managed,
+        team_size: team_size,
+        leadership_json: leadership_json,
+        other_lead: other_lead,
+
+        qualification: qualification,
+
+        career_objective: career_objective,
+        team_expected: team_expected,
+        operating_state: operating_state,
+
+        nominee_name: nominee_name,
+        nominee_relation: nominee_relation,
+        country_cd_nominee: country_cd_nominee,
+        nominee_phone: nominee_phone,
+        nominee_dob: nominee_dob,
+        nominee_address: nominee_address,
+
+        acc_holder_name: acc_holder_name,
+        bank_name: bank_name,
+        account_number: account_number,
+        ifsc_code: ifsc_code,
+        branch_name: branch_name,
+
+        profile_pic: profile_pic,
+        aadhar_card: aadhar_card,
+        pan_card: pan_card,
+        passbook: passbook,
+        resume_cv: resume_cv,
+        address_proof: address_proof,
+        professional_profile: professional_profile,
+        business_profile: business_profile,
+        income_proof: income_proof,
+        other_document: other_document
+    };
+    console.log(dataObj);
+
+    $("#editChiefTechnoEnterprise").attr("disabled", "disabled");
+    // console.log(dataString);
+    $("#loading-overlay").show(); //loading screen
+    $.ajax({
+        type: "POST",
+        url: "editChiefTechnoData.php",
+        data: dataObj,
+        cache: false,
+        success: function (data) {
+            console.log(data);
+            if (data == 1) {
+                $("#loading-overlay").hide(); //loading screen
+                alert("Edit Successfuly");
+                location.href = "chief_techno.php";
+            } else {
+                $("#loading-overlay").hide(); //loading screen
+                alert("Failed");
+            }
+        },
+    });
+    
+};
 // @@@@****#### Chief Techno Enterprise End by admin @@@@****####//

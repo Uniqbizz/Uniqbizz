@@ -33,19 +33,6 @@
                 UNION
 
                 SELECT YEAR(sf.register_date) AS year
-                FROM sub_franchisee sf
-                INNER JOIN super_techno_enterprise st
-                    ON sf.reference_no = st.super_techno_enterprise_id
-                INNER JOIN executive_techno_enterprise ete
-                    ON st.reference_no = ete.executive_techno_enterprise_id
-                WHERE ete.reference_no = :user_id
-                AND sf.status IN (1,3)
-                AND st.status IN (1,3)
-                AND ete.status IN (1,3)
-
-                UNION
-
-                SELECT YEAR(sf.register_date) AS year
                 FROM institution sf
                 INNER JOIN executive_techno_enterprise ete
                     ON sf.reference_no = ete.executive_techno_enterprise_id
@@ -104,36 +91,6 @@
 
         /*
         |--------------------------------------------------------------------------
-        | SF Trend
-        |--------------------------------------------------------------------------
-        */
-
-        $sqlSFTrend = $conn->prepare("
-            SELECT
-                MONTH(ca.register_date) AS month_no,
-                COUNT(*) AS sf_count
-            FROM sub_franchisee ca
-            INNER JOIN super_techno_enterprise st
-                ON ca.reference_no = st.super_techno_enterprise_id
-            INNER JOIN executive_techno_enterprise ete
-                ON st.reference_no = ete.executive_techno_enterprise_id
-            WHERE ete.reference_no = :user_id
-            AND YEAR(ca.register_date) = :year
-            AND ca.status IN (1,3)
-            AND st.status IN (1,3)
-            AND ete.status IN (1,3)
-            GROUP BY MONTH(ca.register_date)
-            ORDER BY MONTH(ca.register_date)
-        ");
-
-        $sqlSFTrend->execute([
-            ':user_id' => $userId,
-            ':year'    => $selectedYear
-        ]);
-
-        $sfTrend = $sqlSFTrend->fetchAll(PDO::FETCH_ASSOC);
-        /*
-        |--------------------------------------------------------------------------
         | I Trend
         |--------------------------------------------------------------------------
         */
@@ -167,7 +124,6 @@
                 'years'         => $years,
                 'selected_year' => $selectedYear,
                 'te_trend'      => $teTrend,
-                'sf_trend'      => $sfTrend,
                 'i_trend'       => $iTrend
             ]
         ]);

@@ -20,7 +20,7 @@
 
                 ste.firstname AS ref_firstname,
                 ste.lastname AS ref_lastname,
-                ste.super_techno_enterprise_id,
+                ste.super_techno_enterprise_id AS reference_id,
 
                 'corporate_agency' AS source_table
 
@@ -48,43 +48,11 @@
                 sf.added_on,
                 sf.status,
                 sf.user_type,
-                'SF' AS userTypeStr,
-
-                ste.firstname AS ref_firstname,
-                ste.lastname AS ref_lastname,
-                ste.super_techno_enterprise_id,
-
-                'sub_franchisee' AS source_table
-
-            FROM sub_franchisee sf
-
-            INNER JOIN super_techno_enterprise ste
-                ON sf.reference_no = ste.super_techno_enterprise_id
-
-            INNER JOIN executive_techno_enterprise ete
-                ON ste.reference_no = ete.executive_techno_enterprise_id
-
-            WHERE ete.reference_no = :user_id
-            AND sf.status IN (2,4)
-            AND ste.status IN (1,3)
-            AND ete.status IN (1,3)
-
-            UNION ALL
-
-            SELECT
-                sf.id,
-                sf.firstname,
-                sf.lastname,
-                sf.contact_no,
-                sf.email,
-                sf.added_on,
-                sf.status,
-                sf.user_type,
                 'I' AS userTypeStr,
 
                 ste.firstname AS ref_firstname,
                 ste.lastname AS ref_lastname,
-                ste.executive_techno_enterprise_id,
+                ste.executive_techno_enterprise_id AS reference_id,
 
                 'institution' AS source_table
 

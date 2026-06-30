@@ -234,6 +234,7 @@
     $sqlPack = $conn->prepare("
         SELECT * 
         FROM package 
+        WHERE status =1
         ORDER BY id DESC 
         LIMIT 12
     ");

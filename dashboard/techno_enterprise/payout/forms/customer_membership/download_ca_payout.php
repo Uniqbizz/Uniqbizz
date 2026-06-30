@@ -22,7 +22,7 @@ $tableSearch = (substr($designation, 0, 1) === 'F' || substr($designation, 0, 1)
     ? substr($designation, 0, 1) 
     : substr($designation, 0, 2);
 
-$bcNames = $conn -> prepare("SELECT * FROM super_techno_enterprise WHERE super_techno_enterprise_id = '".$designation."' AND status = 1");
+$bcNames = $conn -> prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$designation."' AND status = 1");
 
 
 $bcNames -> execute();
@@ -78,7 +78,7 @@ if($bcNames -> rowCount()>0){
     <body>
         <div class="background" >
             <div class="container cont-btn d-flex justify-content-around pt-3 pb-4">
-                <a href="../../../customer_recruitment_payout.php" class="go-back"> Go Back</a>
+                <a href="../../../holiday_payout.php" class="go-back"> Go Back</a>
                 
                 <a href="#" id="generatePDF" class="download-btn">
                     <i class="fa fa-download " aria-hidden="true" style="color: white;" ></i> 
@@ -122,12 +122,7 @@ if($bcNames -> rowCount()>0){
                                 </tbody>
                             </table>  
                             <div class="col-md-12 col-sm-12" >
-                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; "><?=($tableSearch == "CA" || $tableSearch == "TE") ? "Techno Enterprise" :
-                                                                                                    ($tableSearch == "F"  ? "Franchisee" :
-                                                                                                    ($tableSearch == "BM" ? "Business Mentor" :
-                                                                                                    ($tableSearch == "SF" ? "Sponsor Franchisee" :
-                                                                                                    ($tableSearch == "MF" ? "Master Franchisee" :
-                                                                                                    ($tableSearch == "I" ? "Institution":"Travel Consultant")))));?> Payout</h5>
+                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; ">Techno Enterprise Payout</h5>
                                 <div class="col-md-12 col-sm-12" style="text-align: left; margin-bottom:20px">
                                     <table class="orderTable text-center" style="padding-bottom:5px; margin:0px; border:1px solid #DDDDDD;">
                                         <thead>

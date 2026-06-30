@@ -94,7 +94,7 @@
                                             <p class="fs-6 mb-0 fw-bolder">Explore Packages</p>
                                         </div>
                                     </a>
-                                    <a href="<?= $base_url ?>order_history.php">
+                                    <a href="<?= $base_url_cust ?>order_history.php">
                                         <div class="exploreBtn gap-3 px-2">
                                             <i class="fa-solid fa-suitcase d-flex align-items-center"></i>
                                             <p class="fs-6 mb-0 fw-bolder"> View My Trips</p>
@@ -387,7 +387,7 @@
                                                     <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[0]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0 ">
-                                                            <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[0]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
+                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[0]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -410,7 +410,7 @@
                                                     <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[1]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0 ">
-                                                            <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[1]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
+                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[1]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -433,7 +433,7 @@
                                                     <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[2]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0 ">
-                                                            <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[2]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
+                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[2]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -456,7 +456,7 @@
                                                     <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[3]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0 ">
-                                                            <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[3]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
+                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[3]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -479,7 +479,7 @@
                                                     <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[4]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0 ">
-                                                            <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[4]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
+                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[4]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -502,7 +502,7 @@
                                                     <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[5]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0 ">
-                                                            <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[5]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
+                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[5]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -525,7 +525,7 @@
                                                     <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[6]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0 ">
-                                                            <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[6]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
+                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[6]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -548,7 +548,7 @@
                                                     <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[7]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0 ">
-                                                            <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[7]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
+                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[7]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -571,7 +571,7 @@
                                                     <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[8]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0 ">
-                                                            <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[8]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
+                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[8]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -594,7 +594,7 @@
                                                     <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[9]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0 ">
-                                                            <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[9]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
+                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[9]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -617,7 +617,7 @@
                                                     <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[10]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0 ">
-                                                            <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[10]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
+                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[10]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -640,7 +640,7 @@
                                                     <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[11]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0 ">
-                                                            <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[11]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
+                                                            <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[11]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -660,7 +660,7 @@
                                     <!-- Header -->
                                     <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
                                         <h5 class="chartTitle fw-bolder mb-0">
-                                            Spending Overview
+                                            Referral Earnings Overview
                                             <!-- <span class="smallText">(All Time)</span> -->
                                         </h5>
 
@@ -833,7 +833,7 @@
                                     <div class="col-lg-12">
                                         <div class="p-3 border border-2 rounded-4">
                                             <h4 class="d-flex justify-content-between mb-0 text-dark fw-bolder">Earn With Referrals
-                                                <a href="<?= $base_url?>view_customer.php" class="fs-6">View All</a>
+                                                <a href="<?= $base_url_cust?>view_customer.php" class="fs-6">View All</a>
                                             </h4>
                                             <div class="d-flex">
                                                 <div class="referralDetail flex-grow-1">
@@ -842,7 +842,7 @@
                                                             <span class="textColor fw-bolder fs-4">&#8377;<?= $totalReferralAmount?></span>
                                                         </p>
                                                     </div>
-                                                    <a href="<?= $base_url?>view_customer.php">
+                                                    <a href="<?= $base_url_cust?>view_customer.php">
                                                         <div class="inviteBtn gap-3 px-2">
                                                             <p class="fs-6 mb-0 fw-bolder">Invite Friends & Earn</p>
                                                             <i class="ri-stackshare-line d-flex align-items-center"></i>
@@ -1205,13 +1205,11 @@
                 .getContext("2d");
 
             // Gradient Fill
-            const gradient =
-                spendingCtx.createLinearGradient(0, 0, 0, 300);
+            const gradient = spendingCtx.createLinearGradient(0, 0, 0, 300);
 
             gradient.addColorStop(0, "rgba(91,95,246,0.35)");
             gradient.addColorStop(1, "rgba(91,95,246,0)");
 
-            // Create Line Chart
             const spendingChart = new Chart(spendingCtx, {
 
                 type: "line",
@@ -1226,13 +1224,7 @@
 
                     datasets: [{
                         label: "Spending",
-
-                        data: [
-                            0, 0, 0, 0,
-                            0, 0, 0, 0,
-                            0, 0, 0, 0
-                        ],
-
+                        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                         borderColor: "#5b5ff6",
                         backgroundColor: gradient,
                         fill: true,
@@ -1266,7 +1258,6 @@
                         },
 
                         y: {
-
                             beginAtZero: true,
 
                             ticks: {
@@ -1286,6 +1277,60 @@
             // Chart Height
             document.getElementById("spendingChart")
                 .parentNode.style.height = "300px";
+
+
+            // =========================
+            // LOAD CHART DATA
+            // =========================
+
+            $.ajax({
+                url: 'ajax/referral_summary.php',
+                type: 'GET',
+                dataType: 'json',
+
+                success: function(response) {
+
+                    if (!response.status) {
+                        return;
+                    }
+
+                    // Jan-Dec default
+                    let monthlyData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+                    let years = [...new Set(
+                        response.data.map(item => item.year)
+                    )];
+
+                    $('#yearFilter').empty();
+
+                    years.forEach(function(year){
+
+                        $('#yearFilter').append(
+                            '<option value="' + year + '">' +
+                            year +
+                            '</option>'
+                        );
+
+                    });
+
+                    response.data.forEach(function(row) {
+
+                        let monthIndex = parseInt(row.month_number) - 1;
+
+                        monthlyData[monthIndex] =
+                            parseFloat(row.total_amount) || 0;
+                    });
+
+                    spendingChart.data.datasets[0].data = monthlyData;
+
+                    spendingChart.update();
+                },
+
+                error: function(xhr, status, error) {
+
+                    console.log('Chart Load Error:', error);
+                }
+            });
 
 
             // =========================
@@ -1520,54 +1565,6 @@
                 tripChart.update();
             }
 
-
-            // =========================
-            // SPENDING AJAX
-            // =========================
-
-            let yearlySpendingData = {};
-
-            // SPENDING AJAX
-            $.ajax({
-
-                url: "ajax/referral_summary.php",
-
-                type: "GET",
-
-                dataType: "json",
-
-                success: function(response) {
-
-                    if(response.status && response.data) {
-
-                        // DEFAULT 12 MONTH DATA
-                        let monthData = [
-                            0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0
-                        ];
-
-                        // SINGLE OBJECT RESPONSE
-                        const monthIndex =
-                            parseInt(response.data.month_number) - 1;
-
-                        monthData[monthIndex] =
-                            parseFloat(response.data.total_amount);
-
-                        // UPDATE CHART
-                        spendingChart.data.datasets[0].data =
-                            monthData;
-
-                        spendingChart.update();
-
-                        // ADD YEAR TO DROPDOWN
-                        $("#yearFilter").html(`
-                            <option value="${response.data.year}">
-                                ${response.data.year}
-                            </option>
-                        `);
-                    }
-                }
-            });
 
 
             // =========================

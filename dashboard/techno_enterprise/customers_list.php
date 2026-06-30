@@ -132,7 +132,7 @@
                                                         <thead>
                                                             <tr class="table-primary">
                                                                 <th data-ordering="false">Full Name</th>
-                                                                <th data-ordering="false">Reference ID & Name</th>
+                                                                <th data-ordering="false">TC ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
@@ -194,8 +194,8 @@
                                                     <table id="example-dataTable-2" class="table table-striped table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                                         <thead>
                                                             <tr class="table-primary">
-                                                                <th data-ordering="false">TE ID & Full Name</th>
-                                                                <th data-ordering="false">Reference ID & Name</th>
+                                                                <th data-ordering="false">Customer ID & Full Name</th>
+                                                                <th data-ordering="false">TC ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Membership (&#8377;)</th>
                                                                 <th data-ordering="false">Joining Date</th>
@@ -293,7 +293,7 @@
                                     </p>
 
                                     <p class="fs-6 mb-0">
-                                        ${data.techno_enterprise_id || '-'}
+                                        ${data.ca_travelagency_id || '-'}
                                     </p>
                                 </div>
                             `;
@@ -410,9 +410,14 @@
                         data: null,
                         render: function(data) {
                             return `
-                                <p class="fs-6 mb-0">
-                                    ${data.firstname || ''} ${data.lastname || ''}
-                                </p>
+                                <div>
+                                    <p class="fs-6 mb-0">
+                                        ${data.firstname || ''} ${data.lastname || ''}
+                                    </p>
+                                    <p class="fs-6 mb-0">
+                                        ${data.ca_customer_id || '-'}
+                                    </p>
+                                </div>
                             `;
                         }
                     },
@@ -425,7 +430,7 @@
                                         ${data.ref_firstname || '-'} ${data.ref_lastname || ''}
                                     </p>
                                     <p class="fs-6 mb-0">
-                                        ${data.techno_enterprise_id || '-'}
+                                        ${data.ca_travelagency_id || '-'}
                                     </p>
                                 </div>
                             `;
@@ -568,7 +573,12 @@
                         if(res.status && res.data.length > 0){
 
                             cuRegTable.rows.add(res.data);
-                            $('#rowCount').val(res.data.length);
+                            cuRegTable.on('draw.dt', function () {
+                                $('#rowCount').val(
+                                    cuRegTable.rows({ search: 'applied' }).count()
+                                );
+                            });
+                            // $('#rowCount').val(res.data.length);
 
                         }
 

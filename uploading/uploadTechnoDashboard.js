@@ -2,7 +2,7 @@
 
 var uploadUrl = "../../uploading/upload.php";
 
-// ** Document upload  For CTE, ETE & STE**
+// ** Document upload  For CTE, ETE, STE, TC**
 $('#upload_file1').change(function () {
     var folder = 'profile_pic';
 

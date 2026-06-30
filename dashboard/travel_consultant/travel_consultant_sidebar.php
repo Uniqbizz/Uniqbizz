@@ -33,23 +33,23 @@
                         <i class="ri-user-shared-2-line"></i> <span data-key="t-home">My Bookings</span>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($current_page == '#') ? 'active' : ''; ?>">
-                    <a class="nav-link menu-link" href="#">
-                        <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Upcoming Trips</span>
+                <li class="nav-item <?php echo ($current_page == 'markup.php') ? 'active' : ''; ?>">
+                    <a class="nav-link menu-link" href="markup.php">
+                        <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Package Markup</span>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($current_page == '#') ? 'active' : ''; ?>">
-                    <a class="nav-link menu-link" href="#">
+                <li class="nav-item <?php echo ($current_page == 'customers_list.php') ? 'active' : ''; ?>">
+                    <a class="nav-link menu-link" href="customers_list.php">
                         <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Holiday Account</span>
                     </a>
                 </li>
                 <li class="nav-item <?php echo ($current_page == '#') ? 'active' : ''; ?>">
-                    <a class="nav-link menu-link" href="#">
+                    <a class="nav-link menu-link" href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                         <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Support</span>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($current_page == '#') ? 'active' : ''; ?>">
-                    <a class="nav-link menu-link" href="#">
+                <li class="nav-item <?php echo ($current_page == 'profile.php') ? 'active' : ''; ?>">
+                    <a class="nav-link menu-link" href="profile.php">
                         <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Settings</span>
                     </a>
                 </li>

@@ -71,17 +71,18 @@ $("#addSuperTechnoEnterprise").on("click", function (e) {
     var branch_name = $("#branchName").val().trim();
 
     // Attachments
-    var profile_pic = $(":hidden#img_path1").val().trim();
-    var aadhar_card = $(":hidden#img_path2").val().trim();
-    var pan_card = $(":hidden#img_path3").val().trim();
-    var passbook = $(":hidden#img_path4").val().trim();
-    var resume_cv = $(":hidden#img_path5").val().trim();
-    var address_proof = $(":hidden#img_path6").val().trim();
-    var professional_profile = $(":hidden#img_path7").val().trim();
-    var business_profile = $(":hidden#img_path8").val().trim();
-    var income_proof = $(":hidden#img_path9").val().trim();
-    var other_document = $(":hidden#img_path10").val().trim();
-    var nominee_profile = $(":hidden#img_path13").val().trim();
+    var profile_pic = aadhar_card = pan_card = passbook = resume_cv = address_proof =professional_profile =business_profile = income_proof =other_document=nominee_profile = '';
+    var profile_pic_file = $("#upload_file1").val().trim();
+    var aadhar_card_file = $("#upload_file2").val().trim();
+    var pan_card_file = $("#upload_file3").val().trim();
+    var passbook_file = $("#upload_file4").val().trim();
+    var resume_cv_file = $("#upload_file5").val().trim();
+    var address_proof_file = $("#upload_file6").val().trim();
+    var professional_profile_file = $("#upload_file7").val().trim();
+    var business_profile_file = $("#upload_file8").val().trim();
+    var income_proof_file = $("#upload_file9").val().trim();
+    var other_document_file = $("#upload_file10").val().trim();
+    var nominee_profile_file = $("#upload_file13").val().trim();
 
 
     if (firstname.length < 3) {
@@ -138,10 +139,45 @@ $("#addSuperTechnoEnterprise").on("click", function (e) {
     else if (account_number !== confirm_account_number) {
         alert("Account Number and Confirm Account Number do not match");
     } 
-    else if (profile_pic === "") {
+    else if (profile_pic_file === "") {
         alert("Upload Profile Picture");
     }
     else {
+
+        //get img url only if file exist
+        if (profile_pic_file !== '') {
+            profile_pic = $("#img_path1").val().trim();
+        }
+        if (aadhar_card_file !== '') {
+            aadhar_card = $("#img_path2").val().trim();
+        } 
+        if (pan_card_file !== '') {
+            pan_card = $("#img_path3").val().trim();
+        }
+        if (passbook_file !== '') {
+            passbook = $("#img_path4").val().trim();
+        } 
+        if (resume_cv_file !== '') {
+            resume_cv = $("#img_path5").val().trim();
+        }
+        if (address_proof_file !== '') {
+            address_proof = $("#img_path6").val().trim();
+        }
+        if (professional_profile_file !== '') {
+            professional_profile = $("#img_path7").val().trim();
+        } 
+        if (business_profile_file !== '') {
+            business_profile = $("#img_path8").val().trim();
+        }
+        if (income_proof_file !== '') {
+            income_proof = $("#img_path9").val().trim();
+        } 
+        if (other_document_file !== '') {
+            other_document = $("#img_path10").val().trim();
+        }
+        if (nominee_profile_file !== '') {
+            nominee_profile = $("#img_path13").val().trim();
+        }
 
         var dataObj = {
             firstname: firstname,
@@ -301,17 +337,18 @@ $("#editSuperTechnoEnterprise").on("click", function (e) {
     var branch_name = $("#branchName").val().trim();
 
     // Attachments
-    var profile_pic = $(":hidden#img_path1").val().trim();
-    var aadhar_card = $(":hidden#img_path2").val().trim();
-    var pan_card = $(":hidden#img_path3").val().trim();
-    var passbook = $(":hidden#img_path4").val().trim();
-    var resume_cv = $(":hidden#img_path5").val().trim();
-    var address_proof = $(":hidden#img_path6").val().trim();
-    var professional_profile = $(":hidden#img_path7").val().trim();
-    var business_profile = $(":hidden#img_path8").val().trim();
-    var income_proof = $(":hidden#img_path9").val().trim();
-    var other_document = $(":hidden#img_path10").val().trim();
-    var nominee_profile = $(":hidden#img_path13").val().trim();
+    var profile_pic = aadhar_card = pan_card = passbook = resume_cv = address_proof =professional_profile =business_profile = income_proof =other_document=nominee_profile = '';
+    var profile_pic_file = $("#upload_file1").val().trim();
+    var aadhar_card_file = $("#upload_file2").val().trim();
+    var pan_card_file = $("#upload_file3").val().trim();
+    var passbook_file = $("#upload_file4").val().trim();
+    var resume_cv_file = $("#upload_file5").val().trim();
+    var address_proof_file = $("#upload_file6").val().trim();
+    var professional_profile_file = $("#upload_file7").val().trim();
+    var business_profile_file = $("#upload_file8").val().trim();
+    var income_proof_file = $("#upload_file9").val().trim();
+    var other_document_file = $("#upload_file10").val().trim();
+    var nominee_profile_file = $("#upload_file13").val().trim();
 
 
     if (firstname.length < 3) {
@@ -368,10 +405,44 @@ $("#editSuperTechnoEnterprise").on("click", function (e) {
     else if (account_number !== confirm_account_number) {
         alert("Account Number and Confirm Account Number do not match");
     } 
-    else if (profile_pic === "") {
+    else if (profile_pic_file === "") {
         alert("Upload Profile Picture");
     } 
     else {
+        //get img url only if file exist
+        if (profile_pic_file !== '') {
+            profile_pic = $("#img_path1").val().trim();
+        }
+        if (aadhar_card_file !== '') {
+            aadhar_card = $("#img_path2").val().trim();
+        } 
+        if (pan_card_file !== '') {
+            pan_card = $("#img_path3").val().trim();
+        }
+        if (passbook_file !== '') {
+            passbook = $("#img_path4").val().trim();
+        } 
+        if (resume_cv_file !== '') {
+            resume_cv = $("#img_path5").val().trim();
+        }
+        if (address_proof_file !== '') {
+            address_proof = $("#img_path6").val().trim();
+        }
+        if (professional_profile_file !== '') {
+            professional_profile = $("#img_path7").val().trim();
+        } 
+        if (business_profile_file !== '') {
+            business_profile = $("#img_path8").val().trim();
+        }
+        if (income_proof_file !== '') {
+            income_proof = $("#img_path9").val().trim();
+        } 
+        if (other_document_file !== '') {
+            other_document = $("#img_path10").val().trim();
+        }
+        if (nominee_profile_file !== '') {
+            nominee_profile = $("#img_path13").val().trim();
+        }
 
         var dataObj = {
             application_id: application_id,

@@ -26,11 +26,11 @@ try {
             ste.country_code AS profile_phone_prefix,
             ste.contact_no AS profile_phone,
             ste.register_date AS profile_since,
-            doc.profile_pic,
-            uv.payload
+            doc.profile_pic
+            #uv.payload
         FROM super_techno_enterprise ste
-        INNER JOIN user_verification uv
-            ON uv.application_id = ste.application_id
+        #INNER JOIN user_verification uv
+        #    ON uv.application_id = ste.application_id
         LEFT JOIN documents doc
             ON doc.application_id = ste.application_id
         WHERE ste.super_techno_enterprise_id = :user_id
@@ -52,32 +52,33 @@ try {
         exit;
     }
 
-    $verificationStatus = 'Pending';
+    // $verificationStatus = 'Pending';
+    $verificationStatus = 'Verified';
 
-    if (!empty($userDetails['payload'])) {
+    // if (!empty($userDetails['payload'])) {
 
-        $payload = json_decode($userDetails['payload'], true);
+    //     $payload = json_decode($userDetails['payload'], true);
 
-        if (is_array($payload) && !empty($payload)) {
+    //     if (is_array($payload) && !empty($payload)) {
 
-            $statuses = array_map(function ($value) {
-                return strtolower(trim($value));
-            }, $payload);
+    //         $statuses = array_map(function ($value) {
+    //             return strtolower(trim($value));
+    //         }, $payload);
 
-            if (in_array('rejected', $statuses, true)) {
+    //         if (in_array('rejected', $statuses, true)) {
 
-                $verificationStatus = 'Rejected';
+    //             $verificationStatus = 'Rejected';
 
-            } elseif (count(array_filter($statuses, function ($value) {
-                return $value === 'approved';
-            })) === count($statuses)) {
+    //         } elseif (count(array_filter($statuses, function ($value) {
+    //             return $value === 'approved';
+    //         })) === count($statuses)) {
 
-                $verificationStatus = 'Verified';
-            }
-        }
-    }
+    //             $verificationStatus = 'Verified';
+    //         }
+    //     }
+    // }
 
-    unset($userDetails['payload']);
+    // unset($userDetails['payload']);
 
     $userDetails['verification_status'] = $verificationStatus;
 

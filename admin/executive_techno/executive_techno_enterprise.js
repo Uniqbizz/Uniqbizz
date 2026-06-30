@@ -249,7 +249,7 @@ $("#editExecutiveTechnoEnterprise").on("click", function (e) {
     // var user_id_name = $("#user_id_name").val();
     // var reference_name = $("#reference_name").val();
     var application_id = $("#applicationId").val();
-    var editfor = $("#editfor").val().trim(); // pending or confirm
+    var editfor = $("#editfor").val().trim(); // pending or registered
     var ref_id = $("#ref_id").val().trim(); // reference of the user - ETE260003
     var id = $("#id").val().trim(); // ExecutiveTE id value if user is not registered - 11 , if registered - STE2600011
     var firstname = $("#firstname").val().trim();

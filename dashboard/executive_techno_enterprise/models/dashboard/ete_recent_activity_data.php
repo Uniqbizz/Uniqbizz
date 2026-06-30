@@ -43,39 +43,6 @@
         }
         /*
         |--------------------------------------------------------------------------
-        | New F Added
-        |--------------------------------------------------------------------------
-        */
-
-        $sqlF = $conn->prepare("
-            SELECT
-                CONCAT(ca.firstname,' ',ca.lastname) AS name,
-                ca.register_date AS activity_date
-            FROM sub_franchisee ca
-            INNER JOIN super_techno_enterprise st
-                ON ca.reference_no = st.super_techno_enterprise_id
-            WHERE st.reference_no = :user_id
-            AND ca.status IN (1,3)
-            AND st.status IN (1,3)
-            ORDER BY ca.register_date DESC
-            LIMIT 2
-        ");
-
-        $sqlF->execute([
-            ':user_id' => $userId
-        ]);
-
-        foreach($sqlF->fetchAll(PDO::FETCH_ASSOC) as $row){
-
-            $activities[] = [
-                'type' => 'f',
-                'title' => 'New Franchisee Added',
-                'description' => $row['name'],
-                'date' => $row['activity_date']
-            ];
-        }
-        /*
-        |--------------------------------------------------------------------------
         | New I Added
         |--------------------------------------------------------------------------
         */
@@ -173,42 +140,13 @@
         }
         /*
         |--------------------------------------------------------------------------
-        | Francisee Recruitment Commission
-        |--------------------------------------------------------------------------
-        */
-
-        $sqlFRecruitment = $conn->prepare("
-            SELECT
-                commission_zm,
-                created_date
-            FROM sub_franchisee_payout
-            WHERE zonal_manager = :user_id
-            ORDER BY created_date DESC
-            LIMIT 2
-        ");
-
-        $sqlFRecruitment->execute([
-            ':user_id' => $userId
-        ]);
-
-        foreach($sqlFRecruitment->fetchAll(PDO::FETCH_ASSOC) as $row){
-
-            $activities[] = [
-                'type' => 'recruitment',
-                'title' => 'Franchisee Recruitment Commission Credited',
-                'description' => '+ ₹ '.number_format($row['commission_zm']),
-                'date' => $row['created_date']
-            ];
-        }
-        /*
-        |--------------------------------------------------------------------------
         | Holiday Account Commission
         |--------------------------------------------------------------------------
         */
 
         $sqlCRecruitment = $conn->prepare("
             SELECT
-                commission_bdm,
+                commision_bdm,
                 created_date
             FROM ca_cu_payout
             WHERE business_development_manager = :user_id

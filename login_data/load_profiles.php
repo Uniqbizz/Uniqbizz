@@ -29,6 +29,23 @@
                 ON ut.id = l.user_type_id
 
             WHERE l.username = :email
+            AND user_type_id IN(24, 25, 26, 16, 11, 10, 28, 29, 30, 32, 33, 34, 35, 36)
+            AND (
+                l.user_id LIKE 'CTE%'
+                OR l.user_id LIKE 'ETE%'
+                OR l.user_id LIKE 'STE%'
+                OR l.user_id LIKE 'BH%'
+                OR l.user_id LIKE 'BM%'
+                OR l.user_id LIKE 'MF%'
+                OR l.user_id LIKE 'SF%'
+                OR l.user_id LIKE 'TE%'
+                OR l.user_id LIKE 'CA%'
+                OR l.user_id LIKE 'I%'
+                OR l.user_id LIKE 'F%'
+                OR l.user_id LIKE 'TA%'
+                OR l.user_id LIKE 'IBR%'
+                OR l.user_id LIKE 'CU%'
+            )
             AND l.status = 1
 
             ORDER BY l.id

@@ -7,8 +7,9 @@ $todayYear = date('Y'); // year for Custom Id genaration
 $register_Date = date('Y-m-d H:i:s'); //date added when user is confirmed 
 
 $id = $_POST["id"];
-$uname = $_POST["uname"];
+$uname = $_POST["email"];
 $usertype = $_POST['usertype'];
+$remark = $_POST['remark']; // for user_logs table
 
 $string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%^*()";
 $password = substr(str_shuffle($string), 0, 8);
@@ -33,17 +34,6 @@ if ($user_type_id == '36') { //Chief Techno Enterprise
 			$application_id = $row9['application_id'];
 		}
 	}
-
-	// $sql10 = $conn->prepare("SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '" . $reference_no . "' AND user_type = '36' AND status = '1' ");
-	// $sql10->execute();
-	// $sql10->setFetchMode(PDO::FETCH_ASSOC);
-	// if ($sql10->rowCount() > 0) {
-	// 	foreach (($sql10->fetchAll()) as $key10 => $row10) {
-	// 		$bdm_id = $row10['chief_techno_enterprise_id'];
-	// 		$bdm_name = $row10['firstname'] .' '. $row10['lastname'];
-	// 		// $bdm_ref = $row10['reporting_manager'];
-	// 	}
-	// }
 
 	// Fetch the highest numeric part from all master_franchisee_id, ignoring prefix
 	$sql2 = $conn->prepare("
@@ -81,9 +71,33 @@ if ($user_type_id == '36') { //Chief Techno Enterprise
 	// $uid = 'SF' . $shortName . $subY . $nextNumber;
 	$uid = 'CTE' . $subY . $nextNumber;
 
+	// check if user/application id present in verified table. if no their then pass message in table as "Admin confirm user without verifing fields"
+	$sqlGetVerifiedUser = $conn->prepare("
+		SELECT *
+		FROM user_verification
+		WHERE application_id = :application_id
+		ORDER BY id DESC
+		LIMIT 1
+	");
+	$sqlGetVerifiedUser->execute([
+		':application_id' => $application_id
+	]);
+	$latestVerification = $sqlGetVerifiedUser->fetch(PDO::FETCH_ASSOC);
+	if ($latestVerification) {
+		// Latest record exists
+		$isVerified = true;
+		// $status = $latestVerification['status'];
+		// $rejection_reason = $latestVerification['rejection_reason'];
+		$message = $uid ." ". $name ." has been approved";
+	} else {
+		// No verification record found
+		$isVerified = false;
+		$message = "Admin confirm Chief Techno Enterprise ". $uid. " ".$name." without verifying fields";
+	}
+
 	//log file
 	$title = "Confirm Chief Techno Enterprise";
-	$message = $uid . " has been approved";
+	// $message = $uid . " has been approved";
 	$message2 = $uid . " has been approved";
 	$fromWhom = "1";
 	$operation = "Confirm";
@@ -146,6 +160,27 @@ if ($user_type_id == '36') { //Chief Techno Enterprise
 				':register_by' => $register_by,
 				':from_whom' => $fromWhom,
 				':operation' => $operation
+			));
+
+			$sqlUserLogs= "INSERT INTO user_logs (application_id, title, message, reference_no, operation, from_whom) VALUES (:application_id, :title ,:message, :reference_no, :operation, :from_whom)";
+			$stmtUserlogs =$conn->prepare($sqlUserLogs);
+			$stmtUserlogs->execute(array(
+				':application_id' => $application_id,
+				':title' => $title,
+				':message' => $message . ' . ' . $remark,
+				':reference_no' => $register_by,
+				':operation' => $operation,
+				':from_whom' => $fromWhom
+			));
+
+			$userVerification= "INSERT INTO user_verification (application_id, approved_reason,payload, verified_by, status) VALUES (:application_id, :approved_reason, :payload, :verified_by, :status)";
+			$stmtUserVerification =$conn->prepare($userVerification);
+			$stmtUserVerification->execute(array(
+				':application_id' => $application_id,
+				':approved_reason' => $message,
+				':payload' => '{}',
+				':verified_by' => $register_by,
+				':status' => $status
 			));
 
 			if ($result3) {

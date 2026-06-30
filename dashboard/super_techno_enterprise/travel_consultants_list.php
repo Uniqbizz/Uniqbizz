@@ -296,7 +296,7 @@
                                     </p>
 
                                     <p class="fs-6 mb-0">
-                                        ${data.super_techno_enterprise_id || '-'}
+                                        ${data.reference_id || '-'}
                                     </p>
                                 </div>
                             `;
@@ -558,7 +558,12 @@
                         if(res.status && res.data.length > 0){
 
                             tcRegTable.rows.add(res.data);
-                            $('#rowCount').val(res.data.length);
+                            tcRegTable.on('draw.dt', function () {
+                                $('#rowCount').val(
+                                    tcRegTable.rows({ search: 'applied' }).count()
+                                );
+                            });
+                            // $('#rowCount').val(res.data.length);
 
                         }
 
