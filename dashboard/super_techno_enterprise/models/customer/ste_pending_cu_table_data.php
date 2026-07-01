@@ -35,7 +35,7 @@
                     ON ta.reference_no = ca.corporate_agency_id
 
                 WHERE ca.reference_no = :user_id
-                AND cu.status IN (2,3)
+                AND cu.status IN (0,2,4)
 
             ) x
 
