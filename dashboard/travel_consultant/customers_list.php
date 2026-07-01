@@ -376,6 +376,11 @@
                                     </p>
                                 `;
                             }
+                            return `
+                                    <p class="teDraftBtn rounded-pill text-center mb-0">
+                                        Draft
+                                    </p>
+                                `;
 
                             
                         }

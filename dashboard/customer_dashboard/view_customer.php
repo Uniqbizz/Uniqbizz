@@ -584,7 +584,6 @@
                     {
                         data: 'status',
                         render: function(status){
-
                             if(status == 0){
 
                                return `
@@ -602,6 +601,11 @@
                                     </p>
                                 `;
                             }
+                            return `
+                                    <p class="teDraftBtn rounded-pill text-center mb-0">
+                                        Draft
+                                    </p>
+                                `;
 
                             
                         }
