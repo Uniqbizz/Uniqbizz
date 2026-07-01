@@ -287,10 +287,45 @@
                                                     </thead>
                                                     <tbody>
                                                         <?php
-                                                            $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commission_zm as comm_amt, status_zm as status, sub_franchisee, created_date FROM sub_franchisee_payout WHERE (zonal_manager <> 'NA' AND zonal_manager <> 'Not Applicable' AND zonal_manager IS NOT NULL)) 
-                                                                    UNION 
-                                                                    (SELECT id, master_franchisee AS userId, message_mf AS message, commission_mf AS comm_amt, status_mf as status, sub_franchisee, created_date FROM sub_franchisee_payout WHERE (master_franchisee <> 'NA' AND master_franchisee <> 'Not Applicable' AND master_franchisee IS NOT NULL))
-                                                                    ORDER BY created_date DESC ";
+                                                           $sql = "
+                                                            (
+                                                                SELECT
+                                                                    id,
+                                                                    zonal_manager AS userId,
+                                                                    message_zm AS message,
+                                                                    commission_zm AS comm_amt,
+                                                                    status_zm AS status,
+                                                                    sub_franchisee,
+                                                                    created_date
+                                                                FROM sub_franchisee_payout
+                                                                WHERE
+                                                                    zonal_manager IS NOT NULL
+                                                                    AND TRIM(zonal_manager) NOT IN ('NA','Not Applicable','')
+                                                                    AND TRIM(message_zm) NOT IN ('NA','Not Applicable','')
+                                                                    AND commission_zm > 0
+                                                            )
+                                                            
+                                                            UNION ALL
+                                                            
+                                                            (
+                                                                SELECT
+                                                                    id,
+                                                                    master_franchisee AS userId,
+                                                                    message_mf AS message,
+                                                                    commission_mf AS comm_amt,
+                                                                    status_mf AS status,
+                                                                    sub_franchisee,
+                                                                    created_date
+                                                                FROM sub_franchisee_payout
+                                                                WHERE
+                                                                    master_franchisee IS NOT NULL
+                                                                    AND TRIM(master_franchisee) NOT IN ('NA','Not Applicable','')
+                                                                    AND TRIM(message_mf) NOT IN ('NA','Not Applicable','')
+                                                                    AND commission_mf > 0
+                                                            )
+                                                            
+                                                            ORDER BY created_date DESC
+                                                            ";
                                                             $stmt = $conn -> prepare($sql);
                                                             $stmt -> execute();
                                                             $stmt -> setFetchMode(PDO::FETCH_ASSOC);
@@ -533,10 +568,50 @@
                                                     //         SELECT id, business_mentor as userId, message, business_package, business_package_amount, comm_amt, comm_amtTDS, comm_amtTotal, sub_franchisee, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."'
                                                     //         order by created_date desc ";
 
-                                                    $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commission_zm as comm_amt, sub_franchisee, created_date, status_zm as status FROM sub_franchisee_payout WHERE (zonal_manager <> 'NA' AND zonal_manager <> 'Not Applicable' AND zonal_manager IS NOT NULL) AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."') 
-                                                            UNION ALL
-                                                            (SELECT id, master_franchisee AS userId, message_mf AS message, commission_mf AS comm_amt, sub_franchisee, created_date, status_mf as status FROM sub_franchisee_payout WHERE (master_franchisee <> 'NA' AND master_franchisee <> 'Not Applicable' AND master_franchisee IS NOT NULL) AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."')
-                                                            order by created_date desc ";
+                                                    
+                                                    $sql = "
+                                                        (
+                                                            SELECT
+                                                                id,
+                                                                zonal_manager AS userId,
+                                                                message_zm AS message,
+                                                                commission_zm AS comm_amt,
+                                                                status_zm AS status,
+                                                                sub_franchisee,
+                                                                created_date
+                                                            FROM sub_franchisee_payout
+                                                            WHERE
+                                                                zonal_manager IS NOT NULL
+                                                                AND TRIM(zonal_manager) NOT IN ('NA','Not Applicable','')
+                                                                AND TRIM(message_zm) NOT IN ('NA','Not Applicable','')
+                                                                AND commission_zm > 0
+                                                                AND YEAR(created_date) = '".$prevDateYear."'
+                                                                AND MONTH(created_date) = '".$prevDateMonth."'
+                                                        )
+                                                        
+                                                        UNION ALL
+                                                        
+                                                        (
+                                                            SELECT
+                                                                id,
+                                                                master_franchisee AS userId,
+                                                                message_mf AS message,
+                                                                commission_mf AS comm_amt,
+                                                                status_mf AS status,
+                                                                sub_franchisee,
+                                                                created_date
+                                                            FROM sub_franchisee_payout
+                                                            WHERE
+                                                                master_franchisee IS NOT NULL
+                                                                AND TRIM(master_franchisee) NOT IN ('NA','Not Applicable','')
+                                                                AND TRIM(message_mf) NOT IN ('NA','Not Applicable','')
+                                                                AND commission_mf > 0
+                                                                AND YEAR(created_date) = '".$prevDateYear."'
+                                                                AND MONTH(created_date) = '".$prevDateMonth."'
+                                                        )
+                                                        
+                                                        ORDER BY created_date DESC
+                                                        ";
                                                     $stmt = $conn -> prepare($sql);
                                                     $stmt -> execute();
                                                     $stmt -> setFetchMode(PDO::FETCH_ASSOC);
@@ -763,10 +838,49 @@
                                                     //         SELECT id, business_mentor as userId, message, business_package, business_package_amount, comm_amt, comm_amtTDS, comm_amtTotal, sub_franchisee, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."'
                                                     //         order by created_date desc ";
 
-                                                    $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commission_zm as comm_amt, sub_franchisee, created_date, status_zm as status FROM sub_franchisee_payout WHERE (zonal_manager <> 'NA' AND zonal_manager <> 'Not Applicable' AND zonal_manager IS NOT NULL) AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."')
-                                                            UNION ALL
-                                                            (SELECT id, master_franchisee AS userId, message_mf AS message, commission_mf AS comm_amt, sub_franchisee, created_date, status_mf as status FROM sub_franchisee_payout WHERE (master_franchisee <> 'NA' AND master_franchisee <> 'Not Applicable' AND master_franchisee IS NOT NULL) AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."')
-                                                            order by created_date desc ";
+                                                    $sql = "
+                                                        (
+                                                            SELECT
+                                                                id,
+                                                                zonal_manager AS userId,
+                                                                message_zm AS message,
+                                                                commission_zm AS comm_amt,
+                                                                status_zm AS status,
+                                                                sub_franchisee,
+                                                                created_date
+                                                            FROM sub_franchisee_payout
+                                                            WHERE
+                                                                zonal_manager IS NOT NULL
+                                                                AND TRIM(zonal_manager) NOT IN ('NA','Not Applicable','')
+                                                                AND TRIM(message_zm) NOT IN ('NA','Not Applicable','')
+                                                                AND commission_zm > 0
+                                                                AND YEAR(created_date) = '".$nextDateYear."'
+                                                                AND MONTH(created_date) = '".$nextDateMonth."'
+                                                        )
+                                                        
+                                                        UNION ALL
+                                                        
+                                                        (
+                                                            SELECT
+                                                                id,
+                                                                master_franchisee AS userId,
+                                                                message_mf AS message,
+                                                                commission_mf AS comm_amt,
+                                                                status_mf AS status,
+                                                                sub_franchisee,
+                                                                created_date
+                                                            FROM sub_franchisee_payout
+                                                            WHERE
+                                                                master_franchisee IS NOT NULL
+                                                                AND TRIM(master_franchisee) NOT IN ('NA','Not Applicable','')
+                                                                AND TRIM(message_mf) NOT IN ('NA','Not Applicable','')
+                                                                AND commission_mf > 0
+                                                                AND YEAR(created_date) = '".$nextDateYear."'
+                                                                AND MONTH(created_date) = '".$nextDateMonth."'
+                                                        )
+                                                        
+                                                        ORDER BY created_date DESC
+                                                        ";
                                                     $stmt = $conn -> prepare($sql);
                                                     $stmt -> execute();
                                                     $stmt -> setFetchMode(PDO::FETCH_ASSOC);

@@ -186,7 +186,7 @@
                                                         </select>
                                                         <select id="business_package_amount2" class="form-select d-none"> 
                                                             <option value="">--Select Business Package/Amount--</option> 
-                                                            <!-- <option value="100000">1,00,000/-</option>  -->
+                                                            <option value="FOC">FOC</option> 
                                                             <option value="200000">2,00,000/-</option> 
                                                             <option value="300000">3,00,000/-</option> 
                                                             <option value="400000">4,00,000/-</option> 

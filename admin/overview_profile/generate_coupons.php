@@ -426,10 +426,10 @@ function couponInsert($conn,$customer_id,$payment_label){
         }
 
     }else if ($payment_label == 'Neo Select') {
-        //get the inserted customer
-        $cp_parts = divideAmount('15000',500);
+
+        $cp_parts = divideAmount(15000, 500);
         $payment_id = generatePaymentID();
-        // Define the SQL query once
+
         $sqlInsertCoupon = "
             INSERT INTO cu_coupons (
                 user_id, payment_id, code, coupon_amt, usage_status, confirm_status, bonus_check
@@ -438,22 +438,53 @@ function couponInsert($conn,$customer_id,$payment_label){
             )
         ";
 
-        $stmt = $conn->prepare($sqlInsertCoupon);
+        try {
 
-        foreach ($cp_parts as $coupon_amt) {
-            $couponCode = generateUniqueCoupon();
+            $conn->beginTransaction();
 
-            $stmt->execute([
-                ':user_id' => $customer_id,
-                ':payment_id' => $payment_id,
-                ':code' => $couponCode,
-                ':coupon_amt' => $coupon_amt,
-                ':usage_status' => 0,
-                ':confirm_status' => 0,
-                ':bonus_check' => 0
+            $stmt = $conn->prepare($sqlInsertCoupon);
+
+            foreach ($cp_parts as $coupon_amt) {
+
+                $couponCode = generateUniqueCoupon();
+
+                $result = $stmt->execute([
+                    ':user_id' => $customer_id,
+                    ':payment_id' => $payment_id,
+                    ':code' => $couponCode,
+                    ':coupon_amt' => $coupon_amt,
+                    ':usage_status' => 0,
+                    ':confirm_status' => 1,
+                    ':bonus_check' => 0
+                ]);
+
+                if (!$result) {
+                    throw new Exception("Insert failed");
+                }
+            }
+
+            $conn->commit();
+            header('Content-Type: application/json');
+            echo json_encode([
+                'status' => 1,
+                'message' => 'All coupons inserted successfully.'
             ]);
-        }
+            exit;
 
+        } catch (Exception $e) {
+
+            $conn->rollBack();
+            header('Content-Type: application/json');
+            echo json_encode([
+                'status' => 0,
+                'message' => 'Failed to insert coupons.',
+                'error' => $e->getMessage() // Remove this in production if you don't want to expose errors
+            ]);
+            exit; // At least one insert failed
+
+            // Optional: Log the error
+            // error_log($e->getMessage());
+        }
     }
      else if ($payment_label== 'Free') {
         // Delete all existing coupons if payment mode is Free
@@ -462,6 +493,7 @@ function couponInsert($conn,$customer_id,$payment_label){
         // $deleteStmt->execute([':identifier_id' => $identifier_id]);
     }
 }
+couponInsert($conn, $identifier_id, $payment_label);
 if($regen_check){
     try {
 
