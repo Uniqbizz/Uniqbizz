@@ -322,7 +322,7 @@
                     },
 
                     {
-                        data: 'added_on',
+                        data: 'register_date',
                         render: function(data){
 
                             if(!data) return '-';
@@ -357,6 +357,12 @@
                                     </p>
                                 `;
                             }
+                            return `
+                                    <p class="teDraftBtn rounded-pill text-center mb-0">
+                                        Draft
+                                    </p>
+                                `;
+
                         }
                     }
                 ],

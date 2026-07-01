@@ -195,7 +195,7 @@
                                                         <thead>
                                                             <tr class="table-primary">
                                                                 <th data-ordering="false">TC | IBR ID & Full Name</th>
-                                                                <th data-ordering="false">TE/F ID & Name</th>
+                                                                <th data-ordering="false">TE/I ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
@@ -337,16 +337,7 @@
                         data: 'status',
                         render: function(status){
 
-                            if(status == 1){
-
-                                return `
-                                    <p class="teApprovedBtn rounded-pill text-center mb-0">
-                                        Active
-                                    </p>
-                                `;
-                            }
-
-                            if(status == 3){
+                            if(status == 2){
 
                                 return `
                                     <p class="tePendingBtn rounded-pill text-center mb-0">
@@ -355,11 +346,19 @@
                                 `;
                             }
 
+                            else if(status == 4){
+
+                                return `
+                                    <p class="teDraftBtn rounded-pill text-center mb-0">
+                                        Draft
+                                    </p>
+                                `;
+                            }
                             return `
-                                <p class="teDeletedBtn rounded-pill text-center mb-0">
-                                    Inactive
-                                </p>
-                            `;
+                                    <p class="teDeletedBtn rounded-pill text-center mb-0">
+                                        Deleted
+                                    </p>
+                                `;
                         }
                     }
                 ],

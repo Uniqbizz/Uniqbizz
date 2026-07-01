@@ -30,7 +30,7 @@
                     ON ta.reference_no = ca.sub_franchisee_id
 
                 WHERE ta.reference_no = :user_id
-                AND ta.status IN (0,4)
+                AND ta.status IN (2,0,4)
 
             ) AS combined
 

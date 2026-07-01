@@ -285,9 +285,9 @@
 
                                 badge = '<span class="badge bg-primary ms-1">TE</span>';
 
-                            } else if (data.user_type == 29) {
+                            } else if (data.user_type == 32) {
 
-                                badge = '<span class="badge bg-success ms-1">F</span>';
+                                badge = '<span class="badge bg-success ms-1">I</span>';
                             }
 
                             return `
@@ -337,7 +337,7 @@
                     },
 
                     {
-                        data: 'added_on',
+                        data: 'register_date',
                         render: function(data){
 
                             if(!data) return '-';
@@ -372,6 +372,11 @@
                                     </p>
                                 `;
                             }
+                            return `
+                                    <p class="teDeletedBtn rounded-pill text-center mb-0">
+                                        Deleted
+                                    </p>
+                                `;
                         }
                     },
                     {
