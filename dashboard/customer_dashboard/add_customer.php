@@ -460,7 +460,7 @@
                         </div>
                         <!-- Card section 4 -->
 						<div class="card rounded-4 p-3 border-1">
-							<div class="row">
+							<div class="">
                                 <div class="d-flex gap-2">
                                     <p class="fw-bolder addTENum">04</p>
                                     <h4 class="fw-bolder text-dark align-content-center">Upload Documents</h4>
@@ -573,7 +573,7 @@
                                 <div class="d-flex justify-content-end gap-4 submitBtnBackground">
                                     <button type="button" class="btn actionBtn cancelBtn mb-2">Cancel</button>
                                     <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftAdd">Save Draft</button>
-                                    <button type="submit" class="btn actionBtn submitBtn mb-2" id="addExecutiveTechnoEnterprise">
+                                    <button type="submit" class="btn actionBtn submitBtn mb-2" id="addCustomer">
                                         <i class="fa-regular fa-paper-plane me-2"></i>
                                         Submit Customer
                                     </button>
