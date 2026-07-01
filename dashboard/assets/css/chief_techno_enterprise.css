@@ -26,7 +26,45 @@ body {
     height: 60px;
     margin-right: 15px;
 }
+/* Collapsed (+) */
+table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before,
+table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control:before {
+    content: "\f054"; /* fa-chevron-right */
+    font-family: "Font Awesome 7 Free" !important;
+    font-weight: 900;
 
+    position: absolute;
+    top: 50%;
+    left: 8px;
+    transform: translateY(-50%);
+
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+
+    text-align: center;
+    border-radius: 50%;
+    background: #d2cee6;
+    color: #fff;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+
+    font-size: 12px;
+    text-indent: 0;
+}
+
+/* Expanded (-) */
+table.dataTable.dtr-inline.collapsed > tbody > tr.parent > td.dtr-control:before,
+table.dataTable.dtr-inline.collapsed > tbody > tr.parent > th.dtr-control:before {
+    content: "\f078"; /* fa-chevron-down */
+}
+
+/* Space for the icon */
+table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control,
+table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control {
+    position: relative;
+    padding-left: 45px !important;
+}
 .selected-li {
     border-left: 4px solid #0d6efd; /* Bootstrap primary blue */
     background-color: #f0f8ff; /* optional: light background */
@@ -259,6 +297,14 @@ body {
     background-color: #dfe3ff;
     border: 2px solid #b9bfe7;
 }
+.stCard5 {
+    background-color: #ebe7fd;
+    border: 2px solid #dbd5f5;
+}
+.stCard6 {
+    background-color: #e0f2fe;
+    border: 2px solid #cce2f0;
+}
 .stIcon {
     width: 50px;
     height: 50px;
@@ -281,6 +327,14 @@ body {
 }
 .stIcon4 {
     background-color: #021185;
+    color: #fff; 
+}
+.stIcon5 {
+    background-color: #49369e;
+    color: #fff; 
+}
+.stIcon6 {
+    background-color: #055e99;
     color: #fff; 
 }
 /* card section 3 */

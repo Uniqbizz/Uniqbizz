@@ -30,7 +30,7 @@
                 ON ca.reference_no = ste.executive_techno_enterprise_id
 
             WHERE ca.reference_no = :user_id
-            AND ca.status IN (2,4)
+            AND ca.status IN (0,2,4)
             AND ste.status IN (1)
 
             ORDER BY id DESC;

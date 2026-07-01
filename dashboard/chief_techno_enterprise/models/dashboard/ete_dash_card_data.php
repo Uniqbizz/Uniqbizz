@@ -18,20 +18,6 @@
                     AND st.status IN (1,3)
                     AND ete.status IN (1,3)
                 )
-                    
-                +
-                
-                (    SELECT COUNT(*)
-                    FROM sub_franchisee sf
-                    INNER JOIN super_techno_enterprise st
-                        ON sf.reference_no = st.super_techno_enterprise_id
-                    INNER JOIN executive_techno_enterprise ete
-                        ON st.reference_no = ete.executive_techno_enterprise_id
-                    WHERE ete.reference_no = :user_id
-                    AND sf.status IN (1,3)
-                    AND st.status IN (1,3)
-                    AND ete.status IN (1,3)
-                ) 
                 +
                 (    SELECT COUNT(*)
                     FROM institution i
@@ -61,22 +47,6 @@
                     FROM ca_travelagency ta
                     INNER JOIN corporate_agency ca
                         ON ta.reference_no = ca.corporate_agency_id
-                    INNER JOIN super_techno_enterprise st
-                        ON ca.reference_no = st.super_techno_enterprise_id
-                    INNER JOIN executive_techno_enterprise ete
-                        ON st.reference_no = ete.executive_techno_enterprise_id
-                    WHERE ete.reference_no = :user_id
-                    AND ta.status IN (1,3)
-                    AND ca.status IN (1,3)
-                    AND st.status IN (1,3)
-                    AND ete.status IN (1,3)
-                )
-                +
-                (
-                    SELECT COUNT(*)
-                    FROM ca_travelagency ta
-                    INNER JOIN sub_franchisee ca
-                        ON ta.reference_no = ca.sub_franchisee_id
                     INNER JOIN super_techno_enterprise st
                         ON ca.reference_no = st.super_techno_enterprise_id
                     INNER JOIN executive_techno_enterprise ete
@@ -125,25 +95,6 @@
                 (
                     SELECT COUNT(*)
                     FROM ca_customer cu
-                    INNER JOIN ca_travelagency ta
-                        ON cu.ta_reference_no = ta.ca_travelagency_id
-                    INNER JOIN sub_franchisee ca
-                        ON ta.reference_no = ca.sub_franchisee_id
-                    INNER JOIN super_techno_enterprise st
-                        ON ca.reference_no = st.super_techno_enterprise_id
-                    INNER JOIN executive_techno_enterprise ete
-                        ON st.reference_no = ete.executive_techno_enterprise_id
-                    WHERE ete.reference_no = :user_id
-                    AND cu.status IN (1,3)
-                    AND ta.status IN (1,3)
-                    AND ca.status IN (1,3)
-                    AND st.status IN (1,3)
-                    AND ete.status IN (1,3)
-                )
-                +
-                (
-                    SELECT COUNT(*)
-                    FROM ca_customer cu
                     INNER JOIN institution_branch_manager ibr
                         ON cu.ta_reference_no = ibr.institution_branch_manager_id
                     INNER JOIN institution i
@@ -162,12 +113,6 @@
                 (
                     SELECT COALESCE(SUM(cte_amount),0)
                     FROM techno_enterprise_payout
-                    WHERE cte_id = :user_id
-                )
-                +
-                (
-                    SELECT COALESCE(SUM(commission_cte),0)
-                    FROM sub_franchisee_payout
                     WHERE cte_id = :user_id
                 )
                 +
@@ -198,12 +143,6 @@
                 +
                 (
                     SELECT COALESCE(SUM(commission_cte),0)
-                    FROM sub_franchisee_payout
-                    WHERE cte_id = :user_id AND status_zm=2
-                )
-                +
-                (
-                    SELECT COALESCE(SUM(commission_cte),0)
                     FROM ca_cu_payout
                     WHERE cte_id = :user_id AND status_cte=2
                 )
@@ -225,12 +164,6 @@
                     SELECT COALESCE(SUM(cte_amount),0)
                     FROM techno_enterprise_payout
                     WHERE cte_id = :user_id AND ste_status=1 
-                )
-                +
-                (
-                    SELECT COALESCE(SUM(commission_cte),0)
-                    FROM sub_franchisee_payout
-                    WHERE cte_id = :user_id AND status_zm=1
                 )
                 +
                 (

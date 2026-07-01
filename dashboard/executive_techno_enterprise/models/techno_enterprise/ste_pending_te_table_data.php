@@ -30,35 +30,7 @@
                 ON ca.reference_no = ste.super_techno_enterprise_id
 
             WHERE ste.reference_no = :user_id
-            AND ca.status IN (2,4)
-            AND ste.status IN (1)
-
-            UNION ALL
-
-            SELECT
-                sf.id,
-                sf.firstname,
-                sf.lastname,
-                sf.contact_no,
-                sf.email,
-                sf.added_on,
-                sf.status,
-                sf.user_type,
-                'SF' AS userTypeStr,
-
-                ste.firstname AS ref_firstname,
-                ste.lastname AS ref_lastname,
-                ste.super_techno_enterprise_id AS reference_id,
-
-                'sub_franchisee' AS source_table
-
-            FROM sub_franchisee sf
-
-            INNER JOIN super_techno_enterprise ste
-                ON sf.reference_no = ste.super_techno_enterprise_id
-
-            WHERE ste.reference_no = :user_id
-            AND sf.status IN (2,4)
+            AND ca.status IN (0,2,4)
             AND ste.status IN (1)
 
             UNION ALL
@@ -86,7 +58,7 @@
                 ON sf.reference_no = ste.executive_techno_enterprise_id
 
             WHERE sf.reference_no = :user_id
-            AND sf.status IN (2,4)
+            AND sf.status IN (0,2,4)
 
             ORDER BY id DESC;
         ");

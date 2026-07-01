@@ -5,9 +5,6 @@
     include (__DIR__ .'/customer_mapping.php');
 
     $id = $_GET['vkvbvjfgfikix'];
-    $country_id = $_GET['ncy'];
-    $state_id = $_GET['mst'];
-    $city_id = $_GET['hct'];
     $editfor = $_GET['editfor'];
 
     $stmt = $conn->prepare("SELECT * FROM `ca_customer` WHERE ca_customer_id='" . $id . "' OR id='" . $id . "' ");
@@ -413,9 +410,9 @@
                                                             }
                                                         ?>
                                                         </label><br />
-                                                        <input class="form-control" type="file" name="file1" id="upload_file1">
+                                                        <input class="form-control" type="file" name="file1" id="upload_file1" disabled>
                                                     </div>
-                                                    <input type="hidden" id="img_path1" value="<?php echo $profile_pic; ?>">
+                                                    <input type="hidden" id="img_path1" value="<?php echo $profile_pic; ?>" >
                                                     <div id="preview1">
                                                         <div id="image_preview1">
                                                             <?php
@@ -442,7 +439,7 @@
                                                             }
                                                         ?>
                                                         </label><br />
-                                                        <input class="form-control" type="file" name="file2" id="upload_file2">
+                                                        <input class="form-control" type="file" name="file2" id="upload_file2" disabled>
                                                     </div>
                                                     <input type="hidden" id="img_path2" value="<?php echo $aadhar_card; ?>">
                                                     <div id="preview2">
@@ -474,7 +471,7 @@
                                                             }
                                                         ?>
                                                         </label><br />
-                                                        <input class="form-control" type="file" name="file3" id="upload_file3">
+                                                        <input class="form-control" type="file" name="file3" id="upload_file3" disabled>
                                                     </div>
                                                     <input type="hidden" id="img_path3" value="<?php echo $pan_card; ?>">
                                                     <div id="preview3">
@@ -503,7 +500,7 @@
                                                             }
                                                         ?>
                                                         </label><br />
-                                                        <input class="form-control" type="file" name="file4" id="upload_file4">
+                                                        <input class="form-control" type="file" name="file4" id="upload_file4" disabled>
                                                     </div>
                                                     <input type="hidden" id="img_path4" value="<?php echo $bank_passbook; ?>">
                                                     <div id="preview4">
@@ -535,7 +532,7 @@
                                                             }
                                                         ?>
                                                         </label><br />
-                                                        <input class="form-control" type="file" name="file5" id="upload_file5">
+                                                        <input class="form-control" type="file" name="file5" id="upload_file5" disabled>
                                                     </div>
                                                     <input type="hidden" id="img_path5" value="<?php echo $voting_card; ?>">
                                                     <div id="preview5">

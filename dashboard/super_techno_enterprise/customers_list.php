@@ -39,26 +39,13 @@
         
         <!-- Customer Dashboard CSS -->
         <link rel="stylesheet" href="../assets/css/super_techno_enterprise.css" />
+        <!-- Lists CSS -->
+        <link rel="stylesheet" href="../assets/css/lists.css" />
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- add on 11-06-2026 by SV -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
         
-        <style>
-        #reportrange{
-            min-width: 280px;
-            width: auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            white-space: nowrap;
-        }
-
-        #reportrange span{
-            display: inline-block;
-        }
-        </style>
         <!-- add on 11-06-2026 by SV END-->
     </head>
     <body>
@@ -163,7 +150,7 @@
                                             <div class="card rounded-4 border-1">
                                                 <div class="card-header border-bottom-dashed rounded-top-4">
                                                     <div class="row">
-                                                        <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
+                                                        <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12 col-12 mb-2">
                                                             <div class="d-flex gap-3">
                                                                 <div class="tePendingIcon tePendingIcon2">
                                                                     <i class="ri-verified-badge-line" style="font-size: 30px;"></i>
@@ -174,12 +161,12 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12 col-12 mb-2">
-                                                            <div class="row d-flex justify-content-end gap-2 teSectionSize">
+                                                        <div class="col-xl-7 col-lg-12 col-md-12 col-sm-12 col-12 mb-2">
+                                                            <div class="d-flex justify-content-end gap-2 teSectionSize">
                                                                 <!-- Date Range -->
-                                                                <div class="col-lg-5 col-md-5 col-sm-6  col-12">
+                                                                <div>
                                                                     <div id="reportrange"
-                                                                        class="bg-primary text-white px-3 py-2 text-center dateRange w-100"
+                                                                        class="bg-primary text-white px-3 py-2 text-center dateRange"
                                                                         style="border-radius:6px; cursor:pointer;">
                                                                         <i class="fa fa-calendar"></i>
                                                                         &nbsp;
@@ -187,15 +174,13 @@
                                                                         <i class="fa-solid fa-angle-down"></i>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-lg-3 col-md-3 col-sm-4 col-6 mb-2">
+                                                                <div class="countDownloadBtn gap-2">
                                                                     <div class="d-flex gap-2">
                                                                         <p class="fs-6 text-dark mb-1 align-content-center">Count</p>
                                                                         <input type="number" class="dateInput" id="rowCount" readonly>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-2">
                                                                     <a href="#" class="text-decoration-none" id="exportcu">
-                                                                        <div class="stWalletBtn rounded-3 py-2 align-items-center justify-content-center justify-content-lg-start">
+                                                                        <div class="stWalletBtn rounded-3 py-2">
                                                                             <i class="fa-solid fa-download me-2"></i>
                                                                             <p class="fs-6 mb-0 fw-bolder pe-1">Download</p>
                                                                         </div>
@@ -212,6 +197,7 @@
                                                                 <th data-ordering="false">TE ID & Full Name</th>
                                                                 <th data-ordering="false">Reference ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
+                                                                <th data-ordering="false">Membership Type</th>
                                                                 <th data-ordering="false">Membership (&#8377;)</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
@@ -354,16 +340,16 @@
                         data: 'status',
                         render: function(status){
 
-                            if(status == 1){
+                            if(status == 0){
 
-                                return `
-                                    <p class="teApprovedBtn rounded-pill text-center mb-0">
-                                        Active
+                               return `
+                                    <p class="teDeletedBtn rounded-pill text-center mb-0">
+                                        Deleted
                                     </p>
                                 `;
                             }
 
-                            if(status == 3){
+                            if(status == 2){
 
                                 return `
                                     <p class="tePendingBtn rounded-pill text-center mb-0">
@@ -371,12 +357,11 @@
                                     </p>
                                 `;
                             }
-
                             return `
-                                <p class="teDeletedBtn rounded-pill text-center mb-0">
-                                    Inactive
-                                </p>
-                            `;
+                                    <p class="teDraftBtn rounded-pill text-center mb-0">
+                                        Draft
+                                    </p>
+                                `;
                         }
                     }
                 ],
@@ -425,9 +410,14 @@
                         data: null,
                         render: function(data) {
                             return `
-                                <p class="fs-6 mb-0">
-                                    ${data.firstname || ''} ${data.lastname || ''}
-                                </p>
+                                <div>
+                                    <p class="fs-6 mb-0">
+                                        ${data.firstname || ''} ${data.lastname || ''}
+                                    </p>
+                                    <p class="fs-6 mb-0">
+                                        ${data.ca_customer_id || '-'}
+                                    </p>
+                                </div>
                             `;
                         }
                     },
@@ -437,7 +427,9 @@
                             return `
                                 <div>
                                     <p class="fs-6 mb-0">
-                                        ${data.ref_firstname || '-'} ${data.ref_lastname || ''}
+                                        ${data.ref_firstname || '-'}
+                                        </br> 
+                                        ${data.ref_lastname || ''}
                                     </p>
                                     <p class="fs-6 mb-0">
                                         ${data.ca_travelagency_id || '-'}
@@ -460,6 +452,21 @@
                                         ${data.email || '-'}
                                     </p>
                                 </div>
+                            `;
+                        }
+                    },
+                    {
+                        data: 'type',
+                        render: function(data) {
+
+                            if(!data || data == 0) {
+                                return '-';
+                            }
+                            const formattedData = data.replace(/\s*\/\s*/g, "<br>");
+                            return `
+                                <p class="fs-6 mb-0">
+                                    ${formattedData}
+                                </p>
                             `;
                         }
                     },
@@ -530,6 +537,7 @@
                         data: 'ca_customer_id',
                         orderable: false,
                         searchable: false,
+                        className: 'none',
                         render: function(data) {
 
                             return `
@@ -583,7 +591,12 @@
                         if(res.status && res.data.length > 0){
 
                             cuRegTable.rows.add(res.data);
-                            $('#rowCount').val(res.data.length);
+                            cuRegTable.on('draw.dt', function () {
+                                $('#rowCount').val(
+                                    cuRegTable.rows({ search: 'applied' }).count()
+                                );
+                            });
+                            // $('#rowCount').val(res.data.length);
 
                         }
 
@@ -613,9 +626,9 @@
                 function cb(start, end) {
 
                     $('#selectedDate').html(
-                        start.format('MMMM D, YYYY') +
+                        start.format('MMM D, YYYY') +
                         ' - ' +
-                        end.format('MMMM D, YYYY')
+                        end.format('MMM D, YYYY')
                     );
 
                     window.startDate = start.format('YYYY-MM-DD');

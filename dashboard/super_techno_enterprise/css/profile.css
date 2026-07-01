@@ -200,6 +200,11 @@
 .document-status.rejected{
     background:linear-gradient(135deg,#f87171,#dc2626);
 }
+.verificationIcon {
+    width: 110px !important;
+    height: 25px;
+    align-content: center;
+}
 @media (max-width: 1120px) {
     .profileBackgroundImg {
         height: 300px;
@@ -244,6 +249,19 @@
         margin-top: 50px;
     }
 }
+@media (max-width: 680px) {
+    .profilePicCard2 {
+        display: block !important;
+    }
+    .profileBackgroundImg {
+        height: 350px;
+    }
+    .profileDetails {
+        position: absolute;
+        top: 150px !important;
+        left: 0;
+    }
+}
 @media (max-width: 575px) {
     .profilePicCard1 {
         display: block !important;
@@ -269,5 +287,15 @@
     }
     .cardHeight2 {
         height: 360px !important;
+    }
+}
+@media (max-width: 350px) {
+    .profileBackgroundImg {
+        height: 600px;
+    }
+    .profileDetails {
+        position: absolute;
+        top: 310px !important;
+        left: 0;
     }
 }

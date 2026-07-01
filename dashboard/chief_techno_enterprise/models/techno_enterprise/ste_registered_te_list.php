@@ -73,39 +73,6 @@
 
             (
                 SELECT
-                    sf.sub_franchisee_id AS teuser_id,
-                    sf.firstname,
-                    sf.lastname,
-                    sf.contact_no,
-                    sf.email,
-                    sf.register_date,
-                    sf.status,
-                    sf.amount,
-                    sf.user_type,
-
-                    ste.firstname AS ref_firstname,
-                    ste.lastname AS ref_lastname,
-                    ste.super_techno_enterprise_id AS reference_id
-
-                FROM sub_franchisee sf
-
-                INNER JOIN super_techno_enterprise ste
-                    ON sf.reference_no = ste.super_techno_enterprise_id
-
-                INNER JOIN executive_techno_enterprise ete
-                    ON ste.reference_no = ete.executive_techno_enterprise_id
-
-                WHERE ete.reference_no = :user_id
-                AND sf.status IN (1,3)
-                AND ste.status IN (1,3)
-                AND ete.status IN (1,3)
-
-                $whereDateSF
-            )
-            UNION ALL
-
-            (
-                SELECT
                     i.institution_id AS teuser_id,
                     i.firstname,
                     i.lastname,

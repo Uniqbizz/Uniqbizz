@@ -33,23 +33,57 @@
                         <i class="ri-user-shared-2-line"></i> <span data-key="t-home">My Bookings</span>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($current_page == '#') ? 'active' : ''; ?>">
-                    <a class="nav-link menu-link" href="#">
-                        <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Upcoming Trips</span>
+                <li class="nav-item <?php echo ($current_page == 'markup.php') ? 'active' : ''; ?>">
+                    <a class="nav-link menu-link" href="markup.php">
+                        <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Package Markup</span>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($current_page == '#') ? 'active' : ''; ?>">
-                    <a class="nav-link menu-link" href="#">
+                <li class="nav-item <?php echo ($current_page == 'customers_list.php') ? 'active' : ''; ?>">
+                    <a class="nav-link menu-link" href="customers_list.php">
                         <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Holiday Account</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarMultilevel" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarMultilevel">
+                        <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Commission</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarMultilevel">
+                        <ul class="nav nav-sm flex-column">
+                            <!-- <li class="nav-item <?php //echo ($current_page == 'contracting_payout.php') ? 'active' : ''; ?>">
+                                <a href="contracting_payout.php" class="nav-link menu-link">
+                                    <span data-key="recruitment-payout">TE Contracting Payout</span>
+                                </a>
+                            </li>
+                            <li class="nav-item <?php //echo ($current_page == 'sub_franchisee_payout.php') ? 'active' : ''; ?>">
+                                <a href="sub_franchisee_payout.php" class="nav-link menu-link">
+                                    <span data-key="recruitment-payout">Franchisee Contracting Payout</span>
+                                </a>
+                            </li> -->
+                            <!-- <li class="nav-item <?php //echo ($current_page == 'recruitment_payout.php') ? 'active' : ''; ?>">
+                                <a href="recruitment_payout.php" class="nav-link menu-link">
+                                    <span data-key="recruitment-payout">TC Recruitment Payout</span>
+                                </a>
+                            </li> -->
+                            <li class="nav-item <?php echo ($current_page == 'holiday_payout.php') ? 'active' : ''; ?>">
+                                <a href="holiday_payout.php" class="nav-link menu-link">
+                                    <span data-key="holiday-payout">Holiday Account Payout</span>
+                                </a>
+                            </li>
+                            <li class="nav-item <?php echo ($current_page == 'product_payout.php') ? 'active' : ''; ?>">
+                                <a href="product_payout.php" class="nav-link menu-link">
+                                    <span data-key="product-payout">Product Payout</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
                 <li class="nav-item <?php echo ($current_page == '#') ? 'active' : ''; ?>">
-                    <a class="nav-link menu-link" href="#">
+                    <a class="nav-link menu-link" href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                         <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Support</span>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($current_page == '#') ? 'active' : ''; ?>">
-                    <a class="nav-link menu-link" href="#">
+                <li class="nav-item <?php echo ($current_page == 'profile.php') ? 'active' : ''; ?>">
+                    <a class="nav-link menu-link" href="profile.php">
                         <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Settings</span>
                     </a>
                 </li>

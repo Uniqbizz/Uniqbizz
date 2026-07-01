@@ -836,22 +836,22 @@
 
                         loadExistingFile(
                             '[data-index="2"]',
-                            data.pan_card
-                        );
-
-                        loadExistingFile(
-                            '[data-index="3"]',
                             data.aadhar_card
                         );
 
                         loadExistingFile(
+                            '[data-index="3"]',
+                            data.pan_card
+                        );
+
+                        loadExistingFile(
                             '[data-index="4"]',
-                            data.voting_card
+                            data.bank_passbook
                         );
 
                         loadExistingFile(
                             '[data-index="11"]',
-                            data.bank_passbook
+                            data.voting_card
                         );
 
                         loadExistingFile(

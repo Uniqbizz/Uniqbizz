@@ -30,7 +30,7 @@
                     ON ta.reference_no = ca.corporate_agency_id
 
                 WHERE ta.reference_no = :user_id
-                AND ta.status IN (0,4)
+                AND ta.status IN (0,2,4)
 
             ) AS combined
 

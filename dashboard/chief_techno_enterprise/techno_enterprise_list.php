@@ -6,7 +6,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title> Techno Enterprise | Franchisee | Institution List </title>
+        <title> Techno Enterprise | Institution List </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -39,26 +39,13 @@
         
         <!-- Customer Dashboard CSS -->
         <link rel="stylesheet" href="../assets/css/chief_techno_enterprise.css" />
+        <!-- Lists CSS -->
+        <link rel="stylesheet" href="../assets/css/lists.css" />
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- add on 10-06-2026 by SV -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
         
-        <style>
-        #reportrange{
-            min-width: 280px;
-            width: auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            white-space: nowrap;
-        }
-
-        #reportrange span{
-            display: inline-block;
-        }
-        </style>
         <!-- add on 10-06-2026 by SV END-->
     </head>
     <body>
@@ -110,12 +97,12 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Techno Enterprise | Franchisee | Institution</h4>
+                                    <h4 class="mb-sm-0">Techno Enterprise | Institution</h4>
 
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="chief_techno_dashboard.php">Dashboard</a></li>
-                                            <li class="breadcrumb-item active">View Techno Enterprise | Franchisee | Institution</li>
+                                            <li class="breadcrumb-item active">View Techno Enterprise | Institution</li>
                                         </ol>
                                     </div>
 
@@ -136,8 +123,8 @@
                                                         <i class="fa-solid fa-hourglass-half fa-xl"></i>
                                                     </div>
                                                     <div class="align-content-end">
-                                                        <h5 class="card-title text-dark mb-0">Pending Techno Enterprise | Franchisee | Institution List</h5>
-                                                        <p class="text-muted fs-6 mb-0">Techno Enterprise | Franchisee | Institution pending for approval</p>
+                                                        <h5 class="card-title text-dark mb-0">Pending Techno Enterprise | Institution List</h5>
+                                                        <p class="text-muted fs-6 mb-0">Techno Enterprise | Institution pending for approval</p>
                                                     </div>
                                                 </div>    
                                                 <div class="card-body">
@@ -165,23 +152,23 @@
                                             <div class="card rounded-4 border-1">
                                                 <div class="card-header border-bottom-dashed rounded-top-4">
                                                     <div class="row">
-                                                        <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
+                                                        <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12 col-12 mb-2">
                                                             <div class="d-flex gap-3">
                                                                 <div class="tePendingIcon tePendingIcon2">
                                                                     <i class="ri-verified-badge-line" style="font-size: 30px;"></i>
                                                                 </div>
                                                                 <div class="align-content-end">
-                                                                    <h5 class="card-title text-dark mb-0">Registered Techno Enterprise | Franchisee | Institution List</h5>
-                                                                    <p class="text-muted fs-6 mb-0">All approved and active Techno Enterprises | Franchisee | Institution</p>
+                                                                    <h5 class="card-title text-dark mb-0">Registered Techno Enterprise | Institution List</h5>
+                                                                    <p class="text-muted fs-6 mb-0">All approved and active Techno Enterprises | Institution</p>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12 col-12 mb-2">
-                                                            <div class="row d-flex justify-content-end gap-2 teSectionSize">
+                                                        <div class="col-xl-7 col-lg-12 col-md-12 col-sm-12 col-12 mb-2">
+                                                            <div class="d-flex justify-content-end gap-2 teSectionSize">
                                                                 <!-- Date Range -->
-                                                                <div class="col-lg-5 col-md-5 col-sm-6  col-12">
+                                                                <div>
                                                                     <div id="reportrange"
-                                                                        class="bg-primary text-white px-3 py-2 text-center dateRange w-100"
+                                                                        class="bg-primary text-white px-3 py-2 text-center dateRange"
                                                                         style="border-radius:6px; cursor:pointer;">
                                                                         <i class="fa fa-calendar"></i>
                                                                         &nbsp;
@@ -189,15 +176,13 @@
                                                                         <i class="fa-solid fa-angle-down"></i>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-lg-3 col-md-3 col-sm-4 col-6 mb-2">
+                                                                <div class="countDownloadBtn gap-2">
                                                                     <div class="d-flex gap-2">
                                                                         <p class="fs-6 text-dark mb-1 align-content-center">Count</p>
                                                                         <input type="number" class="dateInput" id="rowCount" readonly>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-2">
                                                                     <a href="#" class="text-decoration-none" id="exportte">
-                                                                        <div class="stWalletBtn rounded-3 py-2 align-items-center justify-content-center justify-content-lg-start">
+                                                                        <div class="stWalletBtn rounded-3 py-2">
                                                                             <i class="fa-solid fa-download me-2"></i>
                                                                             <p class="fs-6 mb-0 fw-bolder pe-1">Download</p>
                                                                         </div>
@@ -211,7 +196,7 @@
                                                     <table id="example-dataTable-2" class="table table-striped table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                                         <thead>
                                                             <tr class="table-primary">
-                                                                <th data-ordering="false">TE | F | I ID & Full Name</th>
+                                                                <th data-ordering="false">TE | I ID & Full Name</th>
                                                                 <th data-ordering="false">Reference ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Amt (&#8377;)</th>
@@ -298,9 +283,9 @@
 
                                 badge = '<span class="badge bg-primary ms-1">TE</span>';
 
-                            } else if (data.user_type == 29) {
+                            } else if (data.user_type == 32) {
 
-                                badge = '<span class="badge bg-success ms-1">F</span>';
+                                badge = '<span class="badge bg-success ms-1">I</span>';
                             }
 
                             return `
@@ -350,7 +335,7 @@
                     },
 
                     {
-                        data: 'added_on',
+                        data: 'register_date',
                         render: function(data){
 
                             if(!data) return '-';
@@ -385,6 +370,11 @@
                                     </p>
                                 `;
                             }
+                            return `
+                                    <p class="teDeletedBtn rounded-pill text-center mb-0">
+                                        Deleted
+                                    </p>
+                                `;
                         }
                     },
                     {
@@ -651,7 +641,12 @@
                         if(res.status && res.data.length > 0){
 
                             teRegTable.rows.add(res.data);
-                            $('#rowCount').val(res.data.length);
+                            teRegTable.on('draw.dt', function () {
+                                $('#rowCount').val(
+                                    teRegTable.rows({ search: 'applied' }).count()
+                                );
+                            });
+                            // $('#rowCount').val(res.data.length);
 
                         }
 
@@ -681,9 +676,9 @@
                 function cb(start, end) {
 
                     $('#selectedDate').html(
-                        start.format('MMMM D, YYYY') +
+                        start.format('MMM D, YYYY') +
                         ' - ' +
-                        end.format('MMMM D, YYYY')
+                        end.format('MMM D, YYYY')
                     );
 
                     window.startDate = start.format('YYYY-MM-DD');

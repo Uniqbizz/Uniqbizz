@@ -43,7 +43,8 @@
         <link rel="stylesheet" href="../assets/css/customer_dashboard.css" />
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        
+         <!-- add on 11-06-2026 by SV -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
     </head>
 
     <body>
@@ -95,12 +96,12 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">View Customer</h4>
+                                    <h4 class="mb-sm-0">Refer & Earn</h4>
 
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="<?= $base_url_cust ?>customer_dashboard.php">Dashboard</a></li>
-                                            <li class="breadcrumb-item active">View Customer</li>
+                                            <li class="breadcrumb-item active">Refer & Earn</li>
                                         </ol>
                                     </div>
 
@@ -108,12 +109,106 @@
                             </div>
                         </div>
                         <!-- end page title -->
-
+                        <!-- Card section 1 -->
+                        <div class="row">
+                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
+                                <div class="card rounded-4 border-1 p-3">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-3 align-content-center">
+                                            <div class="referIcon referIcon1">
+                                                <i class="fa-solid fa-user fa-xl"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-9 col-md-9 col-sm-9 col-9">
+                                            <p class="mb-0 fw-bolder">Total Referrals</p>
+                                            <div class="d-flex justify-content-between">
+                                                <p class="mb-0 fs-5 fw-bolder" id="total_cu">0</p>
+                                                <p class="mb-0"><i class="fa-solid fa-user-group fa-lg" style="color: #35239a;"></i></p>
+                                            </div>
+                                            <p class="mb-0 text-muted fs-6">All time</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
+                                <div class="card rounded-4 border-1 p-3">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-3 align-content-center">
+                                            <div class="referIcon referIcon2">
+                                                <i class="fa-solid fa-clock fa-xl"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-9 col-md-9 col-sm-9 col-9">
+                                            <p class="mb-0 fw-bolder">Pending Referrals</p>
+                                            <p class="mb-0 fs-5 fw-bolder" id="pending_cu">0</p>
+                                            <p class="mb-0 text-muted fs-6">Awaiting registration</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
+                                <div class="card rounded-4 border-1 p-3">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-3 align-content-center">
+                                            <div class="referIcon referIcon3">
+                                                <i class="fa-solid fa-user-check fa-xl"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-9 col-md-9 col-sm-9 col-9">
+                                            <p class="mb-0 fw-bolder">Registered Referrals</p>
+                                            <p class="mb-0 fs-5 fw-bolder" id="registered_cu">0</p>
+                                            <p class="mb-0 text-muted fs-6">Successfully joined</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
+                                <div class="card rounded-4 border-1 p-3">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-3 align-content-center">
+                                            <div class="referIcon referIcon4">
+                                                <i class="fa-solid fa-gift fa-xl"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-9 col-md-9 col-sm-9 col-9">
+                                            <p class="mb-0 fw-bolder">Rewards Earned</p>
+                                            <p class="mb-0 fs-5 fw-bolder textViolet" id="rewards_earned">&#8377;0</p>
+                                            <p class="mb-0 text-muted fs-6">Total cashback</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card section 2 -->
+                        <div class="card rounded-4 border-1 p-3 referalCard">
+                            <div class="referalSize">
+                                <div class="">
+                                    <h3 class="textViolet fw-bolder">Why Referrals Matter?</h3>
+                                    <p class="mb-2 fs-5 text-muted">Share the joy of travel and earn rewards while doing it!</p>
+                                    <div class="d-flex gap-2">
+                                        <p class="mb-2 align-content-center"><i class="fa-regular fa-circle-check text-muted"></i></p>
+                                        <p class="mb-2 fs-5 text-muted">Earn cashback for every friend who joins and travels.</p>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <p class="mb-2 align-content-center"><i class="fa-regular fa-circle-check text-muted"></i></p>
+                                        <p class="mb-2 fs-5 text-muted">More referrals = More savings on your trips.</p>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <p class="mb-2 align-content-center"><i class="fa-regular fa-circle-check text-muted"></i></p>
+                                        <p class="mb-2 fs-5 text-muted">Easy to share, easy to earn!</p>
+                                    </div>
+                                    <p class="mb-2 fs-5 fw-bolder textViolet">Your friends get great travel deals, and you get rewards. It's a win-win!</p>
+                                </div>
+                                <div>
+                                    <img src="../assets/images/referalImage.png" alt="Package" class="referalImageWidth img-fluid w-100">
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col">
 
                                 <div class="h-100">
-                                    <div class="row">
+                                    <!-- <div class="row">
                                         <div class="col-lg-12">
                                             <div class="card">
                                                 <div class="card-header border-bottom-dashed">
@@ -140,1112 +235,44 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <?php
-
-                                                                if($userType == "24"){
-                                                                    $stmt = $conn -> prepare("SELECT employee_id FROM `employees` WHERE reporting_manager = ? AND user_type = '25' ");
-                                                                    $stmt -> execute([$userId]);
-                                                                    $userBDMS = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-                                                                    
-                                                                    foreach( $userBDMS as $userBDM ){
-                                                                        $bdm_id = $userBDM['employee_id'];
-                                                                        
-                                                                        $stmt2 = $conn->prepare("SELECT business_mentor_id FROM business_mentor WHERE reference_no = ? AND user_type = '26' ");
-                                                                        $stmt2->execute([$bdm_id]);
-                                                                        $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-                                                                        //BM->TE->TC->TC->CU
-                                                                        foreach ($userBMS as $userBM) {
-                                                                            $bm_id = $userBM['business_mentor_id'];
-
-                                                                            $stmt3 = $conn->prepare("SELECT corporate_agency_id FROM `corporate_agency` WHERE reference_no = ? ");
-                                                                            $stmt3->execute([$bm_id]);
-                                                                            $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach($userCAs as $userCA){
-                                                                                $userCAID = $userCA['corporate_agency_id'];
-                                                                                // echo $userCA;
-
-                                                                                $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
-                                                                                $stmt4->execute([$userCA['corporate_agency_id']]);
-                                                                                $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                                foreach ($userCATAs as $userCATA) {
-                                                                                    $userTA = $userCATA['ca_travelagency_id'];
-                                                                                //    echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                                    $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                                                                                    $stmt5->execute([$userCATA['ca_travelagency_id']]);
-                                                                                    $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                                    foreach ($userCACUs as $userCACU) {
-                                                                                        $userCU = $userCACU['id'];
-                                                                                        // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
-                                                                                        $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                        $bdate= $bd->format('d-m-Y');
-                                                                                        $dt= new DateTime($userCACU['added_on']);
-                                                                                        $datev= $dt->format('d-m-Y'); 
-                                                                                        echo'<tr>
-                                                                                            <td>'.$userCACU['id'].'</td>
-                                                                                            <td>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</td>
-                                                                                            <td>
-                                                                                                <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                                <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                            </td>
-                                                                                            <td>'.$userCACU['contact_no'].'</td>
-                                                                                            <td>'.$datev.'</td>';
-                                                                                            if($userCACU['status'] == '2')
-                                                                                                echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                                            else{
-                                                                                                echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                            }
-                                                                                        echo'</tr>';
-                                                                                    }
-                                                                                }   
-                                                                            }
-                                                                            
-                                                                            //direct TC with BM Ref
-                                                                            $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
-                                                                            $stmt4->execute([$bm_id]);
-                                                                            $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCATAs as $userCATA) {
-                                                                                $userTA = $userCATA['ca_travelagency_id'];
-                                                                            //    echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                                $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                                                                                $stmt5->execute([$userCATA['ca_travelagency_id']]);
-                                                                                $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                                foreach ($userCACUs as $userCACU) {
-                                                                                    $userCU = $userCACU['id'];
-                                                                                    // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
-                                                                                    $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                    $bdate= $bd->format('d-m-Y');
-                                                                                    $dt= new DateTime($userCACU['added_on']);
-                                                                                    $datev= $dt->format('d-m-Y'); 
-                                                                                    echo'<tr>
-                                                                                        <td>'.$userCACU['id'].'</td>
-                                                                                        <td>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</td>
-                                                                                        <td>
-                                                                                            <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                            <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                        </td>
-                                                                                        <td>'.$userCACU['contact_no'].'</td>
-                                                                                        <td>'.$datev.'</td>';
-                                                                                        if($userCACU['status'] == '2')
-                                                                                            echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                                        else{
-                                                                                            echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                        }
-                                                                                    echo'</tr>';
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                        //MF/SF->F->TC->TC->CU
-                                                                        $stmt2 = $conn->prepare("SELECT master_franchisee_id AS id FROM master_franchisee WHERE reference_no = ? AND user_type = '28'
-                                                                                                    UNION
-                                                                                                    SELECT sponsor_franchisee_id AS id FROM sponsor_franchisee WHERE reference_no = ? AND user_type = '30' ");
-                                                                        $stmt2->execute([$bdm_id,$bdm_id]);
-                                                                        $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-                                                                        foreach ($userBMS as $userBM) {
-                                                                            $bm_id = $userBM['id'];
-
-                                                                            $stmt3 = $conn->prepare("SELECT sub_franchisee_id AS suser_id FROM `sub_franchisee` WHERE reference_no = ?
-                                                                                                    UNION ALL
-                                                                                                    SELECT institution_id AS suser_id FROM institution WHERE reference_no = ?");
-                                                                            $stmt3->execute([$bm_id,$bm_id]);
-                                                                            $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach($userCAs as $userCA){
-                                                                                $userCAID = $userCA['suser_id'];
-                                                                                // echo $userCA;
-
-                                                                                $stmt4 = $conn->prepare("SELECT ca_travelagency AS user_id FROM ca_travelagency WHERE reference_no = ?
-                                                                                                        UNION ALL
-                                                                                                        SELECT institution_branch_manager_id AS user_id FROM institution_branch_manager WHERE reference_no = ?");
-                                                                                $stmt4->execute([$userCA['suser_id'],$userCA['suser_id']]);
-                                                                                $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                                foreach ($userCATAs as $userCATA) {
-                                                                                    $userTA = $userCATA['user_id'];
-                                                                                //    echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                                    $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                                                                                    $stmt5->execute([$userCATA['user_id']]);
-                                                                                    $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                                    foreach ($userCACUs as $userCACU) {
-                                                                                        $userCU = $userCACU['id'];
-                                                                                        // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
-                                                                                        $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                        $bdate= $bd->format('d-m-Y');
-                                                                                        $dt= new DateTime($userCACU['added_on']);
-                                                                                        $datev= $dt->format('d-m-Y'); 
-                                                                                        echo'<tr>
-                                                                                            <td>'.$userCACU['id'].'</td>
-                                                                                            <td>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</td>
-                                                                                            <td>
-                                                                                                <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                                <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                            </td>
-                                                                                            <td>'.$userCACU['contact_no'].'</td>
-                                                                                            <td>'.$datev.'</td>';
-                                                                                            if($userCACU['status'] == '2')
-                                                                                                echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                                            else{
-                                                                                                echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                            }
-                                                                                        echo'</tr>';
-                                                                                    }
-                                                                                }   
-                                                                            }
-                                                                            
-                                                                            //direct TC with BM Ref
-                                                                            $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
-                                                                            $stmt4->execute([$bm_id]);
-                                                                            $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCATAs as $userCATA) {
-                                                                                $userTA = $userCATA['ca_travelagency_id'];
-                                                                                //    echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                                $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                                                                                $stmt5->execute([$userCATA['ca_travelagency_id']]);
-                                                                                $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                                foreach ($userCACUs as $userCACU) {
-                                                                                    $userCU = $userCACU['id'];
-                                                                                    // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
-                                                                                    $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                    $bdate= $bd->format('d-m-Y');
-                                                                                    $dt= new DateTime($userCACU['added_on']);
-                                                                                    $datev= $dt->format('d-m-Y'); 
-                                                                                    echo'<tr>
-                                                                                        <td>'.$userCACU['id'].'</td>
-                                                                                        <td>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</td>
-                                                                                        <td>
-                                                                                            <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                            <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                        </td>
-                                                                                        <td>'.$userCACU['contact_no'].'</td>
-                                                                                        <td>'.$datev.'</td>';
-                                                                                        if($userCACU['status'] == '2')
-                                                                                            echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                                        else{
-                                                                                            echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                        }
-                                                                                    echo'</tr>';
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                        //direct BDM->TC->CU by BDM ref
-                                                                        $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
-                                                                        $stmt4->execute([$bdm_id]);
-                                                                        $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach ($userCATAs as $userCATA) {
-                                                                            $userTA = $userCATA['ca_travelagency_id'];
-                                                                        
-
-                                                                            $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                                                                            $stmt5->execute([$userCATA['ca_travelagency_id']]);
-                                                                            $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCACUs as $userCACU) {
-                                                                                $userCU = $userCACU['id'];
-                                                                                // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
-                                                                                $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                $bdate= $bd->format('d-m-Y');
-                                                                                $dt= new DateTime($userCACU['added_on']);
-                                                                                $datev= $dt->format('d-m-Y'); 
-                                                                                echo'<tr>
-                                                                                    <td>'.$userCACU['id'].'</td>
-                                                                                    <td>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</td>
-                                                                                    <td>
-                                                                                        <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                        <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                    </td>
-                                                                                    <td>'.$userCACU['contact_no'].'</td>
-                                                                                    <td>'.$datev.'</td>';
-                                                                                    if($userCACU['status'] == '2')
-                                                                                        echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                                    else{
-                                                                                        echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                    }
-                                                                                echo'</tr>';
-                                                                            }
-                                                                        }
-                                                                        //BDM->TE->TC->CU
-                                                                        $stmt3 = $conn->prepare("SELECT corporate_agency_id FROM `corporate_agency` WHERE reference_no = ? ");
-                                                                        $stmt3->execute([$bdm_id]);
-                                                                        $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach($userCAs as $userCA){
-                                                                            $userCAID = $userCA['corporate_agency_id'];
-                                                                            // echo $userCA;
-
-                                                                            $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
-                                                                            $stmt4->execute([$userCA['corporate_agency_id']]);
-                                                                            $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCATAs as $userCATA) {
-                                                                                $userTA = $userCATA['ca_travelagency_id'];
-                                                                            //    echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                                $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                                                                                $stmt5->execute([$userCATA['ca_travelagency_id']]);
-                                                                                $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                                foreach ($userCACUs as $userCACU) {
-                                                                                    $userCU = $userCACU['id'];
-                                                                                    // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
-                                                                                    $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                    $bdate= $bd->format('d-m-Y');
-                                                                                    $dt= new DateTime($userCACU['added_on']);
-                                                                                    $datev= $dt->format('d-m-Y'); 
-                                                                                    echo'<tr>
-                                                                                        <td>'.$userCACU['id'].'</td>
-                                                                                        <td>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</td>
-                                                                                        <td>
-                                                                                            <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                            <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                        </td>
-                                                                                        <td>'.$userCACU['contact_no'].'</td>
-                                                                                        <td>'.$datev.'</td>';
-                                                                                        if($userCACU['status'] == '2')
-                                                                                            echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                                        else{
-                                                                                            echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                        }
-                                                                                    echo'</tr>';
-                                                                                }
-                                                                            }   
-                                                                        }
-                                                                        //BDM->F/I->TC/IBR->CU
-                                                                        $stmt3 = $conn->prepare("SELECT sub_franchisee_id AS suser_id FROM `sub_franchisee` WHERE reference_no = ?
-                                                                                                UNION ALL
-                                                                                                SELECT institution_id AS suser_id FROM `institution` WHERE reference_no = ? ");
-                                                                        $stmt3->execute([$bdm_id,$bdm_id]);
-                                                                        $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach($userCAs as $userCA){
-                                                                            $userCAID = $userCA['suser_id'];
-                                                                            // echo $userCA;
-
-                                                                            $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM ca_travelagency WHERE reference_no = ?
-                                                                                                    UNION ALL
-                                                                                                    SELECT institution_branch_manager_id AS user_id FROM institution_branch_manager WHERE reference_no = ?");
-                                                                            $stmt4->execute([$userCA['suser_id'],$userCA['suser_id']]);
-                                                                            $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCATAs as $userCATA) {
-                                                                                $userTA = $userCATA['user_id'];
-                                                                            //    echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                                $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                                                                                $stmt5->execute([$userCATA['user_id']]);
-                                                                                $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                                foreach ($userCACUs as $userCACU) {
-                                                                                    $userCU = $userCACU['id'];
-                                                                                    // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
-                                                                                    $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                    $bdate= $bd->format('d-m-Y');
-                                                                                    $dt= new DateTime($userCACU['added_on']);
-                                                                                    $datev= $dt->format('d-m-Y'); 
-                                                                                    echo'<tr>
-                                                                                        <td>'.$userCACU['id'].'</td>
-                                                                                        <td>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</td>
-                                                                                        <td>
-                                                                                            <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                            <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                        </td>
-                                                                                        <td>'.$userCACU['contact_no'].'</td>
-                                                                                        <td>'.$datev.'</td>';
-                                                                                        if($userCACU['status'] == '2')
-                                                                                            echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                                        else{
-                                                                                            echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                        }
-                                                                                    echo'</tr>';
-                                                                                }
-                                                                            }   
-                                                                        }
-                                                                    }
-                                                                }else if($userType == "25"){
-                                                                    
-                                                                    $stmt2 = $conn->prepare("SELECT business_mentor_id FROM business_mentor WHERE reference_no = ? AND user_type = '26' ");
-                                                                    $stmt2->execute([$userId]);
-                                                                    $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-                                                                    //BM->TE->TC->TC->CU
-                                                                    foreach ($userBMS as $userBM) {
-                                                                        $bm_id = $userBM['business_mentor_id'];
-
-                                                                        $stmt3 = $conn->prepare("SELECT corporate_agency_id FROM `corporate_agency` WHERE reference_no = ? ");
-                                                                        $stmt3->execute([$bm_id]);
-                                                                        $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach($userCAs as $userCA){
-                                                                            $userCAID = $userCA['corporate_agency_id'];
-                                                                            // echo $userCA;
-
-                                                                            $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
-                                                                            $stmt4->execute([$userCA['corporate_agency_id']]);
-                                                                            $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCATAs as $userCATA) {
-                                                                                $userTA = $userCATA['ca_travelagency_id'];
-                                                                            //    echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                                $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                                                                                $stmt5->execute([$userCATA['ca_travelagency_id']]);
-                                                                                $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                                foreach ($userCACUs as $userCACU) {
-                                                                                    $userCU = $userCACU['id'];
-                                                                                    // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
-                                                                                    $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                    $bdate= $bd->format('d-m-Y');
-                                                                                    $dt= new DateTime($userCACU['added_on']);
-                                                                                    $datev= $dt->format('d-m-Y'); 
-                                                                                    echo'<tr>
-                                                                                        <td>'.$userCACU['id'].'</td>
-                                                                                        <td>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</td>
-                                                                                        <td>
-                                                                                            <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                            <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                        </td>
-                                                                                        <td>'.$userCACU['contact_no'].'</td>
-                                                                                        <td>'.$datev.'</td>';
-                                                                                        if($userCACU['status'] == '2')
-                                                                                            echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                                        else{
-                                                                                            echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                        }
-                                                                                    echo'</tr>';
-                                                                                }
-                                                                            }   
-                                                                        }
-                                                                        
-                                                                        //direct TC with BM Ref
-                                                                        $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
-                                                                        $stmt4->execute([$bm_id]);
-                                                                        $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach ($userCATAs as $userCATA) {
-                                                                            $userTA = $userCATA['ca_travelagency_id'];
-                                                                        //    echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                            $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                                                                            $stmt5->execute([$userCATA['ca_travelagency_id']]);
-                                                                            $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCACUs as $userCACU) {
-                                                                                $userCU = $userCACU['id'];
-                                                                                // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
-                                                                                $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                $bdate= $bd->format('d-m-Y');
-                                                                                $dt= new DateTime($userCACU['added_on']);
-                                                                                $datev= $dt->format('d-m-Y'); 
-                                                                                echo'<tr>
-                                                                                    <td>'.$userCACU['id'].'</td>
-                                                                                    <td>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</td>
-                                                                                    <td>
-                                                                                        <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                        <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                    </td>
-                                                                                    <td>'.$userCACU['contact_no'].'</td>
-                                                                                    <td>'.$datev.'</td>';
-                                                                                    if($userCACU['status'] == '2')
-                                                                                        echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                                    else{
-                                                                                        echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                    }
-                                                                                echo'</tr>';
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                    //MF/SF->F->TC->TC->CU
-                                                                    $stmt2 = $conn->prepare("SELECT master_franchisee_id AS id FROM master_franchisee WHERE reference_no = ? AND user_type = '28'
-                                                                                                UNION
-                                                                                                SELECT sponsor_franchisee_id AS id FROM sponsor_franchisee WHERE reference_no = ? AND user_type = '30' ");
-                                                                    $stmt2->execute([$userId,$userId]);
-                                                                    $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-                                                                    foreach ($userBMS as $userBM) {
-                                                                        $bm_id = $userBM['id'];
-
-                                                                        $stmt3 = $conn->prepare("SELECT sub_franchisee_id AS suser_id FROM `sub_franchisee` WHERE reference_no = ? 
-                                                                                                UNION ALL
-                                                                                                SELECT institution_id AS suser_id FROM `institution` WHERE reference_no = ?");
-                                                                        $stmt3->execute([$bm_id,$bm_id]);
-                                                                        $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach($userCAs as $userCA){
-                                                                            $userCAID = $userCA['suser_id'];
-                                                                            // echo $userCA;
-
-                                                                            $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM ca_travelagency WHERE reference_no = ?
-                                                                                                    UNION ALL
-                                                                                                    SELECT institution_branch_manager_id AS user_id FROM institution_branch_manager WHERE reference_no = ?");
-                                                                            $stmt4->execute([$userCA['suser_id'],$userCA['suser_id']]);
-                                                                            $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCATAs as $userCATA) {
-                                                                                $userTA = $userCATA['user_id'];
-                                                                            //    echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                                $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                                                                                $stmt5->execute([$userCATA['user_id']]);
-                                                                                $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                                foreach ($userCACUs as $userCACU) {
-                                                                                    $userCU = $userCACU['id'];
-                                                                                    // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
-                                                                                    $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                    $bdate= $bd->format('d-m-Y');
-                                                                                    $dt= new DateTime($userCACU['added_on']);
-                                                                                    $datev= $dt->format('d-m-Y'); 
-                                                                                    echo'<tr>
-                                                                                        <td>'.$userCACU['id'].'</td>
-                                                                                        <td>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</td>
-                                                                                        <td>
-                                                                                            <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                            <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                        </td>
-                                                                                        <td>'.$userCACU['contact_no'].'</td>
-                                                                                        <td>'.$datev.'</td>';
-                                                                                        if($userCACU['status'] == '2')
-                                                                                            echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                                        else{
-                                                                                            echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                        }
-                                                                                    echo'</tr>';
-                                                                                }
-                                                                            }   
-                                                                        }
-                                                                        
-                                                                        //direct TC with MF/SF Ref
-                                                                        $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
-                                                                        $stmt4->execute([$bm_id]);
-                                                                        $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach ($userCATAs as $userCATA) {
-                                                                            $userTA = $userCATA['ca_travelagency_id'];
-                                                                            //    echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                            $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                                                                            $stmt5->execute([$userCATA['ca_travelagency_id']]);
-                                                                            $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCACUs as $userCACU) {
-                                                                                $userCU = $userCACU['id'];
-                                                                                // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
-                                                                                $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                $bdate= $bd->format('d-m-Y');
-                                                                                $dt= new DateTime($userCACU['added_on']);
-                                                                                $datev= $dt->format('d-m-Y'); 
-                                                                                echo'<tr>
-                                                                                    <td>'.$userCACU['id'].'</td>
-                                                                                    <td>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</td>
-                                                                                    <td>
-                                                                                        <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                        <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                    </td>
-                                                                                    <td>'.$userCACU['contact_no'].'</td>
-                                                                                    <td>'.$datev.'</td>';
-                                                                                    if($userCACU['status'] == '2')
-                                                                                        echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                                    else{
-                                                                                        echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                    }
-                                                                                echo'</tr>';
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                    //direct BDM->TC->CU by BDM ref
-                                                                    $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
-                                                                    $stmt4->execute([$userId]);
-                                                                    $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                    foreach ($userCATAs as $userCATA) {
-                                                                        $userTA = $userCATA['ca_travelagency_id'];
-                                                                    
-
-                                                                        $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                                                                        $stmt5->execute([$userCATA['ca_travelagency_id']]);
-                                                                        $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach ($userCACUs as $userCACU) {
-                                                                            $userCU = $userCACU['id'];
-                                                                            // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
-                                                                            $bd= new DateTime($userCACU['date_of_birth']);
-                                                                            $bdate= $bd->format('d-m-Y');
-                                                                            $dt= new DateTime($userCACU['added_on']);
-                                                                            $datev= $dt->format('d-m-Y'); 
-                                                                            echo'<tr>
-                                                                                <td>'.$userCACU['id'].'</td>
-                                                                                <td>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</td>
-                                                                                <td>
-                                                                                    <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                    <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                </td>
-                                                                                <td>'.$userCACU['contact_no'].'</td>
-                                                                                <td>'.$datev.'</td>';
-                                                                                if($userCACU['status'] == '2')
-                                                                                    echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                                else{
-                                                                                    echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                }
-                                                                            echo'</tr>';
-                                                                        }
-                                                                    }
-                                                                    //BDM->TE->TC->CU
-                                                                    $stmt3 = $conn->prepare("SELECT corporate_agency_id FROM `corporate_agency` WHERE reference_no = ? ");
-                                                                    $stmt3->execute([$userId]);
-                                                                    $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                    foreach($userCAs as $userCA){
-                                                                        $userCAID = $userCA['corporate_agency_id'];
-                                                                        // echo $userCA;
-
-                                                                        $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
-                                                                        $stmt4->execute([$userCA['corporate_agency_id']]);
-                                                                        $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach ($userCATAs as $userCATA) {
-                                                                            $userTA = $userCATA['ca_travelagency_id'];
-                                                                        //    echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                            $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                                                                            $stmt5->execute([$userCATA['ca_travelagency_id']]);
-                                                                            $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCACUs as $userCACU) {
-                                                                                $userCU = $userCACU['id'];
-                                                                                // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
-                                                                                $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                $bdate= $bd->format('d-m-Y');
-                                                                                $dt= new DateTime($userCACU['added_on']);
-                                                                                $datev= $dt->format('d-m-Y'); 
-                                                                                echo'<tr>
-                                                                                    <td>'.$userCACU['id'].'</td>
-                                                                                    <td>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</td>
-                                                                                    <td>
-                                                                                        <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                        <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                    </td>
-                                                                                    <td>'.$userCACU['contact_no'].'</td>
-                                                                                    <td>'.$datev.'</td>';
-                                                                                    if($userCACU['status'] == '2')
-                                                                                        echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                                    else{
-                                                                                        echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                    }
-                                                                                echo'</tr>';
-                                                                            }
-                                                                        }   
-                                                                    }
-                                                                    //BDM->F/I->TC/IBR->CU
-                                                                    $stmt3 = $conn->prepare("SELECT sub_franchisee_id AS suser_id FROM `sub_franchisee` WHERE reference_no = ?
-                                                                                            UNION ALL
-                                                                                            SELECT institution_id AS suser_id FROM `institution` WHERE reference_no = ?");
-                                                                    $stmt3->execute([$userId,$userId]);
-                                                                    $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                    foreach($userCAs as $userCA){
-                                                                        $userCAID = $userCA['suser_id'];
-                                                                        // echo $userCA;
-
-                                                                        $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM ca_travelagency WHERE reference_no = ?
-                                                                                                UNION ALL
-                                                                                                SELECT institution_branch_manager_id AS user_id FROM institution_branch_manager WHERE reference_no = ?");
-                                                                        $stmt4->execute([$userCA['suser_id'],$userCA['suser_id']]);
-                                                                        $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach ($userCATAs as $userCATA) {
-                                                                            $userTA = $userCATA['user_id'];
-                                                                        //    echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                            $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                                                                            $stmt5->execute([$userCATA['user_id']]);
-                                                                            $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCACUs as $userCACU) {
-                                                                                $userCU = $userCACU['id'];
-                                                                                // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
-                                                                                $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                $bdate= $bd->format('d-m-Y');
-                                                                                $dt= new DateTime($userCACU['added_on']);
-                                                                                $datev= $dt->format('d-m-Y'); 
-                                                                                echo'<tr>
-                                                                                    <td>'.$userCACU['id'].'</td>
-                                                                                    <td>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</td>
-                                                                                    <td>
-                                                                                        <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                        <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                    </td>
-                                                                                    <td>'.$userCACU['contact_no'].'</td>
-                                                                                    <td>'.$datev.'</td>';
-                                                                                    if($userCACU['status'] == '2')
-                                                                                        echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                                    else{
-                                                                                        echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                    }
-                                                                                echo'</tr>';
-                                                                            }
-                                                                        }   
-                                                                    }
-                                                                    
-                                                                }else if($userType == "26" || $userType =="28" || $userType == "30"){
-                                                                    if ($userType == "28" || $userType == "30") {
-                                                                        $stmt2 = $conn->prepare("SELECT sub_franchisee_id AS suser_id FROM `sub_franchisee` WHERE reference_no = ?
-                                                                                                UNION ALL
-                                                                                                SELECT institution_id AS suser_id FROM `institution` WHERE reference_no = ? ");
-                                                                        $stmt2->execute([$userId,$userId]);
-                                                                    }else{
-                                                                        $stmt2 = $conn->prepare("SELECT corporate_agency_id FROM `corporate_agency` WHERE reference_no = ? ");
-                                                                        $stmt2->execute([$userId]);
-                                                                    }    
-                                                                    
-                                                                    $referrals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                    foreach($referrals as $referral){
-                                                                        $userCA = ($userType == "28"||$userType == "30")?$referral['suser_id']:$referral['corporate_agency_id'];
-                                                                        // echo $userCA;
-
-                                                                        $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM ca_travelagency WHERE reference_no = ?");
-                                                                        $stmt4->execute([$userCA]);
-                                                                        $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach ($userCATAs as $userCATA) {
-                                                                            $userTA = $userCATA['user_id'];
-                                                                            //    echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                            $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                                                                            $stmt5->execute([$userCATA['user_id']]);
-                                                                            $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCACUs as $userCACU) {
-                                                                                $userCU = $userCACU['id'];
-                                                                                // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
-                                                                                $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                $bdate= $bd->format('d-m-Y');
-                                                                                $dt= new DateTime($userCACU['added_on']);
-                                                                                $datev= $dt->format('d-m-Y'); 
-                                                                                echo'<tr>
-                                                                                    <td>'.$userCACU['id'].'</td>
-                                                                                    <td>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</td>
-                                                                                    <td>
-                                                                                        <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                        <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                    </td>
-                                                                                    <td>'.$userCACU['contact_no'].'</td>
-                                                                                    <td>'.$datev.'</td>';
-                                                                                    if($userCACU['status'] == '2'){
-                                                                                        echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                                    //     <td>
-                                                                                    //     <div class="dropdown d-inline-block">
-                                                                                    //         <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                    //             <i class="ri-more-fill align-middle"></i>
-                                                                                    //         </button>
-                                                                                    //         <ul class="dropdown-menu dropdown-menu-end">
-                                                                                    //             <!-- <li><a class="dropdown-item edit-item-btn" onclick=\'confirmfunc("' .$userCACU["id"]. '","' .$userCACU["email"]. '")\'><i class="ri-checkbox-circle-fill align-bottom me-2 text-muted"></i> Confirm</a></li> -->
-                                                                                    //             <li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' .$userCACU["id"]. '","' .$userCACU["country"]. '","' .$userCACU["state"]. '","' .$userCACU["city"]. '","pending")\'><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
-                                                                                    //             <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userCACU["id"].'","","pending")\'><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
-                                                                                    //         </ul>
-                                                                                    //     </div>
-                                                                                    // </td>';
-                                                                                    }else{
-                                                                                        echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                    //     <td>
-                                                                                    //     <div class="dropdown d-inline-block">
-                                                                                    //         <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                    //             <i class="ri-more-fill align-middle"></i>
-                                                                                    //         </button>
-                                                                                    //         <ul class="dropdown-menu dropdown-menu-end">
-                                                                                    //             <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userCACU["id"].'","","deleted")\'><i class="ri-checkbox-circle-fill align-bottom me-2 text-muted"></i> Activate</a></li>
-                                                                                    //         </ul>
-                                                                                    //     </div>
-                                                                                    // </td>';
-                                                                                    }
-                                                                                echo'</tr>';
-                                                                            }
-                                                                        }   
-                                                                    }
-                                                                    
-                                                                    //direct TC with BM/MF Ref
-                                                                    $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
-                                                                    $stmt4->execute([$userId]);
-                                                                    $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                    foreach ($userCATAs as $userCATA) {
-                                                                        $userTA = $userCATA['ca_travelagency_id'];
-                                                                        //    echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                        $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                                                                        $stmt5->execute([$userCATA['ca_travelagency_id']]);
-                                                                        $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach ($userCACUs as $userCACU) {
-                                                                            $userCU = $userCACU['id'];
-                                                                            // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
-                                                                            $bd= new DateTime($userCACU['date_of_birth']);
-                                                                            $bdate= $bd->format('d-m-Y');
-                                                                            $dt= new DateTime($userCACU['added_on']);
-                                                                            $datev= $dt->format('d-m-Y'); 
-                                                                            echo'<tr>
-                                                                                <td>'.$userCACU['id'].'</td>
-                                                                                <td>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</td>
-                                                                                <td>
-                                                                                    <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                    <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                </td>
-                                                                                <td>'.$userCACU['contact_no'].'</td>
-                                                                                <td>'.$datev.'</td>';
-                                                                                if($userCACU['status'] == '2'){
-                                                                                    echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                                //     <td>
-                                                                                //     <div class="dropdown d-inline-block">
-                                                                                //         <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                //             <i class="ri-more-fill align-middle"></i>
-                                                                                //         </button>
-                                                                                //         <ul class="dropdown-menu dropdown-menu-end">
-                                                                                //             <!-- <li><a class="dropdown-item edit-item-btn" onclick=\'confirmfunc("' .$userCACU["id"]. '","' .$userCACU["email"]. '")\'><i class="ri-checkbox-circle-fill align-bottom me-2 text-muted"></i> Confirm</a></li> -->
-                                                                                //             <li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' .$userCACU["id"]. '","' .$userCACU["country"]. '","' .$userCACU["state"]. '","' .$userCACU["city"]. '","pending")\'><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
-                                                                                //             <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userCACU["id"].'","","pending")\'><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
-                                                                                //         </ul>
-                                                                                //     </div>
-                                                                                // </td>';
-                                                                                }else{
-                                                                                    echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                //     <td>
-                                                                                //     <div class="dropdown d-inline-block">
-                                                                                //         <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                //             <i class="ri-more-fill align-middle"></i>
-                                                                                //         </button>
-                                                                                //         <ul class="dropdown-menu dropdown-menu-end">
-                                                                                //             <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userCACU["id"].'","","deleted")\'><i class="ri-checkbox-circle-fill align-bottom me-2 text-muted"></i> Activate</a></li>
-                                                                                //         </ul>
-                                                                                //     </div>
-                                                                                // </td>';
-                                                                                }
-                                                                            echo'</tr>';
-                                                                        }
-                                                                    }
-                                                                }else if($userType == "16" || $userType == "29" || $userType == "32"){
-                                                                    
-                                                                    $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM ca_travelagency WHERE reference_no = ?
-                                                                                            UNION ALL
-                                                                                            SELECT institution_branch_manager_id AS user_id FROM institution_branch_manager WHERE reference_no = ?");
-                                                                    $stmt4->execute([$userId,$userId]);
-                                                                    $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                    foreach ($userCATAs as $userCATA) {
-                                                                        $userTA = $userCATA['user_id'];
-                                                                        // echo $userTA.'</br>';
-
-                                                                        $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status='2' OR status = '0')");
-                                                                        $stmt5->execute([$userCATA['user_id']]);
-                                                                        $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach ($userCACUs as $userCACU) {
-                                                                            $userCU = $userCACU['id'];
-                                                                            // echo $userTA.'=>'.$userCU.'</br>';
-
-                                                                            $bd= new DateTime($userCACU['date_of_birth']);
-                                                                            $bdate= $bd->format('d-m-Y');
-                                                                            $dt= new DateTime($userCACU['added_on']);
-                                                                            $datev= $dt->format('d-m-Y'); 
-                                                                            echo'<tr>
-                                                                                <td>'.$userCACU['id'].'</td>
-                                                                                <td>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</td>
-                                                                                <td>
-                                                                                    <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                    <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                </td>
-                                                                                <td>'.$userCACU['contact_no'].'</td>
-                                                                                <td>'.$datev.'</td>';
-                                                                                if($userCACU['status'] == '2')
-                                                                                    echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                                else{
-                                                                                    echo'<td><span class="badge bg-danger">Delected</span></td>';
-                                                                                }
-                                                                            echo'</tr>';
-                                                                        }
-                                                                    }
-                                                                }else if($userType == "11" || $userType == "33"){
-                                                                    $sql = "SELECT * FROM `ca_customer` WHERE ta_reference_no = '$userId' AND (status = '2' OR status = '0') ";
-                                                                    $stmt = $conn -> prepare($sql);
-                                                                    $stmt -> execute();
-                                                                    $stmt -> setFetchMode(PDO::FETCH_ASSOC);
-                                                                    if($stmt -> rowCount()>0){
-                                                                        foreach(($stmt -> fetchAll()) as $key => $row){
-                                                                            $bd= new DateTime($row['date_of_birth']);
-                                                                            $bdate= $bd->format('d-m-Y');
-                                                                            $dt= new DateTime($row['added_on']);
-                                                                            $datev= $dt->format('d-m-Y'); 
-                                                                            echo'<tr>
-                                                                                <td>'.$row['id'].'</td>
-                                                                                <td>'.$row['firstname'].' '.$row['lastname'].'</td>
-                                                                                <td>
-                                                                                    <p>'.$row['ta_reference_no'].' '.$row['ta_reference_name'].'</p>
-                                                                                    <p>'.$row['reference_no'].' '.$row['registrant'].'</p>
-                                                                                </td>
-                                                                                <td>'.$row['contact_no'].'</td>
-                                                                                <td>'.$datev.'</td>';
-                                                                                if($row['status'] == '2')
-                                                                                    echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                                else{
-                                                                                    echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                }
-                                                                            echo'</tr>';
-                                                                        }
-                                                                    }
-                                                                }else if($userType == "10"){
-                                                                    $sql = "SELECT * FROM `ca_customer` WHERE reference_no = '$userId' AND (status = '2' OR status = '0') ";
-                                                                    $stmt = $conn -> prepare($sql);
-                                                                    $stmt -> execute();
-                                                                    $stmt -> setFetchMode(PDO::FETCH_ASSOC);
-                                                                    if($stmt -> rowCount()>0){
-                                                                        foreach(($stmt -> fetchAll()) as $key => $row){
-                                                                            $bd= new DateTime($row['date_of_birth']);
-                                                                            $bdate= $bd->format('d-m-Y');
-                                                                            $dt= new DateTime($row['added_on']);
-                                                                            $datev= $dt->format('d-m-Y'); 
-                                                                            echo'<tr>
-                                                                                <td>'.$row['id'].'</td>
-                                                                                <td>'.$row['firstname'].' '.$row['lastname'].'</td>
-                                                                                <td>
-                                                                                    <p>'.$row['ta_reference_no'].' '.$row['ta_reference_name'].'</p>
-                                                                                    <p>'.$row['reference_no'].' '.$row['registrant'].'</p>
-                                                                                </td>
-                                                                                <td>'.$row['contact_no'].'</td>
-                                                                                <td>'.$datev.'</td>';
-                                                                                if($row['status'] == '2')
-                                                                                    echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                                else{
-                                                                                    echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                }
-                                                                            echo'</tr>';
-                                                                        }
-                                                                    }
-                                                                }else if($userType == "31"){
-                                                                    
-                                                                    //MF/SF->F->TC->TC->CU
-                                                                    $stmt2 = $conn->prepare("SELECT master_franchisee_id AS id FROM master_franchisee WHERE reference_no = ? AND user_type = '28'
-                                                                                                UNION
-                                                                                                SELECT sponsor_franchisee_id AS id FROM sponsor_franchisee WHERE reference_no = ? AND user_type = '30' ");
-                                                                    $stmt2->execute([$userId,$userId]);
-                                                                    $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-                                                                    foreach ($userBMS as $userBM) {
-                                                                        $bm_id = $userBM['id'];
-
-                                                                        $stmt3 = $conn->prepare("SELECT sub_franchisee_id AS suser_id FROM `sub_franchisee` WHERE reference_no = ?
-                                                                                                UNION ALL
-                                                                                                SELECT institution_id AS suser_id FROM `institution` WHERE reference_no = ? ");
-                                                                        $stmt3->execute([$bm_id,$bm_id]);
-                                                                        $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach($userCAs as $userCA){
-                                                                            $userCAID = $userCA['suser_id'];
-                                                                            // echo $userCA;
-
-                                                                            $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM ca_travelagency WHERE reference_no = ?
-                                                                                                    UNION ALL
-                                                                                                    SELECT institution_branch_manager_id AS user_id FROM institution_branch_manager WHERE reference_no = ?");
-                                                                            $stmt4->execute([$userCA['suser_id'],$userCA['suser_id']]);
-                                                                            $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCATAs as $userCATA) {
-                                                                                $userTA = $userCATA['user_id'];
-                                                                            //    echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                                $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                                                                                $stmt5->execute([$userCATA['user_id']]);
-                                                                                $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                                foreach ($userCACUs as $userCACU) {
-                                                                                    $userCU = $userCACU['id'];
-                                                                                    // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
-                                                                                    $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                    $bdate= $bd->format('d-m-Y');
-                                                                                    $dt= new DateTime($userCACU['added_on']);
-                                                                                    $datev= $dt->format('d-m-Y'); 
-                                                                                    echo'<tr>
-                                                                                        <td>'.$userCACU['id'].'</td>
-                                                                                        <td>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</td>
-                                                                                        <td>
-                                                                                            <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                            <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                        </td>
-                                                                                        <td>'.$userCACU['contact_no'].'</td>
-                                                                                        <td>'.$datev.'</td>';
-                                                                                        if($userCACU['status'] == '2')
-                                                                                            echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                                        else{
-                                                                                            echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                        }
-                                                                                    echo'</tr>';
-                                                                                }
-                                                                            }   
-                                                                        }
-                                                                        
-                                                                        //direct TC with BM Ref
-                                                                        $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
-                                                                        $stmt4->execute([$bm_id]);
-                                                                        $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach ($userCATAs as $userCATA) {
-                                                                            $userTA = $userCATA['ca_travelagency_id'];
-                                                                            //    echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                            $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                                                                            $stmt5->execute([$userCATA['ca_travelagency_id']]);
-                                                                            $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCACUs as $userCACU) {
-                                                                                $userCU = $userCACU['id'];
-                                                                                // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
-                                                                                $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                $bdate= $bd->format('d-m-Y');
-                                                                                $dt= new DateTime($userCACU['added_on']);
-                                                                                $datev= $dt->format('d-m-Y'); 
-                                                                                echo'<tr>
-                                                                                    <td>'.$userCACU['id'].'</td>
-                                                                                    <td>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</td>
-                                                                                    <td>
-                                                                                        <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                        <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                    </td>
-                                                                                    <td>'.$userCACU['contact_no'].'</td>
-                                                                                    <td>'.$datev.'</td>';
-                                                                                    if($userCACU['status'] == '2')
-                                                                                        echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                                    else{
-                                                                                        echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                    }
-                                                                                echo'</tr>';
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                    //direct RM->TC->CU by BDM ref
-                                                                    $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
-                                                                    $stmt4->execute([$userId]);
-                                                                    $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                    foreach ($userCATAs as $userCATA) {
-                                                                        $userTA = $userCATA['ca_travelagency_id'];
-                                                                    
-
-                                                                        $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                                                                        $stmt5->execute([$userCATA['ca_travelagency_id']]);
-                                                                        $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach ($userCACUs as $userCACU) {
-                                                                            $userCU = $userCACU['id'];
-                                                                            // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
-                                                                            $bd= new DateTime($userCACU['date_of_birth']);
-                                                                            $bdate= $bd->format('d-m-Y');
-                                                                            $dt= new DateTime($userCACU['added_on']);
-                                                                            $datev= $dt->format('d-m-Y'); 
-                                                                            echo'<tr>
-                                                                                <td>'.$userCACU['id'].'</td>
-                                                                                <td>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</td>
-                                                                                <td>
-                                                                                    <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                    <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                </td>
-                                                                                <td>'.$userCACU['contact_no'].'</td>
-                                                                                <td>'.$datev.'</td>';
-                                                                                if($userCACU['status'] == '2')
-                                                                                    echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                                else{
-                                                                                    echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                }
-                                                                            echo'</tr>';
-                                                                        }
-                                                                    }
-                                                                    //RM->F/I->TC/IBR->CU
-                                                                    $stmt3 = $conn->prepare("SELECT sub_franchisee_id AS suser_id FROM `sub_franchisee` WHERE reference_no = ?
-                                                                                            UNION ALL
-                                                                                            SELECT institution_id AS suser_id FROM institution WHERE reference_no = ? ");
-                                                                    $stmt3->execute([$userId,$userId]);
-                                                                    $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                    foreach($userCAs as $userCA){
-                                                                        $userCAID = $userCA['suser_id'];
-                                                                        // echo $userCA;
-
-                                                                        $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM ca_travelagency WHERE reference_no = ?
-                                                                                                UNION ALL
-                                                                                                SELECT institution_branch_manager_id AS user_id FROM institution_branch_manager WHERE reference_no = ?");
-                                                                        $stmt4->execute([$userCA['suser_id'],$userCA['suser_id']]);
-                                                                        $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach ($userCATAs as $userCATA) {
-                                                                            $userTA = $userCATA['user_id'];
-                                                                        //    echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                            $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                                                                            $stmt5->execute([$userCATA['user_id']]);
-                                                                            $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCACUs as $userCACU) {
-                                                                                $userCU = $userCACU['id'];
-                                                                                // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
-                                                                                $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                $bdate= $bd->format('d-m-Y');
-                                                                                $dt= new DateTime($userCACU['added_on']);
-                                                                                $datev= $dt->format('d-m-Y'); 
-                                                                                echo'<tr>
-                                                                                    <td>'.$userCACU['id'].'</td>
-                                                                                    <td>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</td>
-                                                                                    <td>
-                                                                                        <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                        <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                    </td>
-                                                                                    <td>'.$userCACU['contact_no'].'</td>
-                                                                                    <td>'.$datev.'</td>';
-                                                                                    if($userCACU['status'] == '2')
-                                                                                        echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                                    else{
-                                                                                        echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                    }
-                                                                                echo'</tr>';
-                                                                            }
-                                                                        }   
-                                                                    }
-                                                                    
-                                                                }
-                                                            ?>
+                                                            
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="card rounded-4 border-1">
+                                                <div class="card-header border-bottom-dashed rounded-top-4 d-flex gap-3">
+                                                    <div class="tePendingIcon tePendingIcon1">
+                                                        <i class="fa-solid fa-hourglass-half fa-xl"></i>
+                                                    </div>
+                                                    <div class="align-content-end">
+                                                        <h5 class="card-title text-dark mb-0">Pending Customers List</h5>
+                                                        <p class="text-muted fs-6 mb-0">Customers pending for approval</p>
+                                                    </div>
+                                                </div>    
+                                                <div class="card-body">
+                                                    <table id="example-dataTable" class="table table-striped table-bordered dt-responsive nowrap align-middle" style="width:100%">
+                                                        <thead>
+                                                            <tr class="table-primary">
+                                                                <th data-ordering="false">Full Name</th>
+                                                                <th data-ordering="false">Reference ID & Name</th>
+                                                                <th data-ordering="false">Phone & Email</th>
+                                                                <th data-ordering="false">Joining Date</th>
+                                                                <th data-ordering="false">Status</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="cuTableBody">
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="row">
+                                    <!-- <div class="row">
                                         <div class="col-lg-12">
                                             <div class="card">
                                                 <div class="card-header">
@@ -1267,960 +294,48 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <?php
-
-                                                                if($userType == "24"){
-                                                                    $stmt = $conn -> prepare("SELECT employee_id FROM `employees` WHERE reporting_manager = ? AND user_type = '25' ");
-                                                                    $stmt -> execute([$userId]);
-                                                                    $userBDMS = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-                                                                    
-                                                                    foreach( $userBDMS as $userBDM ){
-                                                                        $bdm_id = $userBDM['employee_id'];
-                                                                        //BM/MF/SF->TE/F/I->TC/IBR->CU
-                                                                        $stmt2 = $conn->prepare("SELECT business_mentor_id AS id FROM business_mentor WHERE reference_no = ? AND user_type = '26' 
-                                                                                                UNION ALL
-                                                                                                SELECT master_franchisee_id AS id FROM master_franchisee WHERE reference_no = ? AND user_type = '28'
-                                                                                                UNION ALL
-                                                                                                SELECT sponsor_franchisee_id AS id FROM sponsor_franchisee WHERE reference_no = ? AND user_type = '30' ");
-                                                                        $stmt2->execute([$bdm_id,$bdm_id,$bdm_id]);
-                                                                        $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-                                                                    
-                                                                        foreach ($userBMS as $userBM) {
-                                                                            $bm_id = $userBM['id'];
-
-                                                                            $stmt3 = $conn->prepare("SELECT corporate_agency_id AS suser_id FROM `corporate_agency` WHERE reference_no = ?
-                                                                                                    UNION ALL
-                                                                                                    SELECT institution_id AS suser_id FROM `institution` WHERE reference_no = ? 
-                                                                                                    UNION ALL
-                                                                                                    SELECT sub_franchisee_id AS suser_id FROM `sub_franchisee` WHERE reference_no = ?");
-                                                                            $stmt3->execute([$bm_id, $bm_id, $bm_id]);
-                                                                            $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach($userCAs as $userCA){
-                                                                                $userCAID = $userCA['suser_id'];
-                                                                                // echo $userCA;
-
-                                                                                $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?
-                                                                                                        UNION ALL
-                                                                                                        SELECT institution_branch_manager_id AS user_id FROM institution_branch_manager WHERE reference_no = ?");
-                                                                                $stmt4->execute([$userCA['suser_id'],$userCA['suser_id']]);
-                                                                                $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                                foreach ($userCATAs as $userCATA) {
-                                                                                    $userTA = $userCATA['user_id'];
-                                                                                    //    echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                                    $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='1' OR status = '3') ");
-                                                                                    $stmt5->execute([$userCATA['user_id']]);
-                                                                                    $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                                    foreach ($userCACUs as $userCACU) {
-                                                                                        $userCU = $userCACU['id'];
-                                                                                        // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-                                                                                        $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
-                                                                                        $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                        $bdate= $bd->format('d-m-Y');
-                                                                                        $dt= new DateTime($userCACU['register_date']);
-                                                                                        $datev= $dt->format('d-m-Y'); 
-                                                                                        echo'<tr>
-                                                                                            <td>
-                                                                                                <p>'.$userCACU['ca_customer_id'].'</p>
-                                                                                                <p>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</p>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                                <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <p class="mb-0">'.$userCACU['customer_type'].'</p>
-                                                                                                <p class="mb-0">'.$comp_chek.'</p>
-                                                                                            </td>
-                                                                                            <td>'.$userCACU['contact_no'].'</td>
-                                                                                            <td>'.$datev.'</td>';
-                                                                                            if($userCACU['status'] == '1')
-                                                                                                echo'<td><span class="badge bg-success">Active</span></td>';
-                                                                                            else{
-                                                                                                echo'<td><span class="badge bg-danger">Deactive</span></td>';
-                                                                                            }
-                                                                                        echo'</tr>';
-                                                                                    }
-                                                                                }   
-                                                                            }
-                                                                            
-                                                                            //direct TC with BM/MF Ref
-                                                                            $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
-                                                                            $stmt4->execute([$bm_id]);
-                                                                            $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCATAs as $userCATA) {
-                                                                                $userTA = $userCATA['ca_travelagency_id'];
-
-                                                                                $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='1' OR status = '3') ");
-                                                                                $stmt5->execute([$userCATA['ca_travelagency_id']]);
-                                                                                $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                                foreach ($userCACUs as $userCACU) {
-                                                                                    $userCU = $userCACU['id'];
-                                                                                    // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-                                                                                    $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
-                                                                                    $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                    $bdate= $bd->format('d-m-Y');
-                                                                                    $dt= new DateTime($userCACU['register_date']);
-                                                                                    $datev= $dt->format('d-m-Y'); 
-                                                                                    echo'<tr>
-                                                                                        <td>
-                                                                                            <p>'.$userCACU['ca_customer_id'].'</p>
-                                                                                            <p>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</p>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                            <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <p class="mb-0">'.$userCACU['customer_type'].'</p>
-                                                                                            <p class="mb-0">'.$comp_chek.'</p>
-                                                                                        </td>
-                                                                                        <td>'.$userCACU['contact_no'].'</td>
-                                                                                        <td>'.$datev.'</td>';
-                                                                                        if($userCACU['status'] == '1')
-                                                                                            echo'<td><span class="badge bg-success">Active</span></td>';
-                                                                                        else{
-                                                                                            echo'<td><span class="badge bg-danger">Deactive</span></td>';
-                                                                                        }
-                                                                                    echo'</tr>';
-                                                                                }
-                                                                            }  
-                                                                        }
-                                                                        //BDM->TE/F/I-TC/IBR->CU
-                                                                        $stmt3 = $conn->prepare("SELECT sub_franchisee_id AS suser_id FROM `sub_franchisee` WHERE reference_no = ?
-                                                                                                UNION ALL
-                                                                                                SELECT institution_id AS suser_id FROM `institution` WHERE reference_no = ? 
-                                                                                                UNION ALL
-                                                                                                SELECT corporate_agency_id AS suser_id FROM `corporate_agency` WHERE reference_no = ? ");
-                                                                        $stmt3->execute([$bdm_id,$bdm_id,$bdm_id]);
-                                                                        $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach($userCAs as $userCA){
-                                                                            $userCAID = $userCA['suser_id'];
-                                                                            // echo $userCA;
-
-                                                                            $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM ca_travelagency WHERE reference_no = ?
-                                                                                                    UNION ALL
-                                                                                                    SELECT institution_branch_manager_id AS user_id FROM institution_branch_manager WHERE reference_no = ?");
-                                                                            $stmt4->execute([$userCA['suser_id'],$userCA['suser_id']]);
-                                                                            $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCATAs as $userCATA) {
-                                                                                $userTA = $userCATA['user_id'];
-                                                                            //    echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                                $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='1' OR status = '3') ");
-                                                                                $stmt5->execute([$userCATA['ca_travelagency_id']]);
-                                                                                $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                                foreach ($userCACUs as $userCACU) {
-                                                                                    $userCU = $userCACU['id'];
-                                                                                    // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-                                                                                    $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
-                                                                                    $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                    $bdate= $bd->format('d-m-Y');
-                                                                                    $dt= new DateTime($userCACU['register_date']);
-                                                                                    $datev= $dt->format('d-m-Y'); 
-                                                                                    echo'<tr>
-                                                                                        <td>
-                                                                                            <p>'.$userCACU['ca_customer_id'].'</p>
-                                                                                            <p>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</p>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                            <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <p class="mb-0">'.$userCACU['customer_type'].'</p>
-                                                                                            <p class="mb-0">'.$comp_chek.'</p>
-                                                                                        </td>
-                                                                                        <td>'.$userCACU['contact_no'].'</td>
-                                                                                        <td>'.$datev.'</td>';
-                                                                                        if($userCACU['status'] == '1')
-                                                                                            echo'<td><span class="badge bg-success">Active</span></td>';
-                                                                                        else{
-                                                                                            echo'<td><span class="badge bg-danger">Deactive</span></td>';
-                                                                                        }
-                                                                                    echo'</tr>';
-                                                                                }
-                                                                            }   
-                                                                        }
-                                                                        //BDM->TC->CU
-                                                                        $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
-                                                                        $stmt4->execute([$bdm_id]);
-                                                                        $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach ($userCATAs as $userCATA) {
-                                                                            $userTA = $userCATA['ca_travelagency_id'];
-
-                                                                            $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='1' OR status = '3') ");
-                                                                            $stmt5->execute([$userCATA['ca_travelagency_id']]);
-                                                                            $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCACUs as $userCACU) {
-                                                                                $userCU = $userCACU['id'];
-                                                                                // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-                                                                                $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
-                                                                                $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                $bdate= $bd->format('d-m-Y');
-                                                                                $dt= new DateTime($userCACU['register_date']);
-                                                                                $datev= $dt->format('d-m-Y'); 
-                                                                                echo'<tr>
-                                                                                    <td>
-                                                                                        <p>'.$userCACU['ca_customer_id'].'</p>
-                                                                                        <p>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</p>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                        <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <p class="mb-0">'.$userCACU['customer_type'].'</p>
-                                                                                        <p class="mb-0">'.$comp_chek.'</p>
-                                                                                    </td>
-                                                                                    <td>'.$userCACU['contact_no'].'</td>
-                                                                                    <td>'.$datev.'</td>';
-                                                                                    if($userCACU['status'] == '1')
-                                                                                        echo'<td><span class="badge bg-success">Active</span></td>';
-                                                                                    else{
-                                                                                        echo'<td><span class="badge bg-danger">Deactive</span></td>';
-                                                                                    }
-                                                                                echo'</tr>';
-                                                                            }
-                                                                        }  
-                                                                    }
-                                                                }else if($userType == "25"){
-                                                                    
-                                                                    //BM/MF/SF->TE/F/I->TC/IBR->CU
-                                                                    $stmt2 = $conn->prepare("SELECT business_mentor_id AS id FROM business_mentor WHERE reference_no = ? AND user_type = '26' 
-                                                                                            UNION ALL
-                                                                                            SELECT master_franchisee_id AS id FROM master_franchisee WHERE reference_no = ? AND user_type = '28'
-                                                                                            UNION ALL
-                                                                                            SELECT sponsor_franchisee_id AS id FROM sponsor_franchisee WHERE reference_no = ? AND user_type = '30'");
-                                                                    $stmt2->execute([$userId,$userId,$userId]);
-                                                                    $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-                                                                
-                                                                    foreach ($userBMS as $userBM) {
-                                                                        $bm_id = $userBM['id'];
-
-                                                                        $stmt3 = $conn->prepare("SELECT corporate_agency_id AS suser_id FROM `corporate_agency` WHERE reference_no = ? 
-                                                                                                UNION ALL
-                                                                                                SELECT sub_franchisee_id AS suser_id FROM `sub_franchisee` WHERE reference_no = ?
-                                                                                                UNION ALL
-                                                                                                SELECT institution_id AS suser_id FROM `institution` WHERE reference_no = ?");
-                                                                        $stmt3->execute([$bm_id,$bm_id,$bm_id]);
-                                                                        $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach($userCAs as $userCA){
-                                                                            $userCAID = $userCA['suser_id'];
-                                                                            // echo $userCA;
-
-                                                                            $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM ca_travelagency WHERE reference_no = ?
-                                                                                                    uNION ALL
-                                                                                                    SELECT institution_branch_manager_id AS user_id FROM institution_branch_manager WHERE reference_no = ?");
-                                                                            $stmt4->execute([$userCA['suser_id'],$userCA['suser_id']]);
-                                                                            $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCATAs as $userCATA) {
-                                                                                $userTA = $userCATA['user_id'];
-                                                                                //    echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                                $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='1' OR status = '3') ");
-                                                                                $stmt5->execute([$userCATA['user_id']]);
-                                                                                $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                                foreach ($userCACUs as $userCACU) {
-                                                                                    $userCU = $userCACU['id'];
-                                                                                    // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-                                                                                    $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
-                                                                                    $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                    $bdate= $bd->format('d-m-Y');
-                                                                                    $dt= new DateTime($userCACU['register_date']);
-                                                                                    $datev= $dt->format('d-m-Y'); 
-                                                                                    echo'<tr>
-                                                                                        <td>
-                                                                                            <p>'.$userCACU['ca_customer_id'].'</p>
-                                                                                            <p>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</p>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                            <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <p class="mb-0">'.$userCACU['customer_type'].'</p>
-                                                                                            <p class="mb-0">'.$comp_chek.'</p>
-                                                                                        </td>
-                                                                                        <td>'.$userCACU['contact_no'].'</td>
-                                                                                        <td>'.$datev.'</td>';
-                                                                                        if($userCACU['status'] == '1')
-                                                                                            echo'<td><span class="badge bg-success">Active</span></td>';
-                                                                                        else{
-                                                                                            echo'<td><span class="badge bg-danger">Deactive</span></td>';
-                                                                                        }
-                                                                                    echo'</tr>';
-                                                                                }
-                                                                            }   
-                                                                        }
-                                                                        
-                                                                        //direct TC with BM/MF Ref
-                                                                        $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
-                                                                        $stmt4->execute([$bm_id]);
-                                                                        $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach ($userCATAs as $userCATA) {
-                                                                            $userTA = $userCATA['ca_travelagency_id'];
-
-                                                                            $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='1' OR status = '3') ");
-                                                                            $stmt5->execute([$userCATA['ca_travelagency_id']]);
-                                                                            $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCACUs as $userCACU) {
-                                                                                $userCU = $userCACU['id'];
-                                                                                // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-                                                                                $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
-                                                                                $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                $bdate= $bd->format('d-m-Y');
-                                                                                $dt= new DateTime($userCACU['register_date']);
-                                                                                $datev= $dt->format('d-m-Y'); 
-                                                                                echo'<tr>
-                                                                                    <td>
-                                                                                        <p>'.$userCACU['ca_customer_id'].'</p>
-                                                                                        <p>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</p>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                        <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <p class="mb-0">'.$userCACU['customer_type'].'</p>
-                                                                                        <p class="mb-0">'.$comp_chek.'</p>
-                                                                                    </td>
-                                                                                    <td>'.$userCACU['contact_no'].'</td>
-                                                                                    <td>'.$datev.'</td>';
-                                                                                    if($userCACU['status'] == '1')
-                                                                                        echo'<td><span class="badge bg-success">Active</span></td>';
-                                                                                    else{
-                                                                                        echo'<td><span class="badge bg-danger">Deactive</span></td>';
-                                                                                    }
-                                                                                echo'</tr>';
-                                                                            }
-                                                                        }  
-                                                                    }
-                                                                    
-                                                                    //BDM->F/TE/TE-TC/IBR->CU
-                                                                    $stmt3 = $conn->prepare("SELECT sub_franchisee_id AS suser_id FROM `sub_franchisee` WHERE reference_no = ? 
-                                                                                            UNION ALL
-                                                                                            SELECT corporate_agency_id AS suser_id FROM `corporate_agency` WHERE reference_no = ?
-                                                                                            UNION ALL
-                                                                                            SELECT institution_id AS suser_id FROM `institution` WHERE reference_no = ?");
-                                                                    $stmt3->execute([$userId,$userId,$userId]);
-                                                                    $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                    foreach($userCAs as $userCA){
-                                                                        $userCAID = $userCA['suser_id'];
-                                                                        // echo $userCA;
-
-                                                                        $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM ca_travelagency WHERE reference_no = ?
-                                                                                                UNION ALL
-                                                                                                SELECT institution_branch_manager_id AS user_id FROM institution_branch_manager WHERE reference_no = ?");
-                                                                        $stmt4->execute([$userCA['suser_id'],$userCA['suser_id']]);
-                                                                        $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach ($userCATAs as $userCATA) {
-                                                                            $userTA = $userCATA['user_id'];
-                                                                            //    echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                            $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='1' OR status = '3') ");
-                                                                            $stmt5->execute([$userCATA['user_id']]);
-                                                                            $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCACUs as $userCACU) {
-                                                                                $userCU = $userCACU['id'];
-                                                                                // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-                                                                                $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
-                                                                                $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                $bdate= $bd->format('d-m-Y');
-                                                                                $dt= new DateTime($userCACU['register_date']);
-                                                                                $datev= $dt->format('d-m-Y'); 
-                                                                                echo'<tr>
-                                                                                    <td>
-                                                                                        <p>'.$userCACU['ca_customer_id'].'</p>
-                                                                                        <p>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</p>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                        <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <p class="mb-0">'.$userCACU['customer_type'].'</p>
-                                                                                        <p class="mb-0">'.$comp_chek.'</p>
-                                                                                    </td>
-                                                                                    <td>'.$userCACU['contact_no'].'</td>
-                                                                                    <td>'.$datev.'</td>';
-                                                                                    if($userCACU['status'] == '1')
-                                                                                        echo'<td><span class="badge bg-success">Active</span></td>';
-                                                                                    else{
-                                                                                        echo'<td><span class="badge bg-danger">Deactive</span></td>';
-                                                                                    }
-                                                                                echo'</tr>';
-                                                                            }
-                                                                        }   
-                                                                    }
-                                                                    //BDM->TC->CU
-                                                                    $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
-                                                                    $stmt4->execute([$userId]);
-                                                                    $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                    foreach ($userCATAs as $userCATA) {
-                                                                        $userTA = $userCATA['ca_travelagency_id'];
-
-                                                                        $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='1' OR status = '3') ");
-                                                                        $stmt5->execute([$userCATA['ca_travelagency_id']]);
-                                                                        $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach ($userCACUs as $userCACU) {
-                                                                            $userCU = $userCACU['id'];
-                                                                            // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-                                                                            $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
-                                                                            $bd= new DateTime($userCACU['date_of_birth']);
-                                                                            $bdate= $bd->format('d-m-Y');
-                                                                            $dt= new DateTime($userCACU['register_date']);
-                                                                            $datev= $dt->format('d-m-Y'); 
-                                                                            echo'<tr>
-                                                                                <td>
-                                                                                    <p>'.$userCACU['ca_customer_id'].'</p>
-                                                                                    <p>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</p>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                    <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <p class="mb-0">'.$userCACU['customer_type'].'</p>
-                                                                                    <p class="mb-0">'.$comp_chek.'</p>
-                                                                                </td>
-                                                                                <td>'.$userCACU['contact_no'].'</td>
-                                                                                <td>'.$datev.'</td>';
-                                                                                if($userCACU['status'] == '1')
-                                                                                    echo'<td><span class="badge bg-success">Active</span></td>';
-                                                                                else{
-                                                                                    echo'<td><span class="badge bg-danger">Deactive</span></td>';
-                                                                                }
-                                                                            echo'</tr>';
-                                                                        }
-                                                                    }   
-                                                                    
-                                                                }else if( $userType == "26" || $userType =="28" || $userType =="30"){
-                                                                    $stmt2 = $conn->prepare("SELECT sub_franchisee_id AS suser_id FROM `sub_franchisee` WHERE reference_no = ?
-                                                                                            UNION ALL
-                                                                                            SELECT corporate_agency_id AS suser_id FROM `corporate_agency` WHERE reference_no = ?
-                                                                                            UNION ALL
-                                                                                            SELECT institution_id AS suser_id FROM `institution` WHERE reference_no = ? ");
-                                                                    
-                                                                    $stmt2->execute([$userId,$userId,$userId]);
-                                                                    $referrals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                    foreach($referrals as $referral){
-                                                                        $userCA = $referral['suser_id'];
-                                                                        // echo $userCA;
-
-                                                                        $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM ca_travelagency WHERE reference_no = ? 
-                                                                                                UNION ALL
-                                                                                                SELECT institution_branch_manager_id AS user_id FROM institution_branch_manager WHERE reference_no = ?");
-                                                                        $stmt4->execute([$userCA,$userCA]);
-                                                                        $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach ($userCATAs as $userCATA) {
-                                                                            $userTA = $userCATA['user_id'];
-                                                                            //echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                            $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='1' OR status = '3') ");
-                                                                            $stmt5->execute([$userCATA['user_id']]);
-                                                                            $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCACUs as $userCACU) {
-                                                                                $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
-                                                                                $userCU = $userCACU['ca_customer_id'];
-                                                                                // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
-                                                                                $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                $bdate= $bd->format('d-m-Y');
-                                                                                $dt= new DateTime($userCACU['register_date']);
-                                                                                $datev= $dt->format('d-m-Y'); 
-                                                                                echo'<tr>
-                                                                                    <td>
-                                                                                        <p>'.$userCACU['ca_customer_id'].'</p>
-                                                                                        <p>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</p>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                        <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <p class="mb-0">'.$userCACU['customer_type'].'</p>
-                                                                                        <p class="mb-0">'.$comp_chek.'</p>
-                                                                                    </td>
-                                                                                    <td>'.$userCACU['contact_no'].'</td>
-                                                                                    <td>'.$datev.'</td>';
-                                                                                    if($userCACU['status'] == '1'){
-                                                                                        echo'<td><span class="badge bg-success">Active</span></td>';
-                                                                                        
-                                                                                    }else{
-                                                                                        echo'<td><span class="badge bg-danger">Deactivate</span></td>';
-                                                                                        
-                                                                                    }
-                                                                                echo'</tr>';
-                                                                            }
-                                                                        }   
-                                                                    }
-                                                                    
-                                                                    //direct TC with BM/MF Ref
-                                                                    $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ? ");
-                                                                    $stmt4->execute([$userId]);
-                                                                    $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                    foreach ($userCATAs as $userCATA) {
-                                                                        $userTA = $userCATA['ca_travelagency_id'];
-                                                                        //echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                        $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='1' OR status = '3') ");
-                                                                        $stmt5->execute([$userCATA['ca_travelagency_id']]);
-                                                                        $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach ($userCACUs as $userCACU) {
-                                                                            $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
-                                                                            $userCU = $userCACU['ca_customer_id'];
-                                                                            // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
-                                                                            $bd= new DateTime($userCACU['date_of_birth']);
-                                                                            $bdate= $bd->format('d-m-Y');
-                                                                            $dt= new DateTime($userCACU['register_date']);
-                                                                            $datev= $dt->format('d-m-Y'); 
-                                                                            echo'<tr>
-                                                                                <td>
-                                                                                    <p>'.$userCACU['ca_customer_id'].'</p>
-                                                                                    <p>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</p>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                    <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <p class="mb-0">'.$userCACU['customer_type'].'</p>
-                                                                                    <p class="mb-0">'.$comp_chek.'</p>
-                                                                                </td>
-                                                                                <td>'.$userCACU['contact_no'].'</td>
-                                                                                <td>'.$datev.'</td>';
-                                                                                if($userCACU['status'] == '1'){
-                                                                                    echo'<td><span class="badge bg-success">Active</span></td>';
-                                                                                    
-                                                                                }else{
-                                                                                    echo'<td><span class="badge bg-danger">Deactivate</span></td>';
-                                                                                    
-                                                                                }
-                                                                            echo'</tr>';
-                                                                        }
-                                                                    }  
-                                                                }else if($userType == "16" || $userType == "29" || $userType == '32'){
-                                                                    
-                                                                    $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM ca_travelagency WHERE reference_no = ?
-                                                                                            UNION ALL
-                                                                                            SELECT institution_branch_manager_id AS user_id FROM institution_branch_manager WHERE reference_no = ?");
-                                                                    $stmt4->execute([$userId,$userId]);
-                                                                    $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                    foreach ($userCATAs as $userCATA) {
-                                                                        $userTA = $userCATA['user_id'];
-                                                                        // echo $userTA.'</br>';
-
-                                                                        $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status='1' OR status = '3')");
-                                                                        $stmt5->execute([$userCATA['user_id']]);
-                                                                        $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach ($userCACUs as $userCACU) {
-                                                                            $userCU = $userCACU['id'];
-                                                                            $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
-                                                                            // echo $userTA.'=>'.$userCU.'</br>';
-
-                                                                            $bd= new DateTime($userCACU['date_of_birth']);
-                                                                            $bdate= $bd->format('d-m-Y');
-                                                                            $dt= new DateTime($userCACU['register_date']);
-                                                                            $datev= $dt->format('d-m-Y'); 
-                                                                            echo'<tr>
-                                                                                <td>
-                                                                                    <p>'.$userCACU['ca_customer_id'].'</p>
-                                                                                    <p>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</p>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                    <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                </td>
-                                                                                    <td>
-                                                                                    <p class="mb-0">'.$userCACU['customer_type'].'</p>
-                                                                                    <p class="mb-0">'.$comp_chek.'</p>
-                                                                                </td>
-                                                                                <td>'.$userCACU['contact_no'].'</td>
-                                                                                <td>'.$datev.'</td>';
-                                                                                if($userCACU['status'] == '3')
-                                                                                    echo'<td><span class="badge bg-danger">Pending</span></td>';
-                                                                                else{
-                                                                                    echo'<td><span class="badge bg-success">Active</span></td>';
-                                                                                }
-                                                                            echo'</tr>';
-                                                                        }
-                                                                    }
-                                                                }else if($userType == "11" || $userType == "33"){
-                                                                    $sql = "SELECT * FROM `ca_customer` WHERE ta_reference_no = '$userId' AND (status = '1' OR status = '3') ";
-                                                                    $stmt = $conn -> prepare($sql);
-                                                                    $stmt -> execute();
-                                                                    $stmt -> setFetchMode(PDO::FETCH_ASSOC);
-                                                                    if($stmt -> rowCount()>0){
-                                                                        foreach(($stmt -> fetchAll()) as $key => $row){
-                                                                            $bd= new DateTime($row['date_of_birth']);
-                                                                            $bdate= $bd->format('d-m-Y');
-                                                                            $dt= new DateTime($row['register_date']);
-                                                                            $datev= $dt->format('d-m-Y'); 
-                                                                            $comp_chek = $row['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
-                                                                            echo'<tr>
-                                                                                <td>
-                                                                                    <p>'.$row['ca_customer_id'].'</p>
-                                                                                    <p>'.$row['firstname'].' '.$row['lastname'].'</p>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <p>'.$row['ta_reference_no'].' '.$row['ta_reference_name'].'</p>
-                                                                                    <p>'.$row['reference_no'].' '.$row['registrant'].'</p>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <p class="mb-0">'.$row['customer_type'].'</p>
-                                                                                    <p class="mb-0">'.$comp_chek.'</p>
-                                                                                </td>
-                                                                                <td>'.$row['contact_no'].'</td>
-                                                                                <td>'.$datev.'</td>';
-                                                                                
-                                                                                if($row['status'] == '3')
-                                                                                    echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                else{
-                                                                                    echo'<td><span class="badge bg-success">Active</span></td>';
-                                                                                }
-                                                                                if($userType == '11' || $userType == '33'){
-                                                                                    if($row['status'] == '1'){
-                                                                                        echo'<td>
-                                                                                            <div class="dropdown d-inline-block">
-                                                                                                <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                                    <i class="ri-more-fill align-middle"></i>
-                                                                                                </button>
-                                                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                                                    <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$row["ca_customer_id"]. '","' .$row["reference_no"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","ca_customer")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
-                                                                                                    <li><a class="dropdown-item addref-item-btn" onclick=\'addRefFunc("' .$row["ca_customer_id"]. '","'.$userId.'","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","addreff")\'><i class="ri-contacts-fill align-bottom me-2 text-muted"></i> Add Ref</a></li>
-                                                                                                    <li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' .$row["ca_customer_id"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","registered")\'><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
-                                                                                                    <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$row["id"].'","'.$row["ca_customer_id"].'","registered","'.$userId.'","'.$userType.'")\'><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
-                                                                                                </ul>
-                                                                                            </div>
-                                                                                        </td>';
-                                                                                    }else{
-                                                                                        echo'<td>
-                                                                                        <div class="dropdown d-inline-block">
-                                                                                            <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                                <i class="ri-more-fill align-middle"></i>
-                                                                                            </button>
-                                                                                            <ul class="dropdown-menu dropdown-menu-end">
-                                                                                                <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$row["id"].'","'.$row["ca_customer_id"].'","deactivate","'.$userId.'","'.$userType.'")\'><i class="ri-arrow-go-back-fill align-bottom me-2 text-muted"></i> Restore</a></li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                    </td>';
-                                                                                    }
-                                                                                }
-                                                                            echo'</tr>';
-                                                                        }
-                                                                    }
-                                                                }else if($userType == "10"){
-                                                                    $sql = "SELECT * FROM `ca_customer` WHERE reference_no = '$userId' AND (status = '1' OR status = '3') ";
-                                                                    $stmt = $conn -> prepare($sql);
-                                                                    $stmt -> execute();
-                                                                    $stmt -> setFetchMode(PDO::FETCH_ASSOC);
-                                                                    if($stmt -> rowCount()>0){
-                                                                        foreach(($stmt -> fetchAll()) as $key => $row){
-                                                                            $bd= new DateTime($row['date_of_birth']);
-                                                                            $bdate= $bd->format('d-m-Y');
-                                                                            $dt= new DateTime($row['register_date']);
-                                                                            $datev= $dt->format('d-m-Y'); 
-                                                                            $comp_chek = $row['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
-                                                                            echo'<tr>
-                                                                                <td>
-                                                                                    <p>'.$row['ca_customer_id'].'</p>
-                                                                                    <p>'.$row['firstname'].' '.$row['lastname'].'</p>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <p>'.$row['ta_reference_no'].' '.$row['ta_reference_name'].'</p>
-                                                                                    <p>'.$row['reference_no'].' '.$row['registrant'].'</p>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <p class="mb-0">'.$row['customer_type'].'</p>
-                                                                                    <p class="mb-0">'.$comp_chek.'</p>
-                                                                                </td>
-                                                                                <td>'.$row['contact_no'].'</td>
-                                                                                <td>'.$datev.'</td>';
-                                                                                
-                                                                                if($row['status'] == '3')
-                                                                                    echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                else{
-                                                                                    echo'<td><span class="badge bg-success">Active</span></td>';
-                                                                                }
-                                                                                if($userType == '10'){
-                                                                                    if($row['status'] == '1'){
-                                                                                        echo'<td>
-                                                                                            <div class="dropdown d-inline-block">
-                                                                                                <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                                    <i class="ri-more-fill align-middle"></i>
-                                                                                                </button>
-                                                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                                                    <li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' .$row["ca_customer_id"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","registered")\'><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
-                                                                                                    <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$row["id"].'","'.$row["ca_customer_id"].'","'.$row["reference_no"].'","registered","'.$userId.'","'.$userType.'")\'><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
-                                                                                                </ul>
-                                                                                            </div>
-                                                                                        </td>';
-                                                                                    }else{
-                                                                                        echo'<td>
-                                                                                        <div class="dropdown d-inline-block">
-                                                                                            <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                                <i class="ri-more-fill align-middle"></i>
-                                                                                            </button>
-                                                                                            <ul class="dropdown-menu dropdown-menu-end">
-                                                                                                <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$row["id"].'","'.$row["ca_customer_id"].'","'.$row["reference_no"].'","deactivate","'.$userId.'","'.$userType.'")\'><i class="ri-arrow-go-back-fill align-bottom me-2 text-muted"></i> Restore</a></li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                    </td>';
-                                                                                    }
-                                                                                }
-                                                                            echo'</tr>';
-                                                                        }
-                                                                    }
-                                                                }else if($userType == "31"){
-                                                                    
-                                                                    //MF/SF->F->TC->CU
-                                                                    $stmt2 = $conn->prepare("SELECT master_franchisee_id AS id FROM master_franchisee WHERE reference_no = ? AND user_type = '28'
-                                                                                                UNION
-                                                                                                SELECT sponsor_franchisee_id AS id FROM sponsor_franchisee WHERE reference_no = ? AND user_type = '30' ");
-                                                                    $stmt2->execute([$userId,$userId]);
-                                                                    $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-                                                                
-                                                                    foreach ($userBMS as $userBM) {
-                                                                        $bm_id = $userBM['id'];
-
-                                                                        $stmt3 = $conn->prepare("SELECT sub_franchisee_id AS suser_id FROM `sub_franchisee` WHERE reference_no = ?
-                                                                                                UNION ALL
-                                                                                                SELECT corporate_agency_id AS suser_id FROM `corporate_agency` WHERE reference_no = ?
-                                                                                                UNION ALL
-                                                                                                SELECT institution_id AS suser_id FROM `institution` WHERE reference_no = ? ");
-                                                                        $stmt3->execute([$bm_id,$bm_id,$bm_id]);
-                                                                        $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach($userCAs as $userCA){
-                                                                            $userCAID = $userCA['suser_id'];
-                                                                            // echo $userCA;
-
-                                                                            $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM ca_travelagency WHERE reference_no = ?
-                                                                                                    UNION ALL
-                                                                                                    SELECT institution_branch_manager_id AS user_id FROM institution_branch_manager WHERE reference_no = ?");
-                                                                            $stmt4->execute([$userCA['suser_id'],$userCA['suser_id']]);
-                                                                            $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCATAs as $userCATA) {
-                                                                                $userTA = $userCATA['user_id'];
-                                                                            //    echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                                $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='1' OR status = '3') ");
-                                                                                $stmt5->execute([$userCATA['user_id']]);
-                                                                                $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                                foreach ($userCACUs as $userCACU) {
-                                                                                    $userCU = $userCACU['id'];
-                                                                                    // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-                                                                                    $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
-                                                                                    $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                    $bdate= $bd->format('d-m-Y');
-                                                                                    $dt= new DateTime($userCACU['register_date']);
-                                                                                    $datev= $dt->format('d-m-Y'); 
-                                                                                    echo'<tr>
-                                                                                        <td>
-                                                                                            <p>'.$userCACU['ca_customer_id'].'</p>
-                                                                                            <p>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</p>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                            <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <p class="mb-0">'.$userCACU['customer_type'].'</p>
-                                                                                            <p class="mb-0">'.$comp_chek.'</p>
-                                                                                        </td>
-                                                                                        <td>'.$userCACU['contact_no'].'</td>
-                                                                                        <td>'.$datev.'</td>';
-                                                                                        if($userCACU['status'] == '1')
-                                                                                            echo'<td><span class="badge bg-success">Active</span></td>';
-                                                                                        else{
-                                                                                            echo'<td><span class="badge bg-danger">Deactive</span></td>';
-                                                                                        }
-                                                                                    echo'</tr>';
-                                                                                }
-                                                                            }   
-                                                                        }
-                                                                        
-                                                                        //direct TC with MF/SF Ref
-                                                                        $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
-                                                                        $stmt4->execute([$bm_id]);
-                                                                        $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach ($userCATAs as $userCATA) {
-                                                                            $userTA = $userCATA['ca_travelagency_id'];
-
-                                                                            $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='1' OR status = '3') ");
-                                                                            $stmt5->execute([$userCATA['ca_travelagency_id']]);
-                                                                            $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCACUs as $userCACU) {
-                                                                                $userCU = $userCACU['id'];
-                                                                                // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-                                                                                $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
-                                                                                $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                $bdate= $bd->format('d-m-Y');
-                                                                                $dt= new DateTime($userCACU['register_date']);
-                                                                                $datev= $dt->format('d-m-Y'); 
-                                                                                echo'<tr>
-                                                                                    <td>
-                                                                                        <p>'.$userCACU['ca_customer_id'].'</p>
-                                                                                        <p>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</p>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                        <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <p class="mb-0">'.$userCACU['customer_type'].'</p>
-                                                                                        <p class="mb-0">'.$comp_chek.'</p>
-                                                                                    </td>
-                                                                                    <td>'.$userCACU['contact_no'].'</td>
-                                                                                    <td>'.$datev.'</td>';
-                                                                                    if($userCACU['status'] == '1')
-                                                                                        echo'<td><span class="badge bg-success">Active</span></td>';
-                                                                                    else{
-                                                                                        echo'<td><span class="badge bg-danger">Deactive</span></td>';
-                                                                                    }
-                                                                                echo'</tr>';
-                                                                            }
-                                                                        }  
-                                                                    }
-                                                                    //BDM->F-TC->CU
-                                                                    $stmt3 = $conn->prepare("SELECT sub_franchisee_id AS suser_id FROM `sub_franchisee` WHERE reference_no = ?
-                                                                                            UNION ALL
-                                                                                            SELECT corporate_agency_id AS suser_id FROM `corporate_agency` WHERE reference_no = ?
-                                                                                            UNION ALL
-                                                                                            SELECT institution_id AS suser_id FROM `institution` WHERE reference_no = ?  ");
-                                                                    $stmt3->execute([$userId,$userId,$userId]);
-                                                                    $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                    foreach($userCAs as $userCA){
-                                                                        $userCAID = $userCA['suser_id'];
-                                                                        // echo $userCA;
-
-                                                                        $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM ca_travelagency WHERE reference_no = ?
-                                                                                                UNION ALL
-                                                                                                SELECT institution_branch_manager_id AS user_id FROM institution_branch_manager WHERE reference_no = ?");
-                                                                        $stmt4->execute([$userCA['suser_id'],$userCA['suser_id']]);
-                                                                        $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach ($userCATAs as $userCATA) {
-                                                                            $userTA = $userCATA['user_id'];
-                                                                            //    echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                            $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='1' OR status = '3') ");
-                                                                            $stmt5->execute([$userCATA['user_id']]);
-                                                                            $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                            foreach ($userCACUs as $userCACU) {
-                                                                                $userCU = $userCACU['id'];
-                                                                                // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-                                                                                $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
-                                                                                $bd= new DateTime($userCACU['date_of_birth']);
-                                                                                $bdate= $bd->format('d-m-Y');
-                                                                                $dt= new DateTime($userCACU['register_date']);
-                                                                                $datev= $dt->format('d-m-Y'); 
-                                                                                echo'<tr>
-                                                                                    <td>
-                                                                                        <p>'.$userCACU['ca_customer_id'].'</p>
-                                                                                        <p>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</p>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                        <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <p class="mb-0">'.$userCACU['customer_type'].'</p>
-                                                                                        <p class="mb-0">'.$comp_chek.'</p>
-                                                                                    </td>
-                                                                                    <td>'.$userCACU['contact_no'].'</td>
-                                                                                    <td>'.$datev.'</td>';
-                                                                                    if($userCACU['status'] == '1')
-                                                                                        echo'<td><span class="badge bg-success">Active</span></td>';
-                                                                                    else{
-                                                                                        echo'<td><span class="badge bg-danger">Deactive</span></td>';
-                                                                                    }
-                                                                                echo'</tr>';
-                                                                            }
-                                                                        }   
-                                                                    }
-                                                                    //RM->TC->CU
-                                                                    $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
-                                                                    $stmt4->execute([$userId]);
-                                                                    $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                    foreach ($userCATAs as $userCATA) {
-                                                                        $userTA = $userCATA['ca_travelagency_id'];
-
-                                                                        $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='1' OR status = '3') ");
-                                                                        $stmt5->execute([$userCATA['ca_travelagency_id']]);
-                                                                        $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                        foreach ($userCACUs as $userCACU) {
-                                                                            $userCU = $userCACU['id'];
-                                                                            // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-                                                                            $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
-                                                                            $bd= new DateTime($userCACU['date_of_birth']);
-                                                                            $bdate= $bd->format('d-m-Y');
-                                                                            $dt= new DateTime($userCACU['register_date']);
-                                                                            $datev= $dt->format('d-m-Y'); 
-                                                                            echo'<tr>
-                                                                                <td>
-                                                                                    <p>'.$userCACU['ca_customer_id'].'</p>
-                                                                                    <p>'.$userCACU['firstname'].' '.$userCACU['lastname'].'</p>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
-                                                                                    <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <p class="mb-0">'.$userCACU['customer_type'].'</p>
-                                                                                    <p class="mb-0">'.$comp_chek.'</p>
-                                                                                </td>
-                                                                                <td>'.$userCACU['contact_no'].'</td>
-                                                                                <td>'.$datev.'</td>';
-                                                                                if($userCACU['status'] == '1')
-                                                                                    echo'<td><span class="badge bg-success">Active</span></td>';
-                                                                                else{
-                                                                                    echo'<td><span class="badge bg-danger">Deactive</span></td>';
-                                                                                }
-                                                                            echo'</tr>';
-                                                                        }
-                                                                    } 
-                                                                        
-                                                                    
-                                                                }
-                                                            ?>
+                                                            
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="card rounded-4 border-1">
+                                                <div class="card-header border-bottom-dashed rounded-top-4">
+                                                    <div class="row">
+                                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-2">
+                                                            <div class="d-flex gap-3">
+                                                                <div class="tePendingIcon tePendingIcon2">
+                                                                    <i class="ri-verified-badge-line" style="font-size: 30px;"></i>
+                                                                </div>
+                                                                <div class="align-content-end">
+                                                                    <h5 class="card-title text-dark mb-0">Registered Customers List</h5>
+                                                                    <p class="text-muted fs-6 mb-0">All approved and active Customers</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <table id="example-dataTable-2" class="table table-striped table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                                        <thead>
+                                                            <tr class="table-primary">
+                                                                <th data-ordering="false">Customer ID & Full Name</th>
+                                                                <th data-ordering="false">TC ID & Name</th>
+                                                                <th data-ordering="false">Phone & Email</th>
+                                                                <th data-ordering="false">Membership Type</th>
+                                                                <th data-ordering="false">Membership (&#8377;)</th>
+                                                                <th data-ordering="false">Joining Date</th>
+                                                                <th data-ordering="false">Status</th>
+                                                                <th data-ordering="false">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -2284,11 +399,16 @@
 
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
+        <!-- add on 11-06-2026 by SV -->
+        <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+         <!-- add on 11-06-2026 by SV END-->
 
         <script>
             $(document).ready(function(){
-                $("#example-dataTable").DataTable();
-                $("#example-dataTable-2").DataTable();
+                //$("#example-dataTable").DataTable();
+                // $("#example-dataTable-2").DataTable();
             });
 
             function editfunc(id,cut,st,ct,editfor){
@@ -2354,6 +474,479 @@
                 var designation = 'ca_customer';
                 window.location.href='overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
             }
+            //pending cu list
+            // $('#example-dataTable').DataTable({
+
+            //     processing: true,
+
+            //     ajax:{
+            //         url:'customer/pending_cu_list.php',
+            //         dataSrc:'data'
+            //     },
+
+            //     columnDefs:[
+            //         {
+            //             targets:[2,5],
+            //             orderable:false
+            //         }
+            //     ],
+
+            //     language:{
+
+            //         emptyTable: `
+            //             <div class="d-flex justify-content-center">
+            //                 <div>
+            //                     <img src="../assets/images/pendingData.png" alt="Package" class="pendingData img-fluid w-100">
+            //                     <p class="fw-bolder fs-5 text-center mb-1">No pending referrals yet</p>
+            //                     <p class="fw-muted fs-6 text-center">When someone uses your referral link, they'll appear here.</p>
+            //                 </div>
+            //             </div>
+            //         `
+
+            //     }
+
+            // });
+            const cuTable = $('#example-dataTable').DataTable({
+                destroy: true,
+                responsive: true,
+                processing: true,
+                searching: true,
+                paging: true,
+                ordering: false,
+                data: [],
+                columns: [
+
+                    {
+                        data: null,
+                        render: function(data){
+
+                            return `
+                                <p class="fs-6 mb-0">
+                                    ${data.firstname || ''} ${data.lastname || ''}
+                                </p>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: null,
+                        render: function(data){
+
+                            return `
+                                <div>
+                                    <p class="fs-6 mb-0">
+                                        ${data.ref_firstname || ''} ${data.ref_lastname || ''}
+                                    </p>
+
+                                    <p class="fs-6 mb-0">
+                                        ${data.ca_travelagency_id || '-'}
+                                    </p>
+                                </div>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: null,
+                        render: function(data){
+
+                            return `
+                                <div>
+                                    <p class="fs-6 mb-0">
+                                        <i class="fa-solid fa-phone me-2"></i>
+                                        ${data.contact_no || '-'}
+                                    </p>
+
+                                    <p class="fs-6 mb-0">
+                                        <i class="fa-regular fa-envelope me-2"></i>
+                                        ${data.email || '-'}
+                                    </p>
+                                </div>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: 'added_on',
+                        render: function(data){
+
+                            if(!data) return '-';
+
+                            return `
+                                <p class="fs-6 mb-0">
+                                    <i class="fa-solid fa-calendar-days me-2"></i>
+                                    ${moment(data).format('DD MMM YYYY')}
+                                </p>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: 'status',
+                        render: function(status){
+                            if(status == 0){
+
+                               return `
+                                    <p class="teDeletedBtn rounded-pill text-center mb-0">
+                                        Deleted
+                                    </p>
+                                `;
+                            }
+
+                            if(status == 2){
+
+                                return `
+                                    <p class="tePendingBtn rounded-pill text-center mb-0">
+                                        Pending
+                                    </p>
+                                `;
+                            }
+                            return `
+                                    <p class="teDraftBtn rounded-pill text-center mb-0">
+                                        Draft
+                                    </p>
+                                `;
+
+                            
+                        }
+                    }
+                ],
+                language: {
+                    emptyTable: `
+                        <div class="d-flex justify-content-center">
+                            <div>
+                                <img src="../assets/images/pendingData.png" alt="Package" class="pendingData img-fluid w-100">
+                                <p class="fw-bolder fs-5 text-center mb-1">No pending referrals yet</p>
+                                <p class="fw-muted fs-6 text-center">When someone uses your referral link, they'll appear here.</p>
+                            </div>
+                        </div>
+                    `
+                }
+            });
+            function loadPendingTEList(){
+
+                $.ajax({
+                    url: 'customer/ste_pending_cu_table_data.php',
+                    type: 'POST',
+                    dataType: 'json',
+
+                    success: function(res){
+
+                        if(!res.status){
+
+                            cuTable.clear().draw();
+                            
+                            return;
+                        }
+
+                        cuTable.clear();
+                        cuTable.rows.add(res.data);
+                        cuTable.draw();
+                        
+                    },
+
+                    error: function(){
+
+                        cuTable.clear().draw();
+                    }
+                });
+
+            }
+            //regiterd cu list
+            // const columns = [
+            //     { orderable:false },
+            //     { orderable:false },
+            //     { orderable:false },
+            //     { orderable:false },
+            //     { orderable:false },
+            //     { orderable:false }
+            // ];
+            // const userType=<?= $userType ?> ;
+            // if(userType == '10' || userType == '11' || userType == '33'){
+            //     columns.push({orderable:false});
+            // }
+
+            // $('#example-dataTable-2').DataTable({
+
+            //     destroy:true,
+
+            //     processing:true,
+
+            //     ajax:{
+            //         url:'customer/registered_cu_list.php',
+            //         dataSrc:'data'
+            //     },
+
+            //     columns:columns,
+
+            //     language:{
+            //         emptyTable:`
+            //         <div class="d-flex justify-content-center py-1">
+            //             <div>
+            //                 <img src="../assets/images/registerData.png"
+            //                     class="registerData img-fluid w-100">
+
+            //                 <p class="fw-bolder fs-5 mb-1">
+            //                     No registered referrals yet
+            //                 </p>
+
+            //                 <p class="fw-muted fs-6">
+            //                     Registered referrals will appear here.
+            //                 </p>
+            //             </div>
+            //         </div>`
+            //     }
+
+            // });
+            const cuRegTable = $('#example-dataTable-2').DataTable({
+                responsive: true,
+                ordering: false,
+                searching: true,
+                paging: true,
+                data: [],
+                columns: [
+                    {
+                        data: null,
+                        render: function(data) {
+                            return `
+                                <div>
+                                    <p class="fs-6 mb-0">
+                                        ${data.firstname || ''} ${data.lastname || ''}
+                                    </p>
+                                    <p class="fs-6 mb-0">
+                                        ${data.ca_customer_id || '-'}
+                                    </p>
+                                </div>
+                            `;
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function(data) {
+                            return `
+                                <div>
+                                    <p class="fs-6 mb-0">
+                                        ${data.ref_firstname || '-'}
+                                        </br> 
+                                        ${data.ref_lastname || ''}
+                                    </p>
+                                    <p class="fs-6 mb-0">
+                                        ${data.ca_travelagency_id || '-'}
+                                    </p>
+                                </div>
+                            `;
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function(data) {
+                            return `
+                                <div>
+                                    <p class="fs-6 mb-0">
+                                        <i class="fa-solid fa-phone me-2"></i>
+                                        ${data.contact_no || '-'}
+                                    </p>
+                                    <p class="fs-6 mb-0">
+                                        <i class="fa-regular fa-envelope me-2"></i>
+                                        ${data.email || '-'}
+                                    </p>
+                                </div>
+                            `;
+                        }
+                    },
+                    {
+                        data: 'type',
+                        render: function(data) {
+
+                            if(!data || data == 0) {
+                                return '-';
+                            }
+                            const formattedData = data.replace(/\s*\/\s*/g, "<br>");
+                            return `
+                                <p class="fs-6 mb-0">
+                                    ${formattedData}
+                                </p>
+                            `;
+                        }
+                    },
+                    {
+                        data: 'amount',
+                        render: function(data) {
+
+                            if(!data || data == 0) {
+                                return '-';
+                            }
+
+                            return `
+                                <p class="fs-6 mb-0">
+                                    ₹ ${Number(data).toLocaleString('en-IN', {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2
+                                    })}
+                                </p>
+                            `;
+                        }
+                    },
+                    {
+                        data: 'register_date',
+                        render: function(data) {
+
+                            if(!data) return '-';
+
+                            return `
+                                <p class="fs-6 mb-0">
+                                    <i class="fa-solid fa-calendar-days me-2"></i>
+                                    ${moment(data).format('DD MMM YYYY')}
+                                </p>
+                            `;
+                        }
+                    },
+                    {
+                        data: 'status',
+                        render: function(status) {
+
+                            let badge = 'tePendingBtn';
+                            let text = 'Pending';
+
+                            if(status == 1){
+
+                                badge = 'teActiveBtn';
+                                text = 'Active';
+
+                            }else if(status == 3){
+
+                                badge = 'tePendingBtn';
+                                text = 'Inactive';
+
+                            }else{
+
+                                badge = 'teDeletedBtn';
+                                text = 'NA';
+
+                            }
+
+                            return `
+                                <p class="${badge} rounded-pill text-center mb-0">
+                                    ${text}
+                                </p>
+                            `;
+                        }
+                    },
+                    {
+                        data: 'ca_customer_id',
+                        orderable: false,
+                        searchable: false,
+                        className: 'none',
+                        render: function(data) {
+
+                            return `
+                                <form action="edit_customer.php" method="POST" class="m-0">
+                                    <input
+                                        type="hidden"
+                                        name="vkvbvjfgfikix"
+                                        value="${data}"
+                                    >
+                                    <input
+                                        type="hidden"
+                                        name="editfor"
+                                        value="test"
+                                    >
+
+                                    <button
+                                        type="submit"
+                                        class="border-0 bg-transparent p-0 w-100"
+                                    >
+                                        <p class="teViewBtn text-center fw-bold mb-0">
+                                            <i class="fa-solid fa-eye me-2 mt-1"></i>View
+                                        </p>
+                                    </button>
+                                </form>
+                            `;
+                        }
+                    }
+                ],
+                language: {
+                    emptyTable: `
+                    <div class="d-flex justify-content-center py-1">
+                        <div>
+                            <img src="../assets/images/registerData.png"
+                                class="registerData img-fluid w-100">
+
+                            <p class="fw-bolder fs-5 mb-1">
+                                No registered referrals yet
+                            </p>
+
+                            <p class="fw-muted fs-6">
+                                Registered referrals will appear here.
+                            </p>
+                        </div>
+                    </div>`
+                }
+            });
+
+
+            function loadRegisteredTEList(){
+
+                $.ajax({
+
+                    url: 'customer/ste_registered_cu_list.php',
+
+                    type: 'POST',
+
+                    dataType: 'json',
+
+                    success: function(res){
+
+                        // console.log(res);
+
+                        cuRegTable.clear();
+
+                        if(res.status && res.data.length > 0){
+
+                            cuRegTable.rows.add(res.data);
+                            cuRegTable.on('draw.dt', function () {
+                                $('#rowCount').val(
+                                    cuRegTable.rows({ search: 'applied' }).count()
+                                );
+                            });
+                            // $('#rowCount').val(res.data.length);
+
+                        }
+
+                        cuRegTable.draw();
+
+                    },
+
+                    error: function(xhr){
+
+                        // console.log(xhr.responseText);
+
+                        cuRegTable.clear().draw();
+
+                    }
+
+                });
+
+            }
+            loadRegisteredTEList();
+            loadPendingTEList();
+            //cards ajax
+            $.ajax({
+                url: 'customer/view_cu_card_data.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(res){
+
+                    if(!res.status) return;
+
+                    $('#pending_cu').text(res.data.pending_cu);
+                    $('#registered_cu').text(res.data.registered_cu);
+                    $('#total_cu').text(res.data.total_cu);
+                    $('#rewards_earned').text('\u20B9 ' + res.data.rewards_earned);
+
+                }
+            });
+
         </script>
         <!-- dialer logic scripts -->
         <script>
