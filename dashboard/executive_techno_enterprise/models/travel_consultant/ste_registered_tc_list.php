@@ -25,10 +25,6 @@
                 AND ta.register_date >= :start_date
                 AND ta.register_date < DATE_ADD(:end_date, INTERVAL 1 DAY)
             ";
-            $whereDateI = "
-                AND ta.register_date >= :start_date
-                AND ta.register_date < DATE_ADD(:end_date, INTERVAL 1 DAY)
-            ";
 
             $params[':start_date'] = $startDate;
             $params[':end_date']   = $endDate;
@@ -40,7 +36,7 @@
 
                 SELECT
                     ta.id,
-                    ta.ca_travelagency_id,
+                    ta.ca_travelagency_id AS ca_travelagency_id,
                     ta.firstname,
                     ta.lastname,
                     ta.contact_no,
@@ -73,7 +69,7 @@
 
                 SELECT
                     ta.id,
-                    ta.institution_branch_manager_id,
+                    ta.institution_branch_manager_id AS ca_travelagency_id,
                     ta.firstname,
                     ta.lastname,
                     ta.contact_no,
@@ -86,7 +82,7 @@
                     sf.lastname AS ref_lastname,
                     sf.institution_id AS reference_id,
 
-                    'F' AS ref_type
+                    'I' AS ref_type
 
                 FROM institution_branch_manager ta
 

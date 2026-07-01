@@ -38,7 +38,7 @@
                     ON ca.reference_no = ste.super_techno_enterprise_id
 
                 WHERE ste.reference_no = :user_id
-                AND cu.status IN (2,3)
+                AND cu.status IN (0,2,4)
 
                 UNION ALL
 
@@ -67,7 +67,7 @@
                     ON ta.reference_no = sf.institution_id
 
                 WHERE sf.reference_no = :user_id
-                AND cu.status IN (2,3)
+                AND cu.status IN (0,2,4)
 
             ) x
 
