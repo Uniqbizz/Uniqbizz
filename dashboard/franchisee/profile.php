@@ -873,7 +873,7 @@
                             );
 
                             $('#profileAddress').html(
-                                '<i class="fa-solid fa-location-dot"></i> ' +
+                               
                                 (profile.profile_address || '')
                             );
 
@@ -1222,7 +1222,8 @@
                                     'png',
                                     'gif',
                                     'webp',
-                                    'pdf'
+                                    'pdf',
+                                    'jfif'
                                 ].includes(ext)){
 
                                     $('#' + doc.preview).attr('src', doc.url);

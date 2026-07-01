@@ -80,7 +80,7 @@ if($payoutmessage == 'PreviousPayout'){
 
             $newDate = date('d-m-Y', strtotime($row2['created_date']));
 
-            if($user_id_str == "CA" || $user_id_str == "TE"){
+            if($user_id_str == "F" ){
 
                 $amount = $row2['commision_te'];
                 $tds = round($amount * 2 / 100, 2);
@@ -90,8 +90,8 @@ if($payoutmessage == 'PreviousPayout'){
 
                 $sql1 = $conn->prepare("
                     SELECT firstname,lastname
-                    FROM corporate_agency
-                    WHERE corporate_agency_id = ?
+                    FROM sub_franchisee
+                    WHERE sub_franchisee_id = ?
                 ");
                 $sql1->execute([$row2['techno_enterprise']]);
 
@@ -206,7 +206,7 @@ if($payoutmessage == 'NextPayout'){
 
             $newDate = date('d-m-Y', strtotime($row2['created_date']));
 
-            if($user_id_str == "CA" || $user_id_str == "TE"){
+            if($user_id_str == "F" ){
 
                 $amount = $row2['commision_te'];
                 $tds = round($amount * 2 / 100, 2);
@@ -218,8 +218,8 @@ if($payoutmessage == 'NextPayout'){
 
                 $sql1 = $conn->prepare("
                     SELECT firstname,lastname
-                    FROM corporate_agency
-                    WHERE corporate_agency_id = ?
+                    FROM sub_franchisee
+                    WHERE sub_franchisee_id = ?
                 ");
                 $sql1->execute([$row2['techno_enterprise']]);
 
@@ -329,7 +329,7 @@ if($payoutmessage == 'TotalPayout'){
 
             $newDate = date('d-m-Y', strtotime($row2['created_date']));
 
-            if($user_id_str == "CA" || $user_id_str == "TE"){
+            if($user_id_str == "F" ){
 
                 $amount = $row2['commision_te'];
 
@@ -342,8 +342,8 @@ if($payoutmessage == 'TotalPayout'){
 
                 $sql1 = $conn->prepare("
                     SELECT firstname,lastname
-                    FROM corporate_agency
-                    WHERE corporate_agency_id = ?
+                    FROM sub_franchisee
+                    WHERE sub_franchisee_id = ?
                 ");
                 $sql1->execute([$row2['techno_enterprise']]);
 
@@ -496,7 +496,7 @@ if($payoutmessage == 'allPayout'){
                 } 
 
                 if($user_id_str == "TE" || $user_id_str == "CA"){
-                    $sql2= $conn->prepare("SELECT firstname,lastname FROM `corporate_agency` where corporate_agency_id='".$row2['techno_enterprise']."'");
+                    $sql2= $conn->prepare("SELECT firstname,lastname FROM `sub_franchisee` where sub_franchisee_id='".$row2['techno_enterprise']."'");
                 }else if($user_id_str == "F"){
                     $sql2= $conn->prepare("SELECT firstname,lastname FROM `sub_franchisee` where sub_franchisee_id='".$row2['techno_enterprise']."'");
                 }else if($user_id_str == "I"){
@@ -550,7 +550,7 @@ if($payoutmessage == 'allPayout'){
                 //         <td >'.$newDate.'</td>
                 //         <td>'.$row2['business_consultant'].'</td>
                 //         <td>'.$ta_name.'</td>
-                //         <td>'.$row2['corporate_agency'].'</td>
+                //         <td>'.$row2['sub_franchisee'].'</td>
                 //         <td>'.$ca_name.'</td>
                 //         <td >'.$message3.'</td>
                 //         <td style="text-align:center;">'.$ca_ta_Commi.'</td>
