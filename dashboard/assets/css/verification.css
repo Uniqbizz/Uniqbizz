@@ -1,0 +1,171 @@
+/* ======================================
+FIELD HEADER
+====================================== */
+
+.verify-field{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin-bottom:6px;
+    flex-wrap:wrap;
+}
+
+.verify-field .col-form-label{
+    margin:0;
+    font-size:13px;
+    font-weight:600;
+    line-height:1.2;
+}
+
+/* ======================================
+TOGGLE WRAPPER
+====================================== */
+
+.verify-toggle{
+    display:inline-flex;
+    align-items:center;
+    padding:2px;
+    background:#f8f9fc;
+    border:1px solid #e5e7eb;
+    border-radius:16px;
+    gap:2px;
+    box-shadow:0 1px 3px rgba(0,0,0,.05);
+}
+
+.verify-toggle input{
+    display:none;
+}
+
+/* ======================================
+BUTTONS
+====================================== */
+
+.verify-btn{
+    min-width:58px;
+    height:22px;
+    padding:0 6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    border-radius:14px;
+    cursor:pointer;
+    font-size:9px;
+    font-weight:700;
+    letter-spacing:.3px;
+    color:#6b7280;
+    margin:0;
+    transition:all .2s ease;
+    text-transform:uppercase;
+    user-select:none;
+}
+
+.verify-btn i{
+    font-size:9px;
+}
+
+/* Status Dot */
+
+.verify-btn::before{
+    content:'';
+    width:4px;
+    height:4px;
+    border-radius:50%;
+    background:currentColor;
+    opacity:.7;
+}
+
+/* ======================================
+APPROVED
+====================================== */
+
+.verify-toggle input:checked + .approve-btn{
+    background:#22c55e;
+    color:#fff;
+    box-shadow:0 2px 6px rgba(34,197,94,.25);
+}
+
+/* ======================================
+REJECTED
+====================================== */
+
+.verify-toggle input:checked + .reject-btn{
+    background:#ef4444;
+    color:#fff;
+    box-shadow:0 2px 6px rgba(239,68,68,.25);
+}
+
+.verify-toggle input:checked + label::before{
+    background:#fff;
+}
+
+/* Hover */
+
+.verify-btn:hover{
+    transform:translateY(-1px);
+}
+/* ======================================
+Pending
+====================================== */
+
+.verify-toggle input:checked + .pending-btn{
+    background:#ffaa00;
+    color:#fff;
+    box-shadow:0 2px 6px rgba(239, 196, 68, 0.76);
+}
+
+.verify-toggle input:checked + label::before{
+    background:#fff;
+}
+
+/* Hover */
+
+.verify-btn:hover{
+    transform:translateY(-1px);
+}
+
+/* ======================================
+MOBILE RESPONSIVE
+====================================== */
+
+@media (max-width: 768px){
+
+    .verify-field{
+        gap:4px;
+        margin-bottom:5px;
+    }
+
+    .verify-field .col-form-label{
+        font-size:12px;
+    }
+
+    .verify-btn{
+        min-width:50px;
+        height:20px;
+        font-size:8px;
+        padding:0 5px;
+    }
+
+    .verify-btn i{
+        font-size:8px;
+    }
+}
+
+@media (max-width: 480px){
+
+    .verify-field{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .verify-toggle{
+        margin-top:2px;
+    }
+
+    .verify-btn{
+        min-width:46px;
+        height:18px;
+        font-size:8px;
+        padding:0 4px;
+    }
+}
