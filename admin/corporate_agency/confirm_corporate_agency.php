@@ -1572,24 +1572,150 @@ if ($user_type_id == '16') {
 			$master_franchisee = '';
 			$message_mf = '';
 			$mfCommiAmt = '0';
+			
+			if($amount == "FOC"){
+				// Master Franchisee Referral edidted on 15-10-2025 by SV
+				if (strpos($reference_no, 'MF') === 0) {
+					$master_franchisee = $reference_no;
 
-			// Master Franchisee Referral edidted on 15-10-2025 by SV
-			if (strpos($reference_no, 'MF') === 0) {
-				$master_franchisee = $reference_no;
+					// Fetch MF ref and name
+					$stmt = $conn->prepare("SELECT reference_no, firstname, lastname FROM master_franchisee WHERE master_franchisee_id = :ref");
+					$stmt->execute([':ref' => $reference_no]);
+					$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-				// Fetch MF ref and name
-				$stmt = $conn->prepare("SELECT reference_no, firstname, lastname FROM master_franchisee WHERE master_franchisee_id = :ref");
-				$stmt->execute([':ref' => $reference_no]);
-				$row = $stmt->fetch(PDO::FETCH_ASSOC);
+					if ($row) {
+						$mf_name = $row['firstname'] . ' ' . $row['lastname'];
+						
+						$message_mf = "Master Franchisee(MF) $mf_name ($master_franchisee) earned Rs $mfCommiAmt/- on registering Franchisee.Franchisee Name - $name (ID:$uid). Franchisee Amount: Rs $amount /-";
+						$message_sf="$name ($uid) was on-boarded via $mf_name ($master_franchisee) as a Franchisee and paid Rs $amount /-";
 
-				if ($row) {
-					$mf_name = $row['firstname'] . ' ' . $row['lastname'];
-					$mfCommiAmt = $amount * 0.05;
-					$message_mf = "Master Franchisee(MF) $mf_name ($master_franchisee) earned Rs $mfCommiAmt/- on registering Franchisee.Franchisee Name - $name (ID:$uid). Franchisee Amount: Rs $amount /-";
-					$message_sf="$name ($uid) was on-boarded via $mf_name ($master_franchisee) as a Franchisee and paid Rs $amount /-";
+						if (!empty($row['reference_no']) && ($row['reference_no']) !== 'Not Applicable' && ($row['reference_no']) !== 'NA') {
+							$ref_manager = $row['reference_no'];
 
-					if (!empty($row['reference_no']) && ($row['reference_no']) !== 'Not Applicable' && ($row['reference_no']) !== 'NA') {
-						$ref_manager = $row['reference_no'];
+							// Get ref name
+							$stmt2 = $conn->prepare("SELECT name,user_type FROM employees WHERE employee_id = :employee_id");
+							$stmt2->execute([':employee_id' => $ref_manager]);
+							$ref = $stmt2->fetch(PDO::FETCH_ASSOC);
+							
+							$ref_name = $ref ? $ref['name'] : '';
+							$ref_designation=$ref['user_type'] == '24'?'BCM':($ref['user_type'] == '25'?'BDM':($ref['user_type'] == '31'?'RM':'unknonwn'));
+							$message_ref = "$ref_designation-$ref_name ($ref_manager) earned Rs $refCommiAmt/- on registering Franchisee.Franchisee Name - $name (ID:$uid) via $mf_name ($master_franchisee)";
+						}
+					}
+				}
+				//-------------------------------------------------------
+				// BM Referral edited on 18-04-2026 by PN
+				elseif (strpos($reference_no, 'BM') === 0) {
+					$master_franchisee = $reference_no;
+
+					// Get SF name
+					$stmt = $conn->prepare("SELECT firstname, lastname,reference_no FROM business_mentor WHERE business_mentor_id = :sf_id");
+					$stmt->execute([':sf_id' => $master_franchisee]);
+					$sf = $stmt->fetch(PDO::FETCH_ASSOC);
+					 //25000
+					$sf_name = $sf ? $sf['firstname'].' '.$sf['lastname'] : '';
+					$message_mf = "Business Mentor(BM) $sf_name ($master_franchisee) earned Rs $mfCommiAmt/- on registering Institution.Institution Name - $name (ID:$uid). Institution Amount: Rs $amount /-";
+					$message_sf="$name ($uid) was on-boarded via $sf_name ($master_franchisee) as a Institution and paid Rs $amount /-";
+					if (!empty($sf['reference_no']) && $sf['reference_no'] !== 'Not Applicable' && $sf['reference_no'] !== 'NA') {
+						$ref_manager = $sf['reference_no'];
+
+						// Get ref name
+						$stmt2 = $conn->prepare("SELECT name,user_type FROM employees WHERE employee_id = :employee_id");
+						$stmt2->execute([':employee_id' => $ref_manager]);
+						$ref = $stmt2->fetch(PDO::FETCH_ASSOC);
+						
+						$ref_name = $ref ? $ref['name'] : '';
+						$ref_designation=$ref['user_type'] == '24'?'BCM':($ref['user_type'] == '25'?'BDM':($ref['user_type'] == '31'?'RM':'unknonwn'));
+						$message_ref = "$ref_designation-$ref_name ($ref_manager) earned Rs $refCommiAmt/- on registering Institution.Institution Name - $name (ID:$uid) via $sf_name ($master_franchisee)";
+					}
+				}
+				// SF Referral edited on 15-10-2025 by SV
+				elseif (strpos($reference_no, 'SF') === 0) {
+					$master_franchisee = $reference_no;
+
+					// Get SF name
+					$stmt = $conn->prepare("SELECT firstname, lastname,reference_no FROM sponsor_franchisee WHERE sponsor_franchisee_id = :sf_id");
+					$stmt->execute([':sf_id' => $master_franchisee]);
+					$sf = $stmt->fetch(PDO::FETCH_ASSOC);
+					 //25000
+					$sf_name = $sf ? $sf['firstname'].' '.$sf['lastname'] : '';
+					$message_mf = "Sponsor Franchisee(SF) $sf_name ($master_franchisee) earned Rs $mfCommiAmt/- on registering Franchisee.Franchisee Name - $name (ID:$uid). Franchisee Amount: Rs $amount /-";
+					$message_sf="$name ($uid) was on-boarded via $sf_name ($master_franchisee) as a Franchisee and paid Rs $amount /-";
+					if (!empty($sf['reference_no']) && $sf['reference_no'] !== 'Not Applicable' && $sf['reference_no'] !== 'NA') {
+						$ref_manager = $sf['reference_no'];
+
+						// Get ref name
+						$stmt2 = $conn->prepare("SELECT name,user_type FROM employees WHERE employee_id = :employee_id");
+						$stmt2->execute([':employee_id' => $ref_manager]);
+						$ref = $stmt2->fetch(PDO::FETCH_ASSOC);
+						
+						$ref_name = $ref ? $ref['name'] : '';
+						$ref_designation=$ref['user_type'] == '24'?'BCM':($ref['user_type'] == '25'?'BDM':($ref['user_type'] == '31'?'RM':'unknonwn'));
+						$message_ref = "$ref_designation-$ref_name ($ref_manager) earned Rs $refCommiAmt/- on registering Franchisee.Franchisee Name - $name (ID:$uid) via $sf_name ($master_franchisee)";
+					}
+				}
+				//----------------------------------------
+				// Direct BDM/BCM/RM Referral add on 15-10-2025 by SV
+				elseif (strpos($reference_no, 'BH') === 0) {
+					$ref_manager = $reference_no;
+
+					// Get BDM/BCM/RM name
+					$stmt = $conn->prepare("SELECT name,user_type FROM employees WHERE employee_id = :ref_id");
+					$stmt->execute([':ref_id' => $ref_manager]);
+					$ref = $stmt->fetch(PDO::FETCH_ASSOC);
+					$refCommiAmt = $amount * 0.05; //25000
+					$ref_name = $ref ? $ref['name'] : '';
+					$ref_designation=$ref['user_type'] == '24'?'BCM':($ref['user_type'] == '25'?'BDM':($ref['user_type'] == '31'?'RM':'unknonwn'));
+					$message_ref = "Direct $ref_designation-$ref_name ($ref_manager) earned Rs $refCommiAmt/- on on registering Franchisee. Franchisee Name - $name (ID:$uid). Franchisee Amount: Rs $amount /-";
+					$message_mf = '';
+					$mfCommiAmt = 0;
+					$message_sf="$name ($uid) was on-boarded via $ref_name ($ref_manager) as a Franchisee and paid Rs $amount /-"; // check veriable name
+				}
+			}else{
+				// Master Franchisee Referral edidted on 15-10-2025 by SV
+				if (strpos($reference_no, 'MF') === 0) {
+					$master_franchisee = $reference_no;
+
+					// Fetch MF ref and name
+					$stmt = $conn->prepare("SELECT reference_no, firstname, lastname FROM master_franchisee WHERE master_franchisee_id = :ref");
+					$stmt->execute([':ref' => $reference_no]);
+					$row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+					if ($row) {
+						$mf_name = $row['firstname'] . ' ' . $row['lastname'];
+						$mfCommiAmt = $amount * 0.05;
+						$message_mf = "Master Franchisee(MF) $mf_name ($master_franchisee) earned Rs $mfCommiAmt/- on registering Franchisee.Franchisee Name - $name (ID:$uid). Franchisee Amount: Rs $amount /-";
+						$message_sf="$name ($uid) was on-boarded via $mf_name ($master_franchisee) as a Franchisee and paid Rs $amount /-";
+
+						if (!empty($row['reference_no']) && ($row['reference_no']) !== 'Not Applicable' && ($row['reference_no']) !== 'NA') {
+							$ref_manager = $row['reference_no'];
+
+							// Get ref name
+							$stmt2 = $conn->prepare("SELECT name,user_type FROM employees WHERE employee_id = :employee_id");
+							$stmt2->execute([':employee_id' => $ref_manager]);
+							$ref = $stmt2->fetch(PDO::FETCH_ASSOC);
+							$refCommiAmt = $amount * 0.025; //12500
+							$ref_name = $ref ? $ref['name'] : '';
+							$ref_designation=$ref['user_type'] == '24'?'BCM':($ref['user_type'] == '25'?'BDM':($ref['user_type'] == '31'?'RM':'unknonwn'));
+							$message_ref = "$ref_designation-$ref_name ($ref_manager) earned Rs $refCommiAmt/- on registering Franchisee.Franchisee Name - $name (ID:$uid) via $mf_name ($master_franchisee)";
+						}
+					}
+				}
+				//-------------------------------------------------------
+				// BM Referral edited on 18-04-2026 by PN
+				elseif (strpos($reference_no, 'BM') === 0) {
+					$master_franchisee = $reference_no;
+
+					// Get SF name
+					$stmt = $conn->prepare("SELECT firstname, lastname,reference_no FROM business_mentor WHERE business_mentor_id = :sf_id");
+					$stmt->execute([':sf_id' => $master_franchisee]);
+					$sf = $stmt->fetch(PDO::FETCH_ASSOC);
+					$mfCommiAmt = $amount * 0.05; //25000
+					$sf_name = $sf ? $sf['firstname'].' '.$sf['lastname'] : '';
+					$message_mf = "Business Mentor(BM) $sf_name ($master_franchisee) earned Rs $mfCommiAmt/- on registering Institution.Institution Name - $name (ID:$uid). Institution Amount: Rs $amount /-";
+					$message_sf="$name ($uid) was on-boarded via $sf_name ($master_franchisee) as a Institution and paid Rs $amount /-";
+					if (!empty($sf['reference_no']) && $sf['reference_no'] !== 'Not Applicable' && $sf['reference_no'] !== 'NA') {
+						$ref_manager = $sf['reference_no'];
 
 						// Get ref name
 						$stmt2 = $conn->prepare("SELECT name,user_type FROM employees WHERE employee_id = :employee_id");
@@ -1598,92 +1724,51 @@ if ($user_type_id == '16') {
 						$refCommiAmt = $amount * 0.025; //12500
 						$ref_name = $ref ? $ref['name'] : '';
 						$ref_designation=$ref['user_type'] == '24'?'BCM':($ref['user_type'] == '25'?'BDM':($ref['user_type'] == '31'?'RM':'unknonwn'));
-						$message_ref = "$ref_designation-$ref_name ($ref_manager) earned Rs $refCommiAmt/- on registering Franchisee.Franchisee Name - $name (ID:$uid) via $mf_name ($master_franchisee)";
+						$message_ref = "$ref_designation-$ref_name ($ref_manager) earned Rs $refCommiAmt/- on registering Institution.Institution Name - $name (ID:$uid) via $sf_name ($master_franchisee)";
 					}
 				}
-			}
-			//-------------------------------------------------------
-			// Direct ZM Referral
-			// elseif (strpos($reference_no, 'ZM') === 0) {
-			// 	$zonal_manager = $reference_no;
+				// SF Referral edited on 15-10-2025 by SV
+				elseif (strpos($reference_no, 'SF') === 0) {
+					$master_franchisee = $reference_no;
 
-			// 	// Get ZM name
-			// 	$stmt = $conn->prepare("SELECT name FROM zonal_manager WHERE zonal_manager_id = :zm_id");
-			// 	$stmt->execute([':zm_id' => $zonal_manager]);
-			// 	$zm = $stmt->fetch(PDO::FETCH_ASSOC);
-			// 	$zm_name = $zm ? $zm['name'] : '';
-			// 	$message_zm = "Direct ZM commission (5%) for referring  $name . '(' . $uid . ') by $zm_name ($zonal_manager)";
-			// 	$zmCommiAmt = $amount * 0.05; //25000
-			// 	$message_mf = '';
-			// 	$mfCommiAmt = 0;
-			// 	$message_sf=$name . '(' . $uid . ') was on-boarded via '. $zm_name .'('.$zonal_manager.') as a Franchisee and paid Rs.' . $amount . '/-';
-			// }
-			// BM Referral edited on 18-04-2026 by PN
-			elseif (strpos($reference_no, 'BM') === 0) {
-				$master_franchisee = $reference_no;
+					// Get SF name
+					$stmt = $conn->prepare("SELECT firstname, lastname,reference_no FROM sponsor_franchisee WHERE sponsor_franchisee_id = :sf_id");
+					$stmt->execute([':sf_id' => $master_franchisee]);
+					$sf = $stmt->fetch(PDO::FETCH_ASSOC);
+					$mfCommiAmt = $amount * 0.05; //25000
+					$sf_name = $sf ? $sf['firstname'].' '.$sf['lastname'] : '';
+					$message_mf = "Sponsor Franchisee(SF) $sf_name ($master_franchisee) earned Rs $mfCommiAmt/- on registering Franchisee.Franchisee Name - $name (ID:$uid). Franchisee Amount: Rs $amount /-";
+					$message_sf="$name ($uid) was on-boarded via $sf_name ($master_franchisee) as a Franchisee and paid Rs $amount /-";
+					if (!empty($sf['reference_no']) && $sf['reference_no'] !== 'Not Applicable' && $sf['reference_no'] !== 'NA') {
+						$ref_manager = $sf['reference_no'];
 
-				// Get SF name
-				$stmt = $conn->prepare("SELECT firstname, lastname,reference_no FROM business_mentor WHERE business_mentor_id = :sf_id");
-				$stmt->execute([':sf_id' => $master_franchisee]);
-				$sf = $stmt->fetch(PDO::FETCH_ASSOC);
-				$mfCommiAmt = $amount * 0.05; //25000
-				$sf_name = $sf ? $sf['firstname'].' '.$sf['lastname'] : '';
-				$message_mf = "Business Mentor(BM) $sf_name ($master_franchisee) earned Rs $mfCommiAmt/- on registering Institution.Institution Name - $name (ID:$uid). Institution Amount: Rs $amount /-";
-				$message_sf="$name ($uid) was on-boarded via $sf_name ($master_franchisee) as a Institution and paid Rs $amount /-";
-				if (!empty($sf['reference_no']) && $sf['reference_no'] !== 'Not Applicable' && $sf['reference_no'] !== 'NA') {
-					$ref_manager = $sf['reference_no'];
+						// Get ref name
+						$stmt2 = $conn->prepare("SELECT name,user_type FROM employees WHERE employee_id = :employee_id");
+						$stmt2->execute([':employee_id' => $ref_manager]);
+						$ref = $stmt2->fetch(PDO::FETCH_ASSOC);
+						$refCommiAmt = $amount * 0.025; //12500
+						$ref_name = $ref ? $ref['name'] : '';
+						$ref_designation=$ref['user_type'] == '24'?'BCM':($ref['user_type'] == '25'?'BDM':($ref['user_type'] == '31'?'RM':'unknonwn'));
+						$message_ref = "$ref_designation-$ref_name ($ref_manager) earned Rs $refCommiAmt/- on registering Franchisee.Franchisee Name - $name (ID:$uid) via $sf_name ($master_franchisee)";
+					}
+				}
+				//----------------------------------------
+				// Direct BDM/BCM/RM Referral add on 15-10-2025 by SV
+				elseif (strpos($reference_no, 'BH') === 0) {
+					$ref_manager = $reference_no;
 
-					// Get ref name
-					$stmt2 = $conn->prepare("SELECT name,user_type FROM employees WHERE employee_id = :employee_id");
-					$stmt2->execute([':employee_id' => $ref_manager]);
-					$ref = $stmt2->fetch(PDO::FETCH_ASSOC);
-					$refCommiAmt = $amount * 0.025; //12500
+					// Get BDM/BCM/RM name
+					$stmt = $conn->prepare("SELECT name,user_type FROM employees WHERE employee_id = :ref_id");
+					$stmt->execute([':ref_id' => $ref_manager]);
+					$ref = $stmt->fetch(PDO::FETCH_ASSOC);
+					$refCommiAmt = $amount * 0.05; //25000
 					$ref_name = $ref ? $ref['name'] : '';
 					$ref_designation=$ref['user_type'] == '24'?'BCM':($ref['user_type'] == '25'?'BDM':($ref['user_type'] == '31'?'RM':'unknonwn'));
-					$message_ref = "$ref_designation-$ref_name ($ref_manager) earned Rs $refCommiAmt/- on registering Institution.Institution Name - $name (ID:$uid) via $sf_name ($master_franchisee)";
+					$message_ref = "Direct $ref_designation-$ref_name ($ref_manager) earned Rs $refCommiAmt/- on on registering Franchisee. Franchisee Name - $name (ID:$uid). Franchisee Amount: Rs $amount /-";
+					$message_mf = '';
+					$mfCommiAmt = 0;
+					$message_sf="$name ($uid) was on-boarded via $ref_name ($ref_manager) as a Franchisee and paid Rs $amount /-"; // check veriable name
 				}
-			}
-			// SF Referral edited on 15-10-2025 by SV
-			elseif (strpos($reference_no, 'SF') === 0) {
-				$master_franchisee = $reference_no;
-
-				// Get SF name
-				$stmt = $conn->prepare("SELECT firstname, lastname,reference_no FROM sponsor_franchisee WHERE sponsor_franchisee_id = :sf_id");
-				$stmt->execute([':sf_id' => $master_franchisee]);
-				$sf = $stmt->fetch(PDO::FETCH_ASSOC);
-				$mfCommiAmt = $amount * 0.05; //25000
-				$sf_name = $sf ? $sf['firstname'].' '.$sf['lastname'] : '';
-				$message_mf = "Sponsor Franchisee(SF) $sf_name ($master_franchisee) earned Rs $mfCommiAmt/- on registering Franchisee.Franchisee Name - $name (ID:$uid). Franchisee Amount: Rs $amount /-";
-				$message_sf="$name ($uid) was on-boarded via $sf_name ($master_franchisee) as a Franchisee and paid Rs $amount /-";
-				if (!empty($sf['reference_no']) && $sf['reference_no'] !== 'Not Applicable' && $sf['reference_no'] !== 'NA') {
-					$ref_manager = $sf['reference_no'];
-
-					// Get ref name
-					$stmt2 = $conn->prepare("SELECT name,user_type FROM employees WHERE employee_id = :employee_id");
-					$stmt2->execute([':employee_id' => $ref_manager]);
-					$ref = $stmt2->fetch(PDO::FETCH_ASSOC);
-					$refCommiAmt = $amount * 0.025; //12500
-					$ref_name = $ref ? $ref['name'] : '';
-					$ref_designation=$ref['user_type'] == '24'?'BCM':($ref['user_type'] == '25'?'BDM':($ref['user_type'] == '31'?'RM':'unknonwn'));
-					$message_ref = "$ref_designation-$ref_name ($ref_manager) earned Rs $refCommiAmt/- on registering Franchisee.Franchisee Name - $name (ID:$uid) via $sf_name ($master_franchisee)";
-				}
-			}
-			//----------------------------------------
-			// Direct BDM/BCM/RM Referral add on 15-10-2025 by SV
-			elseif (strpos($reference_no, 'BH') === 0) {
-				$ref_manager = $reference_no;
-
-				// Get BDM/BCM/RM name
-				$stmt = $conn->prepare("SELECT name,user_type FROM employees WHERE employee_id = :ref_id");
-				$stmt->execute([':ref_id' => $ref_manager]);
-				$ref = $stmt->fetch(PDO::FETCH_ASSOC);
-				$refCommiAmt = $amount * 0.05; //25000
-				$ref_name = $ref ? $ref['name'] : '';
-				$ref_designation=$ref['user_type'] == '24'?'BCM':($ref['user_type'] == '25'?'BDM':($ref['user_type'] == '31'?'RM':'unknonwn'));
-				$message_ref = "Direct $ref_designation-$ref_name ($ref_manager) earned Rs $refCommiAmt/- on on registering Franchisee. Franchisee Name - $name (ID:$uid). Franchisee Amount: Rs $amount /-";
-				$message_mf = '';
-				$mfCommiAmt = 0;
-				$message_sf="$name ($uid) was on-boarded via $ref_name ($ref_manager) as a Franchisee and paid Rs $amount /-"; // check veriable name
 			}
 			//----------------------------------------------------
 			// Insert into payout table

@@ -193,17 +193,17 @@
                                                             SELECT 'te' AS user_type, id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status,
                                                             register_by, country, state, city,'NA' AS upgrade_status_val,'NA' AS upgrade_id 
                                                             FROM corporate_agency 
-                                                            WHERE status IN ('0', '2', ,'4') 
+                                                            WHERE status IN ('0', '2','4') 
                                                             UNION ALL 
                                                             SELECT 'sf' AS user_type, id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, 
                                                             register_by, country, state, city,upgrade_status AS upgrade_status_val, 'NA' AS upgrade_id 
                                                             FROM sub_franchisee 
-                                                            WHERE status IN ('0', '2', ,'4')
+                                                            WHERE status IN ('0', '2','4')
                                                             UNION ALL 
                                                             SELECT 'in' AS user_type, id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, 
                                                             register_by, country, state, city,upgrade_status AS upgrade_status_val, 'NA' AS upgrade_id 
                                                             FROM institution 
-                                                            WHERE status IN ('0', '2', ,'4')
+                                                            WHERE status IN ('0', '2','4')
                                                             UNION ALL
                                                             SELECT 'in' AS user_type, i.institution_id AS id, i.firstname, i.lastname, i.reference_no, i.registrant, i.country_code, i.contact_no, i.email, i.amount, i.date_of_birth, i.added_on, i.status, 
                                                             i.register_by, i.country, i.state, i.city,i.upgrade_status AS upgrade_status_val, iu.id AS upgrade_id
