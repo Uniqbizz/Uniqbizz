@@ -32,7 +32,7 @@ $('#upload_file1').change(function () {
                 alert("File size is greater then 2 MB");
                 $('#upload_file1').val('');
             }else{
-                // $("#preview1").show();
+                $("#preview1").show();
                 $("#img_pre1").attr("src","../../uploading/"+data);
                 $("#img_path1").val(data);
             }
@@ -491,6 +491,46 @@ $('#upload_file13').change(function () {
                 $("#img_pre13").attr("src","../../uploading/"+data);
                 $("#img_path13").val(data);
             }
+        }
+    });
+});
+
+// ** cheque/transact pic **
+$('#upload_cheque').change(function () {
+    
+    var folder = 'tatopup';
+
+    var file_data = $('#upload_cheque').prop('files')[0];
+    var form_data = new FormData();
+    form_data.append('file', file_data);
+    form_data.append('folder', folder);
+    $.ajax({
+        url: uploadUrl,
+        type: "POST",
+        data: form_data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+            // console.log(data);
+            if(data == 1){
+                alert("Upload Failed");
+                $('#upload_cheque').val('');
+            }else if(data == 2){
+                alert("Invalid file Extension");
+                $('#upload_cheque').val('');
+            }else if(data == 3){
+                alert("Please select File");
+                $('#upload_cheque').val('');
+            }else if(data == 4){
+                alert("File size is greater then 2 MB");
+                $('#upload_cheque').val('');
+            }else{
+                $("#previewcheque").show();
+                $("#previewcheque1").attr("src", "../../uploading/"+data);
+                $("#previewcheque2").val(data);
+            }
+            
         }
     });
 });

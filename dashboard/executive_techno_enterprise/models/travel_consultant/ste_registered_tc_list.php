@@ -25,10 +25,6 @@
                 AND ta.register_date >= :start_date
                 AND ta.register_date < DATE_ADD(:end_date, INTERVAL 1 DAY)
             ";
-            $whereDateI = "
-                AND ta.register_date >= :start_date
-                AND ta.register_date < DATE_ADD(:end_date, INTERVAL 1 DAY)
-            ";
 
             $params[':start_date'] = $startDate;
             $params[':end_date']   = $endDate;
@@ -40,7 +36,7 @@
 
                 SELECT
                     ta.id,
-                    ta.ca_travelagency_id,
+                    ta.ca_travelagency_id AS ca_travelagency_id,
                     ta.firstname,
                     ta.lastname,
                     ta.contact_no,
@@ -73,39 +69,7 @@
 
                 SELECT
                     ta.id,
-                    ta.ca_travelagency_id,
-                    ta.firstname,
-                    ta.lastname,
-                    ta.contact_no,
-                    ta.email,
-                    ta.register_date,
-                    ta.status,
-                    ta.amount,
-
-                    sf.firstname AS ref_firstname,
-                    sf.lastname AS ref_lastname,
-                    sf.sub_franchisee_id AS reference_id,
-
-                    'F' AS ref_type
-
-                FROM ca_travelagency ta
-
-                INNER JOIN sub_franchisee sf
-                    ON ta.reference_no = sf.sub_franchisee_id
-
-                INNER JOIN super_techno_enterprise ste
-                    ON sf.reference_no = ste.super_techno_enterprise_id
-
-                WHERE ste.reference_no = :user_id
-                AND ta.status IN (1,3)
-                AND ste.status IN (1)
-
-                $whereDateSF
-                UNION ALL
-
-                SELECT
-                    ta.id,
-                    ta.institution_branch_manager_id,
+                    ta.institution_branch_manager_id AS ca_travelagency_id,
                     ta.firstname,
                     ta.lastname,
                     ta.contact_no,
@@ -118,7 +82,7 @@
                     sf.lastname AS ref_lastname,
                     sf.institution_id AS reference_id,
 
-                    'F' AS ref_type
+                    'I' AS ref_type
 
                 FROM institution_branch_manager ta
 

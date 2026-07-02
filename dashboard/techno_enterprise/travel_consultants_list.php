@@ -328,7 +328,7 @@
                     },
 
                     {
-                        data: 'register_date',
+                        data: 'added_on',
                         render: function(data){
 
                             if(!data) return '-';
@@ -346,16 +346,16 @@
                         data: 'status',
                         render: function(status){
 
-                            if(status == 1){
+                            if(status == 0){
 
-                                return `
-                                    <p class="teApprovedBtn rounded-pill text-center mb-0">
-                                        Active
+                               return `
+                                    <p class="teDeletedBtn rounded-pill text-center mb-0">
+                                        Deleted
                                     </p>
                                 `;
                             }
 
-                            if(status == 3){
+                            if(status == 2){
 
                                 return `
                                     <p class="tePendingBtn rounded-pill text-center mb-0">
@@ -363,12 +363,11 @@
                                     </p>
                                 `;
                             }
-
                             return `
-                                <p class="teDeletedBtn rounded-pill text-center mb-0">
-                                    Inactive
-                                </p>
-                            `;
+                                    <p class="teDraftBtn rounded-pill text-center mb-0">
+                                        Draft
+                                    </p>
+                                `;
                         }
                     }
                 ],

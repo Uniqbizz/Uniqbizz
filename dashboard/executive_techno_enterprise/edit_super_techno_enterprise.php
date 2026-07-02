@@ -44,160 +44,7 @@
         <link rel="stylesheet" href="../assets/css/executive_techno_enterprise.css" />
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <style>
-            /* ======================================
-            FIELD HEADER
-            ====================================== */
-
-            .verify-field{
-                display:flex;
-                align-items:center;
-                gap:6px;
-                margin-bottom:6px;
-                flex-wrap:wrap;
-            }
-
-            .verify-field .col-form-label{
-                margin:0;
-                font-size:13px;
-                font-weight:600;
-                line-height:1.2;
-            }
-
-            /* ======================================
-            TOGGLE WRAPPER
-            ====================================== */
-
-            .verify-toggle{
-                display:inline-flex;
-                align-items:center;
-                padding:2px;
-                background:#f8f9fc;
-                border:1px solid #e5e7eb;
-                border-radius:16px;
-                gap:2px;
-                box-shadow:0 1px 3px rgba(0,0,0,.05);
-            }
-
-            .verify-toggle input{
-                display:none;
-            }
-
-            /* ======================================
-            BUTTONS
-            ====================================== */
-
-            .verify-btn{
-                min-width:58px;
-                height:22px;
-                padding:0 6px;
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                gap:4px;
-                border-radius:14px;
-                cursor:pointer;
-                font-size:9px;
-                font-weight:700;
-                letter-spacing:.3px;
-                color:#6b7280;
-                margin:0;
-                transition:all .2s ease;
-                text-transform:uppercase;
-                user-select:none;
-            }
-
-            .verify-btn i{
-                font-size:9px;
-            }
-
-            /* Status Dot */
-
-            .verify-btn::before{
-                content:'';
-                width:4px;
-                height:4px;
-                border-radius:50%;
-                background:currentColor;
-                opacity:.7;
-            }
-
-            /* ======================================
-            APPROVED
-            ====================================== */
-
-            .verify-toggle input:checked + .approve-btn{
-                background:#22c55e;
-                color:#fff;
-                box-shadow:0 2px 6px rgba(34,197,94,.25);
-            }
-
-            /* ======================================
-            REJECTED
-            ====================================== */
-
-            .verify-toggle input:checked + .reject-btn{
-                background:#ef4444;
-                color:#fff;
-                box-shadow:0 2px 6px rgba(239,68,68,.25);
-            }
-
-            .verify-toggle input:checked + label::before{
-                background:#fff;
-            }
-
-            /* Hover */
-
-            .verify-btn:hover{
-                transform:translateY(-1px);
-            }
-
-            /* ======================================
-            MOBILE RESPONSIVE
-            ====================================== */
-
-            @media (max-width: 768px){
-
-                .verify-field{
-                    gap:4px;
-                    margin-bottom:5px;
-                }
-
-                .verify-field .col-form-label{
-                    font-size:12px;
-                }
-
-                .verify-btn{
-                    min-width:50px;
-                    height:20px;
-                    font-size:8px;
-                    padding:0 5px;
-                }
-
-                .verify-btn i{
-                    font-size:8px;
-                }
-            }
-
-            @media (max-width: 480px){
-
-                .verify-field{
-                    flex-direction:column;
-                    align-items:flex-start;
-                }
-
-                .verify-toggle{
-                    margin-top:2px;
-                }
-
-                .verify-btn{
-                    min-width:46px;
-                    height:18px;
-                    font-size:8px;
-                    padding:0 4px;
-                }
-            }
-        </style>
+        <link rel="stylesheet" href="../assets/css/verification.css"/>
     </head>
     <body>
  
@@ -296,6 +143,8 @@
                                                         <label class="verify-btn approve-btn" for="firstname_approve"> Approved </label>
                                                         <input type="radio" name="verification_status[firstname]" id="firstname_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'firstname', 'rejected'); ?> > 
                                                         <label class="verify-btn reject-btn" for="firstname_reject"> Rejected </label>
+                                                        <input type="radio" name="verification_status[firstname]" id="firstname_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'firstname', 'rejected'); ?> > 
+                                                        <label class="verify-btn pending-btn" for="firstname_pending"> Pending </label>
                                                     </div>
                                                     
                                                 </div>
@@ -312,6 +161,8 @@
                                                         <label class="verify-btn approve-btn" for="lastname_approve"> Approved </label>
                                                         <input type="radio" name="verification_status[lastname]" id="lastname_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'lastname', 'rejected'); ?>>
                                                         <label class="verify-btn reject-btn" for="lastname_reject"> Rejected </label>
+                                                        <input type="radio" name="verification_status[lastname]" id="lastname_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'lastname', 'rejected'); ?>>
+                                                        <label class="verify-btn pending-btn" for="lastname_pending"> Pending </label>
                                                     </div>
                                                     
                                                 </div>
@@ -328,6 +179,8 @@
                                                         <label class="verify-btn approve-btn" for="father_spouse_name_approve"> Approved </label>
                                                         <input type="radio" name="verification_status[father_spouse_name]" id="father_spouse_name_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'father_spouse_name', 'rejected'); ?>>
                                                         <label class="verify-btn reject-btn" for="father_spouse_name_reject"> Rejected </label>
+                                                        <input type="radio" name="verification_status[father_spouse_name]" id="father_spouse_name_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'father_spouse_name', 'rejected'); ?>>
+                                                        <label class="verify-btn pending-btn" for="father_spouse_name_pending"> Pending </label>
                                                     </div>
                                                     
                                                 </div>
@@ -344,6 +197,8 @@
                                                         <label class="verify-btn approve-btn" for="email_approve"> Approved </label>
                                                         <input type="radio" name="verification_status[email]" id="email_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'email', 'rejected'); ?>>
                                                         <label class="verify-btn reject-btn" for="email_reject"> Rejected </label>
+                                                        <input type="radio" name="verification_status[email]" id="email_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'email', 'rejected'); ?>>
+                                                        <label class="verify-btn pending-btn" for="email_pending"> Pending </label>
                                                     </div>
                                                     
                                                 </div>
@@ -360,6 +215,8 @@
                                                         <label class="verify-btn approve-btn" for="dob_approve"> Approved </label>
                                                         <input type="radio" name="verification_status[dob]" id="dob_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'dob', 'rejected'); ?>>
                                                         <label class="verify-btn reject-btn" for="dob_reject"> Rejected </label>
+                                                        <input type="radio" name="verification_status[dob]" id="dob_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'dob', 'rejected'); ?>>
+                                                        <label class="verify-btn pending-btn" for="dob_pending"> Pending </label>
                                                     </div>
                                                     
                                                 </div>
@@ -376,6 +233,8 @@
                                                         <label class="verify-btn approve-btn" for="gender_approve"> Approved </label>
                                                         <input type="radio" name="verification_status[gender]" id="gender_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'gender', 'rejected'); ?>>
                                                         <label class="verify-btn reject-btn" for="gender_reject"> Rejected </label>
+                                                        <input type="radio" name="verification_status[gender]" id="gender_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'gender', 'rejected'); ?>>
+                                                        <label class="verify-btn pending-btn" for="gender_pending"> Pending </label>
                                                     </div>
                                                     
                                                 </div>
@@ -420,6 +279,8 @@
                                                                 <label class="verify-btn approve-btn" for="phone_approve"> Approved </label>
                                                                 <input type="radio" name="verification_status[phone]" id="phone_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'phone', 'rejected'); ?>>
                                                                 <label class="verify-btn reject-btn" for="phone_reject"> Rejected </label>
+                                                                <input type="radio" name="verification_status[phone]" id="phone_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'phone', 'rejected'); ?>>
+                                                                <label class="verify-btn pending-btn" for="phone_pending"> Pending </label>
                                                             </div>
                                                             
                                                         </div>
@@ -462,6 +323,8 @@
                                                                 <label class="verify-btn approve-btn" for="altPhone_approve"> Approved </label>
                                                                 <input type="radio" name="verification_status[altPhone]" id="altPhone_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'altPhone', 'rejected'); ?>>
                                                                 <label class="verify-btn reject-btn" for="altPhone_reject"> Rejected </label>
+                                                                <input type="radio" name="verification_status[altPhone]" id="altPhone_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'altPhone', 'rejected'); ?>>
+                                                                <label class="verify-btn pending-btn" for="altPhone_pending"> Pending </label>
                                                             </div>
                                                             
                                                         </div>
@@ -478,8 +341,8 @@
                                                     <div class="verify-toggle">
                                                         <input type="radio" name="verification_status[aadharNo]" id="aadharNo_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'aadharNo', 'approved'); ?>>
                                                         <label class="verify-btn approve-btn" for="aadharNo_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[aadharNo]" id="aadharNo_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'aadharNo', 'rejected'); ?>>
-                                                        <label class="verify-btn reject-btn" for="aadharNo_reject"> Rejected </label>
+                                                        <input type="radio" name="verification_status[aadharNo]" id="aadharNo_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'aadharNo', 'rejected'); ?>>
+                                                        <label class="verify-btn pending-btn" for="aadharNo_pending"> Pending </label>
                                                     </div>
                                                     
                                                 </div>
@@ -496,6 +359,8 @@
                                                         <label class="verify-btn approve-btn" for="panNo_approve"> Approved </label>
                                                         <input type="radio" name="verification_status[panNo]" id="panNo_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'panNo', 'rejected'); ?>>
                                                         <label class="verify-btn reject-btn" for="panNo_reject"> Rejected </label>
+                                                        <input type="radio" name="verification_status[panNo]" id="panNo_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'panNo', 'rejected'); ?>>
+                                                        <label class="verify-btn pending-btn" for="panNo_pending"> pending </label>
                                                     </div>
                                                     
                                                 </div>
@@ -514,6 +379,8 @@
                                                     <label class="verify-btn approve-btn" for="profile_approve"> Approved </label>
                                                     <input type="radio" name="verification_status[profile]" id="profile_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'profile', 'rejected'); ?> > 
                                                     <label class="verify-btn reject-btn" for="profile_reject"> Rejected </label>
+                                                    <input type="radio" name="verification_status[profile]" id="profile_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'profile', 'rejected'); ?> > 
+                                                    <label class="verify-btn pending-btn" for="profile_pending"> Pending </label>
                                                 </div>
                                                 
                                             </div>
@@ -546,6 +413,8 @@
                                             <label class="verify-btn approve-btn" for="residential_approve"> Approved </label>
                                             <input type="radio" name="verification_status[residential]" id="residential_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'residential', 'rejected'); ?>>
                                             <label class="verify-btn reject-btn" for="residential_reject"> Rejected </label>
+                                            <input type="radio" name="verification_status[residential]" id="residential_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'residential', 'rejected'); ?>>
+                                            <label class="verify-btn pending-btn" for="residential_pending"> Pending </label>
                                         </div>
                                     
                                 </div>
@@ -633,6 +502,8 @@
                                             <label class="verify-btn approve-btn" for="professional_approve"> Approved </label>
                                             <input type="radio" name="verification_status[professional]" id="professional_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'professional', 'rejected'); ?>>
                                             <label class="verify-btn reject-btn" for="professional_reject"> Rejected </label>
+                                            <input type="radio" name="verification_status[professional]" id="professional_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'professional', 'rejected'); ?>>
+                                            <label class="verify-btn pending-btn" for="professional_pending"> Pending </label>
                                         </div>
                                     
                                 </div>
@@ -726,6 +597,8 @@
                                             <label class="verify-btn approve-btn" for="education_approve"> Approved </label>
                                             <input type="radio" name="verification_status[education]" id="education_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'education', 'rejected'); ?>>
                                             <label class="verify-btn reject-btn" for="education_reject"> Rejected </label>
+                                            <input type="radio" name="verification_status[education]" id="education_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'education', 'rejected'); ?>>
+                                            <label class="verify-btn pending-btn" for="education_pending"> Pending </label>
                                         </div>
                                     
                                 </div>
@@ -749,6 +622,8 @@
                                             <label class="verify-btn approve-btn" for="leadership_approve"> Approved </label>
                                             <input type="radio" name="verification_status[leadership]" id="leadership_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'leadership', 'rejected'); ?> >
                                             <label class="verify-btn reject-btn" for="leadership_reject"> Rejected </label>
+                                            <input type="radio" name="verification_status[leadership]" id="leadership_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'leadership', 'rejected'); ?> >
+                                            <label class="verify-btn pending-btn" for="leadership_pending"> Pending </label>
                                         </div>
                                     
                                 </div>
@@ -833,6 +708,8 @@
                                                         <label class="verify-btn approve-btn" for="nominee_name_approve"> Approved </label>
                                                         <input type="radio" name="verification_status[nominee_name]" id="nominee_name_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'educnominee_nameation', 'rejected'); ?> >
                                                         <label class="verify-btn reject-btn" for="nominee_name_reject"> Rejected </label>
+                                                        <input type="radio" name="verification_status[nominee_name]" id="nominee_name_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'educnominee_nameation', 'rejected'); ?> >
+                                                        <label class="verify-btn pending-btn" for="nominee_name_pending"> Pending </label>
                                                     </div>
                                                        
                                                 </div>
@@ -849,6 +726,8 @@
                                                         <label class="verify-btn approve-btn" for="nominee_relation_approve"> Approved </label>
                                                         <input type="radio" name="verification_status[nominee_relation]" id="nominee_relation_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'nominee_relation', 'rejected'); ?> >
                                                         <label class="verify-btn reject-btn" for="nominee_relation_reject"> Rejected </label>
+                                                        <input type="radio" name="verification_status[nominee_relation]" id="nominee_relation_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'nominee_relation', 'rejected'); ?> >
+                                                        <label class="verify-btn pending-btn" for="nominee_relation_pending"> Pending </label>
                                                     </div>
                                                     
                                                 </div>
@@ -889,6 +768,8 @@
                                                                 <label class="verify-btn approve-btn" for="nominee_phone_approve"> Approved </label>
                                                                 <input type="radio" name="verification_status[nominee_phone]" id="nominee_phone_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'nominee_phone', 'rejected'); ?> >
                                                                 <label class="verify-btn reject-btn" for="nominee_phone_reject"> Rejected </label>
+                                                                <input type="radio" name="verification_status[nominee_phone]" id="nominee_phone_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'nominee_phone', 'rejected'); ?> >
+                                                                <label class="verify-btn pending-btn" for="nominee_phone_pending"> Pending </label>
                                                             </div>
                                                             
                                                         </div>
@@ -907,6 +788,8 @@
                                                         <label class="verify-btn approve-btn" for="nominee_dob_approve"> Approved </label>
                                                         <input type="radio" name="verification_status[nominee_dob]" id="nominee_dob_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'nominee_dob', 'rejected'); ?> >
                                                         <label class="verify-btn reject-btn" for="nominee_dob_reject"> Rejected </label>
+                                                        <input type="radio" name="verification_status[nominee_dob]" id="nominee_dob_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'nominee_dob', 'rejected'); ?> >
+                                                        <label class="verify-btn pending-btn" for="nominee_dob_pending"> Pending </label>
                                                     </div>
                                                     
                                                 </div>
@@ -923,6 +806,8 @@
                                                         <label class="verify-btn approve-btn" for="nominee_address_approve"> Approved </label>
                                                         <input type="radio" name="verification_status[nominee_address]" id="nominee_address_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'nominee_address', 'rejected'); ?> >
                                                         <label class="verify-btn reject-btn" for="nominee_address_reject"> Rejected </label>
+                                                        <input type="radio" name="verification_status[nominee_address]" id="nominee_address_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'nominee_address', 'rejected'); ?> >
+                                                        <label class="verify-btn pending-btn" for="nominee_address_pending"> Pending </label>
                                                     </div>
                                                     
                                                 </div>
@@ -941,6 +826,8 @@
                                                     <label class="verify-btn approve-btn" for="nominee_approve"> Approved </label>
                                                     <input type="radio" name="verification_status[nominee]" id="nominee_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'nominee', 'rejected'); ?> > 
                                                     <label class="verify-btn reject-btn" for="nominee_reject"> Rejected </label>
+                                                    <input type="radio" name="verification_status[nominee]" id="nominee_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'nominee', 'rejected'); ?> > 
+                                                    <label class="verify-btn pending-btn" for="nominee_pending"> Pending </label>
                                                 </div>
                                                 
                                             </div>
@@ -978,6 +865,8 @@
                                                 <label class="verify-btn approve-btn" for="account_holder_approve"> Approved </label>
                                                 <input type="radio" name="verification_status[account_holder]" id="account_holder_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'account_holder', 'rejected'); ?>>
                                                 <label class="verify-btn reject-btn" for="account_holder_reject"> Rejected </label>
+                                                <input type="radio" name="verification_status[account_holder]" id="account_holder_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'account_holder', 'rejected'); ?>>
+                                                <label class="verify-btn pending-btn" for="account_holder_pending"> Pending </label>
                                             </div>
                                             
                                         </div>
@@ -994,6 +883,8 @@
                                                 <label class="verify-btn approve-btn" for="bank_name_approve"> Approved </label>
                                                 <input type="radio" name="verification_status[bank_name]" id="bank_name_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'bank_name', 'rejected'); ?> >
                                                 <label class="verify-btn reject-btn" for="bank_name_reject"> Rejected </label>
+                                                <input type="radio" name="verification_status[bank_name]" id="bank_name_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'bank_name', 'rejected'); ?> >
+                                                <label class="verify-btn pending-btn" for="bank_name_pending"> Pending </label>
                                             </div>
                                             
                                         </div>
@@ -1010,6 +901,8 @@
                                                 <label class="verify-btn approve-btn" for="account_number_approve"> Approved </label>
                                                 <input type="radio" name="verification_status[account_number]" id="account_number_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'account_number', 'rejected'); ?>>
                                                 <label class="verify-btn reject-btn" for="account_number_reject"> Rejected </label>
+                                                <input type="radio" name="verification_status[account_number]" id="account_number_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'account_number', 'rejected'); ?>>
+                                                <label class="verify-btn pending-btn" for="account_number_pending"> Pending </label>
                                             </div>
                                             
                                         </div>
@@ -1032,6 +925,8 @@
                                                 <label class="verify-btn approve-btn" for="ifsc_code_approve"> Approved </label>
                                                 <input type="radio" name="verification_status[ifsc_code]" id="ifsc_code_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'ifsc_code', 'rejected'); ?> >
                                                 <label class="verify-btn reject-btn" for="ifsc_code_reject"> Rejected </label>
+                                                <input type="radio" name="verification_status[ifsc_code]" id="ifsc_code_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'ifsc_code', 'rejected'); ?> >
+                                                <label class="verify-btn pending-btn" for="ifsc_code_pending"> Pending </label>
                                             </div>
                                             
                                         </div>
@@ -1048,6 +943,8 @@
                                                 <label class="verify-btn approve-btn" for="branch_name_approve"> Approved </label>
                                                 <input type="radio" name="verification_status[branch_name]" id="branch_name_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'branch_name', 'rejected'); ?> >
                                                 <label class="verify-btn reject-btn" for="branch_name_reject"> Rejected </label>
+                                                <input type="radio" name="verification_status[branch_name]" id="branch_name_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'branch_name', 'rejected'); ?> >
+                                                <label class="verify-btn pending-btn" for="branch_name_pending"> Pending </label>
                                             </div>
                                             
                                         </div>
@@ -1073,6 +970,8 @@
                                                 <label class="verify-btn approve-btn" for="aadhar_approve"> Approved </label>
                                                 <input type="radio" name="verification_status[aadhar]" id="aadhar_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'aadhar', 'rejected'); ?> > 
                                                 <label class="verify-btn reject-btn" for="aadhar_reject"> Rejected </label>
+                                                <input type="radio" name="verification_status[aadhar]" id="aadhar_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'aadhar', 'rejected'); ?> > 
+                                                <label class="verify-btn pending-btn" for="aadhar_pending"> Pending </label>
                                             </div>
                                             
                                         </div>
@@ -1099,6 +998,8 @@
                                                 <label class="verify-btn approve-btn" for="pan_approve"> Approved </label>
                                                 <input type="radio" name="verification_status[pan]" id="pan_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'pan', 'rejected'); ?> > 
                                                 <label class="verify-btn reject-btn" for="pan_reject"> Rejected </label>
+                                                <input type="radio" name="verification_status[pan]" id="pan_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'pan', 'rejected'); ?> > 
+                                                <label class="verify-btn pending-btn" for="pan_pending"> Pending </label>
                                             </div>
                                             
                                         </div>
@@ -1125,6 +1026,8 @@
                                                 <label class="verify-btn approve-btn" for="bank_approve"> Approved </label>
                                                 <input type="radio" name="verification_status[bank]" id="bank_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'bank', 'rejected'); ?> > 
                                                 <label class="verify-btn reject-btn" for="bank_reject"> Rejected </label>
+                                                <input type="radio" name="verification_status[bank]" id="bank_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'bank', 'rejected'); ?> > 
+                                                <label class="verify-btn pending-btn" for="bank_pending"> Pending </label>
                                             </div>
                                             
                                         </div>
@@ -1151,6 +1054,8 @@
                                                 <label class="verify-btn approve-btn" for="resume_approve"> Approved </label>
                                                 <input type="radio" name="verification_status[resume]" id="resume_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'resume', 'rejected'); ?> > 
                                                 <label class="verify-btn reject-btn" for="resume_reject"> Rejected </label>
+                                                <input type="radio" name="verification_status[resume]" id="resume_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'resume', 'rejected'); ?> > 
+                                                <label class="verify-btn pending-btn" for="resume_pending"> Pedning </label>
                                             </div>
                                             
                                         </div>
@@ -1176,6 +1081,8 @@
                                                 <label class="verify-btn approve-btn" for="address_approve"> Approved </label>
                                                 <input type="radio" name="verification_status[address]" id="address_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'address', 'rejected'); ?> > 
                                                 <label class="verify-btn reject-btn" for="address_reject"> Rejected </label>
+                                                <input type="radio" name="verification_status[address]" id="address_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'address', 'rejected'); ?> > 
+                                                <label class="verify-btn pending-btn" for="address_pending"> Pending </label>
                                             </div>
                                             
                                         </div>
@@ -1202,6 +1109,8 @@
                                                 <label class="verify-btn approve-btn" for="profile2_approve"> Approved </label>
                                                 <input type="radio" name="verification_status[profile2]" id="profile2_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'profile2', 'rejected'); ?> > 
                                                 <label class="verify-btn reject-btn" for="profile2_reject"> Rejected </label>
+                                                <input type="radio" name="verification_status[profile2]" id="profile2_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'profile2', 'rejected'); ?> > 
+                                                <label class="verify-btn pending-btn" for="profile2_pending"> Pending </label>
                                             </div>
                                             
                                         </div>
@@ -1227,6 +1136,8 @@
                                                 <label class="verify-btn approve-btn" for="business_approve"> Approved </label>
                                                 <input type="radio" name="verification_status[business]" id="business_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'business', 'rejected'); ?> > 
                                                 <label class="verify-btn reject-btn" for="business_reject"> Rejected </label>
+                                                <input type="radio" name="verification_status[business]" id="business_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'business', 'rejected'); ?> > 
+                                                <label class="verify-btn pending-btn" for="business_pending"> Pending </label>
                                             </div>
                                             
                                         </div>
@@ -1252,6 +1163,8 @@
                                                 <label class="verify-btn approve-btn" for="income_approve"> Approved </label>
                                                 <input type="radio" name="verification_status[income]" id="income_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'income', 'rejected'); ?> > 
                                                 <label class="verify-btn reject-btn" for="income_reject"> Rejected </label>
+                                                <input type="radio" name="verification_status[income]" id="income_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'income', 'rejected'); ?> > 
+                                                <label class="verify-btn pending-btn" for="income_pending"> Pending </label>
                                             </div>
                                             
                                         </div>
@@ -1277,6 +1190,8 @@
                                                 <label class="verify-btn approve-btn" for="other_approve"> Approved </label>
                                                 <input type="radio" name="verification_status[other]" id="other_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'other', 'rejected'); ?> > 
                                                 <label class="verify-btn reject-btn" for="other_reject"> Rejected </label>
+                                                <input type="radio" name="verification_status[other]" id="other_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'other', 'rejected'); ?> > 
+                                                <label class="verify-btn pending-btn" for="other_pending"> Pending </label>
                                             </div>
                                             
                                         </div>
@@ -1786,16 +1701,15 @@
 
                             const field = $radios.first().attr('name').match(/\[(.*?)\]/)[1];
 
-                            // Default to approved if field missing
-                            const status = payload[field] ?? 'approved';
+                            // If payload is empty or field doesn't exist, default to pending
+                            const status = Object.prototype.hasOwnProperty.call(payload, field)
+                                ? payload[field]
+                                : 'pending';
 
-                            // Check selected radio
                             const $selectedRadio = $radios.filter('[value="' + status + '"]');
                             $selectedRadio.prop('checked', true);
 
-                            // Hide unselected radio + label
                             $radios.each(function () {
-
                                 const $radio = $(this);
                                 const $label = $('label[for="' + this.id + '"]');
 
@@ -1803,21 +1717,15 @@
                                     $radio.hide();
                                     $label.hide();
                                 }
-
                             });
 
-                            // Disable remaining radio
                             $radios.prop('disabled', true);
 
-                            // -------------------------
-                            // Tooltip for rejected
-                            // -------------------------
                             if (
                                 status === 'rejected' &&
                                 rejectionReason[field] &&
                                 rejectionReason[field].trim() !== ''
                             ) {
-
                                 const $label = $('label[for="' + $selectedRadio.attr('id') + '"]');
 
                                 $label
@@ -1825,14 +1733,12 @@
                                     .attr('data-bs-toggle', 'tooltip')
                                     .attr('data-bs-placement', 'top');
 
-                                // Prevent duplicate tooltips
                                 const existing = bootstrap.Tooltip.getInstance($label[0]);
                                 if (existing) {
                                     existing.dispose();
                                 }
 
                                 new bootstrap.Tooltip($label[0]);
-
                             }
 
                         });

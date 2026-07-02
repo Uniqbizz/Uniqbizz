@@ -10071,18 +10071,20 @@ $date = date('Y');
                                                             <td><?= $customer_type?></td>
                                                             <td>&#8377;<?= $coupon['coupon_amt']?></td>
                                                             <td><?= date('d-m-Y', strtotime($coupon['created_date'])) ?></td>
-                                                            <td><?= date('d-m-Y', strtotime($coupon['expiry_date'])) ?></td>
+                                                            <td><?php //echo date('d-m-Y', strtotime($coupon['expiry_date'])) ?> NA</td>
                                                             <td>
                                                                 <?php
                                                                     $created_ts = strtotime($coupon['created_date']);
-                                                                    $expiry_ts = strtotime($coupon['expiry_date']);
+                                                                    // $expiry_ts = strtotime($coupon['expiry_date']);
                                                                     $used_ts = isset($coupon['used_date']) ? strtotime($coupon['used_date']) : null;
                                                                     
                                                                     if ($coupon['usage_status'] == 1 && $used_ts) {
                                                                         echo '<span class="badge bg-danger">Used</span> on ' . date('d-m-Y', $used_ts);
-                                                                    } elseif ($expiry_ts < time()) {
-                                                                        echo '<span class="badge bg-secondary">Expired</span> on ' . date('d-m-Y', $expiry_ts);
-                                                                    } else {
+                                                                    } 
+                                                                    // elseif ($expiry_ts < time()) {
+                                                                    //     echo '<span class="badge bg-secondary">Expired</span> on ' . date('d-m-Y', $expiry_ts);
+                                                                    // } 
+                                                                    else {
                                                                         echo '<span class="badge bg-success">Unused</span>';
                                                                     }
                                                                 ?>
@@ -10834,7 +10836,7 @@ $date = date('Y');
             let payment_label = payment_text.includes(":")
                 ? payment_text.split(":")[0].trim()
                 : payment_text;
-            let allowed_labels = ["Prime", "Premium", "Premium Plus"];
+            let allowed_labels = ["Prime", "Premium", "Premium Plus", "Neo Select"];
             let comp_check=$('#comp_chek option:selected').val();
 
             if (!allowed_labels.includes(payment_label)) {
@@ -10912,7 +10914,7 @@ $date = date('Y');
                 data: data,
                 dataType: 'json',
                 success: function (response) {
-                    if (response==1) {
+                    if (response.status==1) {
                         alert('Coupon generated successfully!');
                         location.reload();
                     } else {

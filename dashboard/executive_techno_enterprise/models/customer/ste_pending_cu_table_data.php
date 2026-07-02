@@ -17,7 +17,7 @@
                     cu.lastname,
                     cu.contact_no,
                     cu.email,
-                    cu.register_date,
+                    cu.added_on,
                     cu.status,
 
                     ta.ca_travelagency_id AS ref_id,
@@ -38,7 +38,7 @@
                     ON ca.reference_no = ste.super_techno_enterprise_id
 
                 WHERE ste.reference_no = :user_id
-                AND cu.status = 0
+                AND cu.status IN (0,2,4)
 
                 UNION ALL
 
@@ -49,14 +49,14 @@
                     cu.lastname,
                     cu.contact_no,
                     cu.email,
-                    cu.register_date,
+                    cu.added_on,
                     cu.status,
 
                     ta.institution_branch_manager_id AS ref_id,
                     ta.firstname AS ref_firstname,
                     ta.lastname AS ref_lastname,
 
-                    'F' AS ref_type
+                    'I' AS ref_type
 
                 FROM ca_customer cu
 
@@ -67,7 +67,7 @@
                     ON ta.reference_no = sf.institution_id
 
                 WHERE sf.reference_no = :user_id
-                AND cu.status = 0
+                AND cu.status IN (0,2,4)
 
             ) x
 

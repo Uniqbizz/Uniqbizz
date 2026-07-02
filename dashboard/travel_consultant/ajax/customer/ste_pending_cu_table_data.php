@@ -17,7 +17,7 @@
                     cu.lastname,
                     cu.contact_no,
                     cu.email,
-                    cu.register_date,
+                    cu.added_on,
                     cu.status,
 
                     ta.ca_travelagency_id,
@@ -30,7 +30,7 @@
                     ON cu.ta_reference_no = ta.ca_travelagency_id
 
                 WHERE cu.ta_reference_no = :user_id
-                AND cu.status = 0
+                AND cu.status IN(0,2,4)
 
             ) x
 

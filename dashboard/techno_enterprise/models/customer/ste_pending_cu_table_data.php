@@ -17,7 +17,7 @@
                     cu.lastname,
                     cu.contact_no,
                     cu.email,
-                    cu.register_date,
+                    cu.added_on,
                     cu.status,
 
                     ta.ca_travelagency_id,
@@ -34,8 +34,8 @@
                 INNER JOIN corporate_agency ca
                     ON ta.reference_no = ca.corporate_agency_id
 
-                WHERE ca.reference_no = :user_id
-                AND cu.status = 0
+                WHERE ta.reference_no = :user_id
+                AND cu.status IN(0,2,4)
 
             ) x
 

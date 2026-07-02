@@ -319,7 +319,7 @@
                     },
 
                     {
-                        data: 'register_date',
+                        data: 'added_on',
                         render: function(data){
 
                             if(!data) return '-';
@@ -337,16 +337,7 @@
                         data: 'status',
                         render: function(status){
 
-                            if(status == 1){
-
-                                return `
-                                    <p class="teApprovedBtn rounded-pill text-center mb-0">
-                                        Active
-                                    </p>
-                                `;
-                            }
-
-                            if(status == 3){
+                            if(status == 2){
 
                                 return `
                                     <p class="tePendingBtn rounded-pill text-center mb-0">
@@ -355,11 +346,19 @@
                                 `;
                             }
 
+                            else if(status == 4){
+
+                                return `
+                                    <p class="teDraftBtn rounded-pill text-center mb-0">
+                                        Draft
+                                    </p>
+                                `;
+                            }
                             return `
-                                <p class="teDeletedBtn rounded-pill text-center mb-0">
-                                    Inactive
-                                </p>
-                            `;
+                                    <p class="teDeletedBtn rounded-pill text-center mb-0">
+                                        Deleted
+                                    </p>
+                                `;
                         }
                     }
                 ],

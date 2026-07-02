@@ -374,6 +374,11 @@
                                     </p>
                                 `;
                             }
+                            return `
+                                    <p class="teDeletedBtn rounded-pill text-center mb-0">
+                                        Deleted
+                                    </p>
+                                `;
                         }
                     },
                     {

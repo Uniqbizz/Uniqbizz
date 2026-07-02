@@ -40,6 +40,15 @@
                     cu.register_date,
                     cu.status,
                     cu.paid_amount,
+                    CONCAT(
+                        cu.customer_type,
+                        ' / ',
+                        CASE
+                            WHEN cu.comp_chek = '1' THEN 'Complementary'
+                            WHEN cu.comp_chek = '2' THEN 'Non Complementary'
+                            ELSE '-'
+                        END
+                    ) AS type,
 
                     ta.ca_travelagency_id AS ref_id,
                     ta.firstname AS ref_firstname,
@@ -75,12 +84,21 @@
                     cu.register_date,
                     cu.status,
                     cu.paid_amount AS amount,
+                    CONCAT(
+                        cu.customer_type,
+                        ' / ',
+                        CASE
+                            WHEN cu.comp_chek = '1' THEN 'Complementary'
+                            WHEN cu.comp_chek = '2' THEN 'Non Complementary'
+                            ELSE '-'
+                        END
+                    ) AS type,
 
                     ta.institution_branch_manager_id AS ref_id,
                     ta.firstname AS ref_firstname,
                     ta.lastname AS ref_lastname,
 
-                    'F' AS ref_type
+                    'I' AS ref_type
 
                 FROM ca_customer cu
 

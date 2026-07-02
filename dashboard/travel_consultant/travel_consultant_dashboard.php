@@ -107,7 +107,7 @@
                                                 </div>
                                                 <p class="fs-2 text-dark fw-bolder" id="reg_cu_count">22</p>
                                                 <p class="fw-normal text-black fs-6">Total Active Customers</p>
-                                                <a href="#" class="text-decoration-none text-reset">
+                                                <a href="customers_list.php" class="text-decoration-none text-reset">
                                                     <div class="activationBtn fw-bolder">
                                                         View Customers <i class="fa-solid fa-arrow-right"></i>
                                                     </div>

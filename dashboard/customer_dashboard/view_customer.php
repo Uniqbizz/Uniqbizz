@@ -43,7 +43,8 @@
         <link rel="stylesheet" href="../assets/css/customer_dashboard.css" />
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        
+         <!-- add on 11-06-2026 by SV -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
     </head>
 
     <body>
@@ -207,7 +208,7 @@
                             <div class="col">
 
                                 <div class="h-100">
-                                    <div class="row">
+                                    <!-- <div class="row">
                                         <div class="col-lg-12">
                                             <div class="card">
                                                 <div class="card-header border-bottom-dashed">
@@ -240,9 +241,38 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
+                                    </div> -->
                                     <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="card rounded-4 border-1">
+                                                <div class="card-header border-bottom-dashed rounded-top-4 d-flex gap-3">
+                                                    <div class="tePendingIcon tePendingIcon1">
+                                                        <i class="fa-solid fa-hourglass-half fa-xl"></i>
+                                                    </div>
+                                                    <div class="align-content-end">
+                                                        <h5 class="card-title text-dark mb-0">Pending Customers List</h5>
+                                                        <p class="text-muted fs-6 mb-0">Customers pending for approval</p>
+                                                    </div>
+                                                </div>    
+                                                <div class="card-body">
+                                                    <table id="example-dataTable" class="table table-striped table-bordered dt-responsive nowrap align-middle" style="width:100%">
+                                                        <thead>
+                                                            <tr class="table-primary">
+                                                                <th data-ordering="false">Full Name</th>
+                                                                <th data-ordering="false">Reference ID & Name</th>
+                                                                <th data-ordering="false">Phone & Email</th>
+                                                                <th data-ordering="false">Joining Date</th>
+                                                                <th data-ordering="false">Status</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="cuTableBody">
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="row">
                                         <div class="col-lg-12">
                                             <div class="card">
                                                 <div class="card-header">
@@ -261,6 +291,47 @@
                                                                 <?php if( $userType == "11" || $userType == "10" || $userType == '33'){ ?>
                                                                     <th data-ordering="false">Action</th>
                                                                 <?php } ?>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="card rounded-4 border-1">
+                                                <div class="card-header border-bottom-dashed rounded-top-4">
+                                                    <div class="row">
+                                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-2">
+                                                            <div class="d-flex gap-3">
+                                                                <div class="tePendingIcon tePendingIcon2">
+                                                                    <i class="ri-verified-badge-line" style="font-size: 30px;"></i>
+                                                                </div>
+                                                                <div class="align-content-end">
+                                                                    <h5 class="card-title text-dark mb-0">Registered Customers List</h5>
+                                                                    <p class="text-muted fs-6 mb-0">All approved and active Customers</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <table id="example-dataTable-2" class="table table-striped table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                                        <thead>
+                                                            <tr class="table-primary">
+                                                                <th data-ordering="false">Customer ID & Full Name</th>
+                                                                <th data-ordering="false">TC ID & Name</th>
+                                                                <th data-ordering="false">Phone & Email</th>
+                                                                <th data-ordering="false">Membership Type</th>
+                                                                <th data-ordering="false">Membership (&#8377;)</th>
+                                                                <th data-ordering="false">Joining Date</th>
+                                                                <th data-ordering="false">Status</th>
+                                                                <th data-ordering="false">Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -328,11 +399,16 @@
 
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
+        <!-- add on 11-06-2026 by SV -->
+        <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+         <!-- add on 11-06-2026 by SV END-->
 
         <script>
             $(document).ready(function(){
                 //$("#example-dataTable").DataTable();
-                $("#example-dataTable-2").DataTable();
+                // $("#example-dataTable-2").DataTable();
             });
 
             function editfunc(id,cut,st,ct,editfor){
@@ -399,24 +475,143 @@
                 window.location.href='overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
             }
             //pending cu list
-            $('#example-dataTable').DataTable({
+            // $('#example-dataTable').DataTable({
 
+            //     processing: true,
+
+            //     ajax:{
+            //         url:'customer/pending_cu_list.php',
+            //         dataSrc:'data'
+            //     },
+
+            //     columnDefs:[
+            //         {
+            //             targets:[2,5],
+            //             orderable:false
+            //         }
+            //     ],
+
+            //     language:{
+
+            //         emptyTable: `
+            //             <div class="d-flex justify-content-center">
+            //                 <div>
+            //                     <img src="../assets/images/pendingData.png" alt="Package" class="pendingData img-fluid w-100">
+            //                     <p class="fw-bolder fs-5 text-center mb-1">No pending referrals yet</p>
+            //                     <p class="fw-muted fs-6 text-center">When someone uses your referral link, they'll appear here.</p>
+            //                 </div>
+            //             </div>
+            //         `
+
+            //     }
+
+            // });
+            const cuTable = $('#example-dataTable').DataTable({
+                destroy: true,
+                responsive: true,
                 processing: true,
+                searching: true,
+                paging: true,
+                ordering: false,
+                data: [],
+                columns: [
 
-                ajax:{
-                    url:'customer/pending_cu_list.php',
-                    dataSrc:'data'
-                },
-
-                columnDefs:[
                     {
-                        targets:[2,5],
-                        orderable:false
+                        data: null,
+                        render: function(data){
+
+                            return `
+                                <p class="fs-6 mb-0">
+                                    ${data.firstname || ''} ${data.lastname || ''}
+                                </p>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: null,
+                        render: function(data){
+
+                            return `
+                                <div>
+                                    <p class="fs-6 mb-0">
+                                        ${data.ref_firstname || ''} ${data.ref_lastname || ''}
+                                    </p>
+
+                                    <p class="fs-6 mb-0">
+                                        ${data.ca_travelagency_id || '-'}
+                                    </p>
+                                </div>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: null,
+                        render: function(data){
+
+                            return `
+                                <div>
+                                    <p class="fs-6 mb-0">
+                                        <i class="fa-solid fa-phone me-2"></i>
+                                        ${data.contact_no || '-'}
+                                    </p>
+
+                                    <p class="fs-6 mb-0">
+                                        <i class="fa-regular fa-envelope me-2"></i>
+                                        ${data.email || '-'}
+                                    </p>
+                                </div>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: 'added_on',
+                        render: function(data){
+
+                            if(!data) return '-';
+
+                            return `
+                                <p class="fs-6 mb-0">
+                                    <i class="fa-solid fa-calendar-days me-2"></i>
+                                    ${moment(data).format('DD MMM YYYY')}
+                                </p>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: 'status',
+                        render: function(status){
+                            if(status == 0){
+
+                               return `
+                                    <p class="teDeletedBtn rounded-pill text-center mb-0">
+                                        Deleted
+                                    </p>
+                                `;
+                            }
+
+                            if(status == 2){
+
+                                return `
+                                    <p class="tePendingBtn rounded-pill text-center mb-0">
+                                        Pending
+                                    </p>
+                                `;
+                            }
+                            return `
+                                    <p class="teDraftBtn rounded-pill text-center mb-0">
+                                        Draft
+                                    </p>
+                                `;
+
+                            
+                        }
                     }
                 ],
-
-                language:{
-
+                language: {
                     emptyTable: `
                         <div class="d-flex justify-content-center">
                             <div>
@@ -426,39 +621,252 @@
                             </div>
                         </div>
                     `
-
                 }
-
             });
-            //regiterd cu list
-            const columns = [
-                { orderable:false },
-                { orderable:false },
-                { orderable:false },
-                { orderable:false },
-                { orderable:false },
-                { orderable:false }
-            ];
-            const userType=<?= $userType ?> ;
-            if(userType == '10' || userType == '11' || userType == '33'){
-                columns.push({orderable:false});
+            function loadPendingTEList(){
+
+                $.ajax({
+                    url: 'customer/ste_pending_cu_table_data.php',
+                    type: 'POST',
+                    dataType: 'json',
+
+                    success: function(res){
+
+                        if(!res.status){
+
+                            cuTable.clear().draw();
+                            
+                            return;
+                        }
+
+                        cuTable.clear();
+                        cuTable.rows.add(res.data);
+                        cuTable.draw();
+                        
+                    },
+
+                    error: function(){
+
+                        cuTable.clear().draw();
+                    }
+                });
+
             }
+            //regiterd cu list
+            // const columns = [
+            //     { orderable:false },
+            //     { orderable:false },
+            //     { orderable:false },
+            //     { orderable:false },
+            //     { orderable:false },
+            //     { orderable:false }
+            // ];
+            // const userType=<?= $userType ?> ;
+            // if(userType == '10' || userType == '11' || userType == '33'){
+            //     columns.push({orderable:false});
+            // }
 
-            $('#example-dataTable-2').DataTable({
+            // $('#example-dataTable-2').DataTable({
 
-                destroy:true,
+            //     destroy:true,
 
-                processing:true,
+            //     processing:true,
 
-                ajax:{
-                    url:'customer/registered_cu_list.php',
-                    dataSrc:'data'
-                },
+            //     ajax:{
+            //         url:'customer/registered_cu_list.php',
+            //         dataSrc:'data'
+            //     },
 
-                columns:columns,
+            //     columns:columns,
 
-                language:{
-                    emptyTable:`
+            //     language:{
+            //         emptyTable:`
+            //         <div class="d-flex justify-content-center py-1">
+            //             <div>
+            //                 <img src="../assets/images/registerData.png"
+            //                     class="registerData img-fluid w-100">
+
+            //                 <p class="fw-bolder fs-5 mb-1">
+            //                     No registered referrals yet
+            //                 </p>
+
+            //                 <p class="fw-muted fs-6">
+            //                     Registered referrals will appear here.
+            //                 </p>
+            //             </div>
+            //         </div>`
+            //     }
+
+            // });
+            const cuRegTable = $('#example-dataTable-2').DataTable({
+                responsive: true,
+                ordering: false,
+                searching: true,
+                paging: true,
+                data: [],
+                columns: [
+                    {
+                        data: null,
+                        render: function(data) {
+                            return `
+                                <div>
+                                    <p class="fs-6 mb-0">
+                                        ${data.firstname || ''} ${data.lastname || ''}
+                                    </p>
+                                    <p class="fs-6 mb-0">
+                                        ${data.ca_customer_id || '-'}
+                                    </p>
+                                </div>
+                            `;
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function(data) {
+                            return `
+                                <div>
+                                    <p class="fs-6 mb-0">
+                                        ${data.ref_firstname || '-'}
+                                        </br> 
+                                        ${data.ref_lastname || ''}
+                                    </p>
+                                    <p class="fs-6 mb-0">
+                                        ${data.ca_travelagency_id || '-'}
+                                    </p>
+                                </div>
+                            `;
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function(data) {
+                            return `
+                                <div>
+                                    <p class="fs-6 mb-0">
+                                        <i class="fa-solid fa-phone me-2"></i>
+                                        ${data.contact_no || '-'}
+                                    </p>
+                                    <p class="fs-6 mb-0">
+                                        <i class="fa-regular fa-envelope me-2"></i>
+                                        ${data.email || '-'}
+                                    </p>
+                                </div>
+                            `;
+                        }
+                    },
+                    {
+                        data: 'type',
+                        render: function(data) {
+
+                            if(!data || data == 0) {
+                                return '-';
+                            }
+                            const formattedData = data.replace(/\s*\/\s*/g, "<br>");
+                            return `
+                                <p class="fs-6 mb-0">
+                                    ${formattedData}
+                                </p>
+                            `;
+                        }
+                    },
+                    {
+                        data: 'amount',
+                        render: function(data) {
+
+                            if(!data || data == 0) {
+                                return '-';
+                            }
+
+                            return `
+                                <p class="fs-6 mb-0">
+                                    ₹ ${Number(data).toLocaleString('en-IN', {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2
+                                    })}
+                                </p>
+                            `;
+                        }
+                    },
+                    {
+                        data: 'register_date',
+                        render: function(data) {
+
+                            if(!data) return '-';
+
+                            return `
+                                <p class="fs-6 mb-0">
+                                    <i class="fa-solid fa-calendar-days me-2"></i>
+                                    ${moment(data).format('DD MMM YYYY')}
+                                </p>
+                            `;
+                        }
+                    },
+                    {
+                        data: 'status',
+                        render: function(status) {
+
+                            let badge = 'tePendingBtn';
+                            let text = 'Pending';
+
+                            if(status == 1){
+
+                                badge = 'teActiveBtn';
+                                text = 'Active';
+
+                            }else if(status == 3){
+
+                                badge = 'tePendingBtn';
+                                text = 'Inactive';
+
+                            }else{
+
+                                badge = 'teDeletedBtn';
+                                text = 'NA';
+
+                            }
+
+                            return `
+                                <p class="${badge} rounded-pill text-center mb-0">
+                                    ${text}
+                                </p>
+                            `;
+                        }
+                    },
+                    {
+                        data: 'ca_customer_id',
+                        orderable: false,
+                        searchable: false,
+                        className: 'none',
+                        render: function(data) {
+
+                            return `
+                                <form action="edit_customer.php" method="POST" class="m-0">
+                                    <input
+                                        type="hidden"
+                                        name="vkvbvjfgfikix"
+                                        value="${data}"
+                                    >
+                                    <input
+                                        type="hidden"
+                                        name="editfor"
+                                        value="test"
+                                    >
+
+                                    <button
+                                        type="submit"
+                                        class="border-0 bg-transparent p-0 w-100"
+                                    >
+                                        <p class="teViewBtn text-center fw-bold mb-0">
+                                            <i class="fa-solid fa-eye me-2 mt-1"></i>View
+                                        </p>
+                                    </button>
+                                </form>
+                            `;
+                        }
+                    }
+                ],
+                language: {
+                    emptyTable: `
                     <div class="d-flex justify-content-center py-1">
                         <div>
                             <img src="../assets/images/registerData.png"
@@ -474,8 +882,54 @@
                         </div>
                     </div>`
                 }
-
             });
+
+
+            function loadRegisteredTEList(){
+
+                $.ajax({
+
+                    url: 'customer/ste_registered_cu_list.php',
+
+                    type: 'POST',
+
+                    dataType: 'json',
+
+                    success: function(res){
+
+                        // console.log(res);
+
+                        cuRegTable.clear();
+
+                        if(res.status && res.data.length > 0){
+
+                            cuRegTable.rows.add(res.data);
+                            cuRegTable.on('draw.dt', function () {
+                                $('#rowCount').val(
+                                    cuRegTable.rows({ search: 'applied' }).count()
+                                );
+                            });
+                            // $('#rowCount').val(res.data.length);
+
+                        }
+
+                        cuRegTable.draw();
+
+                    },
+
+                    error: function(xhr){
+
+                        // console.log(xhr.responseText);
+
+                        cuRegTable.clear().draw();
+
+                    }
+
+                });
+
+            }
+            loadRegisteredTEList();
+            loadPendingTEList();
             //cards ajax
             $.ajax({
                 url: 'customer/view_cu_card_data.php',

@@ -229,7 +229,9 @@
         }
 
     ?>
+
     <head>
+        
         <meta charset="utf-8" />
         <title>Edit Chief Techno Enterprise | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -244,10 +246,6 @@
         <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
         <!-- Loading Screen and Images size css  -->
         <link rel="stylesheet" href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
-        <!-- Add Chief Techno css -->
-		<link rel="stylesheet" href="../assets/css/addChiefTechno.css" rel="stylesheet" type="text/css" />
-		<!-- FontAwesome -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- App js -->
         <!-- <script src="../assets/js/plugin.js"></script> -->
 
@@ -411,79 +409,6 @@
 
     </head>
 
-            .verify-toggle input:checked + .approve-btn{
-                background:#22c55e;
-                color:#fff;
-                box-shadow:0 2px 6px rgba(34,197,94,.25);
-            }
-
-            /* ======================================
-            REJECTED
-            ====================================== */
-
-            .verify-toggle input:checked + .reject-btn{
-                background:#ef4444;
-                color:#fff;
-                box-shadow:0 2px 6px rgba(239,68,68,.25);
-            }
-
-            .verify-toggle input:checked + label::before{
-                background:#fff;
-            }
-
-            /* Hover */
-
-            .verify-btn:hover{
-                transform:translateY(-1px);
-            }
-
-            /* ======================================
-            MOBILE RESPONSIVE
-            ====================================== */
-
-            @media (max-width: 768px){
-
-                .verify-field{
-                    gap:4px;
-                    margin-bottom:5px;
-                }
-
-                .verify-field .col-form-label{
-                    font-size:12px;
-                }
-
-                .verify-btn{
-                    min-width:50px;
-                    height:20px;
-                    font-size:8px;
-                    padding:0 5px;
-                }
-
-                .verify-btn i{
-                    font-size:8px;
-                }
-            }
-
-            @media (max-width: 480px){
-
-                .verify-field{
-                    flex-direction:column;
-                    align-items:flex-start;
-                }
-
-                .verify-toggle{
-                    margin-top:2px;
-                }
-
-                .verify-btn{
-                    min-width:46px;
-                    height:18px;
-                    font-size:8px;
-                    padding:0 4px;
-                }
-            }
-        </style>
-    </head>
     <body data-sidebar="dark">
 
         <div id="testemails"></div>
@@ -517,45 +442,21 @@
                             </div>
                         </div>
 
-                        
-						<!-- add customer form start -->
-						<div class="row">
-							<div class="col-lg-12">
-                                <div class="card rounded-4 addCTCard">
-                                    <div class="d-flex gap-3">
-                                        <div class="addCTIconBackground">
-                                            <i class="fa-solid fa-user-group addCTIcon"></i>
-                                        </div>
-                                        <div class="align-content-center">
-                                            <h1 class="fw-bolder text-white">Edit Chief Techno</h1>
-                                            <p class="fs-5 text-white mb-0">Fill in the details below to register a new Chief Techno under your network.</p>
-                                        </div>
-                                    </div>
-                                    <img src="../assets/images/addTechnoFileImage.png" alt="" class="addCTImage">
-                                </div>
-                            </div>
-						</div>
-                        <!-- Card section 1 -->
-						<div class="card rounded-4 p-3 border-1">
-							<div class="row">
-                                <div class="d-flex gap-2">
-                                    <p class="fw-bolder addCTNum">01</p>
-                                    <h4 class="fw-bolder text-dark align-content-center">Personal Information</h4>
-                                </div>
-                                <div class="col-lg-9">
-									<div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="input-block mb-3">
-                                                <div class="verify-field">
-                                                    <label class="col-form-label"> First Name <span class="text-danger">*</span></label>
-                                                    <?php if ($status == 2) { ?>
-                                                    <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[firstname]" id="firstname_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'firstname', 'approved'); ?> > 
-                                                        <label class="verify-btn approve-btn" for="firstname_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[firstname]" id="firstname_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'firstname', 'rejected'); ?> > 
-                                                        <label class="verify-btn reject-btn" for="firstname_reject"> Rejected </label>
+                        <!-- add customer form start -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form>
+                                            <h3>Edit Chief Techno Enterprise</h3>
+                                            <div class="row">
+                                                <!-- Personal Details -->
+
+                                                <!-- <div class="col-md-6 col-sm-6">
+                                                    <div class="input-block mb-3">
+                                                        <label class="col-form-label">Reference Id<span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="user_id_name" placeholder="Enter First Name" value="<?php echo $reference_no; ?>" readonly>
                                                     </div>
-                                                    <?php } ?>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
@@ -578,7 +479,6 @@
                                                         </div>
                                                         <input class="form-control" type="text" id="firstname" value="<?php echo $firstname; ?>">
                                                     </div>
-                                                    <?php } ?>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
@@ -595,7 +495,6 @@
                                                         </div>
                                                         <input class="form-control" type="text" id="lastname" value=" <?php echo $lastname; ?>">
                                                     </div>
-                                                    <?php } ?>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
@@ -612,7 +511,6 @@
                                                         </div>
                                                         <input class="form-control" type="text" id="father_spouse_name" value=" <?php echo $father_spouse_name; ?>">
                                                     </div>
-                                                    <?php } ?>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
@@ -629,7 +527,6 @@
                                                         </div>
                                                         <input class="form-control" type="email" id="email" value="<?php echo $email;?>">
                                                     </div>
-                                                    <?php } ?>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
@@ -646,7 +543,6 @@
                                                         </div>
                                                         <input class="form-control" type="date" id="dob" value="<?php echo $date_of_birth ;?>">
                                                     </div>
-                                                    <?php } ?>
                                                 </div>
                                                 <div class="col-md-6 col-sm-12">
                                                     <div class="form-group">
@@ -749,9 +645,7 @@
                                                                 </div>
                                                                 <input class="form-control" type="text" id="altPhone" value=" <?php echo $alternative_contact_no; ?>">
                                                             </div>
-                                                            <?php } ?>
                                                         </div>
-                                                        <input class="form-control" type="text" id="phone" value=" <?php echo $contact_no; ?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
@@ -801,9 +695,8 @@
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <?php
-                                                            require '../connect.php';
                                                             $stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
-                                                            $stmt->execute();                                            
+                                                            $stmt->execute();                                         
                                                             $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                                         ?>
                                                         <label class="col-form-label">Country <span class="text-danger">*</span></label>
@@ -818,7 +711,7 @@
                                                             <?php 
                                                                 if($stmt->rowCount()>0){
                                                                     foreach (($stmt->fetchAll()) as $key => $row) {  
-                                                                        echo '<option value="'.$row['country_code'].'">+'.$row['country_code'].' ('.$row['sortname'].')</option>'; 
+                                                                        echo '<option value="'.$row['id'].'">'.$row['country_name'].'</option>'; 
                                                                     } 
                                                                 }else{ 
                                                                     echo '<option value="">Country not available</option>'; 
@@ -856,23 +749,12 @@
                                                             <option value="">--Select state first--</option>
                                                         </select>
                                                     </div>
-                                                    <?php } ?>
                                                 </div>
-                                                <input class="form-control" type="text" id="aadharNo" value=" <?php echo $aadhar_no; ?>">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6">
-                                            <div class="input-block mb-3">
-                                                <div class="verify-field">
-                                                    <label class="col-form-label">PAN No<span class="text-danger">*</span></label>
-                                                    <?php if ($status == 2) { ?>
-                                                    <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[panNo]" id="panNo_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'panNo', 'approved'); ?>>
-                                                        <label class="verify-btn approve-btn" for="panNo_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[panNo]" id="panNo_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'panNo', 'rejected'); ?>>
-                                                        <label class="verify-btn reject-btn" for="panNo_reject"> Rejected </label>
+                                                <div class="col-md-6 col-sm-6">  
+                                                    <div class="input-block mb-3">
+                                                        <label class="col-form-label">Pincode<span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="pin" placeholder="Pincode" value="<?php echo $pincode; ?>" readonly >
                                                     </div>
-                                                    <?php } ?>
                                                 </div>
                                                 <div class="col-md-12 col-sm-12">  
                                                     <div class="input-block mb-3">
@@ -898,92 +780,79 @@
                                                         <input class="form-control" type="text" id="occupation" value=" <?php echo $current_occupation; ?>">
                                                     </div>
                                                 </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="input-block mb-3">
+                                                        <label class="col-form-label">Total Experience<span class="text-danger">*</span></label>
+                                                        <input class="form-control" type="text" id="experience" value=" <?php echo $current_experience; ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="input-block mb-3">
+                                                        <label class="col-form-label">Current Annual Income<span class="text-danger">*</span></label>
+                                                        <input class="form-control" type="text" id="annual_income" value=" <?php echo $current_income; ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label">Have You Managed teams Previously <span class="text-danger">*</span></label>
+                                                        <div class="form-control d-flex justify-content-around">
+                                                            <label class="radio-inline mb-0 ms-3"><input type="radio" name="teamManaged" class="teamManaged" id="teamManagedYes" value="yes" <?php if ($managed_team == 'yes'){echo ' checked ';} ?> >&nbsp;&nbsp;&nbsp;Yes</label>
+                                                            <label class="radio-inline mb-0 ms-3"><input type="radio" name="teamManaged" class="teamManaged" id="teamManagedNo" value="no" <?php if ($managed_team == 'no'){echo ' checked ';} ?> >&nbsp;&nbsp;&nbsp;No</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="input-block mb-3">
+                                                        <label class="col-form-label">If Yes, Team size<span class="text-danger">*</span></label>
+                                                        <textarea class="form-control" id="teamSize" rows="4" cols="50"> <?php echo htmlspecialchars($team_description); ?> </textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="input-block mb-3">
+                                                        <label class="col-form-label">
+                                                            Leadership Experience <span class="text-danger">*</span>
+                                                        </label>
 
-                                                <div class="mb-2">
-                                                    <input type="checkbox" id="lead2" name="leadership[]" value="Business Development" <?= in_array('Business Development', $selectedLeadership ?? []) ? 'checked' : '' ?>>
-                                                    <label for="lead2">Business Development</label>
-                                                </div>
+                                                        <div class="row mt-2">
+                                                            <!-- Left Column -->
+                                                            <div class="col-md-4">
+                                                                <div class="mb-2">
+                                                                    <input type="checkbox" id="lead1" name="leadership[]" value="Sales Leadership" <?= in_array('Sales Leadership', $selectedLeadership ?? []) ? 'checked' : '' ?>>
+                                                                    <label for="lead1">Sales Leadership</label>
+                                                                </div>
 
-                                                <div class="mb-2">
-                                                    <input type="checkbox" id="lead3" name="leadership[]" value="Team Management" <?= in_array('Team Management', $selectedLeadership ?? []) ? 'checked' : '' ?>>
-                                                    <label for="lead3">Team Management</label>
-                                                </div>
-                                                <div class="mb-2">
-                                                    <input type="checkbox" id="lead4" name="leadership[]" value="Enterpreneurship" <?= in_array('Enterpreneurship', $selectedLeadership ?? []) ? 'checked' : '' ?>>
-                                                    <label for="lead4">Enterpreneurship</label>
-                                                </div>
+                                                                <div class="mb-2">
+                                                                    <input type="checkbox" id="lead2" name="leadership[]" value="Business Development" <?= in_array('Business Development', $selectedLeadership ?? []) ? 'checked' : '' ?>>
+                                                                    <label for="lead2">Business Development</label>
+                                                                </div>
 
-                                                <div class="mb-2">
-                                                    <input type="checkbox" id="lead5" name="leadership[]" value="Corporate Leader" <?= in_array('Corporate Leader', $selectedLeadership ?? []) ? 'checked' : '' ?>>
-                                                    <label for="lead5">Corporate Leader</label>
-                                                </div>
+                                                                <div class="mb-2">
+                                                                    <input type="checkbox" id="lead3" name="leadership[]" value="Team Management" <?= in_array('Team Management', $selectedLeadership ?? []) ? 'checked' : '' ?>>
+                                                                    <label for="lead3">Team Management</label>
+                                                                </div>
+                                                            </div>
 
-                                                <div class="mb-2">
-                                                    <input type="checkbox" id="lead6" name="leadership[]" value="other" <?= in_array('other', $selectedLeadership ?? []) ? 'checked' : '' ?>>
-                                                    <label for="lead6">Other(Please Specify)</label>
-                                                    <input type="text" name="other_leadership" id="otherLead" class="form-control mt-2" <?php in_array('other', $selectedLeadership ?? []) ? 'style="display:block;' : 'style="display:none;' ?> " value="<?= $leadership_experience_other; ?>">
-                                                </div>
-                                            </div>
-                                            <input type="hidden" name="leadership_json" id="leadership_json">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card section 4 -->
-						<div class="card rounded-4 p-3 border-1">
-							<div class="row">
-                                <div class="d-flex gap-2">
-                                    <p class="fw-bolder addCTNum">04</p>
-                                    <h4 class="fw-bolder text-dark align-content-center">Educational Information</h4>
-                                    <?php if ($status == 2) { ?>
-                                        <div class="verify-toggle">
-                                            <input type="radio" name="verification_status[education]" id="education_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'education', 'approved'); ?>>
-                                            <label class="verify-btn approve-btn" for="education_approve"> Approved </label>
-                                            <input type="radio" name="verification_status[education]" id="education_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'education', 'rejected'); ?>>
-                                            <label class="verify-btn reject-btn" for="education_reject"> Rejected </label>
-                                        </div>
-                                    <?php } ?>
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <label class="col-form-label">Educational Qualification<span class="text-danger">*</span></label>
-                                        <input class="form-control" type="text" id="qualification" value="<?= $educational_qualification; ?>">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card section 5 -->
-						<div class="card rounded-4 p-3 border-1">
-							<div class="row">
-                                <div class="d-flex gap-2">
-                                    <p class="fw-bolder addCTNum">05</p>
-                                    <h4 class="fw-bolder text-dark align-content-center">Leadership Assessment Information</h4>
-                                    <?php if ($status == 2) { ?>
-                                        <div class="verify-toggle">
-                                            <input type="radio" name="verification_status[leadership]" id="leadership_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'leadership', 'approved'); ?> >
-                                            <label class="verify-btn approve-btn" for="leadership_approve"> Approved </label>
-                                            <input type="radio" name="verification_status[leadership]" id="leadership_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'leadership', 'rejected'); ?> >
-                                            <label class="verify-btn reject-btn" for="leadership_reject"> Rejected </label>
-                                        </div>
-                                    <?php } ?>
-                                </div>
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="input-block mb-3">
-                                        <label class="col-form-label">Why You want to become a Chief Techno Enterprise?<span class="text-danger">*</span></label>
-                                        <textarea class="form-control" id="career_objective" rows="4" cols="50"> <?= $career_objective; ?></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-12">
-                                    <div class="input-block mb-3">
-                                        <label class="col-form-label">
-                                            Expected Team Building Capacity(Within 12 Months) <span class="text-danger">*</span>
-                                        </label>
-                                        <div class="row mt-2">
-                                            <div class="col-md-6">
-                                                <div class="mb-2">
-                                                    <input type="radio" id="expected1" name="teamExpected" class="teamExpected" value="5" <?php if ($team_expected == '5'){echo ' checked ';} ?>>
-                                                    <label for="expected1">5 Techno Enterprise</label>
+                                                            <!-- Right Column -->
+                                                            <div class="col-md-8">
+                                                                <div class="mb-2">
+                                                                    <input type="checkbox" id="lead4" name="leadership[]" value="Enterpreneurship" <?= in_array('Enterpreneurship', $selectedLeadership ?? []) ? 'checked' : '' ?>>
+                                                                    <label for="lead4">Enterpreneurship</label>
+                                                                </div>
+
+                                                                <div class="mb-2">
+                                                                    <input type="checkbox" id="lead5" name="leadership[]" value="Corporate Leader" <?= in_array('Corporate Leader', $selectedLeadership ?? []) ? 'checked' : '' ?>>
+                                                                    <label for="lead5">Corporate Leader</label>
+                                                                </div>
+
+                                                                <div class="mb-2">
+                                                                    <input type="checkbox" id="lead6" name="leadership[]" value="other" <?= in_array('other', $selectedLeadership ?? []) ? 'checked' : '' ?>>
+                                                                    <label for="lead6">Other(Please Specify)</label>
+                                                                    <input type="text" name="other_leadership" id="otherLead" class="form-control mt-2" <?php in_array('other', $selectedLeadership ?? []) ? 'style="display:block;' : 'style="display:none;' ?> " value="<?= $leadership_experience_other; ?>">
+                                                                </div>
+                                                            </div>
+                                                            <input type="hidden" name="leadership_json" id="leadership_json">
+                                                        </div>
+                                                    </div>
                                                 </div>
 
                                                 <div class="verify-field">
@@ -1020,46 +889,69 @@
                                                         <label class="col-form-label">Why You want to become a Chief Techno Enterprise?<span class="text-danger">*</span></label>
                                                         <textarea class="form-control" id="career_objective" rows="4" cols="50"> <?= $career_objective; ?></textarea>
                                                     </div>
-                                                    <?php } ?>   
                                                 </div>
-                                                <input class="form-control" type="text" id="nomineeName" value="<?= $nominee_name; ?>" >
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6">
-                                            <div class="input-block mb-3">
-                                                <div class="verify-field">
-                                                    <label class="col-form-label">Nominee Relation<span class="text-danger">*</span></label>
-                                                    <?php if ($status == 2) { ?>
-                                                    <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[nominee_relation]" id="nominee_relation_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'nominee_relation', 'approved'); ?> >
-                                                        <label class="verify-btn approve-btn" for="nominee_relation_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[nominee_relation]" id="nominee_relation_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'nominee_relation', 'rejected'); ?> >
-                                                        <label class="verify-btn reject-btn" for="nominee_relation_reject"> Rejected </label>
+                                                <div class="col-md-4 col-sm-6">
+                                                    <div class="input-block mb-3">
+                                                        <label class="col-form-label">
+                                                            Expected Team Building Capacity(Within 12 Months) <span class="text-danger">*</span>
+                                                        </label>
+                                                        
+                                                        <div class="row mt-2">
+                                                            <div class="col-md-6">
+                                                                <div class="mb-2">
+                                                                    <input type="radio" id="expected1" name="teamExpected" class="teamExpected" value="5" <?php if ($team_expected == '5'){echo ' checked ';} ?>>
+                                                                    <label for="expected1">5 Techno Enterprise</label>
+                                                                </div>
+
+                                                                <div class="mb-2">
+                                                                    <input type="radio" id="expected2" name="teamExpected" class="teamExpected" value="10" <?php if ($team_expected == '10'){echo ' checked ';} ?>>
+                                                                    <label for="expected2">10 Techno Enterprise</label>
+                                                                </div>
+
+                                                                <div class="mb-2">
+                                                                    <input type="radio" id="expected3" name="teamExpected" class="teamExpected" value="15" <?php if ($team_expected == '15'){echo ' checked ';} ?>>
+                                                                    <label for="expected3">15 Techno Enterprise</label>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <!-- Right Column -->
+                                                            <div class="col-md-6">
+                                                                <div class="mb-2">
+                                                                    <input type="radio" id="expected4" name="teamExpected" class="teamExpected" value="25+" <?php if ($team_expected == '25+'){echo ' checked ';} ?>>
+                                                                    <label for="expected4">25+ Techno Enterprise</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <?php } ?>
                                                 </div>
-                                                <input class="form-control" type="text" id="nomineeRelation" value="<?= $nominee_relation; ?>" >
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-12 mb-3">
-                                            <div class="row">
-                                                <div class="col-md-4 col-sm-4 col-3">
-                                                    <div class="input-block">
-                                                        <?php
-                                                        require '../connect.php';
-                                                        $stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
-                                                        $stmt->execute();
-                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                                        ?>
-                                                        <label for="countryCdNominee" class="col-form-label">Code:</label>
-                                                        <select class="form-control" id="countryCdNominee">
+                                                <div class="col-md-4 col-sm-6">
+                                                    <div class="input-block mb-3">
+                                                        <label class="col-form-label">Preferred Operating Region <span class="text-danger">*</span></label>
+                                                        <select class="form-select" id="OperatingState">
+                                                            <?php   
+                                                                if($operating_region == ''){
+                                                                    echo '<option value=""> Operating Region Not Selected </option>';
+                                                                }else{
+                                                                    echo '<option value=" '.$operating_region.' "> '.$statenameLeader. ' (Already Selected) </option>';
+                                                                }
+                                                                
+                                                            ?>
+                                                            <option value=""> ---- Select State ---- </option>
                                                             <?php
+                                                            require '../connect.php';
+                                                            $sql = "SELECT * FROM `states` WHERE status ='1' ";
+                                                            $stmt = $conn->prepare($sql);
+                                                            $stmt->execute();
+                                                            $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                                             if ($stmt->rowCount() > 0) {
                                                                 foreach (($stmt->fetchAll()) as $key => $row) {
-                                                                    echo '<option value="' . $row['country_code'] . '">+' . $row['country_code'] . ' (' . $row['sortname'] . ')</option>';
+                                                                    echo '
+                                                                                <option value="' . $row['id'] . '">' . $row['state_name'] . '</option>
+                                                                            ';
                                                                 }
                                                             } else {
-                                                                echo '<option value="">Country not available</option>';
+                                                                echo '<option value="">Department not available</option>';
                                                             }
                                                             ?>
                                                         </select>
@@ -1138,9 +1030,7 @@
                                                                 </div>
                                                                 <input class="form-control" type="number" id="nomineePhone" placeholder="Enter Nominee Phone Number" value="<?= $nominee_contact_no; ?>" >
                                                             </div>
-                                                            <?php } ?>
                                                         </div>
-                                                        <input class="form-control" type="number" id="nomineePhone" placeholder="Enter Nominee Phone Number" value="<?= $nominee_contact_no; ?>" >
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
@@ -1230,7 +1120,6 @@
                                                         <label class="col-form-label">Confirm Account Number<span class="text-danger">*</span></label>
                                                         <input class="form-control" type="text" id="confirmAccountNumber" value="<?= $account_number;  ?>" >
                                                     </div>
-                                                    <?php } ?>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
@@ -1247,7 +1136,6 @@
                                                         </div>
                                                         <input class="form-control" type="text" id="ifscCode" value="<?= $ifsc_code;  ?>" >
                                                     </div>
-                                                    <?php } ?>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
@@ -1265,367 +1153,9 @@
                                                         <input class="form-control" type="text" id="branchName" value="<?= $branch_name;  ?>" >
                                                     </div>
                                                 </div>
-                                                <?php } ?>
-                                            </div>
-											<div class="upload-card" data-title="Nominee Profile Photo">
-												<input type="file" class="file-input" accept="image/*,.pdf">
-												<div class="upload-content">
-													<div class="upload-icon">
-														<i class="fa-solid fa-user"></i>
-													</div>
-													<h6>Nominee Profile Photo</h6>
-													<p>Click to upload<br>or drag and drop</p>
-													<small>(JPG, PNG, PDF)</small>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-                            </div>
-                        </div>
-                        <!-- Card section 7 -->
-						<div class="card rounded-4 p-3 border-1">
-							<div class="row">
-                                <div class="d-flex gap-2">
-                                    <p class="fw-bolder addCTNum">07</p>
-                                    <h4 class="fw-bolder text-dark align-content-center">Bank Details</h4>
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <div class="verify-field">
-                                            <label class="col-form-label">Account Holder Name<span class="text-danger">*</span></label>
-                                            <?php if ($status == 2) { ?>
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[account_holder]" id="account_holder_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'account_holder', 'approved'); ?> >
-                                                <label class="verify-btn approve-btn" for="account_holder_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[account_holder]" id="account_holder_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'account_holder', 'rejected'); ?>>
-                                                <label class="verify-btn reject-btn" for="account_holder_reject"> Rejected </label>
-                                            </div>
-                                            <?php } ?>
-                                        </div>
-                                        <input class="form-control" type="text" id="accHolderName" value="<?= $account_holder_name;  ?>" >
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <div class="verify-field">
-                                            <label class="col-form-label">Bank Name<span class="text-danger">*</span></label>
-                                            <?php if ($status == 2) { ?>
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[bank_name]" id="bank_name_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'bank_name', 'approved'); ?> >
-                                                <label class="verify-btn approve-btn" for="bank_name_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[bank_name]" id="bank_name_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'bank_name', 'rejected'); ?> >
-                                                <label class="verify-btn reject-btn" for="bank_name_reject"> Rejected </label>
-                                            </div>
-                                            <?php } ?>
-                                        </div>
-                                        <input class="form-control" type="text" id="bankName" value="<?= $bank_name;  ?>" >
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <div class="verify-field">
-                                            <label class="col-form-label">Account Number<span class="text-danger">*</span></label>
-                                            <?php if ($status == 2) { ?>
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[account_number]" id="account_number_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'account_number', 'approved'); ?>>
-                                                <label class="verify-btn approve-btn" for="account_number_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[account_number]" id="account_number_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'account_number', 'rejected'); ?>>
-                                                <label class="verify-btn reject-btn" for="account_number_reject"> Rejected </label>
-                                            </div>
-                                            <?php } ?>
-                                        </div>
-                                        <input class="form-control" type="text" id="accountNumber" value="<?= $account_number;  ?>" >
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <label class="col-form-label">Confirm Account Number<span class="text-danger">*</span></label>
-                                        <input class="form-control" type="text" id="confirmAccountNumber" value="<?= $account_number;  ?>" >
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <div class="verify-field">
-                                            <label class="col-form-label">IFSC Code<span class="text-danger">*</span></label>
-                                            <?php if ($status == 2) { ?>
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[ifsc_code]" id="ifsc_code_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'ifsc_code', 'approved'); ?> >
-                                                <label class="verify-btn approve-btn" for="ifsc_code_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[ifsc_code]" id="ifsc_code_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'ifsc_code', 'rejected'); ?> >
-                                                <label class="verify-btn reject-btn" for="ifsc_code_reject"> Rejected </label>
-                                            </div>
-                                            <?php } ?>
-                                        </div>
-                                        <input class="form-control" type="text" id="ifscCode" value="<?= $ifsc_code;  ?>" >
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <div class="verify-field">
-                                            <label class="col-form-label">Branch Name<span class="text-danger">*</span></label>
-                                            <?php if ($status == 2) { ?>
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[branch_name]" id="branch_name_approve" class="approve_reason" value="approved" <?= isChecked($verificationPayload, 'branch_name', 'approved'); ?> >
-                                                <label class="verify-btn approve-btn" for="branch_name_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[branch_name]" id="branch_name_reject" class="reject_reason" value="rejected" <?= isChecked($verificationPayload, 'branch_name', 'rejected'); ?> >
-                                                <label class="verify-btn reject-btn" for="branch_name_reject"> Rejected </label>
-                                            </div>
-                                            <?php } ?>
-                                        </div>
-                                        <input class="form-control" type="text" id="branchName" value="<?= $branch_name;  ?>" >
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card section 8 -->
-						<div class="card rounded-4 p-3 border-1">
-							<div class="row">
-                                <div class="d-flex gap-2">
-                                    <p class="fw-bolder addTENum">08</p>
-                                    <h4 class="fw-bolder text-dark align-content-center">Upload Documents</h4>
-                                </div>
-								<div class="row g-3">
-									<!-- Aadhaar -->
-									<div class="col-lg-4 col-md-4 col-12">
-                                        <div class="verify-field">
-                                            <?php if ($status == 2) { ?>
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[aadhar]" id="aadhar_approve" class="approve_reason" value="approved" <?php  isChecked($verificationPayload, 'aadhar', 'approved'); ?> > 
-                                                <label class="verify-btn approve-btn" for="aadhar_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[aadhar]" id="aadhar_reject" class="reject_reason" value="rejected" <?php  isChecked($verificationPayload, 'aadhar', 'rejected'); ?> > 
-                                                <label class="verify-btn reject-btn" for="aadhar_reject"> Rejected </label>
-                                            </div>
-                                            <?php } ?>
-                                        </div>
-										<div class="upload-card" data-title="Aadhaar Card">
-											<input type="file" class="file-input" accept="image/*,.pdf">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-regular fa-id-card"></i>
-												</div>
-												<h6>Aadhaar Card</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-
-									<!-- PAN -->
-									<div class="col-lg-4 col-md-4 col-12">
-                                        <div class="verify-field">
-                                            <?php if ($status == 2) { ?>
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[pan]" id="pan_approve" class="approve_reason" value="approved" <?php  isChecked($verificationPayload, 'pan', 'approved'); ?> > 
-                                                <label class="verify-btn approve-btn" for="pan_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[pan]" id="pan_reject" class="reject_reason" value="rejected" <?php  isChecked($verificationPayload, 'pan', 'rejected'); ?> > 
-                                                <label class="verify-btn reject-btn" for="pan_reject"> Rejected </label>
-                                            </div>
-                                            <?php } ?>
-                                        </div>
-										<div class="upload-card" data-title="PAN Card">
-											<input type="file" class="file-input" accept="image/*,.pdf">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-regular fa-credit-card"></i>
-												</div>
-												<h6>PAN Card</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-
-									<!-- Bank Passbook -->
-									<div class="col-lg-4 col-md-4 col-12">
-                                        <div class="verify-field">
-                                            <?php if ($status == 2) { ?>
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[bank]" id="bank_approve" class="approve_reason" value="approved" <?php  isChecked($verificationPayload, 'bank', 'approved'); ?> > 
-                                                <label class="verify-btn approve-btn" for="bank_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[bank]" id="bank_reject" class="reject_reason" value="rejected" <?php  isChecked($verificationPayload, 'bank', 'rejected'); ?> > 
-                                                <label class="verify-btn reject-btn" for="bank_reject"> Rejected </label>
-                                            </div>
-                                            <?php } ?>
-                                        </div>
-										<div class="upload-card" data-title="Bank Passbook">
-											<input type="file" class="file-input" accept="image/*,.pdf">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-solid fa-building-columns"></i>
-												</div>
-												<h6>Cancelled Cheque / Bank Passbook</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-
-									<!-- Resume -->
-									<div class="col-lg-4 col-md-4 col-12">
-                                        <div class="verify-field">
-                                            <?php if ($status == 2) { ?>
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[resume]" id="resume_approve" class="approve_reason" value="approved" <?php  isChecked($verificationPayload, 'resume', 'approved'); ?> > 
-                                                <label class="verify-btn approve-btn" for="resume_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[resume]" id="resume_reject" class="reject_reason" value="rejected" <?php  isChecked($verificationPayload, 'resume', 'rejected'); ?> > 
-                                                <label class="verify-btn reject-btn" for="resume_reject"> Rejected </label>
-                                            </div>
-                                            <?php } ?>
-                                        </div>
-										<div class="upload-card" data-title="Resume / CV">
-											<input type="file" class="file-input" accept="image/*,.pdf">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-regular fa-address-card"></i>
-												</div>
-												<h6>Resume / CV</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-									<!-- Address Proof -->
-									<div class="col-lg-4 col-md-4 col-12">
-                                        <div class="verify-field">
-                                            <?php if ($status == 2) { ?>
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[address]" id="address_approve" class="approve_reason" value="approved" <?php  isChecked($verificationPayload, 'address', 'approved'); ?> > 
-                                                <label class="verify-btn approve-btn" for="address_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[address]" id="address_reject" class="reject_reason" value="rejected" <?php  isChecked($verificationPayload, 'address', 'rejected'); ?> > 
-                                                <label class="verify-btn reject-btn" for="address_reject"> Rejected </label>
-                                            </div>
-                                            <?php } ?>
-                                        </div>
-										<div class="upload-card" data-title="Address Proof">
-											<input type="file" class="file-input" accept="image/*,.pdf">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-regular fa-address-card"></i>
-												</div>
-												<h6>Address Proof</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-
-									<!-- Professional Profile -->
-									<div class="col-lg-4 col-md-4 col-12">
-                                        <div class="verify-field">
-                                            <?php if ($status == 2) { ?>
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[profile2]" id="profile2_approve" class="approve_reason" value="approved" <?php  isChecked($verificationPayload, 'profile2', 'approved'); ?> > 
-                                                <label class="verify-btn approve-btn" for="profile2_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[profile2]" id="profile2_reject" class="reject_reason" value="rejected" <?php  isChecked($verificationPayload, 'profile2', 'rejected'); ?> > 
-                                                <label class="verify-btn reject-btn" for="profile2_reject"> Rejected </label>
-                                            </div>
-                                            <?php } ?>
-                                        </div>
-										<div class="upload-card" data-title="Professional Profile">
-											<input type="file" class="file-input" accept="image/*,.pdf">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-solid fa-file-invoice"></i>
-												</div>
-												<h6>Professional Profile</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-									<!-- Business Profile -->
-									<div class="col-lg-4 col-md-4 col-12">
-                                        <div class="verify-field">
-                                            <?php if ($status == 2) { ?>
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[business]" id="business_approve" class="approve_reason" value="approved" <?php  isChecked($verificationPayload, 'business', 'approved'); ?> > 
-                                                <label class="verify-btn approve-btn" for="business_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[business]" id="business_reject" class="reject_reason" value="rejected" <?php  isChecked($verificationPayload, 'business', 'rejected'); ?> > 
-                                                <label class="verify-btn reject-btn" for="business_reject"> Rejected </label>
-                                            </div>
-                                            <?php } ?>
-                                        </div>
-										<div class="upload-card" data-title="Business Profile">
-											<input type="file" class="file-input" accept="image/*,.pdf">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-solid fa-file-invoice"></i>
-												</div>
-												<h6>Business Profile</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-									<!-- Income Proof -->
-									<div class="col-lg-4 col-md-4 col-12">
-                                        <div class="verify-field">
-                                            <?php if ($status == 2) { ?>
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[income]" id="income_approve" class="approve_reason" value="approved" <?php  isChecked($verificationPayload, 'income', 'approved'); ?> > 
-                                                <label class="verify-btn approve-btn" for="income_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[income]" id="income_reject" class="reject_reason" value="rejected" <?php  isChecked($verificationPayload, 'income', 'rejected'); ?> > 
-                                                <label class="verify-btn reject-btn" for="income_reject"> Rejected </label>
-                                            </div>
-                                            <?php } ?>
-                                        </div>
-										<div class="upload-card" data-title="Income Proof">
-											<input type="file" class="file-input" accept="image/*,.pdf">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-solid fa-file-invoice"></i>
-												</div>
-												<h6>Income Proof</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-									<!-- Other Document -->
-									<div class="col-lg-4 col-md-4 col-12">
-                                        <div class="verify-field">
-                                            <?php if ($status == 2) { ?>
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[other]" id="other_approve" class="approve_reason" value="approved" <?php  isChecked($verificationPayload, 'other', 'approved'); ?> > 
-                                                <label class="verify-btn approve-btn" for="other_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[other]" id="other_reject" class="reject_reason" value="rejected" <?php  isChecked($verificationPayload, 'other', 'rejected'); ?> > 
-                                                <label class="verify-btn reject-btn" for="other_reject"> Rejected </label>
-                                            </div>
-                                            <?php } ?>
-                                        </div>
-										<div class="upload-card" data-title="Other Document">
-											<input type="file" class="file-input" accept="image/*,.pdf">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-solid fa-file-invoice"></i>
-												</div>
-												<h6>Other Document</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-								</div>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-center mb-4">
-							<div class="col-lg-12">
-                                <div class="d-flex justify-content-end gap-4 submitBtnBackground">
-                                    <!-- <button class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="saveDraftAdd">Save as Draft</button> -->
-                                    <button class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="editChiefTechnoEnterprise">Submit</button>
-                                </div>
-                            </div>
-						</div>
-                        <!-- <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <form> -->
-                                            <!-- <h3>Edit Chief Techno Enterprise</h3> -->
 
                                                 <!-- Attachments -->
-                                                <!-- <h4 class="my-2">Attachments</h4>
+                                                <h4 class="my-2">Attachments</h4>
                                                 <div class="col-md-6 col-sm-6">  
                                                     <div class="input-block mb-3">
                                                         <div class="verify-field">
@@ -2060,7 +1590,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> -->
+                        </div>
 
                     </div>
                 <!-- container-fluid -->

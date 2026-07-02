@@ -13,7 +13,7 @@
                 ca.lastname,
                 ca.contact_no,
                 ca.email,
-                ca.added_on,
+                ca.added_on AS register_date,
                 ca.status,
                 ca.user_type,
                 'STE' AS userTypeStr,
