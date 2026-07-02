@@ -401,12 +401,6 @@
                                             <label for="payment_fee" class="col-form-label">Payment Fee<span class="text-danger">*</span></label>
                                             <select class="form-select" id="payment_fee" aria-label="Floating label select example">
                                                 <option value="null">--Select Payment Fee--</option>
-                                                <!-- <option value="FOC" selected>Free</option>
-                                                <option value="10000">Prime: <span>&#8377 </span>10,000/-</option>
-                                                <option value="30000">Premium: <span>&#8377 </span>30,000/-</option>
-                                                <option value="35000">Premium Plus: <span>&#8377 </span>35,000/-</option>
-                                                <option value="35000">Premium Select: <span>&#8377 </span>35,000/-</option>
-                                                <option value="21000">Premium Select Lite: <span>&#8377 </span>21,000/-</option> -->
                                                 <option value="11000">Neo Select: <span>&#8377 </span>11,000/-</option>
                                             </select>
                                         </div>
@@ -467,7 +461,6 @@
                                     <!-- Profile -->
                                     <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                         <div class="upload-card" data-title="Profile Photo" data-index="1">
-                                            <input type="hidden" id="img_path1" value="">
                                             <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file1">
                                             <div class="upload-content">
                                                 <div class="upload-icon">
@@ -482,7 +475,6 @@
 									<!-- Aadhaar -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
 										<div class="upload-card" data-title="Aadhaar Card" data-index="2">
-											<input type="hidden" id="img_path2" value="">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file2">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -497,7 +489,6 @@
                                     <!-- PAN -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
 										<div class="upload-card" data-title="PAN Card" data-index="3">
-											<input type="hidden" id="img_path3" value="">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file3">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -512,7 +503,6 @@
 									<!-- Bank Passbook -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
 										<div class="upload-card" data-title="Bank Passbook" data-index="4">
-											<input type="hidden" id="img_path4" value="">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file4">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -526,9 +516,8 @@
 									</div>
 									<!-- Voting Card -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
-										<div class="upload-card" data-title="Voting Card" data-index="4">
-											<input type="hidden" id="img_path4" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file5">
+										<div class="upload-card" data-title="Voting Card" data-index="11">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file11">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-building-columns"></i>
@@ -541,9 +530,8 @@
 									</div>
 									<!-- Payment Proof -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12 d-none" id="payProof">
-										<div class="upload-card" data-title="Payment Proof" data-index="4">
-											<input type="hidden" id="img_path4" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file5">
+										<div class="upload-card" data-title="Payment Proof" data-index="12">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file12">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-building-columns"></i>
@@ -601,11 +589,6 @@
         <script src="../assets/libs/feather-icons/feather.min.js"></script>
         <script src="../assets/js/jquery/jquery-3.7.1.min.js"></script>
 
-        <script src="../assets/js/submitdata.js"></script>
-
-        <!-- file upload code js file -->
-        <script src="../../uploading/uploadUser.js"></script>
-
         <!-- !-- materialdesign icon js- -->
         <script src="../assets/js/pages/remix-icons-listing.js"></script>
         
@@ -629,172 +612,9 @@
 
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
-
-        <script>
-            // fetch User based on selected designation
-            $('#user_id_name').on('change', function() {
-                var user_id_name = $(this).val();
-
-                var designation = 'CA_Travel_Agent';
-
-                $.ajax({
-                    type: 'POST',
-                    url: '../agents/getUsers.php',
-                    data: 'user_id_name=' + user_id_name + '&designation=' + designation,
-                    success: function(response) {
-                        $('#reference_name').val(response);
-                    }
-                });
-
-            });
-
-            $('#country').on('change', function() {
-                var countryID = $(this).val();
-                if (countryID) {
-                    $.ajax({
-                        type: 'POST',
-                        url: '../address/countrydata.php',
-                        data: 'country_id=' + countryID,
-                        success: function(htmll) {
-                            $('#mystate').html(htmll);
-                            $('#city').html('<option value="">Select state first</option>');
-                        }
-                    });
-                } else {
-                    $('#mystate').html('<option value="">Select country first</option>');
-                    $('#city').html('<option value="">Select state first</option>');
-                    $('#pin').val('');
-                }
-            });
-
-            $('#mystate').on('change', function() {
-                var stateID = $(this).val();
-                if (stateID) {
-                    $.ajax({
-                        type: 'POST',
-                        url: '../address/countrydata.php',
-                        data: 'state_id=' + stateID,
-                        success: function(html) {
-                            $('#city').html(html);
-                        }
-                    });
-                } else {
-                    $('#city').html('<option value="">Select state first</option>');
-                    $('#pin').val('');
-                }
-                //coupon applicable logic for goa
-                
-            });
-
-            function toggleDiv(show) {
-                document.getElementById("paymentMode").classList.toggle("d-none", !show);
-                document.getElementById("payOpt").classList.toggle("d-none", !show);
-                document.getElementById("payProof").classList.toggle("d-none", !show);
-                let paymentFee = document.getElementById("payment_fee");
-                paymentFee.value = show ? "10000" : "FOC";
-
-            }
-            //payment type
-            $('#payment_fee').on('change', function() {
-                var payval=$(this).val();
-                if (payval != 'FOC') {
-                    $('#paymentMode').removeClass('d-none');
-                    $('#payProof').removeClass('d-none');
-                    $('#payOpt').removeClass('d-none');
-                }else{
-                    $('#paymentMode').addClass('d-none');
-                    $('#payProof').addClass('d-none');
-                    $('#payOpt').addClass('d-none');
-                }
-            });
-            // payment mode
-            $('#paymentMode').on('click', function() {
-                var paymentMode = $(".payment:checked").val();
-                if (paymentMode == "cheque") {
-                    $("#chequeOpt").removeClass("d-none");
-                    $("#onlineOpt").addClass("d-none");
-                    $("#transactionNo").val("");
-                } else if (paymentMode == "online") {
-                    $("#onlineOpt").removeClass("d-none");
-                    $("#chequeOpt").addClass("d-none");
-                    $("#chequeNo").val("");
-                    $("#chequeDate").val("");
-                    $("#bankName").val("");
-                } else {
-                    $("#chequeOpt").addClass("d-none");
-                    $("#onlineOpt").addClass("d-none");
-                    $("#chequeNo").val("");
-                    $("#chequeDate").val("");
-                    $("#bankName").val("");
-                    $("#transactionNo").val("");
-                }
-            });
-
-            $('#city').on('change', function() {
-                var cityID = $(this).val();
-                if (cityID) {
-                    $.ajax({
-                        type: 'POST',
-                        url: 'address/pincode.php',
-                        data: 'city_id=' + cityID,
-                        success: function(response) {
-                            $('#pin').val(response);
-                        }
-                    });
-                } else {
-                    $('#city').html('<option value="">Select state first</option>');
-                    $('#pin').val('');
-                }
-            });
-        </script>
-        <!-- dialer logic scripts -->
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-
-                const callBtn = document.getElementById("callBtn");
-
-                if (callBtn) {
-                    callBtn.addEventListener("click", function(e) {
-
-                        let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-                        if (!isMobile) {
-                            e.preventDefault();
-
-                            alert("📞 Calling works only on mobile devices.\nPlease dial 8010892265 from your phone.");
-                            location.reload();
-
-                            // Optional clipboard copy (safe fallback)
-                            if (navigator.clipboard) {
-                                navigator.clipboard.writeText("8010892265");
-                            }
-                        }
-                    });
-                }
-
-            });
-        </script>
-
-        <script>
-            var modal = document.getElementById('staticBackdrop');
-
-            // Store the element that opened the modal
-            let lastFocusedElement;
-
-            document.addEventListener('click', function(e) {
-                if (e.target.closest('[data-bs-toggle="modal"]')) {
-                    lastFocusedElement = e.target;
-                }
-            });
-
-            modal.addEventListener('hidden.bs.modal', function () {
-                if (lastFocusedElement) {
-                    lastFocusedElement.focus();
-                } else {
-                    document.body.focus();
-                }
-            });
-        </script>
+        <script src="../../uploading/uploadTechnoDashboard.js"></script>
+        <script src="js/customer.js"></script>
         <!-- end dialer logic scripts -->
+
     </body>
 </html>

@@ -3,8 +3,8 @@
 require '../../../connect.php';
 $current_year = date('Y');
 
-$cu_ref_id = $_POST['cu_ref_id'];
-$cu_ref_name = $_POST['cu_ref_name'];
+$cu_ref_id = $_POST['cu_ref_id']??'';
+$cu_ref_name = $_POST['cu_ref_name']??'';
 $user_id_name = $_POST['user_id_name'];
 $registrant = $_POST['reference_name'];
 $firstname = $_POST['firstname'];
