@@ -6,7 +6,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title>Customers List | Customer</title>
+        <title>Travel Consultants List </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -38,13 +38,14 @@
         <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css" />
         
         <!-- Customer Dashboard CSS -->
-        <link rel="stylesheet" href="../assets/css/travel_consultant.css" />
+        <link rel="stylesheet" href="../assets/css/sponsor_franchisee_dashboard.css" />
         <!-- Lists CSS -->
         <link rel="stylesheet" href="../assets/css/lists.css" />
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- add on 11-06-2026 by SV -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+        
         <!-- add on 11-06-2026 by SV END-->
     </head>
     <body>
@@ -52,8 +53,8 @@
         <!-- Begin page -->
         <div id="layout-wrapper">
 
-            <?php 
-                    include_once 'travel_consultant_header.php'; 
+            <?php
+                    include_once 'sponsor_franchisee_header.php'; 
             ?>
 
             <!-- removeNotificationModal -->
@@ -82,7 +83,7 @@
             </div><!-- /.modal -->
             <!-- ========== App Menu ========== -->
             <?php 
-                    include_once 'travel_consultant_sidebar.php'; 
+                    include_once 'sponsor_franchisee_sidebar.php'; 
             ?>
 
             <!-- ============================================================== -->
@@ -96,12 +97,12 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Customers</h4>
+                                    <h4 class="mb-sm-0">Travel Consultants</h4>
 
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="travel_consultant_dashboard.php">Dashboard</a></li>
-                                            <li class="breadcrumb-item active">View Customers</li>
+                                            <li class="breadcrumb-item"><a href="sponsor_franchisee_dashboard.php">Dashboard</a></li>
+                                            <li class="breadcrumb-item active">View Travel Consultants</li>
                                         </ol>
                                     </div>
 
@@ -122,8 +123,8 @@
                                                         <i class="fa-solid fa-hourglass-half fa-xl"></i>
                                                     </div>
                                                     <div class="align-content-end">
-                                                        <h5 class="card-title text-dark mb-0">Pending Customers List</h5>
-                                                        <p class="text-muted fs-6 mb-0">Customers pending for approval</p>
+                                                        <h5 class="card-title text-dark mb-0">Pending Travel Consultants List</h5>
+                                                        <p class="text-muted fs-6 mb-0">Travel Consultants pending for approval</p>
                                                     </div>
                                                 </div>    
                                                 <div class="card-body">
@@ -131,13 +132,13 @@
                                                         <thead>
                                                             <tr class="table-primary">
                                                                 <th data-ordering="false">Full Name</th>
-                                                                <th data-ordering="false">TC ID & Name</th>
+                                                                <th data-ordering="false">Reference ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody id="cuTableBody">
+                                                        <tbody id="tcTableBody">
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -155,8 +156,8 @@
                                                                     <i class="ri-verified-badge-line" style="font-size: 30px;"></i>
                                                                 </div>
                                                                 <div class="align-content-end">
-                                                                    <h5 class="card-title text-dark mb-0">Registered Customers List</h5>
-                                                                    <p class="text-muted fs-6 mb-0">All approved and active Customers</p>
+                                                                    <h5 class="card-title text-dark mb-0">Registered Travel Consultants List</h5>
+                                                                    <p class="text-muted fs-6 mb-0">All approved and active Travel Consultantss</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -178,7 +179,7 @@
                                                                         <p class="fs-6 text-dark mb-1 align-content-center">Count</p>
                                                                         <input type="number" class="dateInput" id="rowCount" readonly>
                                                                     </div>
-                                                                    <a href="#" class="text-decoration-none" id="exportcu">
+                                                                    <a href="#" class="text-decoration-none" id="exporttc">
                                                                         <div class="stWalletBtn rounded-3 py-2">
                                                                             <i class="fa-solid fa-download me-2"></i>
                                                                             <p class="fs-6 mb-0 fw-bolder pe-1">Download</p>
@@ -193,18 +194,15 @@
                                                     <table id="example-dataTable-2" class="table table-striped table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                                         <thead>
                                                             <tr class="table-primary">
-                                                                <th data-ordering="false">Customer ID & Full Name</th>
-                                                                <th data-ordering="false">TC ID & Name</th>
+                                                                <th data-ordering="false">TC ID & Full Name</th>
+                                                                <th data-ordering="false">TE/F ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
-                                                                <th data-ordering="false">Membership Type</th>
-                                                                <th data-ordering="false">Membership (&#8377;)</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
                                                                 <th data-ordering="false">Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -214,16 +212,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="btn" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 35px; border-radius: 50%;">
-                            <a href="add_customer.php" style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
-                                <i class="fa-solid fa-circle-plus fa-beat-fade fa-3x" style="color: #4b38b3;"></i>
-                            </a>
-                        </div>
+
                     </div> <!-- container-fluid -->
 
                 </div><!-- End Page-content -->
                 <?php 
-                        include_once "travel_consultant_footer.php"; 
+                    if ($userType == 34) {
+                        include_once(__DIR__ . '/sponsor_franchisee_footer.php');
+                    }else{
+
+                        include_once "sponsor_franchisee_footer.php"; 
+                    }
                 ?>
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
@@ -234,9 +233,9 @@
         </button>
         <!--end back-to-top-->
         <!-- contact card pop up  start-->
-        <!-- <button type="button" class="contactBtn btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        <button type="button" class="contactBtn btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             <i class="ri-phone-fill"></i>
-        </button> -->
+        </button>
         <?php include (__DIR__.'/../contact_modal.php') ?>
         <!-- JAVASCRIPT -->
         <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -257,14 +256,14 @@
         
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
-        <!-- add on 11-06-2026 by SV -->
+        <!-- add on 10-06-2026 by SV -->
         <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
 
         <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-         <!-- add on 11-06-2026 by SV END-->
-        
+         <!-- add on 10-06-2026 by SV END-->
+
         <script>
-            const cuTable = $('#example-dataTable').DataTable({
+            const tcTable = $('#example-dataTable').DataTable({
                 destroy: true,
                 responsive: true,
                 processing: true,
@@ -297,7 +296,7 @@
                                     </p>
 
                                     <p class="fs-6 mb-0">
-                                        ${data.ca_travelagency_id || '-'}
+                                        ${data.reference_id || '-'}
                                     </p>
                                 </div>
                             `;
@@ -325,7 +324,7 @@
                     },
 
                     {
-                        data: 'added_on',
+                        data: 'register_date',
                         render: function(data){
 
                             if(!data) return '-';
@@ -343,16 +342,16 @@
                         data: 'status',
                         render: function(status){
 
-                            if(status == 0){
+                            if(status == 1){
 
-                               return `
-                                    <p class="teDeletedBtn rounded-pill text-center mb-0">
-                                        Deleted
+                                return `
+                                    <p class="teApprovedBtn rounded-pill text-center mb-0">
+                                        Active
                                     </p>
                                 `;
                             }
 
-                            if(status == 2){
+                            if(status == 3){
 
                                 return `
                                     <p class="tePendingBtn rounded-pill text-center mb-0">
@@ -360,24 +359,23 @@
                                     </p>
                                 `;
                             }
-                            return `
-                                    <p class="teDraftBtn rounded-pill text-center mb-0">
-                                        Draft
-                                    </p>
-                                `;
 
-                            
+                            return `
+                                <p class="teDeletedBtn rounded-pill text-center mb-0">
+                                    Inactive
+                                </p>
+                            `;
                         }
                     }
                 ],
                 language: {
-                    emptyTable: "No Pending Customers Found"
+                    emptyTable: "No Pending Travel Consultant Found"
                 }
             });
             function loadPendingTEList(){
 
                 $.ajax({
-                    url: 'ajax/customer/ste_pending_cu_table_data.php',
+                    url: 'models/travel_consultant/ste_pending_tc_table_data.php',
                     type: 'POST',
                     dataType: 'json',
 
@@ -385,27 +383,27 @@
 
                         if(!res.status){
 
-                            cuTable.clear().draw();
+                            tcTable.clear().draw();
                             
                             return;
                         }
 
-                        cuTable.clear();
-                        cuTable.rows.add(res.data);
-                        cuTable.draw();
+                        tcTable.clear();
+                        tcTable.rows.add(res.data);
+                        tcTable.draw();
                         
                     },
 
                     error: function(){
 
-                        cuTable.clear().draw();
+                        tcTable.clear().draw();
                     }
                 });
 
             }
             
-            const cuRegTable = $('#example-dataTable-2').DataTable({
-                responsive:true,
+            const tcRegTable = $('#example-dataTable-2').DataTable({
+                responsive: true,
                 ordering: false,
                 searching: true,
                 paging: true,
@@ -420,9 +418,9 @@
                                         ${data.firstname || ''} ${data.lastname || ''}
                                     </p>
                                     <p class="fs-6 mb-0">
-                                        ${data.ca_customer_id || '-'}
+                                        ${data.ca_travelagency_id || '-'}
                                     </p>
-                                </div>
+                                <div>
                             `;
                         }
                     },
@@ -432,12 +430,10 @@
                             return `
                                 <div>
                                     <p class="fs-6 mb-0">
-                                        ${data.ref_firstname || '-'}
-                                        </br> 
-                                        ${data.ref_lastname || ''}
+                                        ${data.ref_firstname || '-'} ${data.ref_lastname || ''}
                                     </p>
                                     <p class="fs-6 mb-0">
-                                        ${data.ca_travelagency_id || '-'}
+                                        ${data.reference_id || '-'}
                                     </p>
                                 </div>
                             `;
@@ -457,39 +453,6 @@
                                         ${data.email || '-'}
                                     </p>
                                 </div>
-                            `;
-                        }
-                    },
-                    {
-                        data: 'type',
-                        render: function(data) {
-
-                            if(!data || data == 0) {
-                                return '-';
-                            }
-                            const formattedData = data.replace(/\s*\/\s*/g, "<br>");
-                            return `
-                                <p class="fs-6 mb-0">
-                                    ${formattedData}
-                                </p>
-                            `;
-                        }
-                    },
-                    {
-                        data: 'amount',
-                        render: function(data) {
-
-                            if(!data || data == 0) {
-                                return '-';
-                            }
-
-                            return `
-                                <p class="fs-6 mb-0">
-                                    ₹ ${Number(data).toLocaleString('en-IN', {
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2
-                                    })}
-                                </p>
                             `;
                         }
                     },
@@ -539,23 +502,17 @@
                         }
                     },
                     {
-                        data: 'ca_customer_id',
+                        data: 'ca_travelagency_id',
                         orderable: false,
                         searchable: false,
-                        className: 'none',
                         render: function(data) {
 
                             return `
-                                <form action="edit_customer.php" method="POST" class="m-0">
+                                <form action="#" method="POST" class="m-0">
                                     <input
                                         type="hidden"
-                                        name="vkvbvjfgfikix"
+                                        name="ca_travelgency_id"
                                         value="${data}"
-                                    >
-                                    <input
-                                        type="hidden"
-                                        name="editfor"
-                                        value="test"
                                     >
 
                                     <button
@@ -572,7 +529,7 @@
                     }
                 ],
                 language: {
-                    emptyTable: 'No Customers Found'
+                    emptyTable: 'No Travel Consultant Found'
                 }
             });
 
@@ -581,7 +538,7 @@
 
                 $.ajax({
 
-                    url: 'ajax/customer/ste_registered_cu_list.php',
+                    url: 'models/travel_consultant/ste_registered_tc_list.php',
 
                     type: 'POST',
 
@@ -596,21 +553,21 @@
 
                         // console.log(res);
 
-                        cuRegTable.clear();
+                        tcRegTable.clear();
 
                         if(res.status && res.data.length > 0){
 
-                            cuRegTable.rows.add(res.data);
-                            cuRegTable.on('draw.dt', function () {
+                            tcRegTable.rows.add(res.data);
+                            tcRegTable.on('draw.dt', function () {
                                 $('#rowCount').val(
-                                    cuRegTable.rows({ search: 'applied' }).count()
+                                    tcRegTable.rows({ search: 'applied' }).count()
                                 );
                             });
                             // $('#rowCount').val(res.data.length);
 
                         }
 
-                        cuRegTable.draw();
+                        tcRegTable.draw();
 
                     },
 
@@ -618,7 +575,7 @@
 
                         // console.log(xhr.responseText);
 
-                        cuRegTable.clear().draw();
+                        tcRegTable.clear().draw();
 
                     }
 
@@ -696,10 +653,10 @@
                 loadRegisteredTEList();
 
             });
-            $('#exportcu').on('click', function(){
+            $('#exporttc').on('click', function(){
                 window.location.href =
                 'models/common/download_registered_list.php?' +
-                'type=cu' +
+                'type=tc' +
                 '&start_date=' + startDate +
                 '&end_date=' + endDate;
             });

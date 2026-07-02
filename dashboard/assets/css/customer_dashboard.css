@@ -1114,6 +1114,156 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control {
 .pendingData, .registerData {
     height: 150px;
 }
+/* Add Techno Enterprise */
+.addTECard {
+    background-color: #021185;
+    padding: 20px;
+    position: relative;
+}
+.addTEIconBackground {
+    background-color: #fff;
+    width: 90px !important;
+    height: 90px !important;
+    border-radius: 15px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.addTEIcon {
+    color: #35239a !important;
+    font-size: 40px;
+}
+.addTEImage {
+    height: 120px !important;
+    width: 390px !important;
+    position: absolute;
+    right: 80px;
+    top: 5px;
+}
+.addTENum {
+    background-color: #0d6efd;
+    color: #fff;
+    border-radius: 7px;
+    padding: 5px 10px;
+}
+.upload-card{
+    position:relative;
+    min-height:170px;
+    border:2px dashed #d7dff3;
+    border-radius:12px;
+    background:#fff;
+    cursor:pointer;
+    overflow:hidden;
+    transition:.3s;
+}
+.upload-card:hover{
+    border-color:#7c5cff;
+}
+.file-input{
+    position:absolute;
+    inset:0;
+    opacity:0;
+    cursor:pointer;
+    z-index:5;
+}
+.upload-content{
+    height:100%;
+    padding:15px;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+.upload-icon{
+    font-size:35px;
+    color:#7c5cff;
+    margin-bottom:12px;
+}
+.upload-content h6{
+    font-weight:700;
+    margin-bottom:5px;
+}
+.upload-content p{
+    color:#6c757d;
+    font-size:13px;
+    margin-bottom:5px;
+}
+.upload-content small{
+    color:#999;
+}
+.preview-wrapper{
+    position:absolute;
+    inset:0;
+}
+.preview-wrapper img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+.file-title{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    background:rgba(0,0,0,.75);
+    color:#fff;
+    padding:8px;
+    font-size:13px;
+    font-weight:600;
+}
+.pdf-preview{
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+.pdf-preview i{
+    font-size:55px;
+    color:#dc3545;
+}
+.actionBtn{
+    height: 48px;
+    min-width: 150px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all .3s ease;
+}
+/* Cancel */
+.cancelBtn{
+    background: #fff;
+    color: #5b4df8;
+    border: 2px solid #c7c4ff;
+}
+.cancelBtn:hover{
+    background: #f5f4ff;
+    color: #5b4df8;
+}
+/* Draft */
+.draftBtn{
+    background: #fff;
+    color: #5b4df8;
+    border: 2px solid #c7c4ff;
+}
+.draftBtn:hover{
+    background: #f5f4ff;
+    color: #5b4df8;
+}
+/* Submit */
+.submitBtn{
+    min-width: 280px;
+    background: linear-gradient( 90deg,#4f46ff,#3f3dff);
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 12px rgba(79,70,255,.25);
+}
+.submitBtn:hover{
+    transform: translateY(-2px);
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(79,70,255,.35);
+}
 /* =========================================
    TABLET + SMALL LAPTOP (1024px)
 ========================================= */
@@ -1334,6 +1484,22 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control {
         padding: 8px !important;
         width: 150px !important;
     }
+    .addTEImage {
+        width: 250px !important;
+        position: absolute;
+        right: 40px;
+    }
+    .addTEIcon {
+        font-size: 30px;
+    }
+    .addTEIconBackground {
+        width: 90px !important;
+        height: 70px !important;
+        padding: 20px;
+    }
+    .submitBtnBackground {
+        display: block !important;
+    }
 }
 
 @media (max-width: 575px) {
@@ -1350,6 +1516,13 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control {
     }
     .exploreBtns {
         display: flex !important;
+    }
+    .actionBtn{
+        width:100%;
+    }
+
+    .submitBtn{
+        min-width:100%;
     }
 }
 @media (max-width: 441px) {
