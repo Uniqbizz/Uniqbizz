@@ -546,27 +546,50 @@
                         render: function(data) {
 
                             return `
-                                <form action="edit_customer.php" method="POST" class="m-0">
-                                    <input
-                                        type="hidden"
-                                        name="vkvbvjfgfikix"
-                                        value="${data}"
-                                    >
-                                    <input
-                                        type="hidden"
-                                        name="editfor"
-                                        value="test"
-                                    >
+                                <div class="d-flex gap-3">
+                                    <form action="edit_customer.php" method="POST" class="m-0">
+                                        <input
+                                            type="hidden"
+                                            name="vkvbvjfgfikix"
+                                            value="${data}"
+                                        >
+                                        <input
+                                            type="hidden"
+                                            name="editfor"
+                                            value="test"
+                                        >
 
-                                    <button
-                                        type="submit"
-                                        class="border-0 bg-transparent p-0 w-100"
-                                    >
-                                        <p class="teViewBtn text-center fw-bold mb-0">
-                                            <i class="fa-solid fa-eye me-2 mt-1"></i>View
-                                        </p>
-                                    </button>
-                                </form>
+                                        <button
+                                            type="submit"
+                                            class="border-0 bg-transparent p-0 w-100"
+                                        >
+                                            <p class="teViewBtn text-center fw-bold mb-0">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </p>
+                                        </button>
+                                    </form>
+                                    <form action="add_customer.php" method="POST" class="m-0">
+                                        <input
+                                            type="hidden"
+                                            name="vkvbvjfgfikix"
+                                            value="${data}"
+                                        >
+                                        <input
+                                            type="hidden"
+                                            name="editfor"
+                                            value="test"
+                                        >
+
+                                        <button
+                                            type="submit"
+                                            class="border-0 bg-transparent p-0 w-100"
+                                        >
+                                            <p class="teViewBtn text-center fw-bold mb-0">
+                                                <i class="fa-solid fa-plus"></i>
+                                            </p>
+                                        </button>
+                                    </form>
+                                </div>
                             `;
                         }
                     }
