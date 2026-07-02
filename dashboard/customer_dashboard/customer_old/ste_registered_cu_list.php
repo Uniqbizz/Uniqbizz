@@ -6,26 +6,6 @@
 
     try {
 
-        $startDate = $_POST['start_date'] ?? '';
-        $endDate   = $_POST['end_date'] ?? '';
-
-        $whereDate = '';
-
-        $params = [
-            ':user_id' => $userId
-        ];
-
-        if (!empty($startDate) && !empty($endDate)) {
-
-            $whereDate = "
-                AND cu.register_date >= :start_date
-                AND cu.register_date < DATE_ADD(:end_date, INTERVAL 1 DAY)
-            ";
-
-            $params[':start_date'] = $startDate;
-            $params[':end_date']   = $endDate;
-        }
-
         $sql = "
             SELECT *
             FROM (
@@ -61,9 +41,6 @@
 
                 WHERE cu.reference_no = :user_id
                 AND cu.status IN (1,3)
-
-                $whereDate
-
             ) x
 
             ORDER BY x.id DESC
@@ -71,7 +48,9 @@
 
         $stmt = $conn->prepare($sql);
 
-        $stmt->execute($params);
+        $stmt->execute([
+            ':user_id' => $userId
+        ]);
 
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

@@ -208,40 +208,7 @@
                             <div class="col">
 
                                 <div class="h-100">
-                                    <!-- <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="card">
-                                                <div class="card-header border-bottom-dashed">
-                                                    <div class="row g-4 align-items-center">
-                                                        <div class="col-sm">
-                                                            <div>
-                                                                <h5 class="card-title mb-0">Pending List</h5>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                    </div>   
-                                                </div>    
-                                                <div class="card-body">
-                                                    <table id="example-dataTable" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th data-ordering="false">SR No.</th>
-                                                                <th data-ordering="false">Name</th>
-                                                                <th data-ordering="false">Reference ID and Name</th>
-                                                                <th data-ordering="false">Phone</th>
-                                                                <th data-ordering="false">Joining Date</th>
-                                                                <th data-ordering="false">Status</th>
-                                                                
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> -->
+                                    
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="card rounded-4 border-1">
@@ -263,6 +230,7 @@
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
+                                                                <th data-ordering="false">Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="cuTableBody">
@@ -272,35 +240,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <h5 class="card-title mb-0">Registered List</h5>
-                                                </div>
-                                                <div class="card-body">
-                                                    <table id="example-dataTable-2" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th data-ordering="false">Customer ID & Name</th>
-                                                                <th data-ordering="false">Reference ID & Name</th>
-                                                                <th data-ordering="false">Type/Complemetory</th>
-                                                                <th data-ordering="false">Phone</th>
-                                                                <th data-ordering="false">Joining Date</th>
-                                                                <th data-ordering="false">Status</th>
-                                                                <?php if( $userType == "11" || $userType == "10" || $userType == '33'){ ?>
-                                                                    <th data-ordering="false">Action</th>
-                                                                <?php } ?>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> -->
+                                   
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="card rounded-4 border-1">
@@ -474,38 +414,7 @@
                 var designation = 'ca_customer';
                 window.location.href='overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
             }
-            //pending cu list
-            // $('#example-dataTable').DataTable({
-
-            //     processing: true,
-
-            //     ajax:{
-            //         url:'customer/pending_cu_list.php',
-            //         dataSrc:'data'
-            //     },
-
-            //     columnDefs:[
-            //         {
-            //             targets:[2,5],
-            //             orderable:false
-            //         }
-            //     ],
-
-            //     language:{
-
-            //         emptyTable: `
-            //             <div class="d-flex justify-content-center">
-            //                 <div>
-            //                     <img src="../assets/images/pendingData.png" alt="Package" class="pendingData img-fluid w-100">
-            //                     <p class="fw-bolder fs-5 text-center mb-1">No pending referrals yet</p>
-            //                     <p class="fw-muted fs-6 text-center">When someone uses your referral link, they'll appear here.</p>
-            //                 </div>
-            //             </div>
-            //         `
-
-            //     }
-
-            // });
+            
             const cuTable = $('#example-dataTable').DataTable({
                 destroy: true,
                 responsive: true,
@@ -608,6 +517,38 @@
                                 `;
 
                             
+                        }
+                    },
+                    {
+                        data: null,
+                        orderable: false,
+                        searchable: false,
+                        render: function(data) {
+                            
+
+                            return `
+                                <form action="edit_customer.php" method="POST" class="m-0">
+                                    <input
+                                        type="hidden"
+                                        name="id"
+                                        value="${data.id}"
+                                    >
+                                    <input
+                                        type="hidden"
+                                        name="status"
+                                        value="${data.status}"
+                                    >
+
+                                    <button
+                                        type="submit"
+                                        class="border-0 bg-transparent p-0 w-100"
+                                    >
+                                        <p class="teViewBtn text-center fw-bold mb-0">
+                                            <i class="fa-solid fa-eye me-2 mt-1"></i>${data.status == 4 ? 'Edit' : 'View'}
+                                        </p>
+                                    </button>
+                                </form>
+                            `;
                         }
                     }
                 ],
