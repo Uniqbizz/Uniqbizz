@@ -1,3 +1,5 @@
+let date = new Date();
+let current_year = date.getFullYear();
 // for age calculation //
 $("#email").keyup(function () {
     var email = $("#email").val().trim();
@@ -24,9 +26,23 @@ var emailtest = (emailtest, testValue) => {
         },
     });
 };
-const date = new Date();
-let current_year = date.getFullYear();
-    $(document).ready(function() {
+$(document).ready(function() {
+    var paymentMode = $(".payment:checked").val();
+    var payment_fee = $('#payment_fee').val()
+    if (paymentMode == "cheque") {
+        $("#chequeOpt").removeClass("d-none");
+        $("#onlineOpt").addClass("d-none");
+    } else if (paymentMode == "online") {
+        $("#onlineOpt").removeClass("d-none");
+        $("#chequeOpt").addClass("d-none");
+    } else {
+        $("#chequeOpt").addClass("d-none");
+        $("#onlineOpt").addClass("d-none");
+    }
+    var state = $('#mystate').val();
+});
+
+$(document).ready(function() {
     var paymentMode = $(".payment:checked").val();
     var payment_fee = $('#payment_fee').val()
     if (paymentMode == "cheque") {
@@ -252,6 +268,7 @@ function bindUploadEvents() {
                 preview.innerHTML = `
                     <i class="fa-solid fa-file-pdf"></i>
                     <p class="mt-2 mb-0">${file.name}</p>
+                    <input type="hidden" id="img_path${index}" value="../../uploading/${file.name}">
                     <div class="file-title">
                         ${title}
                     </div>
@@ -397,8 +414,8 @@ function submitAddForm(actionType) {
         } else if (dob === '') {
             alert('Please Select Birthdate');
             return;
-        } else if (age <= 18) {
-            alert('Age must be more than or equal to 18 Years');
+        } else if (age <= 20) {
+            alert('Age must be more than or equal to 20 Years');
             return;
         } else if (gender !== 'male' && gender !== 'female' && gender !== 'others') {
             alert('Please Select Gender');
@@ -551,206 +568,668 @@ function submitAddForm(actionType) {
     });
     
 };
-
-// Edit customer by client 
-$('#edit-customer').click(function (e) {
+$("#saveDraftEdit").on("click", function (e) {
     e.preventDefault();
+    submitEditForm('draft');
+});
 
-    // var designation = $("#designation").val();
-    // var user_id_name = $("#user_id_name").val();
-    // var reference_name = $("#reference_name").val();
+$("#editCustomer").on("click", function (e) {
+    e.preventDefault();
+    submitEditForm('submit');
+});
+// Edit customer by client 
+function submitEditForm(actionType) {
 
-    var editfor = $('#editfor').val(); // registered OR pending
-    var ref_id = $('#ref_id').val();  // reference id
-    var id = $('#id').val(); // customer id
-    var customer_type = $('#customer_type').val(); // customer type
+    var editfor = $('#editfor').val();
+    var ref_id = $('#ref_id').val();
+    var id = $('#id').val();
+
+    var customer_type = $('#customer_type').val();
+
     var firstname = $("#firstname").val().trim();
     var lastname = $("#lastname").val().trim();
-    // var nominee_name = $("#nominee_name").val().trim();
-    // var nominee_relation = $("#nominee_relation").val().trim();
     var email = $("#email").val().trim();
     var dob = $("#dob").val().trim();
     var gender = $(".gender:checked").val();
+
     var country_cd = $("#country_cd").val().trim();
     var phone = $("#phone").val().trim();
+
     var country = $("#country").val().trim();
     var mystate = $("#mystate").val().trim();
     var city = $("#city").val().trim();
     var pin = $("#pin").val().trim();
     var address = $("#address").val().trim();
-    var ta_reference_no=$("#user_id_name").val().trim();
+
+    var ta_reference_no = $("#user_id_name").val().trim();
+
     var register_by = $('#register_by').val().trim();
     var registrant_id = $('#registrant_id').val();
 
-    var testE = $('#testemail').val();
     var userId = $('#userId').val();
     var userType = $('#userType').val();
+
     var payment_fee = $("#payment_fee").val().trim();
-    if (payment_fee == "FOC") {
-        var paymentMode = "Free";
-    } else {
-        var paymentMode = $(".payment:checked").val();
-    }
-    //console.log(paymentMode);
+
+    var paymentMode = $(".payment:checked").val();
+
     var chequeNo = $("#chequeNo").val().trim();
     var chequeDate = $("#chequeDate").val().trim();
     var bankName = $("#bankName").val().trim();
     var transactionNo = $("#transactionNo").val().trim();
 
-    var profile_pic = $(":hidden#img_path1").val().trim();
-    var aadhar_card = $(":hidden#img_path2").val().trim();
-    var pan_card = $(":hidden#img_path3").val().trim();
-    var passbook = $(":hidden#img_path4").val().trim();
-    var voting_card = $(":hidden#img_path5").val().trim();
-    if (payment_fee == "FOC") {
-        var payment_proof = "none";
-    } else if (payment_fee == "null") {
-        var payment_proof = "none";
-    } else {
-        var payment_proof = $(":hidden#img_path6").val().trim();
+   // Attachments
+    function getFilePath(id) {
+        return $(id).length
+            ? $(id).val().replace('../../uploading/', '').trim()
+            : "";
     }
-    let payment_text = $("#payment_fee option:selected").text().trim(); // Gets the visible text
 
-    // Check if the text contains a colon (e.g., "Prime: ₹10,000/-")
+    var profile_pic   = getFilePath("#img_path1");
+    var aadhar_card   = getFilePath("#img_path2");
+    var pan_card      = getFilePath("#img_path3");
+    var passbook      = getFilePath("#img_path4");
+    var voting_card   = getFilePath("#img_path11");
+    var payment_proof = getFilePath("#img_path12");
+
+    let payment_text = $("#payment_fee option:selected").text().trim();
+
     let payment_label = payment_text.includes(":")
-        ? payment_text.split(":")[0].trim() // Extract part before colon
+        ? payment_text.split(":")[0].trim()
         : payment_text;
-    //age calculation
-    var birth_date_split = dob.split("-");
-    var age = current_year - birth_date_split[0];
-    // console.log(age);
 
-    var characterLetters = /^[A-Za-z\s]+$/;
     var phoneReg = /^[0-9]{10}$/;
     var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
     var specialChar = /[!@#$%^&*]/g;
 
-    var dataString = "editfor=" + editfor +
-        "&ref_id=" + ref_id +
-        "&id=" + id +
-        "&firstname=" + firstname +
-        "&lastname=" + lastname +
-        // "&nominee_name=" + nominee_name +
-        // "&nominee_relation=" + nominee_relation +
-        "&email=" + email +
-        "&dob=" + dob +
-        "&gender=" + gender +
-        "&country_code=" + country_cd +
-        "&phone=" + phone +
-        "&country=" + country +
-        "&state=" + mystate +
-        "&city=" + city +
-        "&pincode=" + pin +
-        "&address=" + address +
-        "&profile_pic=" + profile_pic +
-        "&aadhar_card=" + aadhar_card +
-        "&pan_card=" + pan_card +
-        "&passbook=" + passbook +
-        "&voting_card=" + voting_card +
-        "&payment_proof=" + payment_proof +
-        "&paymentMode=" + paymentMode +
-        "&chequeNo=" + chequeNo +
-        "&chequeDate=" + chequeDate +
-        "&bankName=" + bankName +
-        "&transactionNo=" + transactionNo+
-        "&payment_fee="+ payment_fee+
-        "&register_by=" + register_by +
-        "&registrant_id=" + registrant_id + 
-        '&userId=' + userId + 
-        '&userType=' + userType+
-        '&payment_label=' + payment_label+
-        '&ta_reference_no='+ta_reference_no+
-        '&customer_type='+customer_type;
-    // console.log(dataString);                 
-
-    // validation for email, phone, name 
-    var characterLetters = /^[A-Za-z\s]+$/;
-    var phoneReg = /^[0-9]{10}$/;
-    var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-    var specialChar = /[!@#$%^&*]/g;
-
-    // age calculation 
     var dob_year = dob.substring(0, 4);
     var age = current_year - dob_year;
+    var testE = $('#testemail').val();
+    var userId = $('#userId').val();
+    var userType = $('#userType').val();
+    var status_value = 4;
+
+    /*
+    ====================================================
+    VALIDATION ONLY FOR SUBMIT
+    ====================================================
+    */
+
+    if (actionType == "submit") {
+
+        if (firstname === '') {
+            alert("Enter Proper First Name");
+            return;
+        } else if (lastname === '') {
+            alert("Enter Proper Last Name");
+            return;
+        } else if (email === '') {
+            alert("Enter Email");
+            return;
+        } else if (!emailReg.test(email)) {
+            alert("Enter Proper Email");
+            return;
+        } else if (testE === '1') {
+            alert("Email already exists");
+            return;
+        } else if (dob === '') {
+            alert("Please Select Birthdate");
+            return;
+        } else if (age < 18) {
+            alert("Sorry, you are not eligible");
+            return;
+        } else if (!['male', 'female', 'others'].includes(gender)) {
+            alert("Please Select Gender");
+            return;
+        } else if (country_cd === '') {
+            alert("Select Country Code");
+            return;
+        } else if (phone === '') {
+            alert("Enter Phone Number");
+            return;
+        } else if (!phoneReg.test(phone)) {
+            alert("Enter Proper Phone Number");
+            return;
+        } else if (country === '') {
+            alert("Select Country");
+            return;
+        } else if (mystate === '') {
+            alert("Select State");
+            return;
+        } else if (city === '') {
+            alert("Select City");
+            return;
+        } else if (address === '' || specialChar.test(address) || address.length <= 7) {
+            alert("Enter Proper Address");
+            return;
+        } else if (!paymentMode) {
+            alert("Please Select Payment Mode");
+            return;
+        } else if (paymentMode === "online" && transactionNo === '') {
+            alert("Please Enter Transaction No");
+            return;
+        } else if (paymentMode === "cheque") {
+
+            let missing = [];
+
+            if (chequeNo === '') missing.push("Cheque No");
+            if (chequeDate === '') missing.push("Cheque Date");
+            if (bankName === '') missing.push("Bank Name");
+
+            if (missing.length) {
+                alert("Please Enter: " + missing.join(", "));
+                return;
+            }
+
+        } else if (profile_pic == '') {
+            alert('Please Upload profile Picture');
+            return;
+        } else if (aadhar_card == '') {
+            alert('Please Upload Aadhar Card Picture');
+            return;
+        } else if (payment_proof == '') {
+            alert("Add Payment Proof");
+            return;
+        }
+        status_value = 2;
+
+    }
+
+    /*
+    ====================================================
+    COMMON VALIDATION (Draft + Submit)
+    ====================================================
+    */
 
     if (firstname === '') {
         alert("Enter Proper First Name");
-    } else if (lastname === '') {
+        return;
+    }
+
+    if (lastname === '') {
         alert("Enter Proper Last Name");
-    } else if (email === '') {
+        return;
+    }
+
+    if (email === '') {
         alert("Enter Email");
-    } else if (!emailReg.test(email)) {
+        return;
+    }
+
+    if (!emailReg.test(email)) {
         alert("Enter Proper Email");
-    } else if (testE === '1') {
+        return;
+    }
+
+    if (testE === '1') {
         alert("Email already exists");
-    } else if (dob === '') {
-        alert("Please Select Birthdate");
-    } else if (age < 18) {
-        alert("Sorry, you are not eligible");
-    } else if (!['male', 'female', 'others'].includes(gender)) {
-        alert("Please Select Gender");
-    } else if (country_cd === '') {
-        alert("Select Country Code");
-    } else if (phone === '') {
+        return;
+    }
+
+    if (phone === '') {
         alert("Enter Phone Number");
-    } else if (!phoneReg.test(phone)) {
+        return;
+    }
+
+    if (!phoneReg.test(phone)) {
         alert("Enter Proper Phone Number");
-    } else if (country === '') {
-        alert("Select Country");
-    } else if (mystate === '') {
-        alert("Select State");
-    } else if (city === '') {
-        alert("Select City");
-    } else if (address === '' || specialChar.test(address) || address.length <= 7) {
-        alert("Enter Proper Address");
-    } else if (!paymentMode) {
-        alert("Please Select Payment Mode");
-    } else if (paymentMode === "online" && transactionNo === '') {
-        alert("Please Enter Transaction No");
-    } else if (paymentMode === "cheque") {
+        return;
+    }
+    
 
-        let missing = [];
+    var dataObj = {
 
-        if (chequeNo === '') missing.push("Cheque No");
-        if (chequeDate === '') missing.push("Cheque Date");
-        if (bankName === '') missing.push("Bank Name");
+        action_type: actionType,
 
-        if (missing.length > 0) {
-            alert("Please Enter: " + missing.join(", "));
+        editfor: editfor,
+        ref_id: ref_id,
+        id: id,
+
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+        dob: dob,
+        gender: gender,
+
+        country_code: country_cd,
+        phone: phone,
+
+        country: country,
+        state: mystate,
+        city: city,
+        pincode: pin,
+        address: address,
+
+        profile_pic: profile_pic,
+        aadhar_card: aadhar_card,
+        pan_card: pan_card,
+        passbook: passbook,
+        voting_card: voting_card,
+        payment_proof: payment_proof,
+
+        paymentMode: paymentMode,
+        chequeNo: chequeNo,
+        chequeDate: chequeDate,
+        bankName: bankName,
+        transactionNo: transactionNo,
+
+        payment_fee: payment_fee,
+        payment_label: payment_label,
+
+        register_by: register_by,
+        registrant_id: registrant_id,
+
+        userId: userId,
+        userType: userType,
+
+        ta_reference_no: ta_reference_no,
+        customer_type: customer_type,
+        status_value:status_value
+
+    };
+
+    $("#editCustomer").prop("disabled", true);
+    $("#saveDraftEdit").prop("disabled", true);
+
+    $("#loading-overlay").show();
+
+    $.ajax({
+
+        type: "POST",
+        url: "ajax/customer/edit_customer_data.php",
+        data: dataObj,
+        cache: false,
+
+        success: function (data) {
+
+            $("#loading-overlay").hide();
+
+            if (data == 1) {
+
+                alert("Customer Updated Successfully");
+                location.href = "customers_list.php";
+
+            } else {
+
+                $("#editCustomer").prop("disabled", false);
+                $("#saveDraftEdit").prop("disabled", false);
+
+                alert("Failed");
+
+            }
+
         }
 
-    } else if (profile_pic === '') {
-        alert("Please Upload Profile Picture");
-    } else if (aadhar_card === '') {
-        alert("Please Upload Aadhar Card");
-    } else if (pan_card === '') {
-        alert("Please Upload PAN Card");
-    } else if (passbook === '') {
-        alert("Please Upload Bank Passbook");
-    } else if (payment_fee !== "FOC" && payment_proof === '') {
-        alert("Please Upload Payment Proof");
-    } else {
-        $("#editCustomer").attr("disabled", "disabled");
-        $("#loading-overlay").show(); //loading screen
-        //console.log(dataString);
+    });
 
+}
+$(document).ready(function () {
+
+    let today = new Date();
+
+    // Calculate date 18 years ago
+    let maxDate = new Date(
+        today.getFullYear() - 20,
+        today.getMonth(),
+        today.getDate()
+    );
+
+    // Format YYYY-MM-DD
+    let formattedDate = maxDate.toISOString().split('T')[0];
+
+    $('#dob').attr('max', formattedDate);
+
+});
+$('#dob').on('change', function () {
+
+    const selectedDate = new Date(this.value);
+
+    const maxDate = new Date();
+    maxDate.setFullYear(maxDate.getFullYear() - 20);
+
+    if (selectedDate > maxDate) {
+        alert('Age must be at least 20 years.');
+        $(this).val('');
+    }
+
+});
+function loadExistingFile(cardSelector, filePath)
+{
+    if (!filePath) return;
+
+    const card = document.querySelector(cardSelector);
+
+    if (!card) return;
+
+    const title = card.dataset.title;
+    const index = card.dataset.index;
+    card.querySelector(
+        '.upload-content, .preview-wrapper, .pdf-preview'
+    )?.remove();
+
+    const extension = filePath.split('.').pop().toLowerCase();
+
+    const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+    if (imageExtensions.includes(extension)) {
+
+        const preview = document.createElement('div');
+
+        preview.className = 'preview-wrapper';
+
+        preview.innerHTML = `
+            <img src="../../uploading/${filePath}">
+            <input type="hidden" id="img_path${index}" value="../../uploading/${filePath}">
+            <div class="file-title">
+                ${title}
+            </div>
+        `;
+
+        card.appendChild(preview);
+        // const status =status;
+        if (status == 4) {
+            $('.file-input').prop('disabled', false);
+        }else{
+            $('.file-input').prop('disabled', true);
+        }
+
+    } else {
+
+        const preview = document.createElement('div');
+
+        preview.className = 'pdf-preview';
+
+        preview.innerHTML = `
+            <i class="fa-solid fa-file-pdf"></i>
+            <p class="mt-2 mb-0">${filePath.split('/').pop()}</p>
+            <div class="file-title">
+                ${title}
+            </div>
+        `;
+
+        card.appendChild(preview);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", async function () {
+
+    bindUploadEvents();
+
+    Swal.fire({
+        title: "Loading Customer Deatils...",
+        text: "Please wait",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    try {
+
+        await initializeCustomer();
+
+    } catch (err) {
+
+        console.error(err);
+
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Unable to load customer."
+        });
+
+    } finally {
+
+        Swal.close();
+
+    }
+
+});
+function ajaxPromise(options) {
+
+    return new Promise(function (resolve, reject) {
 
         $.ajax({
-            type: "POST",
-            url: "ajax/customer/edit_customers_data.php",
-            data: dataString,
-            cache: false,
-            success: function (data) {
-                console.log(data);
-                if (data == 1) {
-                    $("#loading-overlay").hide(); //loading screen
-                    alert("Edit Successfuly");
-                    location.href = "customer_list.php";
-                } else {
-                    $("#loading-overlay").hide(); //loading screen
-                    alert("Failed");
-                }
-            },
+
+            ...options,
+
+            success: resolve,
+
+            error: reject
+
         });
+
+    });
+
+}
+async function loadStates(countryID, selectedState = "") {
+
+    if (!countryID) return;
+
+    const html = await ajaxPromise({
+
+        type: "POST",
+        url: "../address/countrydata.php",
+
+        data: {
+            country_id: countryID
+        }
+
+    });
+
+    $("#mystate").html(html);
+
+    if (selectedState) {
+
+        $("#mystate").val(selectedState);
+
+    }
+
+}
+async function loadCities(stateID, selectedCity = "") {
+
+    if (!stateID) return;
+
+    const html = await ajaxPromise({
+
+        type: "POST",
+        url: "../address/countrydata.php",
+
+        data: {
+            state_id: stateID
+        }
+
+    });
+
+    $("#city").html(html);
+
+    if (selectedCity) {
+
+        $("#city").val(selectedCity);
+
+    }
+
+}
+async function loadPin(cityID) {
+
+    if (!cityID) {
+
+        $("#pin").val("");
+        return;
+
+    }
+
+    const pin = await ajaxPromise({
+
+        type: "POST",
+        url: "../address/pincode.php",
+
+        data: {
+            city_id: cityID
+        }
+
+    });
+
+    $("#pin").val($.trim(pin));
+
+}
+async function initializeCustomer() {
+
+    const res = await ajaxPromise({
+
+        url: "ajax/customer/edit_cu_load_data.php",
+
+        type: "GET",
+
+        dataType: "json",
+
+        data: {
+
+            id: id,
+
+            edittype: 10
+
+        }
+
+    });
+
+    if (!res.status) {
+
+        Swal.fire("Error", res.message, "error");
+        return;
+
+    }
+
+    const data = res.data;
+
+    //====================
+    // Personal
+    //====================
+
+    $("#user_id_name").val(data.ta_reference_no);
+
+    $("#reference_name").val(data.ta_reference_name);
+
+    $("#firstname").val(data.firstname);
+
+    $("#lastname").val(data.lastname);
+
+    $("#email").val(data.email);
+
+    $("#phone").val(data.contact_no);
+
+    $("#dob").val(data.date_of_birth);
+
+    $("input[name='gender'][value='" + data.gender + "']").prop("checked", true);
+
+    $("#country_cd").val(data.country_code);
+
+    //====================
+    // Address
+    //====================
+
+    $("#country").val(data.country);
+
+    $("#address").val(data.address);
+
+    await loadStates(data.country, data.state);
+
+    await loadCities(data.state, data.city);
+
+    await loadPin(data.city);
+
+    //====================
+    // Payment
+    //====================
+
+    $("#payment_fee option").each(function () {
+
+        if ($(this).text().trim().startsWith(data.customer_type)) {
+
+            $(this).prop("selected", true);
+
+            $("#payment_fee").prop("disabled", true);
+
+            return false;
+
+        }
+
+    });
+
+    if (data.payment_mode === "cash") {
+
+        $("#cashPayment").prop("checked", true);
+
+    }
+    else if (data.payment_mode === "online") {
+
+        $("#onlinePayment").prop("checked", true);
+
+        $("#transactionNo").val(data.transaction_no);
+
+        $("#onlineOpt").removeClass("d-none");
+
+    }
+    else if (data.payment_mode === "cheque") {
+
+        $("#chequePayment").prop("checked", true);
+
+        $("#chequeNo").val(data.cheque_no);
+
+        $("#chequeDate").val(data.cheque_date);
+
+        $("#bankName").val(data.bank_name);
+
+        $("#chequeOpt").removeClass("d-none");
+
+    }
+
+    //====================
+    // Documents
+    //====================
+
+    loadExistingFile('[data-index="1"]', data.profile_pic);
+
+    loadExistingFile('[data-index="2"]', data.aadhar_card);
+
+    loadExistingFile('[data-index="3"]', data.pan_card);
+
+    loadExistingFile('[data-index="4"]', data.bank_passbook);
+
+    loadExistingFile('[data-index="11"]', data.voting_card);
+
+    loadExistingFile('[data-index="12"]', data.payment_proof);
+
+}
+$("#country").on("change", async function () {
+
+    await loadStates($(this).val());
+
+    $("#city").html('<option value="">Select State First</option>');
+
+    $("#pin").val("");
+
+});
+
+$("#mystate").on("change", async function () {
+
+    await loadCities($(this).val());
+
+    $("#pin").val("");
+
+});
+
+$("#city").on("change", async function () {
+
+    await loadPin($(this).val());
+
+});
+$(document).on('input', '#pin', function () {
+    this.value = this.value.replace(/\D/g, '');
+});
+ document.querySelector(".cancelBtn").addEventListener("click", function () {
+    if(confirm("Are you sure you want to cancel?")){
+        location.href="customers_list.php";
     }
 });

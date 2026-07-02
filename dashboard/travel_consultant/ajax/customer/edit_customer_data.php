@@ -1,26 +1,27 @@
 <?php
-require "../../../connect.php";
+include_once(__DIR__.'/../../../dashboard_user_details.php');
 $current_year = date('Y');
 
-$refid = $_POST["ref_id"];
-$editfor = $_POST["editfor"];
+$refid = $userId;
+$editfor = $_POST["editfor"] ;
 $identifier_id = $_POST["id"];
+$status_value = $_POST["status_value"];
 
-$message = $identifier_id . " Details has been updated from register list";
-$message2 = $identifier_id . " Details has been updated from " . $editfor . " list";
+// $message = $identifier_id . " Details has been updated from register list";
+// $message2 = $identifier_id . " Details has been updated from " . $editfor . " list";
 
-if ($editfor == 'pending') {
+if ($editfor == 4) {
 	$identifier_id = $_POST["id"];
 	$identifier_name = 'id=';
 	$coupon_status = 0;
-	$message = "Updated ca_customer details from " . $editfor . " list";
-	$message2 = "Updated ca_customer details from " . $editfor . " list";
-} else if ($editfor == 'registered') {
+	$message = "Updated ca_customer details from pending list";
+	$message2 = "Updated ca_customer details from pending list";
+} else if ($editfor == 2) {
 	$identifier_id = $_POST["id"];
 	$identifier_name = 'ca_customer_id=';
 	$coupon_status = 1;
-	$message = $identifier_id . " Details has been updated from " . $editfor . " list";
-	$message2 = $identifier_id . " Details has been updated from " . $editfor . " list";
+	$message = $identifier_id . " Details has been updated from registered list";
+	$message2 = $identifier_id . " Details has been updated from registered list";
 }
 
 $firstname = $_POST['firstname'];
@@ -72,7 +73,10 @@ if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gend
 	country=:country,state=:state,city=:city,pincode=:pincode,address=:address,
 	profile_pic=:profile_pic,pan_card=:pan_card,aadhar_card=:aadhar_card,voting_card=:voting_card,
 	passbook=:passbook,payment_proof=:payment_proof,
-	payment_mode=:payment_mode, cheque_no=:cheque_no, cheque_date=:cheque_date, bank_name=:bank_name, transaction_no=:transaction_no WHERE $identifier_name:identifier_id ";
+	payment_mode=:payment_mode, cheque_no=:cheque_no, cheque_date=:cheque_date, bank_name=:bank_name, 
+	transaction_no=:transaction_no,
+	status=:status
+	 WHERE $identifier_name:identifier_id ";
 	$stmt = $conn->prepare($sql1);
 	$result =  $stmt->execute(array(
 		':firstname' => $firstname,
@@ -99,6 +103,7 @@ if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gend
 		':cheque_date' => $cheque_date,
 		':bank_name' => $bank_name,
 		':transaction_no' => $transaction_no,
+		':status' => $status_value,
 		':identifier_id' => $identifier_id
 	));
 
