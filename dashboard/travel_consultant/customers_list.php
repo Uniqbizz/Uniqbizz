@@ -605,12 +605,12 @@
                                         <input
                                             type="hidden"
                                             name="vkvbvjfgfikix"
-                                            value="${data}"
+                                            value="${data.ca_customer_id}"
                                         >
                                         <input
                                             type="hidden"
                                             name="editfor"
-                                            value="test"
+                                            value="addreff"
                                         >
 
                                         <button

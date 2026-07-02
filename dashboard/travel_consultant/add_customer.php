@@ -2,12 +2,12 @@
     include (__DIR__.'/urls.php');
     include_once(__DIR__ . '/../dashboard_user_details.php');
 
-    $id = $_GET['vkvbvjfgfikix'] ?? '';
-    $taId = $_GET['taId'] ?? '';
-    $country_id = $_GET['ncy'] ?? '';
-    $state_id = $_GET['mst'] ?? '';
-    $city_id = $_GET['hct'] ?? '';
-    $editfor = $_GET['editfor'] ?? '';
+    $id = $_POST['vkvbvjfgfikix'] ?? '';
+    $taId = $_POST['taId'] ?? '';
+    $country_id = $_POST['ncy'] ?? '';
+    $state_id = $_POST['mst'] ?? '';
+    $city_id = $_POST['hct'] ?? '';
+    $editfor = $_POST['editfor'] ?? '';
 
     if ($editfor == 'addreff') {
         $stmt1 = $conn->prepare(" SELECT firstname, lastname FROM ca_customer WHERE ca_customer_id = '" . $id . "' ");

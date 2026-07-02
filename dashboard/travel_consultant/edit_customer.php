@@ -124,20 +124,20 @@
                                     <p class="fw-bolder addTENum">01</p>
                                     <h4 class="fw-bolder text-dark align-content-center">Personal Information</h4>
                                 </div>
-                                <?php if ($userType == 10) { ?>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label" for="cu_ref_id">Customer Reference Id<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="cu_ref_id" placeholder="Enter Reference ID" value="" readonly>
-                                        </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 referenceSection">
+                                    <div class="input-block mb-3">
+                                        <label class="col-form-label" for="cu_ref_id">Customer Reference Id<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="cu_ref_id" placeholder="Enter Reference ID" value="" readonly>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label" for="cu_ref_name">Customer Reference Name<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="cu_ref_name" placeholder="Enter Reference Name" value="" readonly>
-                                        </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 referenceSection">
+                                    <div class="input-block mb-3">
+                                        <label class="col-form-label" for="cu_ref_name">Customer Reference Name<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="cu_ref_name" placeholder="Enter Reference Name" value="" readonly>
                                     </div>
-                                <?php } ?>
+                                </div>
+                                
+                                
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="user_id_name">TA Reference ID<span class="text-danger">*</span></label>

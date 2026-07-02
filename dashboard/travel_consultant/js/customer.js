@@ -500,7 +500,7 @@ function submitAddForm(actionType) {
     var dataObj = {
         action_type: actionType,
         cu_ref_id: cu_ref_id,
-        u_ref_name: cu_ref_name,
+        cu_ref_name: cu_ref_name,
         user_id_name: user_id_name,
         reference_name: reference_name,
 
@@ -1102,6 +1102,17 @@ async function initializeCustomer() {
     }
 
     const data = res.data;
+
+    //refernec section
+    if (data.reference_no && data.reference_no.trim() !== "") {
+        $(".referenceSection").removeClass("d-none");
+        $("#cu_ref_id").val(data.reference_no);
+        $("#cu_ref_name").val(data.registrant || "");
+    } else {
+        $(".referenceSection").addClass("d-none");
+        $("#cu_ref_id").val("");
+        $("#cu_ref_name").val("");
+    }
 
     //====================
     // Personal
