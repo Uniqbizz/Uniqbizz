@@ -1,12 +1,15 @@
 <?php
     include_once (__DIR__.'/../dashboard_user_details.php');
+    $id = $_POST['id'] ?? '';
+    $status = $_POST['status'] ?? '';
+    $edittype = 11;
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
     <head>
 
         <meta charset="utf-8" />
-        <title>Add Travel Consultant | Dashboard</title>
+        <title>Edit Travel Consultant | Dashboard</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -30,9 +33,10 @@
         <!-- custom Css developer-->
         <link rel="stylesheet" href="../assets/css/custom.css" />
         <!-- Customer Dashboard CSS -->
-        <link rel="stylesheet" href="../assets/css/techno_enterprise.css" />
+        <link rel="stylesheet" href="../assets/css/franchisee.css" />
         <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css" />
         <link href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         
@@ -43,7 +47,7 @@
         <!-- Begin page -->
         <div id="layout-wrapper">
 
-            <?php include_once 'techno_header.php'; ?>
+            <?php include_once 'franchisee_header.php'; ?>
 
             <!-- removeNotificationModal -->
             <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
@@ -71,7 +75,7 @@
             </div><!-- /.modal -->
             <!-- ========== App Menu ========== -->
 
-            <?php include_once 'techno_sidebar.php'; ?>
+            <?php include_once 'franchisee_sidebar.php'; ?>
 
             <!-- ============================================================== -->
             <!-- Start right Content here -->
@@ -87,11 +91,11 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Add Travel Consultant </h4>
+                                    <h4 class="mb-sm-0">Edit Travel Consultant </h4>
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="travel_consultants_list.php">Travel Consultant</a></li>
-                                            <li class="breadcrumb-item active">Add Travel Consultant</li>
+                                            <li class="breadcrumb-item active">Edit Travel Consultant</li>
                                         </ol>
                                     </div>
                                 </div>
@@ -106,7 +110,7 @@
                                             <i class="fa-solid fa-user-group addTEIcon"></i>
                                         </div>
                                         <div class="align-content-center">
-                                            <h1 class="fw-bolder text-white">Add Travel Consultant </h1>
+                                            <h1 class="fw-bolder text-white">Edit Travel Consultant </h1>
                                             <p class="fs-5 text-white mb-0">Fill in the details below to register a new Travel Consultant under your network.</p>
                                         </div>
                                     </div>
@@ -264,7 +268,6 @@
                                         <input type="text" class="form-control" id="pin" placeholder="Enter your pincode">
                                     </div>
                                 </div>
-                                <?php if ($userType == 33){ ?>
                                 <div class="col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">Branch <span class="text-danger">*</span></label>
@@ -287,7 +290,6 @@
                                         </select>
                                     </div>
                                 </div>
-                                <?php } ?>
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="address">Address<span class="text-danger">*</span></label>
@@ -452,7 +454,7 @@
 											</div>
 										</div>
 									</div>
-                                    <input type="hidden" id="testValue" name="testValue" value="11"> <!-- customer -->
+                                    <input type="hidden" id="testValue" name="testValue" value="10"> <!-- customer -->
                                     <input type="hidden" id="register_by" name="register_by" value="<?php echo $userType; ?>"> <!-- User type for table col register_by -->
                                     <input type="hidden" id="registrant_id" name="registrant_id" value="<?php echo $userId; ?>">
                                     <input type="hidden" id="editfor" name="editfor" value="<?php echo $editfor; ?>">
@@ -460,6 +462,7 @@
                                     <!-- new added 14-06-2025 -->
                                     <input type="hidden" id="userType" name="userType" value="<?php echo $userType; ?>"> <!-- 24,25,26 -->
                                     <input type="hidden" id="userId" name="userId" value="<?php echo $userId; ?>"> <!-- BH250001, BM250001 -->
+                                    <input type="hidden" id="id" name="id" value="<?php echo $id; ?>"> <!-- BH250001, BM250001 -->
                                 </div>
                             </div>
                         </div>
@@ -467,18 +470,20 @@
                             <div class="col-lg-12">
                                 <div class="d-flex justify-content-end gap-4 submitBtnBackground">
                                     <button type="button" class="btn actionBtn cancelBtn mb-2">Cancel</button>
-                                    <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftAdd">Save Draft</button>
-                                    <button type="submit" class="btn actionBtn submitBtn mb-2" id="addTravelConsultant">
+                                    <?php if($status==4){ ?>
+                                    <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftedit">Save Draft</button>
+                                    <button type="submit" class="btn actionBtn submitBtn mb-2" id="editTravelConsultant">
                                         <i class="fa-regular fa-paper-plane me-2"></i>
                                         Submit Travel Consultant
                                     </button>
+                                    <?php } ?>
 
                                 </div>
                             </div>
                         </div>
                     </div> <!-- container-fluid -->
                 </div><!-- End Page-content -->
-                <?php include_once 'techno_footer.php' ?>   
+                <?php include_once 'franchisee_footer.php' ?>   
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
 
@@ -512,6 +517,7 @@
         <script src="../assets/js/app.js"></script>
         <script src="js/travel_consultant.js"></script>
         <script src="../../uploading/uploadTechnoDashboard.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
 
@@ -526,6 +532,8 @@
                 $('#payment_fee').prop('disabled',true);
                 $('#branch').prop('disabled', false);
             }
+            
+            
 
             $('#country').on('change', function(){
                 var countryID = $(this).val();
@@ -610,7 +618,7 @@
                     $("#onlineOpt").addClass("d-none");
                 }
             });
-            //upload files
+
             function bindUploadEvents() {
 
                 document.querySelectorAll('.file-input').forEach(input => {
@@ -640,13 +648,13 @@
                                 let preview = card.querySelector('.preview-wrapper');
 
                                 if (!preview) {
-
+                                    $()
                                     preview = document.createElement('div');
                                     preview.className = 'preview-wrapper';
 
                                     preview.innerHTML = `
-                                        <img src="${e.target.result}">
-                                        <input type="hidden" id="img_path${index}" value="../../uploading/${file.name}">
+                                        <img src="${e.target.result}" id="img_path${index}">
+                                        <input type="hidden" id="img_path${index}" value="../../uploading/${filePath}">
                                         <div class="file-title">
                                             ${title}
                                         </div>
@@ -673,7 +681,6 @@
                             preview.innerHTML = `
                                 <i class="fa-solid fa-file-pdf"></i>
                                 <p class="mt-2 mb-0">${file.name}</p>
-                                <input type="hidden" id="img_path${index}" value="../../uploading/${file.name}">
                                 <div class="file-title">
                                     ${title}
                                 </div>
@@ -689,9 +696,480 @@
                 });
 
             }
+            function loadExistingFile(cardSelector, filePath)
+            {
+                if (!filePath) return;
 
-            document.addEventListener('DOMContentLoaded', function () {
+                const card = document.querySelector(cardSelector);
+
+                if (!card) return;
+
+                const title = card.dataset.title;
+                const index = card.dataset.index;
+                card.querySelector(
+                    '.upload-content, .preview-wrapper, .pdf-preview'
+                )?.remove();
+
+                const extension = filePath.split('.').pop().toLowerCase();
+
+                const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+                if (imageExtensions.includes(extension)) {
+
+                    const preview = document.createElement('div');
+
+                    preview.className = 'preview-wrapper';
+
+                    preview.innerHTML = `
+                        <img src="../../uploading/${filePath}">
+                        <input type="hidden" id="img_path${index}" value="../../uploading/${filePath}">
+                        <div class="file-title">
+                            ${title}
+                        </div>
+                    `;
+
+                    card.appendChild(preview);
+                    const status =<?= $status ?>;
+                    if (status == 4) {
+                        $('.file-input').prop('disabled', false);
+                    }else{
+                        $('.file-input').prop('disabled', true);
+                    }
+
+                } else {
+
+                    const preview = document.createElement('div');
+
+                    preview.className = 'pdf-preview';
+
+                    preview.innerHTML = `
+                        <i class="fa-solid fa-file-pdf"></i>
+                        <p class="mt-2 mb-0">${filePath.split('/').pop()}</p>
+                        <div class="file-title">
+                            ${title}
+                        </div>
+                    `;
+
+                    card.appendChild(preview);
+                }
+            }
+
+            function ajaxPromise(options) {
+                return new Promise(function (resolve, reject) {
+                    $.ajax({
+                        ...options,
+                        success: resolve,
+                        error: reject
+                    });
+                });
+            }
+            async function loadStates(countryID, selectedState = "") {
+
+                if (!countryID) {
+                    $("#mystate").html('<option value="">Select country first</option>');
+                    $("#city").html('<option value="">Select state first</option>');
+                    return;
+                }
+
+                try {
+
+                    const html = await ajaxPromise({
+                        type: "POST",
+                        url: "../address/countrydata.php",
+                        data: {
+                            country_id: countryID
+                        }
+                    });
+
+                    $("#mystate").html(html);
+
+                    if (selectedState) {
+                        $("#mystate").val(selectedState);
+                    }
+
+                } catch (e) {
+                    console.error(e);
+                }
+
+            }
+            async function loadCities(stateID, selectedCity = "") {
+
+                if (!stateID) {
+                    $("#city").html('<option value="">Select state first</option>');
+                    return;
+                }
+
+                try {
+
+                    const html = await ajaxPromise({
+                        type: "POST",
+                        url: "../address/countrydata.php",
+                        data: {
+                            state_id: stateID
+                        }
+                    });
+
+                    $("#city").html(html);
+
+                    if (selectedCity) {
+                        $("#city").val(selectedCity);
+                    }
+
+                } catch (e) {
+                    console.error(e);
+                }
+
+            }
+            async function loadPincode(cityID) {
+
+                if (!cityID) {
+                    $("#pin").val("");
+                    return;
+                }
+
+                try {
+
+                    const pin = await ajaxPromise({
+                        type: "POST",
+                        url: "../address/pincode.php",
+                        data: {
+                            city_id: cityID
+                        }
+                    });
+
+                    $("#pin").val($.trim(pin));
+
+                } catch (e) {
+                    console.error(e);
+                }
+
+            }
+            $("#country").on("change", async function () {
+
+                await loadStates($(this).val());
+
+                $("#city").html('<option value="">Select state first</option>');
+                $("#pin").val("");
+
+            });
+
+            $("#mystate").on("change", async function () {
+
+                await loadCities($(this).val());
+
+                $("#pin").val("");
+
+            });
+
+            $("#city").on("change", async function () {
+
+                await loadPincode($(this).val());
+
+            });
+            async function loadTravelConsultant() {
+                const id = '<?= $id ?>';
+                const edittype = '<?= $edittype ?>';
+                const res = await ajaxPromise({
+                    url: "models/travel_consultant/edit_tc_load_data.php",
+                    type: "GET",
+                    data: {
+                        id: id,
+                        edittype: edittype
+                    },
+                    dataType: "json"
+                });
+
+                if (!res.status) {
+                    alert(res.message);
+                    return;
+                }
+
+                const data = res.data;
+
+                $("#firstname").val(data.firstname);
+                $("#lastname").val(data.lastname);
+
+                $('#nominee_name').val(data.nominee_name);
+                $('#nominee_relation').val(data.nominee_relation);
+                $('#email').val(data.email);
+                $('#phone').val(data.contact_no);
+                $('#dob').val(data.date_of_birth);
+                $(`input[name="gender"][value="${data.gender}"]`).prop("checked", true);
+                $('#address').val(data.address);
+
+                // Payment Information
+                if(data.payment_mode === 'cash'){
+                    $('#cashPayment').prop('checked', true).trigger('change');
+                }
+
+                if(data.payment_mode === 'online'){
+                    $('#onlinePayment').prop('checked', true).trigger('change');
+                    $('#transactionNo').val(data.transaction_no);
+                    $('#onlineOpt').removeClass('d-none');
+                }
+
+                if(data.payment_mode === 'cheque'){
+                    $('#chequePayment').prop('checked', true).trigger('change');
+
+                    $('#chequeNo').val(data.cheque_no);
+                    $('#chequeDate').val(data.cheque_date);
+                    $('#bankName').val(data.bank_name);
+
+                    $('#chequeOpt').removeClass('d-none');
+                }
+
+                // Update radio button styling
+                $('.payment-label').removeClass('ptMode');
+                $('.payment:checked').closest('label').addClass('ptMode');
+
+                $("#country").val(data.country);
+
+                await loadStates(data.country, data.state);
+
+                await loadCities(data.state, data.city);
+
+                await loadPincode(data.city);
                 bindUploadEvents();
+                
+                loadExistingFile(
+                    '[data-index="1"]',
+                    data.profile_pic
+                );
+
+                loadExistingFile(
+                    '[data-index="2"]',
+                    data.aadhar_card
+                );
+
+                loadExistingFile(
+                    '[data-index="3"]',
+                    data.pan_card
+                );
+
+                loadExistingFile(
+                    '[data-index="4"]',
+                    data.bank_passbook
+                );
+
+                loadExistingFile(
+                    '[data-index="11"]',
+                    data.voting_card
+                );
+
+                loadExistingFile(
+                    '[data-index="12"]',
+                    data.payment_proof
+                );
+
+            }
+            loadTravelConsultant()
+            // document.addEventListener('DOMContentLoaded', function () {
+            //     bindUploadEvents();
+            //     const id = '<?= $id ?>';
+            //     const edittype = '<?= $edittype ?>';
+            //     $.ajax({
+            //         url: 'models/travel_consultant/edit_tc_load_data.php',
+            //         type: 'GET',
+            //         data: {
+            //             id: id,
+            //             edittype: edittype
+            //         },
+            //         dataType: 'json',
+            //         success: function(res)
+            //         {
+            //             if(!res.status){
+            //                 alert(res.message);
+            //                 return;
+            //             }
+
+            //             const data = res.data;
+            //             // Personal Information
+            //             $('#firstname').val(data.firstname);
+            //             $('#lastname').val(data.lastname);
+            //             $('#email').val(data.email);
+            //             $('#phone').val(data.contact_no);
+            //             $('#dob').val(data.date_of_birth);
+            //             $('#gender').val(data.gender);
+            //             $('#nominee_name').val(data.nominee_name);
+            //             $('#nominee_relation').val(data.nominee_relation);
+
+            //             // Business Information
+
+            //             // Address Information
+            //             // Store for later use
+            //             window.selectedState = data.state;
+            //             window.selectedCity = data.city;
+
+            //             // Start chain
+            //             $('#country').val(data.country).trigger('change');
+            //             $('#pincode').val(data.pincode);
+            //             $('#address').val(data.address);
+
+            //             // Payment Information
+            //             if(data.payment_mode === 'cash'){
+            //                 $('#cashPayment').prop('checked', true).trigger('change');
+            //             }
+
+            //             if(data.payment_mode === 'online'){
+            //                 $('#onlinePayment').prop('checked', true).trigger('change');
+            //                 $('#transactionNo').val(data.transaction_no);
+            //                 $('#onlineOpt').removeClass('d-none');
+            //             }
+
+            //             if(data.payment_mode === 'cheque'){
+            //                 $('#chequePayment').prop('checked', true).trigger('change');
+
+            //                 $('#chequeNo').val(data.cheque_no);
+            //                 $('#chequeDate').val(data.cheque_date);
+            //                 $('#bankName').val(data.bank_name);
+
+            //                 $('#chequeOpt').removeClass('d-none');
+            //             }
+
+            //             // Update radio button styling
+            //             $('.payment-label').removeClass('ptMode');
+            //             $('.payment:checked').closest('label').addClass('ptMode');
+            //             $('#note').val(data.note);
+
+            //             loadExistingFile(
+            //                 '[data-index="1"]',
+            //                 data.profile_pic
+            //             );
+
+            //             loadExistingFile(
+            //                 '[data-index="2"]',
+            //                 data.aadhar_card
+            //             );
+
+            //             loadExistingFile(
+            //                 '[data-index="3"]',
+            //                 data.pan_card
+            //             );
+
+            //             loadExistingFile(
+            //                 '[data-index="4"]',
+            //                 data.bank_passbook
+            //             );
+
+            //             loadExistingFile(
+            //                 '[data-index="11"]',
+            //                 data.voting_card
+            //             );
+
+            //             loadExistingFile(
+            //                 '[data-index="12"]',
+            //                 data.payment_proof
+            //             );
+            //         }
+            //     });
+            //     // Address Information
+            //     $('#country').on('change', function () {
+
+            //         var countryID = $(this).val();
+
+            //         if (countryID) {
+
+            //             $.ajax({
+            //                 type: 'POST',
+            //                 url: '../address/countrydata.php',
+            //                 data: {
+            //                     country_id: countryID
+            //                 },
+            //                 success: function (html) {
+
+            //                     $('#mystate').html(html);
+
+            //                     if (window.selectedState) {
+
+            //                         $('#mystate')
+            //                             .val(window.selectedState)
+            //                             .trigger('change');
+
+            //                         window.selectedState = null;
+            //                     } else {
+
+            //                         $('#city').html('<option value="">Select state first</option>');
+            //                     }
+            //                 }
+            //             });
+
+            //         } else {
+
+            //             $('#mystate').html('<option value="">Select country first</option>');
+            //             $('#city').html('<option value="">Select state first</option>');
+            //             $('#pin').val('');
+            //         }
+            //     });
+                    
+            //     $('#mystate').on('change', function () {
+
+            //         var stateID = $(this).val();
+
+            //         if (stateID) {
+
+            //             $.ajax({
+            //                 type: 'POST',
+            //                 url: '../address/countrydata.php',
+            //                 data: {
+            //                     state_id: stateID
+            //                 },
+            //                 success: function (html) {
+
+            //                     $('#city').html(html);
+
+            //                     if (window.selectedCity) {
+
+            //                         $('#city')
+            //                             .val(window.selectedCity)
+            //                             .trigger('change');
+
+            //                         window.selectedCity = null;
+            //                     }
+            //                 }
+            //             });
+
+            //         } else {
+
+            //             $('#city').html('<option value="">Select state first</option>');
+            //             $('#pin').val('');
+            //         }
+            //     });
+
+            //     $('#city').on('change', function () {
+
+            //         var cityID = $(this).val();
+
+            //         if (cityID) {
+
+            //             $.ajax({
+            //                 type: 'POST',
+            //                 url: '../address/pincode.php',
+            //                 data: {
+            //                     city_id: cityID
+            //                 },
+            //                 success: function (response) {
+
+            //                     response = $.trim(response);
+
+            //                     $('#pin').val(response || '');
+
+            //                 },
+            //                 error: function () {
+
+            //                     $('#pin').val('');
+
+            //                 }
+            //             });
+
+            //         } else {
+
+            //             $('#pin').val('');
+
+            //         }
+            //     });
+            // });
+            $(document).on('input', '#pin', function () {
+                this.value = this.value.replace(/\D/g, '');
             });
         </script>
     </body>

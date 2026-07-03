@@ -364,6 +364,37 @@
                                 `;
 
                         }
+                    },
+                    {
+                        data: null,
+                        orderable: false,
+                        searchable: false,
+                        className: 'none',
+                        render: function(data) {
+
+                            return `
+                                <form action="edit_customer.php" method="POST" class="m-0">
+                                    <input
+                                        type="hidden"
+                                        name="id"
+                                        value="${data.id}"
+                                    >
+                                    <input
+                                            type="hidden"
+                                            name="status"
+                                            value="2"
+                                        >
+                                    <button
+                                        type="submit"
+                                        class="border-0 bg-transparent p-0 w-100"
+                                    >
+                                        <p class="teViewBtn text-center fw-bold mb-0">
+                                            <i class="fa-solid fa-eye me-2 mt-1"></i>View
+                                        </p>
+                                    </button>
+                                </form>
+                            `;
+                        }
                     }
                 ],
                 language: {
@@ -535,20 +566,24 @@
                         }
                     },
                     {
-                        data: 'ca_customer_id',
+                        data: null,
                         orderable: false,
                         searchable: false,
                         className: 'none',
                         render: function(data) {
 
                             return `
-                                <form action="#" method="POST" class="m-0">
+                                <form action="edit_customer.php" method="POST" class="m-0">
                                     <input
                                         type="hidden"
-                                        name="ca_customer_id"
-                                        value="${data}"
+                                        name="id"
+                                        value="${data.ca_customer_id}"
                                     >
-
+                                    <input
+                                            type="hidden"
+                                            name="status"
+                                            value="1"
+                                        >
                                     <button
                                         type="submit"
                                         class="border-0 bg-transparent p-0 w-100"

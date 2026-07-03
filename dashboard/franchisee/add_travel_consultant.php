@@ -30,7 +30,7 @@
         <!-- custom Css developer-->
         <link rel="stylesheet" href="../assets/css/custom.css" />
         <!-- Customer Dashboard CSS -->
-        <link rel="stylesheet" href="../assets/css/techno_enterprise.css" />
+        <link rel="stylesheet" href="../assets/css/franchisee.css" />
         <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css" />
         <link href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
         <!-- FontAwesome -->
@@ -43,7 +43,7 @@
         <!-- Begin page -->
         <div id="layout-wrapper">
 
-            <?php include_once 'techno_header.php'; ?>
+            <?php include_once 'franchisee_header.php'; ?>
 
             <!-- removeNotificationModal -->
             <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
@@ -71,7 +71,7 @@
             </div><!-- /.modal -->
             <!-- ========== App Menu ========== -->
 
-            <?php include_once 'techno_sidebar.php'; ?>
+            <?php include_once 'franchisee_sidebar.php'; ?>
 
             <!-- ============================================================== -->
             <!-- Start right Content here -->
@@ -478,7 +478,7 @@
                         </div>
                     </div> <!-- container-fluid -->
                 </div><!-- End Page-content -->
-                <?php include_once 'techno_footer.php' ?>   
+                <?php include_once 'franchisee_footer.php' ?>   
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
 
