@@ -48,7 +48,7 @@
         <div id="layout-wrapper">
 
             <?php 
-                include_once(__DIR__ . '/chief_techno__header.php');
+                include_once(__DIR__ . '/chief_techno_header.php');
             ?>
             <!-- removeNotificationModal -->
             <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
@@ -77,7 +77,7 @@
             <!-- ========== App Menu ========== -->
 
             <?php 
-                include_once(__DIR__ . '/chief_techno__sidebar.php');
+                include_once(__DIR__ . '/chief_techno_sidebar.php');
             ?>
             <!-- ============================================================== -->
             <!-- Start right Content here -->
@@ -476,7 +476,7 @@
                     </div> <!-- container-fluid -->
                 </div><!-- End Page-content -->
                 <?php 
-                    include_once(__DIR__ . '/chief_techno__footer.php');
+                    include_once(__DIR__ . '/chief_techno_footer.php');
                 ?>
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->

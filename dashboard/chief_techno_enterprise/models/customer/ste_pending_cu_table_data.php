@@ -38,7 +38,7 @@
                     ON ca.reference_no = ste.super_techno_enterprise_id
 
                 INNER JOIN executive_techno_enterprise ete
-                    ON ete.reference_no = ete.executive_techno_enterprise_id
+                    ON ste.reference_no = ete.executive_techno_enterprise_id
 
                 WHERE ete.reference_no = :user_id
                 AND cu.status IN (2,3)
