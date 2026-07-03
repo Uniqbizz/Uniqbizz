@@ -12,7 +12,7 @@
 
                 SELECT
                     ta.id,
-                    ta.ca_travelagency_id,
+                    ta.ca_travelagency_id AS ca_travelagency_id,
                     ta.firstname,
                     ta.lastname,
                     ta.contact_no,
@@ -41,7 +41,7 @@
 
                 SELECT
                     ta.id,
-                    ta.institution_branch_manager_id,
+                    ta.institution_branch_manager_id AS ca_travelagency_id,
                     ta.firstname,
                     ta.lastname,
                     ta.contact_no,
