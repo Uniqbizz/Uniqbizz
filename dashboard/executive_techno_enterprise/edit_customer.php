@@ -527,5 +527,12 @@
         <!-- end dialer logic scripts -->
         <script src="js/customer.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            document.querySelector(".cancelBtn").addEventListener("click", function () {
+                if(confirm("Are you sure you want to cancel?")){
+                    location.href = "customers_list.php";
+                }
+            });
+        </script>
     </body>
 </html>

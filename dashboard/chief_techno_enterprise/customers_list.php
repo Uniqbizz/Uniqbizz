@@ -778,6 +778,11 @@
                     document.body.focus();
                 }
             });
+            document.querySelector(".cancelBtn").addEventListener("click", function () {
+                if(confirm("Are you sure you want to cancel?")){
+                    location.href = "customers_list.php";
+                }
+            });
         </script>
         <!-- end dialer logic scripts -->
     </body>

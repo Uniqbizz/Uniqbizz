@@ -961,7 +961,7 @@
         <script>
             document.querySelector(".cancelBtn").addEventListener("click", function () {
                 if(confirm("Are you sure you want to cancel?")){
-                    window.history.back();
+                    location.href = "techno_enterprise_list.php";
                 }
             });
             $('#businessPackage').on('change', function(){
