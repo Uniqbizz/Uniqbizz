@@ -125,6 +125,12 @@
                         </a>
                     </li>
                     <li>
+                        <a href="../institution/view_institution.php" class=" waves-effect">
+                            <i class="bx bxs-user-detail"></i>
+                            <span key="t-contacts">Institution</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="../ca_travelAgency/view_ca_travelAgency.php" class=" waves-effect">
                             <i class="bx bxs-user-detail"></i>
                             <span key="t-contacts">TC / IBR</span>
