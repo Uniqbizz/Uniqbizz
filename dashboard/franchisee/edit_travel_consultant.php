@@ -268,6 +268,7 @@
                                         <input type="text" class="form-control" id="pin" placeholder="Enter your pincode">
                                     </div>
                                 </div>
+                                <?php if ($userType == 32){ ?>
                                 <div class="col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">Branch <span class="text-danger">*</span></label>
@@ -290,6 +291,7 @@
                                         </select>
                                     </div>
                                 </div>
+                                <?php } ?>
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="address">Address<span class="text-danger">*</span></label>

@@ -264,7 +264,7 @@
                                         <input type="text" class="form-control" id="pin" placeholder="Enter your pincode">
                                     </div>
                                 </div>
-                                <?php if ($userType == 33){ ?>
+                                <?php if ($userType == 32){ ?>
                                 <div class="col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">Branch <span class="text-danger">*</span></label>

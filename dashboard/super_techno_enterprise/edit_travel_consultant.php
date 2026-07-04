@@ -268,6 +268,7 @@
                                         <input type="text" class="form-control" id="pin" placeholder="Enter your pincode">
                                     </div>
                                 </div>
+                                <?php if ($userType == 32){ ?>
                                 <div class="col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">Branch <span class="text-danger">*</span></label>
@@ -290,6 +291,7 @@
                                         </select>
                                     </div>
                                 </div>
+                                <?php } ?>
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="address">Address<span class="text-danger">*</span></label>
@@ -457,7 +459,7 @@
                                     <input type="hidden" id="testValue" name="testValue" value="10"> <!-- customer -->
                                     <input type="hidden" id="register_by" name="register_by" value="<?php echo $userType; ?>"> <!-- User type for table col register_by -->
                                     <input type="hidden" id="registrant_id" name="registrant_id" value="<?php echo $userId; ?>">
-                                    <!-- <input type="hidden" id="editfor" name="editfor" value="<?php echo $editfor; ?>"> -->
+                                    <!-- <input type="hidden" id="editfor" name="editfor" value="<?php //echo $editfor; ?>"> -->
                                     
                                     <!-- new added 14-06-2025 -->
                                     <input type="hidden" id="userType" name="userType" value="<?php echo $userType; ?>"> <!-- 24,25,26 -->
