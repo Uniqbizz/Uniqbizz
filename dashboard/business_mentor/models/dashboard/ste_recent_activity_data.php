@@ -145,7 +145,7 @@
                 business_package_amount,
                 created_date
             FROM goa_bm_payout
-            WHERE ste_id = :user_id
+            WHERE bm_id = :user_id
             ORDER BY created_date DESC
             LIMIT 2
         ");
