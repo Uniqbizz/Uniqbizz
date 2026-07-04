@@ -100,7 +100,7 @@
             "Added new Franchisee. TE name - {$fname} {$lname}";
 
         $message2 =
-            "Added new Franchisee by Super Franchisee";
+            "Added new Franchisee by Business Mentor";
     }
 
     /* ---------------- EDIT MODE ---------------- */

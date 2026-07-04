@@ -123,7 +123,7 @@
                                                                         <?php 
 
                                                                             
-                                                                            $userIdCommi = 'business_mentor';
+                                                                            $userIdCommi = 'master_franchisee';
                                                                             $amtCal = 'commission_mf';
                                                                             
 
@@ -153,7 +153,7 @@
                                                                         <p>Next Payout<span class="fw-bold date-layout "><?php echo "$date" ?></span></p>
                                                                         <?php 
                                                                             
-                                                                            $userIdCommi = 'business_mentor';
+                                                                            $userIdCommi = 'master_franchisee';
                                                                             $amtCal = 'commission_mf';
                                                                             
                                                                             $nextPayout = $conn -> prepare("SELECT SUM(($amtCal)) as nextPayout FROM sub_franchisee_payout WHERE $userIdCommi = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
@@ -194,7 +194,7 @@
                                                                     </div>
                                                                     <?php 
                                                                         
-                                                                        $userIdCommi = 'business_mentor';
+                                                                        $userIdCommi = 'master_franchisee';
                                                                         $amtCal = 'commission_mf';
                                                                         
 
@@ -250,7 +250,7 @@
                                                                             <?php
 
                                                                                 
-                                                                                $sql = "SELECT * FROM `sub_franchisee_payout` WHERE  business_mentor = '".$userId."'   ";
+                                                                                $sql = "SELECT * FROM `sub_franchisee_payout` WHERE  master_franchisee = '".$userId."'   ";
                                                                                                                                                                 
                                                                                 $stmt = $conn -> prepare($sql);
                                                                                 $stmt -> execute();
@@ -263,7 +263,7 @@
                                                                                         $dt = $dt->format('Y-m-d');
                                                                                         
                                                                                         
-                                                                                        $id = $row['business_mentor'];
+                                                                                        $id = $row['master_franchisee'];
                                                                                         $message = $row['message_mf'];
                                                                                         $amt = $row['commission_mf'];
                                                                                         $status = $row['status_mf'];

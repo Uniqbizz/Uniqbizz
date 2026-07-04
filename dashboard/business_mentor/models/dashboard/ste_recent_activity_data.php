@@ -68,6 +68,36 @@
                 'date' => $row['activity_date']
             ];
         }
+        /*
+        |--------------------------------------------------------------------------
+        | New I Added
+        |--------------------------------------------------------------------------
+        */
+
+        $sqlI = $conn->prepare("
+            SELECT
+                CONCAT(firstname,' ',lastname) AS name,
+                register_date AS activity_date
+            FROM institution
+            WHERE reference_no = :user_id
+            AND status IN (1,3)
+            ORDER BY register_date DESC
+            LIMIT 2
+        ");
+
+        $sqlI->execute([
+            ':user_id' => $userId
+        ]);
+
+        foreach($sqlI->fetchAll(PDO::FETCH_ASSOC) as $row){
+
+            $activities[] = [
+                'type' => 'i',
+                'title' => 'New Institution Added',
+                'description' => $row['name'],
+                'date' => $row['activity_date']
+            ];
+        }
 
         /*
         |--------------------------------------------------------------------------
@@ -112,9 +142,9 @@
 
         $sqlRecruitment = $conn->prepare("
             SELECT
-                ste_amount,
+                business_package_amount,
                 created_date
-            FROM techno_enterprise_payout
+            FROM goa_bm_payout
             WHERE ste_id = :user_id
             ORDER BY created_date DESC
             LIMIT 2
@@ -129,7 +159,7 @@
             $activities[] = [
                 'type' => 'recruitment',
                 'title' => 'TE Recruitment Commission Credited',
-                'description' => '+ ₹ '.number_format($row['ste_amount']),
+                'description' => '+ ₹ '.number_format($row['business_package_amount']),
                 'date' => $row['created_date']
             ];
         }
@@ -185,9 +215,9 @@
         foreach($sqlCRecruitment->fetchAll(PDO::FETCH_ASSOC) as $row){
 
             $activities[] = [
-                'type' => 'customer',
+                'type' => 'customerc',
                 'title' => 'Holiday Account Commission Credited',
-                'description' => '+ ₹ '.number_format($row['commission_zm']),
+                'description' => '+ ₹ '.number_format($row['commision_bm']),
                 'date' => $row['created_date']
             ];
         }

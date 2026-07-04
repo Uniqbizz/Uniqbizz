@@ -291,6 +291,9 @@
                             } else if (data.user_type == 29) {
 
                                 badge = '<span class="badge bg-success ms-1">F</span>';
+                            } else if (data.user_type == 32) {
+
+                                badge = '<span class="badge bg-info ms-1">I</span>';
                             }
 
                             return `
@@ -312,7 +315,7 @@
                                     </p>
 
                                     <p class="fs-6 mb-0">
-                                        ${data.super_techno_enterprise_id || '-'}
+                                        ${data.business_mentor_id || '-'}
                                     </p>
                                 </div>
                             `;
@@ -468,6 +471,9 @@
                             } else if (data.user_type == 29) {
 
                                 badge = '<span class="badge bg-success ms-1">F</span>';
+                            }else if (data.user_type == 32) {
+
+                                badge = '<span class="badge bg-info ms-1">I</span>';
                             }
                             return `
                                 <p class="fs-6 mb-0">
@@ -488,7 +494,7 @@
                                         ${data.ref_firstname || '-'} ${data.ref_lastname || ''}
                                     </p>
                                     <p class="fs-6 mb-0">
-                                        ${data.super_techno_enterprise_id || '-'}
+                                        ${data.business_mentor_id || '-'}
                                     </p>
                                 </div>
                             `;

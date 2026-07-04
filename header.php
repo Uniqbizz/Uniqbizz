@@ -207,6 +207,9 @@
                                                             }else if(isset($_SESSION['username2']) && isset($_SESSION['user_type_id_value']) && $_SESSION['user_type_id_value'] == "29"){
                                                                 echo '<a href="dashboard/franchisee/franchisee_dashboard.php" class="btn-secondary-sm fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Dashboard</a>
                                                                 <a href="login.php" class="btn-secondary-sm my2logout fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Logout</a>';
+                                                            }else if(isset($_SESSION['username2']) && isset($_SESSION['user_type_id_value']) && $_SESSION['user_type_id_value'] == "26"){
+                                                                echo '<a href="dashboard/business_mentor/business_mentor_dashboard.php" class="btn-secondary-sm fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Dashboard</a>
+                                                                <a href="login.php" class="btn-secondary-sm my2logout fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Logout</a>';
                                                             }else if(isset($_SESSION['username2'])){
                                                                 echo '<a href="dashboard/" class="btn-secondary-sm fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Dashboard</a>
                                                                 <a href="login.php" class="btn-secondary-sm my2logout fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Logout</a>';
@@ -269,6 +272,9 @@
                                                             <a href="login.php" class="btn-secondary-sm my2logout">Logout</a>';
                                                         }else if(isset($_SESSION['username2']) && isset($_SESSION['user_type_id_value']) && $_SESSION['user_type_id_value'] == "29"){
                                                             echo '<a href="dashboard/franchisee/franchisee_dashboard.php" class="btn-secondary-sm">Dashboard</a>
+                                                            <a href="login.php" class="btn-secondary-sm my2logout">Logout</a>';
+                                                        }else if(isset($_SESSION['username2']) && isset($_SESSION['user_type_id_value']) && $_SESSION['user_type_id_value'] == "26"){
+                                                            echo '<a href="dashboard/business_mentor/business_mentor_dashboard.php" class="btn-secondary-sm">Dashboard</a>
                                                             <a href="login.php" class="btn-secondary-sm my2logout">Logout</a>';
                                                         }else if(isset($_SESSION['username2'])){
                                                             echo '<a href="dashboard/" class="btn-secondary-sm">Dashboard</a>

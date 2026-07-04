@@ -76,7 +76,7 @@
             "Added new Techno Enterprise. TE name - {$fname} {$lname}";
 
         $message2 =
-            "Added new Techno Enterprise by Super Techno Enterprise";
+            "Added new Techno Enterprise by Business Mentor";
     }
 
     /* ---------------- EDIT MODE ---------------- */

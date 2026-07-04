@@ -365,7 +365,7 @@
                             <div class="">
                                 <div class="d-flex gap-2">
                                     <p class="fw-bolder addTENum">04</p>
-                                    <h4 class="fw-bolder text-dark align-content-center">Payment Information</h4>
+                                    <h4 class="fw-bolder text-dark align-content-center">Upload Information</h4>
                                 </div>
                                 <div class="row g-3">
                                     <!-- Profile -->
