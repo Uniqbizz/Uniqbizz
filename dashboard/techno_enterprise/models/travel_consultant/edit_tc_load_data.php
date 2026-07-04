@@ -30,7 +30,7 @@
             exit;
     }
 
-    $field = preg_match('/^(CU)/i', $id)
+    $field = preg_match('/^(TA)/i', $id)
         ? $customField
         : 'id';
 

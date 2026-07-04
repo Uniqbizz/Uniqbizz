@@ -375,9 +375,9 @@
                                             <div class="card border border-1 rounded-4 mb-0">
                                                 <div class="packageCard">
                                                     <img src="<?= $home_url ?><?=$package_array[0]['image']?>" alt="TripsImage" class="packageImage">
-                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                    <!-- <div class="heartIcon" onclick="toggleWishlist(this)">
                                                         <i class="fa-regular fa-heart"></i>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <div class="packageDetails p-3">
                                                     <h6 class="text-dark fw-bolder"><?=$package_array[0]['packname']?></h6>
@@ -398,9 +398,9 @@
                                             <div class="card border border-1 rounded-4 mb-0">
                                                 <div class="packageCard">
                                                     <img src="<?= $home_url ?><?=$package_array[1]['image']?>" alt="TripsImage" class="packageImage">
-                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                    <!-- <div class="heartIcon" onclick="toggleWishlist(this)">
                                                         <i class="fa-regular fa-heart"></i>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <div class="packageDetails p-3">
                                                     <h6 class="text-dark fw-bolder"><?=$package_array[1]['packname']?></h6>
@@ -421,9 +421,9 @@
                                             <div class="card border border-1 rounded-4 mb-0">
                                                 <div class="packageCard">
                                                     <img src="<?= $home_url ?><?=$package_array[2]['image']?>" alt="TripsImage" class="packageImage">
-                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                    <!-- <div class="heartIcon" onclick="toggleWishlist(this)">
                                                         <i class="fa-regular fa-heart"></i>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <div class="packageDetails p-3">
                                                     <h6 class="text-dark fw-bolder"><?=$package_array[2]['packname']?></h6>
@@ -444,9 +444,9 @@
                                             <div class="card border border-1 rounded-4 mb-0">
                                                 <div class="packageCard">
                                                     <img src="<?= $home_url ?><?=$package_array[3]['image']?>" alt="TripsImage" class="packageImage">
-                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                    <!-- <div class="heartIcon" onclick="toggleWishlist(this)">
                                                         <i class="fa-regular fa-heart"></i>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <div class="packageDetails p-3">
                                                     <h6 class="text-dark fw-bolder"><?=$package_array[3]['packname']?></h6>
@@ -467,9 +467,9 @@
                                             <div class="card border border-1 rounded-4 mb-0">
                                                 <div class="packageCard">
                                                     <img src="<?= $home_url ?><?=$package_array[4]['image']?>" alt="TripsImage" class="packageImage">
-                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                    <!-- <div class="heartIcon" onclick="toggleWishlist(this)">
                                                         <i class="fa-regular fa-heart"></i>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <div class="packageDetails p-3">
                                                     <h6 class="text-dark fw-bolder"><?=$package_array[4]['packname']?></h6>
@@ -490,9 +490,9 @@
                                             <div class="card border border-1 rounded-4 mb-0">
                                                 <div class="packageCard">
                                                     <img src="<?= $home_url ?><?=$package_array[5]['image']?>" alt="TripsImage" class="packageImage">
-                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                    <!-- <div class="heartIcon" onclick="toggleWishlist(this)">
                                                         <i class="fa-regular fa-heart"></i>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <div class="packageDetails p-3">
                                                     <h6 class="text-dark fw-bolder"><?=$package_array[5]['packname']?></h6>
@@ -513,9 +513,9 @@
                                             <div class="card border border-1 rounded-4 mb-0">
                                                 <div class="packageCard">
                                                     <img src="<?= $home_url ?><?=$package_array[6]['image']?>" alt="TripsImage" class="packageImage">
-                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                    <!-- <div class="heartIcon" onclick="toggleWishlist(this)">
                                                         <i class="fa-regular fa-heart"></i>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <div class="packageDetails p-3">
                                                     <h6 class="text-dark fw-bolder"><?=$package_array[6]['packname']?></h6>
@@ -536,9 +536,9 @@
                                             <div class="card border border-1 rounded-4 mb-0">
                                                 <div class="packageCard">
                                                     <img src="<?= $home_url ?><?=$package_array[7]['image']?>" alt="TripsImage" class="packageImage">
-                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                    <!-- <div class="heartIcon" onclick="toggleWishlist(this)">
                                                         <i class="fa-regular fa-heart"></i>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <div class="packageDetails p-3">
                                                     <h6 class="text-dark fw-bolder"><?=$package_array[7]['packname']?></h6>
@@ -559,9 +559,9 @@
                                             <div class="card border border-1 rounded-4 mb-0">
                                                 <div class="packageCard">
                                                     <img src="<?= $home_url ?><?=$package_array[8]['image']?>" alt="TripsImage" class="packageImage">
-                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                    <!-- <div class="heartIcon" onclick="toggleWishlist(this)">
                                                         <i class="fa-regular fa-heart"></i>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <div class="packageDetails p-3">
                                                     <h6 class="text-dark fw-bolder"><?=$package_array[8]['packname']?></h6>
@@ -582,9 +582,9 @@
                                             <div class="card border border-1 rounded-4 mb-0">
                                                 <div class="packageCard">
                                                     <img src="<?= $home_url ?><?=$package_array[9]['image']?>" alt="TripsImage" class="packageImage">
-                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                    <!-- <div class="heartIcon" onclick="toggleWishlist(this)">
                                                         <i class="fa-regular fa-heart"></i>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <div class="packageDetails p-3">
                                                     <h6 class="text-dark fw-bolder"><?=$package_array[9]['packname']?></h6>
@@ -605,9 +605,9 @@
                                             <div class="card border border-1 rounded-4 mb-0">
                                                 <div class="packageCard">
                                                     <img src="<?= $home_url ?><?=$package_array[10]['image']?>" alt="TripsImage" class="packageImage">
-                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                    <!-- <div class="heartIcon" onclick="toggleWishlist(this)">
                                                         <i class="fa-regular fa-heart"></i>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <div class="packageDetails p-3">
                                                     <h6 class="text-dark fw-bolder"><?=$package_array[10]['packname']?></h6>
@@ -628,9 +628,9 @@
                                             <div class="card border border-1 rounded-4 mb-0">
                                                 <div class="packageCard">
                                                     <img src="<?= $home_url ?><?=$package_array[11]['image']?>" alt="TripsImage" class="packageImage">
-                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                    <!-- <div class="heartIcon" onclick="toggleWishlist(this)">
                                                         <i class="fa-regular fa-heart"></i>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <div class="packageDetails p-3">
                                                     <h6 class="text-dark fw-bolder"><?=$package_array[11]['packname']?></h6>

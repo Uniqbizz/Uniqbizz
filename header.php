@@ -114,7 +114,7 @@
                                                     <a href="tour-list.php" class="single">Tour Package</a>
                                                 </li>
                                                 <li class="single-list">
-                                                    <a href="visa.php" class="single">Visa</a>
+                                                    <a href="#" class="single">Visa</a>
                                                 </li>
                                                 <!-- <li class="single-list">
                                                     <a href="javascript:void(0)" class="single">Pages <i

@@ -340,7 +340,7 @@
                                             <input type="checkbox" id="rememberMe">
                                             Remember Me
                                         </div>
-                                        <a href="#">Forgot Password</a>
+                                        <!-- <a href="#">Forgot Password</a> -->
                                     </div>
                                     <button id="loginBtn" class="continueBtn mt-4" onclick="userLogin()">
                                         Login

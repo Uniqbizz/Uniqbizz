@@ -1,5 +1,4 @@
 <?php
-    include (__DIR__.'/urls.php');
     include_once(__DIR__ . '/../dashboard_user_details.php');
 
     $id = $_POST['id'];

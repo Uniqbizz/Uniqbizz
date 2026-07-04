@@ -989,7 +989,6 @@
                             );
 
                             $('#profileAddress').html(
-                                '<i class="fa-solid fa-location-dot"></i> ' +
                                 (profile.profile_address || '')
                             );
 

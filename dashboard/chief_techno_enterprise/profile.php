@@ -989,7 +989,6 @@
                             );
 
                             $('#profileAddress').html(
-                                '' +
                                 (profile.profile_address || '')
                             );
 
