@@ -138,16 +138,17 @@
                 ste.country_code AS per_info_phone_prefix,
                 ste.contact_no AS per_info_phone,
                 ste.date_of_birth AS per_info_dob,
-                ste.father_spouse_name AS per_info_father_spouse_name,
+                ste.nominee_name AS per_info_nominee_name,
+                ste.nominee_relation AS per_info_nominee_relation,
                 cun.country_name,
                 CONCAT(
                     UPPER(LEFT(ste.gender, 1)),
                     LOWER(SUBSTRING(ste.gender, 2))
                 ) AS per_info_gender
-            FROM super_techno_enterprise ste
+            FROM master_franchisee ste
             LEFT JOIN countries cun
                 ON cun.id = ste.country
-            WHERE ste.super_techno_enterprise_id = :user_id
+            WHERE ste.master_franchisee_id = :user_id
             LIMIT 1
         ");
 

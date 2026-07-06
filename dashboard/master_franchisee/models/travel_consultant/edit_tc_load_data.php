@@ -16,18 +16,13 @@
 
     switch ($edittype) {
 
-        case '16':
-            $table = 'corporate_agency';
-            $customField = 'corporate_agency_id';
+        case '11':
+            $table = 'ca_travelagency';
+            $customField = 'ca_travelagency_id';
             break;
-
-        case '29':
-            $table = 'sub_franchisee';
-            $customField = 'sub_franchisee_id';
-            break;
-        case '32':
-            $table = 'institution';
-            $customField = 'institution_id';
+        case '33':
+            $table = 'institution_branch_manager';
+            $customField = 'institution_branch_manager_id';
             break;
 
         default:
@@ -38,7 +33,7 @@
             exit;
     }
 
-    $field = preg_match('/^(TE|F|I)/i', $id)
+    $field = preg_match('/^(TA|IBR)/i', $id)
         ? $customField
         : 'id';
 
@@ -51,7 +46,7 @@
 
     $stmt->execute([$id]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
+    // print_r($stmt);
     if (!$row) {
         echo json_encode([
             'status' => false,
@@ -114,14 +109,13 @@
             'id' => $row['id'],
             'firstname' => $row['firstname'],
             'lastname' => $row['lastname'],
-            'nominee_name' => $row['nominee_name'],
-            'nominee_relation' => $row['nominee_relation'],
             'email' => $row['email'],
             'contact_no' => $row['contact_no'],
             'amount' => $row['amount'],
+            'nominee_relation' => $row['nominee_relation'],
+            'nominee_name' => $row['nominee_name'],
             'reference_no' => $row['reference_no'],
             'registrant' => $row['registrant'],
-            'gst_no' => $row['gst_no'],
             'date_of_birth' => $row['date_of_birth'],
             'gender' => $row['gender'],
             'country' => $row['country'],
@@ -141,9 +135,9 @@
             'pan_card' => $row['pan_card'],
             'aadhar_card' => $row['aadhar_card'],
             'voting_card' => $row['voting_card'],
-            'bank_passbook' => $row['bank_passbook'],
+            'bank_passbook' => $row['passbook'],
             'payment_proof' => $row['payment_proof'],
-            'note' => $row['note']
+            'country_code' => $row['country_code']
         ]
     ];
 

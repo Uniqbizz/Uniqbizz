@@ -623,6 +623,10 @@
                                 {
                                     location.href = "dashboard/sponsor_franchisee/sponsor_franchisee_dashboard.php";
                                 }
+                                else if (res.user_type == "28")
+                                {
+                                    location.href = "dashboard/master_franchisee/master_franchisee_dashboard.php";
+                                }
                                 else
                                 {
                                     location.href = "dashboard/index.php";

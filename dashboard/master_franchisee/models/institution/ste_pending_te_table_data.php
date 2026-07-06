@@ -17,15 +17,15 @@
                 ca.added_on,
                 ca.status,
                 ca.user_type,
-                'SF' AS userTypeStr,
+                'I' AS userTypeStr,
 
                 ste.firstname AS ref_firstname,
                 ste.lastname AS ref_lastname,
                 ste.master_franchisee_id,
 
-                'sub_franchisee' AS source_table
+                'institution' AS source_table
 
-            FROM sub_franchisee ca
+            FROM institution ca
 
             INNER JOIN master_franchisee ste
                 ON ca.reference_no = ste.master_franchisee_id

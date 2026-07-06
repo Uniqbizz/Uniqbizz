@@ -6,7 +6,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title>TC | IBR List </title>
+        <title> Institution List </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -43,17 +43,17 @@
         <link rel="stylesheet" href="../assets/css/lists.css" />
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <!-- add on 11-06-2026 by SV -->
+        <!-- add on 10-06-2026 by SV -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
         
-        <!-- add on 11-06-2026 by SV END-->
+        <!-- add on 10-06-2026 by SV END-->
     </head>
     <body>
  
         <!-- Begin page -->
         <div id="layout-wrapper">
 
-            <?php
+            <?php 
                     include_once 'master_franchisee_header.php'; 
             ?>
 
@@ -82,12 +82,12 @@
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
             <!-- ========== App Menu ========== -->
-            <?php 
+            <?php
                     include_once 'master_franchisee_sidebar.php'; 
             ?>
 
             <!-- ============================================================== -->
-            <!-- Start right Content here -->
+            <!-- Start right Content here -->  
             <!-- ============================================================== -->
             <div class="main-content">
 
@@ -97,12 +97,12 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">TC | IBR</h4>
+                                    <h4 class="mb-sm-0">Institution </h4>
 
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="master_franchisee_dashboard.php">Dashboard</a></li>
-                                            <li class="breadcrumb-item active">View TC | IBR</li>
+                                            <li class="breadcrumb-item active">View Institution </li>
                                         </ol>
                                     </div>
 
@@ -123,8 +123,8 @@
                                                         <i class="fa-solid fa-hourglass-half fa-xl"></i>
                                                     </div>
                                                     <div class="align-content-end">
-                                                        <h5 class="card-title text-dark mb-0">Pending TC | IBR List</h5>
-                                                        <p class="text-muted fs-6 mb-0">TC | IBR pending for approval</p>
+                                                        <h5 class="card-title text-dark mb-0">Pending Institution  List</h5>
+                                                        <p class="text-muted fs-6 mb-0">Institution  pending for approval</p>
                                                     </div>
                                                 </div>    
                                                 <div class="card-body">
@@ -139,7 +139,8 @@
                                                                 <th data-ordering="false">Action</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody id="tcTableBody">
+                                                        <tbody id="teTableBody">
+                                                            
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -157,8 +158,8 @@
                                                                     <i class="ri-verified-badge-line" style="font-size: 30px;"></i>
                                                                 </div>
                                                                 <div class="align-content-end">
-                                                                    <h5 class="card-title text-dark mb-0">Registered TC | IBR List</h5>
-                                                                    <p class="text-muted fs-6 mb-0">All approved and active TC | IBR</p>
+                                                                    <h5 class="card-title text-dark mb-0">Registered Institution  List</h5>
+                                                                    <p class="text-muted fs-6 mb-0">All approved and active Institutions </p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -180,7 +181,7 @@
                                                                         <p class="fs-6 text-dark mb-1 align-content-center">Count</p>
                                                                         <input type="number" class="dateInput" id="rowCount" readonly>
                                                                     </div>
-                                                                    <a href="#" class="text-decoration-none" id="exporttc">
+                                                                    <a href="#" class="text-decoration-none" id="exportte">
                                                                         <div class="stWalletBtn rounded-3 py-2">
                                                                             <i class="fa-solid fa-download me-2"></i>
                                                                             <p class="fs-6 mb-0 fw-bolder pe-1">Download</p>
@@ -195,15 +196,17 @@
                                                     <table id="example-dataTable-2" class="table table-striped table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                                         <thead>
                                                             <tr class="table-primary">
-                                                                <th data-ordering="false">TC ID & Full Name</th>
-                                                                <th data-ordering="false">TE/F/I ID & Name</th>
+                                                                <th data-ordering="false">TE ID & Full Name</th>
+                                                                <th data-ordering="false">Reference ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
+                                                                <th data-ordering="false">Amt (&#8377;)</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
                                                                 <th data-ordering="false">Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
+                                                            
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -213,17 +216,17 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="btn" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 35px; border-radius: 50%;">
+                            <a href="add_techno_enterprise.php" style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
+                                <i class="fa-solid fa-circle-plus fa-beat-fade fa-3x" style="color: #4b38b3;"></i>
+                            </a>
+                        </div>
 
                     </div> <!-- container-fluid -->
 
                 </div><!-- End Page-content -->
                 <?php 
-                    if ($userType == 34) {
-                        include_once(__DIR__ . '/master_franchisee_footer.php');
-                    }else{
-
                         include_once "master_franchisee_footer.php"; 
-                    }
                 ?>
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
@@ -234,9 +237,9 @@
         </button>
         <!--end back-to-top-->
         <!-- contact card pop up  start-->
-        <button type="button" class="contactBtn btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        <!-- <button type="button" class="contactBtn btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             <i class="ri-phone-fill"></i>
-        </button>
+        </button> -->
         <?php include (__DIR__.'/../contact_modal.php') ?>
         <!-- JAVASCRIPT -->
         <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -255,6 +258,7 @@
         <!-- !-- materialdesign icon js- -->
         <script src="../assets/js/pages/remix-icons-listing.js"></script>
         
+
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
         <!-- add on 10-06-2026 by SV -->
@@ -264,7 +268,7 @@
          <!-- add on 10-06-2026 by SV END-->
 
         <script>
-            const tcTable = $('#example-dataTable').DataTable({
+            const teTable = $('#example-dataTable').DataTable({
                 destroy: true,
                 responsive: true,
                 processing: true,
@@ -280,14 +284,17 @@
 
                             let badge = '';
 
-                            if (data.user_type == 11) {
+                            if (data.user_type == 16) {
 
-                                badge = '<span class="badge bg-primary ms-1">TC</span>';
+                                badge = '<span class="badge bg-primary ms-1">TE</span>';
 
-                            } else if (data.user_type == 33) {
+                            } else if (data.user_type == 29) {
 
-                                badge = '<span class="badge bg-success ms-1">IBR</span>';
-                            } 
+                                badge = '<span class="badge bg-success ms-1">F</span>';
+                            }else if (data.user_type == 32) {
+
+                                badge = '<span class="badge bg-info ms-1">I</span>';
+                            }
 
                             return `
                                 <p class="fs-6 mb-0">
@@ -308,7 +315,7 @@
                                     </p>
 
                                     <p class="fs-6 mb-0">
-                                        ${data.reference_id || '-'}
+                                        ${data.master_franchisee_id || '-'}
                                     </p>
                                 </div>
                             `;
@@ -336,7 +343,7 @@
                     },
 
                     {
-                        data: 'register_date',
+                        data: 'added_on',
                         render: function(data){
 
                             if(!data) return '-';
@@ -354,16 +361,7 @@
                         data: 'status',
                         render: function(status){
 
-                            if(status == 1){
-
-                                return `
-                                    <p class="teApprovedBtn rounded-pill text-center mb-0">
-                                        Active
-                                    </p>
-                                `;
-                            }
-
-                            if(status == 3){
+                            if(status == 2){
 
                                 return `
                                     <p class="tePendingBtn rounded-pill text-center mb-0">
@@ -372,11 +370,14 @@
                                 `;
                             }
 
-                            return `
-                                <p class="teDeletedBtn rounded-pill text-center mb-0">
-                                    Inactive
-                                </p>
-                            `;
+                            else if(status == 4){
+
+                                return `
+                                    <p class="teDraftBtn rounded-pill text-center mb-0">
+                                        Draft
+                                    </p>
+                                `;
+                            }
                         }
                     },
                     {
@@ -387,7 +388,7 @@
                             
 
                             return `
-                                <form action="edit_travel_consultant.php" method="POST" class="m-0">
+                                <form action="edit_techno_enterprise.php" method="POST" class="m-0">
                                     <input
                                         type="hidden"
                                         name="id"
@@ -396,11 +397,11 @@
                                     <input
                                         type="hidden"
                                         name="status"
-                                        value="2"
+                                        value="${data.status}"
                                     >
                                     <input
                                         type="hidden"
-                                        name="tc_type"
+                                        name="edittype"
                                         value="${data.user_type}"
                                     >
 
@@ -409,7 +410,7 @@
                                         class="border-0 bg-transparent p-0 w-100"
                                     >
                                         <p class="teViewBtn text-center fw-bold mb-0">
-                                            <i class="fa-solid fa-eye me-2 mt-1"></i>View
+                                            <i class="fa-solid fa-eye me-2 mt-1"></i>${data.status == 4 ? 'Edit' : 'View'}
                                         </p>
                                     </button>
                                 </form>
@@ -418,13 +419,13 @@
                     }
                 ],
                 language: {
-                    emptyTable: "No Pending TC | IBR Found"
+                    emptyTable: "No Pending Institution Found"
                 }
             });
             function loadPendingTEList(){
 
                 $.ajax({
-                    url: 'models/travel_consultant/ste_pending_tc_table_data.php',
+                    url: 'models/institution/ste_pending_te_table_data.php',
                     type: 'POST',
                     dataType: 'json',
 
@@ -432,26 +433,26 @@
 
                         if(!res.status){
 
-                            tcTable.clear().draw();
+                            teTable.clear().draw();
                             
                             return;
                         }
 
-                        tcTable.clear();
-                        tcTable.rows.add(res.data);
-                        tcTable.draw();
+                        teTable.clear();
+                        teTable.rows.add(res.data);
+                        teTable.draw();
                         
                     },
 
                     error: function(){
 
-                        tcTable.clear().draw();
+                        teTable.clear().draw();
                     }
                 });
 
             }
             
-            const tcRegTable = $('#example-dataTable-2').DataTable({
+            const teRegTable = $('#example-dataTable-2').DataTable({
                 responsive: true,
                 ordering: false,
                 searching: true,
@@ -460,27 +461,27 @@
                 columns: [
                     {
                         data: null,
-                        render: function(data){
-
+                        render: function(data) {
                             let badge = '';
 
-                            if (data.user_type == 11) {
+                            if (data.user_type == 16) {
 
-                                badge = '<span class="badge bg-primary ms-1">TC</span>';
+                                badge = '<span class="badge bg-primary ms-1">TE</span>';
 
-                            } else if (data.user_type == 33) {
+                            } else if (data.user_type == 29) {
 
-                                badge = '<span class="badge bg-success ms-1">IBR</span>';
-                            } 
+                                badge = '<span class="badge bg-success ms-1">F</span>';
+                            }else if (data.user_type == 32) {
+
+                                badge = '<span class="badge bg-info ms-1">I</span>';
+                            }
                             return `
-                                <div>
-                                    <p class="fs-6 mb-0">
-                                        ${badge} ${data.firstname || ''} ${data.lastname || ''}
-                                    </p>
-                                    <p class="fs-6 mb-0">
-                                        ${data.ca_travelagency_id || '-'}
-                                    </p>
-                                </div>
+                                <p class="fs-6 mb-0">
+                                    ${badge} ${data.firstname || ''} ${data.lastname || ''}
+                                </p>
+                                <p class="fs-6 mb-0">
+                                    ${data.teuser_id || ''}
+                                </p>
                             `;
                         }
                     },
@@ -493,7 +494,7 @@
                                         ${data.ref_firstname || '-'} ${data.ref_lastname || ''}
                                     </p>
                                     <p class="fs-6 mb-0">
-                                        ${data.reference_id || '-'}
+                                        ${data.master_franchisee_id || '-'}
                                     </p>
                                 </div>
                             `;
@@ -513,6 +514,24 @@
                                         ${data.email || '-'}
                                     </p>
                                 </div>
+                            `;
+                        }
+                    },
+                    {
+                        data: 'amount',
+                        render: function(data) {
+
+                            if(!data || data == 0) {
+                                return '-';
+                            }
+
+                            return `
+                                <p class="fs-6 mb-0">
+                                    ₹ ${Number(data).toLocaleString('en-IN', {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2
+                                    })}
+                                </p>
                             `;
                         }
                     },
@@ -542,7 +561,7 @@
                                 badge = 'teActiveBtn';
                                 text = 'Active';
 
-                            }else if(status == 3){
+                            }else if(status == 2){
 
                                 badge = 'tePendingBtn';
                                 text = 'Inactive';
@@ -568,23 +587,23 @@
                         render: function(data) {
 
                             return `
-                                <form action="edit_travel_consultant.php" method="POST" class="m-0">
+                                <form action="edit_techno_enterprise.php" method="POST" class="m-0">
+                                    
                                     <input
                                         type="hidden"
                                         name="id"
-                                        value="${data.ca_travelagency_id}"
+                                        value="${data.teuser_id}"
                                     >
                                     <input
                                         type="hidden"
                                         name="status"
-                                        value="1"
+                                        value="${data.status}"
                                     >
                                     <input
                                         type="hidden"
-                                        name="tc_type"
+                                        name="edittype"
                                         value="${data.user_type}"
                                     >
-
                                     <button
                                         type="submit"
                                         class="border-0 bg-transparent p-0 w-100"
@@ -599,7 +618,7 @@
                     }
                 ],
                 language: {
-                    emptyTable: 'No TC | IBR Found'
+                    emptyTable: 'No Institution Found'
                 }
             });
 
@@ -608,7 +627,7 @@
 
                 $.ajax({
 
-                    url: 'models/travel_consultant/ste_registered_tc_list.php',
+                    url: 'models/institution/ste_registered_te_list.php',
 
                     type: 'POST',
 
@@ -623,21 +642,21 @@
 
                         // console.log(res);
 
-                        tcRegTable.clear();
+                        teRegTable.clear();
 
                         if(res.status && res.data.length > 0){
 
-                            tcRegTable.rows.add(res.data);
-                            tcRegTable.on('draw.dt', function () {
+                            teRegTable.rows.add(res.data);
+                            teRegTable.on('draw.dt', function () {
                                 $('#rowCount').val(
-                                    tcRegTable.rows({ search: 'applied' }).count()
+                                    teRegTable.rows({ search: 'applied' }).count()
                                 );
                             });
-                            // $('#rowCount').val(res.data.length);
+                            //$('#rowCount').val(res.data.length);
 
                         }
 
-                        tcRegTable.draw();
+                        teRegTable.draw();
 
                     },
 
@@ -645,7 +664,7 @@
 
                         // console.log(xhr.responseText);
 
-                        tcRegTable.clear().draw();
+                        teRegTable.clear().draw();
 
                     }
 
@@ -723,10 +742,10 @@
                 loadRegisteredTEList();
 
             });
-            $('#exporttc').on('click', function(){
+            $('#exportte').on('click', function(){
                 window.location.href =
                 'models/common/download_registered_list.php?' +
-                'type=tc' +
+                'type=te' +
                 '&start_date=' + startDate +
                 '&end_date=' + endDate;
             });

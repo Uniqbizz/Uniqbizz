@@ -197,6 +197,7 @@
                                                                 <th data-ordering="false">TE ID & Full Name</th>
                                                                 <th data-ordering="false">Reference ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
+                                                                <th data-ordering="false">Membership Type</th>
                                                                 <th data-ordering="false">Membership (&#8377;)</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
@@ -427,7 +428,9 @@
                             return `
                                 <div>
                                     <p class="fs-6 mb-0">
-                                        ${data.ref_firstname || '-'} ${data.ref_lastname || ''}
+                                        ${data.ref_firstname || '-'}
+                                        </br> 
+                                        ${data.ref_lastname || ''}
                                     </p>
                                     <p class="fs-6 mb-0">
                                         ${data.ca_travelagency_id || '-'}
@@ -450,6 +453,21 @@
                                         ${data.email || '-'}
                                     </p>
                                 </div>
+                            `;
+                        }
+                    },
+                    {
+                        data: 'type',
+                        render: function(data) {
+
+                            if(!data || data == 0) {
+                                return '-';
+                            }
+                            const formattedData = data.replace(/\s*\/\s*/g, "<br>");
+                            return `
+                                <p class="fs-6 mb-0">
+                                    ${formattedData}
+                                </p>
                             `;
                         }
                     },
@@ -517,19 +535,24 @@
                         }
                     },
                     {
-                        data: 'ca_customer_id',
+                        data: null,
                         orderable: false,
                         searchable: false,
+                        className: 'none',
                         render: function(data) {
 
                             return `
-                                <form action="#" method="POST" class="m-0">
+                                <form action="edit_customer.php" method="POST" class="m-0">
                                     <input
                                         type="hidden"
-                                        name="ca_customer_id"
-                                        value="${data}"
+                                        name="id"
+                                        value="${data.ca_customer_id}"
                                     >
-
+                                    <input
+                                            type="hidden"
+                                            name="status"
+                                            value="1"
+                                        >
                                     <button
                                         type="submit"
                                         class="border-0 bg-transparent p-0 w-100"
