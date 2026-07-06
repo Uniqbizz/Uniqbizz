@@ -31,7 +31,7 @@
 
             (
                 SELECT
-                    sf.sub_franchisee_id AS teuser_id,
+                    sf.institution_id AS teuser_id,
                     sf.firstname,
                     sf.lastname,
                     sf.contact_no,
@@ -45,7 +45,7 @@
                     ste.lastname AS ref_lastname,
                     ste.sponsor_franchisee_id
 
-                FROM sub_franchisee sf
+                FROM institution sf
 
                 INNER JOIN sponsor_franchisee ste
                     ON sf.reference_no = ste.sponsor_franchisee_id

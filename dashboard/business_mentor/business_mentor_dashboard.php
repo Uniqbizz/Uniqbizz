@@ -123,7 +123,7 @@
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Total Institution</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="iCount">0</h4>
-                                            <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <a href="institution_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -160,7 +160,7 @@
                                 <div class="card mb-0 rounded-4 p-3 stCard4">
                                     <div class="d-flex gap-3">
                                         <div class="stIcon stIcon4">
-                                            <i class="fa-solid fa-wallet fa-xl"></i>
+                                            <i class="fa-solid fa-user-group fa-xl"></i>
                                         </div>
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Total Customer</p>

@@ -15,7 +15,7 @@
 
     $tdsPercentage=2/100;
 
-    $columnDesignation = $userType == '28'?'master_franchisee':($userType == '30'?'sponsor_franchisee':'');
+    $columnDesignation ='master_franchisee';
     function truncateToTwoDecimals($num) {
      return floor($num * 100) / 100;
     }

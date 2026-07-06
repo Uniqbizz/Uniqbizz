@@ -106,6 +106,34 @@
         */
 
         $sqlCU = $conn->prepare("
+        SELECT *
+        FROM (
+            SELECT
+                CONCAT(cu.firstname,' ',cu.lastname) AS customer_name,
+                cu.register_date
+            FROM ca_customer cu
+            INNER JOIN ca_travelagency ta
+                ON cu.ta_reference_no = ta.ca_travelagency_id
+            INNER JOIN sub_franchisee ca
+                ON ta.reference_no = ca.sub_franchisee_id
+            WHERE ca.reference_no = :user_id
+            AND cu.status IN (1,3)
+
+            UNION ALL
+
+            SELECT
+                CONCAT(cu.firstname,' ',cu.lastname) AS customer_name,
+                cu.register_date
+            FROM ca_customer cu
+            INNER JOIN institution_branch_manager ta
+                ON cu.ta_reference_no = ta.institution_branch_manager_id
+            INNER JOIN institution ca
+                ON ta.reference_no = ca.institution_id
+            WHERE ca.reference_no = :user_id
+            AND cu.status IN (1,3)
+
+            UNION ALL
+
             SELECT
                 CONCAT(cu.firstname,' ',cu.lastname) AS customer_name,
                 cu.register_date
@@ -116,8 +144,22 @@
                 ON ta.reference_no = ca.corporate_agency_id
             WHERE ca.reference_no = :user_id
             AND cu.status IN (1,3)
-            ORDER BY cu.register_date DESC
-            LIMIT 2
+
+            UNION ALL
+
+            SELECT
+                CONCAT(cu.firstname,' ',cu.lastname) AS customer_name,
+                cu.register_date
+            FROM ca_customer cu
+            INNER JOIN ca_travelagency ta
+                ON cu.ta_reference_no = ta.ca_travelagency_id
+            INNER JOIN business_mentor ca
+                ON ta.reference_no = ca.business_mentor_id
+            WHERE ta.reference_no = :user_id
+            AND cu.status IN (1,3)
+        ) AS customers
+        ORDER BY register_date DESC
+        LIMIT 2
         ");
 
         $sqlCU->execute([

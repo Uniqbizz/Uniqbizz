@@ -6,7 +6,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title>Travel Consultants List </title>
+        <title>TC | IBR List </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -97,12 +97,12 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Travel Consultants</h4>
+                                    <h4 class="mb-sm-0">TC | IBR</h4>
 
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="sponsor_franchisee_dashboard.php">Dashboard</a></li>
-                                            <li class="breadcrumb-item active">View Travel Consultants</li>
+                                            <li class="breadcrumb-item active">View TC | IBR</li>
                                         </ol>
                                     </div>
 
@@ -123,8 +123,8 @@
                                                         <i class="fa-solid fa-hourglass-half fa-xl"></i>
                                                     </div>
                                                     <div class="align-content-end">
-                                                        <h5 class="card-title text-dark mb-0">Pending Travel Consultants List</h5>
-                                                        <p class="text-muted fs-6 mb-0">Travel Consultants pending for approval</p>
+                                                        <h5 class="card-title text-dark mb-0">Pending TC | IBR List</h5>
+                                                        <p class="text-muted fs-6 mb-0">TC | IBR pending for approval</p>
                                                     </div>
                                                 </div>    
                                                 <div class="card-body">
@@ -136,6 +136,7 @@
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
+                                                                <th data-ordering="false">Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="tcTableBody">
@@ -156,8 +157,8 @@
                                                                     <i class="ri-verified-badge-line" style="font-size: 30px;"></i>
                                                                 </div>
                                                                 <div class="align-content-end">
-                                                                    <h5 class="card-title text-dark mb-0">Registered Travel Consultants List</h5>
-                                                                    <p class="text-muted fs-6 mb-0">All approved and active Travel Consultantss</p>
+                                                                    <h5 class="card-title text-dark mb-0">Registered TC | IBR List</h5>
+                                                                    <p class="text-muted fs-6 mb-0">All approved and active TC | IBR</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -195,7 +196,7 @@
                                                         <thead>
                                                             <tr class="table-primary">
                                                                 <th data-ordering="false">TC ID & Full Name</th>
-                                                                <th data-ordering="false">TE/F ID & Name</th>
+                                                                <th data-ordering="false">TE/F/I ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
@@ -277,9 +278,20 @@
                         data: null,
                         render: function(data){
 
+                            let badge = '';
+
+                            if (data.user_type == 11) {
+
+                                badge = '<span class="badge bg-primary ms-1">TC</span>';
+
+                            } else if (data.user_type == 33) {
+
+                                badge = '<span class="badge bg-success ms-1">IBR</span>';
+                            } 
+
                             return `
                                 <p class="fs-6 mb-0">
-                                    ${data.firstname || ''} ${data.lastname || ''}
+                                    ${badge} ${data.firstname || ''} ${data.lastname || ''}
                                 </p>
                             `;
                         }
@@ -366,10 +378,47 @@
                                 </p>
                             `;
                         }
+                    },
+                    {
+                        data: null,
+                        orderable: false,
+                        searchable: false,
+                        render: function(data) {
+                            
+
+                            return `
+                                <form action="edit_travel_consultant.php" method="POST" class="m-0">
+                                    <input
+                                        type="hidden"
+                                        name="id"
+                                        value="${data.id}"
+                                    >
+                                    <input
+                                        type="hidden"
+                                        name="status"
+                                        value="2"
+                                    >
+                                    <input
+                                        type="hidden"
+                                        name="tc_type"
+                                        value="${data.user_type}"
+                                    >
+
+                                    <button
+                                        type="submit"
+                                        class="border-0 bg-transparent p-0 w-100"
+                                    >
+                                        <p class="teViewBtn text-center fw-bold mb-0">
+                                            <i class="fa-solid fa-eye me-2 mt-1"></i>View
+                                        </p>
+                                    </button>
+                                </form>
+                            `;
+                        }
                     }
                 ],
                 language: {
-                    emptyTable: "No Pending Travel Consultant Found"
+                    emptyTable: "No Pending TC | IBR Found"
                 }
             });
             function loadPendingTEList(){
@@ -411,16 +460,27 @@
                 columns: [
                     {
                         data: null,
-                        render: function(data) {
+                        render: function(data){
+
+                            let badge = '';
+
+                            if (data.user_type == 11) {
+
+                                badge = '<span class="badge bg-primary ms-1">TC</span>';
+
+                            } else if (data.user_type == 33) {
+
+                                badge = '<span class="badge bg-success ms-1">IBR</span>';
+                            } 
                             return `
                                 <div>
                                     <p class="fs-6 mb-0">
-                                        ${data.firstname || ''} ${data.lastname || ''}
+                                        ${badge} ${data.firstname || ''} ${data.lastname || ''}
                                     </p>
                                     <p class="fs-6 mb-0">
                                         ${data.ca_travelagency_id || '-'}
                                     </p>
-                                <div>
+                                </div>
                             `;
                         }
                     },
@@ -502,17 +562,27 @@
                         }
                     },
                     {
-                        data: 'ca_travelagency_id',
+                        data: null,
                         orderable: false,
                         searchable: false,
                         render: function(data) {
 
                             return `
-                                <form action="#" method="POST" class="m-0">
+                                <form action="edit_travel_consultant.php" method="POST" class="m-0">
                                     <input
                                         type="hidden"
-                                        name="ca_travelgency_id"
-                                        value="${data}"
+                                        name="id"
+                                        value="${data.ca_travelagency_id}"
+                                    >
+                                    <input
+                                        type="hidden"
+                                        name="status"
+                                        value="1"
+                                    >
+                                    <input
+                                        type="hidden"
+                                        name="tc_type"
+                                        value="${data.user_type}"
                                     >
 
                                     <button
@@ -529,7 +599,7 @@
                     }
                 ],
                 language: {
-                    emptyTable: 'No Travel Consultant Found'
+                    emptyTable: 'No TC | IBR Found'
                 }
             });
 

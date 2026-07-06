@@ -27,6 +27,13 @@ try {
 
         (
             (
+                SELECT COALESCE(SUM(commission_bm_mf_sf),0)
+                FROM institution_payout
+                WHERE bm_mf_sf = :user_id
+                AND YEAR(created_date)=:current_year
+            )
+            +
+            (
                 SELECT COALESCE(SUM(ste_amount),0)
                 FROM techno_enterprise_payout
                 WHERE ste_id = :user_id
@@ -90,6 +97,13 @@ try {
         SELECT
 
         (
+            (
+                SELECT COALESCE(SUM(commission_bm_mf_sf),0)
+                FROM institution_payout
+                WHERE bm_mf_sf = :user_id
+                AND YEAR(created_date)=:previous_year
+            )
+            +
             (
                 SELECT COALESCE(SUM(ste_amount),0)
                 FROM techno_enterprise_payout

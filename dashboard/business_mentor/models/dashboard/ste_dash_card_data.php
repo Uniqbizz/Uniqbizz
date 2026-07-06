@@ -44,9 +44,9 @@
             ) AS tc_count,
             (
                 SELECT COUNT(*)
-                FROM ca_travelagency ta
-                INNER JOIN sub_franchisee ca
-                    ON ta.reference_no = ca.sub_franchisee_id
+                FROM institution_branch_manager ta
+                INNER JOIN institution ca
+                    ON ta.reference_no = ca.institution_id
                 WHERE ca.reference_no = :user_id
                 AND ta.status IN (1,3)
                 AND ca.status IN (1,3)
@@ -111,6 +111,12 @@
                 )
                 +
                 (
+                    SELECT COALESCE(SUM(commission_bm_mf_sf),0)
+                    FROM institution_payout
+                    WHERE bm_mf_sf = :user_id 
+                )
+                +
+                (
                     SELECT COALESCE(SUM(commission_mf),0)
                     FROM sub_franchisee_payout
                     WHERE master_franchisee = :user_id
@@ -136,6 +142,12 @@
                 )
                 +
                 (
+                    SELECT COALESCE(SUM(commission_bm_mf_sf),0)
+                    FROM institution_payout
+                    WHERE bm_mf_sf = :user_id AND status_bm_mf_sf=2
+                )
+                +
+                (
                     SELECT COALESCE(SUM(commission_mf),0)
                     FROM sub_franchisee_payout
                     WHERE master_franchisee = :user_id AND status_mf=2
@@ -158,6 +170,12 @@
                     SELECT COALESCE(SUM(business_package_amount),0)
                     FROM goa_bm_payout
                     WHERE bm_id = :user_id AND status=1 
+                )
+                +
+                (
+                    SELECT COALESCE(SUM(commission_bm_mf_sf),0)
+                    FROM institution_payout
+                    WHERE bm_mf_sf = :user_id AND status_bm_mf_sf=1
                 )
                 +
                 (

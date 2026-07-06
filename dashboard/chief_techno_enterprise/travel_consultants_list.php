@@ -273,9 +273,20 @@
                         data: null,
                         render: function(data){
 
+                            let badge = '';
+
+                            if (data.user_type == 11) {
+
+                                badge = '<span class="badge bg-primary ms-1">TC</span>';
+
+                            } else if (data.user_type == 33) {
+
+                                badge = '<span class="badge bg-success ms-1">IBR</span>';
+                            } 
+
                             return `
                                 <p class="fs-6 mb-0">
-                                    ${data.firstname || ''} ${data.lastname || ''}
+                                    ${badge} ${data.firstname || ''} ${data.lastname || ''}
                                 </p>
                             `;
                         }
@@ -381,6 +392,11 @@
                                         name="status"
                                         value="2"
                                     >
+                                    <input
+                                        type="hidden"
+                                        name="tc_type"
+                                        value="${data.user_type}"
+                                    >
 
                                     <button
                                         type="submit"
@@ -438,16 +454,27 @@
                 columns: [
                     {
                         data: null,
-                        render: function(data) {
+                        render: function(data){
+
+                            let badge = '';
+
+                            if (data.user_type == 11) {
+
+                                badge = '<span class="badge bg-primary ms-1">TC</span>';
+
+                            } else if (data.user_type == 33) {
+
+                                badge = '<span class="badge bg-success ms-1">IBR</span>';
+                            } 
                             return `
                                 <div>
                                     <p class="fs-6 mb-0">
-                                        ${data.firstname || ''} ${data.lastname || ''}
+                                        ${badge} ${data.firstname || ''} ${data.lastname || ''}
                                     </p>
                                     <p class="fs-6 mb-0">
                                         ${data.ca_travelagency_id || '-'}
                                     </p>
-                                <div>
+                                </div>
                             `;
                         }
                     },
@@ -547,7 +574,11 @@
                                         name="status"
                                         value="1"
                                     >
-
+                                    <input
+                                        type="hidden"
+                                        name="tc_type"
+                                        value="${data.user_type}"
+                                    >
                                     <button
                                         type="submit"
                                         class="border-0 bg-transparent p-0 w-100"

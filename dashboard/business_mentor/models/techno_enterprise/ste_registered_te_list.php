@@ -22,10 +22,10 @@
                 AND ca.register_date >= :start_date
                 AND ca.register_date < DATE_ADD(:end_date, INTERVAL 1 DAY)
             ";
-            // $whereDateSF = "
-            //     AND sf.register_date >= :start_date
-            //     AND sf.register_date < DATE_ADD(:end_date, INTERVAL 1 DAY)
-            // ";
+            $whereDateSF = "
+                AND sf.register_date >= :start_date
+                AND sf.register_date < DATE_ADD(:end_date, INTERVAL 1 DAY)
+            ";
 
             $params[':start_date'] = $startDate;
             $params[':end_date']   = $endDate;

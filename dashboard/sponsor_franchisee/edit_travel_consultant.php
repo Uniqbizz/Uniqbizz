@@ -2,14 +2,14 @@
     include_once (__DIR__.'/../dashboard_user_details.php');
     $id = $_POST['id'] ?? '';
     $status = $_POST['status'] ?? '';
-    $edittype = 11;
+    $edittype = $_POST['tc_type'];
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
     <head>
 
         <meta charset="utf-8" />
-        <title>Edit Travel Consultant | Dashboard</title>
+        <title>Edit TC | IBR | Dashboard</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -33,7 +33,7 @@
         <!-- custom Css developer-->
         <link rel="stylesheet" href="../assets/css/custom.css" />
         <!-- Customer Dashboard CSS -->
-        <link rel="stylesheet" href="../assets/css/techno_enterprise.css" />
+        <link rel="stylesheet" href="../assets/css/sponsor_franchisee_dashboard.css" />
         <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css" />
         <link href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -47,7 +47,7 @@
         <!-- Begin page -->
         <div id="layout-wrapper">
 
-            <?php include_once 'techno_header.php'; ?>
+            <?php include_once 'sponsor_franchisee_header.php'; ?>
 
             <!-- removeNotificationModal -->
             <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
@@ -75,7 +75,7 @@
             </div><!-- /.modal -->
             <!-- ========== App Menu ========== -->
 
-            <?php include_once 'techno_sidebar.php'; ?>
+            <?php include_once 'sponsor_franchisee_sidebar.php'; ?>
 
             <!-- ============================================================== -->
             <!-- Start right Content here -->
@@ -91,11 +91,11 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Edit Travel Consultant </h4>
+                                    <h4 class="mb-sm-0">Edit TC | IBR </h4>
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="travel_consultants_list.php">Travel Consultant</a></li>
-                                            <li class="breadcrumb-item active">Edit Travel Consultant</li>
+                                            <li class="breadcrumb-item"><a href="travel_consultants_list.php">TC | IBR</a></li>
+                                            <li class="breadcrumb-item active">Edit TC | IBR</li>
                                         </ol>
                                     </div>
                                 </div>
@@ -110,8 +110,8 @@
                                             <i class="fa-solid fa-user-group addTEIcon"></i>
                                         </div>
                                         <div class="align-content-center">
-                                            <h1 class="fw-bolder text-white">Edit Travel Consultant </h1>
-                                            <p class="fs-5 text-white mb-0">Fill in the details below to register a new Travel Consultant under your network.</p>
+                                            <h1 class="fw-bolder text-white">Edit TC | IBR </h1>
+                                            <p class="fs-5 text-white mb-0">Fill in the details below to register a new TC | IBR under your network.</p>
                                         </div>
                                     </div>
                                     <img src="../assets/images/addTechnoFileImage.png" alt="" class="addTEImage">
@@ -268,6 +268,7 @@
                                         <input type="text" class="form-control" id="pin" placeholder="Enter your pincode">
                                     </div>
                                 </div>
+                                <?php if($edittype == 33){?>
                                 <div class="col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">Branch <span class="text-danger">*</span></label>
@@ -290,6 +291,7 @@
                                         </select>
                                     </div>
                                 </div>
+                                <?php } ?>
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="address">Address<span class="text-danger">*</span></label>
@@ -474,7 +476,7 @@
                                     <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftedit">Save Draft</button>
                                     <button type="submit" class="btn actionBtn submitBtn mb-2" id="editTravelConsultant">
                                         <i class="fa-regular fa-paper-plane me-2"></i>
-                                        Submit Travel Consultant
+                                        Submit TC | IBR
                                     </button>
                                     <?php } ?>
 
@@ -483,7 +485,7 @@
                         </div>
                     </div> <!-- container-fluid -->
                 </div><!-- End Page-content -->
-                <?php include_once 'techno_footer.php' ?>   
+                <?php include_once 'sponsor_franchisee_footer.php' ?>   
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
 

@@ -25,7 +25,12 @@
                 </li>
                 <li class="nav-item <?php echo ($current_page == 'techno_enterprise_list.php') ? 'active' : ''; ?>">
                     <a class="nav-link menu-link" href="techno_enterprise_list.php">
-                        <i class="ri-user-shared-2-line"></i> <span>TE | F | I</span>
+                        <i class="ri-user-shared-2-line"></i> <span>Franchisee</span>
+                    </a>
+                </li>
+                <li class="nav-item <?php echo ($current_page == 'institution_list.php') ? 'active' : ''; ?>">
+                    <a class="nav-link menu-link" href="institution_list.php">
+                        <i class="ri-user-shared-2-line"></i> <span>Institution</span>
                     </a>
                 </li>
                 <li class="nav-item <?php echo ($current_page == 'travel_consultants_list.php') ? 'active' : ''; ?>">
@@ -44,9 +49,9 @@
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarMultilevel">
                         <ul class="nav nav-sm flex-column">
-                            <li class="nav-item <?php echo ($current_page == 'contracting_payout.php') ? 'active' : ''; ?>">
-                                <a href="contracting_payout.php" class="nav-link menu-link">
-                                    <span data-key="contracting_payout.php">TE Recruitment Payout</span>
+                            <li class="nav-item <?php echo ($current_page == 'sub_franchisee_payout.php') ? 'active' : ''; ?>">
+                                <a href="sub_franchisee_payout.php" class="nav-link menu-link">
+                                    <span data-key="sub_franchisee_payout.php">Franchisee Contracting Payout</span>
                                 </a>
                             </li>
                             <li class="nav-item <?php echo ($current_page == 'holiday_payout.php') ? 'active' : ''; ?>">

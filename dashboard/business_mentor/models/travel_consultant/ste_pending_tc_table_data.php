@@ -19,7 +19,7 @@
                     ta.email,
                     ta.added_on,
                     ta.status,
-
+                    ta.user_type,
                     ca.corporate_agency_id AS reference_id,
                     ca.firstname AS ref_firstname,
                     ca.lastname AS ref_lastname
@@ -43,7 +43,7 @@
                     ta.email,
                     ta.added_on,
                     ta.status,
-
+                    ta.user_type,
                     ca.sub_franchisee_id AS reference_id,
                     ca.firstname AS ref_firstname,
                     ca.lastname AS ref_lastname
@@ -67,7 +67,7 @@
                     ta.email,
                     ta.added_on,
                     ta.status,
-
+                    ta.user_type,
                     ca.business_mentor_id AS reference_id,
                     ca.firstname AS ref_firstname,
                     ca.lastname AS ref_lastname
@@ -91,7 +91,7 @@
                     ta.email,
                     ta.added_on,
                     ta.status,
-
+                    ta.user_type,
                     ca.institution_id AS reference_id,
                     ca.firstname AS ref_firstname,
                     ca.lastname AS ref_lastname

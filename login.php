@@ -619,6 +619,10 @@
                                 {
                                     location.href = "dashboard/business_mentor/business_mentor_dashboard.php";
                                 }
+                                else if (res.user_type == "30")
+                                {
+                                    location.href = "dashboard/sponsor_franchisee/sponsor_franchisee_dashboard.php";
+                                }
                                 else
                                 {
                                     location.href = "dashboard/index.php";

@@ -6,7 +6,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title> Franchisee List </title>
+        <title> Institution List </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -97,12 +97,12 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Franchisee </h4>
+                                    <h4 class="mb-sm-0">Institution </h4>
 
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="sponsor_franchisee_dashboard.php">Dashboard</a></li>
-                                            <li class="breadcrumb-item active">View Franchisee </li>
+                                            <li class="breadcrumb-item active">View Institution </li>
                                         </ol>
                                     </div>
 
@@ -123,8 +123,8 @@
                                                         <i class="fa-solid fa-hourglass-half fa-xl"></i>
                                                     </div>
                                                     <div class="align-content-end">
-                                                        <h5 class="card-title text-dark mb-0">Pending Franchisee  List</h5>
-                                                        <p class="text-muted fs-6 mb-0">Franchisee  pending for approval</p>
+                                                        <h5 class="card-title text-dark mb-0">Pending Institution  List</h5>
+                                                        <p class="text-muted fs-6 mb-0">Institution  pending for approval</p>
                                                     </div>
                                                 </div>    
                                                 <div class="card-body">
@@ -158,8 +158,8 @@
                                                                     <i class="ri-verified-badge-line" style="font-size: 30px;"></i>
                                                                 </div>
                                                                 <div class="align-content-end">
-                                                                    <h5 class="card-title text-dark mb-0">Registered Franchisee  List</h5>
-                                                                    <p class="text-muted fs-6 mb-0">All approved and active Franchisees </p>
+                                                                    <h5 class="card-title text-dark mb-0">Registered Institution  List</h5>
+                                                                    <p class="text-muted fs-6 mb-0">All approved and active Institutions </p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -419,13 +419,13 @@
                     }
                 ],
                 language: {
-                    emptyTable: "No Pending Franchisee Found"
+                    emptyTable: "No Pending Institution Found"
                 }
             });
             function loadPendingTEList(){
 
                 $.ajax({
-                    url: 'models/techno_enterprise/ste_pending_te_table_data.php',
+                    url: 'models/institution/ste_pending_te_table_data.php',
                     type: 'POST',
                     dataType: 'json',
 
@@ -618,7 +618,7 @@
                     }
                 ],
                 language: {
-                    emptyTable: 'No Franchisee Found'
+                    emptyTable: 'No Institution Found'
                 }
             });
 
@@ -627,7 +627,7 @@
 
                 $.ajax({
 
-                    url: 'models/techno_enterprise/ste_registered_te_list.php',
+                    url: 'models/institution/ste_registered_te_list.php',
 
                     type: 'POST',
 

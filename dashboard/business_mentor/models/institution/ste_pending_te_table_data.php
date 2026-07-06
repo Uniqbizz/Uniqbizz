@@ -17,15 +17,15 @@
                 ca.added_on,
                 ca.status,
                 ca.user_type,
-                'SF' AS userTypeStr,
+                'I' AS userTypeStr,
 
                 ste.firstname AS ref_firstname,
                 ste.lastname AS ref_lastname,
                 ste.sponsor_franchisee_id,
 
-                'sub_franchisee' AS source_table
+                'institution' AS source_table
 
-            FROM sub_franchisee ca
+            FROM institution ca
 
             INNER JOIN sponsor_franchisee ste
                 ON ca.reference_no = ste.sponsor_franchisee_id
@@ -57,4 +57,31 @@
     }
 
     exit;
+
+    // UNION ALL
+
+    //         SELECT
+    //             sf.id,
+    //             sf.firstname,
+    //             sf.lastname,
+    //             sf.contact_no,
+    //             sf.email,
+    //             sf.added_on,
+    //             sf.status,
+    //             sf.user_type,
+    //             'SF' AS userTypeStr,
+
+    //             ste.firstname AS ref_firstname,
+    //             ste.lastname AS ref_lastname,
+    //             ste.sponsor_franchisee_id,
+
+    //             'sub_franchisee' AS source_table
+
+    //         FROM sub_franchisee sf
+
+    //         INNER JOIN sponsor_franchisee ste
+    //             ON sf.reference_no = ste.sponsor_franchisee_id
+
+    //         WHERE sf.reference_no = :user_id
+    //         AND sf.status IN (0,2,4)
 ?>

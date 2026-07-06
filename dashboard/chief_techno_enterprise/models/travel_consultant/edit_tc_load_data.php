@@ -5,7 +5,6 @@
 
     $id = $_GET['id'] ?? '';
     $edittype = $_GET['edittype'] ?? '';
-    $edittype = 11;
 
     if (empty($id) || empty($edittype)) {
         echo json_encode([
@@ -20,6 +19,10 @@
         case '11':
             $table = 'ca_travelagency';
             $customField = 'ca_travelagency_id';
+            break;
+        case '33':
+            $table = 'institution_branch_manager';
+            $customField = 'institution_branch_manager_id';
             break;
 
         default:
