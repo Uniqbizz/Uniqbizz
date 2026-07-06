@@ -188,22 +188,12 @@
                                                 <tbody>
                                                     <?php
                                                         $sql = "
-                                                            SELECT 'te' AS user_type, id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status,
-                                                            register_by, country, state, city,'NA' AS upgrade_status_val,'NA' AS upgrade_id 
-                                                            FROM corporate_agency 
-                                                            WHERE status IN ('0', '2','4') 
-                                                            UNION ALL 
-                                                            SELECT 'sf' AS user_type, id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, 
-                                                            register_by, country, state, city,upgrade_status AS upgrade_status_val, 'NA' AS upgrade_id 
-                                                            FROM sub_franchisee 
-                                                            WHERE status IN ('0', '2','4')
-                                                            UNION ALL 
-                                                            SELECT 'in' AS user_type, id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, 
+                                                            SELECT 'in' AS user_type, id AS id, name, reference_no, registrant, country_code, contact_no, email, amount,  added_on, status, 
                                                             register_by, country, state, city,upgrade_status AS upgrade_status_val, 'NA' AS upgrade_id 
                                                             FROM institution 
                                                             WHERE status IN ('0', '2','4')
                                                             UNION ALL
-                                                            SELECT 'in' AS user_type, i.institution_id AS id, i.firstname, i.lastname, i.reference_no, i.registrant, i.country_code, i.contact_no, i.email, i.amount, i.date_of_birth, i.added_on, i.status, 
+                                                            SELECT 'in' AS user_type, i.institution_id AS id, i.name, i.reference_no, i.registrant, i.country_code, i.contact_no, i.email, i.amount, i.added_on, i.status, 
                                                             i.register_by, i.country, i.state, i.city,i.upgrade_status AS upgrade_status_val, iu.id AS upgrade_id
                                                             FROM institution i
                                                             LEFT JOIN institution_upgrade iu 
@@ -211,16 +201,7 @@
                                                             WHERE 
                                                                 i.status = 1 
                                                                 AND i.upgrade_status = 1
-                                                            UNION ALL 
-                                                            SELECT 'sf' AS user_type, f.sub_franchisee_id AS id, f.firstname, f.lastname, f.reference_no, f.registrant, f.country_code, 
-                                                            f.contact_no, f.email, f.amount, f.date_of_birth, f.added_on, f.status, f.register_by, f.country, f.state, f.city, f.upgrade_status AS upgrade_status_val,
-                                                            su.id AS upgrade_id
-                                                            FROM sub_franchisee f
-                                                            LEFT JOIN sub_franchisee_upgrade su 
-                                                                ON su.sub_franchisee_id = f.sub_franchisee_id
-                                                            WHERE 
-                                                                f.status = 1 
-                                                                AND f.upgrade_status = 1 
+                                            
                                                             ORDER BY added_on ASC
                                                         ";
 
@@ -238,7 +219,7 @@
 
                                                                 echo '<tr>
                                                                     <td>' . $row['id'] . '</td>
-                                                                    <td><span class="badge bg-secondary lable-width">' . strtoupper($row['user_type']=='sf'?'f':($row['user_type']=='te'?'te':($row['user_type']=='in'?'in':''))) . '</span>&nbsp' . ucfirst($row['firstname']) . ' ' . ucfirst($row['lastname']) . '</td>
+                                                                    <td><span class="badge bg-secondary lable-width">' . strtoupper('i') . '</span>&nbsp' . ucfirst($row['firstname']) . ' ' . ucfirst($row['lastname']) . '</td>
                                                                     <td><p class="mb-1">' . $row['reference_no'] . '</p>
                                                                         <p class="mb-0">' . $row['registrant'] . '</p></td>
                                                                     <td>
@@ -412,15 +393,7 @@
                                                 <tbody>
                                                     <?php
                                                         $sql = "
-                                                            SELECT 'te' AS user_type, id, corporate_agency_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status,'NA' as upgrade_pack 
-                                                            FROM corporate_agency 
-                                                            WHERE status IN ('1') 
-                                                            UNION ALL 
-                                                            SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status,upgrade_status as upgrade_pack 
-                                                            FROM sub_franchisee 
-                                                            WHERE status IN ('1') 
-                                                            UNION ALL
-                                                            SELECT 'in' AS user_type, id,  institution_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status,upgrade_status as upgrade_pack 
+                                                            SELECT 'in' AS user_type, id,  institution_id AS user_id, name, reference_no, registrant, country_code, contact_no, email, amount, register_date, status, register_by, country, state, city,upgrade_status as upgrade_pack 
                                                             FROM  institution 
                                                             WHERE status IN ('1') 
                                                             ORDER BY register_date ASC
@@ -432,20 +405,12 @@
 
                                                         if ($stmt->rowCount() > 0) {
                                                             foreach ($stmt->fetchAll() as $row) {
-                                                                $bd = new DateTime($row['date_of_birth']);
-                                                                $bdate = $bd->format('d-m-Y');
 
                                                                 $rd = new DateTime($row['register_date']);
                                                                 $rdate = $rd->format('d-m-Y');
                                                                 
                                                                 
-                                                                if ($row["tc_assign_status"] == 1) {
-                                                                    $rowClass = 'bg-success'; // TC allotted = green
-                                                                    // $hoverText = 'TC Allotted';
-                                                                } else {
-                                                                    $rowClass = 'bg-secondary'; // TC not allotted = no background
-                                                                    // $hoverText = '';
-                                                                }
+                                                                
                                                                 $new_reg= new DateTime('2026-01-01');
                                                                 $new_regdate = $new_reg->format('d-m-Y');
                                                                 $isNew = ($rd >= $new_reg);
@@ -458,14 +423,10 @@
                                                                             <span class="tooltip-msg">'.$msg .'</span>
                                                                         </td>
                                                                         <td> 
-                                                                            <span class="badge '.$rowClass.' lable-width">'
+                                                                            <span class="badge bg-info lable-width">'
                                                                                 . strtoupper($row['user_type'] == 'sf' ? 'f' : ($row['user_type'] == 'te' ? 'te' : ($row['user_type'] == 'in' ? 'in' : ''))) . 
-                                                                            '</span>&nbsp;' . $row['firstname'] . ' ' . $row['lastname'] ;
-                                                                            if($row["tc_assign_status"] == 1){
-                                                                                echo '<small class=" d-flex justify-content-center d-block fw-bold text-success px-2 py-1 rounded" style="font-size: 12px; background-color: #e6f4ea;">
-                                                                                        TC Allotted
-                                                                                      </small>';
-                                                                            } 
+                                                                            '</span>&nbsp;' . $row['name'] ;
+                                                                            
                                                                             if($row["upgrade_pack"] == 2){
                                                                                 echo '<small class=" d-flex justify-content-center d-block fw-bold text-success px-2 py-1 rounded" style="font-size: 12px; background-color: #e6f4ea;">
                                                                                         Upgraded
@@ -516,33 +477,7 @@
                                                                                     if($row['user_type'] == 'sf' || $row['user_type'] == 'in'){
                                                                                         echo'<li><a href="#" onclick=\'upgradePage("' . $row["user_id"] . '","' .$row["reference_no"] . '")\'  class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-arrow-up-bold text-success me-1"></i> '.($row['user_type'] == 'sf' ? 'Upgrade Franchisee' : ($row['user_type'] == 'in' ? 'Upgrade Institution' : '')) .' </a></li>';
                                                                                     }
-                                                                                    if ($row['user_type'] == 'te' && $row["tc_assign_status"] == 2) {
-                                                                                        echo '<li>
-                                                                                                <a href="#" 
-                                                                                                class="dropdown-item" 
-                                                                                                data-bs-toggle="modal" 
-                                                                                                data-bs-target="#tcAllotmentModal" 
-                                                                                                data-bs-assign="' . htmlspecialchars($row["tc_assign_status"]) . '"
-                                                                                                data-bs-tcnum="' . htmlspecialchars($row["no_tc_alloted"]??0) . '"
-                                                                                                data-bs-teid="' . htmlspecialchars($row["user_id"]) . '"
-                                                                                                >
-                                                                                                    <i class="mdi mdi-account-group font-size-16 text-info me-1"></i> Allocate TC
-                                                                                                </a>
-                                                                                            </li>';
-                                                                                    }else if($row['user_type'] == 'te' && $row["tc_assign_status"] == 1){
-                                                                                       echo '<li>
-                                                                                                <a href="#" 
-                                                                                                class="dropdown-item" 
-                                                                                                data-bs-toggle="modal" 
-                                                                                                data-bs-target="#allottedTCModal" 
-                                                                                                data-bs-assign="' . htmlspecialchars($row["tc_assign_status"]) . '"
-                                                                                                data-bs-tcnum="' . htmlspecialchars($row["no_tc_alloted"]??0) . '"
-                                                                                                data-bs-teid="' . htmlspecialchars($row["user_id"]) . '"
-                                                                                                >
-                                                                                                    <i class="mdi mdi-account-group font-size-16 text-info me-1"></i> Show Allocated TC
-                                                                                                </a>
-                                                                                            </li>'; 
-                                                                                    }
+                                                                                    
                                                                     echo'           <li><a href="#" onclick=\'editfuncCust("' . $row["user_id"] . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","registered","' . $row["user_type"] . '")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                                                                                     <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["user_id"] . '","registered","'.strtolower($row['user_type']).'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                                                                                 </ul>
@@ -614,16 +549,8 @@
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                        $sql = "
-                                                            SELECT 'te' AS user_type, id, corporate_agency_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status 
-                                                            FROM corporate_agency 
-                                                            WHERE status IN ('3') 
-                                                            UNION ALL 
-                                                            SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status 
-                                                            FROM sub_franchisee 
-                                                            WHERE status IN ('3')
-                                                            UNION ALL 
-                                                            SELECT 'in' AS user_type, id, institution_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status 
+                                                        $sql = " 
+                                                            SELECT 'in' AS user_type, id, institution_id AS user_id, name, reference_no, registrant, country_code, contact_no, email, amount, register_date, status, register_by, country, state, city 
                                                             FROM institution 
                                                             WHERE status IN ('3')  
                                                             ORDER BY register_date ASC
@@ -635,30 +562,19 @@
 
                                                         if ($stmt->rowCount() > 0) {
                                                             foreach ($stmt->fetchAll() as $row) {
-                                                                $bd = new DateTime($row['date_of_birth']);
-                                                                $bdate = $bd->format('d-m-Y');
+                                                                
 
                                                                 $rd = new DateTime($row['register_date']);
                                                                 $rdate = $rd->format('d-m-Y');
-                                                                if ($row["tc_assign_status"] == 1) {
-                                                                    $rowClass = 'bg-success'; // TC allotted = green
-                                                                    // $hoverText = 'TC Allotted';
-                                                                } else {
-                                                                    $rowClass = 'bg-secondary'; // TC not allotted = no background
-                                                                    // $hoverText = '';
-                                                                }
+                                                                
 
                                                                 echo '<tr>
                                                                         <td>' . $row['user_id'] . '</td>
                                                                         <td> 
-                                                                            <span class="badge '.$rowClass.' lable-width">'
+                                                                            <span class="badge bg-info lable-width">'
                                                                                 . strtoupper($row['user_type'] == 'sf' ? 'f' : ($row['user_type'] == 'te' ? 'te' : '')) . 
-                                                                            '</span>&nbsp;' . $row['firstname'] . ' ' . $row['lastname'] ;
-                                                                            if($row["tc_assign_status"] == 1){
-                                                                                echo '<small class=" d-flex justify-content-center d-block fw-bold text-success px-2 py-1 rounded" style="font-size: 12px; background-color: #e6f4ea;">
-                                                                                        TC Allotted
-                                                                                        </small>';
-                                                                            } 
+                                                                            '</span>&nbsp;' . $row['name'] ;
+                                                                             
                                                                 echo'   </td>
                                                                         <td>
                                                                             <p class="mb-1">' . $row['reference_no'] . '</p>
