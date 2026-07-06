@@ -35,7 +35,7 @@
                     ON ta.reference_no = ca.corporate_agency_id
 
                 WHERE ca.reference_no = :user_id
-                AND cu.status = 0
+                AND cu.status IN (0,2,4)
 
                 UNION ALL
 
@@ -64,7 +64,7 @@
                     ON ta.reference_no = sf.sub_franchisee_id
 
                 WHERE sf.reference_no = :user_id
-                AND cu.status = 0
+                AND cu.status IN (0,2,4)
 
                 UNION ALL
 
@@ -93,7 +93,7 @@
                     ON ta.reference_no = sf.business_mentor_id
 
                 WHERE ta.reference_no = :user_id
-                AND cu.status = 0
+                AND cu.status IN (0,2,4)
 
                 UNION ALL
 
@@ -122,7 +122,7 @@
                     ON ta.reference_no = sf.institution_id
 
                 WHERE sf.reference_no = :user_id
-                AND cu.status = 0
+                AND cu.status IN (0,2,4)
 
             ) x
 

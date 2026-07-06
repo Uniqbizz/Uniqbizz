@@ -136,7 +136,7 @@
                         END
                     ) AS type,
 
-                    'F' AS ref_type
+                    'I' AS ref_type
 
                 FROM ca_customer cu
 

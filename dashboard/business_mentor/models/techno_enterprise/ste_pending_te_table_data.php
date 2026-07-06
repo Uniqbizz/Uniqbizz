@@ -31,7 +31,7 @@
                 ON ca.reference_no = ste.business_mentor_id
 
             WHERE ca.reference_no = :user_id
-            AND ca.status IN (2,4)
+            AND ca.status IN (0,2,4)
             UNION ALL
             SELECT
                 ca.id,
@@ -56,7 +56,7 @@
                 ON ca.reference_no = ste.business_mentor_id
 
             WHERE ca.reference_no = :user_id
-            AND ca.status IN (2,4)
+            AND ca.status IN (0,2,4)
             UNION ALL
             SELECT
                 ca.id,
@@ -81,7 +81,7 @@
                 ON ca.reference_no = ste.business_mentor_id
 
             WHERE ca.reference_no = :user_id
-            AND ca.status IN (2,4)
+            AND ca.status IN (0,2,4)
             ORDER BY id DESC;
         ");
 
@@ -133,5 +133,5 @@
     //             ON sf.reference_no = ste.business_mentor_id
 
     //         WHERE sf.reference_no = :user_id
-    //         AND sf.status IN (2,4)
+    //         AND sf.status IN (0,2,4)
 ?>
