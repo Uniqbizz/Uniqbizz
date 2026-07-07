@@ -35,7 +35,7 @@
         <link href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     </head>
 
     <body>
@@ -512,6 +512,7 @@
         <script src="../assets/js/app.js"></script>
         <script src="js/travel_consultant.js"></script>
         <script src="../../uploading/uploadTechnoDashboard.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
 
@@ -693,6 +694,30 @@
             document.addEventListener('DOMContentLoaded', function () {
                 bindUploadEvents();
             });
+            $(".cancelBtn").on("click", function () {
+
+				Swal.fire({
+					title: "Are you sure?",
+					text: "You will be redirected to list page.",
+					icon: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#d63030",
+					cancelButtonColor: "#1b721bf2",
+					confirmButtonText: "Yes, Cancel",
+					cancelButtonText: "Continue Editing",
+					reverseButtons: true,
+					focusCancel: true
+				}).then((result) => {
+
+					if (result.isConfirmed) {
+
+						window.location.href = "travel_consultants_list.php";
+
+					}
+
+				});
+
+			});
         </script>
     </body>
 </html>

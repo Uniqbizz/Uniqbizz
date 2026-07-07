@@ -45,6 +45,7 @@
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="../assets/css/verification.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     </head>
     <body>
  
@@ -125,7 +126,7 @@
                             </div>
 						</div>
                         <!-- Card section 1 -->
-						<div class="card rounded-4 p-3 border-1">
+						<!-- <div class="card rounded-4 p-3 border-1">
 							<div class="row">
                                 <div class="d-flex gap-2">
                                     <p class="fw-bolder addTENum">01</p>
@@ -400,445 +401,108 @@
 									</div>
 								</div>
                             </div>
-                        </div>
-                        <!-- Card section 2 -->
+                        </div> -->
+                        <!-- Card section 1 -->
 						<div class="card rounded-4 p-3 border-1">
 							<div class="row">
                                 <div class="d-flex gap-2">
-                                    <p class="fw-bolder addTENum">02</p>
-                                    <h4 class="fw-bolder text-dark align-content-center">Residential Information</h4>
-                                    
-                                        <div class="verify-toggle">
-                                            <input type="radio" name="verification_status[residential]" id="residential_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'residential', 'approved'); ?>>
-                                            <label class="verify-btn approve-btn" for="residential_approve"> Approved </label>
-                                            <input type="radio" name="verification_status[residential]" id="residential_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'residential', 'rejected'); ?>>
-                                            <label class="verify-btn reject-btn" for="residential_reject"> Rejected </label>
-                                            <input type="radio" name="verification_status[residential]" id="residential_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'residential', 'rejected'); ?>>
-                                            <label class="verify-btn pending-btn" for="residential_pending"> Pending </label>
-                                        </div>
-                                    
+                                    <p class="fw-bolder addTENum">01</p>
+                                    <h4 class="fw-bolder text-dark align-content-center">Personal Information</h4>
                                 </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <?php
-                                            $stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
-                                            $stmt->execute();                                         
-                                            $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                        ?>
-                                        <label class="col-form-label">Country <span class="text-danger">*</span></label>
-                                        <select class="form-select" id="country">
-                                            <?php   
-                                                if($country_id == ''){
-                                                    echo '<option value=""> Country Not Selected </option>';
-                                                }else{
-                                                    echo '<option value=" '.$country_id.' "> '.$countryname. ' (Already Selected) </option>';
-                                                }
-                                            ?>
-                                            <?php 
-                                                if($stmt->rowCount()>0){
-                                                    foreach (($stmt->fetchAll()) as $key => $row) {  
-                                                        echo '<option value="'.$row['id'].'">'.$row['country_name'].'</option>'; 
-                                                    } 
-                                                }else{ 
-                                                    echo '<option value="">Country not available</option>'; 
-                                                } 
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <label class="col-form-label">State<span class="text-danger">*</span></label>
-                                        <select class="form-select" id="mystate" aria-label="Floating label select example">
-                                            <?php   
-                                                if($state_id == ''){
-                                                    echo '<option value=""> State Not Selected </option>';
-                                                }else{
-                                                    echo '<option value=" '.$state_id.' "> '.$statename. ' (Already Selected) </option>';
-                                                }
-                                            ?>
-                                            <option value="">--Select country first--</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <label class="col-form-label">City<span class="text-danger">*</span></label>
-                                        <select class="form-select" id="city" aria-label="Floating label select example">
-                                            <?php   
-                                                if($city_id == ''){
-                                                    echo '<option value=""> City Not Selected </option>';
-                                                }else{
-                                                    echo '<option value=" '.$city_id.' "> '.$city_name. ' (Already Selected) </option>';
-                                                }
-                                            ?>
-                                            <option value="">--Select state first--</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6">  
-                                    <div class="input-block mb-3">
-                                        <label class="col-form-label">Pincode<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="pin" placeholder="Pincode" value="<?php //echo $pincode; ?>" readonly >
-                                    </div>
-                                </div>
-                                <div class="col-md-12 col-sm-12">  
-                                    <div class="input-block mb-3">
-                                        <label class="col-form-label">Address<span class="text-danger">*</span></label>
-                                        <textarea class="form-control" type="text" id="address" rows="3"><?php //echo $address ?></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card section 3 -->
-						<div class="card rounded-4 p-3 border-1">
-							<div class="row">
-                                <div class="d-flex gap-2">
-                                    <p class="fw-bolder addTENum">03</p>
-                                    <h4 class="fw-bolder text-dark align-content-center">Professional Information</h4>
-                                    
-                                        <div class="verify-toggle">
-                                            <input type="radio" name="verification_status[professional]" id="professional_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'professional', 'approved'); ?>>
-                                            <label class="verify-btn approve-btn" for="professional_approve"> Approved </label>
-                                            <input type="radio" name="verification_status[professional]" id="professional_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'professional', 'rejected'); ?>>
-                                            <label class="verify-btn reject-btn" for="professional_reject"> Rejected </label>
-                                            <input type="radio" name="verification_status[professional]" id="professional_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'professional', 'rejected'); ?>>
-                                            <label class="verify-btn pending-btn" for="professional_pending"> Pending </label>
-                                        </div>
-                                    
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <label class="col-form-label">Current Occupation / Business<span class="text-danger">*</span></label>
-                                        <input class="form-control" type="text" id="occupation" value=" <?php //echo $current_occupation; ?>">
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <label class="col-form-label">Total Experience<span class="text-danger">*</span></label>
-                                        <input class="form-control" type="text" id="experience" value=" <?php //echo $current_experience; ?>">
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <label class="col-form-label">Current Annual Income<span class="text-danger">*</span></label>
-                                        <input class="form-control" type="text" id="annual_income" value=" <?php //echo $current_income; ?>">
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="col-form-label">Have You Managed teams Previously <span class="text-danger">*</span></label>
-                                        <div class="form-control d-flex justify-content-around">
-                                            <label class="radio-inline mb-0 ms-3"><input type="radio" name="teamManaged" class="teamManaged" id="teamManagedYes" value="yes" <?php //if ($managed_team == 'yes'){echo ' checked ';} ?> >&nbsp;&nbsp;&nbsp;Yes</label>
-                                            <label class="radio-inline mb-0 ms-3"><input type="radio" name="teamManaged" class="teamManaged" id="teamManagedNo" value="no" <?php //if ($managed_team == 'no'){echo ' checked ';} ?> >&nbsp;&nbsp;&nbsp;No</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <label class="col-form-label">If Yes, Team size<span class="text-danger">*</span></label>
-                                        <textarea class="form-control" id="teamSize" rows="4" cols="50"> <?php //echo htmlspecialchars($team_description); ?> </textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <label class="col-form-label">
-                                            Leadership Experience <span class="text-danger">*</span>
-                                        </label>
-
-                                        <div class="row mt-2">
-                                            <!-- Left Column -->
-                                            <div class="col-md-6">
-                                                <div class="mb-2">
-                                                    <input type="checkbox" class="leadership" id="lead1" name="leadership[]" value="Sales Leadership" <?php // in_array('Sales Leadership', $selectedLeadership ?? []) ? 'checked' : '' ?>>
-                                                    <label for="lead1">Sales Leadership</label>
-                                                </div>
-
-                                                <div class="mb-2">
-                                                    <input type="checkbox" class="leadership" id="lead2" name="leadership[]" value="Business Development" <?php // in_array('Business Development', $selectedLeadership ?? []) ? 'checked' : '' ?>>
-                                                    <label for="lead2">Business Development</label>
-                                                </div>
-
-                                                <div class="mb-2">
-                                                    <input type="checkbox" class="leadership" id="lead3" name="leadership[]" value="Team Management" <?php // in_array('Team Management', $selectedLeadership ?? []) ? 'checked' : '' ?>>
-                                                    <label for="lead3">Team Management</label>
-                                                </div>
-                                                <div class="mb-2">
-                                                    <input type="checkbox" class="leadership" id="lead4" name="leadership[]" value="Enterpreneurship" <?php // in_array('Enterpreneurship', $selectedLeadership ?? []) ? 'checked' : '' ?>>
-                                                    <label for="lead4">Enterpreneurship</label>
-                                                </div>
-
-                                                <div class="mb-2">
-                                                    <input type="checkbox" class="leadership" id="lead5" name="leadership[]" value="Corporate Leader" <?php // in_array('Corporate Leader', $selectedLeadership ?? []) ? 'checked' : '' ?>>
-                                                    <label for="lead5">Corporate Leader</label>
-                                                </div>
-
-                                                <div class="mb-2">
-                                                    <input type="checkbox" class="leadership" id="lead6" name="leadership[]" value="other" <?php // in_array('other', $selectedLeadership ?? []) ? 'checked' : '' ?>>
-                                                    <label for="lead6">Other(Please Specify)</label>
-                                                    <input type="text" name="other_leadership" id="otherLead" class="form-control mt-2" <?php //in_array('other', $selectedLeadership ?? []) ? 'style="display:block;' : 'style="display:none;' ?> " value="<?php // $leadership_experience_other; ?>">
-                                                </div>
-                                            </div>
-                                            <input type="hidden" name="leadership_json" id="leadership_json">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card section 4 -->
-						<div class="card rounded-4 p-3 border-1">
-							<div class="row">
-                                <div class="d-flex gap-2">
-                                    <p class="fw-bolder addTENum">04</p>
-                                    <h4 class="fw-bolder text-dark align-content-center">Educational Information</h4>
-                                    
-                                        <div class="verify-toggle">
-                                            <input type="radio" name="verification_status[education]" id="education_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'education', 'approved'); ?>>
-                                            <label class="verify-btn approve-btn" for="education_approve"> Approved </label>
-                                            <input type="radio" name="verification_status[education]" id="education_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'education', 'rejected'); ?>>
-                                            <label class="verify-btn reject-btn" for="education_reject"> Rejected </label>
-                                            <input type="radio" name="verification_status[education]" id="education_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'education', 'rejected'); ?>>
-                                            <label class="verify-btn pending-btn" for="education_pending"> Pending </label>
-                                        </div>
-                                    
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <label class="col-form-label">Educational Qualification<span class="text-danger">*</span></label>
-                                        <input class="form-control" type="text" id="qualification" value="<?php // $educational_qualification; ?>">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card section 5 -->
-						<div class="card rounded-4 p-3 border-1">
-							<div class="row">
-                                <div class="d-flex gap-2">
-                                    <p class="fw-bolder addTENum">05</p>
-                                    <h4 class="fw-bolder text-dark align-content-center">Leadership Assessment Information</h4>
-                                    
-                                        <div class="verify-toggle">
-                                            <input type="radio" name="verification_status[leadership]" id="leadership_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'leadership', 'approved'); ?> >
-                                            <label class="verify-btn approve-btn" for="leadership_approve"> Approved </label>
-                                            <input type="radio" name="verification_status[leadership]" id="leadership_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'leadership', 'rejected'); ?> >
-                                            <label class="verify-btn reject-btn" for="leadership_reject"> Rejected </label>
-                                            <input type="radio" name="verification_status[leadership]" id="leadership_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'leadership', 'rejected'); ?> >
-                                            <label class="verify-btn pending-btn" for="leadership_pending"> Pending </label>
-                                        </div>
-                                    
-                                </div>
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="input-block mb-3">
-                                        <label class="col-form-label">Why You want to become a Chief Techno Enterprise?<span class="text-danger">*</span></label>
-                                        <textarea class="form-control" id="career_objective" rows="4" cols="50"> <?php // $career_objective; ?></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-12">
-                                    <div class="input-block mb-3">
-                                        <label class="col-form-label">
-                                            Expected Team Building Capacity(Within 12 Months) <span class="text-danger">*</span>
-                                        </label>
-                                        <div class="row mt-2">
-                                            <div class="col-md-6">
-                                                <div class="mb-2">
-                                                    <input type="radio" id="expected1" name="teamExpected" class="teamExpected" value="5" <?php //if ($team_expected == '5'){echo ' checked ';} ?>>
-                                                    <label for="expected1">5 Techno Enterprise</label>
-                                                </div>
-
-                                                <div class="mb-2">
-                                                    <input type="radio" id="expected2" name="teamExpected" class="teamExpected" value="10" <?php //if ($team_expected == '10'){echo ' checked ';} ?>>
-                                                    <label for="expected2">10 Techno Enterprise</label>
-                                                </div>
-
-                                                <div class="mb-2">
-                                                    <input type="radio" id="expected3" name="teamExpected" class="teamExpected" value="15" <?php //if ($team_expected == '15'){echo ' checked ';} ?>>
-                                                    <label for="expected3">15 Techno Enterprise</label>
-                                                </div>
-                                                <div class="mb-2">
-                                                    <input type="radio" id="expected4" name="teamExpected" class="teamExpected" value="25+" <?php //if ($team_expected == '25+'){echo ' checked ';} ?>>
-                                                    <label for="expected4">25+ Techno Enterprise</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-12">
-                                    <div class="input-block mb-3">
-                                        <label class="col-form-label">Preferred Operating Region <span class="text-danger">*</span></label>
-                                        <select class="form-select" id="OperatingState">
-                                            
-                                            <option value=""> ---- Select State ---- </option>
-                                            <?php
-                                            require '../connect.php';
-                                            $sql = "SELECT * FROM `states` WHERE status ='1' ";
-                                            $stmt = $conn->prepare($sql);
-                                            $stmt->execute();
-                                            $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                            if ($stmt->rowCount() > 0) {
-                                                foreach (($stmt->fetchAll()) as $key => $row) {
-                                                    echo '
-                                                                <option value="' . $row['id'] . '">' . $row['state_name'] . '</option>
-                                                            ';
-                                                }
-                                            } else {
-                                                echo '<option value="">Department not available</option>';
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card section 6 -->
-						<div class="card rounded-4 p-3 border-1">
-							<div class="row">
-                                <div class="d-flex gap-2">
-                                    <p class="fw-bolder addTENum">06</p>
-                                    <h4 class="fw-bolder text-dark align-content-center">Nominee Details</h4>
-                                </div>
+							
 								<div class="col-lg-9">
 									<div class="row">
-                                        <div class="col-md-6 col-sm-6">
-                                            <div class="input-block mb-3">
-                                                <div class="verify-field">
-                                                    <label class="col-form-label">Nominee Name<span class="text-danger">*</span></label>
-                                                    
-                                                    <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[nominee_name]" id="nominee_name_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'nominee_name', 'approved'); ?> >
-                                                        <label class="verify-btn approve-btn" for="nominee_name_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[nominee_name]" id="nominee_name_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'educnominee_nameation', 'rejected'); ?> >
-                                                        <label class="verify-btn reject-btn" for="nominee_name_reject"> Rejected </label>
-                                                        <input type="radio" name="verification_status[nominee_name]" id="nominee_name_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'educnominee_nameation', 'rejected'); ?> >
-                                                        <label class="verify-btn pending-btn" for="nominee_name_pending"> Pending </label>
-                                                    </div>
-                                                       
-                                                </div>
-                                                <input class="form-control" type="text" id="nomineeName" value="<?php // $nominee_name; ?>" >
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6">
-                                            <div class="input-block mb-3">
-                                                <div class="verify-field">
-                                                    <label class="col-form-label">Nominee Relation<span class="text-danger">*</span></label>
-                                                    
-                                                    <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[nominee_relation]" id="nominee_relation_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'nominee_relation', 'approved'); ?> >
-                                                        <label class="verify-btn approve-btn" for="nominee_relation_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[nominee_relation]" id="nominee_relation_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'nominee_relation', 'rejected'); ?> >
-                                                        <label class="verify-btn reject-btn" for="nominee_relation_reject"> Rejected </label>
-                                                        <input type="radio" name="verification_status[nominee_relation]" id="nominee_relation_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'nominee_relation', 'rejected'); ?> >
-                                                        <label class="verify-btn pending-btn" for="nominee_relation_pending"> Pending </label>
-                                                    </div>
-                                                    
-                                                </div>
-                                                <input class="form-control" type="text" id="nomineeRelation" value="<?php // $nominee_relation; ?>" >
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-12 mb-3">
-                                            <div class="row">
-                                                <div class="col-md-4 col-sm-4 col-3">
-                                                    <div class="input-block">
-                                                        <?php
-                                                        require '../connect.php';
-                                                        $stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
-                                                        $stmt->execute();
-                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                                        ?>
-                                                        <label for="countryCdNominee" class="col-form-label">Code:</label>
-                                                        <select class="form-control" id="countryCdNominee">
-                                                            <?php
-                                                            if ($stmt->rowCount() > 0) {
-                                                                foreach (($stmt->fetchAll()) as $key => $row) {
-                                                                    echo '<option value="' . $row['country_code'] . '">+' . $row['country_code'] . ' (' . $row['sortname'] . ')</option>';
-                                                                }
-                                                            } else {
-                                                                echo '<option value="">Country not available</option>';
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-8 col-sm-8 col-9">
-                                                    <div class="input-block">
-                                                        <div class="verify-field">
-                                                            <label class="col-form-label">Nominee Phone Number <span class="text-danger">*</span></label>
-                                                            
-                                                            <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[nominee_phone]" id="nominee_phone_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'nominee_phone', 'approved'); ?> >
-                                                                <label class="verify-btn approve-btn" for="nominee_phone_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[nominee_phone]" id="nominee_phone_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'nominee_phone', 'rejected'); ?> >
-                                                                <label class="verify-btn reject-btn" for="nominee_phone_reject"> Rejected </label>
-                                                                <input type="radio" name="verification_status[nominee_phone]" id="nominee_phone_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'nominee_phone', 'rejected'); ?> >
-                                                                <label class="verify-btn pending-btn" for="nominee_phone_pending"> Pending </label>
-                                                            </div>
-                                                            
-                                                        </div>
-                                                        <input class="form-control" type="number" id="nomineePhone" placeholder="Enter Nominee Phone Number" value="<?php // $nominee_contact_no; ?>" >
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6">
-                                            <div class="input-block mb-3">
-                                                <div class="verify-field">
-                                                    <label class="col-form-label">Date of Birth <span class="text-danger">*</span></label>
-                                                    
-                                                    <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[nominee_dob]" id="nominee_dob_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'nominee_dob', 'approved'); ?> >
-                                                        <label class="verify-btn approve-btn" for="nominee_dob_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[nominee_dob]" id="nominee_dob_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'nominee_dob', 'rejected'); ?> >
-                                                        <label class="verify-btn reject-btn" for="nominee_dob_reject"> Rejected </label>
-                                                        <input type="radio" name="verification_status[nominee_dob]" id="nominee_dob_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'nominee_dob', 'rejected'); ?> >
-                                                        <label class="verify-btn pending-btn" for="nominee_dob_pending"> Pending </label>
-                                                    </div>
-                                                    
-                                                </div>
-                                                <input class="form-control" type="date" id="nomineeDob" value="<?php //echo $nominee_date_of_birth; ?>">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 col-sm-6">
-                                            <div class="input-block mb-3">
-                                                <div class="verify-field">
-                                                    <label class="col-form-label">Nominee Address<span class="text-danger">*</span></label>
-                                                    
-                                                    <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[nominee_address]" id="nominee_address_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'nominee_address', 'approved'); ?> >
-                                                        <label class="verify-btn approve-btn" for="nominee_address_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[nominee_address]" id="nominee_address_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'nominee_address', 'rejected'); ?> >
-                                                        <label class="verify-btn reject-btn" for="nominee_address_reject"> Rejected </label>
-                                                        <input type="radio" name="verification_status[nominee_address]" id="nominee_address_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'nominee_address', 'rejected'); ?> >
-                                                        <label class="verify-btn pending-btn" for="nominee_address_pending"> Pending </label>
-                                                    </div>
-                                                    
-                                                </div>
-                                                <textarea class="form-control" type="text" id="nomineeAddress" rows="3"><?php // $nominee_address; ?></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
+										<div class="col-lg-6 col-md-6 col-sm-6 col-12">
+											<div class="input-block mb-3">
+												<label class="col-form-label">First Name <span class="text-danger">*</span></label>
+												<input class="form-control" type="text" id="firstname">
+											</div>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col-12">
+											<div class="input-block mb-3">
+												<label class="col-form-label">Last Name <span class="text-danger">*</span></label>
+												<input class="form-control" type="text" id="lastname">
+											</div>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col-12">
+											<div class="input-block mb-3">
+												<label class="col-form-label">Nominee Name <span class="text-danger">*</span></label>
+												<input class="form-control" type="text" id="nominee_name">
+											</div>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col-12">
+											<div class="input-block mb-3">
+												<label class="col-form-label">Nominee Relation <span class="text-danger">*</span></label>
+												<input class="form-control" type="text" id="nominee_relation">
+											</div>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col-12">
+											<div class="input-block mb-3">
+												<label class="col-form-label">Email Address<span class="text-danger">*</span></label>
+												<input class="form-control" type="email" id="email">
+											</div>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col-12">
+											<div class="input-block mb-3">
+												<label class="col-form-label">Date of Birth <span class="text-danger">*</span></label>
+												<input class="form-control" type="date" id="dob" max="<?php echo $ageLimit; ?>">
+											</div>
+										</div>
+										<div class="col-md-6 col-sm-12">
+											<div class="form-group">
+												<label class="col-form-label">Gender <span class="text-danger">*</span></label>
+												<div class="form-control d-flex justify-content-around">
+													<label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender" id="test3" value="male">&nbsp;&nbsp;&nbsp;Male</label>
+													<label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender" id="test4" value="female">&nbsp;&nbsp;&nbsp;Female</label>
+													<label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender" id="test5" value="others">&nbsp;&nbsp;&nbsp;Other</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-6 col-sm-12 mb-3">
+											<div class="row">
+												<div class="col-md-4 col-sm-4 col-3">
+													<div class="input-block">
+														<?php
+														require '../connect.php';
+														$stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
+														$stmt->execute();
+														$stmt->setFetchMode(PDO::FETCH_ASSOC);
+														?>
+														<label for="country_cd" class="col-form-label">Code:</label>
+														<select class="form-control" id="country_cd">
+															<?php
+															if ($stmt->rowCount() > 0) {
+																foreach (($stmt->fetchAll()) as $key => $row) {
+																	echo '<option value="' . $row['country_code'] . '">+' . $row['country_code'] . ' (' . $row['sortname'] . ')</option>';
+																}
+															} else {
+																echo '<option value="">Country not available</option>';
+															}
+															?>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-8 col-sm-8 col-9">
+													<div class="input-block">
+														<label class="col-form-label">Phone Number <span class="text-danger">*</span></label>
+														<input class="form-control" type="number" id="phone" placeholder="Enter Phone Number">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-3">
 									<div class="row">
 										<div class="col-lg-12">
-                                            <div class="verify-field">
-                                                
-                                                <div class="verify-toggle">
-                                                    <input type="radio" name="verification_status[nominee]" id="nominee_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'nominee', 'approved'); ?> > 
-                                                    <label class="verify-btn approve-btn" for="nominee_approve"> Approved </label>
-                                                    <input type="radio" name="verification_status[nominee]" id="nominee_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'nominee', 'rejected'); ?> > 
-                                                    <label class="verify-btn reject-btn" for="nominee_reject"> Rejected </label>
-                                                    <input type="radio" name="verification_status[nominee]" id="nominee_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'nominee', 'rejected'); ?> > 
-                                                    <label class="verify-btn pending-btn" for="nominee_pending"> Pending </label>
-                                                </div>
-                                                
-                                            </div>
-											<div class="upload-card" data-title="Nominee Profile Photo" data-index="13">
-                                                <input type="hidden" id="img_path13" value="">
-												<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file13">
+											<div class="upload-card" data-title="Profile Photo" data-index="1">
+												<input type="hidden" id="img_path1" value="">
+												<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file1">
 												<div class="upload-content">
 													<div class="upload-icon">
 														<i class="fa-solid fa-user"></i>
 													</div>
-													<h6>Nominee Profile Photo</h6>
+													<h6>Profile Photo</h6>
 													<p>Click to upload<br>or drag and drop</p>
 													<small>(JPG, PNG, PDF)</small>
 												</div>
@@ -846,373 +510,182 @@
 										</div>
 									</div>
 								</div>
-                            </div>
-                        </div>
-                        <!-- Card section 7 -->
+							</div>
+						</div>
+						<!-- Card section 2 -->
 						<div class="card rounded-4 p-3 border-1">
 							<div class="row">
                                 <div class="d-flex gap-2">
-                                    <p class="fw-bolder addTENum">07</p>
-                                    <h4 class="fw-bolder text-dark align-content-center">Bank Details</h4>
+                                    <p class="fw-bolder addTENum">02</p>
+                                    <h4 class="fw-bolder text-dark align-content-center">Residential Information</h4>
                                 </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <div class="verify-field">
-                                            <label class="col-form-label">Account Holder Name<span class="text-danger">*</span></label>
-                                            
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[account_holder]" id="account_holder_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'account_holder', 'approved'); ?> >
-                                                <label class="verify-btn approve-btn" for="account_holder_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[account_holder]" id="account_holder_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'account_holder', 'rejected'); ?>>
-                                                <label class="verify-btn reject-btn" for="account_holder_reject"> Rejected </label>
-                                                <input type="radio" name="verification_status[account_holder]" id="account_holder_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'account_holder', 'rejected'); ?>>
-                                                <label class="verify-btn pending-btn" for="account_holder_pending"> Pending </label>
-                                            </div>
-                                            
-                                        </div>
-                                        <input class="form-control" type="text" id="accHolderName" value="<?php // $account_holder_name;  ?>" >
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <div class="verify-field">
-                                            <label class="col-form-label">Bank Name<span class="text-danger">*</span></label>
-                                            
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[bank_name]" id="bank_name_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'bank_name', 'approved'); ?> >
-                                                <label class="verify-btn approve-btn" for="bank_name_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[bank_name]" id="bank_name_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'bank_name', 'rejected'); ?> >
-                                                <label class="verify-btn reject-btn" for="bank_name_reject"> Rejected </label>
-                                                <input type="radio" name="verification_status[bank_name]" id="bank_name_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'bank_name', 'rejected'); ?> >
-                                                <label class="verify-btn pending-btn" for="bank_name_pending"> Pending </label>
-                                            </div>
-                                            
-                                        </div>
-                                        <input class="form-control" type="text" id="bankName" value="<?php // $bank_name;  ?>" >
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <div class="verify-field">
-                                            <label class="col-form-label">Account Number<span class="text-danger">*</span></label>
-                                            
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[account_number]" id="account_number_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'account_number', 'approved'); ?>>
-                                                <label class="verify-btn approve-btn" for="account_number_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[account_number]" id="account_number_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'account_number', 'rejected'); ?>>
-                                                <label class="verify-btn reject-btn" for="account_number_reject"> Rejected </label>
-                                                <input type="radio" name="verification_status[account_number]" id="account_number_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'account_number', 'rejected'); ?>>
-                                                <label class="verify-btn pending-btn" for="account_number_pending"> Pending </label>
-                                            </div>
-                                            
-                                        </div>
-                                        <input class="form-control" type="text" id="accountNumber" value="<?php // $account_number;  ?>" >
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <label class="col-form-label">Confirm Account Number<span class="text-danger">*</span></label>
-                                        <input class="form-control" type="text" id="confirmAccountNumber" value="<?php // $account_number;  ?>" >
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <div class="verify-field">
-                                            <label class="col-form-label">IFSC Code<span class="text-danger">*</span></label>
-                                            
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[ifsc_code]" id="ifsc_code_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'ifsc_code', 'approved'); ?> >
-                                                <label class="verify-btn approve-btn" for="ifsc_code_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[ifsc_code]" id="ifsc_code_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'ifsc_code', 'rejected'); ?> >
-                                                <label class="verify-btn reject-btn" for="ifsc_code_reject"> Rejected </label>
-                                                <input type="radio" name="verification_status[ifsc_code]" id="ifsc_code_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'ifsc_code', 'rejected'); ?> >
-                                                <label class="verify-btn pending-btn" for="ifsc_code_pending"> Pending </label>
-                                            </div>
-                                            
-                                        </div>
-                                        <input class="form-control" type="text" id="ifscCode" value="<?php // $ifsc_code;  ?>" >
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <div class="verify-field">
-                                            <label class="col-form-label">Branch Name<span class="text-danger">*</span></label>
-                                            
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[branch_name]" id="branch_name_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'branch_name', 'approved'); ?> >
-                                                <label class="verify-btn approve-btn" for="branch_name_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[branch_name]" id="branch_name_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'branch_name', 'rejected'); ?> >
-                                                <label class="verify-btn reject-btn" for="branch_name_reject"> Rejected </label>
-                                                <input type="radio" name="verification_status[branch_name]" id="branch_name_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'branch_name', 'rejected'); ?> >
-                                                <label class="verify-btn pending-btn" for="branch_name_pending"> Pending </label>
-                                            </div>
-                                            
-                                        </div>
-                                        <input class="form-control" type="text" id="branchName" value="<?php // $branch_name;  ?>" >
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card section 8 -->
-						<div class="card rounded-4 p-3 border-1">
-							<div class="row">
-                                <div class="d-flex gap-2">
-                                    <p class="fw-bolder addTENum">08</p>
-                                    <h4 class="fw-bolder text-dark align-content-center">Upload Documents</h4>
-                                </div>
-								<div class="row g-3">
-									<!-- Aadhaar -->
-									<div class="col-lg-4 col-md-4 col-12">
-                                        <div class="verify-field">
-                                            
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[aadhar]" id="aadhar_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'aadhar', 'approved'); ?> > 
-                                                <label class="verify-btn approve-btn" for="aadhar_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[aadhar]" id="aadhar_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'aadhar', 'rejected'); ?> > 
-                                                <label class="verify-btn reject-btn" for="aadhar_reject"> Rejected </label>
-                                                <input type="radio" name="verification_status[aadhar]" id="aadhar_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'aadhar', 'rejected'); ?> > 
-                                                <label class="verify-btn pending-btn" for="aadhar_pending"> Pending </label>
-                                            </div>
-                                            
-                                        </div>
-										<div class="upload-card" data-title="Aadhaar Card" data-index="2">
-                                            <input type="hidden" id="img_path2" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file2">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-regular fa-id-card"></i>
-												</div>
-												<h6>Aadhaar Card</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-
-									<!-- PAN -->
-									<div class="col-lg-4 col-md-4 col-12">
-                                        <div class="verify-field">
-                                            
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[pan]" id="pan_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'pan', 'approved'); ?> > 
-                                                <label class="verify-btn approve-btn" for="pan_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[pan]" id="pan_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'pan', 'rejected'); ?> > 
-                                                <label class="verify-btn reject-btn" for="pan_reject"> Rejected </label>
-                                                <input type="radio" name="verification_status[pan]" id="pan_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'pan', 'rejected'); ?> > 
-                                                <label class="verify-btn pending-btn" for="pan_pending"> Pending </label>
-                                            </div>
-                                            
-                                        </div>
-										<div class="upload-card" data-title="PAN Card" data-index="3">
-                                            <input type="hidden" id="img_path3" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file3">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-regular fa-credit-card"></i>
-												</div>
-												<h6>PAN Card</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-
-									<!-- Bank Passbook -->
-									<div class="col-lg-4 col-md-4 col-12">
-                                        <div class="verify-field">
-                                            
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[bank]" id="bank_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'bank', 'approved'); ?> > 
-                                                <label class="verify-btn approve-btn" for="bank_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[bank]" id="bank_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'bank', 'rejected'); ?> > 
-                                                <label class="verify-btn reject-btn" for="bank_reject"> Rejected </label>
-                                                <input type="radio" name="verification_status[bank]" id="bank_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'bank', 'rejected'); ?> > 
-                                                <label class="verify-btn pending-btn" for="bank_pending"> Pending </label>
-                                            </div>
-                                            
-                                        </div>
-										<div class="upload-card" data-title="Bank Passbook" data-index="4">
-                                            <input type="hidden" id="img_path4" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file4">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-solid fa-building-columns"></i>
-												</div>
-												<h6>Cancelled Cheque / Bank Passbook</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-
-									<!-- Resume -->
-									<div class="col-lg-4 col-md-4 col-12">
-                                        <div class="verify-field">
-                                            
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[resume]" id="resume_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'resume', 'approved'); ?> > 
-                                                <label class="verify-btn approve-btn" for="resume_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[resume]" id="resume_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'resume', 'rejected'); ?> > 
-                                                <label class="verify-btn reject-btn" for="resume_reject"> Rejected </label>
-                                                <input type="radio" name="verification_status[resume]" id="resume_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'resume', 'rejected'); ?> > 
-                                                <label class="verify-btn pending-btn" for="resume_pending"> Pedning </label>
-                                            </div>
-                                            
-                                        </div>
-										<div class="upload-card" data-title="Resume / CV" data-index="5">
-                                            <input type="hidden" id="img_path5" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file5">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-regular fa-address-card"></i>
-												</div>
-												<h6>Resume / CV</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-									<!-- Address Proof -->
-									<div class="col-lg-4 col-md-4 col-12">
-                                        <div class="verify-field">
-                                            
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[address]" id="address_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'address', 'approved'); ?> > 
-                                                <label class="verify-btn approve-btn" for="address_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[address]" id="address_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'address', 'rejected'); ?> > 
-                                                <label class="verify-btn reject-btn" for="address_reject"> Rejected </label>
-                                                <input type="radio" name="verification_status[address]" id="address_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'address', 'rejected'); ?> > 
-                                                <label class="verify-btn pending-btn" for="address_pending"> Pending </label>
-                                            </div>
-                                            
-                                        </div>
-										<div class="upload-card" data-title="Address Proof" data-index="6">
-                                            <input type="hidden" id="img_path6" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file6">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-regular fa-address-card"></i>
-												</div>
-												<h6>Address Proof</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-
-									<!-- Professional Profile -->
-									<div class="col-lg-4 col-md-4 col-12">
-                                        <div class="verify-field">
-                                            
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[profile2]" id="profile2_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'profile2', 'approved'); ?> > 
-                                                <label class="verify-btn approve-btn" for="profile2_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[profile2]" id="profile2_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'profile2', 'rejected'); ?> > 
-                                                <label class="verify-btn reject-btn" for="profile2_reject"> Rejected </label>
-                                                <input type="radio" name="verification_status[profile2]" id="profile2_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'profile2', 'rejected'); ?> > 
-                                                <label class="verify-btn pending-btn" for="profile2_pending"> Pending </label>
-                                            </div>
-                                            
-                                        </div>
-										<div class="upload-card" data-title="Professional Profile" data-index="7">
-                                            <input type="hidden" id="img_path7" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file7">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-solid fa-file-invoice"></i>
-												</div>
-												<h6>Professional Profile</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-									<!-- Business Profile -->
-									<div class="col-lg-4 col-md-4 col-12">
-                                        <div class="verify-field">
-                                            
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[business]" id="business_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'business', 'approved'); ?> > 
-                                                <label class="verify-btn approve-btn" for="business_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[business]" id="business_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'business', 'rejected'); ?> > 
-                                                <label class="verify-btn reject-btn" for="business_reject"> Rejected </label>
-                                                <input type="radio" name="verification_status[business]" id="business_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'business', 'rejected'); ?> > 
-                                                <label class="verify-btn pending-btn" for="business_pending"> Pending </label>
-                                            </div>
-                                            
-                                        </div>
-										<div class="upload-card" data-title="Business Profile" data-index="8">
-                                            <input type="hidden" id="img_path8" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file8">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-solid fa-file-invoice"></i>
-												</div>
-												<h6>Business Profile</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-									<!-- Income Proof -->
-									<div class="col-lg-4 col-md-4 col-12">
-                                        <div class="verify-field">
-                                            
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[income]" id="income_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'income', 'approved'); ?> > 
-                                                <label class="verify-btn approve-btn" for="income_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[income]" id="income_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'income', 'rejected'); ?> > 
-                                                <label class="verify-btn reject-btn" for="income_reject"> Rejected </label>
-                                                <input type="radio" name="verification_status[income]" id="income_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'income', 'rejected'); ?> > 
-                                                <label class="verify-btn pending-btn" for="income_pending"> Pending </label>
-                                            </div>
-                                            
-                                        </div>
-										<div class="upload-card" data-title="Income Proof" data-index="9">
-                                            <input type="hidden" id="img_path9" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file9">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-solid fa-file-invoice"></i>
-												</div>
-												<h6>Income Proof</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-									<!-- Other Document -->
-									<div class="col-lg-4 col-md-4 col-12">
-                                        <div class="verify-field">
-                                            
-                                            <div class="verify-toggle">
-                                                <input type="radio" name="verification_status[other]" id="other_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'other', 'approved'); ?> > 
-                                                <label class="verify-btn approve-btn" for="other_approve"> Approved </label>
-                                                <input type="radio" name="verification_status[other]" id="other_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'other', 'rejected'); ?> > 
-                                                <label class="verify-btn reject-btn" for="other_reject"> Rejected </label>
-                                                <input type="radio" name="verification_status[other]" id="other_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'other', 'rejected'); ?> > 
-                                                <label class="verify-btn pending-btn" for="other_pending"> Pending </label>
-                                            </div>
-                                            
-                                        </div>
-										<div class="upload-card" data-title="Other Document" data-index="10">
-                                            <input type="hidden" id="img_path10" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file10">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-solid fa-file-invoice"></i>
-												</div>
-												<h6>Other Document</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
+								<div class="col-md-6 col-sm-6">
+									<div class="input-block mb-3">
+										<?php
+										$stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
+										$stmt->execute();
+										$stmt->setFetchMode(PDO::FETCH_ASSOC);
+										?>
+										<label class="col-form-label">Country <span class="text-danger">*</span></label>
+										<select class="form-select" id="country">
+											<option value="" selected>--Select Country--</option>
+											<?php
+											if ($stmt->rowCount() > 0) {
+												foreach (($stmt->fetchAll()) as $key => $row) {
+													echo '<option value="' . $row['id'] . '">' . $row['country_name'] . '</option>';
+												}
+											} else {
+												echo '<option value="">Country not available</option>';
+											}
+											?>
+										</select>
 									</div>
 								</div>
+								<div class="col-md-6 col-sm-6">
+									<div class="input-block mb-3">
+										<label class="col-form-label">State<span class="text-danger">*</span></label>
+										<select class="form-select" id="mystate" aria-label="Floating label select example">
+											<option value="">--Select country first--</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6">
+									<div class="input-block mb-3">
+										<label class="col-form-label">City<span class="text-danger">*</span></label>
+										<select class="form-select" id="city" aria-label="Floating label select example">
+											<option value="">--Select state first--</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6">
+									<div class="input-block mb-3">
+										<label class="col-form-label">Pincode<span class="text-danger">*</span></label>
+										<input type="text" class="form-control" id="pin" placeholder="Pincode" readonly>
+									</div>
+								</div>
+								<div class="col-md-12 col-sm-12">
+									<div class="input-block mb-3">
+										<label class="col-form-label">Address<span class="text-danger">*</span></label>
+										<textarea class="form-control" type="text" id="address" rows="3" placeholder="Enter complete address"></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Card section 3 -->
+						<div class="card rounded-4 p-3 border-1">
+							<div class="row">
+                                <div class="d-flex gap-2">
+                                    <p class="fw-bolder addTENum">03</p>
+                                    <h4 class="fw-bolder text-dark align-content-center">Business Information</h4>
+                                </div>
+								<div class="col-md-6 col-sm-6">
+									<div class="input-block mb-3">
+										<label class="col-form-label">Zone <span class="text-danger">*</span></label>
+										<select class="form-select" id="zone">
+											<option value=""> ---- Select Zone ---- </option>
+											<?php
+											$sql = "SELECT * FROM `zone` WHERE status ='1' ";
+											$stmt = $conn->prepare($sql);
+											$stmt->execute();
+											$stmt->setFetchMode(PDO::FETCH_ASSOC);
+											if ($stmt->rowCount() > 0) {
+												foreach (($stmt->fetchAll()) as $key => $row) {
+													echo '
+																<option value="' . $row['id'] . '">' . $row['zone_name'] . '</option>
+															';
+												}
+											} else {
+												echo '<option value="">Department not available</option>';
+											}
+											?>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6">
+									<div class="input-block mb-3">
+										<label class="col-form-label">Branch <span class="text-danger">*</span></label>
+										<select class="form-select" id="branch">
+											<option value=""> ---- Select Zone First ---- </option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<!-- Card section 4 -->
+						<div class="card rounded-4 p-3 border-1">
+                            <div class="d-flex gap-2">
+                                <p class="fw-bolder addTENum">04</p>
+                                <h4 class="fw-bolder text-dark align-content-center">Upload Documents</h4>
+                            </div>
+                            <div class="row g-3">
+
+                                <!-- Aadhaar -->
+                                <div class="col-lg-3 col-md-4 col-6">
+                                    <div class="upload-card" data-title="Aadhaar Card" data-index="2">
+                                        <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file2">
+                                        <div class="upload-content">
+                                            <div class="upload-icon">
+                                                <i class="fa-regular fa-id-card"></i>
+                                            </div>
+                                            <h6>Aadhaar Card</h6>
+                                            <p>Click to upload<br>or drag and drop</p>
+                                            <small>(JPG, PNG, PDF)</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- PAN -->
+                                <div class="col-lg-3 col-md-4 col-6">
+                                    <div class="upload-card" data-title="PAN Card" data-index="3">
+                                        <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file3">
+                                        <div class="upload-content">
+                                            <div class="upload-icon">
+                                                <i class="fa-regular fa-credit-card"></i>
+                                            </div>
+                                            <h6>PAN Card</h6>
+                                            <p>Click to upload<br>or drag and drop</p>
+                                            <small>(JPG, PNG, PDF)</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Bank Passbook -->
+                                <div class="col-lg-3 col-md-4 col-6">
+                                    <div class="upload-card" data-title="Bank Passbook" data-index="4">
+                                        <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file4">
+                                        <div class="upload-content">
+                                            <div class="upload-icon">
+                                                <i class="fa-solid fa-building-columns"></i>
+                                            </div>
+                                            <h6>Bank Passbook</h6>
+                                            <p>Click to upload<br>or drag and drop</p>
+                                            <small>(JPG, PNG, PDF)</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Voting -->
+                                <div class="col-lg-3 col-md-4 col-6">
+                                    <div class="upload-card" data-title="Voting Card" data-index="11">
+                                        <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file11">
+                                        <div class="upload-content">
+                                            <div class="upload-icon">
+                                                <i class="fa-regular fa-address-card"></i>
+                                            </div>
+                                            <h6>Voting Card</h6>
+                                            <p>Click to upload<br>or drag and drop</p>
+                                            <small>(JPG, PNG, PDF)</small>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <input type="hidden" id="editfor" name="editfor" value="<?= $edittype ?>">
-                        <input type="hidden" id="applicationId" name="applicationId" value="<?= $id ?>">
+                        
+                        <input type="hidden" id="testValue" name="testValue" value="26"> <!-- Business mentor -->
+                        <!-- new added 14-06-2025 -->
+                        <input type="hidden" id="userType" name="userType" value="<?php echo $userType; ?>"> <!-- 24,25,26 -->
+                        <input type="hidden" id="userId" name="userId" value="<?php echo $userId; ?>"> 
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="d-flex justify-content-end gap-4 submitBtnBackground">
@@ -1271,9 +744,10 @@
 
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
-        <script src="js/super_techno_enterprise.js"></script>
+        <script src="js/business_mentor.js"></script>
         <script src="../../uploading/uploadTechnoDashboard.js"></script>
         <!-- dialer logic scripts -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
 
@@ -1325,13 +799,7 @@
         
         
         <!-- Buttons -->
-        <script>
-            document.querySelector(".cancelBtn").addEventListener("click", function () {
-                if(confirm("Are you sure you want to cancel?")){
-                    window.history.back();
-                }
-            });
-        </script>
+        
         <script>
             function bindUploadEvents() {
 
@@ -1351,59 +819,46 @@
                         const title = card.dataset.title;
                         const index = card.dataset.index;
 
+                        card.querySelector('.upload-content, .preview-wrapper, .pdf-preview')?.remove();
+
                         if (file.type.startsWith('image/')) {
 
                             const reader = new FileReader();
 
                             reader.onload = function (e) {
 
-                                card.querySelector('.upload-content, .preview-wrapper, .pdf-preview')?.remove();
+                                const preview = document.createElement('div');
 
-                                let preview = card.querySelector('.preview-wrapper');
+                                preview.className = 'preview-wrapper';
 
-                                if (!preview) {
-                                    $()
-                                    preview = document.createElement('div');
-                                    preview.className = 'preview-wrapper';
+                                preview.innerHTML = `
+                                    <img src="${e.target.result}">
+                                    <input type="hidden" id="img_path${index}" value="${file.name}">
+                                    <div class="file-title">${title}</div>
+                                `;
 
-                                    preview.innerHTML = `
-                                        <img src="${e.target.result}" id="img_path${index}">
-                                        <input type="hidden" id="img_path${index}" value="../../uploading/${filePath}">
-                                        <div class="file-title">
-                                            ${title}
-                                        </div>
-                                    `;
+                                card.appendChild(preview);
 
-                                    card.appendChild(preview);
-
-                                } else {
-
-                                    preview.querySelector('img').src = e.target.result;
-                                }
                             };
 
                             reader.readAsDataURL(file);
 
                         } else {
 
-                            card.querySelector('.upload-content, .preview-wrapper, .pdf-preview')?.remove();
-
-                            let preview = document.createElement('div');
+                            const preview = document.createElement('div');
 
                             preview.className = 'pdf-preview';
 
                             preview.innerHTML = `
                                 <i class="fa-solid fa-file-pdf"></i>
                                 <p class="mt-2 mb-0">${file.name}</p>
-                                <div class="file-title">
-                                    ${title}
-                                </div>
+                                <input type="hidden" id="img_path${index}" value="${file.name}">
+                                <div class="file-title">${title}</div>
                             `;
 
                             card.appendChild(preview);
-                        }
 
-                        
+                        }
 
                     });
 
@@ -1420,13 +875,12 @@
 
                 const title = card.dataset.title;
                 const index = card.dataset.index;
-                card.querySelector(
-                    '.upload-content, .preview-wrapper, .pdf-preview'
-                )?.remove();
+
+                card.querySelector('.upload-content, .preview-wrapper, .pdf-preview')?.remove();
 
                 const extension = filePath.split('.').pop().toLowerCase();
 
-                const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'pdf'];
+                const imageExtensions = ['jpg','jpeg','png','gif','webp'];
 
                 if (imageExtensions.includes(extension)) {
 
@@ -1436,19 +890,11 @@
 
                     preview.innerHTML = `
                         <img src="../../uploading/${filePath}">
-                        
-                        <div class="file-title">
-                            ${title}
-                        </div>
+                        <input type="hidden" id="img_path${index}" value="${filePath}">
+                        <div class="file-title">${title}</div>
                     `;
 
                     card.appendChild(preview);
-                    const status =<?= $status ?>;
-                    if (status == 4) {
-                        $('.file-input').prop('disabled', false);
-                    }else{
-                        $('.file-input').prop('disabled', true);
-                    }
 
                 } else {
 
@@ -1459,13 +905,17 @@
                     preview.innerHTML = `
                         <i class="fa-solid fa-file-pdf"></i>
                         <p class="mt-2 mb-0">${filePath.split('/').pop()}</p>
-                        <div class="file-title">
-                            ${title}
-                        </div>
+                        <input type="hidden" id="img_path${index}" value="${filePath}">
+                        <div class="file-title">${title}</div>
                     `;
 
                     card.appendChild(preview);
+
                 }
+
+                const status = <?= $status ?>;
+
+                $('.file-input').prop('disabled', status != 4);
             }
 
             document.addEventListener('DOMContentLoaded', function () {
@@ -1473,275 +923,56 @@
                 const id = '<?= $id ?>';
                 const edittype = '<?= $edittype ?>';
                 $.ajax({
-                    url: 'models/super_techno_enterprise/edit_te_load_data.php',
+                    url: 'models/business_mentor/edit_te_load_data.php',
                     type: 'GET',
                     data: {
                         id: id,
                         edittype: edittype
                     },
                     dataType: 'json',
-                    success: function(res)
-                    {
+                    success:function(res){
+
                         if(!res.status){
-                            alert(res.message);
+                            Swal.fire({
+                                icon:'error',
+                                title:'Error',
+                                text:res.message
+                            });
                             return;
                         }
 
                         const data = res.data;
-                        // Personal Information
-                        $('#applicationId').val(data.application_id);
+
+                        // Personal
                         $('#firstname').val(data.firstname);
                         $('#lastname').val(data.lastname);
+                        $('#nominee_name').val(data.nominee_name);
+                        $('#nominee_relation').val(data.nominee_relation);
                         $('#email').val(data.email);
                         $('#phone').val(data.contact_no);
                         $('#dob').val(data.date_of_birth);
-                        
-                        $('#nominee_name').val(data.nominee_name);
-                        $('#nominee_relation').val(data.nominee_relation);
-                        $('#businessPackage').val(data.amount);
+                        $('#country_cd').val(data.country_code);
 
-                        // Business Information
-                        $('#amount').val(data.amount);
-                        $('#gstNo').val(data.gst_no);
+                        $('input[name="gender"][value="'+data.gender+'"]').prop('checked',true);
 
-                        // Address Information
-                        // Store for later use
-                        window.selectedState = data.state;
-                        window.selectedCity = data.city;
-
-                        // Start chain
+                        // Address
+                        window.selectedState=data.state;
+                        window.selectedCity=data.city;
+                        window.selectedBranch = data.branch;
                         $('#country').val(data.country).trigger('change');
-                        $('#pincode').val(data.pincode);
+                        $('#pin').val(data.pincode);
                         $('#address').val(data.address);
 
-                        // Payment Information
-                        if(data.payment_mode === 'cash'){
-                            $('#cashPayment').prop('checked', true).trigger('change');
-                        }
+                        // Business
+                        $('#zone').val(data.zone).trigger('change');
 
-                        if(data.payment_mode === 'online'){
-                            $('#onlinePayment').prop('checked', true).trigger('change');
-                            $('#transactionNo').val(data.transaction_no);
-                            $('#onlineOpt').removeClass('d-none');
-                        }
+                        // Documents
+                        loadExistingFile('[data-index="1"]',data.profile_pic);
+                        loadExistingFile('[data-index="2"]',data.aadhar_card);
+                        loadExistingFile('[data-index="3"]',data.pan_card);
+                        loadExistingFile('[data-index="4"]',data.bank_passbook);
+                        loadExistingFile('[data-index="11"]',data.voting_card);
 
-                        if(data.payment_mode === 'cheque'){
-                            $('#chequePayment').prop('checked', true).trigger('change');
-
-                            $('#chequeNo').val(data.cheque_no);
-                            $('#chequeDate').val(data.cheque_date);
-                            $('#bankName').val(data.bank_name);
-
-                            $('#chequeOpt').removeClass('d-none');
-                        }
-
-                        // Update radio button styling
-                        $('.payment-label').removeClass('ptMode');
-                        $('.payment:checked').closest('label').addClass('ptMode');
-                        $('#note').val(data.note);
-                        $('#father_spouse_name').val(data.father_spouse_name);
-                        $('#aadharNo').val(data.aadhar_no);
-                        $('#panNo').val(data.pan_no);
-                        $('#country_cd_alt').val(data.alternative_country_code);
-                        $('#altPhone').val(data.alternative_contact_no);
-                        $('#occupation').val(data.current_occupation);
-                        $('#experience').val(data.current_experience);
-                        $('#annual_income').val(data.current_income);
-                        if (data.managed_team === 'yes') {
-                            $('#teamManagedYes').prop('checked', true);
-                        } else if (data.managed_team === 'no') {
-                            $('#teamManagedNo').prop('checked', true);
-                        }
-                        if (data.gender === 'male') {
-                            $('#test3').prop('checked', true);
-                        } else if (data.gender === 'female') {
-                            $('#test4').prop('checked', true);
-                        }else if (data.gender === 'others') {
-                            $('#test5').prop('checked', true);
-                        }
-                        $('#teamSize').text(data.team_description);
-                        $('.leadership').prop('checked', false);
-
-                        if (Array.isArray(data.leadership_experience)) {
-
-                            $('.leadership').each(function () {
-
-                                if (data.leadership_experience.includes($(this).val())) {
-
-                                    $(this).prop('checked', true);
-
-                                }
-
-                            });
-
-                        }
-                        $('#qualification').val(data.educational_qualification);
-                        loadExistingFile(
-                            '[data-index="1"]',
-                            data.profile_pic
-                        );
-                        $('#career_objective').val(data.career_objective);
-                        $('.teamExpected').prop('checked', false);
-
-                        $('input[name="teamExpected"][value="' + data.team_expected + '"]')
-                            .prop('checked', true);
-
-                        $('#OperatingState').val(data.operating_region);
-
-                        $('#nomineeName').val(data.nominee_name)
-                        $('#nomineeRelation').val(data.nominee_relation)
-                        $('#countryCdNominee').val(data.nominee_contact_cd)
-                        $('#nomineePhone').val(data.nominee_contact_no)
-                        $('#nomineeDob').val(data.nominee_date_of_birth)
-                        $('#nomineeAddress').val(data.nominee_address)
-                        $('#accHolderName').val(data.account_holder_name)
-                        $('#bankName').val(data.bank_name)
-                        $('#accountNumber').val(data.account_number)
-                        $('#confirmAccountNumber').val(data.account_number)
-                        $('#ifscCode').val(data.ifsc_code)
-                        $('#branchName').val(data.branch_name)
-                        loadExistingFile(
-                            '[data-index="2"]',
-                            data.aadhar_card
-                        );
-
-                        loadExistingFile(
-                            '[data-index="3"]',
-                            data.pan_card
-                        );
-
-                        loadExistingFile(
-                            '[data-index="4"]',
-                            data.cancelled_cheque_bank_passbook
-                        );
-
-                        loadExistingFile(
-                            '[data-index="5"]',
-                            data.address_proof
-                        );
-                        loadExistingFile(
-                            '[data-index="6"]',
-                            data.resume_cv
-                        );
-
-                        loadExistingFile(
-                            '[data-index="7"]',
-                            data.professional_profile
-                        );
-
-                        loadExistingFile(
-                            '[data-index="8"]',
-                            data.business_profile
-                        );
-
-                        loadExistingFile(
-                            '[data-index="9"]',
-                            data.income_proof
-                        );
-
-                        loadExistingFile(
-                            '[data-index="10"]',
-                            data.other_document
-                        );
-                        loadExistingFile(
-                            '[data-index="13"]',
-                            data.nominee_profile
-                        );
-                        // -------------------------
-                        // Parse payload safely
-                        // -------------------------
-                        let payload = {};
-                        let rejectionReason = {};
-
-                        try {
-                            if (data.payload) {
-                                payload = JSON.parse(data.payload);
-
-                                // Treat empty array/object as no payload
-                                if (
-                                    (Array.isArray(payload) && payload.length === 0) ||
-                                    (typeof payload === "object" &&
-                                        !Array.isArray(payload) &&
-                                        Object.keys(payload).length === 0)
-                                ) {
-                                    payload = {};
-                                }
-                            }
-                        } catch (e) {
-                            payload = {};
-                        }
-
-                        try {
-                            if (data.rejection_reason) {
-                                rejectionReason = JSON.parse(data.rejection_reason);
-
-                                if (
-                                    (Array.isArray(rejectionReason) && rejectionReason.length === 0) ||
-                                    (typeof rejectionReason === "object" &&
-                                        !Array.isArray(rejectionReason) &&
-                                        Object.keys(rejectionReason).length === 0)
-                                ) {
-                                    rejectionReason = {};
-                                }
-                            }
-                        } catch (e) {
-                            rejectionReason = {};
-                        }
-
-
-                        // -------------------------
-                        // Set Verification Status
-                        // -------------------------
-                        $('.verify-toggle').each(function () {
-
-                            const $toggle = $(this);
-                            const $radios = $toggle.find('input[type="radio"]');
-
-                            if (!$radios.length) return;
-
-                            const field = $radios.first().attr('name').match(/\[(.*?)\]/)[1];
-
-                            // If payload is empty or field doesn't exist, default to pending
-                            const status = Object.prototype.hasOwnProperty.call(payload, field)
-                                ? payload[field]
-                                : 'pending';
-
-                            const $selectedRadio = $radios.filter('[value="' + status + '"]');
-                            $selectedRadio.prop('checked', true);
-
-                            $radios.each(function () {
-                                const $radio = $(this);
-                                const $label = $('label[for="' + this.id + '"]');
-
-                                if ($radio.val() !== status) {
-                                    $radio.hide();
-                                    $label.hide();
-                                }
-                            });
-
-                            $radios.prop('disabled', true);
-
-                            if (
-                                status === 'rejected' &&
-                                rejectionReason[field] &&
-                                rejectionReason[field].trim() !== ''
-                            ) {
-                                const $label = $('label[for="' + $selectedRadio.attr('id') + '"]');
-
-                                $label
-                                    .attr('title', rejectionReason[field])
-                                    .attr('data-bs-toggle', 'tooltip')
-                                    .attr('data-bs-placement', 'top');
-
-                                const existing = bootstrap.Tooltip.getInstance($label[0]);
-                                if (existing) {
-                                    existing.dispose();
-                                }
-
-                                new bootstrap.Tooltip($label[0]);
-                            }
-
-                        });
                     }
                 });
                 // Address Information
@@ -1849,6 +1080,48 @@
 
                     }
                 });
+                $('#zone').on('change', function () {
+
+                    var zone_id = $(this).val();
+
+                    if (zone_id) {
+
+                        $.ajax({
+                            url: '../assets/get_data/get_branch.php',
+                            type: 'POST',
+                            data: {
+                                zone_id: zone_id
+                            },
+                            success: function (data) {
+
+                                $('#branch').html(data);
+
+                                // Auto select existing branch while editing
+                                if (window.selectedBranch) {
+
+                                    $('#branch')
+                                        .val(window.selectedBranch)
+                                        .trigger('change');
+
+                                    window.selectedBranch = null;
+
+                                }
+
+                            },
+                            error: function () {
+
+                                $('#branch').html('<option value="">Select Branch</option>');
+
+                            }
+                        });
+
+                    } else {
+
+                        $('#branch').html('<option value="">Select Zone First</option>');
+
+                    }
+
+                });
             });
             $(document).on('input', '#pin', function () {
                 this.value = this.value.replace(/\D/g, '');
@@ -1856,15 +1129,6 @@
         </script>
         <!-- Buttons -->
         <script>
-            document.querySelector(".cancelBtn").addEventListener("click", function () {
-                if(confirm("Are you sure you want to cancel?")){
-                    location.href = "super_techno_enterprise_list";
-                }
-            });
-            $('#businessPackage').on('change', function(){
-                var business_package_amount = $(this).val();
-                $('#amount').val(business_package_amount);
-            });
             let today = new Date();
 
             $(document).ready(function () {

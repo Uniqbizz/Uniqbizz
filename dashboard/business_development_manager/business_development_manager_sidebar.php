@@ -25,12 +25,17 @@
                 </li>
                 <li class="nav-item <?php echo ($current_page == 'business_mentor_list.php') ? 'active' : ''; ?>">
                     <a class="nav-link menu-link" href="business_mentor_list.php">
-                        <i class="ri-user-shared-2-line"></i> <span>BM | MF | SF |</span>
+                        <i class="ri-user-shared-2-line"></i> <span>Business Mentor</span>
                     </a>
                 </li>
                 <li class="nav-item <?php echo ($current_page == 'techno_enterprise_list.php') ? 'active' : ''; ?>">
                     <a class="nav-link menu-link" href="techno_enterprise_list.php">
-                        <i class="ri-user-shared-2-line"></i> <span>TE | I</span>
+                        <i class="ri-user-shared-2-line"></i> <span>TE | F</span>
+                    </a>
+                </li>
+                <li class="nav-item <?php echo ($current_page == 'techno_enterprise_list.php') ? 'active' : ''; ?>">
+                    <a class="nav-link menu-link" href="techno_enterprise_list.php">
+                        <i class="ri-user-shared-2-line"></i> <span>Institution</span>
                     </a>
                 </li>
                 <li class="nav-item <?php echo ($current_page == 'travel_consultants_list.php') ? 'active' : ''; ?>">

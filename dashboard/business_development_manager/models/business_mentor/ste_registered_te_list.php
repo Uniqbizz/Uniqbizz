@@ -30,7 +30,7 @@
 
         $sql = "
             SELECT
-                ca.super_techno_enterprise_id AS teuser_id,
+                ca.business_mentor_id AS teuser_id,
                 ca.firstname,
                 ca.lastname,
                 ca.contact_no,
@@ -39,14 +39,13 @@
                 ca.status,
                 ca.user_type,
 
-                ste.firstname AS ref_firstname,
-                ste.lastname AS ref_lastname,
-                ste.executive_techno_enterprise_id
+                ste.name AS ref_name,
+                ste.employee_id
 
-            FROM super_techno_enterprise ca
+            FROM business_mentor ca
 
-            INNER JOIN executive_techno_enterprise ste
-                ON ca.reference_no = ste.executive_techno_enterprise_id
+            INNER JOIN employees ste
+                ON ca.reference_no = ste.employee_id
 
             WHERE ca.reference_no = :user_id
             AND ca.status IN (1,3)

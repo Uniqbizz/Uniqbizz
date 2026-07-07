@@ -64,8 +64,8 @@
                 INNER JOIN corporate_agency ca
                     ON ta.reference_no = ca.corporate_agency_id
 
-                INNER JOIN super_techno_enterprise ste
-                    ON ta.reference_no = ste.super_techno_enterprise_id
+                INNER JOIN business_mentor ste
+                    ON ta.reference_no = ste.business_mentor_id
 
                 WHERE ste.reference_no = :user_id
                 AND cu.status IN (1,3)

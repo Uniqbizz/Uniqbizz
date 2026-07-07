@@ -627,6 +627,10 @@
                                 {
                                     location.href = "dashboard/master_franchisee/master_franchisee_dashboard.php";
                                 }
+                                else if (res.user_type == "25")
+                                {
+                                    location.href = "dashboard/business_development_manager/business_development_manager_dashboard.php";
+                                }
                                 else
                                 {
                                     location.href = "dashboard/index.php";

@@ -21,8 +21,8 @@
             FROM (
                 SELECT YEAR(ca.register_date) AS year
                 FROM corporate_agency ca
-                INNER JOIN super_techno_enterprise st
-                    ON ca.reference_no = st.super_techno_enterprise_id
+                INNER JOIN business_mentor st
+                    ON ca.reference_no = st.business_mentor_id
                 WHERE st.reference_no = :user_id
                 AND ca.status IN (1,3)
                 AND st.status IN (1,3)
@@ -59,18 +59,32 @@
         */
 
         $sqlTrend = $conn->prepare("
-            SELECT
-                MONTH(ca.register_date) AS month_no,
-                COUNT(*) AS te_count
-            FROM corporate_agency ca
-            INNER JOIN super_techno_enterprise st
-                ON ca.reference_no = st.super_techno_enterprise_id
-            WHERE st.reference_no = :user_id
-            AND YEAR(ca.register_date) = :year
-            AND ca.status IN (1,3)
-            AND st.status IN (1,3)
-            GROUP BY MONTH(ca.register_date)
-            ORDER BY MONTH(ca.register_date)
+            SELECT *
+            FROM (
+                SELECT
+                    MONTH(ca.register_date) AS month_no,
+                    COUNT(*) AS te_count
+                FROM corporate_agency ca
+                INNER JOIN business_mentor bm
+                    ON ca.reference_no = bm.business_mentor_id
+                WHERE bm.reference_no = :user_id
+                AND YEAR(ca.register_date) = :year
+                AND ca.status IN (1,3)
+                AND bm.status IN (1,3)
+                GROUP BY MONTH(ca.register_date)
+
+                UNION ALL
+
+                SELECT
+                    MONTH(ca.register_date) AS month_no,
+                    COUNT(*) AS te_count
+                FROM corporate_agency ca
+                WHERE ca.reference_no = :user_id
+                AND YEAR(ca.register_date) = :year
+                AND ca.status IN (1,3)
+                GROUP BY MONTH(ca.register_date)
+            ) AS t
+            ORDER BY month_no;
         ");
 
         $sqlTrend->execute([
@@ -79,6 +93,33 @@
         ]);
 
         $teTrend = $sqlTrend->fetchAll(PDO::FETCH_ASSOC);
+        /*
+        |--------------------------------------------------------------------------
+        | Franchisee Trend
+        |--------------------------------------------------------------------------
+        */
+
+        $sqlFTrend = $conn->prepare("
+            SELECT
+                MONTH(ca.register_date) AS month_no,
+                COUNT(*) AS f_count
+            FROM sub_franchisee ca
+            INNER JOIN business_mentor st
+                ON ca.reference_no = st.business_mentor_id
+            WHERE st.reference_no = :user_id
+            AND YEAR(ca.register_date) = :year
+            AND ca.status IN (1,3)
+            AND st.status IN (1,3)
+            GROUP BY MONTH(ca.register_date)
+            ORDER BY MONTH(ca.register_date)
+        ");
+
+        $sqlFTrend->execute([
+            ':user_id' => $userId,
+            ':year'    => $selectedYear
+        ]);
+
+        $fTrend = $sqlFTrend->fetchAll(PDO::FETCH_ASSOC);
 
         /*
         |--------------------------------------------------------------------------
@@ -112,6 +153,7 @@
                 'years'         => $years,
                 'selected_year' => $selectedYear,
                 'te_trend'      => $teTrend,
+                'f_trend'      => $fTrend,
                 'i_trend'       => $iTrend
             ]
         ]);

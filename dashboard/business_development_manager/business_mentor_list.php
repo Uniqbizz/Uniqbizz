@@ -281,20 +281,9 @@
                         data: null,
                         render: function(data){
 
-                            let badge = '';
-
-                            if (data.user_type == 16) {
-
-                                badge = '<span class="badge bg-primary ms-1">TE</span>';
-
-                            } else if (data.user_type == 29) {
-
-                                badge = '<span class="badge bg-success ms-1">F</span>';
-                            }
-
                             return `
                                 <p class="fs-6 mb-0">
-                                    ${badge} ${data.firstname || ''} ${data.lastname || ''}
+                                    ${data.firstname || ''} ${data.lastname || ''}
                                 </p>
                             `;
                         }
@@ -311,7 +300,7 @@
                                     </p>
 
                                     <p class="fs-6 mb-0">
-                                        ${data.executive_techno_enterprise_id || '-'}
+                                        ${data.employee_id || '-'}
                                     </p>
                                 </div>
                             `;
@@ -389,7 +378,7 @@
                             
 
                             return `
-                                <form action="edit_super_techno_enterprise.php" method="POST" class="m-0">
+                                <form action="edit_business_mentor.php" method="POST" class="m-0">
                                     <input
                                         type="hidden"
                                         name="id"
@@ -420,13 +409,13 @@
                     }
                 ],
                 language: {
-                    emptyTable: "No Pending Super Techno Enterprise Found"
+                    emptyTable: "No Pending Business Mentor Found"
                 }
             });
             function loadPendingTEList(){
 
                 $.ajax({
-                    url: 'models/super_techno_enterprise/ste_pending_te_table_data.php',
+                    url: 'models/business_mentor/ste_pending_te_table_data.php',
                     type: 'POST',
                     dataType: 'json',
 
@@ -489,10 +478,10 @@
                             return `
                                 <div>
                                     <p class="fs-6 mb-0">
-                                        ${data.ref_firstname || '-'} ${data.ref_lastname || ''}
+                                        ${data.ref_name || '-'}
                                     </p>
                                     <p class="fs-6 mb-0">
-                                        ${data.executive_techno_enterprise_id || '-'}
+                                        ${data.employee_id || '-'}
                                     </p>
                                 </div>
                             `;
@@ -568,7 +557,7 @@
                         render: function(data) {
 
                             return `
-                                <form action="edit_super_techno_enterprise.php" method="POST" class="m-0">
+                                <form action="edit_business_mentor.php" method="POST" class="m-0">
                                     
                                     <input
                                         type="hidden"
@@ -599,7 +588,7 @@
                     }
                 ],
                 language: {
-                    emptyTable: 'No Super Techno Enterprise Found'
+                    emptyTable: 'No Business Mentor Found'
                 }
             });
 
@@ -608,7 +597,7 @@
 
                 $.ajax({
 
-                    url: 'models/super_techno_enterprise/ste_registered_te_list.php',
+                    url: 'models/business_mentor/ste_registered_te_list.php',
 
                     type: 'POST',
 

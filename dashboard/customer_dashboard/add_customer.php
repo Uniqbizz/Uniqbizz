@@ -69,6 +69,7 @@
         <link rel="stylesheet" href="../assets/css/customer_dashboard.css" />
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     </head>
     <body>
         <!-- Begin page -->
@@ -614,6 +615,7 @@
         <script src="../assets/js/app.js"></script>
         <script src="../../uploading/uploadTechnoDashboard.js"></script>
         <script src="js/customer.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!-- end dialer logic scripts -->
 
     </body>

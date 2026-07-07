@@ -969,11 +969,30 @@
             $(document).on('input', '#pin', function () {
                 this.value = this.value.replace(/\D/g, '');
             });
-            document.querySelector(".cancelBtn").addEventListener("click", function () {
-                if(confirm("Are you sure you want to cancel?")){
-                    location.href = "travel_consultants_list.php";
-                }
-            });
+            $(".cancelBtn").on("click", function () {
+
+				Swal.fire({
+					title: "Are you sure?",
+					text: "You will be redirected to list page.",
+					icon: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#d63030",
+					cancelButtonColor: "#1b721bf2",
+					confirmButtonText: "Yes, Cancel",
+					cancelButtonText: "Continue Editing",
+					reverseButtons: true,
+					focusCancel: true
+				}).then((result) => {
+
+					if (result.isConfirmed) {
+
+						window.location.href = "travel_consultants_list.php";
+
+					}
+
+				});
+
+			});
         </script>
     </body>
 </html>

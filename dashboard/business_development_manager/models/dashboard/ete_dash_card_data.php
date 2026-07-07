@@ -9,20 +9,48 @@
                 (
                     SELECT COUNT(*)
                     FROM corporate_agency ca
-                    INNER JOIN super_techno_enterprise st
-                        ON ca.reference_no = st.super_techno_enterprise_id
+                    INNER JOIN business_mentor st
+                        ON ca.reference_no = st.business_mentor_id
                     WHERE st.reference_no = :user_id
                     AND ca.status IN (1,3)
                     AND st.status IN (1,3)
                 )
+                +
+                (
+                    SELECT COUNT(*)
+                    FROM sub_franchisee ca
+                    INNER JOIN business_mentor st
+                        ON ca.reference_no = st.business_mentor_id
+                    WHERE st.reference_no = :user_id
+                    AND ca.status IN (1,3)
+                    AND st.status IN (1,3)
+                )
+                +
+                (
+                    SELECT COUNT(*)
+                    FROM corporate_agency ca
+                    WHERE ca.reference_no = :user_id
+                    AND ca.status IN (1,3)
+                )
             ) AS te_count,
+            (
+                (    SELECT COUNT(*)
+                    FROM institution i
+                    WHERE reference_no = :user_id
+                    AND i.status IN (1,3)
+                )
+                +
+                (    SELECT COUNT(*)
+                    FROM institution i
+                    INNER JOIN business_mentor bm
+                    ON i.reference_no=bm.business_mentor_id
+                    WHERE bm.reference_no = :user_id
+                    AND i.status IN (1,3)
+                )
+            )
+             AS i_count,
             (    SELECT COUNT(*)
-                FROM institution
-                WHERE reference_no = :user_id
-                AND status IN (1,3)
-            ) AS i_count,
-            (    SELECT COUNT(*)
-                FROM super_techno_enterprise
+                FROM business_mentor
                 WHERE reference_no = :user_id
                 AND status IN (1,3)
             ) AS ste_count,
@@ -32,12 +60,22 @@
                     FROM ca_travelagency ta
                     INNER JOIN corporate_agency ca
                         ON ta.reference_no = ca.corporate_agency_id
-                    INNER JOIN super_techno_enterprise st
-                        ON ca.reference_no = st.super_techno_enterprise_id
+                    INNER JOIN business_mentor st
+                        ON ca.reference_no = st.business_mentor_id
                     WHERE st.reference_no = :user_id
                     AND ta.status IN (1,3)
                     AND ca.status IN (1,3)
                     AND st.status IN (1,3)
+                )
+                 +
+                (
+                    SELECT COUNT(*)
+                    FROM ca_travelagency ta
+                    INNER JOIN corporate_agency ca
+                        ON ta.reference_no = ca.corporate_agency_id
+                    WHERE ca.reference_no = :user_id
+                    AND ta.status IN (1,3)
+                    AND ca.status IN (1,3)
                 )
                  +
                 (
@@ -59,13 +97,26 @@
                         ON cu.ta_reference_no = ta.ca_travelagency_id
                     INNER JOIN corporate_agency ca
                         ON ta.reference_no = ca.corporate_agency_id
-                    INNER JOIN super_techno_enterprise st
-                        ON ca.reference_no = st.super_techno_enterprise_id
+                    INNER JOIN business_mentor st
+                        ON ca.reference_no = st.business_mentor_id
                     WHERE st.reference_no = :user_id
                     AND cu.status IN (1,3)
                     AND ta.status IN (1,3)
                     AND ca.status IN (1,3)
                     AND st.status IN (1,3)
+                )
+                +
+                (
+                    SELECT COUNT(*)
+                    FROM ca_customer cu
+                    INNER JOIN ca_travelagency ta
+                        ON cu.ta_reference_no = ta.ca_travelagency_id
+                    INNER JOIN corporate_agency ca
+                        ON ta.reference_no = ca.corporate_agency_id
+                    WHERE ca.reference_no = :user_id
+                    AND cu.status IN (1,3)
+                    AND ta.status IN (1,3)
+                    AND ca.status IN (1,3)
                 )
                 +
                 (
@@ -175,7 +226,7 @@
             'tc_count' => (int)$data['tc_count'],
             'cu_count' => (int)$data['cu_count'],
             'all_earning' => (int)$data['all_earning'],
-            'all_paid_earning' => (int)$data['cu_count'],
+            'all_paid_earning' => (int)$data['all_paid_earning'],
             'all_pending_earning' => (int)$data['all_pending_earning'],
         ]
     ], JSON_PRETTY_PRINT);
