@@ -19,7 +19,7 @@
                     ta.email,
                     ta.added_on,
                     ta.status,
-
+                    ta.user_type,
                     ca.corporate_agency_id AS reference_id,
                     ca.firstname AS ref_firstname,
                     ca.lastname AS ref_lastname
@@ -29,13 +29,87 @@
                 INNER JOIN corporate_agency ca
                     ON ta.reference_no = ca.corporate_agency_id
 
-                INNER JOIN super_techno_enterprise ste
-                    ON ca.reference_no = ste.super_techno_enterprise_id
-
-                WHERE ste.reference_no = :user_id
+                WHERE ca.reference_no = :user_id
                 AND ta.status IN (0,2,4)
-                AND ca.status IN (1)
-                AND ste.status IN (1)
+                AND ca.status IN (1,3)
+
+                UNION ALL
+                SELECT
+                    ta.id,
+                    ta.ca_travelagency_id,
+                    ta.firstname,
+                    ta.lastname,
+                    ta.contact_no,
+                    ta.email,
+                    ta.added_on,
+                    ta.status,
+                    ta.user_type,
+                    ca.corporate_agency_id AS reference_id,
+                    ca.firstname AS ref_firstname,
+                    ca.lastname AS ref_lastname
+
+                FROM ca_travelagency ta
+
+                INNER JOIN corporate_agency ca
+                    ON ta.reference_no = ca.corporate_agency_id
+                INNER JOIN business_mentor bm
+                    ON ca.reference_no = bm.business_mentor_id
+
+                WHERE bm.reference_no = :user_id
+                AND ta.status IN (0,2,4)
+                AND ca.status IN (1,3)
+                AND bm.status IN (1,3)
+
+                UNION ALL
+                SELECT
+                    ta.id,
+                    ta.ca_travelagency_id,
+                    ta.firstname,
+                    ta.lastname,
+                    ta.contact_no,
+                    ta.email,
+                    ta.added_on,
+                    ta.status,
+                    ta.user_type,
+                    ca.sub_franchisee_id AS reference_id,
+                    ca.firstname AS ref_firstname,
+                    ca.lastname AS ref_lastname
+
+                FROM ca_travelagency ta
+
+                INNER JOIN sub_franchisee ca
+                    ON ta.reference_no = ca.sub_franchisee_id
+
+                WHERE ca.reference_no = :user_id
+                AND ta.status IN (0,2,4)
+                AND ca.status IN (1,3)
+
+                UNION ALL
+                SELECT
+                    ta.id,
+                    ta.ca_travelagency_id,
+                    ta.firstname,
+                    ta.lastname,
+                    ta.contact_no,
+                    ta.email,
+                    ta.added_on,
+                    ta.status,
+                    ta.user_type,
+                    ca.sub_franchisee_id AS reference_id,
+                    ca.firstname AS ref_firstname,
+                    ca.lastname AS ref_lastname
+
+                FROM ca_travelagency ta
+
+                INNER JOIN sub_franchisee ca
+                    ON ta.reference_no = ca.sub_franchisee_id
+                INNER JOIN business_mentor bm
+                    ON ca.reference_no = bm.business_mentor_id
+
+                WHERE bm.reference_no = :user_id
+                AND ta.status IN (0,2,4)
+                AND ca.status IN (1,3)
+                AND bm.status IN (1,3)
 
                 UNION ALL
 
@@ -48,7 +122,7 @@
                     ta.email,
                     ta.added_on,
                     ta.status,
-
+                    ta.user_type,
                     ca.institution_id AS reference_id,
                     ca.firstname AS ref_firstname,
                     ca.lastname AS ref_lastname
@@ -60,7 +134,35 @@
 
                 WHERE ca.reference_no = :user_id
                 AND ta.status IN (0,2,4)
-                AND ca.status IN (1)
+                AND ca.status IN (1,3)
+
+                UNION ALL
+
+                SELECT
+                    ta.id,
+                    ta.institution_branch_manager_id,
+                    ta.firstname,
+                    ta.lastname,
+                    ta.contact_no,
+                    ta.email,
+                    ta.added_on,
+                    ta.status,
+                    ta.user_type,
+                    ca.institution_id AS reference_id,
+                    ca.firstname AS ref_firstname,
+                    ca.lastname AS ref_lastname
+
+                FROM institution_branch_manager ta
+
+                INNER JOIN institution ca
+                    ON ta.reference_no = ca.institution_id
+                INNER JOIN business_mentor bm
+                    ON ca.reference_no = ca.business_mentor_id
+
+                WHERE bm.reference_no = :user_id
+                AND ta.status IN (0,2,4)
+                AND ca.status IN (1,3)
+                AND bm.status IN (1,3)
 
             ) AS combined
 

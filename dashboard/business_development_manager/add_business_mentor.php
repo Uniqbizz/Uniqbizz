@@ -643,11 +643,30 @@
         </script>
         <!-- Buttons -->
         <script>
-            document.querySelector(".cancelBtn").addEventListener("click", function () {
-                if(confirm("Are you sure you want to cancel?")){
-                    location.href = "super_techno_enterprise_list";
-                }
-            });
+            $(".cancelBtn").on("click", function () {
+
+				Swal.fire({
+					title: "Are you sure?",
+					text: "You will be redirected to list page.",
+					icon: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#d63030",
+					cancelButtonColor: "#1b721bf2",
+					confirmButtonText: "Yes, Cancel",
+					cancelButtonText: "Continue Editing",
+					reverseButtons: true,
+					focusCancel: true
+				}).then((result) => {
+
+					if (result.isConfirmed) {
+
+						window.location.href = "business_mentor_list.php";
+
+					}
+
+				});
+
+			});
             // document.querySelector(".draftBtn").addEventListener("click", function () {
             //     alert("Draft Saved Successfully");
             //     // AJAX call here

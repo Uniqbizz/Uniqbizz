@@ -21,8 +21,8 @@
 
         switch ($type) {
 
-            case 'te':
-            case 'st':
+            case 'te': 
+            case 'i': 
                 $alias = 'ca';
                 break;
 
@@ -60,7 +60,7 @@
 
                     SELECT
                         ca.id AS row_id,
-                        ca.super_techno_enterprise_id AS id,
+                        ca.business_mentor_id AS id,
 
                         CONCAT(ca.firstname,' ',ca.lastname) AS full_name,
 
@@ -83,7 +83,7 @@
                             ELSE 'Rejected'
                         END AS status
 
-                    FROM super_techno_enterprise ca
+                    FROM business_mentor ca
 
                     INNER JOIN executive_techno_enterprise ete
                         ON ca.reference_no = ete.executive_techno_enterprise_id
@@ -98,7 +98,7 @@
                 ORDER BY x.row_id DESC
             ";
 
-            $fileName = 'Registered_Super_Techno_Enterprise_List.xlsx';
+            $fileName = 'Registered_business_mentor_List.xlsx';
         }
 
         /*
@@ -125,7 +125,7 @@
                             COALESCE(ste.lastname,'')
                         ) AS reference_name,
 
-                        ste.super_techno_enterprise_id AS reference_id,
+                        ste.business_mentor_id AS reference_id,
 
                         ca.contact_no,
                         ca.email,
@@ -140,8 +140,8 @@
 
                     FROM corporate_agency ca
 
-                    LEFT JOIN super_techno_enterprise ste
-                        ON ca.reference_no = ste.super_techno_enterprise_id
+                    LEFT JOIN business_mentor ste
+                        ON ca.reference_no = ste.business_mentor_id
 
                     WHERE ste.reference_no = :user_id
                     AND ca.status IN (1,3)
@@ -162,7 +162,7 @@
                             COALESCE(ste.lastname,'')
                         ) AS reference_name,
 
-                        ste.super_techno_enterprise_id AS reference_id,
+                        ste.business_mentor_id AS reference_id,
 
                         ca.contact_no,
                         ca.email,
@@ -177,8 +177,8 @@
 
                     FROM sub_franchisee ca
 
-                    LEFT JOIN super_techno_enterprise ste
-                        ON ca.reference_no = ste.super_techno_enterprise_id
+                    LEFT JOIN business_mentor ste
+                        ON ca.reference_no = ste.business_mentor_id
 
                     WHERE ste.reference_no = :user_id
                     AND ca.status IN (1,3)
@@ -265,8 +265,8 @@
 
                     INNER JOIN corporate_agency ca
                         ON ta.reference_no = ca.corporate_agency_id
-                    INNER JOIN super_techno_enterprise ste 
-                        ON ca.reference_no = ste.super_techno_enterprise_id
+                    INNER JOIN business_mentor ste 
+                        ON ca.reference_no = ste.business_mentor_id
 
                     WHERE ste.reference_no = :user_id
                     AND ta.status IN (1,3)
@@ -383,8 +383,8 @@
                     INNER JOIN corporate_agency ca
                         ON ta.reference_no = ca.corporate_agency_id
 
-                    INNER JOIN super_techno_enterprise ste
-                        ON ca.reference_no = ste.super_techno_enterprise_id
+                    INNER JOIN business_mentor ste
+                        ON ca.reference_no = ste.business_mentor_id
 
                     WHERE ste.reference_no = :user_id
                     AND cu.status IN (1,3)
@@ -421,8 +421,8 @@
                     INNER JOIN sub_franchisee sf
                         ON ta.reference_no = sf.sub_franchisee_id
 
-                    INNER JOIN super_techno_enterprise ste
-                        ON sf.reference_no = ste.super_techno_enterprise_id
+                    INNER JOIN business_mentor ste
+                        ON sf.reference_no = ste.business_mentor_id
 
                     WHERE ste.reference_no = :user_id
                     AND cu.status IN (1,3)

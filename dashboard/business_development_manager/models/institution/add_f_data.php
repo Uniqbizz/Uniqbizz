@@ -33,7 +33,7 @@
     $bankName=$_POST['bankName'];
     $transactionNo=$_POST['transactionNo'];
     $message2='';
-    $user_type="32"; 
+    $user_type="29"; 
     $register_by=$userType;
     //commission and incentive 
     $comm_per=0;
@@ -62,12 +62,12 @@
     if($actionType == 'draft'){
         // data insertion for logs tables
         $status= '4';
-        $message="Institution form saved as draft by $userId($userFname' '$userLname) from Add Page";
+        $message="Franchisee form saved as draft by $userId($userFname' '$userLname) from Add Page";
     }else{
         // data insertion for logs tables
         $status= '2';
-        $message="Added new Institution. TE name - " .$fname." ".$lname;
-        $message2="Added new Institution by Executive Techno Eenterprise";
+        $message="Added new Franchisee. TE name - " .$fname." ".$lname;
+        $message2="Added new Franchisee by Super Techno Eenterprise";
     }
 
     // get age of the user
@@ -76,12 +76,12 @@
     $age = $current_year - $birth_year;
 
     // data insertion for logs tables 
-    $title="Institution";
+    $title="Franchisee";
     
     $fromWhom=$userType;
     $operation="Add";
 
-    $sql= "INSERT INTO `institution` (firstname, lastname, nominee_name, nominee_relation, email, country_code, 
+    $sql= "INSERT INTO `sub_franchisee` (firstname, lastname, nominee_name, nominee_relation, email, country_code, 
             current_commission_per,current_incentive_per,contact_no , date_of_birth, age, gender, gst_no, amount, profile_pic, pan_card, aadhar_card, voting_card, 
             bank_passbook, payment_proof,country, state, city, pincode, address, payment_mode, cheque_no, cheque_date, 
             bank_name, transaction_no, user_type, registrant, reference_no, register_by, status) 

@@ -46,32 +46,8 @@
 
     $message2 = '';
 
-    $user_type  = "32";
+    $user_type  = "16";
     $register_by = $userType;
-
-    //commission and incentive 
-    $comm_per=0;
-    $ins_per=0;
-    //amount = 2,00,000
-    if ($amount == '200000') {
-        $comm_per=10;
-        $ins_per=10;
-    } 
-    //amount = 3,00,000
-    else if($amount == '300000') {
-        $comm_per=15;
-        $ins_per=15;
-    }
-    //amount = 4,00,000
-    else if($amount == '400000') {
-        $comm_per=20;
-        $ins_per=20;
-    }
-    //amount = 5,00,000
-    else if($amount >= '500000') {
-        $comm_per=30;
-        $ins_per=20;
-    }
 
     /* ---------------- AGE ---------------- */
 
@@ -90,17 +66,17 @@
         $status = '4';
 
         $message =
-            "Institution form saved as draft by {$userId} ({$userFname} {$userLname}) from Add Page";
+            "Techno Enterprise form saved as draft by {$userId} ({$userFname} {$userLname}) from Add Page";
 
     } else {
 
         $status = '2';
 
         $message =
-            "Added new Institution. I name - {$fname} {$lname}";
+            "Added new Techno Enterprise. TE name - {$fname} {$lname}";
 
         $message2 =
-            "Added new Institution by Executive Techno Enterprise";
+            "Added new Techno Enterprise by Business Mentor";
     }
 
     /* ---------------- EDIT MODE ---------------- */
@@ -112,16 +88,16 @@
         $identifier_field = 'id';
 
         $message =
-            "Updated Institution details from pending list";
+            "Updated Techno Enterprise details from pending list";
 
         $message2 =
-            "Updated Institution details from pending list";
+            "Updated Techno Enterprise details from pending list";
 
     } elseif ($status == '1') {
 
         $identifier_id = $_POST["id"] ?? '';
 
-        $identifier_field = 'institution_id';
+        $identifier_field = 'corporate_agency_id';
 
         $message =
             $identifier_id . " Details has been updated from registered list";
@@ -142,7 +118,7 @@
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $sql = "
-            UPDATE institution SET
+            UPDATE corporate_agency SET
 
                 firstname = :firstname,
                 lastname = :lastname,
@@ -178,8 +154,6 @@
                 cheque_date = :cheque_date,
                 bank_name = :bank_name,
                 transaction_no = :transaction_no,
-                current_commission_per=:current_commission_per,
-                current_incentive_per=:current_incentive_per,
 
                 status = :status
 
@@ -227,8 +201,6 @@
             ':transaction_no' => $transactionNo,
 
             ':status' => $status,
-            ':current_commission_per' => $comm_per,
-            ':current_incentive_per' => $ins_per,
 
             ':identifier_id' => $identifier_id
 
@@ -264,7 +236,7 @@
 
             $result = $stmt->execute([
 
-                ':title' => 'Institution',
+                ':title' => 'Techno Enterprise',
                 ':message' => $message,
                 ':message2' => $message2,
                 ':reference_no' => $userId,

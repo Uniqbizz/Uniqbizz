@@ -806,7 +806,7 @@ $(".cancelBtn").on("click", function () {
 
     Swal.fire({
         title: "Are you sure?",
-        text: "Any unsaved changes will be lost.",
+        text: "You will be redirected to list page.",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#d63030",
