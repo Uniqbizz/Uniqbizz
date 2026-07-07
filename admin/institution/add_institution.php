@@ -159,7 +159,7 @@
                                                     <label class="radio-inline mb-0 ms-3" for="test7"><input type="radio" id="test7" class="form-check-input instituteType me-3" name="instituteType" value="trust">Trust</label>
                                                 </div>
                                                 <div class="col-lg-4 col-4 col-sm-6 col-12">
-                                                    <label class="radio-inline mb-0 ms-3" for="test8"><input type="radio" id="test8" class="form-check-input instituteType me-3" name="instituteType" value="others">Others</label>
+                                                    <label class="radio-inline mb-0 ms-3" for="test8"><input type="radio" id="test8" class="form-check-input instituteType me-3" name="instituteType" value="other">Others</label>
                                                 </div>
                                             </div>
                                             <input type="text" name="instituteTypeOther" id="instituteTypeOther" class="form-control mt-2" value="" style="display:none;">
@@ -685,10 +685,10 @@
             // type of institution other radio button option to show text box
             $(".instituteType").change(function () {
                 if ($("#test8").is(":checked")) {
-                    $("#otherLead").slideDown();
+                    $("#instituteTypeOther").slideDown();
                 } else {
-                    $("#otherLead").slideUp();
-                    $("#otherLead").val("");
+                    $("#instituteTypeOther").slideUp();
+                    $("#instituteTypeOther").val("");
                 }
             });
 

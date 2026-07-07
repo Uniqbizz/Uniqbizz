@@ -28,6 +28,12 @@ var emailtest = (emailtest, testValue) => {
     });
 };
 
+function getFilePath(id) {
+    return $(id).length
+        ? $(id).val().replace('../../uploading/', '').trim()
+        : "";
+}
+
 $("#addInstitution").on("click", function (e) {
     e.preventDefault();
     submitAddForm('submit');
@@ -55,11 +61,11 @@ function submitAddForm(actionType) {
     var number_branch = $("#numberBranch").val().trim();
 
     // Institution Types 
-    var type_of_institution = $(".instituteType:checked").val();
+    var type_of_institution = $(".instituteType:checked").val(); //radio button values
     if(type_of_institution == "other"){
-        var institution_type_value = $("#instituteTypeOther").val().trim();
+        var institution_type_value = $("#instituteTypeOther").val().trim(); // when selected "other" option on radio button take text box value
     }else{
-        var institution_type_value = $(".instituteType:checked").val();
+        var institution_type_value = $(".instituteType:checked").val(); // if "other" option not selected take radio button value
     }
 
     var email = $("#email").val().trim();
@@ -70,7 +76,7 @@ function submitAddForm(actionType) {
 
     // residential address 
     var country = $("#country").val().trim();
-    var mystate = $("#mystate").val().trim();
+    var state = $("#mystate").val().trim();
     var city = $("#city").val().trim();
     var pin = $("#pin").val().trim();
     var address = $("#address").val().trim();
@@ -82,31 +88,31 @@ function submitAddForm(actionType) {
     var branch_name = $("#branchName").val().trim();
 
     // payment information
-    var activation_plan = $("#activationPlan").val().trim();
+    var activation_plan = $("#activationPlan").val().trim(); // amount value
+    // if FOC selected set amount to "Free", paymentMode to "free" and skip payment_proof
     if(activation_plan == "FOC"){
         var amount = 'Free';
-        var payment_proof = '';
         var paymentMode = "Free";
+        var payment_proof = '';
     }else{
         var amount = activation_plan;
-        var payment_proof = '';
         var paymentMode = $(".payment:checked").val();
+        var payment_proof = getFilePath("#img_path14");
     }
 
-    //console.log(paymentMode);
+    // populate when payment mode is selected
     var chequeNo = $("#chequeNo").val().trim();
     var chequeDate = $("#chequeDate").val().trim();
     var bankName = $("#bankName").val().trim();
     var transactionNo = $("#transactionNo").val().trim();
 
     // Attachments
-     var profile_pic = aadhar_card = pan_card = passbook = voting_card = payment_proof = '';
-    var profile_pic_file = $("#upload_file1").val().trim();
-    var aadhar_card_file = $("#upload_file2").val().trim();
-    var pan_card_file = $("#upload_file3").val().trim();
-    var passbook_file = $("#upload_file4").val().trim();
-    var voting_card_file = $("#upload_file11").val().trim();
-    var payment_proof_file = $("#upload_file12").val().trim();
+    var certificate_of_incorporation   = getFilePath("#img_path11");
+    var gstin   = getFilePath("#img_path12");
+    var board_resolution      = getFilePath("#img_path13");
+    var cancelled_cheque_bank_passbook      = getFilePath("#img_path4");
+    var pancard   = getFilePath("#img_path3");
+    var address_proof = getFilePath("#img_path6");
 
     var testE = $("#testemail").val(); // Email Validation Only one email address should be present in one user table
 
@@ -181,7 +187,6 @@ function submitAddForm(actionType) {
         name: name,
         email: email,
         number_branch: number_branch,
-        type_of_institution: type_of_institution,
         institution_type_value: institution_type_value,
         incorporation_date: incorporation_date,
         country_code: country_cd,
@@ -189,18 +194,16 @@ function submitAddForm(actionType) {
         institution_pan: institution_pan,
 
         country: country,
-        state: mystate,
+        state: state,
         city: city,
         pincode: pin,
         address: address,
 
         account_name: account_name,
         account_number: account_number,
-        account_number: account_number,
         ifsc_code: ifsc_code,
         branch_name: branch_name,
 
-        activation_plan: activation_plan,
         amount: amount,
         payment_proof: payment_proof,
         paymentMode: paymentMode,
@@ -208,32 +211,37 @@ function submitAddForm(actionType) {
         chequeNo: chequeNo,
         chequeDate: chequeDate,
         bankName: bankName,
-        transactionNo: transactionNo
+        transactionNo: transactionNo,
 
-       
+        certificate_of_incorporation: certificate_of_incorporation,
+        gstin: gstin,
+        board_resolution: board_resolution,
+        cancelled_cheque_bank_passbook: cancelled_cheque_bank_passbook,
+        pancard: pancard,
+        address_proof: address_proof
     };
     console.log(dataObj);
 
-    // $("#addChiefTechnoEnterprise").attr("disabled", "disabled");
-    // // console.log(dataString);
-    // $("#loading-overlay").show(); //loading screen
-    // $.ajax({
-    //     type: "POST",
-    //     url: "addChiefTechnoData.php",
-    //     data: dataObj,
-    //     cache: false,
-    //     success: function (data) {
-    //         console.log(data);
-    //         if (data == 1) {
-    //             $("#loading-overlay").hide(); //loading screen
-    //             alert("Added Successfuly");
-    //             location.href = "chief_techno.php";
-    //         } else {
-    //             $("#loading-overlay").hide(); //loading screen
-    //             alert("Failed");
-    //         }
-    //     },
-    // });
+    $("#addInstitution").attr("disabled", "disabled");
+    // console.log(dataString);
+    $("#loading-overlay").show(); //loading screen
+    $.ajax({
+        type: "POST",
+        url: "add_institution_data.php",
+        data: dataObj,
+        cache: false,
+        success: function (data) {
+            console.log(data);
+            if (data == 1) {
+                $("#loading-overlay").hide(); //loading screen
+                alert("Added Successfuly");
+                location.href = "view_institution.php";
+            } else {
+                $("#loading-overlay").hide(); //loading screen
+                alert("Failed");
+            }
+        },
+    });
     
 };
 

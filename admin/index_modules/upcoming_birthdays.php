@@ -12,42 +12,42 @@
 
             $stmt = $conn->prepare("SELECT *
                 FROM (
-                    SELECT business_mentor_id AS user_id, firstname, lastname, date_of_birth, profile_pic, status, 'Business Mentor' AS userName
+                    SELECT business_mentor_id AS user_id, CONCAT(firstname,' ',lastname) AS fullname, date_of_birth, profile_pic, status, 'Business Mentor' AS userName
                     FROM business_mentor
 
                     UNION ALL
 
-                    SELECT master_franchisee_id AS user_id, firstname, lastname, date_of_birth, profile_pic, status, 'Master Franchisee' AS userName
+                    SELECT master_franchisee_id AS user_id, CONCAT(firstname,' ',lastname) AS fullname, date_of_birth, profile_pic, status, 'Master Franchisee' AS userName
                     FROM master_franchisee
 
                     UNION ALL
 
-                    SELECT sponsor_franchisee_id AS user_id, firstname, lastname, date_of_birth, profile_pic, status, 'Sponsor Franchisee' AS userName
+                    SELECT sponsor_franchisee_id AS user_id, CONCAT(firstname,' ',lastname) AS fullname, date_of_birth, profile_pic, status, 'Sponsor Franchisee' AS userName
                     FROM sponsor_franchisee
 
                     UNION ALL
 
-                    SELECT corporate_agency_id AS user_id, firstname, lastname, date_of_birth, profile_pic, status, 'Techno Enterprise' AS userName
+                    SELECT corporate_agency_id AS user_id, CONCAT(firstname,' ',lastname) AS fullname, date_of_birth, profile_pic, status, 'Techno Enterprise' AS userName
                     FROM corporate_agency
 
                     UNION ALL
 
-                    SELECT sub_franchisee_id AS user_id, firstname, lastname, date_of_birth, profile_pic, status, 'Franchisee' AS userName
+                    SELECT sub_franchisee_id AS user_id, CONCAT(firstname,' ',lastname) AS fullname, date_of_birth, profile_pic, status, 'Franchisee' AS userName
                     FROM sub_franchisee
 
                     UNION ALL
 
-                    SELECT institution_id AS user_id, firstname, lastname, date_of_birth, profile_pic, status, 'Institution' AS userName
+                    SELECT institution_id AS user_id, name AS fullname, incorporation_date AS date_of_birth, address_proof AS profile_pic, status, 'Institution' AS userName
                     FROM institution
 
                     UNION ALL
 
-                    SELECT ca_travelagency_id AS user_id, firstname, lastname, date_of_birth, profile_pic, status, 'Travel Consultant' AS userName
+                    SELECT ca_travelagency_id AS user_id, CONCAT(firstname,' ',lastname) AS fullname, date_of_birth, profile_pic, status, 'Travel Consultant' AS userName
                     FROM ca_travelagency
 
                     UNION ALL
 
-                    SELECT ca_customer_id AS user_id, firstname, lastname, date_of_birth, profile_pic, status, 'Customer' AS userName
+                    SELECT ca_customer_id AS user_id, CONCAT(firstname,' ',lastname) AS fullname, date_of_birth, profile_pic, status, 'Customer' AS userName
                     FROM ca_customer
                 ) users
                 WHERE date_add(date_of_birth,
@@ -64,7 +64,7 @@
             if($stmt->rowCount()>0){
                 foreach (($stmt->fetchAll()) as $key => $row) {
                     $user_id = $row['user_id'];
-                    $fullname = $row['firstname'].' '.$row['lastname'];
+                    $fullname =  $row['fullname'];
                     $userName = $row['userName'];
 
                     $profile_pic = $row['profile_pic'];
