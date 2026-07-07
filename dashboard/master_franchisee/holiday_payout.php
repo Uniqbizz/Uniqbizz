@@ -24,7 +24,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title>Sponsor Franchisee Dashboard | Holiday Account Payout</title>
+        <title>Master Franchisee Dashboard | Holiday Account Payout</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
