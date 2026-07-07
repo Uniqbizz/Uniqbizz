@@ -54,6 +54,8 @@ $product_payout_data_ins = $data9->fetchAll();
         <link href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
 
         <!-- <link href="forms/product_packages.css" rel="stylesheet" type="text/css" />  -->
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <style>
             .page-back {
                 padding: 1rem;
@@ -156,6 +158,72 @@ $product_payout_data_ins = $data9->fetchAll();
                 background-color: #dedff1 !important;
                 border: 2px solid #636bbd !important;
             }
+            .btn-check+.btn {
+                border: 2px solid #afafaf !important;
+            }
+            .borderHighlight {
+                border: 1px solid #ced4da;
+                border-radius: 5px;
+            }
+            .highlights-section {
+                max-width: 100%;
+                font-family: "Poppins", sans-serif;
+                border: 1px solid #ced4da;
+                border-radius: 5px;
+            }
+            .highlight-label {
+                display: block;
+                font-size: 14px;
+                font-weight: 600;
+                color: #4a4a4a;
+                margin-bottom: 15px;
+            }
+
+            .highlight-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .highlight-tag {
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                background: #f3f4f8;
+                color: #333;
+                padding: 14px 18px;
+                border-radius: 8px;
+                font-size: 13px;
+                font-weight: 500;
+            }
+
+            .remove-btn {
+                cursor: pointer;
+                color: #666;
+                font-size: 20px;
+                line-height: 1;
+                transition: 0.3s;
+            }
+
+            .remove-btn:hover {
+                color: #ff4d4f;
+            }
+
+            .add-highlight {
+                margin-top: 20px;
+            }
+
+            .add-highlight a {
+                color: #6366f1;
+                text-decoration: none;
+                font-size: 14px;
+                font-weight: 600;
+            }
+
+            .add-highlight a:hover {
+                text-decoration: underline;
+            }
+
             /* Tablet & Mobile */
             @media (max-width: 1070px) {
                 .stepper-nav {
@@ -180,6 +248,13 @@ $product_payout_data_ins = $data9->fetchAll();
 
                 .hrRotate hr {
                     width: 30px;
+                }
+            }
+            
+            @media (max-width: 768px) {
+                .highlight-tag {
+                    font-size: 15px;
+                    padding: 10px 14px;
                 }
             }
         </style>
@@ -302,7 +377,7 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                 <label for="unique_code" class="required">Unique Code</label>
                                                             </div>
                                                         </div>
-                                                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
                                                             <div class="form-floating my-3">
                                                                 <select class="form-select" id="category_id" name="category_id" aria-label="Floating label select example">
                                                                     <?php
@@ -333,89 +408,159 @@ $product_payout_data_ins = $data9->fetchAll();
                                                             </div>
                                                             <select id="sub_category_data" name="sub_category_data" class="form-select" style="display: none"></select>
                                                         </div>
+                                                        <div class="col-xl-12 col-lg-12 mb-3">
+                                                            <div class="borderHighlight px-3 py-2">
+                                                                <label>Travel Theme / Type <span class="required"></span></label>
+                                                                <div class="d-flex gap-4">
+                                                                    <div>
+                                                                        <input type="radio" class="btn-check" name="options-base" id="option1" autocomplete="off" checked>
+                                                                        <label class="btn fw-bold" for="option1">
+                                                                            <i class="fa-solid fa-mountain-city"></i>
+                                                                            Leisure
+                                                                        </label>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input type="radio" class="btn-check" name="options-base" id="option2" autocomplete="off">
+                                                                        <label class="btn fw-bold" for="option2">
+                                                                            <i class="fa-solid fa-mountain-sun"></i>
+                                                                            Adventure
+                                                                        </label>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input type="radio" class="btn-check" name="options-base" id="option3" autocomplete="off">
+                                                                        <label class="btn fw-bold" for="option3">
+                                                                            <i class="fa-solid fa-place-of-worship"></i>
+                                                                            Spiritual
+                                                                        </label>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input type="radio" class="btn-check" name="options-base" id="option4" autocomplete="off">
+                                                                        <label class="btn fw-bold" for="option4">
+                                                                            <i class="fa-solid fa-umbrella-beach"></i>
+                                                                            Beach
+                                                                        </label>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input type="radio" class="btn-check" name="options-base" id="option5" autocomplete="off">
+                                                                        <label class="btn fw-bold" for="option5">
+                                                                            <i class="fa-solid fa-heart"></i>
+                                                                            Honeymoon
+                                                                        </label>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input type="radio" class="btn-check" name="options-base" id="option6" autocomplete="off">
+                                                                        <label class="btn fw-bold" for="option6">
+                                                                            <i class="fa-solid fa-crosshairs"></i>
+                                                                            Other</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <div class="col-lg-12">
-                                                            <label>Travel Theme / Type <span class="required"></span></label>
-                                                            <div class="d-flex justify-content-between">
-                                                                <div>
-                                                                    <input type="radio" class="btn-check" name="options-base" id="option1" autocomplete="off" checked>
-                                                                    <label class="btn fw-bold" for="option1">Leisure</label>
+                                                            <div class="row">
+                                                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                                                    <div class="form-floating mb-3">
+                                                                        <input type="number" class="form-control" id="tour_days" name="tour_days" placeholder="Unique Code">
+                                                                        <label for="tour_days" class="required">Tour Days</label>
+                                                                    </div>
                                                                 </div>
-                                                                <div>
-                                                                    <input type="radio" class="btn-check" name="options-base" id="option2" autocomplete="off">
-                                                                    <label class="btn fw-bold" for="option2"> Adventure</label>
+                                                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                                                    <div class="form-floating mb-3">
+                                                                        <input type="date" class="form-control" id="pac_validity" name="pac_validity" placeholder="Package Validity">
+                                                                        <label for="pac_validity" class="required">Validity Upto</label>
+                                                                    </div>
                                                                 </div>
-                                                                <div>
-                                                                    <input type="radio" class="btn-check" name="options-base" id="option3" autocomplete="off">
-                                                                    <label class="btn fw-bold" for="option3">Spiritual</label>
+                                                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                                                    <div class="form-floating mb-3">
+                                                                        <input type="text" class="form-control" id="tour_days" name="tour_days" placeholder="Unique Code">
+                                                                        <label for="tour_days">Best Season To Visit</label>
+                                                                    </div>
                                                                 </div>
-                                                                <div>
-                                                                    <input type="radio" class="btn-check" name="options-base" id="option4" autocomplete="off">
-                                                                    <label class="btn fw-bold" for="option4">Beach</label>
+                                                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                                                    <div class="form-floating mb-3">
+                                                                        <input type="text" class="form-control" id="tour_days" name="tour_days" placeholder="Unique Code">
+                                                                        <label for="tour_days" class="required">Location / Destination</label>
+                                                                    </div>
                                                                 </div>
-                                                                <div>
-                                                                    <input type="radio" class="btn-check" name="options-base" id="option5" autocomplete="off">
-                                                                    <label class="btn fw-bold" for="option5">Honeymoon</label>
-                                                                </div>
-                                                                <div>
-                                                                    <input type="radio" class="btn-check" name="options-base" id="option6" autocomplete="off">
-                                                                    <label class="btn fw-bold" for="option6">Other</label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-sm-12" id="club_class_display" style="display: none">
-                                                            <div class="form-floating mb-3">
-                                                                <span class="required"></span>
-                                                                <select id="club_id" name="club_id" class="form-select">
-                                                                    <?php
-                                                                    $club_data = $conn->prepare("SELECT * FROM club");
-                                                                    $club_data->execute();
-                                                                    // set the resulting array to associative
-                                                                    $club_data->setFetchMode(PDO::FETCH_ASSOC);
-
-                                                                    if ($club_data->rowCount() > 0) {
-                                                                        echo '<option value="0">--Select Club--</option>';
-                                                                        foreach (($club_data->fetchAll()) as $key => $row) {
-                                                                            echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
-                                                                        }
-                                                                    } else {
-                                                                        echo '<option value=""> No Clubs Avaiable </option>';
-                                                                    }
-                                                                    ?>
-                                                                </select>
-                                                                <label>Select Club</label>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 ps-4 pt-4 pb-3">
-                                                            <label>Package applicable for</label>
-                                                            <span class="required"></span>
-                                                            <br />
-                                                            <div class="select">
-                                                                <span id="stag_id_field"><input type="radio" onclick="packageTypeOnClick(this);" name="package_type" value="stag" id="stag_id"><label style="padding-right: 15px; padding-left: 5px;" for="stag_id"> Stag</label></span>
-                                                                <span id="couple_id_field"><input type="radio" onclick="packageTypeOnClick(this);" name="package_type" value="couple" id="couple_id"><label style="padding-right: 15px; padding-left: 5px;" for="couple_id"> Couple</label></span>
-                                                                <span id="family_id_field"><input type="radio" onclick="packageTypeOnClick(this);" name="package_type" value="family" id="family_id"><label style="padding-right: 15px; padding-left: 5px;" for="family_id"> Family</label></span>
-                                                            </div>
-                                                        </div>
-
-                                                        
-                                                        <div class="col-md-2 col-sm-2">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" class="form-control" id="tour_days" name="tour_days" placeholder="Unique Code">
-                                                                <label for="tour_days" class="required">Tour Days</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 col-sm-4">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="date" class="form-control" id="pac_validity" name="pac_validity" placeholder="Package Validity">
-                                                                <label for="pac_validity" class="required">Validity Upto</label>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-md-col-md-12 col-sm-12">
-                                                            <div class="form-floating mb-3">
-                                                                <input id="description" class="form-control" type="text" name="description" placeholder="Description">
-                                                                <label for="description" class="required" for="description">Description</label>
+                                                    <div class="col-lg-12 mb-3">
+                                                        <div class="highlights-section p-3">
+                                                            <label class="highlight-label">Cities</label>
+                                                            <div class="highlight-container" id="highlightContainer">
+                                                                <div class="highlight-tag">
+                                                                    Delhi
+                                                                    <span class="remove-btn">&times;</span>
+                                                                </div>
+                                                                <div class="highlight-tag">
+                                                                    Shimla
+                                                                    <span class="remove-btn">&times;</span>
+                                                                </div>
+                                                                <div class="highlight-tag">
+                                                                    Manali
+                                                                    <span class="remove-btn">&times;</span>
+                                                                </div>
+                                                                <div class="highlight-tag">
+                                                                    Chandhigarh
+                                                                    <span class="remove-btn">&times;</span>
+                                                                </div>
+                                                                <div class="highlight-tag">
+                                                                    Goa
+                                                                    <span class="remove-btn">&times;</span>
+                                                                </div>
+                                                                <div class="highlight-tag">
+                                                                    Keralam
+                                                                    <span class="remove-btn">&times;</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="add-highlight">
+                                                                <a href="#" id="addHighlightBtn">+ Add More Cities</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <div class="form-floating mb-3">
+                                                            <input id="description" class="form-control" type="text" name="description" placeholder="Description">
+                                                            <label for="description" class="required">Short Description</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <div class="form-floating">
+                                                            <textarea class="form-control" placeholder="Leave a comment here" id="description1"></textarea>
+                                                            <label for="description1" class="required">Detailed Description</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 mt-3">
+                                                        <div class="form-floating">
+                                                            <div class="form-control">
+                                                                <input type="radio" name="package_type" value="trending" id="trending" checked>
+                                                                <label style="padding-right:15px; padding-left: 5px;" for="trending">Trending</label>
+                                                                <input type="radio" name="package_type" value="popular" id="popular">
+                                                                <label style="padding-right:15px; padding-left: 5px;" for="popular">Popular</label>
+                                                                <input type="radio" name="package_type" value="most-selling" id="most_selling">
+                                                                <label style="padding-right:15px; padding-left: 5px;" for="most_selling">Most Selling</label>
+                                                                <input type="radio" name="package_type" value="new-arrival" id="new_arrival">
+                                                                <label style="padding-right:15px; padding-left: 5px;" for="new_arrival">New Arrival</label>
+                                                            </div>
+                                                            <label class="">Highlight Type <span class="required"></span></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 mt-3">
+                                                        <div class="row">
+                                                            <div class="col-lg-6 pe-0">
+                                                                <div class="borderHighlight px-3 py-2">
+                                                                    <label>Drop Price (Optional) <span class="required"></span></label>
+                                                                    <div class="form-check form-switch">
+                                                                        <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+                                                                        <label class="form-check-label" for="switchCheckDefault">Enable Drop Price</label>
+                                                                    </div>
+                                                                    <div class="form-floating my-2">
+                                                                        <input id="description" class="form-control" type="text" name="description" placeholder="Description">
+                                                                        <label for="description" class="required">Drop Price Per Person (&#8377;)</label>
+                                                                    </div>
+                                                                    <p class="mb-0">This price will be shown as starting price</p>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1070,6 +1215,33 @@ $product_payout_data_ins = $data9->fetchAll();
                     $(this).addClass("active");
                     $(this).find(".roundedCircle").addClass("active");
                 });
+            });
+        </script>
+        <script>
+            // Remove Tag
+            document.addEventListener("click", function (e) {
+                if (e.target.classList.contains("remove-btn")) {
+                    e.target.parentElement.remove();
+                }
+            });
+
+            // Add New Highlight
+            document.getElementById("addHighlightBtn").addEventListener("click", function (e) {
+                e.preventDefault();
+
+                let highlight = prompt("Enter Highlight");
+
+                if (highlight && highlight.trim() !== "") {
+                    let tag = document.createElement("div");
+                    tag.className = "highlight-tag";
+
+                    tag.innerHTML = `
+                        ${highlight}
+                        <span class="remove-btn">&times;</span>
+                    `;
+
+                    document.getElementById("highlightContainer").appendChild(tag);
+                }
             });
         </script>
     </body>
