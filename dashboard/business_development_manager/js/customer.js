@@ -26,6 +26,90 @@ var emailtest = (emailtest, testValue) => {
         },
     });
 };
+//validations 
+function showError(fieldId, message) {
+
+    $("#" + fieldId)
+        .addClass("is-invalid")
+        .focus();
+
+    $("#" + fieldId + "_error").text(message);
+}
+
+function clearError(fieldId) {
+
+    $("#" + fieldId)
+        .removeClass("is-invalid");
+
+    $("#" + fieldId + "_error").text("");
+}
+
+function clearAllErrors() {
+
+    $(".form-control, .form-select").removeClass("is-invalid");
+    $(".error-message").text("");
+}
+function showGenderError(message){
+
+    $("#gender_wrapper")
+        .addClass("error")
+        .attr("tabindex","-1")
+        .focus();
+
+    $("#gender_error").text(message);
+}
+
+function clearGenderError(){
+
+    $("#gender_wrapper").removeClass("error");
+
+    $("#gender_error").text("");
+}
+
+$(".gender").on("change",function(){
+
+    clearGenderError();
+
+});
+function showPaymentError(message){
+
+    $("#payment-mode_wrapper")
+        .addClass("error")
+        .attr("tabindex","-1")
+        .focus();
+
+    $("#payment-mode_error").text(message);
+}
+
+function clearPaymentError(){
+
+    $("#payment-mode_wrapper").removeClass("error");
+
+    $("#payment-mode_error").text("");
+}
+
+$(".payment").on("change",function(){
+
+    clearPaymentError();
+
+});
+function showFileError(fileId, message) {
+
+    const input = $("#" + fileId);
+
+    input.closest(".upload-card").addClass("error");
+
+    $("#" + fileId + "_error").text(message);
+
+    input.trigger("click"); // Opens file selector
+}
+function clearFileError(fileId) {
+
+    $("#" + fileId)
+        .closest(".upload-card")
+        .removeClass("error");
+}
+//-------------------------------
 $(document).ready(function() {
     var paymentMode = $(".payment:checked").val();
     var payment_fee = $('#payment_fee').val()
@@ -219,6 +303,7 @@ function bindUploadEvents() {
             const file = this.files[0];
 
             if (!file) return;
+            clearFileError(this.id);
 
             const card = this.closest('.upload-card');
             const title = card.dataset.title;
@@ -311,13 +396,6 @@ function submitAddForm(actionType) {
     var current_year = today.getFullYear();
     var payment_fee = $("#payment_fee").val().trim();
     // personal Details 
-    var registerAs = $("#registerAs").val();
-    var url=''
-    if (registerAs == '16') {
-        url="models/techno_enterprise/add_te_data.php";
-    }else if(registerAs == '29'){
-        url="models/techno_enterprise/add_f_data.php";
-    }
     var user_id_name = $("#user_id_name").val(); //STE ID //not there
     var reference_name = $("#reference_name").val(); // STE Name // not there
     var firstname = $("#firstname").val().trim();
@@ -383,98 +461,91 @@ function submitAddForm(actionType) {
 
     var dob_year = dob.substring(0, 4);
     var age = current_year - dob_year;
-    
+    clearAllErrors();
     // ======================
     // VALIDATION ONLY FOR SUBMIT
     // ======================
     if (actionType === 'submit') {
         
-        if(registerAs === ''){
-            alert("Select Register As First");
-            return;
-        }
-        else if (user_id_name == '') {
-            alert("Select Id");
-            return;
-        } else if (firstname === '') {
-            alert("Enter Proper First Name");
+        if (firstname === '') {
+            showError("firstname","First Name is required.");
             return;
         } else if (lastname === '') {
-            alert("Enter Proper Last Name");
+            showError("lastname","Last Name is required.");
             return;
         } else if (email == '') {
-            alert("Enter Email");
+            showError("email","Email is required.");
             return;
         } else if (!emailReg.test(email)) {
-            alert("Enter Proper Email");
+            showError("email","Enter proper email.");
             return;
         } else if (testE == '1') {
-            alert("Email already exists");
+            showError("email","Email already exists.");
             return;
         } else if (dob === '') {
-            alert('Please Select Birthdate');
+            showError("dob","Please Select Birthdate.");
             return;
         } else if (age <= 20) {
-            alert('Age must be more than or equal to 20 Years');
+            showError("dob","Age must be more than or equal to 20 Years.");
             return;
         } else if (gender !== 'male' && gender !== 'female' && gender !== 'others') {
-            alert('Please Select Gender');
+            showGenderError("Please Select Gender.");
             return;
         } else if (country_cd == '') {
-            alert("Select Country Code");
+            showError("country_cd","Select Country Code.");
             return;
         } else if (phone == '') {
-            alert("Enter Phone number");
+            showError("phone","Enter Phone number.");
             return;
         } else if (!mobileRegex.test(phone)) {
-            alert("Enter Proper Phone Number");
+            showError("phone","Enter Proper Phone Number.");
             return;
         } else if (country === '') {
-            alert("Select Country");
+            showError("country","Select Country.");
             return;
         } else if (mystate === '') {
-            alert("Select State");
+            showError("mystate","Select State.");
             return;
         } else if (city === '') {
-            alert("Select City");
+            showError("city","Select City.");
             return;
         } else if (address === '' || specialChar.test(address) || address.length <= 7) {
-            alert("Enter Proper Address");
+            showError("address","Enter Proper Address.");
             return;
         } else if (paymentMode !== 'cash' && paymentMode !== 'cheque' && paymentMode !== 'online') {
-            alert("Select payment Mode");
+            showPaymentError("Select payment Mode");
             return;
         } else if (profile_pic_file === '') {
-            alert('Please Upload profile Picture');
+            showFileError("upload_file1", "Please upload Profile Photo.");
             return;
         } else if (aadhar_card_file === '') {
-            alert('Please Upload Aadhar Card Picture');
+            showFileError("upload_file2", "Please upload Profile Photo.");
             return;
         } else if (payment_proof_file == '') {
-            alert("Add Payment Proof");
+            showFileError("upload_file12", "Please upload Profile Photo.");
             return;
         }
     } 
     if (firstname === '') {
-        alert("Enter Proper First Name");
+        showError("firstname","First Name is required.");
         return;
     } else if (lastname === '') {
-        alert("Enter Proper Last Name");
+        showError("lastname","Last Name is required.");
         return;
     } else if (email == '') {
-        alert("Enter Email");
+        showError("email","Email is required.");
         return;
     } else if (!emailReg.test(email)) {
-        alert("Enter Proper Email");
+        showError("email","Enter proper email.");
         return;
     } else if (testE == '1') {
-        alert("Email already exists");
+        showError("email","Email already exists.");
         return;
     } else if (phone == '') {
-        alert("Enter Phone number");
+        showError("phone","Enter Phone number.");
         return;
     } else if (!mobileRegex.test(phone)) {
-        alert("Enter Proper Phone Number");
+        showError("phone","Enter Proper Phone Number.");
         return;
     }
     //get img url only if file exist
@@ -551,18 +622,37 @@ function submitAddForm(actionType) {
     $("#loading-overlay").show(); //loading screen
     $.ajax({
         type: "POST",
-        url: "models/customer/add_customer_data.php",
+        url: "customer/add_customer_data.php",
         data: dataObj,
         cache: false,
         success: function (data) {
             console.log(data);
             if (data == 1) {
-                $("#loading-overlay").hide(); //loading screen
-                alert("Added Successfuly");
-                location.href = "customers_list.php";
+
+                // $("#loading-overlay").hide();
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Customer added successfully.',
+                    confirmButtonColor: '#3085d6'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.href = "customers_list.php";
+                    }
+                });
+
             } else {
-                $("#loading-overlay").hide(); //loading screen
-                alert("Failed");
+
+                // $("#loading-overlay").hide();
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed!',
+                    text: 'Unable to add customer.',
+                    confirmButtonColor: '#d33'
+                });
+
             }
         },
     });
@@ -579,7 +669,7 @@ $("#editCustomer").on("click", function (e) {
 });
 // Edit customer by client 
 function submitEditForm(actionType) {
-
+    var mobileRegex = /^[0-9]{10}$/;
     var editfor = $('#editfor').val();
     var ref_id = $('#ref_id').val();
     var id = $('#id').val();
@@ -638,7 +728,6 @@ function submitEditForm(actionType) {
         ? payment_text.split(":")[0].trim()
         : payment_text;
 
-    var phoneReg = /^[0-9]{10}$/;
     var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
     var specialChar = /[!@#$%^&*]/g;
 
@@ -649,130 +738,91 @@ function submitEditForm(actionType) {
     var userType = $('#userType').val();
     var status_value = 4;
 
-    /*
-    ====================================================
-    VALIDATION ONLY FOR SUBMIT
-    ====================================================
-    */
-
-    if (actionType == "submit") {
-
+    clearAllErrors();
+    // ======================
+    // VALIDATION ONLY FOR SUBMIT
+    // ======================
+    if (actionType === 'submit') {
+        
         if (firstname === '') {
-            alert("Enter Proper First Name");
+            showError("firstname","First Name is required.");
             return;
         } else if (lastname === '') {
-            alert("Enter Proper Last Name");
+            showError("lastname","Last Name is required.");
             return;
-        } else if (email === '') {
-            alert("Enter Email");
+        } else if (email == '') {
+            showError("email","Email is required.");
             return;
         } else if (!emailReg.test(email)) {
-            alert("Enter Proper Email");
+            showError("email","Enter proper email.");
             return;
-        } else if (testE === '1') {
-            alert("Email already exists");
+        } else if (testE == '1') {
+            showError("email","Email already exists.");
             return;
         } else if (dob === '') {
-            alert("Please Select Birthdate");
+            showError("dob","Please Select Birthdate.");
             return;
-        } else if (age < 18) {
-            alert("Sorry, you are not eligible");
+        } else if (age <= 20) {
+            showError("dob","Age must be more than or equal to 20 Years.");
             return;
-        } else if (!['male', 'female', 'others'].includes(gender)) {
-            alert("Please Select Gender");
+        } else if (gender !== 'male' && gender !== 'female' && gender !== 'others') {
+            showGenderError("Please Select Gender.");
             return;
-        } else if (country_cd === '') {
-            alert("Select Country Code");
+        } else if (country_cd == '') {
+            showError("country_cd","Select Country Code.");
             return;
-        } else if (phone === '') {
-            alert("Enter Phone Number");
+        } else if (phone == '') {
+            showError("phone","Enter Phone number.");
             return;
-        } else if (!phoneReg.test(phone)) {
-            alert("Enter Proper Phone Number");
+        } else if (!mobileRegex.test(phone)) {
+            showError("phone","Enter Proper Phone Number.");
             return;
         } else if (country === '') {
-            alert("Select Country");
+            showError("country","Select Country.");
             return;
         } else if (mystate === '') {
-            alert("Select State");
+            showError("mystate","Select State.");
             return;
         } else if (city === '') {
-            alert("Select City");
+            showError("city","Select City.");
             return;
         } else if (address === '' || specialChar.test(address) || address.length <= 7) {
-            alert("Enter Proper Address");
+            showError("address","Enter Proper Address.");
             return;
-        } else if (!paymentMode) {
-            alert("Please Select Payment Mode");
+        } else if (paymentMode !== 'cash' && paymentMode !== 'cheque' && paymentMode !== 'online') {
+            showPaymentError("Select payment Mode");
             return;
-        } else if (paymentMode === "online" && transactionNo === '') {
-            alert("Please Enter Transaction No");
+        } else if (profile_pic_file === '') {
+            showFileError("upload_file1", "Please upload Profile Photo.");
             return;
-        } else if (paymentMode === "cheque") {
-
-            let missing = [];
-
-            if (chequeNo === '') missing.push("Cheque No");
-            if (chequeDate === '') missing.push("Cheque Date");
-            if (bankName === '') missing.push("Bank Name");
-
-            if (missing.length) {
-                alert("Please Enter: " + missing.join(", "));
-                return;
-            }
-
-        } else if (profile_pic == '') {
-            alert('Please Upload profile Picture');
+        } else if (aadhar_card_file === '') {
+            showFileError("upload_file2", "Please upload Profile Photo.");
             return;
-        } else if (aadhar_card == '') {
-            alert('Please Upload Aadhar Card Picture');
-            return;
-        } else if (payment_proof == '') {
-            alert("Add Payment Proof");
+        } else if (payment_proof_file == '') {
+            showFileError("upload_file12", "Please upload Profile Photo.");
             return;
         }
-        status_value = 2;
-
-    }
-
-    /*
-    ====================================================
-    COMMON VALIDATION (Draft + Submit)
-    ====================================================
-    */
-
+    } 
     if (firstname === '') {
-        alert("Enter Proper First Name");
+        showError("firstname","First Name is required.");
         return;
-    }
-
-    if (lastname === '') {
-        alert("Enter Proper Last Name");
+    } else if (lastname === '') {
+        showError("lastname","Last Name is required.");
         return;
-    }
-
-    if (email === '') {
-        alert("Enter Email");
+    } else if (email == '') {
+        showError("email","Email is required.");
         return;
-    }
-
-    if (!emailReg.test(email)) {
-        alert("Enter Proper Email");
+    } else if (!emailReg.test(email)) {
+        showError("email","Enter proper email.");
         return;
-    }
-
-    if (testE === '1') {
-        alert("Email already exists");
+    } else if (testE == '1') {
+        showError("email","Email already exists.");
         return;
-    }
-
-    if (phone === '') {
-        alert("Enter Phone Number");
+    } else if (phone == '') {
+        showError("phone","Enter Phone number.");
         return;
-    }
-
-    if (!phoneReg.test(phone)) {
-        alert("Enter Proper Phone Number");
+    } else if (!mobileRegex.test(phone)) {
+        showError("phone","Enter Proper Phone Number.");
         return;
     }
     
@@ -836,7 +886,7 @@ function submitEditForm(actionType) {
     $.ajax({
 
         type: "POST",
-        url: "models/customer/edit_customer_data.php",
+        url: "customer/edit_customer_data.php",
         data: dataObj,
         cache: false,
 
@@ -846,15 +896,28 @@ function submitEditForm(actionType) {
 
             if (data == 1) {
 
-                alert("Customer Updated Successfully");
-                location.href = "customers_list.php";
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Customer Updated Successfully.',
+                    confirmButtonColor: '#3085d6'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.href = "customers_list.php";
+                    }
+                });
 
             } else {
 
                 $("#editCustomer").prop("disabled", false);
                 $("#saveDraftEdit").prop("disabled", false);
 
-                alert("Failed");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed!',
+                    text: 'Unable to update customer.',
+                    confirmButtonColor: '#d33'
+                });
 
             }
 
@@ -1078,7 +1141,7 @@ async function initializeCustomer() {
 
     const res = await ajaxPromise({
 
-        url: "models/customer/edit_cu_load_data.php",
+        url: "customer/edit_cu_load_data.php",
 
         type: "GET",
 

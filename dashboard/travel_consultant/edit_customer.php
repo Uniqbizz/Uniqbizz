@@ -43,6 +43,7 @@
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <link rel="stylesheet" href="../assets/css/validation.css" />
     </head>
     <body>
         <!-- Begin page -->
@@ -154,12 +155,14 @@
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="firstname">First Name<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="firstname" placeholder="Enter your Firstname" value="">
+                                        <small class="error-message" id="firstname_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="lastname">Last Name<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="lastname" placeholder="Enter your Lastname" value="">
+                                        <small class="error-message" id="lastname_error"></small>
                                     </div>
                                 </div>
                                 
@@ -167,22 +170,25 @@
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="email">Email Address<span class="text-danger">*</span></label>
                                         <input type="email" class="form-control" id="email" placeholder="Enter your Email" value="">
+                                        <small class="error-message" id="email_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="dob">Date Of Birth<span class="text-danger">*</span></label>
                                         <input type="date" class="form-control" id="dob" placeholder="Enter Date" value="">
+                                        <small class="error-message" id="dob_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="col-form-label">Gender <span class="text-danger">*</span></label>
-                                        <div class="form-control d-flex justify-content-around mt-1">
+                                        <div class="form-control d-flex justify-content-around mt-1gender-wrapper" id="gender_wrapper">
                                             <label class="radio-inline mb-0 ms-3"><input type="radio" id="test3" name="gender" class="gender" value="male" />&nbsp;&nbsp;&nbsp;Male</label>
                                             <label class="radio-inline mb-0 ms-3"><input type="radio" id="test4" name="gender" class="gender" value="female" />&nbsp;&nbsp;&nbsp;Female</label>
                                             <label class="radio-inline mb-0 ms-3"><input type="radio" id="test5" name="gender" class="gender" value="others" />&nbsp;&nbsp;&nbsp;Others</label>
                                         </div>
+                                        <small class="error-message" id="gender_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-sm-4 col-4">
@@ -202,12 +208,14 @@
                                             }
                                             ?>
                                         </select>
+                                        <small class="error-message" id="country_cd_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-8 col-8">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="phone">Phone Number<span class="text-danger">*</span></label>
                                         <input type="number" class="form-control" id="phone" placeholder="Enter your zipcode" value="">
+                                        <small class="error-message" id="phone_error"></small>
                                     </div>
                                 </div>
                             </div>        
@@ -237,6 +245,7 @@
                                             }
                                             ?>
                                         </select>
+                                        <small class="error-message" id="country_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
@@ -246,6 +255,7 @@
                                             
                                             <option value="">--Select country first--</option>
                                         </select>
+                                        <small class="error-message" id="state_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
@@ -255,18 +265,22 @@
                                             
                                             <option value="">--Select state first--</option>
                                         </select>
+                                        <small class="error-message" id="city_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="pin">Pincode<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="pin" placeholder="Enter your zipcode" value="">
+                                        <small class="error-message" id="pin_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="address">Address<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="address" placeholder="Enter your Address" value="">
+                                        
+                                        <small class="error-message" id="address_error"></small>
                                     </div>
                                 </div>
                             </div>
@@ -282,7 +296,7 @@
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="payment_fee">Payment Fee<span class="text-danger">*</span></label>
                                         <select class="form-select" id="payment_fee" aria-label="Floating label select example">
-                                            <option value="null">--Select Payment Fee--</option>
+                                            <option value="" seleted>--Select Payment Fee--</option>
                                             <option value="FOC" >Free</option>
                                             <option value="10000" >Prime: <span>&#8377 </span>10,000/-</option>
                                             <option value="30000" >Premium: <span>&#8377 </span>30,000/-</option>
@@ -291,13 +305,14 @@
                                             <option value="21000" >Premium Select Lite: <span>&#8377 </span>21,000/-</option>
                                             <option value="21000" >Neo Select: <span>&#8377 </span>11,000/-</option>
                                             <option value="21000" >Neo Select Ultra: <span>&#8377 </span>11,000/-</option>
+                                            <small class="error-message" id="payment_fee_error"></small>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6" id="paymentMode">
                                     <div class="input-block mb-3">
                                         <label class="fw-bold col-form-label">Payment Mode: <span class="text-danger">*</span></label>
-                                        <div class="form-control radioBtn d-flex justify-content-around">
+                                        <div class="form-control radioBtn d-flex justify-content-around payment-mode-wrapper" id="payment-mode_wrapper">
                                             <label class="mb-0" for="cashPayment"><input type="radio" id="cashPayment" class="form-check-input payment me-3" name="payment" value="cash"
                                                      disabled>
                                                     Cash
@@ -311,6 +326,7 @@
                                                     UPI/NEFT
                                             </label>
                                         </div>
+                                        <small class="error-message" id="payment-mode_error"></small>
                                     </div>
                                 </div>
                                 <div class="pb-3" id="payOpt">
@@ -320,6 +336,7 @@
                                                 <div class="input-block">
                                                     <label class="col-form-label" for="chequeNo">Cheque No<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="chequeNo" placeholder="Enter Cheque Number" value="">
+                                                    <small class="error-message" id="chequeNo_error"></small>
                                                 </div>
                                             </div>
 
@@ -327,6 +344,7 @@
                                                 <div class="input-block">
                                                     <label class="col-form-label" for="chequeDate">Cheque Date<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="chequeDate" placeholder="Enter Date On Cheque" value="">
+                                                    <small class="error-message" id="chequeDate_error"></small>
                                                 </div>
                                             </div>
 
@@ -334,6 +352,7 @@
                                                 <div class="input-block">
                                                     <label class="col-form-label" for="bankName">Bank Name<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="bankName" placeholder="Enter your Bank Name" value="">
+                                                    <small class="error-message" id="bankName_error"></small>
                                                 </div>
                                             </div>
                                         </div>
@@ -345,6 +364,7 @@
                                                 <div class="input-block">
                                                     <label class="col-form-label" for="transactionNo">Transaction No<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="transactionNo" placeholder="Enter your Transaction No." value="">
+                                                    <small class="error-message" id="transactionNo_error"></small>
                                                 </div>
                                             </div>
                                         </div>
@@ -528,6 +548,5 @@
         <!-- end dialer logic scripts -->
         <script src="js/customer.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        
     </body>
 </html>

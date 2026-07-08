@@ -34,6 +34,28 @@ if (
     exit;
 }
 
+// Check if new password is same as current password
+if ($currentPassword === $newPassword) {
+    echo 'same_password';
+    exit;
+}
+
+// Check if new password and confirm password match
+if ($newPassword !== $confirmPassword) {
+    echo 'confirm_mismatch';
+    exit;
+}
+
+// Validate password strength
+if (
+    strlen($newPassword) < 8 ||
+    !preg_match('/[A-Za-z]/', $newPassword) ||
+    !preg_match('/\d/', $newPassword) ||
+    !preg_match('/[^A-Za-z0-9]/', $newPassword)
+) {
+    echo 'invalid';
+    exit;
+}
 // 2. Update the new password
 $sql = "UPDATE login SET password = :password WHERE user_id = :user_id AND user_type_id = :user_type_id";
 $stmt2 = $conn->prepare($sql);

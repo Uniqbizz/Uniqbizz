@@ -58,8 +58,8 @@
                         <i class="ri-vip-crown-2-line"></i> <span data-key="t-home"><?= $customer['customer_type'] ?> Membership</span>
                     </a>
                 </li>
-                <li class="nav-item <?= ($current_page == 'view_customer.php') ? 'active' : ''; ?>">
-                    <a class="nav-link menu-link" href="<?= $base_url_cust?>view_customer.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                <li class="nav-item <?= ($current_page == 'customers_list.php') ? 'active' : ''; ?>">
+                    <a class="nav-link menu-link" href="<?= $base_url_cust?>customers_list.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-group-line"></i> <span data-key="t-home">Refer & Earn</span>
                     </a>
                 </li>

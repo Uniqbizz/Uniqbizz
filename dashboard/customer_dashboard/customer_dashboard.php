@@ -833,7 +833,7 @@
                                     <div class="col-lg-12">
                                         <div class="p-3 border border-2 rounded-4">
                                             <h4 class="d-flex justify-content-between mb-0 text-dark fw-bolder">Earn With Referrals
-                                                <a href="<?= $base_url_cust?>view_customer.php" class="fs-6">View All</a>
+                                                <a href="<?= $base_url_cust?>customers_list.php" class="fs-6">View All</a>
                                             </h4>
                                             <div class="d-flex">
                                                 <div class="referralDetail flex-grow-1">
@@ -842,7 +842,7 @@
                                                             <span class="textColor fw-bolder fs-4">&#8377;<?= $totalReferralAmount?></span>
                                                         </p>
                                                     </div>
-                                                    <a href="<?= $base_url_cust?>view_customer.php">
+                                                    <a href="<?= $base_url_cust?>customers_list.php">
                                                         <div class="inviteBtn gap-3 px-2">
                                                             <p class="fs-6 mb-0 fw-bolder">Invite Friends & Earn</p>
                                                             <i class="ri-stackshare-line d-flex align-items-center"></i>
