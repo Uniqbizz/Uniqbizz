@@ -25,9 +25,9 @@ try {
             nd.nominee_date_of_birth,
             nd.nominee_address
         FROM nominee_details nd
-        INNER JOIN executive_techno_enterprise ste
+        INNER JOIN employees ste
             ON ste.application_id = nd.application_id
-        WHERE ste.executive_techno_enterprise_id = :user_id
+        WHERE ste.employee_id = :user_id
         LIMIT 1
     ");
 

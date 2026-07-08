@@ -50,13 +50,13 @@
                 ca.amount,
                 ca.user_type,
 
-                bm.firstname AS ref_firstname,
-                bm.lastname AS ref_lastname,
-                bm.business_mentor_id AS reference_id
+                bm.name AS ref_firstname,
+                '' AS ref_lastname,
+                bm.employee_id AS reference_id
 
             FROM corporate_agency ca
-            INNER JOIN business_mentor bm
-                ON ca.reference_no = bm.business_mentor_id
+            INNER JOIN employees bm
+                ON ca.reference_no = bm.employee_id
             WHERE ca.reference_no = :user_id
             AND ca.status IN (1,3)
 
@@ -109,13 +109,13 @@
                 i.amount,
                 i.user_type,
 
-                bm.firstname AS ref_firstname,
-                bm.lastname AS ref_lastname,
-                bm.business_mentor_id AS reference_id
+                bm.name AS ref_firstname,
+                '' AS ref_lastname,
+                bm.employee_id AS reference_id
 
             FROM sub_franchisee i
-            INNER JOIN business_mentor bm
-                ON i.reference_no = bm.business_mentor_id
+            INNER JOIN employees bm
+                ON i.reference_no = bm.employee_id
             WHERE i.reference_no = :user_id
             AND i.status IN (1,3)
 

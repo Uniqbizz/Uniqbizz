@@ -22,16 +22,16 @@ if($user_id_str == 'MF'){
     $sql="SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$bc."' AND status = 1";
 }else if ($user_id_str == 'SF'){
     $sql="SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '".$bc."' AND status = 1";
-}else if ($user_id_str == 'ST'){
-    $sql="SELECT * FROM super_techno_enterprise WHERE super_techno_enterprise_id = '".$bc."' AND status = 1";
+}else if ($user_id_str == 'BH'){
+    $sql="SELECT * FROM employees WHERE employee_id = '".$bc."' AND status = 1";
 }
 $bcNames = $conn -> prepare($sql);
 $bcNames -> execute();
 $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
 if($bcNames -> rowCount()>0){
     foreach(($bcNames -> fetchAll()) as $key => $row){
-        $bcfirstname = $row['firstname'];
-        $bclastname = $row['lastname'];
+        $bcfirstname = $row['name'];
+        $bclastname = '';
     }
 }  
 
@@ -124,7 +124,7 @@ if($caNames -> rowCount()>0){
                                             <h6 style="padding:2px 10px; font-weight: 700;">Month : <?php echo $date; ?></h6>
                                         </td>
                                         <td class="col-md-5 col-sm-5 pt-3">
-                                            <h6 style="padding:2px 0; font-weight: 700;">Pay For : Franchisee</h6>
+                                            <h6 style="padding:2px 0; font-weight: 700;">Pay For : Business Development Manager</h6>
                                             <h6 style="padding:2px 0; font-weight: 700;">Designation :<?=$designation?> </h6>
                                             <h6 style="padding:2px 0; font-weight: 700;">Payout status : <?php echo $message_status == 2 ? 'Pending' :($message_status == 1? 'Paid':'Unknow') ; ?></h6>
                                         </td>

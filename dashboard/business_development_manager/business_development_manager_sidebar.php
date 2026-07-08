@@ -56,7 +56,12 @@
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item <?php echo ($current_page == 'contracting_payout.php') ? 'active' : ''; ?>">
                                 <a href="contracting_payout.php" class="nav-link menu-link">
-                                    <span data-key="contracting_payout.php">TE Recruitment Payout</span>
+                                    <span data-key="contracting_payout.php">TE Contracting Payout</span>
+                                </a>
+                            </li>
+                            <li class="nav-item <?php echo ($current_page == 'sub_franchisee_payout.php') ? 'active' : ''; ?>">
+                                <a href="sub_franchisee_payout.php" class="nav-link menu-link">
+                                    <span data-key="sub_franchisee_payout.php">Franchisee Contracting Payout</span>
                                 </a>
                             </li>
                             <li class="nav-item <?php echo ($current_page == 'holiday_payout.php') ? 'active' : ''; ?>">

@@ -40,7 +40,7 @@
                 ca.added_on,
                 ca.status,
                 ca.user_type,
-                'BM' AS userTypeStr,
+                'F' AS userTypeStr,
                 bm.firstname AS ref_firstname,
                 bm.lastname AS ref_lastname,
                 bm.business_mentor_id AS reference_id,
@@ -54,7 +54,7 @@
 
             UNION ALL
 
-            -- Sub Franchisee (Direct )
+            -- Sub Franchisee (Through BM)
             SELECT
                 sf.id,
                 sf.firstname,
@@ -64,7 +64,7 @@
                 sf.added_on,
                 sf.status,
                 sf.user_type,
-                'TE (Direct)' AS userTypeStr,
+                'F' AS userTypeStr,
                 ste.firstname AS ref_firstname,
                 ste.lastname AS ref_lastname,
                 ste.business_mentor_id AS reference_id,
@@ -78,7 +78,7 @@
 
             UNION ALL
 
-            -- Sub Franchisee (Through BM)
+            -- Sub Franchisee  (Direct )
             SELECT
                 sf.id,
                 sf.firstname,
@@ -88,7 +88,7 @@
                 sf.added_on,
                 sf.status,
                 sf.user_type,
-                'BM' AS userTypeStr,
+                'F' AS userTypeStr,
                 bm.name AS ref_firstname,
                 '' AS ref_lastname,
                 bm.employee_id AS reference_id,
