@@ -36,52 +36,40 @@
     if ($stmt->rowCount() > 0) {
         foreach (($stmt->fetchAll()) as $key => $row) {
             $fid = $row['id'];
-            // $sales_manager_name=$row['fname'];
-            $firstname = $row['firstname'];
-            // $username=$row['username'];
-            $lastname = $row['lastname'];
-            $nominee_name = $row['nominee_name'];
-            $nominee_relation = $row['nominee_relation'];
+            $name = $row['name'];
+            $no_of_branches = $row['no_of_branches'];
+            $types_of_institution = $row['types_of_institution'];
+            $incorporation_date = $row['incorporation_date'];
+            $institution_pan=$row['institution_pan'];
             $email = $row['email'];
             $contact_no = $row['contact_no'];
-            $note=$row['note'];
-            $converted = $row['converted'];
-            $amount = $row['amount'];
-            $amtGST = $row['amtGST'];
-            $reference_no = $row['reference_no'];
-            $gst_no = $row['gst_no'];
-            $date_of_birth = $row['date_of_birth'];
-            $gender = $row['gender'];
             $country = $row['country'];
             $state = $row['state'];
             $city = $row['city'];
+            $pincode = $row['pincode'];
             $address = $row['address'];
+            $account_name = $row['account_name'];
+            $account_number = $row['account_number'];
+            $ifsc_code = $row['ifsc_code'];
+            $bank_and_branch_name = $row['bank_and_branch_name'];
+            $amount = $row['amount'];
+            $comm_per=$row['current_commission_per']??null;
+            $ins_per=$row['current_incentive_per']??null;
             $payment_mode = $row['payment_mode'];
             $cheque_no = $row['cheque_no'];
             $cheque_date = $row['cheque_date'];
             $bank_name = $row['bank_name'];
             $transaction_no = $row['transaction_no'];
-            // $id_proof=$row['id_proof'];
-            $profile_pic = $row['profile_pic'];
-            // $kyc=$row['kyc'];
+            $certificate_of_incorporation = $row['certificate_of_incorporation'];
+            $gstin = $row['gstin'];
             $pan_card = $row['pan_card'];
-            $aadhar_card = $row['aadhar_card'];
-            $voting_card = $row['voting_card'];
+            $address_proof = $row['address_proof'];
+            $board_resolution = $row['board_resolution'];
             $bank_passbook = $row['bank_passbook'];
             $payment_proof = $row['payment_proof'];
-            $pincode = $row['pincode'];
+            $reference_no = $row['reference_no'];
             $status=$row['status'];
-            $assign_status=$row['tc_assign_status']??null;
-            $assign_TCs=$row['no_tc_alloted']??null;
-            $assign_tenure=$row['repay_tenure']??null;
-            $assign_roi=$row['roi']??null;
-            $assign_tax=$row['tax']??null;
-            $assign_repay_amount=$row['repay_amount']??null;
-            $comm_per=$row['current_commission_per']??null;
-            $ins_per=$row['current_incentive_per']??null;
             $f_status=$row['status'];
-            // $complimentary=$row['complimentary'];
-            // $converted=$row['converted'];
 
             if($f_status == '1'){
                 // franchisee upgrade
@@ -155,17 +143,18 @@
                     $reference_no_lname = $business_development_manager['lastname'];
                     // $business_trainees_reference_no = $business_trainee['reference_no'];
                 }
-            } else if ($reference_id == "BH") {
-                // business development manger name
-                $business_development_manager = $conn->prepare("SELECT name, employee_id FROM employees where employee_id='" . $reference_no . "'");
-                $business_development_manager->execute();
-                $business_development_manager->setFetchMode(PDO::FETCH_ASSOC);
-                if ($business_development_manager->rowCount() > 0) {
-                    $business_development_manager = $business_development_manager->fetch();
-                    $reference_no_name = $business_development_manager['name'];
-                    // $business_trainees_reference_no = $business_trainee['reference_no'];
-                }
-            }
+            } 
+            // else if ($reference_id == "BH") {
+            //     // business development manger name
+            //     $business_development_manager = $conn->prepare("SELECT name, employee_id FROM employees where employee_id='" . $reference_no . "'");
+            //     $business_development_manager->execute();
+            //     $business_development_manager->setFetchMode(PDO::FETCH_ASSOC);
+            //     if ($business_development_manager->rowCount() > 0) {
+            //         $business_development_manager = $business_development_manager->fetch();
+            //         $reference_no_name = $business_development_manager['name'];
+            //         // $business_trainees_reference_no = $business_trainee['reference_no'];
+            //     }
+            // }
              else if ($reference_id == "BM") {
                 // business development manger name
                 $business_development_manager = $conn->prepare("SELECT firstname, lastname FROM business_mentor where business_mentor_id='" . $reference_no . "'");
@@ -241,11 +230,11 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Edit Institution </h4>
+                                    <h4 class="mb-sm-0">Add Institution </h4>
                                     <!-- <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="view_institution.php">Institution</a></li>
-                                            <li class="breadcrumb-item active">Edit Institution</li>
+                                            <li class="breadcrumb-item active">Add Institution</li>
                                         </ol>
                                     </div> -->
                                 </div>
@@ -261,7 +250,7 @@
                                         </div>
                                         <div class="align-content-center">
                                             <h1 class="fw-bolder text-white">Edit Institution </h1>
-                                            <p class="fs-5 text-white mb-0">Fill in the details below to register a new Institution under your network.</p>
+                                            <p class="fs-5 text-white mb-0">Edit the details below of register Institution under your network.</p>
                                         </div>
                                     </div>
                                     <img src="../assets/images/addTechnoFileImage.png" alt="" class="addTEImage">
@@ -275,41 +264,40 @@
                                     <p class="fw-bolder addTENum">01</p>
                                     <h4 class="fw-bolder text-dark align-content-center">Personal Information</h4>
                                 </div>
-                                <div class="col-md-4 col-sm-6">
+                                <!-- <div class="col-md-4 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="designation"> Designation<span class="text-danger">*</span></label>
                                         <select id="designation" class="form-select">
                                             <option value="">--Select Designation--</option>
-                                            <option value="business_development_manager">Business Development Manager </option>
+                                            <option value="executive_techno_enterprise">Executive Techno Enterprise</option>
                                             <option value="business_mentor">Business Mentor</option>
-                                            <option value="corporate_agency">Techno Enterprise</option>
+                                            <option value="master_franchisee">Master Franchisee</option>
+                                            <option value="sponsor_franchisee">Sponsor Franchisee</option>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="form-group col-md-4 col-sm-6">
+                                </div> -->
+                                <div class="form-group col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">User ID & Name<span class="text-danger">*</span></label>
-                                        <select id="user_id_name" class="form-select"> 
-                                            <option value="">--Select Designation First--</option>
-                                        </select>
+                                        <input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" readonly value="<?= $reference_no; ?>">
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-sm-6">
+                                <div class="col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="reference_name"> Referance Name <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" readonly>
+                                        <input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" readonly value="<?= $reference_no_fname.' '.$reference_no_lname; ?>">
                                     </div>    
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
-                                        <label class="col-form-label" for="firstname">Institution Name<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="firstname" placeholder="Enter your firstname">
+                                        <label class="col-form-label" for="name">Institution Name<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="name" placeholder="Enter your name" value="<?= $name; ?>">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="numberBranch">No of Branches<span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" id="numberBranch" placeholder="Enter No of Branches">
+                                        <input type="number" class="form-control" id="numberBranch" placeholder="Enter No of Branches" value="<?= $no_of_branches; ?>">
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12">
@@ -318,46 +306,61 @@
                                         <div class="form-control">
                                             <div class="row">
                                                 <div class="col-lg-4 col-4 col-sm-6 col-12">
-                                                    <label class="radio-inline mb-0 ms-3" for="test3"><input type="radio" id="test3" class="form-check-input instituteType me-3" name="instituteType" value="male">Bank</label>
+                                                    <label class="radio-inline mb-0 ms-3" for="test3"><input type="radio" id="test3" class="form-check-input instituteType me-3" name="instituteType" value="bank" <?= ($types_of_institution == "Bank") ? 'checked' : ''; ?> disabled>Bank</label>
                                                 </div>
                                                 <div class="col-lg-4 col-4 col-sm-6 col-12">
-                                                    <label class="radio-inline mb-0 ms-3" for="test4"><input type="radio" id="test4" class="form-check-input instituteType me-3" name="instituteType" value="female">NBFC</label>
+                                                    <label class="radio-inline mb-0 ms-3" for="test4"><input type="radio" id="test4" class="form-check-input instituteType me-3" name="instituteType" value="nbfc" <?= ($types_of_institution == "nbfc") ? 'checked' : ''; ?> disabled>NBFC</label>
                                                 </div>
                                                 <div class="col-lg-4 col-4 col-sm-6 col-12">
-                                                    <label class="radio-inline mb-0 ms-3" for="test5"><input type="radio" id="test5" class="form-check-input instituteType me-3" name="instituteType" value="others">Corperative Bank</label>
+                                                    <label class="radio-inline mb-0 ms-3" for="test5"><input type="radio" id="test5" class="form-check-input instituteType me-3" name="instituteType" value="corperative_bank" <?= ($types_of_institution == "corperative_bank") ? 'checked' : ''; ?> disabled>Corperative Bank</label>
                                                 </div>
                                                 <div class="col-lg-4 col-4 col-sm-6 col-12">
-                                                    <label class="radio-inline mb-0 ms-3" for="test6"><input type="radio" id="test6" class="form-check-input instituteType me-3" name="instituteType" value="others">Society</label>
+                                                    <label class="radio-inline mb-0 ms-3" for="test6"><input type="radio" id="test6" class="form-check-input instituteType me-3" name="instituteType" value="society" <?= ($types_of_institution == "society") ? 'checked' : ''; ?> disabled>Society</label>
                                                 </div>
                                                 <div class="col-lg-4 col-4 col-sm-6 col-12">
-                                                    <label class="radio-inline mb-0 ms-3" for="test7"><input type="radio" id="test7" class="form-check-input instituteType me-3" name="instituteType" value="others">Trust</label>
+                                                    <label class="radio-inline mb-0 ms-3" for="test7"><input type="radio" id="test7" class="form-check-input instituteType me-3" name="instituteType" value="trust" <?= ($types_of_institution == "trust") ? 'checked' : ''; ?> disabled>Trust</label>
                                                 </div>
                                                 <div class="col-lg-4 col-4 col-sm-6 col-12">
-                                                    <label class="radio-inline mb-0 ms-3" for="test8"><input type="radio" id="test8" class="form-check-input instituteType me-3" name="instituteType" value="others">Others</label>
+                                                    <label class="radio-inline mb-0 ms-3" for="test8"><input type="radio" id="test8" class="form-check-input instituteType me-3" name="instituteType" value="other" <?= (!empty($types_of_institution) && !in_array(strtolower($types_of_institution), ['bank', 'nbfc', 'corperative_bank', 'society', 'trust'])) ? 'checked' : ''; ?> disabled>Others</label>
                                                 </div>
                                             </div>
-                                            <input type="text" name="other_leadership" id="otherLead" class="form-control mt-2" style="display:none;">
+                                            <input type="text" name="instituteTypeOther" id="instituteTypeOther" class="form-control mt-2" value="<?= $types_of_institution ;?>" <?= ($types_of_institution) ? 'style="display:block;"' : 'style="display:none;"' ; ?> readonly>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="incorporationDate">Incorporation Date<span class="text-danger">*</span></label>
-                                        <input type="date" class="form-control" id="incorporationDate" placeholder="Enter Incorporation Date">
+                                        <input type="date" class="form-control" id="incorporationDate" placeholder="Enter Incorporation Date" value="<?= $incorporation_date; ?>">
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12 mb-3">
                                     <div class="row">
                                         <div class="col-md-4 col-sm-4 col-3">
                                             <div class="input-block">
-                                                <label class="col-form-label" for="country_cd">Code</label>
-                                                <select class="form-select" id="country_cd"></select>
-                                            </div>
+                                                <?php
+                                                    $stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
+                                                    $stmt->execute();                                            
+                                                    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                ?>
+                                                <label class="col-form-label" for="country_cd">Code:</label>
+                                                <select class="form-control" id="country_cd">
+                                                    <?php 
+                                                        if($stmt->rowCount()>0){
+                                                            foreach (($stmt->fetchAll()) as $key => $row) {  
+                                                                echo '<option value="'.$row['country_code'].'">+'.$row['country_code'].' ('.$row['sortname'].')</option>'; 
+                                                            } 
+                                                        }else{ 
+                                                            echo '<option value="">Country not available</option>'; 
+                                                        } 
+                                                    ?>
+                                                </select>
+                                            </div> 
                                         </div>
                                         <div class="col-md-8 col-sm-8 col-9">
                                             <div class="input-block">
                                                 <label class="col-form-label" for="phone">Phone Number<span class="text-danger">*</span></label>
-                                                <input type="number" class="form-control" id="phone" placeholder="Enter your Phone Number">
+                                                <input type="number" class="form-control" id="phone" placeholder="Enter your Phone Number" value="<?= $contact_no; ?>">
                                             </div>
                                         </div>
                                     </div>
@@ -365,13 +368,13 @@
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="institutionPAN">Institution PAN<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="institutionPAN" placeholder="Enter Institution PAN">
+                                        <input type="text" class="form-control" id="institutionPAN" placeholder="Enter Institution PAN" value="<?= $institution_pan; ?>">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="email">Email Address<span class="text-danger">*</span></label>
-                                        <input type="email" class="form-control" id="email" placeholder="Enter Email Address">
+                                        <input type="email" class="form-control" id="email" placeholder="Enter Email Address" value="<?= $email; ?>">
                                     </div>
                                 </div>
                             </div>
@@ -385,9 +388,23 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
+                                        <?php
+                                            $stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
+                                            $stmt->execute();                                         
+                                            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                        ?>
                                         <label class="col-form-label" for="country">Country<span class="text-danger">*</span></label>
-                                        <select class="form-select" id="country" aria-label="Floating label select example">
-                                            <option value="" selected>--Select Country--</option>
+                                        <select class="form-select" id="country">
+                                            <option value="<?php echo $country_id; ?>"><?php echo $countryname . ' (Already Selected)'; ?></option>
+                                            <?php 
+                                                if($stmt->rowCount()>0){
+                                                    foreach (($stmt->fetchAll()) as $key => $row) {  
+                                                        echo '<option value="'.$row['id'].'">'.$row['country_name'].'</option>'; 
+                                                    } 
+                                                }else{ 
+                                                    echo '<option value="">Country not available</option>'; 
+                                                } 
+                                            ?>
                                         </select>
                                     </div>
                                 </div>
@@ -395,6 +412,7 @@
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="mystate">State<span class="text-danger">*</span></label>
                                         <select class="form-select" id="mystate" aria-label="Floating label select example">
+                                            <option value="<?php echo $state_id; ?>"><?php echo $statename . ' (Already Selected)'; ?></option>
                                             <option value="">--Select country first--</option>
                                         </select>
                                     </div>
@@ -403,6 +421,7 @@
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="city">City<span class="text-danger">*</span></label>
                                         <select class="form-select" id="city" aria-label="Floating label select example">
+                                            <option value="<?php echo $city_id; ?>"><?php echo $city_name . ' (Already Selected)'; ?></option>
                                             <option value="">--Select state first--</option>
                                         </select>
                                     </div>
@@ -410,13 +429,13 @@
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="pin">Pincode<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="pin" placeholder="Enter your pincode">
+                                        <input type="text" class="form-control" id="pin" placeholder="Enter your pincode" value="<?php echo $pincode; ?>">
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="address">Address<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="address" placeholder="Enter your Address">
+                                        <input type="text" class="form-control" id="address" placeholder="Enter your Address" value="<?php echo $address; ?>">
                                     </div>
                                 </div>
                             </div>
@@ -431,25 +450,25 @@
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="accountName">Account Name<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="accountName" placeholder="Enter your Account Name">
+                                        <input type="text" class="form-control" id="accountName" placeholder="Enter your Account Name" value="<?php echo $account_name; ?>" readonly>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="accountNumber">Account Number<span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" id="accountNumber" placeholder="Enter your Account Number">
+                                        <input type="number" class="form-control" id="accountNumber" placeholder="Enter your Account Number" value="<?php echo $account_number; ?>" readonly>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="ifscCode">IFSC Code<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="ifscCode" placeholder="Enter your IFSC Code">
+                                        <input type="text" class="form-control" id="ifscCode" placeholder="Enter your IFSC Code" value="<?php echo $ifsc_code; ?>" readonly>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="branchName">Bank & Branch Name<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="branchName" placeholder="Enter your Bank & Branch Name">
+                                        <input type="text" class="form-control" id="branchName" placeholder="Enter your Bank & Branch Name" value="<?php echo $bank_and_branch_name; ?>" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -464,7 +483,8 @@
                                 <div class="col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="activationPlan">Activation Plan<span class="text-danger">*</span></label>
-                                        <select id="activationPlan" class="form-select"> 
+                                        <select id="activationPlan" class="form-select" disabled> 
+                                            <option value="<?php echo $amount; ?>"><?php echo $amount; ?></option>
                                             <option value="">--Select Activation Plan--</option> 
                                             <option value="FOC">FOC</option> 
                                             <option value="200000">2,00,000/-</option> 
@@ -474,12 +494,12 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-sm-6">
+                                <div class="col-md-6 col-sm-6 " id="paymentMode">
                                     <label class="fw-bold col-form-label">Payment Mode: <span class="text-danger">*</span></label>
-                                    <div class="form-control radioBtn d-flex justify-content-around" id="paymentMode">
-                                        <label class="mb-0" for="cashPayment"><input type="radio" id="cashPayment" class="form-check-input payment me-3" name="payment" value="cash">Cash</label>
-                                        <label class="mb-0" for="chequePayment"><input type="radio" id="chequePayment"  class="form-check-input payment me-3" name="payment" value="cheque">Cheque</label>
-                                        <label class="mb-0" for="onlinePayment"><input type="radio" id="onlinePayment"  class="form-check-input payment me-3" name="payment" value="online">UPI/NEFT</label>
+                                    <div class="form-control radioBtn d-flex justify-content-around" >
+                                        <label class="mb-0" for="cashPayment"><input type="radio" id="cashPayment" class="form-check-input payment me-3" name="payment" value="cash" <?php if ($payment_mode == "cash") { echo 'checked'; } ?> disabled >Cash</label>
+                                        <label class="mb-0" for="chequePayment"><input type="radio" id="chequePayment"  class="form-check-input payment me-3" name="payment" value="cheque" <?php if ($payment_mode == "cheque") { echo 'checked'; } ?> disabled >Cheque</label>
+                                        <label class="mb-0" for="onlinePayment"><input type="radio" id="onlinePayment"  class="form-check-input payment me-3" name="payment" value="online" <?php if ($payment_mode == "online") { echo 'checked'; } ?> disabled >UPI/NEFT</label>
                                     </div>
                                 </div>
                                 <div class="pb-3">
@@ -488,19 +508,19 @@
                                             <div class="col-md-4 py-1">
                                                 <div class="input-block">
                                                     <label class="col-form-label" for="chequeNo">Cheque No<span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="chequeNo" placeholder="Enter Cheque Number">
+                                                    <input type="text" class="form-control" id="chequeNo" placeholder="Enter Cheque Number" value="<?= $cheque_no; ?>" readonly>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 py-1">
                                                 <div class="input-block">
                                                     <label class="col-form-label" for="chequeDate">Cheque Date<span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="chequeDate" placeholder="Enter Date On Cheque">
+                                                    <input type="text" class="form-control" id="chequeDate" placeholder="Enter Date On Cheque" value="<?= $cheque_date; ?>" readonly>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 py-1">
                                                 <div class="input-block">
                                                     <label class="col-form-label" for="bankName">Bank Name<span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="bankName" placeholder="Enter your Bank Name">
+                                                    <input type="text" class="form-control" id="bankName" placeholder="Enter your Bank Name" value="<?= $bank_name; ?>" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -510,7 +530,7 @@
                                             <div class="col-md-8">
                                                 <div class="input-block">
                                                     <label class="col-form-label" for="transactionNo">Transaction No<span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="transactionNo" placeholder="Enter your Transaction No.">
+                                                    <input type="text" class="form-control" id="transactionNo" placeholder="Enter your Transaction No." value="<?= $transaction_no; ?>" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -528,24 +548,22 @@
                                 <div class="row g-3">
                                     <!-- Certificate of Incorporation -->
                                     <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                        <div class="upload-card" data-title="Certificate of Incorporation" data-index="1">
-                                            <input type="hidden" id="img_path1" value="">
-                                            <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file1">
-                                            <div class="upload-content">
-                                                <div class="upload-icon">
-                                                    <i class="fa-solid fa-user"></i>
+                                        <div class="upload-card" data-title="Certificate of Incorporation" data-index="11">
+                                            <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file11" data-bound="true">
+                                            
+                                            <div class="preview-wrapper">
+                                                <input type="hidden" id="img_path11" value="<?= $certificate_of_incorporation ?>">
+                                                <img src="../../uploading/<?= $certificate_of_incorporation ?>" alt="">
+                                                <div class="file-title">
+                                                    Certificate of Incorporation
                                                 </div>
-                                                <h6>Certificate of Incorporation</h6>
-                                                <p>Click to upload<br>or drag and drop</p>
-                                                <small>(JPG, PNG, PDF)</small>
                                             </div>
                                         </div>
                                     </div>
 									<!-- GSTIN -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
-										<div class="upload-card" data-title="GSTIN" data-index="2">
-											<input type="hidden" id="img_path2" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file2">
+										<div class="upload-card" data-title="GSTIN" data-index="12">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file12">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-regular fa-id-card"></i>
@@ -558,9 +576,8 @@
 									</div>
                                     <!-- Board Resolution -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
-										<div class="upload-card" data-title="Board Resolution" data-index="3">
-											<input type="hidden" id="img_path3" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file3">
+										<div class="upload-card" data-title="Board Resolution" data-index="13">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file13">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-regular fa-credit-card"></i>
@@ -574,7 +591,6 @@
 									<!-- Bank Passbook -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
 										<div class="upload-card" data-title="Bank Passbook" data-index="4">
-											<input type="hidden" id="img_path4" value="">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file4">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -588,9 +604,8 @@
 									</div>
 									<!-- PAN Card -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
-										<div class="upload-card" data-title="PAN Card" data-index="4">
-											<input type="hidden" id="img_path4" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file5">
+										<div class="upload-card" data-title="PAN Card" data-index="3">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file3">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-building-columns"></i>
@@ -603,8 +618,7 @@
 									</div>
 									<!-- Address Proof -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12" id="addressProof">
-										<div class="upload-card" data-title="Address Proof" data-index="4">
-											<input type="hidden" id="img_path4" value="">
+										<div class="upload-card" data-title="Address Proof" data-index="6">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file6">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -617,10 +631,9 @@
 										</div>
 									</div>
 									<!-- Payment Proof -->
-									<div class="col-lg-4 col-md-4 col-sm-6 col-12" id="payProof">
-										<div class="upload-card" data-title="Payment Proof" data-index="4">
-											<input type="hidden" id="img_path4" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file7">
+									<div class="col-lg-4 col-md-4 col-sm-6 col-12 d-none" id="payProof">
+										<div class="upload-card" data-title="Payment Proof" data-index="14">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file14">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-building-columns"></i>
@@ -634,14 +647,15 @@
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" id="testValue" name="testValue" value="32"> <!-- institution -->
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="d-flex justify-content-end gap-4 submitBtnBackground">
                                     <button type="button" class="btn actionBtn cancelBtn mb-2">Cancel</button>
                                     <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftAdd">Save Draft</button>
-                                    <button type="submit" class="btn actionBtn submitBtn mb-2" id="addCustomer">
+                                    <button type="submit" class="btn actionBtn submitBtn mb-2" id="addInstitution">
                                         <i class="fa-regular fa-paper-plane me-2"></i>
-                                        Submit Customer
+                                        Submit Institution
                                     </button>
                                 </div>
                             </div>
@@ -674,7 +688,7 @@
         <script src="../assets/libs/node-waves/waves.min.js"></script>
 
         <!-- add data to database js file -->
-        <script type="text/javascript" src="../assets/js/submitdata.js"></script>
+        <script type="text/javascript" src="institution.js"></script>
 
         <!-- apexcharts -->
         <!-- <script src="../assets/libs/apexcharts/apexcharts.min.js"></script> -->
@@ -686,7 +700,7 @@
         <script src="../assets/js/app.js"></script>
 
         <!-- file upload code js file -->
-        <script src="../../uploading/upload.js"></script>
+        <script src="../../uploading/uploadTechnoAdmin.js"></script>
 
         <script>
             var mybutton = document.getElementById("back-to-top");
@@ -705,59 +719,23 @@
         </script>
         <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
         <script>
-            //select Register as
-            $('#registered').on('change',function(){
-                var register_type=$(this).val();
-                if(register_type == 'corporate_agency'){
-                    $('#designation1').prop('disabled', false);
-                    $('#designation1').removeClass('d-none');
-                    $('#designation2').addClass('d-none');
-                    $('#business_package_amount1').prop('disabled', false);
-                    $('#business_package_amount1').removeClass('d-none');
-                    $('#business_package_amount2').addClass('d-none');
-                    $('.gender').prop('disabled', false);
-                }else if(register_type == 'sub_franchisee'){
-                    $('#designation1').addClass('d-none');
-                    $('#designation2').removeClass('d-none');
-                    $('#business_package_amount2').removeClass('d-none');
-                    $('#business_package_amount1').addClass('d-none');
-                    $('.gender').prop('disabled', false);
-                    // var business_package_amount = $('#business_package_amount2').val();
-                    // $('#flex_amount').val(business_package_amount);
-                }else if(register_type == 'institution'){
-                    $('#designation1').addClass('d-none');
-                    $('#designation2').removeClass('d-none');
-                    $('#business_package_amount2').removeClass('d-none');
-                    $('#business_package_amount1').addClass('d-none');
-                    const val = $("#test5").val();
-
-                    $('.gender[value="' + val + '"]').prop('checked', true);
-                    $('.gender').prop('disabled', true);
+            $(document).ready(function() {
+                var paymentMode = $(".payment:checked").val();
+                if (paymentMode == "cheque") {
+                    $("#chequeOpt").removeClass("d-none");
+                    $("#onlineOpt").addClass("d-none");
+                } else if (paymentMode == "online") {
+                    $("#onlineOpt").removeClass("d-none");
+                    $("#chequeOpt").addClass("d-none");
+                } else {
+                    $("#chequeOpt").addClass("d-none");
+                    $("#onlineOpt").addClass("d-none");
                 }
-                    
             });
-            
             //select Designation
-            $('#designation1').on('change', function() {
-                var designation = $('#designation1').val();
-                console.log(designation);
-                $.ajax({
-                    type:'POST',
-                    url:'../agents/get_user_Franchisee.php',
-                    data: "designation="+designation,
-                    success:function (e) {
-                        console.log(e);
-                        $('#user_id_name').html(e); 
-                    },
-                    error: function(err){
-                        console.log(err);
-                    },
-                });
-            });
-
-            $('#designation2').on('change', function() {
-                var designation = $('#designation2').val();
-                console.log(designation);
+            $('#designation').on('change', function() {
+                var designation = $('#designation').val();
+                // console.log(designation);
                 $.ajax({
                     type:'POST',
                     url:'../agents/get_user_Franchisee.php',
@@ -775,21 +753,13 @@
             // fetch User based on selected designation
             $('#user_id_name').on('change', function(){
                 var user_id_name = $(this).val();
-                var designation = !$('#designation1').hasClass('d-none') 
-                ? $('#designation1').val() 
-                : $('#designation2').val();
-                console.log(user_id_name);
-
-                // var designation = 'franchisee';
-                // console.log(designation);
-
+                var designation = $('#designation').val();
                 $.ajax({
                     type:'POST',
                     url:'../agents/getUsers.php',
                     data: 'user_id_name=' + user_id_name + '&designation=' + designation ,
                     success:function(response){
                     // console.log(response);
-                        $('#pin').html(response);
                         $('#reference_name').val(response); 
                     }
                 }); 
@@ -851,17 +821,21 @@
                 }
             });
 
-            $('#business_package_amount1').on('change', function(){
-                var business_package_amount = $(this).val();
-                $('#flex_amount').val(business_package_amount);
+            //Activation Plan
+            $('#activationPlan').on('change', function() {
+                var payval=$(this).val();
+                if (payval != 'FOC') {
+                    $('#paymentMode').removeClass('d-none');
+                    $('#payProof').removeClass('d-none');
+                    $('#payOpt').removeClass('d-none');
+                }else{
+                    $('#paymentMode').addClass('d-none');
+                    $('#payProof').addClass('d-none');
+                    $('#payOpt').addClass('d-none');
+                }
             });
-            
-            $('#business_package_amount2').on('change', function(){
-                var business_package_amount = $(this).val();
-                $('#flex_amount').val(business_package_amount);
-            });
-            
 
+            // Payment Mode
             $('#paymentMode').on('click', function(){
                 var paymentMode = $(".payment:checked").val();
                 // console.log(paymentMode);
@@ -884,16 +858,99 @@
                     $("#transactionNo").val("");
                 }
             });
-        </script>
-        <script>
+
+            // type of institution other radio button option to show text box
             $(".instituteType").change(function () {
                 if ($("#test8").is(":checked")) {
-                    $("#otherLead").slideDown();
+                    $("#instituteTypeOther").slideDown();
                 } else {
-                    $("#otherLead").slideUp();
-                    $("#otherLead").val("");
+                    $("#instituteTypeOther").slideUp();
+                    $("#instituteTypeOther").val("");
                 }
             });
+
+            function bindUploadEvents() {
+
+                document.querySelectorAll('.file-input').forEach(input => {
+
+                    if (input.dataset.bound) return;
+
+                    input.dataset.bound = "true";
+
+                    input.addEventListener('change', function () {
+
+                        const file = this.files[0];
+
+                        if (!file) return;
+
+                        const card = this.closest('.upload-card');
+                        const title = card.dataset.title;
+                        const index = card.dataset.index;
+
+                        if (file.type.startsWith('image/')) {
+
+                            const reader = new FileReader();
+
+                            reader.onload = function (e) {
+
+                                card.querySelector('.upload-content, .preview-wrapper, .pdf-preview')?.remove();
+
+                                let preview = card.querySelector('.preview-wrapper');
+
+                                if (!preview) {
+
+                                    preview = document.createElement('div');
+                                    preview.className = 'preview-wrapper';
+
+                                    preview.innerHTML = `
+                                        <img src="${e.target.result}">
+                                        <input type="hidden" id="img_path${index}" value="../../uploading/${file.name}">
+                                        <div class="file-title">
+                                            ${title}
+                                        </div>
+                                    `;
+
+                                    card.appendChild(preview);
+
+                                } else {
+
+                                    preview.querySelector('img').src = e.target.result;
+                                }
+                            };
+
+                            reader.readAsDataURL(file);
+
+                        } else {
+
+                            card.querySelector('.upload-content, .preview-wrapper, .pdf-preview')?.remove();
+
+                            let preview = document.createElement('div');
+
+                            preview.className = 'pdf-preview';
+
+                            preview.innerHTML = `
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <input type="hidden" id="img_path${index}" value="../../uploading/${file.name}">
+                                <div class="file-title">
+                                    ${title}
+                                </div>
+                            `;
+
+                            card.appendChild(preview);
+                        }
+
+                        
+
+                    });
+
+                });
+
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                bindUploadEvents();
+            });
+
         </script>
     </body>
 </html>
