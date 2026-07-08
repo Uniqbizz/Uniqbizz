@@ -308,7 +308,7 @@ $product_payout_data_ins = $data9->fetchAll();
                                     <div class="row">
                                         <div class="col-lg-12 mt-3">
                                             <nav class="stepper-nav">
-                                                <a class="nav-link textColor active step-link d-flex align-items-center gap-1" href="#package_form">
+                                                <a class="nav-link textColor active step-link d-flex align-items-center gap-1" href="#package_form_general">
                                                     <div class="roundedCircle active">1</div>
                                                     <span>General Information</span>
                                                 </a>
@@ -317,7 +317,7 @@ $product_payout_data_ins = $data9->fetchAll();
                                                     <hr class="border border-1 border-secondary">
                                                 </div>
 
-                                                <a class="nav-link textColor step-link d-flex align-items-center gap-1" href="#nishant_form">
+                                                <a class="nav-link textColor step-link d-flex align-items-center gap-1" href="#package_form_extra">
                                                     <div class="roundedCircle">2</div>
                                                     <span>Extra Information</span>
                                                 </a>
@@ -326,7 +326,7 @@ $product_payout_data_ins = $data9->fetchAll();
                                                     <hr class="border border-1 border-secondary">
                                                 </div>
 
-                                                <a class="nav-link textColor step-link d-flex align-items-center gap-1" href="#pandurang_form">
+                                                <a class="nav-link textColor step-link d-flex align-items-center gap-1" href="#package_form_itinerary">
                                                     <div class="roundedCircle">3</div>
                                                     <span>Itinerary & Inclusions</span>
                                                 </a>
@@ -335,7 +335,7 @@ $product_payout_data_ins = $data9->fetchAll();
                                                     <hr class="border border-1 border-secondary">
                                                 </div>
 
-                                                <a class="nav-link textColor step-link d-flex align-items-center gap-1" href="#savio_form">
+                                                <a class="nav-link textColor step-link d-flex align-items-center gap-1" href="#package_form_pricing">
                                                     <div class="roundedCircle">4</div>
                                                     <span>Pricing</span>
                                                 </a>
@@ -344,7 +344,7 @@ $product_payout_data_ins = $data9->fetchAll();
                                                     <hr class="border border-1 border-secondary">
                                                 </div>
 
-                                                <a class="nav-link textColor step-link d-flex align-items-center gap-1" href="#sharvan_form">
+                                                <a class="nav-link textColor step-link d-flex align-items-center gap-1" href="#">
                                                     <div class="roundedCircle">5</div>
                                                     <span>Policy</span>
                                                 </a>
@@ -353,7 +353,7 @@ $product_payout_data_ins = $data9->fetchAll();
                                                     <hr class="border border-1 border-secondary">
                                                 </div>
 
-                                                <a class="nav-link textColor step-link d-flex align-items-center gap-1" href="#harsh_form">
+                                                <a class="nav-link textColor step-link d-flex align-items-center gap-1" href="#package_form_picture">
                                                     <div class="roundedCircle">6</div>
                                                     <span>Pictures & Media</span>
                                                 </a>
@@ -1093,21 +1093,6 @@ $product_payout_data_ins = $data9->fetchAll();
                                                     </div>
                                                 </div>
                                             </form>
-                                            <form id="nishant_form" class="tab-form d-none">
-                                                <p>Nishant</p>
-                                            </form>
-                                            <form id="pandurang_form" class="tab-form d-none">
-                                                <p>Pandurang</p>
-                                            </form>
-                                            <form id="savio_form" class="tab-form d-none">
-                                                <p>Savio</p>
-                                            </form>
-                                            <form id="sharvan_form" class="tab-form d-none">
-                                                <p>Sharvan</p>
-                                            </form>
-                                            <form id="harsh_form" class="tab-form d-none">
-                                                <p>Harsh</p>
-                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -1190,31 +1175,91 @@ $product_payout_data_ins = $data9->fetchAll();
                 });
             </script> -->
         <script>
+            // $(document).ready(function () {
+            //     // Hide all forms
+            //     $(".tab-form").hide().addClass("d-none");
+
+            //     // Show first form
+            //     $("#package_form").show().removeClass("d-none");
+
+            //     $(".step-link").on("click", function (e) {
+            //         e.preventDefault();
+
+            //         let target = $(this).attr("href");
+
+            //         // Hide all forms
+            //         $(".tab-form").hide().addClass("d-none");
+
+            //         // Show selected form
+            //         $(target).show().removeClass("d-none");
+
+            //         // Active tab styling
+            //         $(".step-link").removeClass("active");
+            //         $(".roundedCircle").removeClass("active");
+
+            //         $(this).addClass("active");
+            //         $(this).find(".roundedCircle").addClass("active");
+            //     });
+            // });
             $(document).ready(function () {
-                // Hide all forms
-                $(".tab-form").hide().addClass("d-none");
+                const sections = [
+                    "#package_form_general",
+                    "#package_form_extra",
+                    "#package_form_itinerary",
+                    "#package_form_pricing",
+                    "#package_form_picture"
+                ];
 
-                // Show first form
-                $("#package_form").show().removeClass("d-none");
+                function showSection(target) {
 
+                    // Hide all sections
+                    sections.forEach(function (section) {
+                        $(section).hide();
+                    });
+
+                    // Show selected section
+                    $(target).show();
+
+                    // Update active tab
+                    $(".step-link").removeClass("active");
+                    $(".roundedCircle").removeClass("active");
+
+                    $('.step-link[href="' + target + '"]').addClass("active");
+                    $('.step-link[href="' + target + '"] .roundedCircle').addClass("active");
+                }
+
+                // Initial load
+                showSection("#package_form_general");
+
+                // Nav click
                 $(".step-link").on("click", function (e) {
                     e.preventDefault();
 
                     let target = $(this).attr("href");
-
-                    // Hide all forms
-                    $(".tab-form").hide().addClass("d-none");
-
-                    // Show selected form
-                    $(target).show().removeClass("d-none");
-
-                    // Active tab styling
-                    $(".step-link").removeClass("active");
-                    $(".roundedCircle").removeClass("active");
-
-                    $(this).addClass("active");
-                    $(this).find(".roundedCircle").addClass("active");
+                    showSection(target);
                 });
+
+                // Next buttons
+                $("#package_form_general_nextBtn").click(function (e) {
+                    e.preventDefault();
+                    showSection("#package_form_extra");
+                });
+
+                $("#package_form_extra_nextBtn").click(function (e) {
+                    e.preventDefault();
+                    showSection("#package_form_itinerary");
+                });
+
+                $("#package_form_itinerary_nxtBtn").click(function (e) {
+                    e.preventDefault();
+                    showSection("#package_form_pricing");
+                });
+
+                $("#package_form_pricing_nextBtn").click(function (e) {
+                    e.preventDefault();
+                    showSection("#package_form_picture");
+                });
+
             });
         </script>
         <script>
