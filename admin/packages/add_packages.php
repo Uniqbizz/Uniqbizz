@@ -223,7 +223,109 @@ $product_payout_data_ins = $data9->fetchAll();
             .add-highlight a:hover {
                 text-decoration: underline;
             }
+            /* Upload Icon Section */
+            .upload-card{
+                position:relative;
+                min-height:170px;
+                border:2px dashed #d7dff3;
+                border-radius:12px;
+                background:#fff;
+                cursor:pointer;
+                overflow:hidden;
+                transition:.3s;
+            }
+            .upload-card:hover{
+                border-color:#7c5cff;
+            }
+            .file-input{
+                position:absolute;
+                inset:0;
+                opacity:0;
+                cursor:pointer;
+                z-index:5;
+            }
+            .upload-content{
+                height:100%;
+                padding:15px;
+                text-align:center;
+                display:flex;
+                flex-direction:column;
+                justify-content:center;
+                align-items:center;
+            }
+            .upload-content h6{
+                font-weight:700;
+                margin-bottom:5px;
+            }
+            .upload-content p{
+                color:#6c757d;
+                font-size:13px;
+                margin-bottom:5px;
+            }
+            .upload-content small{
+                color:#999;
+            }
+            .preview-wrapper{
+                position:absolute;
+                inset:0;
+            }
+            .preview-wrapper img{
+                width:100%;
+                height:100%;
+                object-fit:cover;
+            }
+            .file-title{
+                position:absolute;
+                left:0;
+                right:0;
+                bottom:0;
+                background:rgba(0,0,0,.75);
+                color:#fff;
+                padding:8px;
+                font-size:13px;
+                font-weight:600;
+            }
+            .pdf-preview{
+                height:100%;
+                display:flex;
+                flex-direction:column;
+                justify-content:center;
+                align-items:center;
+            }
+            .pdf-preview i{
+                font-size:55px;
+                color:#dc3545;
+            }
+            .upload-icon {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
 
+            .upload-icon i {
+                font-size: 35px;
+                color: #7c5cff;
+            }
+
+            .upload-icon img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                border-radius: 8px;
+            }
+            .titleCard {
+                background-color: #d9ffd3;
+                border-radius: 10px 10px 0px 0px;
+                padding: 8px;
+            }
+            .inclusionTitle {
+                color: #1b8a0a;
+                font-size: 14px;
+                font-weight: 900;
+            }
             /* Tablet & Mobile */
             @media (max-width: 1070px) {
                 .stepper-nav {
@@ -745,7 +847,7 @@ $product_payout_data_ins = $data9->fetchAll();
 
                                                 <!-- Third Box itinery Details -->
                                                 <div id="package_form_itinerary" style="display: none;">
-                                                    <div class="row">
+                                                    <div class="row mt-3">
                                                         <label for="w3review">This section will contain the information about the package that this product is offering.</label>
                                                         <label for="" style="color: #ff4b4b; font-weight: 600; display:block">NOTE : Number Of Days may look different on deletion of previous "DAY", but Days will be listed from first to last in increasing order .</label>
                                                         <!-- <div class="row">
@@ -766,6 +868,19 @@ $product_payout_data_ins = $data9->fetchAll();
                                                         <!-- add days -->
                                                     </div>
                                                     <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                                            <div class="card rouunded-4">
+                                                                <div class="d-flex justify-content-between titleCard">
+                                                                    <p class="title inclusionTitle mb-0">Inclusions</p>
+                                                                    <a href="#" id="addPackageKeywordBtn">+ Add Items</a>
+                                                                </div>
+                                                                <div class="p-3">
+                                                                    <div class="">
+                                                                        <p class="mb-0"></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <div class="row">
                                                             <label for="inclusion" class="required">Inclusion</label>
                                                             <textarea id="inclusion" name="inclusion" class="textarea ms-2" rows="2" cols="50"></textarea>
@@ -1205,32 +1320,6 @@ $product_payout_data_ins = $data9->fetchAll();
                 });
             </script> -->
         <script>
-            // $(document).ready(function () {
-            //     // Hide all forms
-            //     $(".tab-form").hide().addClass("d-none");
-
-            //     // Show first form
-            //     $("#package_form").show().removeClass("d-none");
-
-            //     $(".step-link").on("click", function (e) {
-            //         e.preventDefault();
-
-            //         let target = $(this).attr("href");
-
-            //         // Hide all forms
-            //         $(".tab-form").hide().addClass("d-none");
-
-            //         // Show selected form
-            //         $(target).show().removeClass("d-none");
-
-            //         // Active tab styling
-            //         $(".step-link").removeClass("active");
-            //         $(".roundedCircle").removeClass("active");
-
-            //         $(this).addClass("active");
-            //         $(this).find(".roundedCircle").addClass("active");
-            //     });
-            // });
             $(document).ready(function () {
                 const sections = [
                     "#package_form_general",
@@ -1334,6 +1423,56 @@ $product_payout_data_ins = $data9->fetchAll();
                     `;
 
                     document.getElementById("packageKeybord").appendChild(tag);
+                }
+            });
+        </script>
+        <!-- Upload Icons Section -->
+        <script>
+            document.addEventListener('change', function (e) {
+
+                if (!e.target.classList.contains('file-input')) return;
+
+                const file = e.target.files[0];
+                if (!file) return;
+
+                const card = e.target.closest('.upload-card');
+                const title = card.dataset.title;
+                const index = card.dataset.index;
+
+                if (file.type.startsWith('image/')) {
+
+                    const reader = new FileReader();
+
+                    reader.onload = function (event) {
+
+                        if (card.classList.contains('icon-upload-card')) {
+
+                            const iconBox = card.querySelector('.upload-icon');
+
+                            iconBox.innerHTML = `
+                                <img src="${event.target.result}" alt="Icon">
+                            `;
+
+                            const hiddenInput = document.getElementById(`img_path${index}`);
+
+                            if (hiddenInput) {
+                                hiddenInput.value = `../../uploading/${file.name}`;
+                            }
+
+                        } else {
+
+                            card.querySelector('.upload-content, .preview-wrapper, .pdf-preview')?.remove();
+                            const preview = document.createElement('div');
+                            preview.className = 'preview-wrapper';
+
+                            preview.innerHTML = `
+                                <img src="${event.target.result}">
+                                <div class="file-title">${title}</div>
+                            `;
+                            card.appendChild(preview);
+                        }
+                    };
+                    reader.readAsDataURL(file);
                 }
             });
         </script>
