@@ -377,7 +377,7 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                 <label for="unique_code" class="required">Unique Code</label>
                                                             </div>
                                                         </div>
-                                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                                                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
                                                             <div class="form-floating my-3">
                                                                 <select class="form-select" id="category_id" name="category_id" aria-label="Floating label select example">
                                                                     <?php
@@ -574,40 +574,31 @@ $product_payout_data_ins = $data9->fetchAll();
                                                 <!-- Second Box Extra Details -->
                                                 <div id="package_form_extra" style="display: none;">
                                                     <div class="row">
-                                                        <div class="col-md-12 col-sm-12">
-                                                            <div class="form-floating mt-3 mb-3">
+                                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                            <div class="form-floating my-3">
                                                                 <input type="text" id="destination" name="destination" placeholder="Destination" class="form-control">
                                                                 <label for="destination" class="required">Destination</label>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-12 col-sm-12">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="text" id="location" name="location" value="" placeholder="Location" class="form-control">
-                                                                <label for="location" class="required">Location</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-sm-12">
-                                                            <div class="form-floating mb-3">
+                                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                            <div class="form-floating my-3">
                                                                 <input type="text" id="travel_from" name="travel_from" value="" placeholder="Transfer From" class="form-control">
-                                                                <label for="travel_from" class="required">Transfer From</label>
+                                                                <label for="travel_from" class="required">Pick Up Point</label>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6 col-sm-12">
-                                                            <div class="form-floating mb-3">
+                                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                            <div class="form-floating my-3">
                                                                 <input type="text" id="travel_to" name="travel_to" value="" placeholder="Transfer To" class="form-control">
-                                                                <label for="travel_to" class="required">Transfer To</label>
+                                                                <label for="travel_to" class="required">Drop Point</label>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-12 col-sm-12">
+                                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                             <div class="form-floating mb-3">
                                                                 <input type="text" id="sightseeing_type" name="sightseeing_type" value="" placeholder="Sightseeing Type" class="form-control">
                                                                 <label for="sightseeing_type" class="required">Sightseeing Type</label>
                                                             </div>
-
                                                         </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6 col-sm-12">
+                                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                             <div class="form-floating mb-3">
                                                                 <select id="category_hotel_id" name="category_hotel_id" class="selectdesign form-select">
                                                                     <?php
@@ -629,7 +620,7 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                 <label class="required">Hotel Category</label>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6 col-sm-12">
+                                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                             <div class="form-floating mb-3 form">
                                                                 <select id="occupancy_id" name="occupancy_id" class="form-select">
                                                                     <?php
@@ -652,7 +643,7 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                 <div id="occupancy_data"></div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6 col-sm-12">
+                                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                             <div class="form-floating mb-3">
                                                                 <select id="category_meal_id" name="category_meal_id" class="form-select">
                                                                     <?php
@@ -674,7 +665,7 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                 <label class="required">Meal Category</label>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group col-md-6 col-sm-12">
+                                                        <div class="form-group col-lg-4 col-md-4 col-sm-6 col-12">
                                                             <div class="form-floating mb-3">
                                                                 <select id="vehicle_id" name="vehicle_id" class="form-select">
                                                                     <?php
@@ -696,7 +687,12 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                 <label class="required">Vehicle Category</label>
                                                                 <div id="vehicle_data"></div>
                                                             </div>
-
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                            <div class="form-floating mb-3">
+                                                                <input type="text" id="language_type" name="language_type" value="" placeholder="Language Type" class="form-control">
+                                                                <label for="language_type" class="required">Language Type</label>
+                                                            </div>
                                                         </div>
                                                         <div class="col-md-12 col-sm-12">
                                                             <div class="form-floating mb-3">
@@ -704,6 +700,40 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                 <label for="package_keywords" class="required">Package Keywords</label>
                                                             </div>
 
+                                                        </div>
+                                                        <div class="col-lg-12 mb-3">
+                                                            <div class="highlights-section p-3">
+                                                                <label class="highlight-label">Package Keyword</label>
+                                                                <div class="highlight-container" id="packageKeybord">
+                                                                    <div class="highlight-tag">
+                                                                        Delhi
+                                                                        <span class="remove-btn">&times;</span>
+                                                                    </div>
+                                                                    <div class="highlight-tag">
+                                                                        Shimla
+                                                                        <span class="remove-btn">&times;</span>
+                                                                    </div>
+                                                                    <div class="highlight-tag">
+                                                                        Manali
+                                                                        <span class="remove-btn">&times;</span>
+                                                                    </div>
+                                                                    <div class="highlight-tag">
+                                                                        Chandhigarh
+                                                                        <span class="remove-btn">&times;</span>
+                                                                    </div>
+                                                                    <div class="highlight-tag">
+                                                                        Goa
+                                                                        <span class="remove-btn">&times;</span>
+                                                                    </div>
+                                                                    <div class="highlight-tag">
+                                                                        Keralam
+                                                                        <span class="remove-btn">&times;</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="add-highlight">
+                                                                    <a href="#" id="addPackageKeywordBtn">+ Add More Keyword</a>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -1286,6 +1316,24 @@ $product_payout_data_ins = $data9->fetchAll();
                     `;
 
                     document.getElementById("highlightContainer").appendChild(tag);
+                }
+            });
+            // Add New Package Keyword
+            document.getElementById("addPackageKeywordBtn").addEventListener("click", function (e) {
+                e.preventDefault();
+
+                let keyword = prompt("Enter Package Keyword");
+
+                if (keyword && keyword.trim() !== "") {
+                    let tag = document.createElement("div");
+                    tag.className = "highlight-tag";
+
+                    tag.innerHTML = `
+                        ${keyword}
+                        <span class="remove-btn">&times;</span>
+                    `;
+
+                    document.getElementById("packageKeybord").appendChild(tag);
                 }
             });
         </script>
