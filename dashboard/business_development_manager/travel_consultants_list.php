@@ -414,7 +414,7 @@
                     }
                 ],
                 language: {
-                    emptyTable: "No Pending Travel Consultant Found"
+                    emptyTable: "No Pending TC | IBR Found"
                 }
             });
             function loadPendingTEList(){
@@ -601,7 +601,7 @@
                     }
                 ],
                 language: {
-                    emptyTable: 'No Travel Consultant Found'
+                    emptyTable: 'No TC | IBR Found'
                 }
             });
 

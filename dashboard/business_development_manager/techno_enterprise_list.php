@@ -425,7 +425,7 @@
                     }
                 ],
                 language: {
-                    emptyTable: "No Pending Techno Enterprise Found"
+                    emptyTable: "No Pending TE | F Found"
                 }
             });
             function loadPendingTEList(){
@@ -628,7 +628,7 @@
                     }
                 ],
                 language: {
-                    emptyTable: 'No Techno Enterprise Found'
+                    emptyTable: 'No TE | F Found'
                 }
             });
 

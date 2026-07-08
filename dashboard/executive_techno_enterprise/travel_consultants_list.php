@@ -195,8 +195,8 @@
                                                     <table id="example-dataTable-2" class="table table-striped table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                                         <thead>
                                                             <tr class="table-primary">
-                                                                <th data-ordering="false">TC ID & Full Name</th>
-                                                                <th data-ordering="false">TE/F ID & Name</th>
+                                                                <th data-ordering="false">TC | IBR ID & Full Name</th>
+                                                                <th data-ordering="false">TE | I ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
@@ -266,6 +266,10 @@
                 searching: true,
                 paging: true,
                 ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
 
@@ -411,7 +415,7 @@
                     }
                 ],
                 language: {
-                    emptyTable: "No Pending Travel Consultant Found"
+                    emptyTable: "No Pending TC | IBR Found"
                 }
             });
             function loadPendingTEList(){
@@ -433,6 +437,7 @@
                         tcTable.clear();
                         tcTable.rows.add(res.data);
                         tcTable.draw();
+                        tcTable.columns.adjust().responsive.recalc();
                         
                     },
 
@@ -445,10 +450,16 @@
             }
             
             const tcRegTable = $('#example-dataTable-2').DataTable({
+                destroy: true,
                 responsive: true,
-                ordering: false,
+                processing: true,
                 searching: true,
                 paging: true,
+                ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
                     {
@@ -593,7 +604,7 @@
                     }
                 ],
                 language: {
-                    emptyTable: 'No Travel Consultant Found'
+                    emptyTable: 'No TC | IBR Found'
                 }
             });
 
@@ -632,6 +643,7 @@
                         }
 
                         tcRegTable.draw();
+                        tcRegTable.columns.adjust().responsive.recalc();
 
                     },
 

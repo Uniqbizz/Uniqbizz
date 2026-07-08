@@ -196,7 +196,7 @@
                                                         <thead>
                                                             <tr class="table-primary">
                                                                 <th data-ordering="false">TC ID & Full Name</th>
-                                                                <th data-ordering="false">TE ID & Name</th>
+                                                                <th data-ordering="false">F ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
@@ -222,12 +222,7 @@
 
                 </div><!-- End Page-content -->
                 <?php 
-                    if ($userType == 34) {
-                        include_once(__DIR__ . '/franchisee_footer.php');
-                    }else{
-
-                        include_once "franchisee_footer.php"; 
-                    }
+                    include_once "franchisee_footer.php"; 
                 ?>
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
@@ -275,6 +270,10 @@
                 searching: true,
                 paging: true,
                 ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
 
@@ -427,6 +426,7 @@
                         tcTable.clear();
                         tcTable.rows.add(res.data);
                         tcTable.draw();
+                        tcTable.columns.adjust().responsive.recalc();
                         
                     },
 
@@ -439,10 +439,16 @@
             }
             
             const tcRegTable = $('#example-dataTable-2').DataTable({
+                destroy: true,
                 responsive: true,
-                ordering: false,
+                processing: true,
                 searching: true,
                 paging: true,
+                ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
                     {
@@ -609,6 +615,7 @@
                         }
 
                         tcRegTable.draw();
+                        tcRegTable.columns.adjust().responsive.recalc();
 
                     },
 

@@ -264,8 +264,8 @@
                                                     <table id="example-dataTable-2" class="table table-striped table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                                         <thead>
                                                             <tr class="table-primary">
-                                                                <th data-ordering="false">Customer ID & Full Name</th>
-                                                                <th data-ordering="false">TC ID & Name</th>
+                                                                <th data-ordering="false">CU ID & Full Name</th>
+                                                                <th data-ordering="false">TC | IBR ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Membership Type</th>
                                                                 <th data-ordering="false">Membership (&#8377;)</th>
@@ -422,6 +422,10 @@
                 searching: true,
                 paging: true,
                 ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
 
@@ -583,7 +587,7 @@
                         cuTable.clear();
                         cuTable.rows.add(res.data);
                         cuTable.draw();
-                        
+                        cuTable.columns.adjust().responsive.recalc();
                     },
 
                     error: function(){
@@ -593,57 +597,18 @@
                 });
 
             }
-            //regiterd cu list
-            // const columns = [
-            //     { orderable:false },
-            //     { orderable:false },
-            //     { orderable:false },
-            //     { orderable:false },
-            //     { orderable:false },
-            //     { orderable:false }
-            // ];
-            // const userType=<?= $userType ?> ;
-            // if(userType == '10' || userType == '11' || userType == '33'){
-            //     columns.push({orderable:false});
-            // }
-
-            // $('#example-dataTable-2').DataTable({
-
-            //     destroy:true,
-
-            //     processing:true,
-
-            //     ajax:{
-            //         url:'customer/registered_cu_list.php',
-            //         dataSrc:'data'
-            //     },
-
-            //     columns:columns,
-
-            //     language:{
-            //         emptyTable:`
-            //         <div class="d-flex justify-content-center py-1">
-            //             <div>
-            //                 <img src="../assets/images/registerData.png"
-            //                     class="registerData img-fluid w-100">
-
-            //                 <p class="fw-bolder fs-5 mb-1">
-            //                     No registered referrals yet
-            //                 </p>
-
-            //                 <p class="fw-muted fs-6">
-            //                     Registered referrals will appear here.
-            //                 </p>
-            //             </div>
-            //         </div>`
-            //     }
-
-            // });
+            
             const cuRegTable = $('#example-dataTable-2').DataTable({
+                destroy: true,
                 responsive: true,
-                ordering: false,
+                processing: true,
                 searching: true,
                 paging: true,
+                ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
                     {
@@ -855,6 +820,7 @@
                         }
 
                         cuRegTable.draw();
+                        cuRegTable.columns.adjust().responsive.recalc();
 
                     },
 

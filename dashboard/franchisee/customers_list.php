@@ -195,7 +195,7 @@
                                                     <table id="example-dataTable-2" class="table table-striped table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                                         <thead>
                                                             <tr class="table-primary">
-                                                                <th data-ordering="false">Customer ID & Full Name</th>
+                                                                <th data-ordering="false">CU ID & Full Name</th>
                                                                 <th data-ordering="false">TC ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Membership Type</th>
@@ -269,6 +269,10 @@
                 searching: true,
                 paging: true,
                 ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
 
@@ -420,6 +424,7 @@
                         cuTable.clear();
                         cuTable.rows.add(res.data);
                         cuTable.draw();
+                        cuTable.columns.adjust().responsive.recalc();
                         
                     },
 
@@ -432,10 +437,16 @@
             }
             
             const cuRegTable = $('#example-dataTable-2').DataTable({
+                destroy: true,
                 responsive: true,
-                ordering: false,
+                processing: true,
                 searching: true,
                 paging: true,
+                ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
                     {
@@ -637,6 +648,7 @@
                         }
 
                         cuRegTable.draw();
+                        cuRegTable.columns.adjust().responsive.recalc();
 
                     },
 

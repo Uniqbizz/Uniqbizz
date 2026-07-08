@@ -196,7 +196,7 @@
                                                     <table id="example-dataTable-2" class="table table-striped table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                                         <thead>
                                                             <tr class="table-primary">
-                                                                <th data-ordering="false">STE ID & Full Name</th>
+                                                                <th data-ordering="false">BM ID & Full Name</th>
                                                                 <th data-ordering="false">Reference ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
@@ -274,6 +274,10 @@
                 searching: true,
                 paging: true,
                 ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
 
@@ -431,6 +435,7 @@
                         teTable.clear();
                         teTable.rows.add(res.data);
                         teTable.draw();
+                        teTable.columns.adjust().responsive.recalc();
                         
                     },
 
@@ -443,10 +448,16 @@
             }
             
             const teRegTable = $('#example-dataTable-2').DataTable({
+                destroy: true,
                 responsive: true,
-                ordering: false,
+                processing: true,
                 searching: true,
                 paging: true,
+                ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
                     {
@@ -627,6 +638,7 @@
                         }
 
                         teRegTable.draw();
+                        teRegTable.columns.adjust().responsive.recalc();
 
                     },
 
