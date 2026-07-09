@@ -493,7 +493,7 @@ $(document).ready(function () {
 		if (x < max_fields) {
 			x++;
 			$(wrapper).append(`<div class="row day-container">
-						<div class="col-md-2 col-sm-2 col-12">
+						<div class="col-md-2 col-sm-2 col-12 mb-2">
 							<div class="upload-card icon-upload-card" data-title="Icons" data-index="1">
 								<input type="hidden" id="img_path1" value="">
 								<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file1">
@@ -510,7 +510,7 @@ $(document).ready(function () {
 						<div class="col-md-10 col-sm-10 col-12">
 							<div class="card rounded-5 box border border-1 px-3 pt-3" draggable="true">
 								<div class="row">
-									<div class="col-md-2 col-sm-2 col-2">
+									<div class="col-md-2 col-sm-3 col-3">
 										<a type="button" class="btn btn-success px-3 dayval">Day: ${dayCount}</a>
 									</div>
 									<div class="col-md-8 col-sm-6 col-6">
@@ -519,8 +519,10 @@ $(document).ready(function () {
 											<input type="text" class="form-control title" placeholder="Title">
 										</div>
 									</div>
-									<div class="col-md-2 col-sm-6 col-4">
-										<button type="button" class="remove_field btn btn-danger px-3 ms-4">Remove</button>
+									<div class="col-md-2 col-sm-3 col-3">
+										<div class="d-flex justify-content-end">
+											<button type="button" class="remove_field btn btn-danger px-3 ms-4">Remove</button>
+										</div>
 									</div>
 								</div>
 								<div class="row">
