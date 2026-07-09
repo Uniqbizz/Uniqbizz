@@ -919,7 +919,7 @@
 
                 $.ajax({
                 type: "POST",
-                url: "delete_corporate_agency.php",
+                url: "delete_institution.php",
                 data: dataString,
                 cache: false,
                     success:function(data){
@@ -964,7 +964,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "approve_reject_franchisee_upgrade.php",
+                    url: "approve_reject_institution_upgrade.php",
                     data: {
                         id: id,
                         action: action,
@@ -1008,7 +1008,7 @@
                 $("#loading-overlay").show(); //loading screen
                 $.ajax({
                     type: "POST",
-                    url: "confirm_corporate_agency.php",
+                    url: "confirm_institution.php",
                     data: dataString,
                     cache: false,
                     success:function(data){
@@ -1033,7 +1033,7 @@
             //franchisee upgrade
             function upgradePage(id,ref){
                 // var designation = message=='corporate_agency'?'Techno Enterprise':(message=='sub_franchisee'?'Franchisee':'');
-                window.location.href='upgrade_franchisee.php?id='+id+'&ref='+ref;
+                window.location.href='upgrade_institution.php?id='+id+'&ref='+ref;
             }
 
             // Hide date label and show input type date 

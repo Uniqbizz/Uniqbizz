@@ -19,22 +19,22 @@
         $status = '0';
     } else if ($action == 'registered') {
         $ta_id = $_POST["refid"]; // assign corporate_agency/sub_franchisee id
-        $identifier_name = ($usrtype == 'te') ? 'corporate_agency_id=' : (($usrtype == 'f') ? 'sub_franchisee_id=': (($usrtype == 'in') ? 'institution_id' : ''));
+        $identifier_name =  'institution_id';
         $status = '3';
     } else if ($action == 'deactivate') {
         $ta_id = $_POST["refid"];
-        $identifier_name = ($usrtype == 'te') ? 'corporate_agency_id=' : (($usrtype == 'f') ? 'sub_franchisee_id=': (($usrtype == 'in') ? 'institution_id' : ''));
+        $identifier_name = 'institution_id';
         $status = '1';
         $today = null;
     } else if ($action == 'deleted') {
         $ta_id = "";
-        $identifier_name = ($usrtype == 'te') ? 'corporate_agency_id=' : (($usrtype == 'f') ? 'sub_franchisee_id=': (($usrtype == 'in') ? 'institution_id' : ''));
+        $identifier_name = 'institution_id';
         $status = '2';
         $today = null;
     }
 
     // Set title/message dynamically based on type
-    $title = ($usrtype == 'te') ? "Techno Enterprise" : ($usrtype == 'f' ? "Franchisee" : ($usrtype == 'in' ? "Institution" : 'NA'));
+    $title = "Institution";
 
     if ($ta_id == '') {
         $message = "Deleted $title from $action list";
@@ -49,7 +49,7 @@
     $operation = "Delete";
 
     // Update main table (corporate_agency or sub_franchisee)
-    $table_name = ($usrtype == 'te') ? "corporate_agency" : ($usrtype == 'f' ? "sub_franchisee" : ($usrtype == 'in' ? "institution" : 'NA'));
+    $table_name = "institution";
     $sql1 = "UPDATE $table_name SET status = :status, deleted_date = :deleted_date WHERE id = :id";
     $stmt = $conn->prepare($sql1);
     $result = $stmt->execute([

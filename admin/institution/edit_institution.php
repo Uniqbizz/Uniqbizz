@@ -18,15 +18,15 @@
     // Format the result as a human-readable date
     $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years before today
 
-    $id = $_GET['vkvbvjfgfikix'];
-    $user_id = $_GET['fyfyfregby'];
-    $reference_no = $_GET['nohbref'];
-    $country_id = $_GET['ncy'];
-    $state_id = $_GET['mst'];
-    $city_id = $_GET['hct'];
+    $id = $_GET['vkvbvjfgfikix']; //institution ID
+    $user_id = $_GET['fyfyfregby']; //registered by 1 = admin, 34 = ETE, 26 = BM, 28 = MF, 30 = SF
+    $reference_no = $_GET['nohbref']; //institution's Reference user ID
+    $country_id = $_GET['ncy']; //country id
+    $state_id = $_GET['mst']; //state id
+    $city_id = $_GET['hct']; //country id
+    $user_type=$_GET['usertype']; //user Type "in"
+    $editfor = $_GET['editfor']; // user status "pending" , "registered"
     $reference_id = '';
-    $user_type=$_GET['usertype'];
-    $editfor = $_GET['editfor'];
 
     $stmt = $conn->prepare("SELECT * FROM `institution` where institution_id='" . $id . "' OR id = '" . $id . "'");
     $stmt->execute();
@@ -118,7 +118,6 @@
                 $city_name = $city['city_name'];
             }
 
-            //#3
             $reference_id = substr($reference_no, 0, 2);
             if ($reference_id == "MF") {
                 // business Mentor name
@@ -548,112 +547,201 @@
                                 <div class="row g-3">
                                     <!-- Certificate of Incorporation -->
                                     <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                        <div class="upload-card" data-title="Certificate of Incorporation" data-index="11">
-                                            <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file11" data-bound="true">
-                                            
-                                            <div class="preview-wrapper">
-                                                <input type="hidden" id="img_path11" value="<?= $certificate_of_incorporation ?>">
-                                                <img src="../../uploading/<?= $certificate_of_incorporation ?>" alt="">
-                                                <div class="file-title">
-                                                    Certificate of Incorporation
+                                        <div class="upload-card"
+                                            data-title="Certificate of Incorporation"
+                                            data-index="11"
+                                            data-folder="certificate_of_incorporation"
+                                            data-existing="<?= htmlspecialchars($certificate_of_incorporation ?? '') ?>">
+
+                                            <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file11">
+
+                                            <input type="hidden"
+                                                id="img_path11"
+                                                name="img_path11"
+                                                value="<?= htmlspecialchars($certificate_of_incorporation ?? '') ?>">
+
+                                            <div class="upload-content">
+                                                <div class="upload-icon">
+                                                    <i class="fa-solid fa-user"></i>
                                                 </div>
+                                                <h6>Certificate of Incorporation</h6>
+                                                <p>Click to upload<br>or drag and drop</p>
+                                                <small>(JPG, PNG, PDF)</small>
                                             </div>
                                         </div>
                                     </div>
-									<!-- GSTIN -->
-									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
-										<div class="upload-card" data-title="GSTIN" data-index="12">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file12">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-regular fa-id-card"></i>
-												</div>
-												<h6>GSTIN</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
+
+                                    <!-- GSTIN -->
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                        <div class="upload-card"
+                                            data-title="GSTIN"
+                                            data-index="12"
+                                            data-folder="gstin"
+                                            data-existing="<?= htmlspecialchars($gstin ?? '') ?>">
+
+                                            <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file12">
+
+                                            <input type="hidden"
+                                                id="img_path12"
+                                                name="img_path12"
+                                                value="<?= htmlspecialchars($gstin ?? '') ?>">
+
+                                            <div class="upload-content">
+                                                <div class="upload-icon">
+                                                    <i class="fa-regular fa-id-card"></i>
+                                                </div>
+                                                <h6>GSTIN</h6>
+                                                <p>Click to upload<br>or drag and drop</p>
+                                                <small>(JPG, PNG, PDF)</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <!-- Board Resolution -->
-									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
-										<div class="upload-card" data-title="Board Resolution" data-index="13">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file13">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-regular fa-credit-card"></i>
-												</div>
-												<h6>Board Resolution</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-									<!-- Bank Passbook -->
-									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
-										<div class="upload-card" data-title="Bank Passbook" data-index="4">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file4">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-solid fa-building-columns"></i>
-												</div>
-												<h6>Cancelled Cheque / Bank Passbook</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-									<!-- PAN Card -->
-									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
-										<div class="upload-card" data-title="PAN Card" data-index="3">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file3">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-solid fa-building-columns"></i>
-												</div>
-												<h6>PAN Card</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-									<!-- Address Proof -->
-									<div class="col-lg-4 col-md-4 col-sm-6 col-12" id="addressProof">
-										<div class="upload-card" data-title="Address Proof" data-index="6">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file6">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-solid fa-building-columns"></i>
-												</div>
-												<h6>Address Proof</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-									<!-- Payment Proof -->
-									<div class="col-lg-4 col-md-4 col-sm-6 col-12 d-none" id="payProof">
-										<div class="upload-card" data-title="Payment Proof" data-index="14">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file14">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-solid fa-building-columns"></i>
-												</div>
-												<h6>Payment Proof</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                        <div class="upload-card"
+                                            data-title="Board Resolution"
+                                            data-index="13"
+                                            data-folder="board_resolution"
+                                            data-existing="<?= htmlspecialchars($board_resolution ?? '') ?>">
+
+                                            <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file13">
+
+                                            <input type="hidden"
+                                                id="img_path13"
+                                                name="img_path13"
+                                                value="<?= htmlspecialchars($board_resolution ?? '') ?>">
+
+                                            <div class="upload-content">
+                                                <div class="upload-icon">
+                                                    <i class="fa-regular fa-credit-card"></i>
+                                                </div>
+                                                <h6>Board Resolution</h6>
+                                                <p>Click to upload<br>or drag and drop</p>
+                                                <small>(JPG, PNG, PDF)</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Bank Passbook -->
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                        <div class="upload-card"
+                                            data-title="Bank Passbook"
+                                            data-index="4"
+                                            data-folder="passbook"
+                                            data-existing="<?= htmlspecialchars($bank_passbook ?? '') ?>">
+
+                                            <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file4">
+
+                                            <input type="hidden"
+                                                id="img_path4"
+                                                name="img_path4"
+                                                value="<?= htmlspecialchars($bank_passbook ?? '') ?>">
+
+                                            <div class="upload-content">
+                                                <div class="upload-icon">
+                                                    <i class="fa-solid fa-building-columns"></i>
+                                                </div>
+                                                <h6>Cancelled Cheque / Bank Passbook</h6>
+                                                <p>Click to upload<br>or drag and drop</p>
+                                                <small>(JPG, PNG, PDF)</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- PAN Card -->
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                        <div class="upload-card"
+                                            data-title="PAN Card"
+                                            data-index="3"
+                                            data-folder="pancard"
+                                            data-existing="<?= htmlspecialchars($pan_card ?? '') ?>">
+
+                                            <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file3">
+
+                                            <input type="hidden"
+                                                id="img_path3"
+                                                name="img_path3"
+                                                value="<?= htmlspecialchars($pan_card ?? '') ?>">
+
+                                            <div class="upload-content">
+                                                <div class="upload-icon">
+                                                    <i class="fa-solid fa-building-columns"></i>
+                                                </div>
+                                                <h6>PAN Card</h6>
+                                                <p>Click to upload<br>or drag and drop</p>
+                                                <small>(JPG, PNG, PDF)</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Address Proof -->
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-12" id="addressProof">
+                                        <div class="upload-card"
+                                            data-title="Address Proof"
+                                            data-index="6"
+                                            data-folder="address_proof"
+                                            data-existing="<?= htmlspecialchars($address_proof ?? '') ?>">
+
+                                            <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file6">
+
+                                            <input type="hidden"
+                                                id="img_path6"
+                                                name="img_path6"
+                                                value="<?= htmlspecialchars($address_proof ?? '') ?>">
+
+                                            <div class="upload-content">
+                                                <div class="upload-icon">
+                                                    <i class="fa-solid fa-building-columns"></i>
+                                                </div>
+                                                <h6>Address Proof</h6>
+                                                <p>Click to upload<br>or drag and drop</p>
+                                                <small>(JPG, PNG, PDF)</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Payment Proof -->
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 " id="payProof">
+                                        <div class="upload-card"
+                                            data-title="Payment Proof"
+                                            data-index="14"
+                                            data-folder="payment"
+                                            data-existing="<?= htmlspecialchars($payment_proof ?? '') ?>">
+
+                                            <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file14">
+
+                                            <input type="hidden"
+                                                id="img_path14"
+                                                name="img_path14"
+                                                value="<?= htmlspecialchars($payment_proof ?? '') ?>">
+
+                                            <div class="upload-content">
+                                                <div class="upload-icon">
+                                                    <i class="fa-solid fa-building-columns"></i>
+                                                </div>
+                                                <h6>Payment Proof</h6>
+                                                <p>Click to upload<br>or drag and drop</p>
+                                                <small>(JPG, PNG, PDF)</small>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- for edit data page -->
+                        <input type="hidden" id="ref_id" name="ref_id" value="<?php echo $reference_no; ?>">
+                        <input type="hidden" id="editfor" name="editfor" value="<?php echo $editfor; ?>">
+                        <input type="hidden" id="id" name="id" value="<?php echo $id; ?>">
+                        <input type="hidden" id="registered" name="registered" value="<?php echo $user_type; ?>">
                         <input type="hidden" id="testValue" name="testValue" value="32"> <!-- institution -->
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="d-flex justify-content-end gap-4 submitBtnBackground">
                                     <button type="button" class="btn actionBtn cancelBtn mb-2">Cancel</button>
                                     <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftAdd">Save Draft</button>
-                                    <button type="submit" class="btn actionBtn submitBtn mb-2" id="addInstitution">
+                                    <button type="submit" class="btn actionBtn submitBtn mb-2" id="editInstitution">
                                         <i class="fa-regular fa-paper-plane me-2"></i>
                                         Submit Institution
                                     </button>
@@ -869,77 +957,105 @@
                 }
             });
 
+            const uploadBasePath = "../../uploading/";
+            const adminuploadUrl = "../../uploading/uploadAdminUsers.php";
+
             function bindUploadEvents() {
 
-                document.querySelectorAll('.file-input').forEach(input => {
+                $(".file-input").off("change").on("change", function () {
 
-                    if (input.dataset.bound) return;
+                    let input = this;
 
-                    input.dataset.bound = "true";
+                    if (!input.files.length) {
+                        return;
+                    }
 
-                    input.addEventListener('change', function () {
+                    let file = input.files[0];
 
-                        const file = this.files[0];
+                    let card = $(input).closest(".upload-card");
 
-                        if (!file) return;
+                    let title = card.data("title");
+                    let index = card.data("index");
+                    let folder = card.data("folder");
 
-                        const card = this.closest('.upload-card');
-                        const title = card.dataset.title;
-                        const index = card.dataset.index;
+                    let formData = new FormData();
+                    formData.append("file", file);
+                    formData.append("folder", folder);
 
-                        if (file.type.startsWith('image/')) {
+                    $.ajax({
 
-                            const reader = new FileReader();
+                        url: adminuploadUrl,
+                        type: "POST",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
 
-                            reader.onload = function (e) {
+                        success: function (response) {
 
-                                card.querySelector('.upload-content, .preview-wrapper, .pdf-preview')?.remove();
+                            response = response.trim();
 
-                                let preview = card.querySelector('.preview-wrapper');
+                            if (response == "1") {
+                                alert("Upload Failed");
+                                input.value = "";
+                                return;
+                            }
 
-                                if (!preview) {
+                            if (response == "2") {
+                                alert("Invalid File Extension");
+                                input.value = "";
+                                return;
+                            }
 
-                                    preview = document.createElement('div');
-                                    preview.className = 'preview-wrapper';
+                            if (response == "3") {
+                                alert("Please Select File");
+                                input.value = "";
+                                return;
+                            }
 
-                                    preview.innerHTML = `
-                                        <img src="${e.target.result}">
-                                        <input type="hidden" id="img_path${index}" value="../../uploading/${file.name}">
-                                        <div class="file-title">
-                                            ${title}
-                                        </div>
-                                    `;
+                            if (response == "4") {
+                                alert("File size exceeds 2 MB");
+                                input.value = "";
+                                return;
+                            }
 
-                                    card.appendChild(preview);
+                            // Remove previous preview
+                            card.find(".upload-content, .preview-wrapper, .pdf-preview").remove();
 
-                                } else {
+                            // Update hidden field
+                            $("#img_path" + index).val(response);
 
-                                    preview.querySelector('img').src = e.target.result;
-                                }
-                            };
+                            // Update current file
+                            card.attr("data-existing", response);
 
-                            reader.readAsDataURL(file);
+                            let extension = response.split(".").pop().toLowerCase();
 
-                        } else {
+                            if (["jpg","jpeg","png","gif","jfif","webp"].includes(extension)) {
 
-                            card.querySelector('.upload-content, .preview-wrapper, .pdf-preview')?.remove();
+                                card.append(`
+                                    <div class="preview-wrapper">
+                                        <img src="${uploadBasePath}${response}?v=${Date.now()}" class="img-fluid">
+                                        <div class="file-title">${title}</div>
+                                    </div>
+                                `);
 
-                            let preview = document.createElement('div');
+                            } else {
 
-                            preview.className = 'pdf-preview';
+                                card.append(`
+                                    <div class="pdf-preview">
+                                        <i class="fa-solid fa-file-pdf fa-3x text-danger"></i>
+                                        <div class="file-title">${title}</div>
+                                    </div>
+                                `);
 
-                            preview.innerHTML = `
-                                <i class="fa-solid fa-file-pdf"></i>
-                                <input type="hidden" id="img_path${index}" value="../../uploading/${file.name}">
-                                <div class="file-title">
-                                    ${title}
-                                </div>
-                            `;
+                            }
 
-                            card.appendChild(preview);
+                        },
+
+                        error: function () {
+
+                            alert("Upload Failed.");
+
                         }
-
-                        
 
                     });
 
@@ -947,8 +1063,58 @@
 
             }
 
-            document.addEventListener('DOMContentLoaded', function () {
+            function loadExistingFiles() {
+
+                $(".upload-card").each(function () {
+
+                    let card = $(this);
+
+                    let file = card.attr("data-existing");
+
+                    if (!file) {
+                        return;
+                    }
+
+                    // Skip placeholder images if desired
+                    // Uncomment if you don't want to preview placeholder files:
+                    // if (file.includes("not_uploaded")) return;
+
+                    let title = card.attr("data-title");
+
+                    card.find(".upload-content").remove();
+
+                    let extension = file.split(".").pop().toLowerCase();
+
+                    if (["jpg","jpeg","png","gif","jfif","webp"].includes(extension)) {
+
+                        card.append(`
+                            <div class="preview-wrapper">
+                                <img src="${uploadBasePath}${file}?v=${Date.now()}" class="img-fluid">
+                                <div class="file-title">${title}</div>
+                            </div>
+                        `);
+
+                    } else {
+
+                        card.append(`
+                            <div class="pdf-preview">
+                                <i class="fa-solid fa-file-pdf fa-3x text-danger"></i>
+                                <div class="file-title">${title}</div>
+                            </div>
+                        `);
+
+                    }
+
+                });
+
+            }
+
+            $(document).ready(function () {
+
+                loadExistingFiles();
+
                 bindUploadEvents();
+
             });
 
         </script>
