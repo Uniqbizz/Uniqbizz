@@ -346,6 +346,25 @@ $product_payout_data_ins = $data9->fetchAll();
                 font-size: 14px;
                 font-weight: 900;
             }
+            /* Price Visibility & Guest User Premium */
+            .inputWidth {
+                width: 200px !important;
+            }
+            .borderHighlight {
+                transition: all 0.3s ease;
+            }
+
+            .borderHighlight.locked {
+                opacity: 0.6;
+            }
+            .infoCardPrice {
+                background-color: #d3d6ff;
+                color: #2a0a8a;
+                font-size: 14px;
+                font-weight: 600;
+                border-radius: 8px;
+                padding: 10px;
+            }
             /* Tablet & Mobile */
             @media (max-width: 1070px) {
                 .stepper-nav {
@@ -889,7 +908,7 @@ $product_payout_data_ins = $data9->fetchAll();
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                                                            <div class="card rouunded-4">
+                                                            <div class="card rounded-4">
                                                                 <div class="d-flex justify-content-between titleCard">
                                                                     <p class="title inclusionTitle mb-0"><i class="fa-regular fa-circle-check fa-xl me-2"></i>Inclusions</p>
                                                                     <a href="#" id="addInclusionBtn" class="remarkTitle">+ Add Items</a>
@@ -910,7 +929,7 @@ $product_payout_data_ins = $data9->fetchAll();
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                                                            <div class="card rouunded-4">
+                                                            <div class="card rounded-4">
                                                                 <div class="d-flex justify-content-between exclusionTitleCard">
                                                                     <p class="title exclusionTitle mb-0"><i class="fa-regular fa-circle-xmark fa-xl me-2"></i>Exclusions</p>
                                                                     <a href="#" id="addExclutionBtn" class="remarkTitle">+ Add Items</a>
@@ -931,7 +950,7 @@ $product_payout_data_ins = $data9->fetchAll();
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                                                            <div class="card rouunded-4">
+                                                            <div class="card rounded-4">
                                                                 <div class="d-flex justify-content-between remarkTitleCard">
                                                                     <p class="title remarkTitle mb-0"><i class="fa-solid fa-book fa-xl me-2"></i>Important Notes / Remarks</p>
                                                                     <a href="#" id="addRemarkBtn" class="remarkTitle">+ Add Items</a>
@@ -952,7 +971,7 @@ $product_payout_data_ins = $data9->fetchAll();
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                                                            <div class="card rouunded-4">
+                                                            <div class="card rounded-4">
                                                                 <div class="d-flex justify-content-between remarkTitleCard">
                                                                     <p class="title remarkTitle mb-0"><i class="fa-solid fa-circle-info fa-xl me-2"></i>Things to Know Before You Go</p>
                                                                     <a href="#" id="addThingsBtn" class="remarkTitle">+ Add Items</a>
@@ -984,42 +1003,91 @@ $product_payout_data_ins = $data9->fetchAll();
                                                 <div id="package_form_pricing" style="display: none;">
                                                     <div class="row">
                                                         <div class="col-md-12">
+                                                            <h5 class="mt-3 mb-0 fw-bolder" id="mark_up_title">1. Base Pricing - Vendor Cost</h5>
                                                             <div class="row">
                                                                 <div class="col-md-4 col-sm-4 mt-3">
                                                                     <div class="form-floating mb-3">
                                                                         <input type="number" onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' id="netPriceAdult" name="net_price_adult" value="" placeholder="NET Price for 1 Adult:" class="form-control">
-                                                                        <label for="netPriceAdult" class="required">NET Price for 1 Adult:</label>
+                                                                        <label for="netPriceAdult" class="required">Base Price for per Adult:</label>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-4 col-sm-4 mt-3" id="netPriceChildData">
                                                                     <div class="form-floating mb-3">
                                                                         <input type="number" onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' id="netPriceChild" name="netPriceChild" value="" placeholder="NET Price for 1 Child" class="form-control" value='0'>
-                                                                        <label for="netPriceChild" class="required">NET Price for 1 Child:</label>
+                                                                        <label for="netPriceChild" class="required">Base Price for per Child:</label>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-4 col-sm-4 mt-3">
                                                                     <div class="form-floating mb-3">
                                                                         <input type="number" onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' id="nGst" name="nGst" value="" placeholder="Net GST Title" class="form-control">
-                                                                        <label id="net_gst_title" for="nGst">Net GST Title :</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6 col-sm-6 mt-3">
-                                                                    <div class="form-floating mb-3">
-                                                                        <input type="number" id="totalNetPriceAdult" name="totalNetPriceAdult" value="" placeholder="Net Total for Adult" class="form-control" readonly>
-                                                                        <label id="totalNetPriceAdult" for="nGst">Net Total for Adult :</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6 col-sm-6 mt-3" id="totalNetPriceChildData">
-                                                                    <div class="form-floating mb-3">
-                                                                        <input type="number" id="totalNetPriceChild" name="totalNetPriceChild" value="" placeholder="Net Total for Child" class="form-control" readonly>
-                                                                        <label id="totalNetPriceChild" for="nGst">Net Total for Child :</label>
+                                                                        <label id="net_gst_title" for="nGst">Extra Mattress</label>
                                                                     </div>
                                                                 </div>
                                                             </div>    
                                                         </div>
+                                                        <div class="col-lg-12">
+                                                            <h5 class="mb-0 fw-bolder" id="#">2. Company Markup</h5>
+                                                            <div class="row">
+                                                                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                                    <div class="form-floating my-3">
+                                                                        <input type="text" id="companyMarkup" name="companyMarkup" placeholder="Destination" class="form-control">
+                                                                        <label for="companyMarkup" class="required">Company Markup</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                                    <div class="form-floating my-3">
+                                                                        <input type="text" id="couponAdjustment" name="couponAdjustment" placeholder="Destination" class="form-control">
+                                                                        <label for="couponAdjustment" class="required">Default Coupon Adjustment</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <h5 class="mb-3 fw-bolder" id="#">3. Price Visibility & Guest User Premium</h5>
+                                                            <div class="borderHighlight px-3 mb-3">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                                                        <div class="form-check form-switch my-2">
+                                                                            <label class="form-check-label" for="switchCheckGuestUser">Guest User Premium (Without Login)</label>
+                                                                            <input class="form-check-input" type="checkbox" role="switch" id="switchCheckGuestUser">
+                                                                        </div>
+                                                                        <div>
+                                                                            <div class="d-flex gap-4">
+                                                                                <div class="form-check align-content-center">
+                                                                                    <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault1">
+                                                                                    <label class="form-check-label" for="radioDefault1"> Add Fixed Amount</label>
+                                                                                </div>
+                                                                                <input type="text" id="fixedAmount" name="fixedAmount" class="form-control inputWidth">
+                                                                            </div>
+                                                                            <div class="d-flex gap-4">
+                                                                                <div class="form-check align-content-center">
+                                                                                    <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault2">
+                                                                                    <label class="form-check-label" for="radioDefault2">Add Percentage</label>
+                                                                                </div>
+                                                                                <div class="input-group my-3 inputWidth">
+                                                                                    <input type="text" class="form-control" id="percentage" name="percentage">
+                                                                                    <span class="input-group-text">%</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 align-content-center">
+                                                                        <div class="d-flex infoCardPrice gap-3 my-2">
+                                                                            <div class="align-content-center">
+                                                                                <i class="fa-solid fa-circle-info fa-2xl"></i>
+                                                                            </div>
+                                                                            <div class="">
+                                                                                <p class="mb-0">Guests will see higher price.</p>
+                                                                                <p class="mb-0">Logged in users will see actual price.</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <!-- updatde markuplogic in 23 Jan 2025 by SV -->
                                                         <div class="col-md-12">
-                                                            <h4 class="pt-3 ps-3 fw-bolder" id="mark_up_title">Mark-Up Price Distribution Total(:0)</h4>
+                                                            <h5 class="mb-0 fw-bolder" id="mark_up_title">Mark-Up Price Distribution Total(:0)</h5>
                                                             <div class="row">
                                                                 <div class="col-md-3 col-sm-3 mt-3">
                                                                     <div class="form-floating mb-3">
@@ -1676,6 +1744,57 @@ $product_payout_data_ins = $data9->fetchAll();
                                 .remove();
                         }
                     });
+            });
+        </script>
+        <!-- Price Visibility & Guest User Premium -->
+        <script>
+            $(document).ready(function () {
+
+                function updateSection() {
+
+                    if ($("#switchCheckGuestUser").is(":checked")) {
+
+                        // Enable radios
+                        $("#radioDefault1, #radioDefault2").prop("disabled", false);
+
+                    } else {
+
+                        // Disable radios and inputs
+                        $("#radioDefault1, #radioDefault2")
+                            .prop("disabled", true)
+                            .prop("checked", false);
+
+                        $("#fixedAmount, #percentage")
+                            .prop("disabled", true)
+                            .val("");
+                    }
+                }
+
+                // Switch
+                $("#switchCheckGuestUser").on("change", function () {
+                    updateSection();
+                });
+
+                // Fixed Amount Radio
+                $("#radioDefault1").on("change", function () {
+                    if ($(this).is(":checked")) {
+                        $("#fixedAmount").prop("disabled", false);
+                        $("#percentage").prop("disabled", true).val("");
+                    }
+                });
+
+                // Percentage Radio
+                $("#radioDefault2").on("change", function () {
+                    if ($(this).is(":checked")) {
+                        $("#percentage").prop("disabled", false);
+                        $("#fixedAmount").prop("disabled", true).val("");
+                    }
+                });
+
+                // Initial state
+                $("#radioDefault1, #radioDefault2").prop("disabled", true);
+                $("#fixedAmount, #percentage").prop("disabled", true);
+
             });
         </script>
     </body>
