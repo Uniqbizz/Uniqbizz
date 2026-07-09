@@ -326,6 +326,26 @@ $product_payout_data_ins = $data9->fetchAll();
                 font-size: 14px;
                 font-weight: 900;
             }
+            .exclusionTitleCard {
+                background-color: #ffd3d3;
+                border-radius: 10px 10px 0px 0px;
+                padding: 8px;
+            }
+            .exclusionTitle {
+                color: #8a0a0a;
+                font-size: 14px;
+                font-weight: 900;
+            }
+            .remarkTitleCard {
+                background-color: #d3e3ff;
+                border-radius: 10px 10px 0px 0px;
+                padding: 8px;
+            }
+            .remarkTitle {
+                color: #0a1f8a;
+                font-size: 14px;
+                font-weight: 900;
+            }
             /* Tablet & Mobile */
             @media (max-width: 1070px) {
                 .stepper-nav {
@@ -871,30 +891,87 @@ $product_payout_data_ins = $data9->fetchAll();
                                                         <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                                                             <div class="card rouunded-4">
                                                                 <div class="d-flex justify-content-between titleCard">
-                                                                    <p class="title inclusionTitle mb-0">Inclusions</p>
-                                                                    <a href="#" id="addPackageKeywordBtn">+ Add Items</a>
+                                                                    <p class="title inclusionTitle mb-0"><i class="fa-regular fa-circle-check fa-xl me-2"></i>Inclusions</p>
+                                                                    <a href="#" id="addInclusionBtn" class="remarkTitle">+ Add Items</a>
                                                                 </div>
-                                                                <div class="p-3">
-                                                                    <div class="">
-                                                                        <p class="mb-0"></p>
+                                                                <div class="p-3" id="inclusionList">
+                                                                    <div class="inclusion-item d-flex justify-content-between align-items-start mb-2">
+                                                                        <p class="mb-0 inclusion-text">03 Night accommodation in 3 Star Hotel</p>
+                                                                        <div class="d-flex gap-3">
+                                                                            <a href="#" class="edit-inclusion text-primary">
+                                                                                <i class="fa-solid fa-pencil"></i>
+                                                                            </a>
+                                                                            <a href="#" class="delete-inclusion text-danger">
+                                                                                <i class="fa-solid fa-trash-can"></i>
+                                                                            </a>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="row">
-                                                            <label for="inclusion" class="required">Inclusion</label>
-                                                            <textarea id="inclusion" name="inclusion" class="textarea ms-2" rows="2" cols="50"></textarea>
+                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                                            <div class="card rouunded-4">
+                                                                <div class="d-flex justify-content-between exclusionTitleCard">
+                                                                    <p class="title exclusionTitle mb-0"><i class="fa-regular fa-circle-xmark fa-xl me-2"></i>Exclusions</p>
+                                                                    <a href="#" id="addExclutionBtn" class="remarkTitle">+ Add Items</a>
+                                                                </div>
+                                                                <div class="p-3" id="exclusionList">
+                                                                    <div class="exclusion-item d-flex justify-content-between align-items-start mb-2">
+                                                                        <p class="mb-0 exclusion-text">03 Night accommodation in 3 Star Hotel</p>
+                                                                        <div class="d-flex gap-3">
+                                                                            <a href="#" class="edit-exclusion text-primary">
+                                                                                <i class="fa-solid fa-pencil"></i>
+                                                                            </a>
+                                                                            <a href="#" class="delete-exclusion text-danger">
+                                                                                <i class="fa-solid fa-trash-can"></i>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="row">
-                                                            <label for="exclusion" class="required">Exclusion</label>
-                                                            <textarea id="exclusion" name="exclusion" class="myTextEditor ms-2" rows="2" cols="50"></textarea>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                                            <div class="card rouunded-4">
+                                                                <div class="d-flex justify-content-between remarkTitleCard">
+                                                                    <p class="title remarkTitle mb-0"><i class="fa-solid fa-book fa-xl me-2"></i>Important Notes / Remarks</p>
+                                                                    <a href="#" id="addRemarkBtn" class="remarkTitle">+ Add Items</a>
+                                                                </div>
+                                                                <div class="p-3" id="remarkList">
+                                                                    <div class="remark-item d-flex justify-content-between align-items-start mb-2">
+                                                                        <p class="mb-0 remark-text">03 Night accommodation in 3 Star Hotel</p>
+                                                                        <div class="d-flex gap-3">
+                                                                            <a href="#" class="edit-remark text-primary">
+                                                                                <i class="fa-solid fa-pencil"></i>
+                                                                            </a>
+                                                                            <a href="#" class="delete-remark text-danger">
+                                                                                <i class="fa-solid fa-trash-can"></i>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
-
-                                                        <div class="row">
-                                                            <label for="remark">Remark</label>
-                                                            <textarea id="remark" name="remark" class="myTextEditor ms-2" rows="2" cols="50"></textarea>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                                            <div class="card rouunded-4">
+                                                                <div class="d-flex justify-content-between remarkTitleCard">
+                                                                    <p class="title remarkTitle mb-0"><i class="fa-solid fa-circle-info fa-xl me-2"></i>Things to Know Before You Go</p>
+                                                                    <a href="#" id="addThingsBtn" class="remarkTitle">+ Add Items</a>
+                                                                </div>
+                                                                <div class="p-3" id="thingsList">
+                                                                    <div class="things-item d-flex justify-content-between align-items-start mb-2">
+                                                                        <p class="mb-0 things-text">03 Night accommodation in 3 Star Hotel</p>
+                                                                        <div class="d-flex gap-3">
+                                                                            <a href="#" class="edit-things text-primary">
+                                                                                <i class="fa-solid fa-pencil"></i>
+                                                                            </a>
+                                                                            <a href="#" class="delete-things text-danger">
+                                                                                <i class="fa-solid fa-trash-can"></i>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
-
                                                     </div>
                                                     <div class="row">
                                                         <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" id="package_form_itinerary_nxtBtn">
@@ -1474,6 +1551,131 @@ $product_payout_data_ins = $data9->fetchAll();
                     };
                     reader.readAsDataURL(file);
                 }
+            });
+        </script>
+        <!-- Inclusion, Exclution, Remark & Things Section -->
+         <script>
+            $(document).ready(function () {
+
+                function addItem(listId, itemClass, textClass, editClass, deleteClass, label) {
+
+                    let text = prompt(`Enter ${label}`);
+
+                    if (text && text.trim() !== "") {
+
+                        $(listId).append(`
+                            <div class="${itemClass} d-flex justify-content-between align-items-start mb-2">
+                                <p class="mb-0 ${textClass}">${text}</p>
+
+                                <div class="d-flex gap-3">
+                                    <a href="#" class="${editClass} text-primary">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </a>
+
+                                    <a href="#" class="${deleteClass} text-danger">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        `);
+                    }
+                }
+
+                // ====================
+                // Add Buttons
+                // ====================
+
+                $("#addInclusionBtn").click(function (e) {
+                    e.preventDefault();
+
+                    addItem(
+                        "#inclusionList",
+                        "inclusion-item",
+                        "inclusion-text",
+                        "edit-inclusion",
+                        "delete-inclusion",
+                        "Inclusion Item"
+                    );
+                });
+
+                $("#addExclutionBtn").click(function (e) {
+                    e.preventDefault();
+
+                    addItem(
+                        "#exclusionList",
+                        "exclusion-item",
+                        "exclusion-text",
+                        "edit-exclusion",
+                        "delete-exclusion",
+                        "Exclusion Item"
+                    );
+                });
+
+                $("#addRemarkBtn").click(function (e) {
+                    e.preventDefault();
+
+                    addItem(
+                        "#remarkList",
+                        "remark-item",
+                        "remark-text",
+                        "edit-remark",
+                        "delete-remark",
+                        "Remark"
+                    );
+                });
+
+                $("#addThingsBtn").click(function (e) {
+                    e.preventDefault();
+
+                    addItem(
+                        "#thingsList",
+                        "things-item",
+                        "things-text",
+                        "edit-things",
+                        "delete-things",
+                        "Thing to Know"
+                    );
+                });
+
+                // ====================
+                // Edit
+                // ====================
+
+                $(document).on("click",
+                    ".edit-inclusion, .edit-exclusion, .edit-remark, .edit-things",
+                    function (e) {
+
+                        e.preventDefault();
+
+                        let textElement = $(this)
+                            .closest("[class*='item']")
+                            .find("p");
+
+                        let currentText = textElement.text();
+
+                        let updatedText = prompt("Edit Item", currentText);
+
+                        if (updatedText && updatedText.trim() !== "") {
+                            textElement.text(updatedText);
+                        }
+                    });
+
+                // ====================
+                // Delete
+                // ====================
+
+                $(document).on("click",
+                    ".delete-inclusion, .delete-exclusion, .delete-remark, .delete-things",
+                    function (e) {
+
+                        e.preventDefault();
+
+                        if (confirm("Delete this item?")) {
+                            $(this)
+                                .closest("[class*='item']")
+                                .remove();
+                        }
+                    });
             });
         </script>
     </body>
