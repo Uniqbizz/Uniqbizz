@@ -46,6 +46,7 @@
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <link rel="stylesheet" href="../assets/css/validation.css" />
     </head>
     <body>
  
@@ -89,18 +90,19 @@
             <!-- Start right Content here -->
             <!-- ============================================================== -->
             <div class="main-content">
-
+                <div id="testpho"></div>
+                <div id="testemail"></div>
                 <div class="page-content">
                     <div class="container-fluid">
                         <!-- start page title -->
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Edit Techno Enterprise </h4>
+                                    <h4 class="mb-sm-0">Edit Franchisee </h4>
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="techno_enterprise_list.php">Techno Enterprise </a></li>
-                                            <li class="breadcrumb-item active">Edit Techno Enterprise </li>
+                                            <li class="breadcrumb-item"><a href="techno_enterprise_list.php">Franchisee </a></li>
+                                            <li class="breadcrumb-item active">Edit Franchisee </li>
                                         </ol>
                                     </div>
                                 </div>
@@ -115,8 +117,8 @@
                                             <i class="fa-solid fa-user-group addTEIcon"></i>
                                         </div>
                                         <div class="align-content-center">
-                                            <h1 class="fw-bolder text-white">Edit Techno Enterprise </h1>
-                                            <p class="fs-5 text-white mb-0">Fill in the details below to register a new Techno Enterprise under your network.</p>
+                                            <h1 class="fw-bolder text-white">Edit Franchisee </h1>
+                                            <p class="fs-5 text-white mb-0">Fill in the details below to register a new Franchisee under your network.</p>
                                         </div>
                                     </div>
                                     <img src="../assets/images/addTechnoFileImage.png" alt="" class="addTEImage">
@@ -340,7 +342,7 @@
                                                 <div class="col-md-4 col-sm-6 col-12 py-1">
                                                     <div class="input-block">
                                                         <label class="col-form-label" for="chequeDate">Cheque Date<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="chequeDate" placeholder="Enter Date On Cheque">
+                                                        <input type="text" class="form-control" id="chequeDate" placeholder="YYYY-MM-DD" maxlength="10" autocomplete="off">
                                                     </div>
                                                 </div>
 
@@ -495,7 +497,7 @@
                                     <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftEdit">Save Draft</button>
                                     <button type="submit" class="btn actionBtn submitBtn mb-2" id="editTechnoEnterprise">
                                         <i class="fa-regular fa-paper-plane me-2"></i>
-                                        Submit Techno Enterprise 
+                                        Submit Franchisee 
                                     </button>
                                     <?php
                                         }
@@ -638,7 +640,7 @@
                         const file = this.files[0];
 
                         if (!file) return;
-
+                        clearFileError(this.id);
                         const card = this.closest('.upload-card');
                         const title = card.dataset.title;
                         const index = card.dataset.index;
@@ -660,7 +662,7 @@
 
                                     preview.innerHTML = `
                                         <img src="${e.target.result}" id="img_path${index}">
-                                        <input type="hidden" id="img_path${index}" value="../../uploading/${filePath}">
+                                        <input type="hidden" id="img_path${index}" value="../../uploading/${file.name}">
                                         <div class="file-title">
                                             ${title}
                                         </div>
@@ -687,6 +689,7 @@
                             preview.innerHTML = `
                                 <i class="fa-solid fa-file-pdf"></i>
                                 <p class="mt-2 mb-0">${file.name}</p>
+                                <input type="hidden" id="img_path${index}" value="../../uploading/${file.name}">
                                 <div class="file-title">
                                     ${title}
                                 </div>
@@ -751,6 +754,7 @@
                     preview.innerHTML = `
                         <i class="fa-solid fa-file-pdf"></i>
                         <p class="mt-2 mb-0">${filePath.split('/').pop()}</p>
+                        <input type="hidden" id="img_path${index}" value="../../uploading/${filePath}">
                         <div class="file-title">
                             ${title}
                         </div>

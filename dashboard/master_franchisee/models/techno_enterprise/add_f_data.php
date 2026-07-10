@@ -11,7 +11,7 @@
     $nominee_relation=$_POST['nominee_relation'];
     $email=$_POST['email'];
     $gender=$_POST['gender'];
-    $country_code=$_POST['country_code'];
+    $country_code=$_POST['country_cd'];
     $phone_no=$_POST['phone'];
     $gst_no=$_POST['gst_no'];
     $amount=$_POST['business_package'];
@@ -145,7 +145,16 @@
         ));
 
         if($result){
-            echo 1;
+
+            if ($status == 2) {
+                $newStatus = 1;
+            } elseif ($status == 4) {
+                $newStatus = 2;
+            } else {
+                $newStatus = $status;
+            }
+
+            echo $newStatus;
         }else{
             echo 0	;
         }

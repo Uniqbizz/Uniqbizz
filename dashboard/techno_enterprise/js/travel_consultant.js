@@ -204,7 +204,7 @@ function submitAddForm(actionType) {
 
     var dob_year = dob.substring(0, 4);
     var age = current_year - dob_year;
-    
+    clearAllErrors();
     // ======================
     // VALIDATION ONLY FOR SUBMIT
     // ======================
@@ -228,7 +228,7 @@ function submitAddForm(actionType) {
         } else if (dob === '') {
             showError("dob","Please Select Birthdate.");
             return;
-        } else if (age <= 18) {
+        } else if (age <= 20) {
             showError("dob","Age must be more than or equal to 20 Years.");
             return;
         } else if (gender !== 'male' && gender !== 'female' && gender !== 'others') {
@@ -473,7 +473,7 @@ function submitEditForm(actionType) {
 
     var dob_year = dob.substring(0, 4);
     var age = current_year - dob_year;
-    
+    clearAllErrors();
     // ======================
     // VALIDATION ONLY FOR SUBMIT
     // ======================

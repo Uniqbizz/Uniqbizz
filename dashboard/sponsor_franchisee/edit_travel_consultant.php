@@ -340,7 +340,7 @@
                                             <div class="col-md-4 py-1">
                                                 <div class="input-block">
                                                     <label class="col-form-label" for="chequeDate">Cheque Date<span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="chequeDate" placeholder="Enter Date On Cheque">
+                                                    <input type="text" class="form-control" id="chequeDate" placeholder="YYYY-MM-DD" maxlength="10" autocomplete="off">
                                                 </div>
                                             </div>
                                             <div class="col-md-4 py-1">
@@ -656,7 +656,7 @@
 
                                     preview.innerHTML = `
                                         <img src="${e.target.result}" id="img_path${index}">
-                                        <input type="hidden" id="img_path${index}" value="../../uploading/${filePath}">
+                                        <input type="hidden" id="img_path${index}" value="../../uploading/${file.name}">
                                         <div class="file-title">
                                             ${title}
                                         </div>
@@ -683,6 +683,7 @@
                             preview.innerHTML = `
                                 <i class="fa-solid fa-file-pdf"></i>
                                 <p class="mt-2 mb-0">${file.name}</p>
+                                <input type="hidden" id="img_path${index}" value="../../uploading/${file.name}">
                                 <div class="file-title">
                                     ${title}
                                 </div>

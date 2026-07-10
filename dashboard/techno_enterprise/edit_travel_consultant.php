@@ -333,7 +333,7 @@
                                             <div class="col-md-4 py-1">
                                                 <div class="input-block">
                                                     <label class="col-form-label" for="chequeDate">Cheque Date<span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="chequeDate" placeholder="Enter Date On Cheque">
+                                                    <input type="text" class="form-control" id="chequeDate" placeholder="YYYY-MM-DD" maxlength="10" autocomplete="off">
                                                     <small class="error-message" id="chequeDate_error"></small>
                                                 </div>
                                             </div>
