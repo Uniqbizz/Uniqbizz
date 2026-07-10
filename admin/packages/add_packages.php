@@ -54,351 +54,10 @@ $product_payout_data_ins = $data9->fetchAll();
         <link href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
 
         <!-- <link href="forms/product_packages.css" rel="stylesheet" type="text/css" />  -->
+        <!-- Packages CSS -->
+        <link href="../assets/css/packages.css" rel="stylesheet" type="text/css" />
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <style>
-            .page-back {
-                padding: 1rem;
-            }
-
-            /* required class for text fields */
-            .required:after {
-                content: " *";
-                color: red;
-            }
-
-            /* .custom_btn {
-                    border: none;
-                    color: white;
-                    padding: 10px 19px;
-                    text-align: center;
-                    text-decoration: none;
-                    display: inline-flex;
-                    font-size: 13px;
-                    cursor: pointer;
-                    width: 100px !important;
-                    border-radius: 5px;
-                }
-                .btn1 {
-                    background-color: #21a827; Green
-                }
-                .btn2 {
-                    background-color: #cd0101; red
-                    margin-left: 26px !important;
-                }
-                input::file-selector-button {
-                    background-color: #556ee6;
-                    background-size: 150%;
-                    border: 0;
-                    border-radius: 8px;
-                    color: #fff;
-                    padding: 1rem 1.25rem;
-                    text-shadow: 0 1px 1px #333;
-                    transition: all 0.25s;
-                    color: white;
-                    content: "Upload";
-                }
-                input::file-selector-button:hover {
-                    background-color: #556ee6;
-                }
-                button{
-                    border-radius: 8px !important;
-                    padding: 15px 10px !important;
-                } */
-            .gallery img {
-                width: 30%;
-                display: inline-flex;
-            }
-            /* 7/7/2026 */
-            .textColor {
-                color: #7c7c7c !important;
-                text-decoration: none;
-            }
-
-            .textColor.active {
-                color: blue !important;
-                font-weight: 600;
-            }
-
-            .roundedCircle {
-                background-color: #e9e9e9;
-                color: #7c7c7c;
-                border-radius: 50%;
-                width: 32px;
-                height: 32px;
-                min-width: 32px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-
-            .roundedCircle.active {
-                background-color: blue;
-                color: #fff;
-            }
-
-            .hrRotate {
-                display: flex;
-                align-items: center;
-            }
-
-            .hrRotate hr {
-                width: 40px;
-                margin: 0;
-            }
-
-            /* Desktop */
-            .stepper-nav {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-            }
-            .btn-check:checked+.btn {
-                color: #636bbd !important;
-                background-color: #dedff1 !important;
-                border: 2px solid #636bbd !important;
-            }
-            .btn-check+.btn {
-                border: 2px solid #afafaf !important;
-            }
-            .borderHighlight {
-                border: 1px solid #ced4da;
-                border-radius: 5px;
-            }
-            .highlights-section {
-                max-width: 100%;
-                font-family: "Poppins", sans-serif;
-                border: 1px solid #ced4da;
-                border-radius: 5px;
-            }
-            .highlight-label {
-                display: block;
-                font-size: 14px;
-                font-weight: 600;
-                color: #4a4a4a;
-                margin-bottom: 15px;
-            }
-
-            .highlight-container {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 12px;
-            }
-
-            .highlight-tag {
-                display: inline-flex;
-                align-items: center;
-                gap: 10px;
-                background: #f3f4f8;
-                color: #333;
-                padding: 14px 18px;
-                border-radius: 8px;
-                font-size: 13px;
-                font-weight: 500;
-            }
-
-            .remove-btn {
-                cursor: pointer;
-                color: #666;
-                font-size: 20px;
-                line-height: 1;
-                transition: 0.3s;
-            }
-
-            .remove-btn:hover {
-                color: #ff4d4f;
-            }
-
-            .add-highlight {
-                margin-top: 20px;
-            }
-
-            .add-highlight a {
-                color: #6366f1;
-                text-decoration: none;
-                font-size: 14px;
-                font-weight: 600;
-            }
-
-            .add-highlight a:hover {
-                text-decoration: underline;
-            }
-            /* Upload Icon Section */
-            .upload-card{
-                position:relative;
-                min-height:170px;
-                border:2px dashed #d7dff3;
-                border-radius:12px;
-                background:#fff;
-                cursor:pointer;
-                overflow:hidden;
-                transition:.3s;
-            }
-            .upload-card:hover{
-                border-color:#7c5cff;
-            }
-            .file-input{
-                position:absolute;
-                inset:0;
-                opacity:0;
-                cursor:pointer;
-                z-index:5;
-            }
-            .upload-content{
-                height:100%;
-                padding:15px;
-                text-align:center;
-                display:flex;
-                flex-direction:column;
-                justify-content:center;
-                align-items:center;
-            }
-            .upload-content h6{
-                font-weight:700;
-                margin-bottom:5px;
-            }
-            .upload-content p{
-                color:#6c757d;
-                font-size:13px;
-                margin-bottom:5px;
-            }
-            .upload-content small{
-                color:#999;
-            }
-            .preview-wrapper{
-                position:absolute;
-                inset:0;
-            }
-            .preview-wrapper img{
-                width:100%;
-                height:100%;
-                object-fit:cover;
-            }
-            .file-title{
-                position:absolute;
-                left:0;
-                right:0;
-                bottom:0;
-                background:rgba(0,0,0,.75);
-                color:#fff;
-                padding:8px;
-                font-size:13px;
-                font-weight:600;
-            }
-            .pdf-preview{
-                height:100%;
-                display:flex;
-                flex-direction:column;
-                justify-content:center;
-                align-items:center;
-            }
-            .pdf-preview i{
-                font-size:55px;
-                color:#dc3545;
-            }
-            .upload-icon {
-                width: 70px;
-                height: 70px;
-                margin-bottom: 12px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .upload-icon i {
-                font-size: 35px;
-                color: #7c5cff;
-            }
-
-            .upload-icon img {
-                width: 100%;
-                height: 100%;
-                object-fit: contain;
-                border-radius: 8px;
-            }
-            .titleCard {
-                background-color: #d9ffd3;
-                border-radius: 10px 10px 0px 0px;
-                padding: 8px;
-            }
-            .inclusionTitle {
-                color: #1b8a0a;
-                font-size: 14px;
-                font-weight: 900;
-            }
-            .exclusionTitleCard {
-                background-color: #ffd3d3;
-                border-radius: 10px 10px 0px 0px;
-                padding: 8px;
-            }
-            .exclusionTitle {
-                color: #8a0a0a;
-                font-size: 14px;
-                font-weight: 900;
-            }
-            .remarkTitleCard {
-                background-color: #d3e3ff;
-                border-radius: 10px 10px 0px 0px;
-                padding: 8px;
-            }
-            .remarkTitle {
-                color: #0a1f8a;
-                font-size: 14px;
-                font-weight: 900;
-            }
-            /* Price Visibility & Guest User Premium */
-            .inputWidth {
-                width: 200px !important;
-            }
-            .borderHighlight {
-                transition: all 0.3s ease;
-            }
-
-            .borderHighlight.locked {
-                opacity: 0.6;
-            }
-            .infoCardPrice {
-                background-color: #d3d6ff;
-                color: #2a0a8a;
-                font-size: 14px;
-                font-weight: 600;
-                border-radius: 8px;
-                padding: 10px;
-            }
-            /* Tablet & Mobile */
-            @media (max-width: 1070px) {
-                .stepper-nav {
-                    justify-content: flex-start;
-                    overflow-x: auto;
-                    flex-wrap: nowrap;
-                    gap: 15px;
-                    padding-bottom: 10px;
-
-                    /* Hide scrollbar if desired */
-                    scrollbar-width: thin;
-                }
-
-                .stepper-nav .nav-link {
-                    white-space: nowrap;
-                    flex-shrink: 0;
-                }
-
-                .hrRotate {
-                    flex-shrink: 0;
-                }
-
-                .hrRotate hr {
-                    width: 30px;
-                }
-            }
-            
-            @media (max-width: 768px) {
-                .highlight-tag {
-                    font-size: 15px;
-                    padding: 10px 14px;
-                }
-            }
-        </style>
     </head>
     <body data-sidebar="dark" id="page_body">
         <div id="testpho"></div>
@@ -674,7 +333,7 @@ $product_payout_data_ins = $data9->fetchAll();
                                                             <label for="description1" class="required">Detailed Description</label>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-12 mt-3">
+                                                    <div class="col-xl-6 col-lg-8 col-md-8 col-sm-12 mt-3">
                                                         <div class="form-floating">
                                                             <div class="form-control">
                                                                 <input type="radio" name="package_type" value="trending" id="trending" checked>
@@ -1420,7 +1079,7 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6">
+                                                        <div class="col-lg-6 col-md-8 col-sm-12 col-12">
                                                             <h5 class="mb-3 fw-bolder" id="#">5. Total Pricing</h5>
                                                             <div class="borderHighlight p-3 mb-3">
                                                                 <div class="row">
@@ -1445,6 +1104,52 @@ $product_payout_data_ins = $data9->fetchAll();
                                                         </div>
                                                     </div>
                                                     <div class="row">
+                                                        <div class="col-xl-6 col-lg-8 col-md-8 col-sm-12 col-12">
+                                                            <h4 class="mb-3 fw-bolder">6. Cancellation Policy</h4>
+                                                            <div class="row borderHighlight mx-0">
+                                                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 py-3">
+                                                                    <div class="text-center mb-2">
+                                                                        <label for="mrp_per_adult" class="mb-0">Cancellation Before Travel</label>
+                                                                    </div>
+                                                                    <div class="inputFieldAlignment">
+                                                                        <input type="number" value="" id="mrp_per_adult" placeholder="30+ Days" class="form-control inputWidth" readOnly>
+                                                                        <input type="number" value="" id="mrp_per_adult" placeholder="15 - 30 Days" class="form-control inputWidth" readOnly>
+                                                                        <input type="number" value="" id="mrp_per_adult" placeholder="7 - 15 Days" class="form-control inputWidth" readOnly>
+                                                                        <input type="number" value="" id="mrp_per_adult" placeholder="0 - 7 Days" class="form-control inputWidth" readOnly>
+                                                                        <input type="number" value="" id="mrp_per_adult" placeholder="No Show" class="form-control inputWidth" readOnly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 py-3">
+                                                                    <div class="text-center mb-2">
+                                                                        <label for="mrp_per_child" class="mb-0">Cancellation Charges</label>
+                                                                    </div>
+                                                                    <div class="inputFieldAlignment">
+                                                                        <div class="input-group inputWidth">
+                                                                            <input type="text" class="form-control" id="cancellationPercentage" name="cancellationPercentage" placeholder="10" readOnly>
+                                                                            <span class="input-group-text">%</span>
+                                                                        </div>
+                                                                        <div class="input-group inputWidth">
+                                                                            <input type="text" class="form-control" id="cancellationPercentage" name="cancellationPercentage" placeholder="25" readOnly>
+                                                                            <span class="input-group-text">%</span>
+                                                                        </div>
+                                                                        <div class="input-group inputWidth">
+                                                                            <input type="text" class="form-control" id="cancellationPercentage" name="cancellationPercentage" placeholder="50" readOnly>
+                                                                            <span class="input-group-text">%</span>
+                                                                        </div>
+                                                                        <div class="input-group inputWidth">
+                                                                            <input type="text" class="form-control" id="cancellationPercentage" name="cancellationPercentage" placeholder="75" readOnly>
+                                                                            <span class="input-group-text">%</span>
+                                                                        </div>
+                                                                        <div class="input-group inputWidth">
+                                                                            <input type="text" class="form-control" id="cancellationPercentage" name="cancellationPercentage" placeholder="100" readOnly>
+                                                                            <span class="input-group-text">%</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
                                                         <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" id="package_form_pricing_nextBtn">
                                                             <a href="#" class="waves-effect waves-light btn-large" style=" color: white;">Next</a>
                                                         </div>
@@ -1453,29 +1158,124 @@ $product_payout_data_ins = $data9->fetchAll();
                                                 <!-- Fifth Box Package Picture  -->
                                                 <div id="package_form_policy" style="display: none;">
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <h4 class="pt-3 ps-3 fw-bolder">Cancellation Policy</h4>
-                                                            <div class="form-group row">
-                                                                <div class="col-md-4 col-sm-4 mt-3">
-                                                                    <div class="form-floating mb-3">
-                                                                        <input type="number" id="can_per_1" name="cancel_per_1" value="" class="form-control" maxlength="3">
-                                                                        <label for="can_per_1" class="required">30+ Days Before Travel (%) </label>
+                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                                            <h4 class="mt-3 fw-bolder">Coupon Rule</h4>
+                                                            <div class="borderHighlight p-3">
+                                                                <div class="d-flex justify-content-between mb-2">
+                                                                    <label class="form-check-label" for="switchCoupon">Coupon Allowed</label>
+                                                                    <div class="form-check form-switch">
+                                                                        <input class="form-check-input" type="checkbox" role="switch" id="switchCoupon">
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-4 col-sm-4 mt-3">
-                                                                    <div class="form-floating mb-3">
-                                                                        <input type="number" id="can_per_2" name="cancel_per_1" value="" class="form-control" maxlength="3">
-                                                                        <label for="can_per_1" class="required">15-30 Days Before Travel (%) </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-4 col-sm-4 mt-3">
-                                                                    <div class="form-floating mb-3">
-                                                                        <input type="number" id="can_per_3" name="cancel_per_1" value="" class="form-control" maxlength="3">
-                                                                        <label for="can_per_1" class="required">less then 15 Days Before Travel (%)</label>
+                                                                <div class="d-flex justify-content-between">
+                                                                    <label class="form-check-label" for="switchCombine">Can Combine With Other Offers</label>
+                                                                    <div class="form-check form-switch">
+                                                                        <input class="form-check-input" type="checkbox" role="switch" id="switchCombine">
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                                            <h4 class="mt-3 fw-bolder">Booking Policy</h4>
+                                                            <div class="borderHighlight p-3">
+                                                                <div class="row">
+                                                                    <div class="col-md-12 col-sm-12">
+                                                                        <div class="d-flex gap-4">
+                                                                            <div class="align-content-center">
+                                                                                <label for="mrp_per_adult" class="mb-0">Minimum Advance Payment</label>
+                                                                            </div>
+                                                                            <div class="input-group mb-3 inputWidth">
+                                                                                <input type="text" class="form-control" id="bookingPercentage" name="bookingPercentage" placeholder="30">
+                                                                                <span class="input-group-text">%</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12 col-sm-12">
+                                                                        <div class="d-flex gap-4">
+                                                                            <div class="align-content-center">
+                                                                                <label for="mrp_per_child" class="mb-0">Full Payment Before Travel</label>
+                                                                            </div>
+                                                                            <div class="input-group inputWidth">
+                                                                                <input type="text" class="form-control" id="bookingDay" name="bookingDay" placeholder="3">
+                                                                                <span class="input-group-text">Days</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                                            <h5 class="mb-3 fw-bolder" id="#">Other Policies</h5>
+                                                            <div class="borderHighlight p-3 mb-3">
+                                                                <div class="container">
+                                                                    <p class="upload-description">
+                                                                        Upload brochures, itinerary PDFs or any other important documents for reference.
+                                                                    </p>
+                                                                    <div class="upload-wrapper">
+                                                                        <table class="table upload-table">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Title</th>
+                                                                                    <th>File Name</th>
+                                                                                    <th>Type</th>
+                                                                                    <th>Size</th>
+                                                                                    <th>Uploaded On</th>
+                                                                                    <th class="text-center">Action</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody id="fileTableBody">
+                                                                                <tr>
+                                                                                    <td>Thailand</td>
+                                                                                    <td>
+                                                                                        <div class="file-info">
+                                                                                            <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" class="file-icon">
+                                                                                            Thailand_Brochure.pdf
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>Brochure</td>
+                                                                                    <td>2.45 MB</td>
+                                                                                    <td>27 May 2025</td>
+                                                                                    <td class="text-center">
+                                                                                        <i class="fa-solid fa-download action-btn me-3"></i>
+                                                                                        <i class="fa-regular fa-trash-can action-btn delete-btn"></i>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Detailed</td>
+                                                                                    <td>
+                                                                                        <div class="file-info">
+                                                                                            <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" class="file-icon">
+                                                                                            Detailed_Itinerary.pdf
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>Itinerary</td>
+                                                                                    <td>1.85 MB</td>
+                                                                                    <td>27 May 2025</td>
+                                                                                    <td class="text-center">
+                                                                                        <i class="fa-solid fa-download action-btn me-3"></i>
+                                                                                        <i class="fa-regular fa-trash-can action-btn delete-btn"></i>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                        <!-- Upload Area -->
+                                                                        <div class="upload-form-row">
+                                                                            <input type="text" class="form-control" id="documentTitle" placeholder="Enter Title">
+                                                                            <div class="mini-drop-zone" id="dropZone">
+                                                                                <i class="fa-solid fa-cloud-arrow-up me-2"></i>
+                                                                                <span id="selectedFileText">Drag & Drop or Click to Upload</span>
+                                                                                <input type="file" id="fileInput" class="hidden-input" accept=".pdf,.doc,.docx">
+                                                                            </div>
+                                                                            <button type="button" class="btn btn-primary px-4" id="addDocumentBtn">
+                                                                                Submit
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
                                                         <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" id="package_form_policy_nextBtn">
                                                             <a href="#" class="waves-effect waves-light btn-large" style=" color: white;">Next</a>
                                                         </div>
@@ -1923,6 +1723,119 @@ $product_payout_data_ins = $data9->fetchAll();
                 $("#radioDefault1, #radioDefault2").prop("disabled", true);
                 $("#fixedAmount, #percentage").prop("disabled", true);
 
+            });
+        </script>
+        <!-- Policy section -->
+        <script>
+            const dropZone = document.getElementById("dropZone");
+            const fileInput = document.getElementById("fileInput");
+            const selectedFileText = document.getElementById("selectedFileText");
+            const addDocumentBtn = document.getElementById("addDocumentBtn");
+
+            let selectedFile = null;
+
+            // Open file picker
+            dropZone.addEventListener("click", () => {
+                fileInput.click();
+            });
+
+            // File selection
+            fileInput.addEventListener("change", function () {
+                selectedFile = this.files[0];
+
+                if(selectedFile){
+                    selectedFileText.textContent = selectedFile.name;
+                }
+            });
+
+            // Drag Over
+            dropZone.addEventListener("dragover", function(e){
+                e.preventDefault();
+                dropZone.classList.add("dragover");
+            });
+
+            // Drag Leave
+            dropZone.addEventListener("dragleave", function(){
+                dropZone.classList.remove("dragover");
+            });
+
+            // Drop
+            dropZone.addEventListener("drop", function(e){
+                e.preventDefault();
+
+                dropZone.classList.remove("dragover");
+
+                selectedFile = e.dataTransfer.files[0];
+
+                if(selectedFile){
+                    selectedFileText.textContent = selectedFile.name;
+                }
+            });
+
+            // Submit
+            addDocumentBtn.addEventListener("click", function(){
+
+                let title = document.getElementById("documentTitle").value.trim();
+
+                if(title === ""){
+                    alert("Please enter title");
+                    return;
+                }
+
+                if(!selectedFile){
+                    alert("Please select a file");
+                    return;
+                }
+
+                let size = (selectedFile.size / (1024 * 1024)).toFixed(2) + " MB";
+
+                let fileType = selectedFile.name.split('.').pop().toUpperCase();
+
+                let today = new Date().toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                });
+
+                let row = `
+                    <tr>
+                        <td>${title}</td>
+
+                        <td>
+                            <div class="file-info">
+                                <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png"
+                                    class="file-icon">
+                                ${selectedFile.name}
+                            </div>
+                        </td>
+
+                        <td>${fileType}</td>
+
+                        <td>${size}</td>
+
+                        <td>${today}</td>
+
+                        <td class="text-center">
+                            <i class="fa-solid fa-download action-btn me-3"></i>
+                            <i class="fa-regular fa-trash-can action-btn delete-btn remove-file"></i>
+                        </td>
+                    </tr>
+                `;
+
+                document
+                    .getElementById("fileTableBody")
+                    .insertAdjacentHTML("beforeend", row);
+
+                // Reset
+                document.getElementById("documentTitle").value = "";
+                fileInput.value = "";
+                selectedFile = null;
+                selectedFileText.textContent = "Drag & Drop or Click to Upload";
+            });
+
+            // Delete row
+            $(document).on("click", ".remove-file", function(){
+                $(this).closest("tr").remove();
             });
         </script>
     </body>
