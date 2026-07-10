@@ -323,7 +323,7 @@
                                                     <label class="radio-inline mb-0 ms-3" for="test8"><input type="radio" id="test8" class="form-check-input instituteType me-3" name="instituteType" value="other" <?= (!empty($types_of_institution) && !in_array(strtolower($types_of_institution), ['bank', 'nbfc', 'corperative_bank', 'society', 'trust'])) ? 'checked' : ''; ?> disabled>Others</label>
                                                 </div>
                                             </div>
-                                            <input type="text" name="instituteTypeOther" id="instituteTypeOther" class="form-control mt-2" value="<?= $types_of_institution ;?>" <?= ($types_of_institution) ? 'style="display:block;"' : 'style="display:none;"' ; ?> readonly>
+                                            <input type="text" name="instituteTypeOther" id="instituteTypeOther" class="form-control mt-2" value="<?= $types_of_institution ?>" <?= (!empty($types_of_institution) && !in_array(strtolower($types_of_institution), ['bank', 'nbfc', 'corperative_bank', 'society', 'trust'])) ? 'style="display:block;"' : 'style="display:none;"' ; ?> readonly>
                                         </div>
                                     </div>
                                 </div>

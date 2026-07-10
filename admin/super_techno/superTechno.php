@@ -14,7 +14,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Super Techo Enterprise | Admin Dashboard </title>
+        <title>Super Techno Enterprise | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -101,7 +101,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Super Techo Enterprise</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Super Techno Enterprise</h4>
                                 </div>
                             </div>
                         </div>
@@ -115,7 +115,7 @@
                                             <div class="col-sm-12">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Pending Super Techo Enterprise List</h4>
+                                                        <h4>Pending Super Techno Enterprise List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -270,7 +270,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Registered Super Techo Enterprise List</h4>
+                                                        <h4>Registered Super Techno Enterprise List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -482,7 +482,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Deleted Super Techo Enterprise List</h4>
+                                                        <h4>Deleted Super Techno Enterprise List</h4>
                                                     </div>
                                                 </div>
                                             </div>

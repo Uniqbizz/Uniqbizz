@@ -87,8 +87,8 @@ if ($id_str == 'I') {
             ]);
             if ($result) {
                 $message=$message2=$id.' Upgaded investment amount';
-                $sql4 = "INSERT INTO logs (user_id,title,message,message2,reference_no, operation) 
-                            VALUES (:user_id,:title ,:message, :message2, :reference_no, :operation)";
+                $sql4 = "INSERT INTO logs (user_id,title,message,message2,from_whom,reference_no, operation) 
+                            VALUES (:user_id,:title ,:message, :message2, :from_whom, :reference_no, :operation)";
                 $stmt4 = $conn->prepare($sql4);
 
                 $result3 = $stmt4->execute(array(
@@ -96,6 +96,7 @@ if ($id_str == 'I') {
                     ':title' => 'Franchisee Upgraded',
                     ':message' => $message,
                     ':message2' => $message2,
+                    ':from_whom' => '1',
                     ':reference_no' => $referenceNo,
                     ':operation' => 'Upgrade Franchisee'
                 ));
