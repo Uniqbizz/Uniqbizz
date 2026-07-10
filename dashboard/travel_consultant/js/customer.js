@@ -10,15 +10,15 @@ $("#email").keyup(function () {
 var emailtest = (emailtest, testValue) => {
     $.ajax({
         type: "POST",
-        url: "../../test_data/emailtest.php",
+        url: "../test_data/emailtest.php",
         data: "email=" + emailtest + "&tablename=" + testValue,
         success: function (response) {
             if (response == 1) {
-                $("#testemails").html(
+                $("#testemail").html(
                     '<input type="hidden"  id="testemail" value="1" >'
                 );
             } else {
-                $("#testemails").html(
+                $("#testemail").html(
                     '<input  type="hidden" id="testemail" value="0" >'
                 );
                 // return false;
@@ -27,6 +27,31 @@ var emailtest = (emailtest, testValue) => {
     });
 };
 //validations 
+$("#chequeDate").on("input", function () {
+
+    let value = $(this).val().replace(/\D/g, "");
+
+    if (value.length > 4) value = value.slice(0, 4) + "-" + value.slice(4);
+    if (value.length > 7) value = value.slice(0, 7) + "-" + value.slice(7);
+
+    $(this).val(value.substring(0, 10));
+});
+function isValidDate(dateString) {
+
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+        return false;
+    }
+
+    const [year, month, day] = dateString.split('-').map(Number);
+
+    const date = new Date(year, month - 1, day);
+
+    return (
+        date.getFullYear() === year &&
+        date.getMonth() + 1 === month &&
+        date.getDate() === day
+    );
+}
 function showError(fieldId, message) {
 
     $("#" + fieldId)
@@ -461,12 +486,13 @@ function submitAddForm(actionType) {
 
     var dob_year = dob.substring(0, 4);
     var age = current_year - dob_year;
+     var status_value = 4;
     clearAllErrors();
     // ======================
     // VALIDATION ONLY FOR SUBMIT
     // ======================
     if (actionType === 'submit') {
-        
+        status_value = 2;
         if (firstname === '') {
             showError("firstname","First Name is required.");
             return;
@@ -512,17 +538,35 @@ function submitAddForm(actionType) {
         } else if (address === '' || specialChar.test(address) || address.length <= 7) {
             showError("address","Enter Proper Address.");
             return;
+        } else if (payment_fee =='' || payment_fee == 'null') {
+            showError("payment_fee","Select Payment Fee.");
+            return;
         } else if (paymentMode !== 'cash' && paymentMode !== 'cheque' && paymentMode !== 'online') {
             showPaymentError("Select payment Mode");
+            return;
+        } else if(paymentMode == 'cheque' && chequeNo ==''){
+            showError("chequeNo","Please enter Cheque No.");
+            return;
+        } else if(paymentMode == 'cheque' && chequeDate ==''){
+            showError("chequeDate","Please enter Cheque Date.");
+            return;
+        } else if (paymentMode == 'cheque' && !isValidDate(chequeDate)) {
+            showError("chequeDate", "Please enter the valid date in YYYY-MM-DD format.");
+            return;
+        } else if(paymentMode == 'cheque' && bankName ==''){
+            showError("bankName","Please enter Bank Name.");
+            return;
+        } else if(paymentMode == 'online' && transactionNo ==''){
+            showError("transactionNo","Please enter Transaction No/Id.");
             return;
         } else if (profile_pic_file === '') {
             showFileError("upload_file1", "Please upload Profile Photo.");
             return;
         } else if (aadhar_card_file === '') {
-            showFileError("upload_file2", "Please upload Profile Photo.");
+            showFileError("upload_file2", "Please upload Aadhaar Card.");
             return;
         } else if (payment_proof_file == '') {
-            showFileError("upload_file12", "Please upload Profile Photo.");
+            showFileError("upload_file12", "Please upload Payment Proof.");
             return;
         }
     } 
@@ -612,7 +656,8 @@ function submitAddForm(actionType) {
 
         userId: userId,
         userType: userType,
-        customer_type: customer_type
+        customer_type: customer_type,
+        status_value:status_value
     };
     console.log(dataObj);
 
@@ -622,7 +667,7 @@ function submitAddForm(actionType) {
     $("#loading-overlay").show(); //loading screen
     $.ajax({
         type: "POST",
-        url: "customer/add_customer_data.php",
+        url: "ajax/customer/add_customer_data.php",
         data: dataObj,
         cache: false,
         success: function (data) {
@@ -640,6 +685,19 @@ function submitAddForm(actionType) {
                     if (result.isConfirmed) {
                         location.href = "customers_list.php";
                     }
+                });
+
+            }else if (data == 2) {
+
+                // $("#loading-overlay").hide();
+
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Draft Saved',
+                    text: 'Customer details have been saved as a draft.',
+                    confirmButtonColor: '#0dcaf0'
+                }).then(() => {
+                    location.href = "customers_list.php";
                 });
 
             } else {
@@ -743,7 +801,7 @@ function submitEditForm(actionType) {
     // VALIDATION ONLY FOR SUBMIT
     // ======================
     if (actionType === 'submit') {
-        
+        status_value = 2;
         if (firstname === '') {
             showError("firstname","First Name is required.");
             return;
@@ -789,17 +847,35 @@ function submitEditForm(actionType) {
         } else if (address === '' || specialChar.test(address) || address.length <= 7) {
             showError("address","Enter Proper Address.");
             return;
+        } else if (payment_fee =='' || payment_fee == 'null') {
+            showError("payment_fee","Select Payment Fee.");
+            return;
         } else if (paymentMode !== 'cash' && paymentMode !== 'cheque' && paymentMode !== 'online') {
             showPaymentError("Select payment Mode");
             return;
-        } else if (profile_pic_file === '') {
+        } else if(paymentMode == 'cheque' && chequeNo ==''){
+            showError("chequeNo","Please enter Cheque No.");
+            return;
+        } else if(paymentMode == 'cheque' && chequeDate ==''){
+            showError("chequeDate","Please enter Cheque Date.");
+            return;
+        } else if (paymentMode == 'cheque' && !isValidDate(chequeDate)) {
+            showError("chequeDate", "Please enter the valid date in YYYY-MM-DD format.");
+            return;
+        } else if(paymentMode == 'cheque' && bankName ==''){
+            showError("bankName","Please enter Bank Name.");
+            return;
+        } else if(paymentMode == 'online' && transactionNo ==''){
+            showError("transactionNo","Please enter Transaction No/Id.");
+            return;
+        } else if (profile_pic === '') {
             showFileError("upload_file1", "Please upload Profile Photo.");
             return;
-        } else if (aadhar_card_file === '') {
-            showFileError("upload_file2", "Please upload Profile Photo.");
+        } else if (aadhar_card === '') {
+            showFileError("upload_file2", "Please upload Aadhar Card.");
             return;
-        } else if (payment_proof_file == '') {
-            showFileError("upload_file12", "Please upload Profile Photo.");
+        } else if (payment_proof == '') {
+            showFileError("upload_file12", "Please upload Payment Proof.");
             return;
         }
     } 
@@ -886,7 +962,7 @@ function submitEditForm(actionType) {
     $.ajax({
 
         type: "POST",
-        url: "customer/edit_customer_data.php",
+        url: "ajax/customer/edit_customer_data.php",
         data: dataObj,
         cache: false,
 
@@ -905,6 +981,19 @@ function submitEditForm(actionType) {
                     if (result.isConfirmed) {
                         location.href = "customers_list.php";
                     }
+                });
+
+            }else if (data == 2) {
+
+                // $("#loading-overlay").hide();
+
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Draft Saved',
+                    text: 'Customer details have been saved as a draft.',
+                    confirmButtonColor: '#0dcaf0'
+                }).then(() => {
+                    location.href = "customers_list.php";
                 });
 
             } else {
@@ -1141,7 +1230,7 @@ async function initializeCustomer() {
 
     const res = await ajaxPromise({
 
-        url: "customer/edit_cu_load_data.php",
+        url: "ajax/customer/edit_cu_load_data.php",
 
         type: "GET",
 

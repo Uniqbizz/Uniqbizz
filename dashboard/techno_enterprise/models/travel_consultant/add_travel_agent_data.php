@@ -119,7 +119,16 @@
         ));
 
         if($result){
-            echo 1;
+
+            if ($status == 2) {
+                $newStatus = 1;
+            } elseif ($status == 4) {
+                $newStatus = 2;
+            } else {
+                $newStatus = $status;
+            }
+
+            echo $newStatus;
         }else{
             echo 0	;
         }

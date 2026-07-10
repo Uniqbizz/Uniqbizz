@@ -224,7 +224,18 @@ if (
 
             ));
 
-            echo $result3 ? 1 : 0;
+            if($result){
+
+                if ($status == 2) {
+                    $newStatus = 1;
+                } elseif ($status == 4) {
+                    $newStatus = 2;
+                } else {
+                    $newStatus = $status;
+                }
+
+                echo $newStatus;
+            }
 
         } else {
 

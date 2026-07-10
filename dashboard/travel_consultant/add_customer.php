@@ -116,7 +116,7 @@
             <div class="main-content">
 
                 <div id="testpho"></div>
-                <div id="testemails"></div>
+                <div id="testemail"></div>
 
                 <div class="page-content">
                     <div class="container-fluid">
@@ -159,30 +159,31 @@
                                     <h4 class="fw-bolder text-dark align-content-center">Personal Information</h4>
                                 </div>
                                 
-                                
+                                <?php if($editfor == 'addreff') {?>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="user_id_name">Customer Reference Id  <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="cu_ref_id" placeholder="Enter Reference ID" value="<?php echo $userId; ?>" readonly>
+                                        <input type="text" class="form-control" id="cu_ref_id" placeholder="Enter Reference ID" value="<?php echo $id; ?>" readonly>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="reference_name">Customer Reference Name <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="cu_ref_name" placeholder="Enter Reference Name" value="<?php echo  $userFname . ' ' . $userLname; ?>" readonly>
+                                        <input type="text" class="form-control" id="cu_ref_name" placeholder="Enter Reference Name" value="<?php echo  $cuName; ?>" readonly>
                                     </div>
                                 </div>
+                                <?php } ?>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="user_id_name">TA Reference ID <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="user_id_name" placeholder="Enter Reference ID" value="<?php echo $tcId; ?>" readonly>
+                                        <input type="text" class="form-control" id="user_id_name" placeholder="Enter Reference ID" value="<?php echo $userId ?>" readonly>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="reference_name">TA Reference Name <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="reference_name" placeholder="Enter Reference Name" value="<?php echo $tcFullName; ?>" readonly>
+                                        <input type="text" class="form-control" id="reference_name" placeholder="Enter Reference Name" value="<?php echo $userFname . ' ' . $userLname; ?>" readonly>
                                     </div>
                                 </div>
                                 

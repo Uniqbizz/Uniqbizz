@@ -80,7 +80,7 @@
             <div class="main-content">
 
                 <div id="testpho"></div>
-                <div id="testemails"></div>
+                <div id="testemail"></div>
 
                 <div class="page-content">
                     <div class="container-fluid">
@@ -259,7 +259,7 @@
                                         <select class="form-select" id="mystate" aria-label="Floating label select example">
                                             <option value="">--Select country first--</option>
                                         </select>
-                                        <small class="error-message" id="state_error"></small>
+                                        <small class="error-message" id="mystate_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
@@ -620,7 +620,7 @@
                         const file = this.files[0];
 
                         if (!file) return;
-
+                        clearFileError(this.id);
                         const card = this.closest('.upload-card');
                         const title = card.dataset.title;
                         const index = card.dataset.index;
