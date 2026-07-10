@@ -444,6 +444,8 @@ $product_payout_data_ins = $data9->fetchAll();
                                         <!-- p4 -->
                                         <h4 id="package_form_pricing_title" style="display: none">Add New Package - Pricing</h4>
                                         <!-- p5 -->
+                                        <h4 id="package_form_policy_title" style="display: none">Add New Package - Policy</h4>
+                                        <!-- p6 -->
                                         <h4 id="package_form_picture_title" style="display: none">Add New Package - Pictures</h4>
                                     </div>
                                     <div class="row">
@@ -485,7 +487,7 @@ $product_payout_data_ins = $data9->fetchAll();
                                                     <hr class="border border-1 border-secondary">
                                                 </div>
 
-                                                <a class="nav-link textColor step-link d-flex align-items-center gap-1" href="#">
+                                                <a class="nav-link textColor step-link d-flex align-items-center gap-1" href="#package_form_policy">
                                                     <div class="roundedCircle">5</div>
                                                     <span>Policy</span>
                                                 </a>
@@ -1441,8 +1443,16 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        
-                                                        <!-- cancelation policy 23 jan 2025 SV-->
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" id="package_form_pricing_nextBtn">
+                                                            <a href="#" class="waves-effect waves-light btn-large" style=" color: white;">Next</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Fifth Box Package Picture  -->
+                                                <div id="package_form_policy" style="display: none;">
+                                                    <div class="row">
                                                         <div class="col-md-12">
                                                             <h4 class="pt-3 ps-3 fw-bolder">Cancellation Policy</h4>
                                                             <div class="form-group row">
@@ -1465,14 +1475,13 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <!-- end added on 23 Jan SV-->
-                                                            <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" id="package_form_pricing_nextBtn">
-                                                                <a href="#" class="waves-effect waves-light btn-large" style=" color: white;">Next</a>
-                                                            </div>
+                                                        </div>
+                                                        <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" id="package_form_policy_nextBtn">
+                                                            <a href="#" class="waves-effect waves-light btn-large" style=" color: white;">Next</a>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- Fifth Box Package Picture  -->
+                                                <!-- Sixth Box Package Picture  -->
                                                 <div id="package_form_picture" style="display: none;">
                                                     <div class="col-md-6 col-sm-12">
                                                         <label style="margin-top: -34px;font-size: 0.8rem;">Pictures:</label>
@@ -1584,6 +1593,7 @@ $product_payout_data_ins = $data9->fetchAll();
                     "#package_form_extra",
                     "#package_form_itinerary",
                     "#package_form_pricing",
+                    "#package_form_policy",
                     "#package_form_picture"
                 ];
 
@@ -1633,6 +1643,11 @@ $product_payout_data_ins = $data9->fetchAll();
                 });
 
                 $("#package_form_pricing_nextBtn").click(function (e) {
+                    e.preventDefault();
+                    showSection("#package_form_policy");
+                });
+
+                $("#package_form_policy_nextBtn").click(function (e) {
                     e.preventDefault();
                     showSection("#package_form_picture");
                 });
