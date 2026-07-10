@@ -1085,250 +1085,363 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <!-- updatde markuplogic in 23 Jan 2025 by SV -->
-                                                        <div class="col-md-12">
-                                                            <h5 class="mb-0 fw-bolder" id="mark_up_title">Mark-Up Price Distribution Total(:0)</h5>
-                                                            <div class="row">
-                                                                <div class="col-md-3 col-sm-3 mt-3">
-                                                                    <div class="form-floating mb-3">
-                                                                        <input type="number" id="mp_company" name="company_share" value="" placeholder="Company Share" 
-                                                                        class="form-control pending-input" oninput='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
-                                                                        <label for="mp_company" class="required">Company </label>
+                                                        <div class="col-lg-12">
+                                                            <h5 class="mb-3 fw-bolder" id="#">4. Pricing Modal</h5>
+                                                            <div class="borderHighlight px-3 pt-3 mb-3 table-responsive">
+                                                                <table class="table table-bordered">
+                                                                    <thead class="table-light">
+                                                                        <tr>
+                                                                            <th scope="col">Role</th>
+                                                                            <th scope="col">Commission Percentage</th>
+                                                                            <th scope="col">Commission Amount</th>
+                                                                            <th scope="col">Incentive Percentage</th>
+                                                                            <th scope="col">Incentive Amount</th>
+                                                                            <th scope="col">Total</th>
+                                                                            <th scope="col">Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>CTE</td>
+                                                                            <td class="text-end">1.25%</td>
+                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end">1.5%</td>
+                                                                            <td class="text-end">&#8377; 75,000</td>
+                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-price-distribution text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>ETE</td>
+                                                                            <td class="text-end">1.25%</td>
+                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end">1.5%</td>
+                                                                            <td class="text-end">&#8377; 75,000</td>
+                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-price-distribution text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>STE</td>
+                                                                            <td class="text-end">1.25%</td>
+                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end">1.5%</td>
+                                                                            <td class="text-end">&#8377; 75,000</td>
+                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-price-distribution text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>TE | Franchisee</td>
+                                                                            <td class="text-end">1.25%</td>
+                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end">1.5%</td>
+                                                                            <td class="text-end">&#8377; 75,000</td>
+                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-price-distribution text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                    <tfoot>
+                                                                        <td class="fw-bolder">Total Distribution</td>
+                                                                        <td class="text-end fw-bolder">5%</td>
+                                                                        <td class="text-end fw-bolder">&#8377; 2,00,000</td>
+                                                                        <td class="text-end fw-bolder">6%</td>
+                                                                        <td class="text-end fw-bolder">&#8377; 3,00,000</td>
+                                                                        <td class="text-end fw-bolder">&#8377; 5,00,000</td>
+                                                                    </tfoot>
+                                                                </table>
+                                                                <table class="table table-bordered">
+                                                                    <thead class="table-light">
+                                                                        <tr>
+                                                                            <th scope="col">Role</th>
+                                                                            <th scope="col">Commission Percentage</th>
+                                                                            <th scope="col">Commission Amount</th>
+                                                                            <th scope="col">Incentive Percentage</th>
+                                                                            <th scope="col">Incentive Amount</th>
+                                                                            <th scope="col">Total</th>
+                                                                            <th scope="col">Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>BDM | RM</td>
+                                                                            <td class="text-end">1.25%</td>
+                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end">1.5%</td>
+                                                                            <td class="text-end">&#8377; 75,000</td>
+                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-price-distribution text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>BM | SF | MF</td>
+                                                                            <td class="text-end">1.25%</td>
+                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end">1.5%</td>
+                                                                            <td class="text-end">&#8377; 75,000</td>
+                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-price-distribution text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>TE | Franchisee</td>
+                                                                            <td class="text-end">1.25%</td>
+                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end">1.5%</td>
+                                                                            <td class="text-end">&#8377; 75,000</td>
+                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-price-distribution text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                    <tfoot>
+                                                                        <td class="fw-bolder">Total Distribution</td>
+                                                                        <td class="text-end fw-bolder">5%</td>
+                                                                        <td class="text-end fw-bolder">&#8377; 2,00,000</td>
+                                                                        <td class="text-end fw-bolder">6%</td>
+                                                                        <td class="text-end fw-bolder">&#8377; 3,00,000</td>
+                                                                        <td class="text-end fw-bolder">&#8377; 5,00,000</td>
+                                                                    </tfoot>
+                                                                </table>
+                                                                <table class="table table-bordered">
+                                                                    <thead class="table-light">
+                                                                        <tr>
+                                                                            <th scope="col">Role</th>
+                                                                            <th scope="col">Commission Percentage</th>
+                                                                            <th scope="col">Commission Amount</th>
+                                                                            <th scope="col">Incentive Percentage</th>
+                                                                            <th scope="col">Incentive Amount</th>
+                                                                            <th scope="col">Total</th>
+                                                                            <th scope="col">Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>BM |SF | MF</td>
+                                                                            <td class="text-end">1.25%</td>
+                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end">1.5%</td>
+                                                                            <td class="text-end">&#8377; 75,000</td>
+                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-price-distribution text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Institute</td>
+                                                                            <td class="text-end">1.25%</td>
+                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end">1.5%</td>
+                                                                            <td class="text-end">&#8377; 75,000</td>
+                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-price-distribution text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                    <tfoot>
+                                                                        <td class="fw-bolder">Total Distribution</td>
+                                                                        <td class="text-end fw-bolder">5%</td>
+                                                                        <td class="text-end fw-bolder">&#8377; 2,00,000</td>
+                                                                        <td class="text-end fw-bolder">6%</td>
+                                                                        <td class="text-end fw-bolder">&#8377; 3,00,000</td>
+                                                                        <td class="text-end fw-bolder">&#8377; 5,00,000</td>
+                                                                    </tfoot>
+                                                                </table>
+                                                                <table class="table table-bordered">
+                                                                    <thead class="table-light">
+                                                                        <tr>
+                                                                            <th scope="col">Role</th>
+                                                                            <th scope="col">Commission Percentage</th>
+                                                                            <th scope="col">Commission Amount</th>
+                                                                            <th scope="col">Incentive Percentage</th>
+                                                                            <th scope="col">Incentive Amount</th>
+                                                                            <th scope="col">Total</th>
+                                                                            <th scope="col">Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>CTE</td>
+                                                                            <td class="text-end">1.25%</td>
+                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end">1.5%</td>
+                                                                            <td class="text-end">&#8377; 75,000</td>
+                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-price-distribution text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>ETE</td>
+                                                                            <td class="text-end">1.25%</td>
+                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end">1.5%</td>
+                                                                            <td class="text-end">&#8377; 75,000</td>
+                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-price-distribution text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Institute</td>
+                                                                            <td class="text-end">1.25%</td>
+                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end">1.5%</td>
+                                                                            <td class="text-end">&#8377; 75,000</td>
+                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-price-distribution text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                    <tfoot>
+                                                                        <td class="fw-bolder">Total Distribution</td>
+                                                                        <td class="text-end fw-bolder">5%</td>
+                                                                        <td class="text-end fw-bolder">&#8377; 2,00,000</td>
+                                                                        <td class="text-end fw-bolder">6%</td>
+                                                                        <td class="text-end fw-bolder">&#8377; 3,00,000</td>
+                                                                        <td class="text-end fw-bolder">&#8377; 5,00,000</td>
+                                                                    </tfoot>
+                                                                </table>
+                                                                <div class="row">
+                                                                    <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                                        <div class="form-floating mb-3">
+                                                                            <input type="text" id="customer1" name="customer1" placeholder="Customer1" class="form-control">
+                                                                            <label for="customer1" class="required">Customer 1</label>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-md-3 col-sm-3 mt-3">
-                                                                    <div class="form-floating mb-3">
-                                                                        <input type="number" id="mp_ca_ta" name="ca_ta_share" value="" placeholder="Travel Agency share" 
-                                                                        class="form-control pending-input" oninput='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' />
-                                                                        <label for="mp_franchise">Travel Consultant</label>
+                                                                    <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                                        <div class="form-floating mb-3">
+                                                                            <input type="text" id="customer2" name="customer2" placeholder="Customer2" class="form-control">
+                                                                            <label for="customer2" class="required">Customer 2</label>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-md-3 col-sm-3 mt-3">
-                                                                    <div class="form-floating mb-3">
-                                                                        <input type="number" id="mp_customer" name="customer_share" value="" placeholder="Customer Share" class="form-control" readonly 
-                                                                        oninput='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
-                                                                        <label for="mp_customer" class="required">Customer (L1 + L2 + L3)</label>
-                                                                        <input type="hidden" id="l2_cust_comm" value=""/>
-                                                                        <input type="hidden" id="l3_cust_comm" value=""/>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3 col-sm-3 mt-3">
-                                                                    <div class="form-floating mb-3">
-                                                                        <input type="number" id="l1_cust_comm" name="l1_cust_comm" value="" placeholder="L1 Customer" 
-                                                                        class="form-control pending-input" 
-                                                                        oninput='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
-                                                                        <label for="l1_cust_comm" class="required">L1 Customer</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6 col-sm-2 mt-3" id="ca_div">
-                                                                    <label for="ca_div">Techno Enterprise (Total:0)</label>
-                                                                    <div class="form-floating mb-3">
-                                                                        <input type="number" id="mp_ca_comm" name="ca_share_comm" value="" placeholder="Commision" class="form-control" readOnly>
-                                                                        <label for="mp_ca_comm">Commision </label>
-                                                                    </div>
-                                                                    <div class="form-floating mb-3">
-                                                                        <input type="number" id="mp_ca_ins" name="ca_share_ins" value="" placeholder="Incentive" class="form-control" readOnly>
-                                                                        <label for="mp_ca_ins">Incentive </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6 col-sm-2 mt-3" id="bm_div">
-                                                                    <label for="bm_div">Business Consultant/Mentor (Total:0)</label>
-                                                                    <div class="form-floating mb-3">
-                                                                        <input type="number" id="mp_bm_comm" name="bm_share_comm" value="" placeholder="Commision" class="form-control" readOnly>
-                                                                        <label for="mp_bm_comm">Commision </label>
-                                                                    </div>
-                                                                    <div class="form-floating mb-3">
-                                                                        <input type="number" id="mp_bm_ins" name="bm_share_ins" value="" placeholder="Incentive" class="form-control" readOnly>
-                                                                        <label for="mp_bcm_ins">Incentive </label>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- added on 11-05-2026 by SV -->
-                                                                <div class="col-md-12 col-sm-2 mt-3" id="cup_div">
-                                                                <label for="cup_div" id="cup_title">Coupon (Total:0)</label>
-                                                                <div class="form-floating mb-3">
-                                                                        <input type="number" id="coupon_total" name="coupon_total" value="" 
-                                                                                placeholder="Coupon Amount" class="form-control pending-input"
-                                                                                oninput='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
-                                                                        <label for="coupon_total">Coupon Amount</label>
+                                                                    <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                                        <div class="form-floating mb-3">
+                                                                            <input type="text" id="customer3" name="customer3" placeholder="Customer3" class="form-control">
+                                                                            <label for="customer3" class="required">Customer 3</label>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <!-- added new markuplogic onn 09 May 2026 by SV -->
-                                                        <div class="col-md-12">
-                                                            <h4 class="pt-3 ps-3 fw-bolder" id="new_mark_up_title">Cheif Techno Mark-Up Price Distribution Total(:0)</h4>
-                                                            <div class="row">
-                                                                <div class="col-md-3 col-sm-3 mt-3">
-                                                                    <div class="form-floating mb-3">
-                                                                        <input  type="number" id="new_mp_company" name="new_company_share" value="" 
-                                                                                placeholder="Company Share" class="form-control" 
-                                                                                oninput='calculatePackagePriceNew(<?= json_encode($product_payout_data_new, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' readonly>
-                                                                        <label for="new_mp_company" class="required">Company </label>
+                                                        <div class="col-lg-6">
+                                                            <h5 class="mb-3 fw-bolder" id="#">5. Total Pricing</h5>
+                                                            <div class="borderHighlight p-3 mb-3">
+                                                                <div class="row">
+                                                                    <div class="col-md-12 col-sm-12">
+                                                                        <div class="d-flex gap-4 mb-3">
+                                                                            <div class="align-content-center">
+                                                                                <label for="mrp_per_adult" class="mb-0">Total Price Per Adult</label>
+                                                                            </div>
+                                                                            <input type="number" value="" id="mrp_per_adult" class="form-control inputWidth" readOnly>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-md-3 col-sm-3 mt-3">
-                                                                    <div class="form-floating mb-3">
-                                                                        <input type="number" id="new_mp_ca_ta" name="new_ca_ta_share" value="" 
-                                                                                placeholder="Travel Agency share" class="form-control pending-input" 
-                                                                                oninput='calculatePackagePriceNew(<?= json_encode($product_payout_data_new, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' />
-                                                                        <label for="new_mp_ca_ta">Travel Consultant</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3 col-sm-3 mt-3">
-                                                                    <div class="form-floating mb-3">
-                                                                        <input type="number" id="new_mp_customer" name="new_customer_share" value="" 
-                                                                                placeholder="Customer Share" class="form-control" readonly 
-                                                                                oninput='calculatePackagePriceNew(<?= json_encode($product_payout_data_new, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
-                                                                        <label for="new_mp_customer" class="required">Customer (L1 + L2)</label>
-                                                                        <input type="hidden" id="new_l2_cust_comm" value=""/>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3 col-sm-3 mt-3">
-                                                                    <div class="form-floating mb-3">
-                                                                        <input type="number" id="new_l1_cust_comm" name="new_l1_cust_comm" value="" 
-                                                                                placeholder="L1 Customer" class="form-control pending-input" 
-                                                                                oninput='calculatePackagePriceNew(<?= json_encode($product_payout_data_new, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
-                                                                        <label for="new_l1_cust_comm" class="required">L1 Customer</label>
-                                                                    </div>
-                                                                </div>
-                                                                <label for="new_ca_div">Techno Enterprise (Total:0)</label>
-                                                                <div class="col-md-6 col-sm-2 mt-3" id="new_ca_div">
-                                                                    <div class="form-floating mb-3">
-                                                                        <input  type="number" id="new_mp_ca_comm" name="new_ca_share_comm" value="" 
-                                                                                placeholder="Commision" class="form-control" readOnly>
-                                                                        <label for="new_mp_ca_comm">Commision </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6 col-sm-2 mt-3" id="new_ca_div">
-                                                                    <div class="form-floating mb-3">
-                                                                        <input  type="number" id="new_mp_ca_ins" name="new_ca_share_ins" value="" 
-                                                                                placeholder="Incentive" class="form-control" readOnly>
-                                                                        <label for="new_mp_ca_ins">Incentive </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6 col-sm-2 mt-3" id="ete_div">
-                                                                    <label for="ete_div">Executive Techno Enterprise (Total:0)</label>
-                                                                    <div class="form-floating mb-3">
-                                                                        <input  type="number" id="ete_total" name="ete_total" value="" 
-                                                                                placeholder="Commision + Incentive" class="form-control" readOnly>
-                                                                        <label for="ete_total">Commision + Incentive</label>
-                                                                        <input  type="hidden" id="mp_ete_comm" name="ete_share_comm" value="" 
-                                                                                placeholder="Commision" class="form-control" readOnly>
-                                                                        <input  type="hidden" id="mp_ete_ins" name="ete_share_ins" value="" 
-                                                                                placeholder="Incentive" class="form-control" readOnly>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6 col-sm-2 mt-3" id="ste_div">
-                                                                <label for="ste_div">Super Techno Enterprise (Total:0)</label>
-                                                                <div class="form-floating mb-3">
-                                                                        <input  type="number" id="ste_total" name="ste_total" value="" 
-                                                                                placeholder="Commision + Incentive" class="form-control" readOnly>
-                                                                        <label for="ste_total">Commision + Incentive</label>
-                                                                        <input   type="hidden" id="mp_ste_comm" name="ste_share_comm" value="" 
-                                                                                placeholder="Commision" class="form-control" readOnly>
-                                                                        <input   type="hidden" id="mp_ste_ins" name="ste_share_ins" value="" 
-                                                                                placeholder="Incentive" class="form-control" readOnly>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6 col-sm-2 mt-3" id="cte_div">
-                                                                <label for="cte_div">Chief Techno Enterprise (Total:0)</label>
-                                                                <div class="form-floating mb-3">
-                                                                        <input  type="number" id="cte_total" name="cte_total" value="" 
-                                                                                placeholder="Commision + Incentive" class="form-control" readOnly>
-                                                                        <label for="cte_total">Commision + Incentive</label>
-                                                                        <input   type="hidden" id="mp_cte_ins" name="cte_share_ins" value="" 
-                                                                                placeholder="Incentive" class="form-control" readOnly>
-                                                                        <input   type="hidden" id="mp_cte_comm" name="cte_share_comm" value="" 
-                                                                                placeholder="Commision" class="form-control" readOnly>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6 col-sm-2 mt-3" id="newcup_div">
-                                                                <label for="newcup_div" id="newcup_title">Coupon (Total:0)</label>
-                                                                <div class="form-floating mb-3">
-                                                                        <input type="number" id="newcoupon_total" name="newcoupon_total" value="" 
-                                                                                placeholder="Coupon Amount" class="form-control pending-input"  
-                                                                                oninput='calculatePackagePriceNew(<?= json_encode($product_payout_data_new, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
-                                                                        <label for="newcoupon_total">Coupon Amount</label>
+                                                                    <div class="col-md-12 col-sm-12">
+                                                                        <div class="d-flex gap-4">
+                                                                            <div class="align-content-center">
+                                                                                <label for="mrp_per_child" class="mb-0">Total Price Per Child</label>
+                                                                            </div>
+                                                                            <input type="number" value="" id="mrp_per_child" class="form-control inputWidth" readOnly>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <!-- added new institution markuplogic onn 11 May 2026 by SV -->
-                                                        <div class="col-md-12">
-                                                            <h4 class="pt-3 ps-3 fw-bolder" id="ins_mark_up_title">Institution Mark-Up Price Distribution Total(:0)</h4>
-                                                            <div class="row">
-                                                                <div class="col-md-3 col-sm-3 mt-3">
-                                                                    <div class="form-floating mb-3">
-                                                                        <input  type="number" id="ins_mp_company" name="ins_company_share" value="" 
-                                                                                placeholder="Company Share" class="form-control" 
-                                                                                oninput='calculatePackagePriceIns(<?= json_encode($product_payout_data_ins, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' readonly>
-                                                                        <label for="ins_mp_company" class="required">Company </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3 col-sm-3 mt-3">
-                                                                    <div class="form-floating mb-3">
-                                                                        <input type="number" id="ins_mp_ca_ta" name="ins_ca_ta_share" value="" 
-                                                                                placeholder="Institution share" class="form-control pending-input" 
-                                                                                oninput='calculatePackagePriceIns(<?= json_encode($product_payout_data_ins, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' />
-                                                                        <label for="ins_mp_ca_ta">Institution</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3 col-sm-3 mt-3">
-                                                                    <div class="form-floating mb-3">
-                                                                        <input type="number" id="ins_mp_customer" name="ins_customer_share" value="" 
-                                                                                placeholder="Customer Share" class="form-control" readonly 
-                                                                                oninput='calculatePackagePriceIns(<?= json_encode($product_payout_data_ins, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
-                                                                        <label for="ins_mp_customer" class="required">Customer (L1 + L2)</label>
-                                                                        <input type="hidden" id="ins_l2_cust_comm" value=""/>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3 col-sm-3 mt-3">
-                                                                    <div class="form-floating mb-3">
-                                                                        <input type="number" id="ins_l1_cust_comm" name="ins_l1_cust_comm" value="" 
-                                                                                placeholder="L1 Customer" class="form-control pending-input" 
-                                                                                oninput='calculatePackagePriceIns(<?= json_encode($product_payout_data_ins, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
-                                                                        <label for="ins_l1_cust_comm" class="required">L1 Customer</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6 col-sm-2 mt-3" id="bm_mf_sf_div">
-                                                                    <label for="bm_mf_sf_div">BM | MF | SF (Total:0)</label>
-                                                                    <div class="form-floating mb-3">
-                                                                        <input  type="number" id="bm_mf_sf_total" name="bm_mf_sf_total" value="" 
-                                                                                placeholder="Commision + Incentive" class="form-control" readOnly>
-                                                                        <label for="bm_mf_sf_total">Commision + Incentive</label>
-                                                                        <input  type="hidden" id="ins_bm_mf_sf_comm" name="bm_mf_sf_share_comm" value="" 
-                                                                                placeholder="Commision" class="form-control" readOnly>
-                                                                        <input  type="hidden" id="ins_bm_mf_sf_ins" name="bm_mf_sf_share_ins" value="" 
-                                                                                placeholder="Incentive" class="form-control" readOnly>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6 col-sm-2 mt-3" id="inscup_div">
-                                                                <label for="inscup_div" id="inscup_title">Coupon (Total:0)</label>
-                                                                <div class="form-floating mb-3">
-                                                                        <input type="number" id="inscoupon_total" name="inscoupon_total" value="" 
-                                                                                placeholder="Coupon Amount" class="form-control pending-input"  
-                                                                                oninput='calculatePackagePriceIns(<?= json_encode($product_payout_data_ins, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
-                                                                        <label for="inscoupon_total">Coupon Amount</label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <div class="row">
-                                                                <div class="col-md-6 col-sm-2 mt-3">
-                                                                    <div class="form-floating mb-3">
-                                                                        <input type="number" value="" id="mrp_per_adult" placeholder="Total Price Per Adult" class="form-control" readOnly>
-                                                                        <label for="mrp_per_adult">Total Price Per Adult</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6 col-sm-2 mt-3">
-                                                                    <div class="form-floating mb-3">
-                                                                        <input type="number" value="" id="mrp_per_child" placeholder="Total Price Per Child" class="form-control" readOnly>
-                                                                        <label for="mrp_per_child">Total Price Per Child</label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        
                                                         <!-- cancelation policy 23 jan 2025 SV-->
                                                         <div class="col-md-12">
                                                             <h4 class="pt-3 ps-3 fw-bolder">Cancellation Policy</h4>
