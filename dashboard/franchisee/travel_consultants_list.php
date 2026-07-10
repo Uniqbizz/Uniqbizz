@@ -132,7 +132,7 @@
                                                         <thead>
                                                             <tr class="table-primary">
                                                                 <th data-ordering="false">Full Name</th>
-                                                                <th data-ordering="false">TE ID & Name</th>
+                                                                <th data-ordering="false">F ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>

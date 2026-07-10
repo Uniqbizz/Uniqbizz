@@ -40,7 +40,7 @@
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="../assets/css/validation.css" />
-        <link rel="stylesheet" href="../assets/css/validation.css" />
+        
     </head>
 
     <body>
@@ -678,6 +678,7 @@
 
                             preview.innerHTML = `
                                 <i class="fa-solid fa-file-pdf"></i>
+                                <input type="hidden" id="img_path${index}" value="../../uploading/${file.name}">
                                 <p class="mt-2 mb-0">${file.name}</p>
                                 <div class="file-title">
                                     ${title}
@@ -743,6 +744,7 @@
                     preview.innerHTML = `
                         <i class="fa-solid fa-file-pdf"></i>
                         <p class="mt-2 mb-0">${filePath.split('/').pop()}</p>
+                        <input type="hidden" id="img_path${index}" value="../../uploading/${filePath}">
                         <div class="file-title">
                             ${title}
                         </div>

@@ -309,37 +309,39 @@
                                 <div class="col-md-6 col-sm-6 d-none" id="paymentModeBlock">
                                     <div class="input-block mb-3">
                                         <label class="fw-bold col-form-label">Payment Mode: <span class="text-danger">*</span></label>
-                                        <div class="form-control radioBtn d-flex justify-content-around" id="paymentMode">
+                                        <div class="form-control radioBtn d-flex justify-content-around payment-mode-wrapper" id="payment-mode_wrapper">
                                             <label class="mb-0" for="cashPayment"><input type="radio" id="cashPayment" class="form-check-input payment me-3" name="payment" value="cash">Cash</label>
                                             <label class="mb-0" for="chequePayment"><input type="radio" id="chequePayment"  class="form-check-input payment me-3" name="payment" value="cheque">Cheque</label>
                                             <label class="mb-0" for="onlinePayment"><input type="radio" id="onlinePayment"  class="form-check-input payment me-3" name="payment" value="online">UPI/NEFT</label>
                                         </div>
-                                        <small class="error-message" id="country_cd_error"></small>
+                                        <small class="error-message" id="payment-mode_error"></small>
                                     </div>
                                 </div>
                                 <div class="pb-3 d-none" id="paymentFields">
                                     <div class="col-md-12 col-sm-12 d-none" id="chequeOpt">
-                                        <div class="row d-flex justify-content-center payment-mode-wrapper" id="payment-mode_wrapper">
+                                        <div class="row d-flex justify-content-center">
                                             <div class="col-md-4 py-1">
                                                 <div class="input-block">
                                                     <label class="col-form-label" for="chequeNo">Cheque No<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="chequeNo" placeholder="Enter Cheque Number">
+                                                    <small class="error-message" id="chequeNo_error"></small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 py-1">
                                                 <div class="input-block">
                                                     <label class="col-form-label" for="chequeDate">Cheque Date<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="chequeDate" placeholder="Enter Date On Cheque">
+                                                    <small class="error-message" id="chequeDate_error"></small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 py-1">
                                                 <div class="input-block">
                                                     <label class="col-form-label" for="bankName">Bank Name<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="bankName" placeholder="Enter your Bank Name">
+                                                    <small class="error-message" id="bankName_error"></small>
                                                 </div>
                                             </div>
                                         </div>
-                                        <small class="error-message" id="payment-mode_error"></small>
                                     </div>
                                     <div class="col-md-12 col-sm-12 d-none" id="onlineOpt">
                                         <div class="row d-flex justify-content-center">
@@ -347,6 +349,7 @@
                                                 <div class="input-block">
                                                     <label class="col-form-label" for="transactionNo">Transaction No.<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="transactionNo" placeholder="Enter your Transaction No.">
+                                                    <small class="error-message" id="transactionNo_error"></small>
                                                     <small class="error-message" id="transactionNo_error"></small>
                                                 </div>
                                             </div>
@@ -593,7 +596,7 @@
                 }
             });
 
-            $('#paymentMode').on('click', function(){
+            $('#payment-mode_wrapper').on('click', function(){
                 var paymentMode = $(".payment:checked").val();
                 if(paymentMode == "cheque"){
                     $("#chequeOpt").removeClass("d-none");

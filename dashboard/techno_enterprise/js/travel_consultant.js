@@ -34,6 +34,31 @@ $("#saveDraftAdd").on("click", function (e) {
 });
 
 //validations
+$("#chequeDate").on("input", function () {
+
+    let value = $(this).val().replace(/\D/g, "");
+
+    if (value.length > 4) value = value.slice(0, 4) + "-" + value.slice(4);
+    if (value.length > 7) value = value.slice(0, 7) + "-" + value.slice(7);
+
+    $(this).val(value.substring(0, 10));
+});
+function isValidDate(dateString) {
+
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+        return false;
+    }
+
+    const [year, month, day] = dateString.split('-').map(Number);
+
+    const date = new Date(year, month - 1, day);
+
+    return (
+        date.getFullYear() === year &&
+        date.getMonth() + 1 === month &&
+        date.getDate() === day
+    );
+}
 function showError(fieldId, message) {
 
     $("#" + fieldId)
@@ -234,6 +259,21 @@ function submitAddForm(actionType) {
                    && paymentMode !== 'online' && payment_fee =='' 
                    && payment_fee == 'null') {
             showPaymentError("Select payment Mode");
+            return;
+        } else if(paymentMode == 'cheque' && chequeNo ==''){
+            showError("chequeNo","Please enter Cheque No.");
+            return;
+        } else if(paymentMode == 'cheque' && chequeDate ==''){
+            showError("chequeDate","Please enter Cheque Date.");
+            return;
+        } else if (paymentMode == 'cheque' && !isValidDate(chequeDate)) {
+            showError("chequeDate", "Please enter the valid date in YYYY-MM-DD format.");
+            return;
+        } else if(paymentMode == 'cheque' && bankName ==''){
+            showError("bankName","Please enter Bank Name.");
+            return;
+        } else if(paymentMode == 'online' && transactionNo ==''){
+            showError("transactionNo","Please enter Transaction No/Id.");
             return;
         } else if (profile_pic === '') {
             showFileError("upload_file1", "Please upload Profile Photo.");

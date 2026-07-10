@@ -33,6 +33,116 @@ $("#saveDraftAdd").on("click", function (e) {
     submitAddForm('draft');
 });
 
+//validations
+$("#chequeDate").on("input", function () {
+
+    let value = $(this).val().replace(/\D/g, "");
+
+    if (value.length > 4) value = value.slice(0, 4) + "-" + value.slice(4);
+    if (value.length > 7) value = value.slice(0, 7) + "-" + value.slice(7);
+
+    $(this).val(value.substring(0, 10));
+});
+function isValidDate(dateString) {
+
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+        return false;
+    }
+
+    const [year, month, day] = dateString.split('-').map(Number);
+
+    const date = new Date(year, month - 1, day);
+
+    return (
+        date.getFullYear() === year &&
+        date.getMonth() + 1 === month &&
+        date.getDate() === day
+    );
+}
+function showError(fieldId, message) {
+
+    $("#" + fieldId)
+        .addClass("is-invalid")
+        .focus();
+
+    $("#" + fieldId + "_error").text(message);
+}
+
+function clearError(fieldId) {
+
+    $("#" + fieldId)
+        .removeClass("is-invalid");
+
+    $("#" + fieldId + "_error").text("");
+}
+
+function clearAllErrors() {
+
+    $(".form-control, .form-select").removeClass("is-invalid");
+    $(".error-message").text("");
+}
+function showGenderError(message){
+
+    $("#gender_wrapper")
+        .addClass("error")
+        .attr("tabindex","-1")
+        .focus();
+
+    $("#gender_error").text(message);
+}
+
+function clearGenderError(){
+
+    $("#gender_wrapper").removeClass("error");
+
+    $("#gender_error").text("");
+}
+
+$(".gender").on("change",function(){
+
+    clearGenderError();
+
+});
+function showPaymentError(message){
+
+    $("#payment-mode_wrapper")
+        .addClass("error")
+        .attr("tabindex","-1")
+        .focus();
+
+    $("#payment-mode_error").text(message);
+}
+
+function clearPaymentError(){
+
+    $("#payment-mode_wrapper").removeClass("error");
+
+    $("#payment-mode_error").text("");
+}
+
+$(".payment").on("change",function(){
+
+    clearPaymentError();
+
+});
+function showFileError(fileId, message) {
+
+    const input = $("#" + fileId);
+
+    input.closest(".upload-card").addClass("error");
+
+    $("#" + fileId + "_error").text(message);
+
+    input.trigger("click"); // Opens file selector
+}
+function clearFileError(fileId) {
+
+    $("#" + fileId)
+        .closest(".upload-card")
+        .removeClass("error");
+}
+//---------------------------------------------------------------
+
 // @@@@****#### TC @@@@****####
 function submitAddForm(actionType) {
     // e.preventDefault();
@@ -100,93 +210,105 @@ function submitAddForm(actionType) {
     // ======================
     if (actionType === 'submit') {
         
-        if (user_id_name == '') {
-            alert("Select Id");
-            return;
-        } else if (firstname === '') {
-            alert("Enter Proper First Name");
+        if (firstname === '') {
+            showError("firstname","First Name is required.");
             return;
         } else if (lastname === '') {
-            alert("Enter Proper Last Name");
+            showError("lastname","Last Name is required.");
             return;
         } else if (email == '') {
-            alert("Enter Email");
+            showError("email","Email is required.");
             return;
         } else if (!emailReg.test(email)) {
-            alert("Enter Proper Email");
+            showError("email","Enter proper email.");
             return;
         } else if (testE == '1') {
-            alert("Email already exists");
+            showError("email","Email already exists.");
             return;
         } else if (dob === '') {
-            alert('Please Select Birthdate');
+            showError("dob","Please Select Birthdate.");
             return;
         } else if (age <= 18) {
-            alert('Age must be more than or equal to 18 Years');
+            showError("dob","Age must be more than or equal to 20 Years.");
             return;
         } else if (gender !== 'male' && gender !== 'female' && gender !== 'others') {
-            alert('Please Select Gender');
+            showGenderError("Please Select Gender.");
             return;
         } else if (country_cd == '') {
-            alert("Select Country Code");
+            showError("country_cd","Select Country Code.");
             return;
         } else if (phone == '') {
-            alert("Enter Phone number");
+            showError("phone","Enter Phone number.");
             return;
         } else if (!mobileRegex.test(phone)) {
-            alert("Enter Proper Phone Number");
+            showError("phone","Enter Proper Phone Number.");
             return;
         } else if (country === '') {
-            alert("Select Country");
+            showError("country","Select Country.");
             return;
         } else if (mystate === '') {
-            alert("Select State");
+            showError("mystate","Select State.");
             return;
         } else if (city === '') {
-            alert("Select City");
+            showError("city","Select City.");
             return;
         } else if (address === '' || specialChar.test(address) || address.length <= 7) {
-            alert("Enter Proper Address");
+            showError("address","Enter Proper Address.");
             return;
         } else if (paymentMode !== 'cash' && paymentMode !== 'cheque' 
                    && paymentMode !== 'online' && payment_fee =='' 
                    && payment_fee == 'null') {
-            alert("Select payment Mode");
+            showPaymentError("Select payment Mode");
+            return;
+        } else if(paymentMode == 'cheque' && chequeNo ==''){
+            showError("chequeNo","Please enter Cheque No.");
+            return;
+        } else if(paymentMode == 'cheque' && chequeDate ==''){
+            showError("chequeDate","Please enter Cheque Date.");
+            return;
+        } else if (paymentMode == 'cheque' && !isValidDate(chequeDate)) {
+            showError("chequeDate", "Please enter the valid date in YYYY-MM-DD format.");
+            return;
+        } else if(paymentMode == 'cheque' && bankName ==''){
+            showError("bankName","Please enter Bank Name.");
+            return;
+        } else if(paymentMode == 'online' && transactionNo ==''){
+            showError("transactionNo","Please enter Transaction No/Id.");
             return;
         } else if (profile_pic === '') {
-            alert('Please Upload profile Picture');
+            showFileError("upload_file1", "Please upload Profile Photo.");
             return;
         } else if (aadhar_card === '') {
-            alert('Please Upload Aadhar Card Picture');
+            showFileError("upload_file2", "Please upload Aadhaar Card.");
             return;
         } else if (pan_card === '') {
-            alert('Please Upload Pan Card Picture');
+            showFileError("upload_file3", "Please upload Pan Card.");
             return;
         } else if (passbook === '') {
-            alert('Please Upload Bank Passbook Picture');
+            showFileError("upload_file4", "Please upload Bank Passbok Picture.");
             return;
         } 
     } 
     if (firstname === '') {
-        alert("Enter Proper First Name");
+        showError("firstname","First Name is required.");
         return;
     } else if (lastname === '') {
-        alert("Enter Proper Last Name");
+        showError("lastname","Last Name is required.");
         return;
     } else if (email == '') {
-        alert("Enter Email");
+        showError("email","Email is required.");
         return;
     } else if (!emailReg.test(email)) {
-        alert("Enter Proper Email");
+        showError("email","Enter proper email.");
         return;
     } else if (testE == '1') {
-        alert("Email already exists");
+        showError("email","Email already exists.");
         return;
     } else if (phone == '') {
-        alert("Enter Phone number");
+        showError("phone","Enter Phone number.");
         return;
     } else if (!mobileRegex.test(phone)) {
-        alert("Enter Proper Phone Number");
+        showError("phone","Enter Proper Phone Number.");
         return;
     }
 
@@ -255,12 +377,23 @@ function submitAddForm(actionType) {
                     location.href = "travel_consultants_list.php";
                 });
 
+            }else if (data == 2) {
+
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Draft Saved',
+                    text: 'Travel Consultant details have been saved as a draft.',
+                    confirmButtonColor: '#0dcaf0'
+                }).then(() => {
+                    location.href = "travel_consultants_list.php";
+                });
+
             } else {
 
                 Swal.fire({
                     icon: 'error',
                     title: 'Failed',
-                    text: data || 'Something went wrong.'
+                    text: 'Something went wrong.' //data || 
                 });
 
             }
@@ -346,93 +479,108 @@ function submitEditForm(actionType) {
     // ======================
     if (actionType === 'submit') {
         
-        if (user_id_name == '') {
-            alert("Select Id");
-            return;
-        } else if (firstname === '') {
-            alert("Enter Proper First Name");
+        if (firstname === '') {
+            showError("firstname","First Name is required.");
             return;
         } else if (lastname === '') {
-            alert("Enter Proper Last Name");
+            showError("lastname","Last Name is required.");
             return;
         } else if (email == '') {
-            alert("Enter Email");
+            showError("email","Email is required.");
             return;
         } else if (!emailReg.test(email)) {
-            alert("Enter Proper Email");
+            showError("email","Enter proper email.");
             return;
         } else if (testE == '1') {
-            alert("Email already exists");
+            showError("email","Email already exists.");
             return;
         } else if (dob === '') {
-            alert('Please Select Birthdate');
+            showError("dob","Please Select Birthdate.");
             return;
-        } else if (age <= 18) {
-            alert('Age must be more than or equal to 18 Years');
+        } else if (age <= 20) {
+            showError("dob","Age must be more than or equal to 20 Years.");
             return;
         } else if (gender !== 'male' && gender !== 'female' && gender !== 'others') {
-            alert('Please Select Gender');
+            showGenderError("Please Select Gender.");
             return;
         } else if (country_cd == '') {
-            alert("Select Country Code");
+            showError("country_cd","Select Country Code.");
             return;
         } else if (phone == '') {
-            alert("Enter Phone number");
+            showError("phone","Enter Phone number.");
             return;
         } else if (!mobileRegex.test(phone)) {
-            alert("Enter Proper Phone Number");
+            showError("phone","Enter Proper Phone Number.");
             return;
         } else if (country === '') {
-            alert("Select Country");
+            showError("country","Select Country.");
             return;
         } else if (mystate === '') {
-            alert("Select State");
+            showError("mystate","Select State.");
             return;
         } else if (city === '') {
-            alert("Select City");
+            showError("city","Select City.");
             return;
         } else if (address === '' || specialChar.test(address) || address.length <= 7) {
-            alert("Enter Proper Address");
+            showError("address","Enter Proper Address.");
+            return;
+        }else if (payment_fee =='' || payment_fee == 'null') {
+            showError("payment_fee","Select Payment Fee.");
             return;
         } else if (paymentMode !== 'cash' && paymentMode !== 'cheque' 
                    && paymentMode !== 'online' && payment_fee =='' 
                    && payment_fee == 'null') {
-            alert("Select payment Mode");
+            showPaymentError("Select payment Mode");
+            return;
+        } else if(paymentMode == 'cheque' && chequeNo ==''){
+            showError("chequeNo","Please enter Cheque No.");
+            return;
+        } else if(paymentMode == 'cheque' && chequeDate ==''){
+            showError("chequeDate","Please enter Cheque Date.");
+            return;
+        } else if (paymentMode == 'cheque' && !isValidDate(chequeDate)) {
+            showError("chequeDate", "Please enter the valid date in YYYY-MM-DD format.");
+            return;
+        } else if(paymentMode == 'cheque' && bankName ==''){
+            showError("bankName","Please enter Bank Name.");
+            return;
+        } else if(paymentMode == 'online' && transactionNo ==''){
+            showError("transactionNo","Please enter Transaction No/Id.");
             return;
         } else if (profile_pic === '') {
-            alert('Please Upload profile Picture');
+            showFileError("upload_file1", "Please upload Profile Photo.");
             return;
         } else if (aadhar_card === '') {
-            alert('Please Upload Aadhar Card Picture');
+            showFileError("upload_file2", "Please upload Aadhaar Card.");
             return;
         } else if (pan_card === '') {
-            alert('Please Upload Pan Card Picture');
+            showFileError("upload_file3", "Please upload Pan Card.");
             return;
         } else if (passbook === '') {
-            alert('Please Upload Bank Passbook Picture');
+            showFileError("upload_file4", "Please upload Bank Passbok Picture.");
             return;
         } 
     } 
     if (firstname === '') {
-        alert("Enter Proper First Name");
+        showError("firstname","First Name is required.");
         return;
     } else if (lastname === '') {
-        alert("Enter Proper Last Name");
+        showError("lastname","Last Name is required.");
         return;
     } else if (email == '') {
-        alert("Enter Email");
+        showError("email","Email is required.");
         return;
     } else if (!emailReg.test(email)) {
-        alert("Enter Proper Email");
+        showError("email","Enter proper email.");
         return;
     } else if (testE == '1') {
-        alert("Email already exists");
+        showError("email","Email already exists.");
         return;
     } else if (phone == '') {
-        alert("Enter Phone number");
+        showError("phone","Enter Phone number.");
         return;
     } else if (!mobileRegex.test(phone)) {
-        alert("Enter Proper Phone Number");
+        showError("phone","Enter Proper Phone Number.");
         return;
     }
 
@@ -502,12 +650,23 @@ function submitEditForm(actionType) {
                     location.href = "travel_consultants_list.php";
                 });
 
+            } else if (data == 2) {
+
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Draft Saved',
+                    text: 'Travel Consultant details have been saved as a draft.',
+                    confirmButtonColor: '#0dcaf0'
+                }).then(() => {
+                    location.href = "travel_consultants_list.php";
+                });
+
             } else {
 
                 Swal.fire({
                     icon: 'error',
                     title: 'Failed',
-                    text: data || 'Something went wrong.'
+                    text: 'Something went wrong.' //data || 
                 });
 
             }

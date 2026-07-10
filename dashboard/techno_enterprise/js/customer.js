@@ -1008,6 +1008,7 @@ function loadExistingFile(cardSelector, filePath)
         preview.innerHTML = `
             <i class="fa-solid fa-file-pdf"></i>
             <p class="mt-2 mb-0">${filePath.split('/').pop()}</p>
+            <input type="hidden" id="img_path${index}" value="../../uploading/${filePath}">
             <div class="file-title">
                 ${title}
             </div>
