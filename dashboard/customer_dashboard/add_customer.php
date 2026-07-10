@@ -116,7 +116,7 @@
             <div class="main-content">
 
                 <div id="testpho"></div>
-                <div id="testemails"></div>
+                <div id="testemail"></div>
 
                 <div class="page-content">
                     <div class="container-fluid">
@@ -304,7 +304,7 @@
                                         <select class="form-select" id="mystate" aria-label="Floating label select example">
                                             <option value="">--Select country first--</option>
                                         </select>
-                                        <small class="error-message" id="state_error"></small>
+                                        <small class="error-message" id="mystate_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
@@ -344,7 +344,7 @@
                                         <div class="input-block mb-3">
                                             <label for="payment_fee" class="col-form-label">Payment Fee<span class="text-danger">*</span></label>
                                             <select class="form-select" id="payment_fee" aria-label="Floating label select example">
-                                                <option value="" selected>--Select Payment Fee--</option>
+                                                <option value="null" selected>--Select Payment Fee--</option>
                                                 <option value="11000">Neo Select: <span>&#8377 </span>11,000/-</option>
                                             </select>
                                             <small class="error-message" id="payment_fee_error"></small>
@@ -372,7 +372,7 @@
                                                 <div class="col-md-4">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="chequeDate">Cheque Date <span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="chequeDate" placeholder="Enter Date On Cheque">
+                                                        <input type="text" class="form-control" id="chequeDate" placeholder="YYYY-MM-DD" maxlength="10" autocomplete="off">
                                                         <small class="error-message" id="chequeDate_error"></small>
                                                     </div>
                                                 </div>
@@ -565,6 +565,10 @@
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
         <script src="../../uploading/uploadTechnoDashboard.js"></script>
+        <script>
+            const id = '';
+            const status = '';
+        </script>
         <script src="js/customer.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!-- end dialer logic scripts -->

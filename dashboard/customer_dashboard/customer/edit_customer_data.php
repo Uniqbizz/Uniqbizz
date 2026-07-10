@@ -24,6 +24,7 @@ if ($editfor == 4) {
 	$message2 = $identifier_id . " Details has been updated from registered list";
 }
 
+
 $firstname = $_POST['firstname'];
 $lastname = $_POST['lastname'];
 $email = $_POST['email'];
@@ -65,6 +66,46 @@ $title = "Customer";
 $fromWhom = $register_by;
 $register_by = $register_by;
 
+//part division
+function divideAmount($totalAmount, $fixedAmount = 3000)
+{
+    $parts = [];
+
+    // How many full ₹3000 parts fit?
+    if($totalAmount == 10000){
+		$fixedAmount = 2500;
+	}
+    if ($totalAmount == 25000) {
+        $fixedAmount = 5000;
+    }
+    $fullParts = floor($totalAmount / $fixedAmount);
+    $remaining = $totalAmount % $fixedAmount;
+
+    // Add full ₹3000 parts
+    for ($i = 0; $i < $fullParts; $i++) {
+        $parts[] = $fixedAmount;
+    }
+
+    // Add remaining amount to last part if needed
+    if ($remaining > 0) {
+        $parts[] = $remaining;
+    }
+
+    return $parts;
+}
+//generate payment id
+function generatePaymentID()
+{
+    return "PAID" . date("YmdHis"); // Format: PAIDYYYYMMDDHHMMSS
+}
+//coupon code genaration
+function generateUniqueCoupon()
+{
+    $year = date("Y"); // Get current year
+    $uniquePart = bin2hex(random_bytes(6)); // Generate a unique random string (6 bytes = 12 hex characters)
+
+    return strtoupper($year . substr($uniquePart, 0, 11)); // Ensures it's exactly 15 characters
+}
 
 if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gender != '' || $dob != '' || $address != '' || $profile_pic != '') {
 
@@ -115,27 +156,134 @@ if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gend
 			':user_type_id' => $user_type_id,
 			':user_id' => $identifier_id
 		));
+		
 
 		if ($result2) {
+			if ($status_value == 2 && $payment_label == 'Neo Select') {
 
-			$sql3 = "INSERT INTO logs (user_id,title,message,message2,reference_no, register_by, from_whom,operation) VALUES (:user_id,:title ,:message, :message2,:reference_no, :register_by, :from_whom,:operation)";
-			$stmt3 = $conn->prepare($sql3);
+				// Get Customer ID
+				$sql2 = "SELECT id
+						FROM ca_customer
+						WHERE $identifier_name :identifier_id
+						ORDER BY id DESC
+						LIMIT 1";
 
-			$result3 = $stmt3->execute(array(
-				':user_id' => $identifier_id,
-				':title' => $title,
-				':message' => $message,
-				':message2' => $message2,
-				':reference_no' => $registrant_id,
-				':register_by' => $register_by,
-				':from_whom' => $register_by,
-				':operation' => 'Update'
-			));
+				$stmt1 = $conn->prepare($sql2);
+				
+				$stmt1->execute([
+					':identifier_id' => $identifier_id
+				]);
 
-			if ($result3) {
-				echo 1;
-			} else {
-				echo 0;
+				$row = $stmt1->fetch(PDO::FETCH_ASSOC);
+
+				if ($row) {
+
+					$user_id = $row['id'];
+
+					//====================================================
+					// Check if coupons already exist
+					//====================================================
+
+					$checkCoupon = $conn->prepare("
+						SELECT COUNT(*)
+						FROM cu_coupons
+						WHERE user_id = :user_id
+					");
+
+					$checkCoupon->execute([
+						':user_id' => $user_id
+					]);
+
+					$couponExists = $checkCoupon->fetchColumn();
+
+					//====================================================
+					// Generate coupons only once
+					//====================================================
+
+					if ($couponExists == 0) {
+
+						$cp_parts = divideAmount(15000, 500);
+
+						$payment_id = generatePaymentID();
+
+						$sqlInsertCoupon = "
+							INSERT INTO cu_coupons
+							(
+								user_id,
+								payment_id,
+								code,
+								coupon_amt,
+								usage_status,
+								confirm_status,
+								bonus_check
+							)
+							VALUES
+							(
+								:user_id,
+								:payment_id,
+								:code,
+								:coupon_amt,
+								:usage_status,
+								:confirm_status,
+								:bonus_check
+							)
+						";
+
+						$stmt = $conn->prepare($sqlInsertCoupon);
+
+						foreach ($cp_parts as $coupon_amt) {
+
+							$stmt->execute([
+								':user_id'        => $user_id,
+								':payment_id'     => $payment_id,
+								':code'           => generateUniqueCoupon(),
+								':coupon_amt'     => $coupon_amt,
+								':usage_status'   => 0,
+								':confirm_status' => 0,
+								':bonus_check'    => 0
+							]);
+						}
+					}
+				}
+				$sql3 = "INSERT INTO logs (user_id,title,message,message2,reference_no, register_by, from_whom,operation) VALUES (:user_id,:title ,:message, :message2,:reference_no, :register_by, :from_whom,:operation)";
+				$stmt3 = $conn->prepare($sql3);
+
+				$result3 = $stmt3->execute(array(
+					':user_id' => $identifier_id,
+					':title' => $title,
+					':message' => $message,
+					':message2' => $message2,
+					':reference_no' => $registrant_id,
+					':register_by' => $register_by,
+					':from_whom' => $register_by,
+					':operation' => 'Update'
+				));
+
+				if ($result3) {
+					echo 1;
+				} else {
+					echo 0;
+				}
+			}else{
+				$sql3 = "INSERT INTO logs (user_id,title,message,message2,reference_no, register_by, from_whom,operation) VALUES (:user_id,:title ,:message, :message2,:reference_no, :register_by, :from_whom,:operation)";
+				$stmt3 = $conn->prepare($sql3);
+
+				$result3 = $stmt3->execute(array(
+					':user_id' => $identifier_id,
+					':title' => $title,
+					':message' => $message,
+					':message2' => $message2,
+					':reference_no' => $registrant_id,
+					':register_by' => $register_by,
+					':from_whom' => $register_by,
+					':operation' => 'Update'
+				));
+
+				if ($result3) {
+					echo 2;
+				} else {
+					echo 0;
+				}
 			}
 		} else {
 			echo 0;

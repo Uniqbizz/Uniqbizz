@@ -182,7 +182,7 @@
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="col-form-label">Gender <span class="text-danger">*</span></label>
-                                        <div class="form-control d-flex justify-content-around mt-1gender-wrapper" id="gender_wrapper">
+                                        <div class="form-control d-flex justify-content-around mt-1 gender-wrapper" id="gender_wrapper">
                                             <label class="radio-inline mb-0 ms-3"><input type="radio" id="test3" name="gender" class="gender" value="male" />&nbsp;&nbsp;&nbsp;Male</label>
                                             <label class="radio-inline mb-0 ms-3"><input type="radio" id="test4" name="gender" class="gender" value="female" />&nbsp;&nbsp;&nbsp;Female</label>
                                             <label class="radio-inline mb-0 ms-3"><input type="radio" id="test5" name="gender" class="gender" value="others" />&nbsp;&nbsp;&nbsp;Others</label>
@@ -254,7 +254,7 @@
                                             
                                             <option value="">--Select country first--</option>
                                         </select>
-                                        <small class="error-message" id="state_error"></small>
+                                        <small class="error-message" id="mystate_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
@@ -304,8 +304,8 @@
                                             <option value="21000" >Premium Select Lite: <span>&#8377 </span>21,000/-</option>
                                             <option value="21000" >Neo Select: <span>&#8377 </span>11,000/-</option>
                                             <option value="21000" >Neo Select Ultra: <span>&#8377 </span>11,000/-</option>
-                                            <small class="error-message" id="payment_fee_error"></small>
                                         </select>
+                                        <small class="error-message" id="payment_fee_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6" id="paymentMode">

@@ -512,6 +512,9 @@ function submitAddForm(actionType) {
         } else if (address === '' || specialChar.test(address) || address.length <= 7) {
             showError("address","Enter Proper Address.");
             return;
+        } else if (payment_fee =='' || payment_fee == 'null') {
+            showError("payment_fee","Select Payment Fee.");
+            return;
         } else if (paymentMode !== 'cash' && paymentMode !== 'cheque' && paymentMode !== 'online') {
             showPaymentError("Select payment Mode");
             return;
@@ -1029,7 +1032,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
     try {
-
+        
         await initializeCustomer();
 
     } catch (err) {
@@ -1149,7 +1152,7 @@ async function initializeCustomer() {
 
         data: {
 
-            id: id,
+            id: id || '',
 
             edittype: 10
 

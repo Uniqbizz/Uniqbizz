@@ -36,6 +36,7 @@
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <link rel="stylesheet" href="../assets/css/validation.css" />
     </head>
 
     <body>
@@ -138,46 +139,53 @@
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="firstname">First Name<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="firstname" placeholder="Enter your firstname">
+                                        <small class="error-message" id="firstname_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="lastname">Last Name<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="lastname" placeholder="Enter your Lastname">
+                                        <small class="error-message" id="lastname_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="nominee_name">Nominee Name<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="nominee_name" placeholder="Enter Nominee Name">
+                                        <small class="error-message" id="nominee_name_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="nominee_relation">Nominee Relation<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="nominee_relation" placeholder="Enter Nominee Relation">
+                                        <small class="error-message" id="nominee_relation_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="email">Email Address<span class="text-danger">*</span></label>
                                         <input type="email" class="form-control" id="email" placeholder="Enter Email Address">
+                                        <small class="error-message" id="email_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="dob">Date Of Birth<span class="text-danger">*</span></label>
                                         <input type="date" class="form-control" id="dob" placeholder="Enter Date Of Birth" max="<?= $ageLimit ?>">
+                                        <small class="error-message" id="dob_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group mb-3">
                                         <label class="col-form-label d-block">Gender:<span class="text-danger">*</span></label>
-                                        <div class="form-control d-flex justify-content-around">
+                                        <div class="form-control d-flex justify-content-around gender-wrapper" id="gender_wrapper">
                                             <label class="radio-inline mb-0 ms-3" for="test3"><input type="radio" id="test3" class="form-check-input gender me-3" name="gender" value="male">Male</label>
                                             <label class="radio-inline mb-0 ms-3" for="test4"><input type="radio" id="test4" class="form-check-input gender me-3" name="gender" value="female">Female</label>
                                             <label class="radio-inline mb-0 ms-3" for="test5"><input type="radio" id="test5" class="form-check-input gender me-3" name="gender" value="others">Others</label>
                                         </div>
+                                        <small class="error-message" id="gender_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12 mb-3">
@@ -201,12 +209,14 @@
                                                         } 
                                                     ?>
                                                 </select>
+                                                <small class="error-message" id="country_cd_error"></small>
                                             </div>
                                         </div>
                                         <div class="col-md-8 col-sm-8 col-9">
                                             <div class="input-block">
                                                 <label class="col-form-label" for="phone">Phone Number<span class="text-danger">*</span></label>
                                                 <input type="number" class="form-control" id="phone" placeholder="Enter your Phone Number">
+                                                <small class="error-message" id="phone_error"></small>
                                             </div>
                                         </div>
                                     </div>
@@ -240,6 +250,7 @@
                                                 } 
                                             ?>
                                         </select>
+                                        <small class="error-message" id="country_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
@@ -248,6 +259,7 @@
                                         <select class="form-select" id="mystate" aria-label="Floating label select example">
                                             <option value="">--Select country first--</option>
                                         </select>
+                                        <small class="error-message" id="state_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
@@ -256,42 +268,21 @@
                                         <select class="form-select" id="city" aria-label="Floating label select example">
                                             <option value="">--Select state first--</option>
                                         </select>
+                                        <small class="error-message" id="city_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="pin">Pincode<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="pin" placeholder="Enter your pincode">
+                                        <small class="error-message" id="pin_error"></small>
                                     </div>
                                 </div>
-                                <?php if ($userType == 32){ ?>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <label class="col-form-label">Branch <span class="text-danger">*</span></label>
-                                        <select class="form-select" id="branch">
-                                            <option value=""> ---- Select Branch ---- </option>
-                                            <?php
-                                                require '../connect.php';
-                                                $sql = "SELECT * FROM `branch` WHERE status ='1' ";
-                                                $stmt = $conn->prepare($sql);
-                                                $stmt->execute();
-                                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                                if ($stmt->rowCount() > 0) {
-                                                    foreach (($stmt->fetchAll()) as $key => $row) {
-                                                        echo '<option value="' . $row['id'] . '">' . $row['branch_name'] . '</option>';
-                                                    }
-                                                } else {
-                                                    echo '<option value="">Branch not available</option>';
-                                                }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <?php } ?>
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="address">Address<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="address" placeholder="Enter your Address">
+                                        <small class="error-message" id="address_error"></small>
                                     </div>
                                 </div>
                             </div>
@@ -312,6 +303,7 @@
                                             <option value="3000"><span>&#8377 </span>3000/-</option> 
                                             <option value="10000"><span>&#8377 </span>10,000/-</option>
                                         </select>
+                                        <small class="error-message" id="payment_fee_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 d-none" id="paymentModeBlock">
@@ -322,11 +314,12 @@
                                             <label class="mb-0" for="chequePayment"><input type="radio" id="chequePayment"  class="form-check-input payment me-3" name="payment" value="cheque">Cheque</label>
                                             <label class="mb-0" for="onlinePayment"><input type="radio" id="onlinePayment"  class="form-check-input payment me-3" name="payment" value="online">UPI/NEFT</label>
                                         </div>
+                                        <small class="error-message" id="country_cd_error"></small>
                                     </div>
                                 </div>
                                 <div class="pb-3 d-none" id="paymentFields">
                                     <div class="col-md-12 col-sm-12 d-none" id="chequeOpt">
-                                        <div class="row d-flex justify-content-center">
+                                        <div class="row d-flex justify-content-center payment-mode-wrapper" id="payment-mode_wrapper">
                                             <div class="col-md-4 py-1">
                                                 <div class="input-block">
                                                     <label class="col-form-label" for="chequeNo">Cheque No<span class="text-danger">*</span></label>
@@ -346,6 +339,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <small class="error-message" id="payment-mode_error"></small>
                                     </div>
                                     <div class="col-md-12 col-sm-12 d-none" id="onlineOpt">
                                         <div class="row d-flex justify-content-center">
@@ -353,6 +347,7 @@
                                                 <div class="input-block">
                                                     <label class="col-form-label" for="transactionNo">Transaction No.<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="transactionNo" placeholder="Enter your Transaction No.">
+                                                    <small class="error-message" id="transactionNo_error"></small>
                                                 </div>
                                             </div>
                                         </div>
