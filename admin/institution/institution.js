@@ -94,15 +94,15 @@ function submitAddForm(actionType) {
     var branch_name = $("#branchName").val().trim();
 
     // payment information
-    var activation_plan = $("#activationPlan").val().trim(); // amount value
+    var activation_plan = $("#activationPlan").val().trim() || ""; // amount value
     // if FOC selected set amount to "Free", paymentMode to "free" and skip payment_proof
     if(activation_plan == "FOC"){
         var amount = 'Free';
         var paymentMode = "Free";
-        var payment_proof = '';
+        var payment_proof = "";
     }else{
         var amount = activation_plan;
-        var paymentMode = $(".payment:checked").val();
+        var paymentMode = $(".payment:checked").val() || "";
         var payment_proof = getFilePath("#img_path14");
     }
 
@@ -182,6 +182,45 @@ function submitAddForm(actionType) {
         else if (!phoneReg.test(phone)) {
             alert("Contact Number Must be 10 Digit");
             return;
+        }
+
+        if (activation_plan === "") {
+            alert("Please Select Activation Plan");
+            return;
+        }
+
+        if (activation_plan !== "FOC") {
+            if (!paymentMode) {
+                alert("Please Select Payment Mode");
+                return;
+            }
+
+            if (paymentMode === "cheque") {
+                if(!chequeNo) {
+                    alert("Please Enter Cheque Number");
+                    return;
+                }
+                if(!chequeDate) {
+                    alert("Please Enter Cheque Date");
+                    return;
+                }
+                if(!bankName) {
+                    alert("Please Enter Bank Name");
+                    return;
+                }
+            }
+
+            if (paymentMode === "online") {
+                if(!transactionNo) {
+                    alert("Please Enter Transaction Number");
+                    return;
+                }
+            }
+
+            if (!payment_proof) {
+                alert("Please Upload Payment Proof");
+                return;
+            }
         }
     } 
 
