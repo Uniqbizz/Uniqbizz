@@ -1182,7 +1182,7 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                     <div class="col-md-12 col-sm-12">
                                                                         <div class="d-flex gap-4">
                                                                             <div class="align-content-center">
-                                                                                <label for="mrp_per_adult" class="mb-0">Minimum Advance Payment</label>
+                                                                                <label for="mrp_per_adult" class="mb-3">Minimum Advance Payment</label>
                                                                             </div>
                                                                             <div class="input-group mb-3 inputWidth">
                                                                                 <input type="text" class="form-control" id="bookingPercentage" name="bookingPercentage" placeholder="30">
@@ -1283,23 +1283,98 @@ $product_payout_data_ins = $data9->fetchAll();
                                                 </div>
                                                 <!-- Sixth Box Package Picture  -->
                                                 <div id="package_form_picture" style="display: none;">
-                                                    <div class="col-md-6 col-sm-12">
-                                                        <label style="margin-top: -34px;font-size: 0.8rem;">Pictures:</label>
-                                                        <div class="file-field input-field">
-                                                            <div class="btn">
-                                                                <!-- <span>Upload</span> -->
-                                                                <input class="form-control" type="file" id="gallery-photo-add" accept=".jpg,.png,.jpeg" multiple>
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="borderHighlight p-3 mt-3">
+                                                                <h4 class="fw-bolder">1. Package Cover Image</h4>
+                                                                <p>This image will be shown as the main thumbnail for the packages across website, app and listings.</p>
+                                                                <div class="row">
+                                                                    <div class="col-lg-6">
+                                                                        <div class="image-preview-wrapper">
+                                                                            <img src="https://placehold.co/600x300?text=No+Image" alt="Package Cover" class="packageCoverImage" id="packageCoverImage">
+                                                                            <button type="button" class="delete-image-btn" id="deleteImageBtn">
+                                                                                <i class="fa-solid fa-trash-can"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6">
+                                                                        <div class="large-drop-zone" id="dragDropZone">
+                                                                            <p><i class="fa-solid fa-cloud-arrow-up fa-xl"></i></p>
+                                                                            <p>
+                                                                                <span id="selectedFileText">
+                                                                                    Drag & Drop image here or Click to browse
+                                                                                </span>
+                                                                            </p>
+                                                                            <p class="my-3 text-center">
+                                                                                Recommended Size:1600 x 900px <br>
+                                                                                Max Size: 5MB | Format: JPG, PNG, WEBP
+                                                                            </p>
+                                                                        </div>
+                                                                        <input type="file" id="imageUpload" accept="image/png,image/jpeg,image/jpg,image/webp" hidden>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <!-- <div class="file-path-wrapper">
-                                                                <input class="file-path validate" type="text">
-                                                                <input type="hidden" id="picture" disabled>
-                                                            </div> -->
-                                                            <div class="gallery"></div>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <div class="borderHighlight p-3 mt-3">
+                                                                <h4 class="fw-bolder">2. Image Gallery</h4>
+                                                                <p>Upload multiple images to highlight attractions, hotels, activities and experiences.</p>
+                                                                <!-- Gallery Preview -->
+                                                                <div class="row" id="galleryContainer"></div>
+                                                                <!-- Upload Area -->
+                                                                <div class="row">
+                                                                    <div class="col-lg-12">
+                                                                        <div class="small-drop-zone" id="imageGalleryZone">
+                                                                            <div>
+                                                                                <i class="fa-solid fa-cloud-arrow-up me-2"></i>
+                                                                                <span id="galleryText">
+                                                                                    Drag & Drop multiple images here or Click to Upload
+                                                                                </span>
+                                                                            </div>
+                                                                            <p class="mb-0 text-muted">
+                                                                                You can upload up to 18 images | Max Size: 5MB each | Format: JPG, PNG, WEBP
+                                                                            </p>
+                                                                            <div id="galleryMessage" class="text-danger mt-2 fw-semibold"></div>
+                                                                            <input type="file" id="galleryInput" accept="image/jpeg,image/png,image/webp" multiple hidden>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <div class="borderHighlight p-3 mt-3">
+                                                                <h4 class="fw-bolder">3. Video</h4>
+                                                                <p>Upload a promotional video to give users a better preview of the destination and package.</p>
+                                                                <div class="row">
+                                                                    <div class="col-lg-12">
+                                                                        <div class="video-preview-wrapper">
+                                                                            <div class="video-input-group">
+                                                                                <input type="text"
+                                                                                    class="video-link-input"
+                                                                                    id="videoLinkInput"
+                                                                                    placeholder="Paste YouTube or Vimeo link here">
+
+                                                                                <button type="button" class="preview-btn" id="addVideoBtn">
+                                                                                    Preview Video
+                                                                                </button>
+                                                                            </div>
+
+                                                                            <div class="video-example">
+                                                                                <i class="ri-play-line"></i>
+                                                                                Example: https://www.youtube.com/watch?v=xxxxxxxx
+                                                                                or https://vimeo.com/xxxxxxxx
+                                                                            </div>
+
+                                                                            <div id="videoPreviewList"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-sm-12 m-3">
-                                                            <button><a href="#" id="submit_form" class="placeholder-wave bg-primary border rounded-3 text-white p-2">SUBMIT</a></button>
+                                                        <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" >
+                                                            <a href="#" id="update_form" class="waves-effect waves-light btn-large" style=" color: white;">Submit</a>
                                                             <a href="#" id="update_form" style="display:none"></a>
                                                         </div>
                                                     </div>
@@ -1550,7 +1625,7 @@ $product_payout_data_ins = $data9->fetchAll();
             });
         </script>
         <!-- Inclusion, Exclution, Remark & Things Section -->
-         <script>
+        <script>
             $(document).ready(function () {
 
                 function addItem(listId, itemClass, textClass, editClass, deleteClass, label) {
@@ -1836,6 +1911,414 @@ $product_payout_data_ins = $data9->fetchAll();
             // Delete row
             $(document).on("click", ".remove-file", function(){
                 $(this).closest("tr").remove();
+            });
+        </script>
+        <!-- Picture & Media Section -->
+        <!-- Package Cover Image -->
+        <script>
+            $(document).ready(function () {
+
+                const dropZone = $("#dragDropZone");
+                const fileInput = $("#imageUpload");
+                const previewImage = $("#packageCoverImage");
+                const deleteBtn = $("#deleteImageBtn");
+                const fileText = $("#selectedFileText");
+
+                // Click Drop Zone
+                dropZone.on("click", function () {
+                    fileInput.trigger("click");
+                });
+
+                // File Selection
+                fileInput.on("change", function () {
+                    if (this.files.length) {
+                        previewFile(this.files[0]);
+                    }
+                });
+
+                // Drag Events
+                dropZone.on("dragover", function (e) {
+                    e.preventDefault();
+                    $(this).addClass("dragover");
+                });
+
+                dropZone.on("dragleave", function () {
+                    $(this).removeClass("dragover");
+                });
+
+                dropZone.on("drop", function (e) {
+                    e.preventDefault();
+                    $(this).removeClass("dragover");
+
+                    const files = e.originalEvent.dataTransfer.files;
+
+                    if (files.length) {
+                        fileInput[0].files = files;
+                        previewFile(files[0]);
+                    }
+                });
+
+                function previewFile(file) {
+
+                    const validTypes = [
+                        "image/jpeg",
+                        "image/jpg",
+                        "image/png",
+                        "image/webp"
+                    ];
+
+                    if (!validTypes.includes(file.type)) {
+                        alert("Please upload JPG, PNG or WEBP image.");
+                        return;
+                    }
+
+                    if (file.size > 5 * 1024 * 1024) {
+                        alert("Maximum file size is 5MB.");
+                        return;
+                    }
+
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        previewImage.attr("src", e.target.result);
+                        deleteBtn.css("display", "flex");
+                        fileText.text(file.name);
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+
+                // Delete Image
+                deleteBtn.on("click", function () {
+                    previewImage.attr(
+                        "src",
+                        "https://placehold.co/600x300?text=No+Image"
+                    );
+
+                    fileInput.val("");
+                    fileText.text("Drag & Drop image here or Click to browse");
+                    $(this).hide();
+                });
+
+            });
+        </script>
+        <!-- Image Gallery  -->
+        <script>
+            $(document).ready(function () {
+
+                const maxImages = 18;
+                let galleryImages = [];
+
+                // Click Upload Area
+                $(document).on("click", "#imageGalleryZone", function (e) {
+
+                    if ($(e.target).closest(".delete-image").length) {
+                        return;
+                    }
+
+                    const input = document.getElementById("galleryInput");
+
+                    if (!input) {
+                        console.error("galleryInput not found");
+                        return;
+                    }
+
+                    try {
+                        if (typeof input.showPicker === "function") {
+                            input.showPicker();
+                        } else {
+                            input.click();
+                        }
+                    } catch (err) {
+                        input.click();
+                    }
+                });
+
+                // File Selection
+                $(document).on("change", "#galleryInput", function () {
+
+                    const files = this.files;
+
+                    if (files && files.length) {
+                        handleFiles(files);
+                    }
+
+                    $(this).val("");
+                });
+
+                // Drag Over
+                $(document).on("dragover", "#imageGalleryZone", function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    $(this).addClass("dragover");
+                });
+
+                // Drag Leave
+                $(document).on("dragleave", "#imageGalleryZone", function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    $(this).removeClass("dragover");
+                });
+
+                // Drop Files
+                $(document).on("drop", "#imageGalleryZone", function (e) {
+
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    $(this).removeClass("dragover");
+
+                    const files = e.originalEvent.dataTransfer.files;
+
+                    if (files && files.length) {
+                        handleFiles(files);
+                    }
+                });
+
+                function handleFiles(files) {
+
+                    const remainingSlots = maxImages - galleryImages.length;
+
+                    if (remainingSlots <= 0) {
+
+                        $("#galleryMessage")
+                            .removeClass("text-muted text-warning")
+                            .addClass("text-danger")
+                            .html("Maximum limit of 18 images reached.");
+
+                        return;
+                    }
+
+                    if (files.length > remainingSlots) {
+
+                        $("#galleryMessage")
+                            .removeClass("text-muted text-danger")
+                            .addClass("text-warning")
+                            .html(`Only ${remainingSlots} image(s) can be uploaded.`);
+                    }
+
+                    Array.from(files)
+                        .slice(0, remainingSlots)
+                        .forEach(function (file) {
+
+                            const validTypes = [
+                                "image/jpeg",
+                                "image/png",
+                                "image/webp"
+                            ];
+
+                            if (!validTypes.includes(file.type)) {
+                                return;
+                            }
+
+                            if (file.size > 5 * 1024 * 1024) {
+                                return;
+                            }
+
+                            const reader = new FileReader();
+
+                            reader.onload = function (e) {
+
+                                galleryImages.push({
+                                    id: Date.now() + Math.random(),
+                                    src: e.target.result
+                                });
+
+                                renderGallery();
+                            };
+
+                            reader.readAsDataURL(file);
+                        });
+                }
+
+                function toggleUploadZone() {
+
+                    if (galleryImages.length >= maxImages) {
+
+                        $("#imageGalleryZone").hide();
+
+                        $("#galleryMessage")
+                            .removeClass("text-muted text-warning")
+                            .addClass("text-danger")
+                            .html("Maximum limit of 18 images reached. Delete an image to upload more.");
+
+                    } else {
+
+                        $("#imageGalleryZone").show();
+
+                        $("#galleryMessage")
+                            .removeClass("text-danger text-warning")
+                            .addClass("text-muted")
+                            .html(`${galleryImages.length}/${maxImages} images uploaded`);
+                    }
+                }
+
+                function renderGallery() {
+
+                    let html = '';
+                    const totalImages = galleryImages.length;
+
+                    galleryImages.forEach(function (image) {
+
+                        let colClass = "col-lg-2 col-md-3 col-sm-4 col-6";
+
+                        if (totalImages <= 6) {
+
+                            switch (totalImages) {
+                                case 1:
+                                    colClass = "col-12";
+                                    break;
+                                case 2:
+                                    colClass = "col-6";
+                                    break;
+                                case 3:
+                                    colClass = "col-4";
+                                    break;
+                                case 4:
+                                    colClass = "col-3";
+                                    break;
+                                case 5:
+                                    colClass = "custom-col-5";
+                                    break;
+                                case 6:
+                                    colClass = "col-2";
+                                    break;
+                            }
+                        }
+
+                        html += `
+                            <div class="${colClass} mb-1">
+                                <div class="gallery-item position-relative">
+                                    <img src="${image.src}" class="w-100" alt="Gallery Image">
+
+                                    <button type="button"
+                                            class="gallery-delete delete-image"
+                                            data-id="${image.id}">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    $("#galleryContainer").html(html);
+
+                    toggleUploadZone();
+                }
+
+                // Delete Image
+                $(document).on("click", ".delete-image", function (e) {
+
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const imageId = $(this).data("id");
+
+                    galleryImages = galleryImages.filter(function (image) {
+                        return image.id !== imageId;
+                    });
+
+                    renderGallery();
+                });
+
+                toggleUploadZone();
+
+            });
+        </script>
+        <!-- Video -->
+        <script>
+            $(document).ready(function () {
+
+                // Hide example if videos already exist
+                if ($("#videoPreviewList .video-preview-item").length > 0) {
+                    $(".video-example").hide();
+                }
+
+                function addVideoLink() {
+
+                    let videoUrl = $("#videoLinkInput").val().trim();
+
+                    if (!videoUrl) {
+                        alert("Please enter a video link");
+                        return;
+                    }
+
+                    // Optional: Validate YouTube/Vimeo URL
+                    const validVideoUrl =
+                        videoUrl.includes("youtube.com") ||
+                        videoUrl.includes("youtu.be") ||
+                        videoUrl.includes("vimeo.com");
+
+                    if (!validVideoUrl) {
+                        alert("Please enter a valid YouTube or Vimeo link.");
+                        return;
+                    }
+
+                    // Prevent duplicates
+                    let exists = false;
+
+                    $(".video-url").each(function () {
+                        if ($(this).text().trim() === videoUrl) {
+                            exists = true;
+                            return false;
+                        }
+                    });
+
+                    if (exists) {
+                        alert("This video link already exists.");
+                        return;
+                    }
+
+                    let videoItem = `
+                        <div class="video-preview-item">
+                            <div class="video-link-content">
+                                <i class="fa-solid fa-play play-video"
+                                data-url="${videoUrl}"
+                                title="Play Video"></i>
+
+                                <span class="video-url">${videoUrl}</span>
+                            </div>
+
+                            <i class="fa-solid fa-trash-can delete-video"
+                            title="Delete"></i>
+                        </div>
+                    `;
+
+                    $("#videoPreviewList").append(videoItem);
+
+                    $(".video-example").hide();
+
+                    $("#videoLinkInput").val("").focus();
+                }
+
+                // Button Click
+                $("#addVideoBtn").on("click", function () {
+                    addVideoLink();
+                });
+
+                // Enter Key
+                $("#videoLinkInput").on("keypress", function (e) {
+                    if (e.which === 13) {
+                        e.preventDefault();
+                        addVideoLink();
+                    }
+                });
+
+                // Play Video
+                $(document).on("click", ".play-video", function () {
+                    window.open($(this).data("url"), "_blank");
+                });
+
+                // Delete Video
+                $(document).on("click", ".delete-video", function () {
+
+                    $(this).closest(".video-preview-item").remove();
+
+                    if ($("#videoPreviewList .video-preview-item").length === 0) {
+                        $(".video-example").show();
+                    }
+                });
+
             });
         </script>
     </body>
