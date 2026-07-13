@@ -46,6 +46,22 @@ if ($user_type_id == '32') { //institution
 	$bdm_id='';
 	$bdm_name='';
 	$bdm_user_type='25';
+	//----------------------------------------------
+	//executive_techno_enterprise edited on 13-07-2026 by PN
+	if ($reference_id == 'ET') {
+
+		$sql11 = $conn->prepare("SELECT * FROM executive_techno_enterprise WHERE executive_techno_enterprise_id = '" . $reference_no . "'");
+		$sql11->execute();
+		$sql11->setFetchMode(PDO::FETCH_ASSOC);
+		if ($sql11->rowCount() > 0) {
+			foreach (($sql11->fetchAll()) as $key11 => $row11) {
+				$Sf_id = $row11['executive_techno_enterprise_id'];
+				$Sf_name = $row11['firstname'] .' '. $row11['lastname'] ;
+				$bdm_id = $row11['reference_no'];
+				$bdm_name = $row11['registrant'];
+			}
+		}
+	}
 	//--------------------------
 	//Master Franchisee edidted on 15-10-2025 by SV
 	if ($reference_id == 'MF') {
@@ -325,6 +341,33 @@ if ($user_type_id == '32') { //institution
 					$mfCommiAmt = 0;
 					$message_sf="$name ($uid) was on-boarded via $ref_name ($ref_manager) as a Franchisee and paid Rs $amount /-"; // check veriable name
 				}
+				//-------------------------------------------------------
+				// ete Referral edited on 13-07-2026 by PN 
+				//  On institution recruitment ETE gets 5% and CTE get 2.5% commission
+				elseif (strpos($reference_no, 'ET') === 0) {
+					$master_franchisee = $reference_no;
+
+					// Get ETE name
+					$stmt = $conn->prepare("SELECT firstname, lastname,reference_no FROM executive_techno_enterprise WHERE executive_techno_enterprise_id = :sf_id");
+					$stmt->execute([':sf_id' => $master_franchisee]);
+					$sf = $stmt->fetch(PDO::FETCH_ASSOC);
+					// $mfCommiAmt = $amount * 0.05; //25000
+					$sf_name = $sf ? $sf['firstname'].' '.$sf['lastname'] : '';
+					$message_mf = "Executive Techno Enterprise(ETE) $sf_name ($master_franchisee) earned Rs $mfCommiAmt/- on registering Institution.Institution Name - $name (ID:$uid). Institution Amount: Rs $amount /-";
+					$message_sf="$name ($uid) was on-boarded via $sf_name ($master_franchisee) as a Institution and paid Rs $amount /-";
+					if (!empty($sf['reference_no']) && $sf['reference_no'] !== 'Not Applicable' && $sf['reference_no'] !== 'NA') {
+						$ref_manager = $sf['reference_no'];
+
+						// Get ref name
+						$stmt2 = $conn->prepare("SELECT firstname, lastname,user_type FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = :employee_id");
+						$stmt2->execute([':employee_id' => $ref_manager]);
+						$ref = $stmt2->fetch(PDO::FETCH_ASSOC);
+						// $refCommiAmt = $amount * 0.025; //12500
+						$ref_name = $ref ? $ref['firstname'].' '.$ref['lastname'] : '';
+						// $ref_designation=$ref['user_type'] == '24'?'BCM':($ref['user_type'] == '25'?'BDM':($ref['user_type'] == '31'?'RM':'unknonwn'));
+						$message_ref = "Chief Techno Enterprise(CTE) $ref_name ($ref_manager) earned Rs $refCommiAmt/- on registering Institution.Institution Name - $name (ID:$uid). Institution Amount: Rs $amount /-";
+					}
+				}
 			}else{
 				// Master Franchisee Referral edidted on 15-10-2025 by SV
 				if (strpos($reference_no, 'MF') === 0) {
@@ -422,6 +465,33 @@ if ($user_type_id == '32') { //institution
 					$message_mf = '';
 					$mfCommiAmt = 0;
 					$message_sf="$name ($uid) was on-boarded via $ref_name ($ref_manager) as a Franchisee and paid Rs $amount /-"; // check veriable name
+				}
+				//-------------------------------------------------------
+				// ete Referral edited on 13-07-2026 by PN 
+				//  On institution recruitment ETE gets 5% and CTE get 2.5% commission
+				elseif (strpos($reference_no, 'ET') === 0) {
+					$master_franchisee = $reference_no;
+
+					// Get ETE name
+					$stmt = $conn->prepare("SELECT firstname, lastname,reference_no FROM executive_techno_enterprise WHERE executive_techno_enterprise_id = :sf_id");
+					$stmt->execute([':sf_id' => $master_franchisee]);
+					$sf = $stmt->fetch(PDO::FETCH_ASSOC);
+					$mfCommiAmt = $amount * 0.05; //25000
+					$sf_name = $sf ? $sf['firstname'].' '.$sf['lastname'] : '';
+					$message_mf = "Executive Techno Enterprise(ETE) $sf_name ($master_franchisee) earned Rs $mfCommiAmt/- on registering Institution.Institution Name - $name (ID:$uid). Institution Amount: Rs $amount /-";
+					$message_sf="$name ($uid) was on-boarded via $sf_name ($master_franchisee) as a Institution and paid Rs $amount /-";
+					if (!empty($sf['reference_no']) && $sf['reference_no'] !== 'Not Applicable' && $sf['reference_no'] !== 'NA') {
+						$ref_manager = $sf['reference_no'];
+
+						// Get ref name
+						$stmt2 = $conn->prepare("SELECT firstname, lastname,user_type FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = :employee_id");
+						$stmt2->execute([':employee_id' => $ref_manager]);
+						$ref = $stmt2->fetch(PDO::FETCH_ASSOC);
+						$refCommiAmt = $amount * 0.025; //12500
+						$ref_name = $ref ? $ref['firstname'].' '.$ref['lastname'] : '';
+						// $ref_designation=$ref['user_type'] == '24'?'BCM':($ref['user_type'] == '25'?'BDM':($ref['user_type'] == '31'?'RM':'unknonwn'));
+						$message_ref = "Chief Techno Enterprise(CTE) $ref_name ($ref_manager) earned Rs $refCommiAmt/- on registering Institution.Institution Name - $name (ID:$uid). Institution Amount: Rs $amount /-";
+					}
 				}
 			}
 			//----------------------------------------------------
