@@ -74,38 +74,21 @@ $product_payout_data_ins = $data9->fetchAll();
             <div class="main-content">
                 <div class="page-content">
                     <div class="container-fluid">
-                        <nav aria-label="breadcrumb" class="d-flex justify-content-between">
-                            <div class="breadcrumb">
-                                <!-- <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                    <li class="breadcrumb-item"><a href="#">Library</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Data</li> -->
-                            </div>
-                            <div>
-                                <!-- return previous page link -->
-                                <li class="page-back" id="return_to_views_btn" style="display:block"><a href="all_packages.php"><i class="fa fa-backward" aria-hidden="true"></i> Back</a></li>
-                                <li class="page-back" id="return_to_general_btn" style="display:none"><a href="#"><i class="fa fa-backward" aria-hidden="true"></i> Back</a></li>
-                                <li class="page-back" id="return_to_extraInfo_btn" style="display:none"><a href="#"><i class="fa fa-backward" aria-hidden="true"></i> Back</a></li>
-                                <li class="page-back" id="return_to_itinerary_btn" style="display:none"><a href="#"><i class="fa fa-backward" aria-hidden="true"></i> Back</a></li>
-                                <li class="page-back" id="return_to_pricing_btn" style="display:none"><a href="#"><i class="fa fa-backward" aria-hidden="true"></i> Back</a></li>
-                                <!-- return previous page link -->
-                            </div>
-                        </nav>
                         <div class="row">
                             <div class="card">
                                 <div class="col-lg-12">
-                                    <div class="p-4" style="border-bottom: 1px solid #DDDDDD;">
-                                        <!-- p1 -->
-                                        <h4 id="package_form_general_title">Add New Package - General Information</h4>
-                                        <!-- p2 -->
-                                        <h4 id="package_form_extra_title" style="display: none">Add New Package - Package Extra Information</h4>
-                                        <!-- p3 -->
-                                        <h4 id="package_form_itinerary_title" style="display: none">Add New Package - Itinerary Details</h4>
-                                        <!-- p4 -->
-                                        <h4 id="package_form_pricing_title" style="display: none">Add New Package - Pricing</h4>
-                                        <!-- p5 -->
-                                        <h4 id="package_form_policy_title" style="display: none">Add New Package - Policy</h4>
-                                        <!-- p6 -->
-                                        <h4 id="package_form_picture_title" style="display: none">Add New Package - Pictures</h4>
+                                    <div class="p-4 d-flex justify-content-between align-items-center border-bottom">
+                                        <div>
+                                            <h4 id="pageTitle" class="mb-0">
+                                                Add New Package - General Information
+                                            </h4>
+                                            <small id="pageSubTitle" class="text-muted">
+                                                Return to Package Listing
+                                            </small>
+                                        </div>
+                                        <a href="#" id="dynamicBackBtn" class="btn btn-outline-primary">
+                                            <i class="fa fa-arrow-left me-2"></i>Back
+                                        </a>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-12 mt-3">
@@ -1463,6 +1446,7 @@ $product_payout_data_ins = $data9->fetchAll();
             </script> -->
         <script>
             $(document).ready(function () {
+
                 const sections = [
                     "#package_form_general",
                     "#package_form_extra",
@@ -1471,6 +1455,39 @@ $product_payout_data_ins = $data9->fetchAll();
                     "#package_form_policy",
                     "#package_form_picture"
                 ];
+
+                const pageData = {
+                    "#package_form_general": {
+                        title: "Add New Package - General Information",
+                        backText: "Return to Package Listing",
+                        backLink: "all_packages.php"
+                    },
+                    "#package_form_extra": {
+                        title: "Add New Package - Extra Information",
+                        backText: "Return to General Information",
+                        backLink: "#package_form_general"
+                    },
+                    "#package_form_itinerary": {
+                        title: "Add New Package - Itinerary & Inclusions",
+                        backText: "Return to Extra Information",
+                        backLink: "#package_form_extra"
+                    },
+                    "#package_form_pricing": {
+                        title: "Add New Package - Pricing",
+                        backText: "Return to Itinerary & Inclusions",
+                        backLink: "#package_form_itinerary"
+                    },
+                    "#package_form_policy": {
+                        title: "Add New Package - Policy",
+                        backText: "Return to Pricing",
+                        backLink: "#package_form_pricing"
+                    },
+                    "#package_form_picture": {
+                        title: "Add New Package - Pictures & Media",
+                        backText: "Return to Policy",
+                        backLink: "#package_form_policy"
+                    }
+                };
 
                 function showSection(target) {
 
@@ -1482,18 +1499,27 @@ $product_payout_data_ins = $data9->fetchAll();
                     // Show selected section
                     $(target).show();
 
-                    // Update active tab
+                    // Update active step
                     $(".step-link").removeClass("active");
                     $(".roundedCircle").removeClass("active");
 
                     $('.step-link[href="' + target + '"]').addClass("active");
                     $('.step-link[href="' + target + '"] .roundedCircle').addClass("active");
+
+                    // Update page title
+                    $("#pageTitle").text(pageData[target].title);
+
+                    // Update return text
+                    $("#pageSubTitle").text(pageData[target].backText);
+
+                    // Update back button target
+                    $("#dynamicBackBtn").attr("data-target", pageData[target].backLink);
                 }
 
                 // Initial load
                 showSection("#package_form_general");
 
-                // Nav click
+                // Stepper navigation click
                 $(".step-link").on("click", function (e) {
                     e.preventDefault();
 
@@ -1501,28 +1527,42 @@ $product_payout_data_ins = $data9->fetchAll();
                     showSection(target);
                 });
 
+                // Back button click
+                $("#dynamicBackBtn").on("click", function (e) {
+                    e.preventDefault();
+
+                    let target = $(this).attr("data-target");
+
+                    if (target === "all_packages.php") {
+                        window.location.href = target;
+                        return;
+                    }
+
+                    showSection(target);
+                });
+
                 // Next buttons
-                $("#package_form_general_nextBtn").click(function (e) {
+                $("#package_form_general_nextBtn").on("click", function (e) {
                     e.preventDefault();
                     showSection("#package_form_extra");
                 });
 
-                $("#package_form_extra_nextBtn").click(function (e) {
+                $("#package_form_extra_nextBtn").on("click", function (e) {
                     e.preventDefault();
                     showSection("#package_form_itinerary");
                 });
 
-                $("#package_form_itinerary_nxtBtn").click(function (e) {
+                $("#package_form_itinerary_nxtBtn").on("click", function (e) {
                     e.preventDefault();
                     showSection("#package_form_pricing");
                 });
 
-                $("#package_form_pricing_nextBtn").click(function (e) {
+                $("#package_form_pricing_nextBtn").on("click", function (e) {
                     e.preventDefault();
                     showSection("#package_form_policy");
                 });
 
-                $("#package_form_policy_nextBtn").click(function (e) {
+                $("#package_form_policy_nextBtn").on("click", function (e) {
                     e.preventDefault();
                     showSection("#package_form_picture");
                 });
