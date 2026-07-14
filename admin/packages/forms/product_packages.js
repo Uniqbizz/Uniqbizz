@@ -493,43 +493,61 @@ $(document).ready(function () {
 		if (x < max_fields) {
 			x++;
 			$(wrapper).append(`<div class="row day-container">
-						<div class="col-md-2 col-sm-2 col-12 d-flex justify-content-center align-items-center">
-							<div class="">
-								<a type="button" class="btn btn-success px-3 ms-4 dayval">Day: ${dayCount}</a>
+						<div class="col-md-2 col-sm-2 col-12 mb-2">
+							<div class="upload-card icon-upload-card" data-title="Icons" data-index="1">
+								<input type="hidden" id="img_path1" value="">
+								<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file1">
+								<div class="upload-content">
+									<div class="upload-icon">
+										<i class="fa-solid fa-user"></i>
+									</div>
+									<h6>Add Icons</h6>
+									<p>Click to upload<br>or drag and drop</p>
+									<small>(JPG, PNG, PDF)</small>
+								</div>
 							</div>
-						</div>
+ 						</div>
 						<div class="col-md-10 col-sm-10 col-12">
-							<div class="row">
-								<div class="card rounded-5 box" draggable="true">
-									<div class="row px-4 pt-2 d-flex justify-content-between">
-										<div class="col-md-9 col-sm-8 col-8">
-											<div class="input-group mb-3">
-												<span class="input-group-text">Title</span>
-												<input type="text" class="form-control title" placeholder="Title">
-											</div>
+							<div class="card rounded-5 box border border-1 px-3 pt-3" draggable="true">
+								<div class="row">
+									<div class="col-md-2 col-sm-3 col-3">
+										<a type="button" class="btn btn-success px-3 dayval">Day: ${dayCount}</a>
+									</div>
+									<div class="col-md-8 col-sm-6 col-6">
+										<div class="input-group mb-3">
+											<span class="input-group-text">Title</span>
+											<input type="text" class="form-control title" placeholder="Title">
 										</div>
-										<div class="col-md-2 col-4 col-4">
+									</div>
+									<div class="col-md-2 col-sm-3 col-3">
+										<div class="d-flex justify-content-end">
 											<button type="button" class="remove_field btn btn-danger px-3 ms-4">Remove</button>
 										</div>
 									</div>
-									<div class="col-md-12 px-4 pb-2">
-										<div class="input-group">
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="input-group mb-3">
 											<span class="input-group-text">Description</span>
 											<textarea class="form-control description"></textarea>
 										</div>
 									</div>
-									<div class="row px-4 py-2 pb-0">
-										<div class="col-md-6">
-											<div class="input-group mb-3">
-												<span class="input-group-text">Meals Included</span>
-												<input type="text" class="form-control meals" placeholder="Meals">
-											</div>
+									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
+										<div class="input-group mb-3">
+											<span class="input-group-text">Meals Included</span>
+											<input type="text" class="form-control meals" placeholder="Meals">
 										</div>
-										<div class="col-md-6">
-											<div class="input-group mb-3">
-												<span class="input-group-text">Transport</span>
-												<input type="text" class="form-control transport" placeholder="Transport">
-											</div>
+									</div>
+									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
+										<div class="input-group mb-3">
+											<span class="input-group-text">Transport</span>
+											<input type="text" class="form-control transport" placeholder="Transport">
+										</div>
+									</div>
+									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
+										<div class="input-group mb-3">
+											<span class="input-group-text">Stay</span>
+											<input type="text" class="form-control transport" placeholder="Stay">
 										</div>
 									</div>
 								</div>

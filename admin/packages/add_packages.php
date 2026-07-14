@@ -29,854 +29,2337 @@ $product_payout_data_ins = $data9->fetchAll();
 
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Add Packages</title>
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="../assets/images/fav.png">
+        <!-- custom css file -->
+        <!-- <link href="../assets/css/styles.css" rel="stylesheet" type="text/css" /> -->
+        <!-- Bootstrap Css -->
+        <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <!-- Icons Css -->
+        <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <!-- App Css-->
+        <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+        <!-- App js -->
+        <!-- <script src="assets/js/plugin.js"></script> -->
+        <!-- DataTables -->
+        <link href="../assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Packages</title>
-    <!-- App favicon -->
-    <link rel="shortcut icon" href="../assets/images/fav.png">
-    <!-- custom css file -->
-    <!-- <link href="../assets/css/styles.css" rel="stylesheet" type="text/css" /> -->
-    <!-- Bootstrap Css -->
-    <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
-    <!-- Icons Css -->
-    <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-    <!-- App Css-->
-    <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
-    <!-- App js -->
-    <!-- <script src="assets/js/plugin.js"></script> -->
-    <!-- DataTables -->
-    <link href="../assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <!-- Responsive datatable examples -->
+        <link href="../assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <!-- Loading Screen and Images size css  -->
+        <link href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
 
-    <!-- Responsive datatable examples -->
-    <link href="../assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-    <!-- Loading Screen and Images size css  -->
-    <link href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
+        <!-- <link href="forms/product_packages.css" rel="stylesheet" type="text/css" />  -->
+        <!-- Packages CSS -->
+        <link href="../assets/css/packages.css" rel="stylesheet" type="text/css" />
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head>
+    <body data-sidebar="dark" id="page_body">
+        <div id="testpho"></div>
+        <div id="testemails"></div>
 
-    <!-- <link href="forms/product_packages.css" rel="stylesheet" type="text/css" />  -->
+        <div class="layout-wrapper">
+            <?php
+            // top header logo, hamberger menu, fullscreen icon, profile
+            include_once '../header.php';
 
-    <style>
-        .page-back {
-            padding: 1rem;
-        }
-
-        /* required class for text fields */
-        .required:after {
-            content: " *";
-            color: red;
-        }
-
-        /* .custom_btn {
-                border: none;
-                color: white;
-                padding: 10px 19px;
-                text-align: center;
-                text-decoration: none;
-                display: inline-flex;
-                font-size: 13px;
-                cursor: pointer;
-                width: 100px !important;
-                border-radius: 5px;
-            }
-            .btn1 {
-                background-color: #21a827; Green
-            }
-            .btn2 {
-                background-color: #cd0101; red
-                margin-left: 26px !important;
-            }
-            input::file-selector-button {
-                background-color: #556ee6;
-                background-size: 150%;
-                border: 0;
-                border-radius: 8px;
-                color: #fff;
-                padding: 1rem 1.25rem;
-                text-shadow: 0 1px 1px #333;
-                transition: all 0.25s;
-                color: white;
-                content: "Upload";
-            }
-            input::file-selector-button:hover {
-                background-color: #556ee6;
-            }
-            button{
-                border-radius: 8px !important;
-                padding: 15px 10px !important;
-            } */
-        .gallery img {
-            width: 30%;
-            display: inline-flex;
-        }
-    </style>
-</head>
-
-<body data-sidebar="dark" id="page_body">
-    <div id="testpho"></div>
-    <div id="testemails"></div>
-
-    <div class="layout-wrapper">
-        <?php
-        // top header logo, hamberger menu, fullscreen icon, profile
-        include_once '../header.php';
-
-        // sidebar navigation menu 
-        include_once '../sidebar.php';
-        ?>
-        <div class="main-content">
-            <div class="page-content">
-                <div class="container-fluid">
-                    <nav aria-label="breadcrumb" class="d-flex justify-content-between">
-                        <div class="breadcrumb">
-                            <!-- <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item"><a href="#">Library</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Data</li> -->
-                        </div>
-                        <div>
-                            <!-- return previous page link -->
-                            <li class="page-back" id="return_to_views_btn" style="display:block"><a href="all_packages.php"><i class="fa fa-backward" aria-hidden="true"></i> Back</a></li>
-                            <li class="page-back" id="return_to_general_btn" style="display:none"><a href="#"><i class="fa fa-backward" aria-hidden="true"></i> Back</a></li>
-                            <li class="page-back" id="return_to_extraInfo_btn" style="display:none"><a href="#"><i class="fa fa-backward" aria-hidden="true"></i> Back</a></li>
-                            <li class="page-back" id="return_to_itinerary_btn" style="display:none"><a href="#"><i class="fa fa-backward" aria-hidden="true"></i> Back</a></li>
-                            <li class="page-back" id="return_to_pricing_btn" style="display:none"><a href="#"><i class="fa fa-backward" aria-hidden="true"></i> Back</a></li>
-                            <!-- return previous page link -->
-                        </div>
-                    </nav>
-                    <div class="row">
-                        <div class="card">
-                            <div class="col-lg-12">
-                                <div class="p-4" style="border-bottom: 1px solid #DDDDDD;">
-                                    <!-- p1 -->
-                                    <h4 id="package_form_general_title">Add New Package - General Information</h4>
-                                    <!-- p2 -->
-                                    <h4 id="package_form_extra_title" style="display: none">Add New Package - Package Extra Information</h4>
-                                    <!-- p3 -->
-                                    <h4 id="package_form_itinerary_title" style="display: none">Add New Package - Itinerary Details</h4>
-                                    <!-- p4 -->
-                                    <h4 id="package_form_pricing_title" style="display: none">Add New Package - Pricing</h4>
-                                    <!-- p5 -->
-                                    <h4 id="package_form_picture_title" style="display: none">Add New Package - Pictures</h4>
-                                </div>
+            // sidebar navigation menu 
+            include_once '../sidebar.php';
+            ?>
+            <div class="main-content">
+                <div class="page-content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="card">
                                 <div class="col-lg-12">
-                                    <form id="package_form" enctype="multipart/form-data">
-                                        <input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}" />
-                                        <!-- First Box General details-->
-                                        <div id="package_form_general">
-                                            <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                                    <div class="form-floating mt-3 mb-3">
-                                                        <span class="required"></span>
-                                                        <select class="form-select" id="category_id" name="category_id" aria-label="Floating label select example">
-                                                            <?php
-                                                            $cat_data = $conn->prepare("SELECT * FROM category where status='1' ");
-                                                            $cat_data->execute();
-                                                            // set the resulting array to associative
-                                                            $cat_data->setFetchMode(PDO::FETCH_ASSOC);
-
-                                                            if ($cat_data->rowCount() > 0) {
-                                                                echo '<option value="">--Select Category--</option>';
-                                                                foreach (($cat_data->fetchAll()) as $key => $row) {
-                                                                    echo '<option value="' . $row['id'] . '">' . $row['category_name'] . '</option>';
-                                                                }
-                                                            } else {
-                                                                echo '<option value=""> No Category Avaiable </option>';
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                        <label>Select Category Type</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                                    <div class="form-floating mt-3 mb-3">
-                                                        <span class="required"></span>
-                                                        <select id="sub_category_id" name="sub_category_id" class="form-select">
-                                                            <option value="">--Select Category First--</option>
-                                                        </select>
-                                                        <label>Select Sub-Category Type</label>
-                                                    </div>
-                                                    <select id="sub_category_data" name="sub_category_data" class="form-select" style="display: none"></select>
-                                                </div>
-
-
-                                                <div class="col-md-6 col-sm-12" id="club_class_display" style="display: none">
-                                                    <div class="form-floating mb-3">
-                                                        <span class="required"></span>
-                                                        <select id="club_id" name="club_id" class="form-select">
-                                                            <?php
-                                                            $club_data = $conn->prepare("SELECT * FROM club");
-                                                            $club_data->execute();
-                                                            // set the resulting array to associative
-                                                            $club_data->setFetchMode(PDO::FETCH_ASSOC);
-
-                                                            if ($club_data->rowCount() > 0) {
-                                                                echo '<option value="0">--Select Club--</option>';
-                                                                foreach (($club_data->fetchAll()) as $key => $row) {
-                                                                    echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
-                                                                }
-                                                            } else {
-                                                                echo '<option value=""> No Clubs Avaiable </option>';
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                        <label>Select Club</label>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-6 col-md-6 col-sm-6 ps-4 pt-4 pb-3">
-                                                    <label>Package applicable for</label>
-                                                    <span class="required"></span>
-                                                    <br />
-                                                    <div class="select">
-                                                        <span id="stag_id_field"><input type="radio" onclick="packageTypeOnClick(this);" name="package_type" value="stag" id="stag_id"><label style="padding-right: 15px; padding-left: 5px;" for="stag_id"> Stag</label></span>
-                                                        <span id="couple_id_field"><input type="radio" onclick="packageTypeOnClick(this);" name="package_type" value="couple" id="couple_id"><label style="padding-right: 15px; padding-left: 5px;" for="couple_id"> Couple</label></span>
-                                                        <span id="family_id_field"><input type="radio" onclick="packageTypeOnClick(this);" name="package_type" value="family" id="family_id"><label style="padding-right: 15px; padding-left: 5px;" for="family_id"> Family</label></span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-12 col-sm-12">
-                                                    <div class="form-floating mb-3">
-                                                        <input type="text" class="form-control" id="name" name="name" placeholder="Package Name">
-                                                        <label for="name" class="required">Package Name</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 col-sm-6">
-                                                    <div class="form-floating mb-3">
-                                                        <input type="text" class="form-control" id="unique_code" name="unique_code" placeholder="Unique Code">
-                                                        <label for="unique_code" class="required">Unique Code</label>
-
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-2 col-sm-2">
-                                                    <div class="form-floating mb-3">
-                                                        <input type="number" class="form-control" id="tour_days" name="tour_days" placeholder="Unique Code">
-                                                        <label for="tour_days" class="required">Tour Days</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 col-sm-4">
-                                                    <div class="form-floating mb-3">
-                                                        <input type="date" class="form-control" id="pac_validity" name="pac_validity" placeholder="Package Validity">
-                                                        <label for="pac_validity" class="required">Validity Upto</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-col-md-12 col-sm-12">
-                                                    <div class="form-floating mb-3">
-                                                        <input id="description" class="form-control" type="text" name="description" placeholder="Description">
-                                                        <label for="description" class="required" for="description">Description</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" id="package_form_general_nextBtn">
-                                                    <a href="#" class="waves-effect waves-light btn-large" style=" color: white;">Next</a>
-                                                </div>
-                                            </div>
+                                    <div class="p-4 d-flex justify-content-between align-items-center border-bottom">
+                                        <div>
+                                            <h4 id="pageTitle" class="mb-0">
+                                                Add New Package - General Information
+                                            </h4>
+                                            <small id="pageSubTitle" class="text-muted">
+                                                Return to Package Listing
+                                            </small>
                                         </div>
+                                        <a href="#" id="dynamicBackBtn" class="btn btn-outline-primary">
+                                            <i class="fa fa-arrow-left me-2"></i>Back
+                                        </a>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 mt-3">
+                                            <nav class="stepper-nav">
+                                                <a class="nav-link textColor active step-link d-flex align-items-center gap-1" href="#package_form_general">
+                                                    <div class="roundedCircle active">1</div>
+                                                    <span>General Information</span>
+                                                </a>
 
-                                        <!-- Second Box Extra Details -->
-                                        <div id="package_form_extra" style="display: none;">
-                                            <div class="row">
-                                                <div class="col-md-12 col-sm-12">
-                                                    <div class="form-floating mt-3 mb-3">
-                                                        <input type="text" id="destination" name="destination" placeholder="Destination" class="form-control">
-                                                        <label for="destination" class="required">Destination</label>
-                                                    </div>
+                                                <div class="hrRotate">
+                                                    <hr class="border border-1 border-secondary">
                                                 </div>
-                                                <div class="col-md-12 col-sm-12">
-                                                    <div class="form-floating mb-3">
-                                                        <input type="text" id="location" name="location" value="" placeholder="Location" class="form-control">
-                                                        <label for="location" class="required">Location</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 col-sm-12">
-                                                    <div class="form-floating mb-3">
-                                                        <input type="text" id="travel_from" name="travel_from" value="" placeholder="Transfer From" class="form-control">
-                                                        <label for="travel_from" class="required">Transfer From</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 col-sm-12">
-                                                    <div class="form-floating mb-3">
-                                                        <input type="text" id="travel_to" name="travel_to" value="" placeholder="Transfer To" class="form-control">
-                                                        <label for="travel_to" class="required">Transfer To</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12 col-sm-12">
-                                                    <div class="form-floating mb-3">
-                                                        <input type="text" id="sightseeing_type" name="sightseeing_type" value="" placeholder="Sightseeing Type" class="form-control">
-                                                        <label for="sightseeing_type" class="required">Sightseeing Type</label>
-                                                    </div>
 
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6 col-sm-12">
-                                                    <div class="form-floating mb-3">
-                                                        <select id="category_hotel_id" name="category_hotel_id" class="selectdesign form-select">
-                                                            <?php
-                                                            $cat_data_hotel = $conn->prepare("SELECT * FROM category_hotel");
-                                                            $cat_data_hotel->execute();
-                                                            // set the resulting array to associative
-                                                            $cat_data_hotel->setFetchMode(PDO::FETCH_ASSOC);
+                                                <a class="nav-link textColor step-link d-flex align-items-center gap-1" href="#package_form_extra">
+                                                    <div class="roundedCircle">2</div>
+                                                    <span>Extra Information</span>
+                                                </a>
 
-                                                            if ($cat_data_hotel->rowCount() > 0) {
-                                                                echo '<option value="0">--Select Hotel Ratings--</option>';
-                                                                foreach (($cat_data_hotel->fetchAll()) as $key => $row) {
-                                                                    echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
-                                                                }
-                                                            } else {
-                                                                echo '<option value="0"> No Hotels Available </option>';
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                        <label class="required">Hotel Category</label>
-                                                    </div>
+                                                <div class="hrRotate">
+                                                    <hr class="border border-1 border-secondary">
                                                 </div>
-                                                <div class="col-md-6 col-sm-12">
-                                                    <div class="form-floating mb-3 form">
-                                                        <select id="occupancy_id" name="occupancy_id" class="form-select">
-                                                            <?php
-                                                            $cat_data_occupancy = $conn->prepare("SELECT * FROM category_occupancy");
-                                                            $cat_data_occupancy->execute();
-                                                            // set the resulting array to associative
-                                                            $cat_data_occupancy->setFetchMode(PDO::FETCH_ASSOC);
 
-                                                            if ($cat_data_occupancy->rowCount() > 0) {
-                                                                echo '<option value="0">--Select Occupancy Type--</option>';
-                                                                foreach (($cat_data_occupancy->fetchAll()) as $key => $row) {
-                                                                    echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
-                                                                }
-                                                            } else {
-                                                                echo '<option value="0"> No Occupancy Available </option>';
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                        <label class="required">Occupancy Category</label>
-                                                        <div id="occupancy_data"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 col-sm-12">
-                                                    <div class="form-floating mb-3">
-                                                        <select id="category_meal_id" name="category_meal_id" class="form-select">
-                                                            <?php
-                                                            $cat_data_meal = $conn->prepare("SELECT * FROM category_meal");
-                                                            $cat_data_meal->execute();
-                                                            // set the resulting array to associative
-                                                            $cat_data_meal->setFetchMode(PDO::FETCH_ASSOC);
+                                                <a class="nav-link textColor step-link d-flex align-items-center gap-1" href="#package_form_itinerary">
+                                                    <div class="roundedCircle">3</div>
+                                                    <span>Itinerary & Inclusions</span>
+                                                </a>
 
-                                                            if ($cat_data_meal->rowCount() > 0) {
-                                                                echo '<option value="0">--Select Meal Type--</option>';
-                                                                foreach (($cat_data_meal->fetchAll()) as $key => $row) {
-                                                                    echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
-                                                                }
-                                                            } else {
-                                                                echo '<option value="0"> No Meal Available </option>';
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                        <label class="required">Meal Category</label>
-                                                    </div>
+                                                <div class="hrRotate">
+                                                    <hr class="border border-1 border-secondary">
                                                 </div>
-                                                <div class="form-group col-md-6 col-sm-12">
-                                                    <div class="form-floating mb-3">
-                                                        <select id="vehicle_id" name="vehicle_id" class="form-select">
-                                                            <?php
-                                                            $cat_data_vehicle = $conn->prepare("SELECT * FROM category_vehicle");
-                                                            $cat_data_vehicle->execute();
-                                                            // set the resulting array to associative
-                                                            $cat_data_vehicle->setFetchMode(PDO::FETCH_ASSOC);
 
-                                                            if ($cat_data_vehicle->rowCount() > 0) {
-                                                                echo '<option value="0">--Select Vehicle Type--</option>';
-                                                                foreach (($cat_data_vehicle->fetchAll()) as $key => $row) {
-                                                                    echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
-                                                                }
-                                                            } else {
-                                                                echo '<option value="0"> No Vehicle Available </option>';
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                        <label class="required">Vehicle Category</label>
-                                                        <div id="vehicle_data"></div>
-                                                    </div>
+                                                <a class="nav-link textColor step-link d-flex align-items-center gap-1" href="#package_form_pricing">
+                                                    <div class="roundedCircle">4</div>
+                                                    <span>Pricing</span>
+                                                </a>
 
+                                                <div class="hrRotate">
+                                                    <hr class="border border-1 border-secondary">
                                                 </div>
-                                                <div class="col-md-12 col-sm-12">
-                                                    <div class="form-floating mb-3">
-                                                        <input type="text" id="package_keywords" name="package_keywords" value="" placeholder="Package Keywords" class="form-control">
-                                                        <label for="package_keywords" class="required">Package Keywords</label>
-                                                    </div>
 
+                                                <a class="nav-link textColor step-link d-flex align-items-center gap-1" href="#package_form_policy">
+                                                    <div class="roundedCircle">5</div>
+                                                    <span>Policy</span>
+                                                </a>
+
+                                                <div class="hrRotate">
+                                                    <hr class="border border-1 border-secondary">
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" id="package_form_extra_nextBtn">
-                                                    <a href="#" class="waves-effect waves-light btn-large" style=" color: white;">Next</a>
-                                                </div>
-                                            </div>
+
+                                                <a class="nav-link textColor step-link d-flex align-items-center gap-1" href="#package_form_picture">
+                                                    <div class="roundedCircle">6</div>
+                                                    <span>Pictures & Media</span>
+                                                </a>
+                                            </nav>
                                         </div>
+                                        <div class="col-lg-12">
+                                            <form id="package_form" class="tab-form" enctype="multipart/form-data">
+                                                <input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}" />
+                                                <!-- First Box General details-->
+                                                <div id="package_form_general">
+                                                    <div class="row">
+                                                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                                                            <div class="form-floating my-3">
+                                                                <input type="text" class="form-control" id="name" name="name" placeholder="Package Name">
+                                                                <label for="name" class="required">Package Name</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                                                            <div class="form-floating my-3">
+                                                                <input type="text" class="form-control" id="unique_code" name="unique_code" placeholder="Unique Code">
+                                                                <label for="unique_code" class="required">Unique Code</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                                                            <div class="form-floating my-3">
+                                                                <select class="form-select" id="category_id" name="category_id" aria-label="Floating label select example">
+                                                                    <?php
+                                                                    $cat_data = $conn->prepare("SELECT * FROM category where status='1' ");
+                                                                    $cat_data->execute();
+                                                                    // set the resulting array to associative
+                                                                    $cat_data->setFetchMode(PDO::FETCH_ASSOC);
 
-                                        <!-- Third Box itinery Details -->
-                                        <div id="package_form_itinerary" style="display: none;">
-                                            <div class="row">
-                                                <label for="w3review">This section will contain the information about the package that this product is offering.</label>
-                                                <label for="" style="color: #ff4b4b; font-weight: 600; display:block">NOTE : Number Of Days may look different on deletion of previous "DAY", but Days will be listed from first to last in increasing order .</label>
-                                                <!-- <div class="row">
-                                                    <div class="input-field col-sm-12" style="margin-top: 20px;">
-                                                        <div id="add_day" class="custom_btn btn1">Add Day</div>
-                                                        <div id="remove_day" class="custom_btn btn2">Remove Day</div>
+                                                                    if ($cat_data->rowCount() > 0) {
+                                                                        echo '<option value="">--Select Category--</option>';
+                                                                        foreach (($cat_data->fetchAll()) as $key => $row) {
+                                                                            echo '<option value="' . $row['id'] . '">' . $row['category_name'] . '</option>';
+                                                                        }
+                                                                    } else {
+                                                                        echo '<option value=""> No Category Avaiable </option>';
+                                                                    }
+                                                                    ?>
+                                                                </select>
+                                                                <label>Select Category Type <span class="required"></span></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                                                            <div class="form-floating my-3">
+                                                                <select id="sub_category_id" name="sub_category_id" class="form-select">
+                                                                    <option value="">--Select Category First--</option>
+                                                                </select>
+                                                                <label class="required">Select Sub-Category Type <span class="required"></span></label>
+                                                            </div>
+                                                            <select id="sub_category_data" name="sub_category_data" class="form-select" style="display: none"></select>
+                                                        </div>
+                                                        <div class="col-xl-12 col-lg-12 mb-3">
+                                                            <div class="borderHighlight px-3 py-2">
+                                                                <label>Travel Theme / Type <span class="required"></span></label>
+                                                                <div class="d-flex gap-4">
+                                                                    <div>
+                                                                        <input type="radio" class="btn-check" name="options-base" id="option1" autocomplete="off" checked>
+                                                                        <label class="btn fw-bold" for="option1">
+                                                                            <i class="fa-solid fa-mountain-city"></i>
+                                                                            Leisure
+                                                                        </label>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input type="radio" class="btn-check" name="options-base" id="option2" autocomplete="off">
+                                                                        <label class="btn fw-bold" for="option2">
+                                                                            <i class="fa-solid fa-mountain-sun"></i>
+                                                                            Adventure
+                                                                        </label>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input type="radio" class="btn-check" name="options-base" id="option3" autocomplete="off">
+                                                                        <label class="btn fw-bold" for="option3">
+                                                                            <i class="fa-solid fa-place-of-worship"></i>
+                                                                            Spiritual
+                                                                        </label>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input type="radio" class="btn-check" name="options-base" id="option4" autocomplete="off">
+                                                                        <label class="btn fw-bold" for="option4">
+                                                                            <i class="fa-solid fa-umbrella-beach"></i>
+                                                                            Beach
+                                                                        </label>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input type="radio" class="btn-check" name="options-base" id="option5" autocomplete="off">
+                                                                        <label class="btn fw-bold" for="option5">
+                                                                            <i class="fa-solid fa-heart"></i>
+                                                                            Honeymoon
+                                                                        </label>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input type="radio" class="btn-check" name="options-base" id="option6" autocomplete="off">
+                                                                        <label class="btn fw-bold" for="option6">
+                                                                            <i class="fa-solid fa-crosshairs"></i>
+                                                                            Other</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <div class="row">
+                                                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                                                    <div class="form-floating mb-3">
+                                                                        <input type="number" class="form-control" id="tour_days" name="tour_days" placeholder="Unique Code">
+                                                                        <label for="tour_days" class="required">Tour Days</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                                                    <div class="form-floating mb-3">
+                                                                        <input type="date" class="form-control" id="pac_validity" name="pac_validity" placeholder="Package Validity">
+                                                                        <label for="pac_validity" class="required">Validity Upto</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                                                    <div class="form-floating mb-3">
+                                                                        <input type="text" class="form-control" id="tour_days" name="tour_days" placeholder="Unique Code">
+                                                                        <label for="tour_days">Best Season To Visit</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                                                    <div class="form-floating mb-3">
+                                                                        <input type="text" class="form-control" id="tour_days" name="tour_days" placeholder="Unique Code">
+                                                                        <label for="tour_days" class="required">Location / Destination</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 mb-3">
+                                                        <div class="highlights-section p-3">
+                                                            <label class="highlight-label">Cities</label>
+                                                            <div class="highlight-container" id="highlightContainer">
+                                                                <div class="highlight-tag">
+                                                                    Delhi
+                                                                    <span class="remove-btn">&times;</span>
+                                                                </div>
+                                                                <div class="highlight-tag">
+                                                                    Shimla
+                                                                    <span class="remove-btn">&times;</span>
+                                                                </div>
+                                                                <div class="highlight-tag">
+                                                                    Manali
+                                                                    <span class="remove-btn">&times;</span>
+                                                                </div>
+                                                                <div class="highlight-tag">
+                                                                    Chandhigarh
+                                                                    <span class="remove-btn">&times;</span>
+                                                                </div>
+                                                                <div class="highlight-tag">
+                                                                    Goa
+                                                                    <span class="remove-btn">&times;</span>
+                                                                </div>
+                                                                <div class="highlight-tag">
+                                                                    Keralam
+                                                                    <span class="remove-btn">&times;</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="add-highlight">
+                                                                <a href="#" id="addHighlightBtn">+ Add More Cities</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <div class="form-floating mb-3">
+                                                            <input id="description" class="form-control" type="text" name="description" placeholder="Description">
+                                                            <label for="description" class="required">Short Description</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <div class="form-floating">
+                                                            <textarea class="form-control" placeholder="Leave a comment here" id="description1"></textarea>
+                                                            <label for="description1" class="required">Detailed Description</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-6 col-lg-8 col-md-8 col-sm-12 mt-3">
+                                                        <div class="form-floating">
+                                                            <div class="form-control">
+                                                                <input type="radio" name="package_type" value="trending" id="trending" checked>
+                                                                <label style="padding-right:15px; padding-left: 5px;" for="trending">Trending</label>
+                                                                <input type="radio" name="package_type" value="popular" id="popular">
+                                                                <label style="padding-right:15px; padding-left: 5px;" for="popular">Popular</label>
+                                                                <input type="radio" name="package_type" value="most-selling" id="most_selling">
+                                                                <label style="padding-right:15px; padding-left: 5px;" for="most_selling">Most Selling</label>
+                                                                <input type="radio" name="package_type" value="new-arrival" id="new_arrival">
+                                                                <label style="padding-right:15px; padding-left: 5px;" for="new_arrival">New Arrival</label>
+                                                            </div>
+                                                            <label class="">Highlight Type <span class="required"></span></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 mt-3">
+                                                        <div class="row">
+                                                            <div class="col-lg-6 pe-0">
+                                                                <div class="borderHighlight px-3 py-2">
+                                                                    <label>Drop Price (Optional) <span class="required"></span></label>
+                                                                    <div class="form-check form-switch">
+                                                                        <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+                                                                        <label class="form-check-label" for="switchCheckDefault">Enable Drop Price</label>
+                                                                    </div>
+                                                                    <div class="form-floating my-2">
+                                                                        <input id="description" class="form-control" type="text" name="description" placeholder="Description">
+                                                                        <label for="description" class="required">Drop Price Per Person (&#8377;)</label>
+                                                                    </div>
+                                                                    <p class="mb-0">This price will be shown as starting price</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" id="package_form_general_nextBtn">
+                                                            <a href="#" class="waves-effect waves-light btn-large" style=" color: white;">Next</a>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div id="wrapper"></div> -->
 
-                                                <!-- add days -->
-                                                <div class="col-md-2 col-sm-2 col-12 d-flex justify-content-center align-items-center">
-                                                    <button class="add_field_button custom_btn btn1 mt-2 ms-3 mb-3 addButton btn btn-success px-3">
-                                                        Add Days
-                                                    </button>
-                                                </div>
-                                                <div class="input_fields_wrap"></div> <!-- Show Added Days -->
-                                                <!-- add days -->
-                                            </div>
-                                            <div class="row">
-                                                <div class="row">
-                                                    <label for="inclusion" class="required">Inclusion</label>
-                                                    <textarea id="inclusion" name="inclusion" class="textarea ms-2" rows="2" cols="50"></textarea>
-                                                </div>
-                                                <div class="row">
-                                                    <label for="exclusion" class="required">Exclusion</label>
-                                                    <textarea id="exclusion" name="exclusion" class="myTextEditor ms-2" rows="2" cols="50"></textarea>
+                                                <!-- Second Box Extra Details -->
+                                                <div id="package_form_extra" style="display: none;">
+                                                    <div class="row">
+                                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                            <div class="form-floating my-3">
+                                                                <input type="text" id="destination" name="destination" placeholder="Destination" class="form-control">
+                                                                <label for="destination" class="required">Destination</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                            <div class="form-floating my-3">
+                                                                <input type="text" id="travel_from" name="travel_from" value="" placeholder="Transfer From" class="form-control">
+                                                                <label for="travel_from" class="required">Pick Up Point</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                            <div class="form-floating my-3">
+                                                                <input type="text" id="travel_to" name="travel_to" value="" placeholder="Transfer To" class="form-control">
+                                                                <label for="travel_to" class="required">Drop Point</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                            <div class="form-floating mb-3">
+                                                                <input type="text" id="sightseeing_type" name="sightseeing_type" value="" placeholder="Sightseeing Type" class="form-control">
+                                                                <label for="sightseeing_type" class="required">Sightseeing Type</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                            <div class="form-floating mb-3">
+                                                                <select id="category_hotel_id" name="category_hotel_id" class="selectdesign form-select">
+                                                                    <?php
+                                                                    $cat_data_hotel = $conn->prepare("SELECT * FROM category_hotel");
+                                                                    $cat_data_hotel->execute();
+                                                                    // set the resulting array to associative
+                                                                    $cat_data_hotel->setFetchMode(PDO::FETCH_ASSOC);
+
+                                                                    if ($cat_data_hotel->rowCount() > 0) {
+                                                                        echo '<option value="0">--Select Hotel Ratings--</option>';
+                                                                        foreach (($cat_data_hotel->fetchAll()) as $key => $row) {
+                                                                            echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
+                                                                        }
+                                                                    } else {
+                                                                        echo '<option value="0"> No Hotels Available </option>';
+                                                                    }
+                                                                    ?>
+                                                                </select>
+                                                                <label class="required">Hotel Category</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                            <div class="form-floating mb-3 form">
+                                                                <select id="occupancy_id" name="occupancy_id" class="form-select">
+                                                                    <?php
+                                                                    $cat_data_occupancy = $conn->prepare("SELECT * FROM category_occupancy");
+                                                                    $cat_data_occupancy->execute();
+                                                                    // set the resulting array to associative
+                                                                    $cat_data_occupancy->setFetchMode(PDO::FETCH_ASSOC);
+
+                                                                    if ($cat_data_occupancy->rowCount() > 0) {
+                                                                        echo '<option value="0">--Select Occupancy Type--</option>';
+                                                                        foreach (($cat_data_occupancy->fetchAll()) as $key => $row) {
+                                                                            echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
+                                                                        }
+                                                                    } else {
+                                                                        echo '<option value="0"> No Occupancy Available </option>';
+                                                                    }
+                                                                    ?>
+                                                                </select>
+                                                                <label class="required">Occupancy Category</label>
+                                                                <div id="occupancy_data"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                            <div class="form-floating mb-3">
+                                                                <select id="category_meal_id" name="category_meal_id" class="form-select">
+                                                                    <?php
+                                                                    $cat_data_meal = $conn->prepare("SELECT * FROM category_meal");
+                                                                    $cat_data_meal->execute();
+                                                                    // set the resulting array to associative
+                                                                    $cat_data_meal->setFetchMode(PDO::FETCH_ASSOC);
+
+                                                                    if ($cat_data_meal->rowCount() > 0) {
+                                                                        echo '<option value="0">--Select Meal Type--</option>';
+                                                                        foreach (($cat_data_meal->fetchAll()) as $key => $row) {
+                                                                            echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
+                                                                        }
+                                                                    } else {
+                                                                        echo '<option value="0"> No Meal Available </option>';
+                                                                    }
+                                                                    ?>
+                                                                </select>
+                                                                <label class="required">Meal Category</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-lg-4 col-md-4 col-sm-6 col-12">
+                                                            <div class="form-floating mb-3">
+                                                                <select id="vehicle_id" name="vehicle_id" class="form-select">
+                                                                    <?php
+                                                                    $cat_data_vehicle = $conn->prepare("SELECT * FROM category_vehicle");
+                                                                    $cat_data_vehicle->execute();
+                                                                    // set the resulting array to associative
+                                                                    $cat_data_vehicle->setFetchMode(PDO::FETCH_ASSOC);
+
+                                                                    if ($cat_data_vehicle->rowCount() > 0) {
+                                                                        echo '<option value="0">--Select Vehicle Type--</option>';
+                                                                        foreach (($cat_data_vehicle->fetchAll()) as $key => $row) {
+                                                                            echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
+                                                                        }
+                                                                    } else {
+                                                                        echo '<option value="0"> No Vehicle Available </option>';
+                                                                    }
+                                                                    ?>
+                                                                </select>
+                                                                <label class="required">Vehicle Category</label>
+                                                                <div id="vehicle_data"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                            <div class="form-floating mb-3">
+                                                                <input type="text" id="language_type" name="language_type" value="" placeholder="Language Type" class="form-control">
+                                                                <label for="language_type" class="required">Language Type</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-floating mb-3">
+                                                                <input type="text" id="package_keywords" name="package_keywords" value="" placeholder="Package Keywords" class="form-control">
+                                                                <label for="package_keywords" class="required">Package Keywords</label>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-lg-12 mb-3">
+                                                            <div class="highlights-section p-3">
+                                                                <label class="highlight-label">Package Keyword</label>
+                                                                <div class="highlight-container" id="packageKeybord">
+                                                                    <div class="highlight-tag">
+                                                                        Delhi
+                                                                        <span class="remove-btn">&times;</span>
+                                                                    </div>
+                                                                    <div class="highlight-tag">
+                                                                        Shimla
+                                                                        <span class="remove-btn">&times;</span>
+                                                                    </div>
+                                                                    <div class="highlight-tag">
+                                                                        Manali
+                                                                        <span class="remove-btn">&times;</span>
+                                                                    </div>
+                                                                    <div class="highlight-tag">
+                                                                        Chandhigarh
+                                                                        <span class="remove-btn">&times;</span>
+                                                                    </div>
+                                                                    <div class="highlight-tag">
+                                                                        Goa
+                                                                        <span class="remove-btn">&times;</span>
+                                                                    </div>
+                                                                    <div class="highlight-tag">
+                                                                        Keralam
+                                                                        <span class="remove-btn">&times;</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="add-highlight">
+                                                                    <a href="#" id="addPackageKeywordBtn">+ Add More Keyword</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" id="package_form_extra_nextBtn">
+                                                            <a href="#" class="waves-effect waves-light btn-large" style=" color: white;">Next</a>
+                                                        </div>
+                                                    </div>
                                                 </div>
 
-                                                <div class="row">
-                                                    <label for="remark">Remark</label>
-                                                    <textarea id="remark" name="remark" class="myTextEditor ms-2" rows="2" cols="50"></textarea>
+                                                <!-- Third Box itinery Details -->
+                                                <div id="package_form_itinerary" style="display: none;">
+                                                    <div class="row mt-3">
+                                                        <label for="w3review">This section will contain the information about the package that this product is offering.</label>
+                                                        <label for="" style="color: #ff4b4b; font-weight: 600; display:block">NOTE : Number Of Days may look different on deletion of previous "DAY", but Days will be listed from first to last in increasing order .</label>
+                                                        <!-- <div class="row">
+                                                            <div class="input-field col-sm-12" style="margin-top: 20px;">
+                                                                <div id="add_day" class="custom_btn btn1">Add Day</div>
+                                                                <div id="remove_day" class="custom_btn btn2">Remove Day</div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="wrapper"></div> -->
+
+                                                        <!-- add days -->
+                                                        <div class="col-md-2 col-sm-2 col-12 d-flex justify-content-center align-items-center">
+                                                            <button class="add_field_button custom_btn btn1 mt-2 ms-3 mb-3 addButton btn btn-success px-3">
+                                                                Add Days
+                                                            </button>
+                                                        </div>
+                                                        <div class="input_fields_wrap"></div> <!-- Show Added Days -->
+                                                        <!-- add days -->
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                                            <div class="card rounded-4">
+                                                                <div class="d-flex justify-content-between titleCard">
+                                                                    <p class="title inclusionTitle mb-0"><i class="fa-regular fa-circle-check fa-xl me-2"></i>Inclusions</p>
+                                                                    <a href="#" id="addInclusionBtn" class="remarkTitle">+ Add Items</a>
+                                                                </div>
+                                                                <div class="p-3" id="inclusionList">
+                                                                    <div class="inclusion-item d-flex justify-content-between align-items-start mb-2">
+                                                                        <p class="mb-0 inclusion-text">03 Night accommodation in 3 Star Hotel</p>
+                                                                        <div class="d-flex gap-3">
+                                                                            <a href="#" class="edit-inclusion text-primary">
+                                                                                <i class="fa-solid fa-pencil"></i>
+                                                                            </a>
+                                                                            <a href="#" class="delete-inclusion text-danger">
+                                                                                <i class="fa-solid fa-trash-can"></i>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                                            <div class="card rounded-4">
+                                                                <div class="d-flex justify-content-between exclusionTitleCard">
+                                                                    <p class="title exclusionTitle mb-0"><i class="fa-regular fa-circle-xmark fa-xl me-2"></i>Exclusions</p>
+                                                                    <a href="#" id="addExclutionBtn" class="remarkTitle">+ Add Items</a>
+                                                                </div>
+                                                                <div class="p-3" id="exclusionList">
+                                                                    <div class="exclusion-item d-flex justify-content-between align-items-start mb-2">
+                                                                        <p class="mb-0 exclusion-text">03 Night accommodation in 3 Star Hotel</p>
+                                                                        <div class="d-flex gap-3">
+                                                                            <a href="#" class="edit-exclusion text-primary">
+                                                                                <i class="fa-solid fa-pencil"></i>
+                                                                            </a>
+                                                                            <a href="#" class="delete-exclusion text-danger">
+                                                                                <i class="fa-solid fa-trash-can"></i>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                                            <div class="card rounded-4">
+                                                                <div class="d-flex justify-content-between remarkTitleCard">
+                                                                    <p class="title remarkTitle mb-0"><i class="fa-solid fa-book fa-xl me-2"></i>Important Notes / Remarks</p>
+                                                                    <a href="#" id="addRemarkBtn" class="remarkTitle">+ Add Items</a>
+                                                                </div>
+                                                                <div class="p-3" id="remarkList">
+                                                                    <div class="remark-item d-flex justify-content-between align-items-start mb-2">
+                                                                        <p class="mb-0 remark-text">03 Night accommodation in 3 Star Hotel</p>
+                                                                        <div class="d-flex gap-3">
+                                                                            <a href="#" class="edit-remark text-primary">
+                                                                                <i class="fa-solid fa-pencil"></i>
+                                                                            </a>
+                                                                            <a href="#" class="delete-remark text-danger">
+                                                                                <i class="fa-solid fa-trash-can"></i>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                                            <div class="card rounded-4">
+                                                                <div class="d-flex justify-content-between remarkTitleCard">
+                                                                    <p class="title remarkTitle mb-0"><i class="fa-solid fa-circle-info fa-xl me-2"></i>Things to Know Before You Go</p>
+                                                                    <a href="#" id="addThingsBtn" class="remarkTitle">+ Add Items</a>
+                                                                </div>
+                                                                <div class="p-3" id="thingsList">
+                                                                    <div class="things-item d-flex justify-content-between align-items-start mb-2">
+                                                                        <p class="mb-0 things-text">03 Night accommodation in 3 Star Hotel</p>
+                                                                        <div class="d-flex gap-3">
+                                                                            <a href="#" class="edit-things text-primary">
+                                                                                <i class="fa-solid fa-pencil"></i>
+                                                                            </a>
+                                                                            <a href="#" class="delete-things text-danger">
+                                                                                <i class="fa-solid fa-trash-can"></i>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" id="package_form_itinerary_nxtBtn">
+                                                            <a href="#" class="waves-effect waves-light btn-large" style=" color: white;">Next</a>
+                                                        </div>
+                                                    </div>
                                                 </div>
 
-                                            </div>
-                                            <div class="row">
-                                                <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" id="package_form_itinerary_nxtBtn">
-                                                    <a href="#" class="waves-effect waves-light btn-large" style=" color: white;">Next</a>
+                                                <!-- Fourth Box Pricing -->
+                                                <div id="package_form_pricing" style="display: none;">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <h5 class="mt-3 mb-0 fw-bolder" id="mark_up_title">1. Base Pricing - Vendor Cost</h5>
+                                                            <div class="row">
+                                                                <div class="col-md-4 col-sm-4 mt-3">
+                                                                    <div class="form-floating mb-3">
+                                                                        <input type="number" onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' id="netPriceAdult" name="net_price_adult" value="" placeholder="NET Price for 1 Adult:" class="form-control">
+                                                                        <label for="netPriceAdult" class="required">Base Price for per Adult:</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4 col-sm-4 mt-3" id="netPriceChildData">
+                                                                    <div class="form-floating mb-3">
+                                                                        <input type="number" onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' id="netPriceChild" name="netPriceChild" value="" placeholder="NET Price for 1 Child" class="form-control" value='0'>
+                                                                        <label for="netPriceChild" class="required">Base Price for per Child:</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4 col-sm-4 mt-3">
+                                                                    <div class="form-floating mb-3">
+                                                                        <input type="number" onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' id="nGst" name="nGst" value="" placeholder="Net GST Title" class="form-control">
+                                                                        <label id="net_gst_title" for="nGst">Extra Mattress</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>    
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <h5 class="mb-0 fw-bolder" id="#">2. Company Markup</h5>
+                                                            <div class="row">
+                                                                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                                    <div class="form-floating my-3">
+                                                                        <input type="text" id="companyMarkup" name="companyMarkup" placeholder="Destination" class="form-control">
+                                                                        <label for="companyMarkup" class="required">Company Markup</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                                    <div class="form-floating my-3">
+                                                                        <input type="text" id="couponAdjustment" name="couponAdjustment" placeholder="Destination" class="form-control">
+                                                                        <label for="couponAdjustment" class="required">Default Coupon Adjustment</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <h5 class="mb-3 fw-bolder" id="#">3. Price Visibility & Guest User Premium</h5>
+                                                            <div class="borderHighlight px-3 mb-3">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                                                        <div class="form-check form-switch my-2">
+                                                                            <label class="form-check-label" for="switchCheckGuestUser">Guest User Premium (Without Login)</label>
+                                                                            <input class="form-check-input" type="checkbox" role="switch" id="switchCheckGuestUser">
+                                                                        </div>
+                                                                        <div>
+                                                                            <div class="d-flex gap-4">
+                                                                                <div class="form-check align-content-center">
+                                                                                    <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault1">
+                                                                                    <label class="form-check-label" for="radioDefault1"> Add Fixed Amount</label>
+                                                                                </div>
+                                                                                <input type="text" id="fixedAmount" name="fixedAmount" class="form-control inputWidth">
+                                                                            </div>
+                                                                            <div class="d-flex gap-4">
+                                                                                <div class="form-check align-content-center">
+                                                                                    <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault2">
+                                                                                    <label class="form-check-label" for="radioDefault2">Add Percentage</label>
+                                                                                </div>
+                                                                                <div class="input-group my-3 inputWidth">
+                                                                                    <input type="text" class="form-control" id="percentage" name="percentage">
+                                                                                    <span class="input-group-text">%</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 align-content-center">
+                                                                        <div class="d-flex infoCardPrice gap-3 my-2">
+                                                                            <div class="align-content-center">
+                                                                                <i class="fa-solid fa-circle-info fa-2xl"></i>
+                                                                            </div>
+                                                                            <div class="">
+                                                                                <p class="mb-0">Guests will see higher price.</p>
+                                                                                <p class="mb-0">Logged in users will see actual price.</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <h5 class="mb-3 fw-bolder" id="#">4. Pricing Modal</h5>
+                                                            <div class="borderHighlight px-3 pt-3 mb-3 table-responsive">
+                                                                <table class="table table-bordered">
+                                                                    <thead class="table-light">
+                                                                        <tr>
+                                                                            <th scope="col">Role</th>
+                                                                            <th scope="col">Commission Percentage</th>
+                                                                            <th scope="col">Commission Amount</th>
+                                                                            <th scope="col">Incentive Percentage</th>
+                                                                            <th scope="col">Incentive Amount</th>
+                                                                            <th scope="col">Total</th>
+                                                                            <th scope="col">Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>CTE</td>
+                                                                            <td class="text-end">1.25%</td>
+                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end">1.5%</td>
+                                                                            <td class="text-end">&#8377; 75,000</td>
+                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-price-distribution text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>ETE</td>
+                                                                            <td class="text-end">1.25%</td>
+                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end">1.5%</td>
+                                                                            <td class="text-end">&#8377; 75,000</td>
+                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-price-distribution text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>STE</td>
+                                                                            <td class="text-end">1.25%</td>
+                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end">1.5%</td>
+                                                                            <td class="text-end">&#8377; 75,000</td>
+                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-price-distribution text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>TE | Franchisee</td>
+                                                                            <td class="text-end">1.25%</td>
+                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end">1.5%</td>
+                                                                            <td class="text-end">&#8377; 75,000</td>
+                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-price-distribution text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                    <tfoot>
+                                                                        <td class="fw-bolder">Total Distribution</td>
+                                                                        <td class="text-end fw-bolder">5%</td>
+                                                                        <td class="text-end fw-bolder">&#8377; 2,00,000</td>
+                                                                        <td class="text-end fw-bolder">6%</td>
+                                                                        <td class="text-end fw-bolder">&#8377; 3,00,000</td>
+                                                                        <td class="text-end fw-bolder">&#8377; 5,00,000</td>
+                                                                    </tfoot>
+                                                                </table>
+                                                                <table class="table table-bordered">
+                                                                    <thead class="table-light">
+                                                                        <tr>
+                                                                            <th scope="col">Role</th>
+                                                                            <th scope="col">Commission Percentage</th>
+                                                                            <th scope="col">Commission Amount</th>
+                                                                            <th scope="col">Incentive Percentage</th>
+                                                                            <th scope="col">Incentive Amount</th>
+                                                                            <th scope="col">Total</th>
+                                                                            <th scope="col">Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>BDM | RM</td>
+                                                                            <td class="text-end">1.25%</td>
+                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end">1.5%</td>
+                                                                            <td class="text-end">&#8377; 75,000</td>
+                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-price-distribution text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>BM | SF | MF</td>
+                                                                            <td class="text-end">1.25%</td>
+                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end">1.5%</td>
+                                                                            <td class="text-end">&#8377; 75,000</td>
+                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-price-distribution text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>TE | Franchisee</td>
+                                                                            <td class="text-end">1.25%</td>
+                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end">1.5%</td>
+                                                                            <td class="text-end">&#8377; 75,000</td>
+                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-price-distribution text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                    <tfoot>
+                                                                        <td class="fw-bolder">Total Distribution</td>
+                                                                        <td class="text-end fw-bolder">5%</td>
+                                                                        <td class="text-end fw-bolder">&#8377; 2,00,000</td>
+                                                                        <td class="text-end fw-bolder">6%</td>
+                                                                        <td class="text-end fw-bolder">&#8377; 3,00,000</td>
+                                                                        <td class="text-end fw-bolder">&#8377; 5,00,000</td>
+                                                                    </tfoot>
+                                                                </table>
+                                                                <table class="table table-bordered">
+                                                                    <thead class="table-light">
+                                                                        <tr>
+                                                                            <th scope="col">Role</th>
+                                                                            <th scope="col">Commission Percentage</th>
+                                                                            <th scope="col">Commission Amount</th>
+                                                                            <th scope="col">Incentive Percentage</th>
+                                                                            <th scope="col">Incentive Amount</th>
+                                                                            <th scope="col">Total</th>
+                                                                            <th scope="col">Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>BM |SF | MF</td>
+                                                                            <td class="text-end">1.25%</td>
+                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end">1.5%</td>
+                                                                            <td class="text-end">&#8377; 75,000</td>
+                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-price-distribution text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Institute</td>
+                                                                            <td class="text-end">1.25%</td>
+                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end">1.5%</td>
+                                                                            <td class="text-end">&#8377; 75,000</td>
+                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-price-distribution text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                    <tfoot>
+                                                                        <td class="fw-bolder">Total Distribution</td>
+                                                                        <td class="text-end fw-bolder">5%</td>
+                                                                        <td class="text-end fw-bolder">&#8377; 2,00,000</td>
+                                                                        <td class="text-end fw-bolder">6%</td>
+                                                                        <td class="text-end fw-bolder">&#8377; 3,00,000</td>
+                                                                        <td class="text-end fw-bolder">&#8377; 5,00,000</td>
+                                                                    </tfoot>
+                                                                </table>
+                                                                <table class="table table-bordered">
+                                                                    <thead class="table-light">
+                                                                        <tr>
+                                                                            <th scope="col">Role</th>
+                                                                            <th scope="col">Commission Percentage</th>
+                                                                            <th scope="col">Commission Amount</th>
+                                                                            <th scope="col">Incentive Percentage</th>
+                                                                            <th scope="col">Incentive Amount</th>
+                                                                            <th scope="col">Total</th>
+                                                                            <th scope="col">Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>CTE</td>
+                                                                            <td class="text-end">1.25%</td>
+                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end">1.5%</td>
+                                                                            <td class="text-end">&#8377; 75,000</td>
+                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-price-distribution text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>ETE</td>
+                                                                            <td class="text-end">1.25%</td>
+                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end">1.5%</td>
+                                                                            <td class="text-end">&#8377; 75,000</td>
+                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-price-distribution text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Institute</td>
+                                                                            <td class="text-end">1.25%</td>
+                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end">1.5%</td>
+                                                                            <td class="text-end">&#8377; 75,000</td>
+                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-price-distribution text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                    <tfoot>
+                                                                        <td class="fw-bolder">Total Distribution</td>
+                                                                        <td class="text-end fw-bolder">5%</td>
+                                                                        <td class="text-end fw-bolder">&#8377; 2,00,000</td>
+                                                                        <td class="text-end fw-bolder">6%</td>
+                                                                        <td class="text-end fw-bolder">&#8377; 3,00,000</td>
+                                                                        <td class="text-end fw-bolder">&#8377; 5,00,000</td>
+                                                                    </tfoot>
+                                                                </table>
+                                                                <div class="row">
+                                                                    <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                                        <div class="form-floating mb-3">
+                                                                            <input type="text" id="customer1" name="customer1" placeholder="Customer1" class="form-control">
+                                                                            <label for="customer1" class="required">Customer 1</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                                        <div class="form-floating mb-3">
+                                                                            <input type="text" id="customer2" name="customer2" placeholder="Customer2" class="form-control">
+                                                                            <label for="customer2" class="required">Customer 2</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                                        <div class="form-floating mb-3">
+                                                                            <input type="text" id="customer3" name="customer3" placeholder="Customer3" class="form-control">
+                                                                            <label for="customer3" class="required">Customer 3</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-8 col-sm-12 col-12">
+                                                            <h5 class="mb-3 fw-bolder" id="#">5. Total Pricing</h5>
+                                                            <div class="borderHighlight p-3 mb-3">
+                                                                <div class="row">
+                                                                    <div class="col-md-12 col-sm-12">
+                                                                        <div class="d-flex gap-4 mb-3">
+                                                                            <div class="align-content-center">
+                                                                                <label for="mrp_per_adult" class="mb-0">Total Price Per Adult</label>
+                                                                            </div>
+                                                                            <input type="number" value="" id="mrp_per_adult" class="form-control inputWidth" readOnly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12 col-sm-12">
+                                                                        <div class="d-flex gap-4">
+                                                                            <div class="align-content-center">
+                                                                                <label for="mrp_per_child" class="mb-0">Total Price Per Child</label>
+                                                                            </div>
+                                                                            <input type="number" value="" id="mrp_per_child" class="form-control inputWidth" readOnly>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xl-6 col-lg-8 col-md-8 col-sm-12 col-12">
+                                                            <h4 class="mb-3 fw-bolder">6. Cancellation Policy</h4>
+                                                            <div class="row borderHighlight mx-0">
+                                                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 py-3">
+                                                                    <div class="text-center mb-2">
+                                                                        <label for="mrp_per_adult" class="mb-0">Cancellation Before Travel</label>
+                                                                    </div>
+                                                                    <div class="inputFieldAlignment">
+                                                                        <input type="number" value="" id="mrp_per_adult" placeholder="30+ Days" class="form-control inputWidth" readOnly>
+                                                                        <input type="number" value="" id="mrp_per_adult" placeholder="15 - 30 Days" class="form-control inputWidth" readOnly>
+                                                                        <input type="number" value="" id="mrp_per_adult" placeholder="7 - 15 Days" class="form-control inputWidth" readOnly>
+                                                                        <input type="number" value="" id="mrp_per_adult" placeholder="0 - 7 Days" class="form-control inputWidth" readOnly>
+                                                                        <input type="number" value="" id="mrp_per_adult" placeholder="No Show" class="form-control inputWidth" readOnly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 py-3">
+                                                                    <div class="text-center mb-2">
+                                                                        <label for="mrp_per_child" class="mb-0">Cancellation Charges</label>
+                                                                    </div>
+                                                                    <div class="inputFieldAlignment">
+                                                                        <div class="input-group inputWidth">
+                                                                            <input type="text" class="form-control" id="cancellationPercentage" name="cancellationPercentage" placeholder="10" readOnly>
+                                                                            <span class="input-group-text">%</span>
+                                                                        </div>
+                                                                        <div class="input-group inputWidth">
+                                                                            <input type="text" class="form-control" id="cancellationPercentage" name="cancellationPercentage" placeholder="25" readOnly>
+                                                                            <span class="input-group-text">%</span>
+                                                                        </div>
+                                                                        <div class="input-group inputWidth">
+                                                                            <input type="text" class="form-control" id="cancellationPercentage" name="cancellationPercentage" placeholder="50" readOnly>
+                                                                            <span class="input-group-text">%</span>
+                                                                        </div>
+                                                                        <div class="input-group inputWidth">
+                                                                            <input type="text" class="form-control" id="cancellationPercentage" name="cancellationPercentage" placeholder="75" readOnly>
+                                                                            <span class="input-group-text">%</span>
+                                                                        </div>
+                                                                        <div class="input-group inputWidth">
+                                                                            <input type="text" class="form-control" id="cancellationPercentage" name="cancellationPercentage" placeholder="100" readOnly>
+                                                                            <span class="input-group-text">%</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" id="package_form_pricing_nextBtn">
+                                                            <a href="#" class="waves-effect waves-light btn-large" style=" color: white;">Next</a>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                                <!-- Fifth Box Package Picture  -->
+                                                <div id="package_form_policy" style="display: none;">
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                                            <h4 class="mt-3 fw-bolder">Coupon Rule</h4>
+                                                            <div class="borderHighlight p-3">
+                                                                <div class="d-flex justify-content-between mb-2">
+                                                                    <label class="form-check-label" for="switchCoupon">Coupon Allowed</label>
+                                                                    <div class="form-check form-switch">
+                                                                        <input class="form-check-input" type="checkbox" role="switch" id="switchCoupon">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="d-flex justify-content-between">
+                                                                    <label class="form-check-label" for="switchCombine">Can Combine With Other Offers</label>
+                                                                    <div class="form-check form-switch">
+                                                                        <input class="form-check-input" type="checkbox" role="switch" id="switchCombine">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                                            <h4 class="mt-3 fw-bolder">Booking Policy</h4>
+                                                            <div class="borderHighlight p-3">
+                                                                <div class="row">
+                                                                    <div class="col-md-12 col-sm-12">
+                                                                        <div class="d-flex gap-4">
+                                                                            <div class="align-content-center">
+                                                                                <label for="mrp_per_adult" class="mb-3">Minimum Advance Payment</label>
+                                                                            </div>
+                                                                            <div class="input-group mb-3 inputWidth">
+                                                                                <input type="text" class="form-control" id="bookingPercentage" name="bookingPercentage" placeholder="30">
+                                                                                <span class="input-group-text">%</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12 col-sm-12">
+                                                                        <div class="d-flex gap-4">
+                                                                            <div class="align-content-center">
+                                                                                <label for="mrp_per_child" class="mb-0">Full Payment Before Travel</label>
+                                                                            </div>
+                                                                            <div class="input-group inputWidth">
+                                                                                <input type="text" class="form-control" id="bookingDay" name="bookingDay" placeholder="3">
+                                                                                <span class="input-group-text">Days</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                                            <h5 class="mb-3 fw-bolder" id="#">Other Policies</h5>
+                                                            <div class="borderHighlight p-3 mb-3">
+                                                                <div class="container">
+                                                                    <p class="upload-description">
+                                                                        Upload brochures, itinerary PDFs or any other important documents for reference.
+                                                                    </p>
+                                                                    <div class="upload-wrapper">
+                                                                        <table class="table upload-table">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Title</th>
+                                                                                    <th>File Name</th>
+                                                                                    <th>Type</th>
+                                                                                    <th>Size</th>
+                                                                                    <th>Uploaded On</th>
+                                                                                    <th class="text-center">Action</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody id="fileTableBody">
+                                                                                <tr>
+                                                                                    <td>Thailand</td>
+                                                                                    <td>
+                                                                                        <div class="file-info">
+                                                                                            <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" class="file-icon">
+                                                                                            Thailand_Brochure.pdf
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>Brochure</td>
+                                                                                    <td>2.45 MB</td>
+                                                                                    <td>27 May 2025</td>
+                                                                                    <td class="text-center">
+                                                                                        <i class="fa-solid fa-download action-btn me-3"></i>
+                                                                                        <i class="fa-regular fa-trash-can action-btn delete-btn"></i>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Detailed</td>
+                                                                                    <td>
+                                                                                        <div class="file-info">
+                                                                                            <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" class="file-icon">
+                                                                                            Detailed_Itinerary.pdf
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>Itinerary</td>
+                                                                                    <td>1.85 MB</td>
+                                                                                    <td>27 May 2025</td>
+                                                                                    <td class="text-center">
+                                                                                        <i class="fa-solid fa-download action-btn me-3"></i>
+                                                                                        <i class="fa-regular fa-trash-can action-btn delete-btn"></i>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                        <!-- Upload Area -->
+                                                                        <div class="upload-form-row">
+                                                                            <input type="text" class="form-control" id="documentTitle" placeholder="Enter Title">
+                                                                            <div class="mini-drop-zone" id="dropZone">
+                                                                                <i class="fa-solid fa-cloud-arrow-up me-2"></i>
+                                                                                <span id="selectedFileText">Drag & Drop or Click to Upload</span>
+                                                                                <input type="file" id="fileInput" class="hidden-input" accept=".pdf,.doc,.docx">
+                                                                            </div>
+                                                                            <button type="button" class="btn btn-primary px-4" id="addDocumentBtn">
+                                                                                Submit
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" id="package_form_policy_nextBtn">
+                                                            <a href="#" class="waves-effect waves-light btn-large" style=" color: white;">Next</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Sixth Box Package Picture  -->
+                                                <div id="package_form_picture" style="display: none;">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="borderHighlight p-3 mt-3">
+                                                                <h4 class="fw-bolder">1. Package Cover Image</h4>
+                                                                <p>This image will be shown as the main thumbnail for the packages across website, app and listings.</p>
+                                                                <div class="row">
+                                                                    <div class="col-lg-6">
+                                                                        <div class="image-preview-wrapper">
+                                                                            <img src="https://placehold.co/600x300?text=No+Image" alt="Package Cover" class="packageCoverImage" id="packageCoverImage">
+                                                                            <button type="button" class="delete-image-btn" id="deleteImageBtn">
+                                                                                <i class="fa-solid fa-trash-can"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6">
+                                                                        <div class="large-drop-zone" id="dragDropZone">
+                                                                            <p><i class="fa-solid fa-cloud-arrow-up fa-xl"></i></p>
+                                                                            <p>
+                                                                                <span id="selectedFileText">
+                                                                                    Drag & Drop image here or Click to browse
+                                                                                </span>
+                                                                            </p>
+                                                                            <p class="my-3 text-center">
+                                                                                Recommended Size:1600 x 900px <br>
+                                                                                Max Size: 5MB | Format: JPG, PNG, WEBP
+                                                                            </p>
+                                                                        </div>
+                                                                        <input type="file" id="imageUpload" accept="image/png,image/jpeg,image/jpg,image/webp" hidden>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <div class="borderHighlight p-3 mt-3">
+                                                                <h4 class="fw-bolder">2. Image Gallery</h4>
+                                                                <p>Upload multiple images to highlight attractions, hotels, activities and experiences.</p>
+                                                                <!-- Gallery Preview -->
+                                                                <div class="row" id="galleryContainer"></div>
+                                                                <!-- Upload Area -->
+                                                                <div class="row">
+                                                                    <div class="col-lg-12">
+                                                                        <div class="small-drop-zone" id="imageGalleryZone">
+                                                                            <div>
+                                                                                <i class="fa-solid fa-cloud-arrow-up me-2"></i>
+                                                                                <span id="galleryText">
+                                                                                    Drag & Drop multiple images here or Click to Upload
+                                                                                </span>
+                                                                            </div>
+                                                                            <p class="mb-0 text-muted">
+                                                                                You can upload up to 18 images | Max Size: 5MB each | Format: JPG, PNG, WEBP
+                                                                            </p>
+                                                                            <div id="galleryMessage" class="text-danger mt-2 fw-semibold"></div>
+                                                                            <input type="file" id="galleryInput" accept="image/jpeg,image/png,image/webp" multiple hidden>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <div class="borderHighlight p-3 mt-3">
+                                                                <h4 class="fw-bolder">3. Video</h4>
+                                                                <p>Upload a promotional video to give users a better preview of the destination and package.</p>
+                                                                <div class="row">
+                                                                    <div class="col-lg-12">
+                                                                        <div class="video-preview-wrapper">
+                                                                            <div class="video-input-group">
+                                                                                <input type="text"
+                                                                                    class="video-link-input"
+                                                                                    id="videoLinkInput"
+                                                                                    placeholder="Paste YouTube or Vimeo link here">
+
+                                                                                <button type="button" class="preview-btn" id="addVideoBtn">
+                                                                                    Preview Video
+                                                                                </button>
+                                                                            </div>
+
+                                                                            <div class="video-example">
+                                                                                <i class="ri-play-line"></i>
+                                                                                Example: https://www.youtube.com/watch?v=xxxxxxxx
+                                                                                or https://vimeo.com/xxxxxxxx
+                                                                            </div>
+
+                                                                            <div id="videoPreviewList"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" >
+                                                            <a href="#" id="update_form" class="waves-effect waves-light btn-large" style=" color: white;">Submit</a>
+                                                            <a href="#" id="update_form" style="display:none"></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
-
-                                        <!-- Fourth Box Pricing -->
-                                        <div id="package_form_pricing" style="display: none;">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="row">
-                                                        <div class="col-md-4 col-sm-4 mt-3">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' id="netPriceAdult" name="net_price_adult" value="" placeholder="NET Price for 1 Adult:" class="form-control">
-                                                                <label for="netPriceAdult" class="required">NET Price for 1 Adult:</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 col-sm-4 mt-3" id="netPriceChildData">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' id="netPriceChild" name="netPriceChild" value="" placeholder="NET Price for 1 Child" class="form-control" value='0'>
-                                                                <label for="netPriceChild" class="required">NET Price for 1 Child:</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 col-sm-4 mt-3">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' id="nGst" name="nGst" value="" placeholder="Net GST Title" class="form-control">
-                                                                <label id="net_gst_title" for="nGst">Net GST Title :</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-sm-6 mt-3">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" id="totalNetPriceAdult" name="totalNetPriceAdult" value="" placeholder="Net Total for Adult" class="form-control" readonly>
-                                                                <label id="totalNetPriceAdult" for="nGst">Net Total for Adult :</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-sm-6 mt-3" id="totalNetPriceChildData">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" id="totalNetPriceChild" name="totalNetPriceChild" value="" placeholder="Net Total for Child" class="form-control" readonly>
-                                                                <label id="totalNetPriceChild" for="nGst">Net Total for Child :</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>    
-                                                </div>
-                                                <!-- updatde markuplogic in 23 Jan 2025 by SV -->
-                                                <div class="col-md-12">
-                                                    <h4 class="pt-3 ps-3 fw-bolder" id="mark_up_title">Mark-Up Price Distribution Total(:0)</h4>
-                                                    <div class="row">
-                                                        <div class="col-md-3 col-sm-3 mt-3">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" id="mp_company" name="company_share" value="" placeholder="Company Share" 
-                                                                class="form-control pending-input" oninput='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
-                                                                <label for="mp_company" class="required">Company </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3 col-sm-3 mt-3">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" id="mp_ca_ta" name="ca_ta_share" value="" placeholder="Travel Agency share" 
-                                                                class="form-control pending-input" oninput='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' />
-                                                                <label for="mp_franchise">Travel Consultant</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3 col-sm-3 mt-3">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" id="mp_customer" name="customer_share" value="" placeholder="Customer Share" class="form-control" readonly 
-                                                                oninput='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
-                                                                <label for="mp_customer" class="required">Customer (L1 + L2 + L3)</label>
-                                                                <input type="hidden" id="l2_cust_comm" value=""/>
-                                                                <input type="hidden" id="l3_cust_comm" value=""/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3 col-sm-3 mt-3">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" id="l1_cust_comm" name="l1_cust_comm" value="" placeholder="L1 Customer" 
-                                                                class="form-control pending-input" 
-                                                                oninput='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
-                                                                <label for="l1_cust_comm" class="required">L1 Customer</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-sm-2 mt-3" id="ca_div">
-                                                            <label for="ca_div">Techno Enterprise (Total:0)</label>
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" id="mp_ca_comm" name="ca_share_comm" value="" placeholder="Commision" class="form-control" readOnly>
-                                                                <label for="mp_ca_comm">Commision </label>
-                                                            </div>
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" id="mp_ca_ins" name="ca_share_ins" value="" placeholder="Incentive" class="form-control" readOnly>
-                                                                <label for="mp_ca_ins">Incentive </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-sm-2 mt-3" id="bm_div">
-                                                            <label for="bm_div">Business Consultant/Mentor (Total:0)</label>
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" id="mp_bm_comm" name="bm_share_comm" value="" placeholder="Commision" class="form-control" readOnly>
-                                                                <label for="mp_bm_comm">Commision </label>
-                                                            </div>
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" id="mp_bm_ins" name="bm_share_ins" value="" placeholder="Incentive" class="form-control" readOnly>
-                                                                <label for="mp_bcm_ins">Incentive </label>
-                                                            </div>
-                                                        </div>
-                                                        <!-- added on 11-05-2026 by SV -->
-                                                        <div class="col-md-12 col-sm-2 mt-3" id="cup_div">
-                                                           <label for="cup_div" id="cup_title">Coupon (Total:0)</label>
-                                                           <div class="form-floating mb-3">
-                                                                <input type="number" id="coupon_total" name="coupon_total" value="" 
-                                                                        placeholder="Coupon Amount" class="form-control pending-input"
-                                                                        oninput='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
-                                                                <label for="coupon_total">Coupon Amount</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- added new markuplogic onn 09 May 2026 by SV -->
-                                                <div class="col-md-12">
-                                                    <h4 class="pt-3 ps-3 fw-bolder" id="new_mark_up_title">Cheif Techno Mark-Up Price Distribution Total(:0)</h4>
-                                                    <div class="row">
-                                                        <div class="col-md-3 col-sm-3 mt-3">
-                                                            <div class="form-floating mb-3">
-                                                                <input  type="number" id="new_mp_company" name="new_company_share" value="" 
-                                                                        placeholder="Company Share" class="form-control" 
-                                                                        oninput='calculatePackagePriceNew(<?= json_encode($product_payout_data_new, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' readonly>
-                                                                <label for="new_mp_company" class="required">Company </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3 col-sm-3 mt-3">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" id="new_mp_ca_ta" name="new_ca_ta_share" value="" 
-                                                                        placeholder="Travel Agency share" class="form-control pending-input" 
-                                                                        oninput='calculatePackagePriceNew(<?= json_encode($product_payout_data_new, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' />
-                                                                <label for="new_mp_ca_ta">Travel Consultant</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3 col-sm-3 mt-3">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" id="new_mp_customer" name="new_customer_share" value="" 
-                                                                        placeholder="Customer Share" class="form-control" readonly 
-                                                                        oninput='calculatePackagePriceNew(<?= json_encode($product_payout_data_new, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
-                                                                <label for="new_mp_customer" class="required">Customer (L1 + L2)</label>
-                                                                <input type="hidden" id="new_l2_cust_comm" value=""/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3 col-sm-3 mt-3">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" id="new_l1_cust_comm" name="new_l1_cust_comm" value="" 
-                                                                        placeholder="L1 Customer" class="form-control pending-input" 
-                                                                        oninput='calculatePackagePriceNew(<?= json_encode($product_payout_data_new, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
-                                                                <label for="new_l1_cust_comm" class="required">L1 Customer</label>
-                                                            </div>
-                                                        </div>
-                                                        <label for="new_ca_div">Techno Enterprise (Total:0)</label>
-                                                        <div class="col-md-6 col-sm-2 mt-3" id="new_ca_div">
-                                                            <div class="form-floating mb-3">
-                                                                <input  type="number" id="new_mp_ca_comm" name="new_ca_share_comm" value="" 
-                                                                        placeholder="Commision" class="form-control" readOnly>
-                                                                <label for="new_mp_ca_comm">Commision </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-sm-2 mt-3" id="new_ca_div">
-                                                            <div class="form-floating mb-3">
-                                                                <input  type="number" id="new_mp_ca_ins" name="new_ca_share_ins" value="" 
-                                                                        placeholder="Incentive" class="form-control" readOnly>
-                                                                <label for="new_mp_ca_ins">Incentive </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-sm-2 mt-3" id="ete_div">
-                                                            <label for="ete_div">Executive Techno Enterprise (Total:0)</label>
-                                                            <div class="form-floating mb-3">
-                                                                <input  type="number" id="ete_total" name="ete_total" value="" 
-                                                                        placeholder="Commision + Incentive" class="form-control" readOnly>
-                                                                <label for="ete_total">Commision + Incentive</label>
-                                                                <input  type="hidden" id="mp_ete_comm" name="ete_share_comm" value="" 
-                                                                        placeholder="Commision" class="form-control" readOnly>
-                                                                <input  type="hidden" id="mp_ete_ins" name="ete_share_ins" value="" 
-                                                                        placeholder="Incentive" class="form-control" readOnly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-sm-2 mt-3" id="ste_div">
-                                                           <label for="ste_div">Super Techno Enterprise (Total:0)</label>
-                                                           <div class="form-floating mb-3">
-                                                                <input  type="number" id="ste_total" name="ste_total" value="" 
-                                                                        placeholder="Commision + Incentive" class="form-control" readOnly>
-                                                                <label for="ste_total">Commision + Incentive</label>
-                                                                <input   type="hidden" id="mp_ste_comm" name="ste_share_comm" value="" 
-                                                                        placeholder="Commision" class="form-control" readOnly>
-                                                                <input   type="hidden" id="mp_ste_ins" name="ste_share_ins" value="" 
-                                                                        placeholder="Incentive" class="form-control" readOnly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-sm-2 mt-3" id="cte_div">
-                                                           <label for="cte_div">Chief Techno Enterprise (Total:0)</label>
-                                                           <div class="form-floating mb-3">
-                                                                <input  type="number" id="cte_total" name="cte_total" value="" 
-                                                                        placeholder="Commision + Incentive" class="form-control" readOnly>
-                                                                <label for="cte_total">Commision + Incentive</label>
-                                                                <input   type="hidden" id="mp_cte_ins" name="cte_share_ins" value="" 
-                                                                        placeholder="Incentive" class="form-control" readOnly>
-                                                                <input   type="hidden" id="mp_cte_comm" name="cte_share_comm" value="" 
-                                                                        placeholder="Commision" class="form-control" readOnly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-sm-2 mt-3" id="newcup_div">
-                                                           <label for="newcup_div" id="newcup_title">Coupon (Total:0)</label>
-                                                           <div class="form-floating mb-3">
-                                                                <input type="number" id="newcoupon_total" name="newcoupon_total" value="" 
-                                                                        placeholder="Coupon Amount" class="form-control pending-input"  
-                                                                        oninput='calculatePackagePriceNew(<?= json_encode($product_payout_data_new, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
-                                                                <label for="newcoupon_total">Coupon Amount</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- added new institution markuplogic onn 11 May 2026 by SV -->
-                                                <div class="col-md-12">
-                                                    <h4 class="pt-3 ps-3 fw-bolder" id="ins_mark_up_title">Institution Mark-Up Price Distribution Total(:0)</h4>
-                                                    <div class="row">
-                                                        <div class="col-md-3 col-sm-3 mt-3">
-                                                            <div class="form-floating mb-3">
-                                                                <input  type="number" id="ins_mp_company" name="ins_company_share" value="" 
-                                                                        placeholder="Company Share" class="form-control" 
-                                                                        oninput='calculatePackagePriceIns(<?= json_encode($product_payout_data_ins, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' readonly>
-                                                                <label for="ins_mp_company" class="required">Company </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3 col-sm-3 mt-3">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" id="ins_mp_ca_ta" name="ins_ca_ta_share" value="" 
-                                                                        placeholder="Institution share" class="form-control pending-input" 
-                                                                        oninput='calculatePackagePriceIns(<?= json_encode($product_payout_data_ins, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' />
-                                                                <label for="ins_mp_ca_ta">Institution</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3 col-sm-3 mt-3">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" id="ins_mp_customer" name="ins_customer_share" value="" 
-                                                                        placeholder="Customer Share" class="form-control" readonly 
-                                                                        oninput='calculatePackagePriceIns(<?= json_encode($product_payout_data_ins, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
-                                                                <label for="ins_mp_customer" class="required">Customer (L1 + L2)</label>
-                                                                <input type="hidden" id="ins_l2_cust_comm" value=""/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3 col-sm-3 mt-3">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" id="ins_l1_cust_comm" name="ins_l1_cust_comm" value="" 
-                                                                        placeholder="L1 Customer" class="form-control pending-input" 
-                                                                        oninput='calculatePackagePriceIns(<?= json_encode($product_payout_data_ins, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
-                                                                <label for="ins_l1_cust_comm" class="required">L1 Customer</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-sm-2 mt-3" id="bm_mf_sf_div">
-                                                            <label for="bm_mf_sf_div">BM | MF | SF (Total:0)</label>
-                                                            <div class="form-floating mb-3">
-                                                                <input  type="number" id="bm_mf_sf_total" name="bm_mf_sf_total" value="" 
-                                                                        placeholder="Commision + Incentive" class="form-control" readOnly>
-                                                                <label for="bm_mf_sf_total">Commision + Incentive</label>
-                                                                <input  type="hidden" id="ins_bm_mf_sf_comm" name="bm_mf_sf_share_comm" value="" 
-                                                                        placeholder="Commision" class="form-control" readOnly>
-                                                                <input  type="hidden" id="ins_bm_mf_sf_ins" name="bm_mf_sf_share_ins" value="" 
-                                                                        placeholder="Incentive" class="form-control" readOnly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-sm-2 mt-3" id="inscup_div">
-                                                           <label for="inscup_div" id="inscup_title">Coupon (Total:0)</label>
-                                                           <div class="form-floating mb-3">
-                                                                <input type="number" id="inscoupon_total" name="inscoupon_total" value="" 
-                                                                        placeholder="Coupon Amount" class="form-control pending-input"  
-                                                                        oninput='calculatePackagePriceIns(<?= json_encode($product_payout_data_ins, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
-                                                                <label for="inscoupon_total">Coupon Amount</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="row">
-                                                        <div class="col-md-6 col-sm-2 mt-3">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" value="" id="mrp_per_adult" placeholder="Total Price Per Adult" class="form-control" readOnly>
-                                                                <label for="mrp_per_adult">Total Price Per Adult</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-sm-2 mt-3">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" value="" id="mrp_per_child" placeholder="Total Price Per Child" class="form-control" readOnly>
-                                                                <label for="mrp_per_child">Total Price Per Child</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- cancelation policy 23 jan 2025 SV-->
-                                                <div class="col-md-12">
-                                                    <h4 class="pt-3 ps-3 fw-bolder">Cancellation Policy</h4>
-                                                    <div class="form-group row">
-                                                        <div class="col-md-4 col-sm-4 mt-3">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" id="can_per_1" name="cancel_per_1" value="" class="form-control" maxlength="3">
-                                                                <label for="can_per_1" class="required">30+ Days Before Travel (%) </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 col-sm-4 mt-3">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" id="can_per_2" name="cancel_per_1" value="" class="form-control" maxlength="3">
-                                                                <label for="can_per_1" class="required">15-30 Days Before Travel (%) </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 col-sm-4 mt-3">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" id="can_per_3" name="cancel_per_1" value="" class="form-control" maxlength="3">
-                                                                <label for="can_per_1" class="required">less then 15 Days Before Travel (%)</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- end added on 23 Jan SV-->
-                                                    <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" id="package_form_pricing_nextBtn">
-                                                        <a href="#" class="waves-effect waves-light btn-large" style=" color: white;">Next</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Fifth Box Package Picture  -->
-                                        <div id="package_form_picture" style="display: none;">
-                                            <div class="col-md-6 col-sm-12">
-                                                <label style="margin-top: -34px;font-size: 0.8rem;">Pictures:</label>
-                                                <div class="file-field input-field">
-                                                    <div class="btn">
-                                                        <!-- <span>Upload</span> -->
-                                                        <input class="form-control" type="file" id="gallery-photo-add" accept=".jpg,.png,.jpeg" multiple>
-                                                    </div>
-                                                    <!-- <div class="file-path-wrapper">
-                                                        <input class="file-path validate" type="text">
-                                                        <input type="hidden" id="picture" disabled>
-                                                    </div> -->
-                                                    <div class="gallery"></div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-12 m-3">
-                                                    <button><a href="#" id="submit_form" class="placeholder-wave bg-primary border rounded-3 text-white p-2">SUBMIT</a></button>
-                                                    <a href="#" id="update_form" style="display:none"></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <?php include_once "../footer.php" ?>
             </div>
-            <?php include_once "../footer.php" ?>
         </div>
-    </div>
 
-    <!-- loader -->
-    <div id="loading-loader" class="loader" style="display:none"></div>
-    <!-- snack bar -->
-    <div id="bottom-snackbar" class="bottom-snackbar" style="display:none">Snack Bar</div>
+        <!-- loader -->
+        <div id="loading-loader" class="loader" style="display:none"></div>
+        <!-- snack bar -->
+        <div id="bottom-snackbar" class="bottom-snackbar" style="display:none">Snack Bar</div>
 
-    <!--start back-to-top-->
-    <button onclick="topFunction()" class="scrollToTop scroll-btn show btn" id="back-to-top">
-        <i class="mdi mdi-arrow-up"></i>
-    </button>
-    <!--end back-to-top-->
-    <!-- JAVASCRIPT -->
-    <script src="../assets/libs/jquery/jquery.min.js"></script>
-    <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/libs/metismenu/metisMenu.min.js"></script>
-    <script src="../assets/libs/simplebar/simplebar.min.js"></script>
-    <script src="../assets/libs/node-waves/waves.min.js"></script>
-    <!-- Required datatable js -->
-    <script src="../assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="../assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+        <!--start back-to-top-->
+        <button onclick="topFunction()" class="scrollToTop scroll-btn show btn" id="back-to-top">
+            <i class="mdi mdi-arrow-up"></i>
+        </button>
+        <!--end back-to-top-->
+        <!-- JAVASCRIPT -->
+        <script src="../assets/libs/jquery/jquery.min.js"></script>
+        <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../assets/libs/metismenu/metisMenu.min.js"></script>
+        <script src="../assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="../assets/libs/node-waves/waves.min.js"></script>
+        <!-- Required datatable js -->
+        <script src="../assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="../assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
 
-    <!-- Responsive examples -->
-    <script src="../assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+        <!-- Responsive examples -->
+        <script src="../assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
 
-    <!-- App js -->
-    <script src="../assets/js/app.js"></script>
-    <!-- custom js -->
-    <script src="forms/product_packages.js"></script>
-    <script>
-        var mybutton = document.getElementById("back-to-top");
+        <!-- App js -->
+        <script src="../assets/js/app.js"></script>
+        <!-- custom js -->
+        <script src="forms/product_packages.js"></script>
+        <script>
+            var mybutton = document.getElementById("back-to-top");
 
-        function scrollFunction() {
-            100 < document.body.scrollTop || 100 < document.documentElement.scrollTop ? mybutton.style.display = "block" : mybutton.style.display = "none"
-        }
+            function scrollFunction() {
+                100 < document.body.scrollTop || 100 < document.documentElement.scrollTop ? mybutton.style.display = "block" : mybutton.style.display = "none"
+            }
 
-        function topFunction() {
-            document.body.scrollTop = 0,
-                document.documentElement.scrollTop = 0
-        }
-        mybutton && (window.onscroll = function() {
-            scrollFunction()
-        });
-        // delete images
-        function deleteImageFunction(e, id){
-            e.preventDefault();
-            // console.log(id);
-            var r = confirm("Do you want to delete this image ?");
-            if (r == true) {
-                $.ajax({
-                type: "POST",
-                url: "forms/deleteImages",
-                data: 'id='+id,
-                cache: false,
-                    success:function(data){
-                        if(data == "success"){
-                            document.getElementById("image_"+id).style.display = "none";
-                            alert("Deleted Succesfully");
-                        }else{
-                            alert("Failed to Delete");
-                        }
-                    }
-                }); 
-            }            
-        }
-    </script>
-    <!-- <script>
-            $(document).ready(function(){
-                $("#user_table").DataTable();
+            function topFunction() {
+                document.body.scrollTop = 0,
+                    document.documentElement.scrollTop = 0
+            }
+            mybutton && (window.onscroll = function() {
+                scrollFunction()
             });
-        </script> -->
-</body>
+            // delete images
+            function deleteImageFunction(e, id){
+                e.preventDefault();
+                // console.log(id);
+                var r = confirm("Do you want to delete this image ?");
+                if (r == true) {
+                    $.ajax({
+                    type: "POST",
+                    url: "forms/deleteImages",
+                    data: 'id='+id,
+                    cache: false,
+                        success:function(data){
+                            if(data == "success"){
+                                document.getElementById("image_"+id).style.display = "none";
+                                alert("Deleted Succesfully");
+                            }else{
+                                alert("Failed to Delete");
+                            }
+                        }
+                    }); 
+                }            
+            }
+        </script>
+        <!-- <script>
+                $(document).ready(function(){
+                    $("#user_table").DataTable();
+                });
+            </script> -->
+        <script>
+            $(document).ready(function () {
 
+                const sections = [
+                    "#package_form_general",
+                    "#package_form_extra",
+                    "#package_form_itinerary",
+                    "#package_form_pricing",
+                    "#package_form_policy",
+                    "#package_form_picture"
+                ];
+
+                const pageData = {
+                    "#package_form_general": {
+                        title: "Add New Package - General Information",
+                        backText: "Return to Package Listing",
+                        backLink: "all_packages.php"
+                    },
+                    "#package_form_extra": {
+                        title: "Add New Package - Extra Information",
+                        backText: "Return to General Information",
+                        backLink: "#package_form_general"
+                    },
+                    "#package_form_itinerary": {
+                        title: "Add New Package - Itinerary & Inclusions",
+                        backText: "Return to Extra Information",
+                        backLink: "#package_form_extra"
+                    },
+                    "#package_form_pricing": {
+                        title: "Add New Package - Pricing",
+                        backText: "Return to Itinerary & Inclusions",
+                        backLink: "#package_form_itinerary"
+                    },
+                    "#package_form_policy": {
+                        title: "Add New Package - Policy",
+                        backText: "Return to Pricing",
+                        backLink: "#package_form_pricing"
+                    },
+                    "#package_form_picture": {
+                        title: "Add New Package - Pictures & Media",
+                        backText: "Return to Policy",
+                        backLink: "#package_form_policy"
+                    }
+                };
+
+                function showSection(target) {
+
+                    // Hide all sections
+                    sections.forEach(function (section) {
+                        $(section).hide();
+                    });
+
+                    // Show selected section
+                    $(target).show();
+
+                    // Update active step
+                    $(".step-link").removeClass("active");
+                    $(".roundedCircle").removeClass("active");
+
+                    $('.step-link[href="' + target + '"]').addClass("active");
+                    $('.step-link[href="' + target + '"] .roundedCircle').addClass("active");
+
+                    // Update page title
+                    $("#pageTitle").text(pageData[target].title);
+
+                    // Update return text
+                    $("#pageSubTitle").text(pageData[target].backText);
+
+                    // Update back button target
+                    $("#dynamicBackBtn").attr("data-target", pageData[target].backLink);
+                }
+
+                // Initial load
+                showSection("#package_form_general");
+
+                // Stepper navigation click
+                $(".step-link").on("click", function (e) {
+                    e.preventDefault();
+
+                    let target = $(this).attr("href");
+                    showSection(target);
+                });
+
+                // Back button click
+                $("#dynamicBackBtn").on("click", function (e) {
+                    e.preventDefault();
+
+                    let target = $(this).attr("data-target");
+
+                    if (target === "all_packages.php") {
+                        window.location.href = target;
+                        return;
+                    }
+
+                    showSection(target);
+                });
+
+                // Next buttons
+                $("#package_form_general_nextBtn").on("click", function (e) {
+                    e.preventDefault();
+                    showSection("#package_form_extra");
+                });
+
+                $("#package_form_extra_nextBtn").on("click", function (e) {
+                    e.preventDefault();
+                    showSection("#package_form_itinerary");
+                });
+
+                $("#package_form_itinerary_nxtBtn").on("click", function (e) {
+                    e.preventDefault();
+                    showSection("#package_form_pricing");
+                });
+
+                $("#package_form_pricing_nextBtn").on("click", function (e) {
+                    e.preventDefault();
+                    showSection("#package_form_policy");
+                });
+
+                $("#package_form_policy_nextBtn").on("click", function (e) {
+                    e.preventDefault();
+                    showSection("#package_form_picture");
+                });
+
+            });
+        </script>
+        <script>
+            // Remove Tag
+            document.addEventListener("click", function (e) {
+                if (e.target.classList.contains("remove-btn")) {
+                    e.target.parentElement.remove();
+                }
+            });
+
+            // Add New Highlight
+            document.getElementById("addHighlightBtn").addEventListener("click", function (e) {
+                e.preventDefault();
+
+                let highlight = prompt("Enter Highlight");
+
+                if (highlight && highlight.trim() !== "") {
+                    let tag = document.createElement("div");
+                    tag.className = "highlight-tag";
+
+                    tag.innerHTML = `
+                        ${highlight}
+                        <span class="remove-btn">&times;</span>
+                    `;
+
+                    document.getElementById("highlightContainer").appendChild(tag);
+                }
+            });
+            // Add New Package Keyword
+            document.getElementById("addPackageKeywordBtn").addEventListener("click", function (e) {
+                e.preventDefault();
+
+                let keyword = prompt("Enter Package Keyword");
+
+                if (keyword && keyword.trim() !== "") {
+                    let tag = document.createElement("div");
+                    tag.className = "highlight-tag";
+
+                    tag.innerHTML = `
+                        ${keyword}
+                        <span class="remove-btn">&times;</span>
+                    `;
+
+                    document.getElementById("packageKeybord").appendChild(tag);
+                }
+            });
+        </script>
+        <!-- Upload Icons Section -->
+        <script>
+            document.addEventListener('change', function (e) {
+
+                if (!e.target.classList.contains('file-input')) return;
+
+                const file = e.target.files[0];
+                if (!file) return;
+
+                const card = e.target.closest('.upload-card');
+                const title = card.dataset.title;
+                const index = card.dataset.index;
+
+                if (file.type.startsWith('image/')) {
+
+                    const reader = new FileReader();
+
+                    reader.onload = function (event) {
+
+                        if (card.classList.contains('icon-upload-card')) {
+
+                            const iconBox = card.querySelector('.upload-icon');
+
+                            iconBox.innerHTML = `
+                                <img src="${event.target.result}" alt="Icon">
+                            `;
+
+                            const hiddenInput = document.getElementById(`img_path${index}`);
+
+                            if (hiddenInput) {
+                                hiddenInput.value = `../../uploading/${file.name}`;
+                            }
+
+                        } else {
+
+                            card.querySelector('.upload-content, .preview-wrapper, .pdf-preview')?.remove();
+                            const preview = document.createElement('div');
+                            preview.className = 'preview-wrapper';
+
+                            preview.innerHTML = `
+                                <img src="${event.target.result}">
+                                <div class="file-title">${title}</div>
+                            `;
+                            card.appendChild(preview);
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        </script>
+        <!-- Inclusion, Exclution, Remark & Things Section -->
+        <script>
+            $(document).ready(function () {
+
+                function addItem(listId, itemClass, textClass, editClass, deleteClass, label) {
+
+                    let text = prompt(`Enter ${label}`);
+
+                    if (text && text.trim() !== "") {
+
+                        $(listId).append(`
+                            <div class="${itemClass} d-flex justify-content-between align-items-start mb-2">
+                                <p class="mb-0 ${textClass}">${text}</p>
+
+                                <div class="d-flex gap-3">
+                                    <a href="#" class="${editClass} text-primary">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </a>
+
+                                    <a href="#" class="${deleteClass} text-danger">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        `);
+                    }
+                }
+
+                // ====================
+                // Add Buttons
+                // ====================
+
+                $("#addInclusionBtn").click(function (e) {
+                    e.preventDefault();
+
+                    addItem(
+                        "#inclusionList",
+                        "inclusion-item",
+                        "inclusion-text",
+                        "edit-inclusion",
+                        "delete-inclusion",
+                        "Inclusion Item"
+                    );
+                });
+
+                $("#addExclutionBtn").click(function (e) {
+                    e.preventDefault();
+
+                    addItem(
+                        "#exclusionList",
+                        "exclusion-item",
+                        "exclusion-text",
+                        "edit-exclusion",
+                        "delete-exclusion",
+                        "Exclusion Item"
+                    );
+                });
+
+                $("#addRemarkBtn").click(function (e) {
+                    e.preventDefault();
+
+                    addItem(
+                        "#remarkList",
+                        "remark-item",
+                        "remark-text",
+                        "edit-remark",
+                        "delete-remark",
+                        "Remark"
+                    );
+                });
+
+                $("#addThingsBtn").click(function (e) {
+                    e.preventDefault();
+
+                    addItem(
+                        "#thingsList",
+                        "things-item",
+                        "things-text",
+                        "edit-things",
+                        "delete-things",
+                        "Thing to Know"
+                    );
+                });
+
+                // ====================
+                // Edit
+                // ====================
+
+                $(document).on("click",
+                    ".edit-inclusion, .edit-exclusion, .edit-remark, .edit-things",
+                    function (e) {
+
+                        e.preventDefault();
+
+                        let textElement = $(this)
+                            .closest("[class*='item']")
+                            .find("p");
+
+                        let currentText = textElement.text();
+
+                        let updatedText = prompt("Edit Item", currentText);
+
+                        if (updatedText && updatedText.trim() !== "") {
+                            textElement.text(updatedText);
+                        }
+                    });
+
+                // ====================
+                // Delete
+                // ====================
+
+                $(document).on("click",
+                    ".delete-inclusion, .delete-exclusion, .delete-remark, .delete-things",
+                    function (e) {
+
+                        e.preventDefault();
+
+                        if (confirm("Delete this item?")) {
+                            $(this)
+                                .closest("[class*='item']")
+                                .remove();
+                        }
+                    });
+            });
+        </script>
+        <!-- Price Visibility & Guest User Premium -->
+        <script>
+            $(document).ready(function () {
+
+                function updateSection() {
+
+                    if ($("#switchCheckGuestUser").is(":checked")) {
+
+                        // Enable radios
+                        $("#radioDefault1, #radioDefault2").prop("disabled", false);
+
+                    } else {
+
+                        // Disable radios and inputs
+                        $("#radioDefault1, #radioDefault2")
+                            .prop("disabled", true)
+                            .prop("checked", false);
+
+                        $("#fixedAmount, #percentage")
+                            .prop("disabled", true)
+                            .val("");
+                    }
+                }
+
+                // Switch
+                $("#switchCheckGuestUser").on("change", function () {
+                    updateSection();
+                });
+
+                // Fixed Amount Radio
+                $("#radioDefault1").on("change", function () {
+                    if ($(this).is(":checked")) {
+                        $("#fixedAmount").prop("disabled", false);
+                        $("#percentage").prop("disabled", true).val("");
+                    }
+                });
+
+                // Percentage Radio
+                $("#radioDefault2").on("change", function () {
+                    if ($(this).is(":checked")) {
+                        $("#percentage").prop("disabled", false);
+                        $("#fixedAmount").prop("disabled", true).val("");
+                    }
+                });
+
+                // Initial state
+                $("#radioDefault1, #radioDefault2").prop("disabled", true);
+                $("#fixedAmount, #percentage").prop("disabled", true);
+
+            });
+        </script>
+        <!-- Policy section -->
+        <script>
+            const dropZone = document.getElementById("dropZone");
+            const fileInput = document.getElementById("fileInput");
+            const selectedFileText = document.getElementById("selectedFileText");
+            const addDocumentBtn = document.getElementById("addDocumentBtn");
+
+            let selectedFile = null;
+
+            // Open file picker
+            dropZone.addEventListener("click", () => {
+                fileInput.click();
+            });
+
+            // File selection
+            fileInput.addEventListener("change", function () {
+                selectedFile = this.files[0];
+
+                if(selectedFile){
+                    selectedFileText.textContent = selectedFile.name;
+                }
+            });
+
+            // Drag Over
+            dropZone.addEventListener("dragover", function(e){
+                e.preventDefault();
+                dropZone.classList.add("dragover");
+            });
+
+            // Drag Leave
+            dropZone.addEventListener("dragleave", function(){
+                dropZone.classList.remove("dragover");
+            });
+
+            // Drop
+            dropZone.addEventListener("drop", function(e){
+                e.preventDefault();
+
+                dropZone.classList.remove("dragover");
+
+                selectedFile = e.dataTransfer.files[0];
+
+                if(selectedFile){
+                    selectedFileText.textContent = selectedFile.name;
+                }
+            });
+
+            // Submit
+            addDocumentBtn.addEventListener("click", function(){
+
+                let title = document.getElementById("documentTitle").value.trim();
+
+                if(title === ""){
+                    alert("Please enter title");
+                    return;
+                }
+
+                if(!selectedFile){
+                    alert("Please select a file");
+                    return;
+                }
+
+                let size = (selectedFile.size / (1024 * 1024)).toFixed(2) + " MB";
+
+                let fileType = selectedFile.name.split('.').pop().toUpperCase();
+
+                let today = new Date().toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                });
+
+                let row = `
+                    <tr>
+                        <td>${title}</td>
+
+                        <td>
+                            <div class="file-info">
+                                <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png"
+                                    class="file-icon">
+                                ${selectedFile.name}
+                            </div>
+                        </td>
+
+                        <td>${fileType}</td>
+
+                        <td>${size}</td>
+
+                        <td>${today}</td>
+
+                        <td class="text-center">
+                            <i class="fa-solid fa-download action-btn me-3"></i>
+                            <i class="fa-regular fa-trash-can action-btn delete-btn remove-file"></i>
+                        </td>
+                    </tr>
+                `;
+
+                document
+                    .getElementById("fileTableBody")
+                    .insertAdjacentHTML("beforeend", row);
+
+                // Reset
+                document.getElementById("documentTitle").value = "";
+                fileInput.value = "";
+                selectedFile = null;
+                selectedFileText.textContent = "Drag & Drop or Click to Upload";
+            });
+
+            // Delete row
+            $(document).on("click", ".remove-file", function(){
+                $(this).closest("tr").remove();
+            });
+        </script>
+        <!-- Picture & Media Section -->
+        <!-- Package Cover Image -->
+        <script>
+            $(document).ready(function () {
+
+                const dropZone = $("#dragDropZone");
+                const fileInput = $("#imageUpload");
+                const previewImage = $("#packageCoverImage");
+                const deleteBtn = $("#deleteImageBtn");
+                const fileText = $("#selectedFileText");
+
+                // Click Drop Zone
+                dropZone.on("click", function () {
+                    fileInput.trigger("click");
+                });
+
+                // File Selection
+                fileInput.on("change", function () {
+                    if (this.files.length) {
+                        previewFile(this.files[0]);
+                    }
+                });
+
+                // Drag Events
+                dropZone.on("dragover", function (e) {
+                    e.preventDefault();
+                    $(this).addClass("dragover");
+                });
+
+                dropZone.on("dragleave", function () {
+                    $(this).removeClass("dragover");
+                });
+
+                dropZone.on("drop", function (e) {
+                    e.preventDefault();
+                    $(this).removeClass("dragover");
+
+                    const files = e.originalEvent.dataTransfer.files;
+
+                    if (files.length) {
+                        fileInput[0].files = files;
+                        previewFile(files[0]);
+                    }
+                });
+
+                function previewFile(file) {
+
+                    const validTypes = [
+                        "image/jpeg",
+                        "image/jpg",
+                        "image/png",
+                        "image/webp"
+                    ];
+
+                    if (!validTypes.includes(file.type)) {
+                        alert("Please upload JPG, PNG or WEBP image.");
+                        return;
+                    }
+
+                    if (file.size > 5 * 1024 * 1024) {
+                        alert("Maximum file size is 5MB.");
+                        return;
+                    }
+
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        previewImage.attr("src", e.target.result);
+                        deleteBtn.css("display", "flex");
+                        fileText.text(file.name);
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+
+                // Delete Image
+                deleteBtn.on("click", function () {
+                    previewImage.attr(
+                        "src",
+                        "https://placehold.co/600x300?text=No+Image"
+                    );
+
+                    fileInput.val("");
+                    fileText.text("Drag & Drop image here or Click to browse");
+                    $(this).hide();
+                });
+
+            });
+        </script>
+        <!-- Image Gallery  -->
+        <script>
+            $(document).ready(function () {
+
+                const maxImages = 18;
+                let galleryImages = [];
+
+                // Click Upload Area
+                $(document).on("click", "#imageGalleryZone", function (e) {
+
+                    if ($(e.target).closest(".delete-image").length) {
+                        return;
+                    }
+
+                    const input = document.getElementById("galleryInput");
+
+                    if (!input) {
+                        console.error("galleryInput not found");
+                        return;
+                    }
+
+                    try {
+                        if (typeof input.showPicker === "function") {
+                            input.showPicker();
+                        } else {
+                            input.click();
+                        }
+                    } catch (err) {
+                        input.click();
+                    }
+                });
+
+                // File Selection
+                $(document).on("change", "#galleryInput", function () {
+
+                    const files = this.files;
+
+                    if (files && files.length) {
+                        handleFiles(files);
+                    }
+
+                    $(this).val("");
+                });
+
+                // Drag Over
+                $(document).on("dragover", "#imageGalleryZone", function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    $(this).addClass("dragover");
+                });
+
+                // Drag Leave
+                $(document).on("dragleave", "#imageGalleryZone", function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    $(this).removeClass("dragover");
+                });
+
+                // Drop Files
+                $(document).on("drop", "#imageGalleryZone", function (e) {
+
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    $(this).removeClass("dragover");
+
+                    const files = e.originalEvent.dataTransfer.files;
+
+                    if (files && files.length) {
+                        handleFiles(files);
+                    }
+                });
+
+                function handleFiles(files) {
+
+                    const remainingSlots = maxImages - galleryImages.length;
+
+                    if (remainingSlots <= 0) {
+
+                        $("#galleryMessage")
+                            .removeClass("text-muted text-warning")
+                            .addClass("text-danger")
+                            .html("Maximum limit of 18 images reached.");
+
+                        return;
+                    }
+
+                    if (files.length > remainingSlots) {
+
+                        $("#galleryMessage")
+                            .removeClass("text-muted text-danger")
+                            .addClass("text-warning")
+                            .html(`Only ${remainingSlots} image(s) can be uploaded.`);
+                    }
+
+                    Array.from(files)
+                        .slice(0, remainingSlots)
+                        .forEach(function (file) {
+
+                            const validTypes = [
+                                "image/jpeg",
+                                "image/png",
+                                "image/webp"
+                            ];
+
+                            if (!validTypes.includes(file.type)) {
+                                return;
+                            }
+
+                            if (file.size > 5 * 1024 * 1024) {
+                                return;
+                            }
+
+                            const reader = new FileReader();
+
+                            reader.onload = function (e) {
+
+                                galleryImages.push({
+                                    id: Date.now() + Math.random(),
+                                    src: e.target.result
+                                });
+
+                                renderGallery();
+                            };
+
+                            reader.readAsDataURL(file);
+                        });
+                }
+
+                function toggleUploadZone() {
+
+                    if (galleryImages.length >= maxImages) {
+
+                        $("#imageGalleryZone").hide();
+
+                        $("#galleryMessage")
+                            .removeClass("text-muted text-warning")
+                            .addClass("text-danger")
+                            .html("Maximum limit of 18 images reached. Delete an image to upload more.");
+
+                    } else {
+
+                        $("#imageGalleryZone").show();
+
+                        $("#galleryMessage")
+                            .removeClass("text-danger text-warning")
+                            .addClass("text-muted")
+                            .html(`${galleryImages.length}/${maxImages} images uploaded`);
+                    }
+                }
+
+                function renderGallery() {
+
+                    let html = '';
+                    const totalImages = galleryImages.length;
+
+                    galleryImages.forEach(function (image) {
+
+                        let colClass = "col-lg-2 col-md-3 col-sm-4 col-6";
+
+                        if (totalImages <= 6) {
+
+                            switch (totalImages) {
+                                case 1:
+                                    colClass = "col-12";
+                                    break;
+                                case 2:
+                                    colClass = "col-6";
+                                    break;
+                                case 3:
+                                    colClass = "col-4";
+                                    break;
+                                case 4:
+                                    colClass = "col-3";
+                                    break;
+                                case 5:
+                                    colClass = "custom-col-5";
+                                    break;
+                                case 6:
+                                    colClass = "col-2";
+                                    break;
+                            }
+                        }
+
+                        html += `
+                            <div class="${colClass} mb-1">
+                                <div class="gallery-item position-relative">
+                                    <img src="${image.src}" class="w-100" alt="Gallery Image">
+
+                                    <button type="button"
+                                            class="gallery-delete delete-image"
+                                            data-id="${image.id}">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    $("#galleryContainer").html(html);
+
+                    toggleUploadZone();
+                }
+
+                // Delete Image
+                $(document).on("click", ".delete-image", function (e) {
+
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const imageId = $(this).data("id");
+
+                    galleryImages = galleryImages.filter(function (image) {
+                        return image.id !== imageId;
+                    });
+
+                    renderGallery();
+                });
+
+                toggleUploadZone();
+
+            });
+        </script>
+        <!-- Video -->
+        <script>
+            $(document).ready(function () {
+
+                // Hide example if videos already exist
+                if ($("#videoPreviewList .video-preview-item").length > 0) {
+                    $(".video-example").hide();
+                }
+
+                function addVideoLink() {
+
+                    let videoUrl = $("#videoLinkInput").val().trim();
+
+                    if (!videoUrl) {
+                        alert("Please enter a video link");
+                        return;
+                    }
+
+                    // Optional: Validate YouTube/Vimeo URL
+                    const validVideoUrl =
+                        videoUrl.includes("youtube.com") ||
+                        videoUrl.includes("youtu.be") ||
+                        videoUrl.includes("vimeo.com");
+
+                    if (!validVideoUrl) {
+                        alert("Please enter a valid YouTube or Vimeo link.");
+                        return;
+                    }
+
+                    // Prevent duplicates
+                    let exists = false;
+
+                    $(".video-url").each(function () {
+                        if ($(this).text().trim() === videoUrl) {
+                            exists = true;
+                            return false;
+                        }
+                    });
+
+                    if (exists) {
+                        alert("This video link already exists.");
+                        return;
+                    }
+
+                    let videoItem = `
+                        <div class="video-preview-item">
+                            <div class="video-link-content">
+                                <i class="fa-solid fa-play play-video"
+                                data-url="${videoUrl}"
+                                title="Play Video"></i>
+
+                                <span class="video-url">${videoUrl}</span>
+                            </div>
+
+                            <i class="fa-solid fa-trash-can delete-video"
+                            title="Delete"></i>
+                        </div>
+                    `;
+
+                    $("#videoPreviewList").append(videoItem);
+
+                    $(".video-example").hide();
+
+                    $("#videoLinkInput").val("").focus();
+                }
+
+                // Button Click
+                $("#addVideoBtn").on("click", function () {
+                    addVideoLink();
+                });
+
+                // Enter Key
+                $("#videoLinkInput").on("keypress", function (e) {
+                    if (e.which === 13) {
+                        e.preventDefault();
+                        addVideoLink();
+                    }
+                });
+
+                // Play Video
+                $(document).on("click", ".play-video", function () {
+                    window.open($(this).data("url"), "_blank");
+                });
+
+                // Delete Video
+                $(document).on("click", ".delete-video", function () {
+
+                    $(this).closest(".video-preview-item").remove();
+
+                    if ($("#videoPreviewList .video-preview-item").length === 0) {
+                        $(".video-example").show();
+                    }
+                });
+
+            });
+        </script>
+    </body>
 </html>
