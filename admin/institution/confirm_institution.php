@@ -557,117 +557,200 @@ if ($user_type_id == '32') { //institution
 				$subjectName = 'Login Details';
 				$to = $toEmail;
 				$subject = $subjectName;
-				$message3 = '<!DOCTYPE html>
+				$message3 = '
+					<!DOCTYPE html>
 						<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
 						<head>
-						<meta charset="UTF-8">
-						<meta name="viewport" content="width=device-width,initial-scale=1">
-						<meta name="x-apple-disable-message-reformatting">
-						<title></title>
-						<!--[if mso]>
-						<noscript>
-							<xml>
-							<o:OfficeDocumentSettings>
-								<o:PixelsPerInch>96</o:PixelsPerInch>
-							</o:OfficeDocumentSettings>
-							</xml>
-						</noscript>
-						<![endif]-->
-						<style>
-							table, td, div, h1, p {font-family: Arial, sans-serif;}
-						</style>
+							<meta charset="UTF-8">
+							<meta name="viewport" content="width=device-width, initial-scale=1.0">
+							<meta name="x-apple-disable-message-reformatting">
+							<title>Welcome Email</title>
+
+							<!--[if mso]>
+								<noscript>
+									<xml>
+										<o:OfficeDocumentSettings>
+										<o:PixelsPerInch>96</o:PixelsPerInch>
+										</o:OfficeDocumentSettings>
+									</xml>
+								</noscript>
+							<![endif]-->
+
+							<style>
+								body{
+									margin:0;
+									padding:0;
+									background:#f5f5f5;
+									font-family:Arial,Helvetica,sans-serif;
+								}
+								table{
+									border-collapse:collapse;
+								}
+								.container{
+									width:650px;
+									max-width:650px;
+									margin:20px auto;
+									background:#ffffff;
+									border:1px solid #e5e5e5;
+								}
+								.content{
+									padding:35px;
+									color:#333333;
+									font-size:15px;
+									line-height:24px;
+								}
+								.heading{
+									font-size:28px;
+									font-weight:bold;
+									color:#1f2937;
+								}
+								.subtext{
+									color:#555;
+								}
+								.credential-box{
+									background:#fafafa;
+									border:1px solid #e6e6e6;
+									border-radius:8px;
+									padding:20px;
+								}
+								.credential-box ul{
+									padding-left:20px;
+									margin:10px 0;
+								}
+								.credential-box li{
+									margin-bottom:14px;
+								}
+								hr{
+									border:none;
+									border-top:1px solid #dddddd;
+									margin:30px 0;
+								}
+								.footer{
+									color:#555;
+								}
+								.label{
+									font-weight:bold;
+								}
+								.link{
+									color:#0d6efd;
+									text-decoration:none;
+								}
+								.logo{
+									text-align:center;
+									padding-top:25px;
+								}
+
+								@media only screen and (max-width:680px){
+									.container{
+										width:100% !important;
+									}
+									.content{
+										padding:20px !important;
+									}
+								}
+							</style>
 						</head>
-						<body style="margin:0;padding:0;">
-						<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;background:#ffffff;">
-							<tr>
-							<td align="center" style="padding:0;">
-								<table role="presentation" style="width:602px;border-collapse:collapse;border:1px solid #cccccc;border-spacing:0;text-align:left;">
+
+						<body>
+
+							<table width="100%" bgcolor="#f5f5f5">
 								<tr>
-									<td style="padding:30px;background:#a5a5a5;">
-									<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;font-size:9px;font-family:Arial,sans-serif;">
-										<tr>
-										<td style="padding:0;width:50%;" align="left">
-											<img src="https://uniqbizz.com/uploading/uniqbizz_logo.png" alt="" width="100" style="height:auto;display:block; position: absolute; top: 37px;" />
-											<img src="https://uniqbizz.com/uploading/bizzmirth.png" alt="" width="100" style="height:auto;display:block;" /></p>
-										</td>
-										<td style="padding:0;width:50%;" align="right">
-											<table role="presentation" style="border-collapse:collapse;border:0;border-spacing:0;">
+									<td align="center">
+
+										<table class="container" cellpadding="0" cellspacing="0">
+
 											<tr>
-											<p style="font-size:14px;line-height:20px;font-family:Arial,sans-serif; color: white;">
-												Uniqbizz<br>
-												306 Ambrosia Corporate Park EDC Patto Plaza Panjim Goa 403001<br>
-												Contact No: 0832 2438500 / 8080785714<br>
-												Email ID: support@uniqbizz.com<br>
-												URL: uniqbizz.com
-											</p>
-											
-											</tr>
-											</table>
-										</td>
-										</tr>
-									</table>
-									</td>
-								</tr>
-								<tr>
-									<td style="padding:36px 30px 42px 30px;">
-									<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
-										<tr>
-										<td style="padding:0;">
-											<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
-											<tr>
-												
-												<td style="width:20px;padding:0;font-size:0;line-height:0;">&nbsp;</td>
-												<td style="width:260px;padding:0;vertical-align:top;color:#153643;">
-												<!-- <p style="margin:0 0 25px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><img src="https://assets.codepen.io/210284/right.gif" alt="" width="260" style="height:auto;display:block;" /></p> -->
-												<p style="margin:0 0 12px 0;font-size:16px;font-family:Arial,sans-serif;">Dear ' . $name . '  <br>
-												ID: - ' . $uid . '<br>
-												DOJ: - ' . $doj . '<br>
-												Address: - ' . $address . '<br>
-												Username: - ' . $toEmail . '<br>
-												Password: - ' . $password . '<br><br>
-												<hr><br><br>
-												</p>
-												<p style="margin:0 0 12px 0;font-size:16px;font-family:Arial,sans-serif; color: #a5a5a5;"> 
-													Congratulations on your decision! </p>
+												<td class="content">
 
-													<p style="margin:0 0 12px 0;font-size:16px;font-family:Arial,sans-serif; ">
-													A journey of a thousand miles must begin with a single step. Id like to welcome you to Uniqbizz. We are excited that you have accepted our business offer and agreed upon your start date. I trust that this letter finds you mutually excited about your new opportunity with Uniqbizz.
-													<br><br>
+													<p><strong>Dear '. $name .',</strong></p>
 
-													Each of is will play a role to ensure your successful integration into the company. Your agenda will involve planning your orientation with company and setting some intial work goals so that you feel immediately productive in your new role. And to earn money which is optional, your earnings will depend directly in the amount of questions prior to your start date, please call me anytime, or send email if that is more convenient. We look forward to having you come onboard. The secret of success is constancy to purpose.
-
+													<p class="subtext">
+													Greetings from <strong>Bizzmirth Holidays Pvt. Ltd.</strong>
+													🌍✈️
 													</p>
-													<p style="margin:0 0 12px 0;font-size:16px;font-family:Arial,sans-serif; color: #a5a5a5;"> 
-													Best Regards,<br>
-													Uniqbizz</p>
+
+													<p>
+													We’re delighted to welcome you as <strong>'. $name .'</strong>.
+													Your onboarding marks the beginning of a promising collaboration,
+													and we look forward to building success together.
+													</p>
+
+													<br>
+
+													<div class="credential-box">
+
+														<p style="margin-top:0;">
+														🔐 <strong>Your Access Credentials:</strong>
+														</p>
+
+														<ul>
+
+														<li>
+														🌐
+														<span class="label">Portal URL:</span>
+														<a href="https://ca.uniqbizz.com" class="link">
+														https://ca.uniqbizz.com
+														</a>
+														</li>
+
+														<li>
+														🆔
+														<span class="label">Login ID:</span>
+														' . $uname . '
+														</li>
+
+														<li>
+														🔑
+														<span class="label">Password:</span>
+														' . $password . '
+														</li>
+
+														<li>
+														👉
+														<span class="label">Login As:</span>
+														' . $name . '
+														</li>
+
+														</ul>
+
+													</div>
+
+													<hr>
+
+													<h3 style="margin-bottom:10px;">📞 Need Help?</h3>
+
+													<p>
+													Our Support Team is always available to assist you at every step.
+													Feel free to reach out for training, assistance, or business guidance.
+													</p>
+
+													<hr>
+
+													<p class="footer">
+													Thank you for choosing to be part of the
+													<strong>Bizzmirth Holidays</strong> family.
+													Let’s work together to deliver memorable travel experiences
+													to customers across the globe.
+													</p>
+
+													<p style="margin-top:35px;">
+													<strong>Warm regards,</strong><br>
+													<strong>Team Bizzmirth Holidays Pvt. Ltd.</strong><br>
+													<em>In association with UNIQBIZZ</em>
+													</p>
+
 												</td>
 											</tr>
-											</table>
-										</td>
-										</tr>
-									</table>
+
+										</table>
+
 									</td>
 								</tr>
-								<tr>
-									<td style="padding:30px;background:#a5a5a5;">
-									<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;font-size:9px;font-family:Arial,sans-serif;">
-										<tr>
-										<td style="padding:0;width:50%;" align="left">
-											<p style="margin:0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;color:#ffffff;">
-											Uniqbizz.<br/>
-											</p>
-										</td>
-										
-										</tr>
-									</table>
-									</td>
-								</tr>
-								</table>
-							</td>
-							</tr>
-						</table>
+							</table>
+
 						</body>
-						</html>';
+					</html>
+				';
 				$mail = new PHPMailer(); 
 				$mail->IsSMTP(); 
 				$mail->SMTPAuth = true; 
