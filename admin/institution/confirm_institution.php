@@ -708,7 +708,7 @@ if ($user_type_id == '32') { //institution
 														<li>
 														👉
 														<span class="label">Login As:</span>
-														' . $name . '
+														Institution
 														</li>
 
 														</ul>
