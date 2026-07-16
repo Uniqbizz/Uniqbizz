@@ -136,6 +136,7 @@
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
+                                                                <th data-ordering="false">Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="tcTableBody">
@@ -221,12 +222,8 @@
 
                 </div><!-- End Page-content -->
                 <?php 
-                    if ($userType == 34) {
-                        include_once(__DIR__ . '/techno_footer.php');
-                    }else{
 
-                        include_once "techno_footer.php"; 
-                    }
+                    include_once "techno_footer.php"; 
                 ?>
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
@@ -274,6 +271,10 @@
                 searching: true,
                 paging: true,
                 ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
 
@@ -369,6 +370,38 @@
                                     </p>
                                 `;
                         }
+                    },
+                    {
+                        data: null,
+                        orderable: false,
+                        searchable: false,
+                        render: function(data) {
+                            
+
+                            return `
+                                <form action="edit_travel_consultant.php" method="POST" class="m-0">
+                                    <input
+                                        type="hidden"
+                                        name="id"
+                                        value="${data.id}"
+                                    >
+                                    <input
+                                        type="hidden"
+                                        name="status"
+                                        value="${data.status}"
+                                    >
+
+                                    <button
+                                        type="submit"
+                                        class="border-0 bg-transparent p-0 w-100"
+                                    >
+                                        <p class="teViewBtn text-center fw-bold mb-0">
+                                            <i class="fa-solid fa-eye me-2 mt-1"></i>${data.status == 4 ? 'Edit' : 'View'}
+                                        </p>
+                                    </button>
+                                </form>
+                            `;
+                        }
                     }
                 ],
                 language: {
@@ -394,6 +427,7 @@
                         tcTable.clear();
                         tcTable.rows.add(res.data);
                         tcTable.draw();
+                        tcTable.columns.adjust().responsive.recalc();
                         
                     },
 
@@ -406,10 +440,16 @@
             }
             
             const tcRegTable = $('#example-dataTable-2').DataTable({
+                destroy: true,
                 responsive: true,
-                ordering: false,
+                processing: true,
                 searching: true,
                 paging: true,
+                ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
                     {
@@ -505,17 +545,22 @@
                         }
                     },
                     {
-                        data: 'ca_travelagency_id',
+                        data: null,
                         orderable: false,
                         searchable: false,
                         render: function(data) {
 
                             return `
-                                <form action="#" method="POST" class="m-0">
+                                <form action="edit_travel_consultant.php" method="POST" class="m-0">
                                     <input
                                         type="hidden"
-                                        name="ca_travelgency_id"
-                                        value="${data}"
+                                        name="id"
+                                        value="${data.ca_travelagency_id}"
+                                    >
+                                    <input
+                                        type="hidden"
+                                        name="status"
+                                        value="1"
                                     >
 
                                     <button
@@ -571,6 +616,7 @@
                         }
 
                         tcRegTable.draw();
+                        tcRegTable.columns.adjust().responsive.recalc();
 
                     },
 

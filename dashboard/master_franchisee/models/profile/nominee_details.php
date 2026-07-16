@@ -25,9 +25,9 @@ try {
             nd.nominee_date_of_birth,
             nd.nominee_address
         FROM nominee_details nd
-        INNER JOIN super_techno_enterprise ste
+        INNER JOIN master_franchisee ste
             ON ste.application_id = nd.application_id
-        WHERE ste.super_techno_enterprise_id = :user_id
+        WHERE ste.master_franchisee_id = :user_id
         LIMIT 1
     ");
 

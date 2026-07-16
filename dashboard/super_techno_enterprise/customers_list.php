@@ -136,6 +136,7 @@
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
+                                                                <th data-ordering="false">Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="cuTableBody">
@@ -194,7 +195,7 @@
                                                     <table id="example-dataTable-2" class="table table-striped table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                                         <thead>
                                                             <tr class="table-primary">
-                                                                <th data-ordering="false">TE ID & Full Name</th>
+                                                                <th data-ordering="false">CU ID & Full Name</th>
                                                                 <th data-ordering="false">Reference ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Membership Type</th>
@@ -268,6 +269,10 @@
                 searching: true,
                 paging: true,
                 ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
 
@@ -363,6 +368,37 @@
                                     </p>
                                 `;
                         }
+                    },
+                    {
+                        data: null,
+                        orderable: false,
+                        searchable: false,
+                        className: 'none',
+                        render: function(data) {
+
+                            return `
+                                <form action="edit_customer.php" method="POST" class="m-0">
+                                    <input
+                                        type="hidden"
+                                        name="id"
+                                        value="${data.iid}"
+                                    >
+                                    <input
+                                            type="hidden"
+                                            name="status"
+                                            value="2"
+                                        >
+                                    <button
+                                        type="submit"
+                                        class="border-0 bg-transparent p-0 w-100"
+                                    >
+                                        <p class="teViewBtn text-center fw-bold mb-0">
+                                            <i class="fa-solid fa-eye me-2 mt-1"></i>View
+                                        </p>
+                                    </button>
+                                </form>
+                            `;
+                        }
                     }
                 ],
                 language: {
@@ -388,6 +424,7 @@
                         cuTable.clear();
                         cuTable.rows.add(res.data);
                         cuTable.draw();
+                        cuTable.columns.adjust().responsive.recalc();
                         
                     },
 
@@ -400,10 +437,16 @@
             }
             
             const cuRegTable = $('#example-dataTable-2').DataTable({
+                destroy: true,
                 responsive: true,
-                ordering: false,
+                processing: true,
                 searching: true,
                 paging: true,
+                ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
                     {
@@ -534,20 +577,24 @@
                         }
                     },
                     {
-                        data: 'ca_customer_id',
+                        data: null,
                         orderable: false,
                         searchable: false,
                         className: 'none',
                         render: function(data) {
 
                             return `
-                                <form action="#" method="POST" class="m-0">
+                                <form action="edit_customer.php" method="POST" class="m-0">
                                     <input
                                         type="hidden"
-                                        name="ca_customer_id"
-                                        value="${data}"
+                                        name="id"
+                                        value="${data.ca_customer_id}"
                                     >
-
+                                    <input
+                                            type="hidden"
+                                            name="status"
+                                            value="1"
+                                        >
                                     <button
                                         type="submit"
                                         class="border-0 bg-transparent p-0 w-100"
@@ -601,6 +648,7 @@
                         }
 
                         cuRegTable.draw();
+                        cuRegTable.columns.adjust().responsive.recalc();
 
                     },
 

@@ -17,25 +17,26 @@ try {
     */
 
     $sqlYears = $conn->prepare("
-        SELECT YEAR(cu.register_date) AS year
-        FROM ca_customer cu
-        INNER JOIN ca_travelagency ta
-            ON cu.ta_reference_no = ta.ca_travelagency_id
-        INNER JOIN corporate_agency corp
-            ON ta.reference_no = corp.corporate_agency_id
-        WHERE corp.reference_no = :user_id
-        AND cu.status IN (1,3)
-        AND ta.status IN (1,3)
-        AND corp.status IN (1,3)
-
-        UNION
-
+        
         SELECT YEAR(cu.register_date) AS year
         FROM ca_customer cu
         INNER JOIN ca_travelagency ta
             ON cu.ta_reference_no = ta.ca_travelagency_id
         INNER JOIN sub_franchisee sf
             ON ta.reference_no = sf.sub_franchisee_id
+        WHERE sf.reference_no = :user_id
+        AND cu.status IN (1,3)
+        AND ta.status IN (1,3)
+        AND sf.status IN (1,3)
+
+        UNION
+
+        SELECT YEAR(cu.register_date) AS year
+        FROM ca_customer cu
+        INNER JOIN institution_branch_manager ta
+            ON cu.ta_reference_no = ta.institution_branch_manager_id
+        INNER JOIN institution sf
+            ON ta.reference_no = sf.institution_id
         WHERE sf.reference_no = :user_id
         AND cu.status IN (1,3)
         AND ta.status IN (1,3)
@@ -61,19 +62,6 @@ try {
         MONTH(register_date) AS month,
         COUNT(*) AS total
         FROM (
-            SELECT cu.register_date
-            FROM ca_customer cu
-            INNER JOIN ca_travelagency ta
-                ON cu.ta_reference_no = ta.ca_travelagency_id
-            INNER JOIN corporate_agency corp
-                ON ta.reference_no = corp.corporate_agency_id
-            WHERE corp.reference_no = :user_id
-            AND YEAR(cu.register_date) = :selected_year
-            AND cu.status IN (1,3)
-            AND ta.status IN (1,3)
-            AND corp.status IN (1,3)
-
-            UNION ALL
 
             SELECT cu.register_date
             FROM ca_customer cu
@@ -81,6 +69,19 @@ try {
                 ON cu.ta_reference_no = ta.ca_travelagency_id
             INNER JOIN sub_franchisee sf
                 ON ta.reference_no = sf.sub_franchisee_id
+            WHERE sf.reference_no = :user_id
+            AND YEAR(cu.register_date) = :selected_year
+            AND cu.status IN (1,3)
+            AND ta.status IN (1,3)
+
+            UNION ALL
+
+            SELECT cu.register_date
+            FROM ca_customer cu
+            INNER JOIN institution_branch_manager ta
+                ON cu.ta_reference_no = ta.institution_branch_manager_id
+            INNER JOIN institution sf
+                ON ta.reference_no = sf.institution_id
             WHERE sf.reference_no = :user_id
             AND YEAR(cu.register_date) = :selected_year
             AND cu.status IN (1,3)

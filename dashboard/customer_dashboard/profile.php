@@ -111,7 +111,7 @@
     <link rel="stylesheet" href="../assets/css/customer_dashboard.css" />
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     
     <style>
         .upload-documents {
@@ -742,6 +742,7 @@
     <script src="../assets/js/app.js"></script>
     <!-- file upload code js file -->
     <script src="../../uploading/upload.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
       
@@ -856,12 +857,22 @@
             const allPassed = Object.values(checks).every(Boolean);
 
             if (!allPassed) {
-                alert(' Password must be at least 8 characters long and include a letter, a number, and a symbol.');
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Invalid Password',
+                    text: 'Password must be at least 8 characters long and include a letter, a number, and a symbol.',
+                    confirmButtonText: 'OK'
+                });
                 return;
             }
 
             if (newPassword !== confirmPassword) {
-                alert(' New Password and Confirm Password do not match.');
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Password Mismatch',
+                    text: 'New Password and Confirm Password do not match.',
+                    confirmButtonText: 'OK'
+                });
                 return;
             }
 
@@ -879,20 +890,42 @@
                 processData: false,
                 contentType: false,
                 success: function (response) {
-                    switch (response.trim()) {
-                        case 'success':
-                            alert(' Password changed successfully.');
-                            location.reload();
-                            break;
-                        case 'mismatch':
-                            alert(' Current Password is incorrect.');
-                            break;
-                        case 'invalid':
-                            alert(' Password validation failed on server.');
-                            break;
-                        default:
-                            alert(' Unknown error occurred. Please try again.');
-                            break;
+                    if (response === "success") {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success",
+                            text: "Password changed successfully."
+                        });
+                    } else if (response === "mismatch") {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Incorrect Password",
+                            text: "Current password is incorrect."
+                        });
+                    } else if (response === "same_password") {
+                        Swal.fire({
+                            icon: "warning",
+                            title: "Same Password",
+                            text: "New password cannot be the same as your current password."
+                        });
+                    } else if (response === "confirm_mismatch") {
+                        Swal.fire({
+                            icon: "warning",
+                            title: "Password Mismatch",
+                            text: "New password and confirm password do not match."
+                        });
+                    } else if (response === "invalid") {
+                        Swal.fire({
+                            icon: "warning",
+                            title: "Invalid Password",
+                            text: "Password must be at least 8 characters and contain a letter, a number, and a special character."
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "Something went wrong."
+                        });
                     }
                 },
                 error: function (xhr, status, error) {

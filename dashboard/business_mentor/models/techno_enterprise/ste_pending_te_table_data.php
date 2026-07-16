@@ -7,6 +7,7 @@
     try {
 
         $sql = $conn->prepare("
+        
             SELECT
                 ca.id,
                 ca.firstname,
@@ -20,18 +21,67 @@
 
                 ste.firstname AS ref_firstname,
                 ste.lastname AS ref_lastname,
-                ste.super_techno_enterprise_id,
+                ste.business_mentor_id,
 
                 'corporate_agency' AS source_table
 
             FROM corporate_agency ca
 
-            INNER JOIN super_techno_enterprise ste
-                ON ca.reference_no = ste.super_techno_enterprise_id
+            INNER JOIN business_mentor ste
+                ON ca.reference_no = ste.business_mentor_id
 
             WHERE ca.reference_no = :user_id
-            AND ca.status IN (2,4)
+            AND ca.status IN (0,2,4)
+            UNION ALL
+            SELECT
+                ca.id,
+                ca.firstname,
+                ca.lastname,
+                ca.contact_no,
+                ca.email,
+                ca.added_on,
+                ca.status,
+                ca.user_type,
+                'SF' AS userTypeStr,
 
+                ste.firstname AS ref_firstname,
+                ste.lastname AS ref_lastname,
+                ste.business_mentor_id,
+
+                'sub_franchisee' AS source_table
+
+            FROM sub_franchisee ca
+
+            INNER JOIN business_mentor ste
+                ON ca.reference_no = ste.business_mentor_id
+
+            WHERE ca.reference_no = :user_id
+            AND ca.status IN (0,2,4)
+            UNION ALL
+            SELECT
+                ca.id,
+                ca.firstname,
+                ca.lastname,
+                ca.contact_no,
+                ca.email,
+                ca.added_on,
+                ca.status,
+                ca.user_type,
+                'I' AS userTypeStr,
+
+                ste.firstname AS ref_firstname,
+                ste.lastname AS ref_lastname,
+                ste.business_mentor_id,
+
+                'institution' AS source_table
+
+            FROM institution ca
+
+            INNER JOIN business_mentor ste
+                ON ca.reference_no = ste.business_mentor_id
+
+            WHERE ca.reference_no = :user_id
+            AND ca.status IN (0,2,4)
             ORDER BY id DESC;
         ");
 
@@ -73,15 +123,15 @@
 
     //             ste.firstname AS ref_firstname,
     //             ste.lastname AS ref_lastname,
-    //             ste.super_techno_enterprise_id,
+    //             ste.business_mentor_id,
 
     //             'sub_franchisee' AS source_table
 
     //         FROM sub_franchisee sf
 
-    //         INNER JOIN super_techno_enterprise ste
-    //             ON sf.reference_no = ste.super_techno_enterprise_id
+    //         INNER JOIN business_mentor ste
+    //             ON sf.reference_no = ste.business_mentor_id
 
     //         WHERE sf.reference_no = :user_id
-    //         AND sf.status IN (2,4)
+    //         AND sf.status IN (0,2,4)
 ?>

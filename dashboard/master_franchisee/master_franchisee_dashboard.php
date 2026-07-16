@@ -28,7 +28,7 @@
         <link href="../assets/css/custom.min.css" rel="stylesheet" type="text/css" />
         <!-- custom Css developer-->
         <link rel="stylesheet" href="../assets/css/custom.css" />
-        <!-- Master Franchisee Dashboard CSS -->
+        <!-- Super Techno Enterprisee Dashboard CSS -->
         <link rel="stylesheet" href="../assets/css/master_franchisee.css" />
         
         <!-- FontAwesome -->
@@ -67,19 +67,19 @@
 
             <?php include_once "master_franchisee_sidebar.php" ?>
             <!-- ============================================================== -->
-            <!-- Start of Master Franchisee Dashboard here -->
+            <!-- Start of Super Techno Enterprisee Dashboard here -->
             <!-- ============================================================== -->
             <div class="main-content">
                 <div class="page-content">
                     <div class="container-fluid ps-0">
-                        <!-- Master Franchisee Dashboard Greeting Card -->
+                        <!-- Super Techno Enterprisee Dashboard Greeting Card -->
                         <div class="card mb-0 border rounded-4 shadow-sm overflow-hidden">
                             <div class="greetingImageWrapper">
                                 <img src="../assets/images/superTechnoImage.png" alt="Package" class="greetingImage img-fluid w-100">
                             </div>
                             <div class="greetingCard">
                                 <p class="fw-bold text-dark gap-3 fs-4">Welcome Back,<span class="" id="userName"></span>! &#128075;</p>
-                                <h1 class="fw-bold text-dark gap-3">Master Franchisee</h1>
+                                <h1 class="fw-bold text-dark gap-3">Sponsor Franchisee</h1>
                                 <p class="text-dark fs-4 mb-0">You're building something great.</p>
                                 <p class="text-dark fs-4">Here's your business overview.</p>
                             </div>
@@ -93,8 +93,8 @@
                                             <i class="fa-solid fa-user-group fa-xl"></i>
                                         </div>
                                         <div class="">
-                                            <p class="mb-1 fs-6 fw-bold">Total Techno Enterprises</p>
-                                            <h4 class="fw-bolder text-dark mb-1" id="eteCount">0</h4>
+                                            <p class="mb-1 fs-6 fw-bold">Total Franchisee</p>
+                                            <h4 class="fw-bolder text-dark mb-1" id="fCount">0</h4>
                                             <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
@@ -107,8 +107,8 @@
                                             <i class="fa-solid fa-user-group fa-xl"></i>
                                         </div>
                                         <div class="">
-                                            <p class="mb-1 fs-6 fw-bold">Total Franchisee</p>
-                                            <h4 class="fw-bolder text-dark mb-1" id="steCount">0</h4>
+                                            <p class="mb-1 fs-6 fw-bold">Total Institute</p>
+                                            <h4 class="fw-bolder text-dark mb-1" id="iCount">0</h4>
                                             <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
@@ -121,8 +121,8 @@
                                             <i class="fa-solid fa-user-group fa-xl"></i>
                                         </div>
                                         <div class="">
-                                            <p class="mb-1 fs-6 fw-bold">Total Institute</p>
-                                            <h4 class="fw-bolder text-dark mb-1" id="teCount">0</h4>
+                                            <p class="mb-1 fs-6 fw-bold">Total Travel Consultant</p>
+                                            <h4 class="fw-bolder text-dark mb-1" id="tcCount">0</h4>
                                             <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
@@ -135,8 +135,8 @@
                                             <i class="fa-solid fa-user-group fa-xl"></i>
                                         </div>
                                         <div class="">
-                                            <p class="mb-1 fs-6 fw-bold">Total Travel Consultant</p>
-                                            <h4 class="fw-bolder text-dark mb-1" id="tcCount">0</h4>
+                                            <p class="mb-1 fs-6 fw-bold">Total Institute Branch Manager</p>
+                                            <h4 class="fw-bolder text-dark mb-1" id="ibrCount">0</h4>
                                             <a href="travel_consultants_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
@@ -149,9 +149,9 @@
                                             <i class="fa-solid fa-user-group fa-xl"></i>
                                         </div>
                                         <div class="">
-                                            <p class="mb-1 fs-6 fw-bold">Total Institute Branch Manager</p>
+                                            <p class="mb-1 fs-6 fw-bold">Total Customer</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="cuCount">0</h4>
-                                            <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <a href="customers_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -163,9 +163,9 @@
                                             <i class="fa-solid fa-wallet fa-xl"></i>
                                         </div>
                                         <div class="">
-                                            <p class="mb-1 fs-6 fw-bold">Total Customer</p>
+                                            <p class="mb-1 fs-6 fw-bold">Total Commission</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="total_com">&#8377; 0</h4>
-                                            <a href="customers_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <a href="holiday_payout.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -175,8 +175,13 @@
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-3">
                                 <div class="commission-card px-2">
-                                    <div class="commission-title">
-                                        Commission Earned This Month
+                                    <div class="card-title d-flex justify-content-between p-2">
+                                        <p class="commission-title fs-5">Overall Commission Earned</p>
+                                        <p class="">
+                                            <select class="form-select yearSelect py-1" id="pyearFilter">
+                                                
+                                            </select>
+                                        </p>
                                     </div>
                                     <div class="commission-wrapper gap-2">
                                         <div class="chart-container">
@@ -526,7 +531,120 @@
             
             let commissionChart = null;
             let customerTrendChart;
+            function loadYearDropdown() {
 
+                const currentYear = new Date().getFullYear();
+                const startYear = 2023; // change if required
+
+                let options = '';
+
+                for (let year = currentYear; year >= startYear; year--) {
+
+                    options += `
+                        <option value="${year}" ${year === currentYear ? 'selected' : ''}>
+                            ${year}
+                        </option>
+                    `;
+
+                }
+
+                $('#pyearFilter').html(options);
+
+            }
+
+            loadYearDropdown();
+            function loadCommissionChart() {
+
+                let selectedYear = $('#pyearFilter').val();
+
+                $.ajax({
+
+                    url: 'models/dashboard/ste_com_piechart_data.php',
+                    type: 'POST',
+                    dataType: 'json',
+
+                    data: {
+                        selectedYear: selectedYear
+                    },
+
+                    success: function (res) {
+
+                        if (!res.status) {
+
+                            return;
+
+                        }
+
+                        const recruitmentAmount = Number(res.data.recruitment.amount || 0);
+                        const neoAmount = Number(res.data.neo_select.amount || 0);
+                        const bookingAmount = Number(res.data.booking.amount || 0);
+
+                        const totalEarnings = Number(res.data.total_earnings || 0);
+
+                        $('#recruitmentAmount').text('₹' + recruitmentAmount.toLocaleString('en-IN'));
+                        $('#neoAmount').text('₹' + neoAmount.toLocaleString('en-IN'));
+                        $('#bookingAmount').text('₹' + bookingAmount.toLocaleString('en-IN'));
+                        $('#paidEarnings').text('₹' + totalEarnings.toLocaleString('en-IN'));
+
+                        const recruitmentPercent = Number(res.data.recruitment.percentage || 0);
+                        const neoPercent = Number(res.data.neo_select.percentage || 0);
+                        const bookingPercent = Number(res.data.booking.percentage || 0);
+
+                        $('#recruitmentPercent').text(recruitmentPercent.toFixed(1) + '%');
+                        $('#neoPercent').text(neoPercent.toFixed(1) + '%');
+                        $('#bookingPercent').text(bookingPercent.toFixed(1) + '%');
+
+                        if (totalEarnings > 0) {
+
+                            $('.center-text p').text('Total Earnings');
+
+                        } else {
+
+                            $('.center-text p').text('No Earnings Yet');
+
+                        }
+
+                        if (commissionChart) {
+
+                            if (totalEarnings == 0) {
+
+                                commissionChart.data.datasets[0].data = [100];
+
+                                commissionChart.data.datasets[0].backgroundColor = [
+                                    '#E5E7EB'
+                                ];
+
+                            } else {
+
+                                commissionChart.data.datasets[0].data = [
+                                    recruitmentPercent,
+                                    neoPercent,
+                                    bookingPercent
+                                ];
+
+                                commissionChart.data.datasets[0].backgroundColor = [
+                                    '#5B2EFF',
+                                    '#2563EB',
+                                    '#00C46A'
+                                ];
+
+                            }
+
+                            commissionChart.update();
+
+                        }
+
+                    },
+
+                    error: function () {
+
+                        console.log('Unable to load chart.');
+
+                    }
+
+                });
+
+            }
             function initializeCustomerTrendChart() {
 
                 const months = [
@@ -611,7 +729,7 @@
             function loadCustomerTrendChart(year = '') {
 
                 $.ajax({
-                    url: 'models/dashboard/ete_cust_line_chart_data.php',
+                    url: 'models/dashboard/ste_cust_line_chart_data.php',
                     type: 'POST',
                     dataType: 'json',
                     data: {
@@ -677,6 +795,96 @@
                 });
 
             }
+            function loadCommissionChart() {
+
+                const selectedYear = $('#pyearFilter').val();
+
+                $.ajax({
+
+                    url: 'models/dashboard/ste_com_piechart_data.php',
+
+                    type: 'POST',
+
+                    dataType: 'json',
+
+                    data: {
+                        selectedYear: selectedYear
+                    },
+
+                    success: function (res) {
+
+                        // console.log(res);
+
+                        if (!res.status) return;
+
+                        const recruitmentAmount = Number(res.data.recruitment.amount || 0);
+                        const neoAmount = Number(res.data.neo_select.amount || 0);
+                        const bookingAmount = Number(res.data.booking.amount || 0);
+
+                        const recruitmentPercent = Number(res.data.recruitment.percentage || 0);
+                        const neoPercent = Number(res.data.neo_select.percentage || 0);
+                        const bookingPercent = Number(res.data.booking.percentage || 0);
+
+                        const totalEarnings = Number(res.data.total_earnings || 0);
+
+                        $('#recruitmentAmount').text('₹' + recruitmentAmount.toLocaleString('en-IN'));
+                        $('#neoAmount').text('₹' + neoAmount.toLocaleString('en-IN'));
+                        $('#bookingAmount').text('₹' + bookingAmount.toLocaleString('en-IN'));
+                        $('#paidEarnings').text('₹' + totalEarnings.toLocaleString('en-IN'));
+
+                        $('#recruitmentPercent').text(recruitmentPercent.toFixed(1) + '%');
+                        $('#neoPercent').text(neoPercent.toFixed(1) + '%');
+                        $('#bookingPercent').text(bookingPercent.toFixed(1) + '%');
+
+                        $('.center-text p').text(
+                            totalEarnings > 0 ? 'Total Earnings' : 'No Earnings Yet'
+                        );
+
+                        if (!commissionChart) return;
+
+                        commissionChart.data.labels = [
+                            'Recruitment',
+                            'Holiday Activation',
+                            'Tour Booking'
+                        ];
+
+                        if (totalEarnings > 0) {
+
+                            commissionChart.data.datasets[0].data = [
+                                recruitmentAmount,
+                                neoAmount,
+                                bookingAmount
+                            ];
+
+                            commissionChart.data.datasets[0].backgroundColor = [
+                                '#5B2EFF',
+                                '#2563EB',
+                                '#00C46A'
+                            ];
+
+                        } else {
+
+                            commissionChart.data.datasets[0].data = [100];
+
+                            commissionChart.data.datasets[0].backgroundColor = [
+                                '#E5E7EB'
+                            ];
+
+                        }
+
+                        commissionChart.update();
+
+                    },
+
+                    error: function (xhr) {
+
+                        // console.log(xhr.responseText);
+
+                    }
+
+                });
+
+            }
             function initializeChart() {
 
                 const canvas = document.getElementById('commissionChart');
@@ -731,13 +939,13 @@
                 $.when(
 
                     $.ajax({
-                        url: 'models/dashboard/ete_model.php',
+                        url: 'models/dashboard/ste_model.php',
                         type: 'POST',
                         dataType: 'json'
                     }),
 
                     $.ajax({
-                        url: 'models/dashboard/ete_dash_card_data.php',
+                        url: 'models/dashboard/ste_dash_card_data.php',
                         type: 'POST',
                         dataType: 'json'
                     })
@@ -759,9 +967,9 @@
 
                     if (dash.status && dash.data) {
 
-                        $('#teCount').text(dash.data.te_count || 0);
-                        $('#steCount').text(dash.data.ste_count || 0);
-                        $('#eteCount').text(dash.data.ete_count || 0);
+                        $('#fCount').text(dash.data.f_count || 0);
+                        $('#iCount').text(dash.data.i_count || 0);
+                        $('#ibrCount').text(dash.data.ibr_count || 0);
                         $('#tcCount').text(dash.data.tc_count || 0);
                         $('#cuCount').text(dash.data.cu_count || 0);
                         $('#total_com').text('\u20B9' + (dash.data.all_earning || 0));
@@ -782,168 +990,8 @@
                 | Commission Chart Data
                 |--------------------------------------------------------------------------
                 */
-
-                $.ajax({
-                    url: 'models/dashboard/ete_com_piechart_data.php',
-                    type: 'POST',
-                    dataType: 'json',
-
-                    success: function (res) {
-
-                        if (!res.status || !res.data) {
-                            return;
-                        }
-
-                        const recruitmentAmount =
-                            Number(res.data.recruitment?.amount || 0);
-
-                        const neoAmount =
-                            Number(res.data.neo_select?.amount || 0);
-
-                        const bookingAmount =
-                            Number(res.data.booking?.amount || 0);
-
-                        const totalEarnings =
-                            Number(res.data.total_earnings || 0);
-
-
-                        /*
-                        |--------------------------------------------------------------------------
-                        | Amounts
-                        |--------------------------------------------------------------------------
-                        */
-
-                        $('#recruitmentAmount').text(
-                            '\u20B9' + recruitmentAmount.toLocaleString('en-IN')
-                        );
-
-                        $('#neoAmount').text(
-                            '\u20B9' + neoAmount.toLocaleString('en-IN')
-                        );
-
-                        $('#bookingAmount').text(
-                            '\u20B9' + bookingAmount.toLocaleString('en-IN')
-                        );
-
-                        $('#paidEarnings').text(
-                            '\u20B9' + totalEarnings.toLocaleString('en-IN')
-                        );
-
-
-                        /*
-                        |--------------------------------------------------------------------------
-                        | Percentages
-                        |--------------------------------------------------------------------------
-                        */
-
-                        const recruitmentPercent =
-                            Number(res.data.recruitment?.percentage || 0);
-
-                        const neoPercent =
-                            Number(res.data.neo_select?.percentage || 0);
-
-                        const bookingPercent =
-                            Number(res.data.booking?.percentage || 0);
-
-                        $('#recruitmentPercent').text(
-                            recruitmentPercent.toFixed(1) + '%'
-                        );
-
-                        $('#neoPercent').text(
-                            neoPercent.toFixed(1) + '%'
-                        );
-
-                        $('#bookingPercent').text(
-                            bookingPercent.toFixed(1) + '%'
-                        );
-
-
-                        /*
-                        |--------------------------------------------------------------------------
-                        | Growth Percentage (Optional)
-                        |--------------------------------------------------------------------------
-                        */
-
-                        if ($('#growthPercentage').length) {
-
-                            const growth =
-                                Number(
-                                    res.data.month_comparison?.growth_percentage || 0
-                                );
-
-                            $('#growthPercentage').text(
-                                growth.toFixed(1) + '%'
-                            );
-
-                        }
-
-
-                        /*
-                        |--------------------------------------------------------------------------
-                        | Center Text
-                        |--------------------------------------------------------------------------
-                        */
-
-                        if (totalEarnings <= 0) {
-                            $('.center-text p').text('No Earnings Yet');
-                        } else {
-                            $('.center-text p').text('Total Earnings');
-                        }
-
-
-                        /*
-                        |--------------------------------------------------------------------------
-                        | Update Doughnut Chart
-                        |--------------------------------------------------------------------------
-                        */
-
-                        if (commissionChart) {
-
-                            const chartTotal =
-                                recruitmentPercent +
-                                neoPercent +
-                                bookingPercent;
-
-                            if (chartTotal <= 0) {
-
-                                commissionChart.data.datasets[0].data = [1];
-
-                                commissionChart.data.datasets[0].backgroundColor = [
-                                    '#E5E7EB'
-                                ];
-
-                            } else {
-
-                                commissionChart.data.datasets[0].data = [
-                                    recruitmentPercent,
-                                    neoPercent,
-                                    bookingPercent
-                                ];
-
-                                commissionChart.data.datasets[0].backgroundColor = [
-                                    '#5B2EFF',
-                                    '#2563EB',
-                                    '#00C46A'
-                                ];
-
-                            }
-
-                            commissionChart.update();
-
-                        }
-
-                    },
-
-                    error: function (xhr, status, error) {
-
-                        console.error(
-                            'Commission Chart Error:',
-                            error
-                        );
-
-                    }
-
-                });
+                loadYearDropdown();
+                loadCommissionChart();
 
             }
 
@@ -1129,7 +1177,7 @@
 
                 $.ajax({
 
-                    url: 'models/dashboard/ete_te_line_chart_data.php',
+                    url: 'models/dashboard/ste_te_line_chart_data.php',
 
                     type: 'POST',
 
@@ -1234,7 +1282,7 @@
             function loadTEPerformance() {
 
                 $.ajax({
-                    url: 'models/dashboard/ete_te_performance_data.php',
+                    url: 'models/dashboard/ste_te_performance_data.php',
                     type: 'POST',
                     dataType: 'json',
 
@@ -1314,7 +1362,7 @@
             function loadRecentActivities() {
 
                 $.ajax({
-                    url: 'models/dashboard/ete_recent_activity_data.php',
+                    url: 'models/dashboard/ste_recent_activity_data.php',
                     type: 'POST',
                     dataType: 'json',
 
@@ -1351,6 +1399,11 @@
 
                             }
 
+                            let activityDate = new Date(row.date).toLocaleDateString('en-IN', {
+                                day: 'numeric',
+                                month: 'short',
+                                year: 'numeric'
+                            });
                             let activityTime = new Date(row.date).toLocaleTimeString(
                                 'en-IN',
                                 {
@@ -1382,7 +1435,8 @@
 
                                     </div>
 
-                                    <p class="text-muted mb-0 text-nowrap">
+                                    <p class="text-muted mb-0 text-nowrap text-end">
+                                        ${activityDate}</br>
                                         ${activityTime}
                                     </p>
 
@@ -1421,6 +1475,11 @@
 
                 }
             );
+            $('#pyearFilter').on('change', function () {
+
+                loadCommissionChart();
+
+            });
             $(document).on(
                 'change',
                 '#yearFilter',

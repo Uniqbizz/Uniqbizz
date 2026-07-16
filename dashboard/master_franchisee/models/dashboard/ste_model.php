@@ -8,8 +8,8 @@
 
         $sqlSTE = $conn->prepare("
             SELECT *
-            FROM super_techno_enterprise
-            WHERE super_techno_enterprise_id = :user_id
+            FROM master_franchisee
+            WHERE master_franchisee_id = :user_id
             AND status = 1
         ");
 

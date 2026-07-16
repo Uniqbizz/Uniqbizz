@@ -44,7 +44,7 @@
             ORDER BY
                 inactive_days DESC
 
-            LIMIT 6
+            LIMIT 10
         ");
 
         $sql->execute([

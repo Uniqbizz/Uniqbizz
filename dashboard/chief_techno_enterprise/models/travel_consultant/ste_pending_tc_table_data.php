@@ -12,14 +12,14 @@
 
                 SELECT
                     ta.id,
-                    ta.ca_travelagency_id,
+                    ta.ca_travelagency_id AS ca_travelagency_id,
                     ta.firstname,
                     ta.lastname,
                     ta.contact_no,
                     ta.email,
                     ta.added_on AS register_date,
                     ta.status,
-
+                    ta.user_type,
                     ca.corporate_agency_id AS reference_id,
                     ca.firstname AS ref_firstname,
                     ca.lastname AS ref_lastname
@@ -45,14 +45,14 @@
 
                 SELECT
                     ta.id,
-                    ta.institution_branch_manager_id,
+                    ta.institution_branch_manager_id AS ca_travelagency_id,
                     ta.firstname,
                     ta.lastname,
                     ta.contact_no,
                     ta.email,
                     ta.added_on AS register_date,
                     ta.status,
-
+                    ta.user_type,
                     ca.institution_id AS reference_id,
                     ca.firstname AS ref_firstname,
                     ca.lastname AS ref_lastname

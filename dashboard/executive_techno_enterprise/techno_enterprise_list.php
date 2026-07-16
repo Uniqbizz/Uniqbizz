@@ -275,6 +275,10 @@
                 searching: true,
                 paging: true,
                 ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
 
@@ -421,7 +425,7 @@
                     }
                 ],
                 language: {
-                    emptyTable: "No Pending Techno Enterprise Found"
+                    emptyTable: "No Pending Techno Enterprise | Institution Found"
                 }
             });
             function loadPendingTEList(){
@@ -443,6 +447,7 @@
                         teTable.clear();
                         teTable.rows.add(res.data);
                         teTable.draw();
+                        teTable.columns.adjust().responsive.recalc();
                         
                     },
 
@@ -455,10 +460,16 @@
             }
             
             const teRegTable = $('#example-dataTable-2').DataTable({
+                destroy: true,
                 responsive: true,
-                ordering: false,
+                processing: true,
                 searching: true,
                 paging: true,
+                ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
                     {
@@ -617,7 +628,7 @@
                     }
                 ],
                 language: {
-                    emptyTable: 'No Techno Enterprise Found'
+                    emptyTable: 'No Techno Enterprise | Institution Found'
                 }
             });
 
@@ -656,6 +667,7 @@
                         }
 
                         teRegTable.draw();
+                        teRegTable.columns.adjust().responsive.recalc();
 
                     },
 

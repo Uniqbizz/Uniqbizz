@@ -41,12 +41,14 @@
         <link rel="stylesheet" href="../assets/css/business_development_manager.css" />
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    </head>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+	</head>
     <body>
  
         <!-- Begin page -->
         <div id="layout-wrapper">
-
+			<div id="testpho"></div>
+            <div id="testemails"></div>
             <?php 
                     include_once 'business_development_manager_header.php'; 
             ?>
@@ -143,8 +145,14 @@
 										</div>
 										<div class="col-lg-6 col-md-6 col-sm-6 col-12">
 											<div class="input-block mb-3">
-												<label class="col-form-label">Father / Spouse Name <span class="text-danger">*</span></label>
-												<input class="form-control" type="text" id="father_spouse_name">
+												<label class="col-form-label">Nominee Name <span class="text-danger">*</span></label>
+												<input class="form-control" type="text" id="nominee_name">
+											</div>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col-12">
+											<div class="input-block mb-3">
+												<label class="col-form-label">Nominee Relation <span class="text-danger">*</span></label>
+												<input class="form-control" type="text" id="nominee_relation">
 											</div>
 										</div>
 										<div class="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -199,50 +207,6 @@
 														<input class="form-control" type="number" id="phone" placeholder="Enter Phone Number">
 													</div>
 												</div>
-											</div>
-										</div>
-										<div class="col-md-6 col-sm-12 mb-3">
-											<div class="row">
-												<div class="col-md-4 col-sm-4 col-3">
-													<div class="input-block">
-														<?php
-														require '../connect.php';
-														$stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
-														$stmt->execute();
-														$stmt->setFetchMode(PDO::FETCH_ASSOC);
-														?>
-														<label for="country_cd_alt" class="col-form-label">Code:</label>
-														<select class="form-control" id="country_cd_alt">
-															<?php
-															if ($stmt->rowCount() > 0) {
-																foreach (($stmt->fetchAll()) as $key => $row) {
-																	echo '<option value="' . $row['country_code'] . '">+' . $row['country_code'] . ' (' . $row['sortname'] . ')</option>';
-																}
-															} else {
-																echo '<option value="">Country not available</option>';
-															}
-															?>
-														</select>
-													</div>
-												</div>
-												<div class="col-md-8 col-sm-8 col-9">
-													<div class="input-block">
-														<label class="col-form-label">Alt Phone Number <span class="text-danger">*</span></label>
-														<input class="form-control" type="number" id="altPhone" placeholder="Enter Alternative Phone Number">
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-6 col-sm-6">
-											<div class="input-block mb-3">
-												<label class="col-form-label">Aadhar No<span class="text-danger">*</span></label>
-												<input class="form-control" type="text" id="aadharNo">
-											</div>
-										</div>
-										<div class="col-md-6 col-sm-6">
-											<div class="input-block mb-3">
-												<label class="col-form-label">PAN No<span class="text-danger">*</span></label>
-												<input class="form-control" type="text" id="panNo">
 											</div>
 										</div>
 									</div>
@@ -331,159 +295,22 @@
 							<div class="row">
                                 <div class="d-flex gap-2">
                                     <p class="fw-bolder addTENum">03</p>
-                                    <h4 class="fw-bolder text-dark align-content-center">Professional Information</h4>
+                                    <h4 class="fw-bolder text-dark align-content-center">Business Information</h4>
                                 </div>
 								<div class="col-md-6 col-sm-6">
 									<div class="input-block mb-3">
-										<label class="col-form-label">Current Occupation / Business<span class="text-danger">*</span></label>
-										<input class="form-control" type="text" id="occupation">
-									</div>
-								</div>
-								<div class="col-md-6 col-sm-6">
-									<div class="input-block mb-3">
-										<label class="col-form-label">Total Experience<span class="text-danger">*</span></label>
-										<input class="form-control" type="text" id="experience">
-									</div>
-								</div>
-								<div class="col-md-6 col-sm-6">
-									<div class="input-block mb-3">
-										<label class="col-form-label">Current Annual Income<span class="text-danger">*</span></label>
-										<input class="form-control" type="text" id="annual_income">
-									</div>
-								</div>
-								<div class="col-md-6 col-sm-12">
-									<div class="form-group">
-										<label class="col-form-label">Have You Managed teams Previously <span class="text-danger">*</span></label>
-										<div class="form-control d-flex justify-content-around">
-											<label class="radio-inline mb-0 ms-3"><input type="radio" name="teamManaged" class="teamManaged" id="teamManagedYes" value="yes">&nbsp;&nbsp;&nbsp;Yes</label>
-											<label class="radio-inline mb-0 ms-3"><input type="radio" name="teamManaged" class="teamManaged" id="teamManagedNo" value="no">&nbsp;&nbsp;&nbsp;No</label>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-6 col-sm-6">
-									<div class="input-block mb-3">
-										<label class="col-form-label">If Yes, Team size<span class="text-danger">*</span></label>
-										<textarea class="form-control" id="teamSize" rows="4" cols="50"> </textarea>
-									</div>
-								</div>
-								<div class="col-md-6 col-sm-6">
-									<div class="input-block mb-3">
-										<label class="col-form-label">
-											Leadership Experience <span class="text-danger">*</span>
-										</label>
-
-										<div class="row mt-2">
-											<!-- Left Column -->
-											<div class="col-md-6">
-												<div class="mb-2">
-													<input type="checkbox" id="lead1" name="leadership[]" value="Sales Leadership">
-													<label for="lead1">Sales Leadership</label>
-												</div>
-
-												<div class="mb-2">
-													<input type="checkbox" id="lead2" name="leadership[]" value="Business Development">
-													<label for="lead2">Business Development</label>
-												</div>
-
-												<div class="mb-2">
-													<input type="checkbox" id="lead3" name="leadership[]" value="Team Management">
-													<label for="lead3">Team Management</label>
-												</div>
-												<div class="mb-2">
-													<input type="checkbox" id="lead4" name="leadership[]" value="Enterpreneurship">
-													<label for="lead4">Enterpreneurship</label>
-												</div>
-
-												<div class="mb-2">
-													<input type="checkbox" id="lead5" name="leadership[]" value="Corporate Leader">
-													<label for="lead5">Corporate Leader</label>
-												</div>
-
-												<div class="mb-2">
-													<input type="checkbox" id="lead6" name="leadership[]" value="other">
-													<label for="lead6">Other(Please Specify)</label>
-													<input type="text" name="other_leadership" id="otherLead" class="form-control mt-2" style="display:none;">
-												</div>
-												<input type="hidden" name="leadership_json" id="leadership_json">
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Card section 4 -->
-						<div class="card rounded-4 p-3 border-1">
-							<div class="row">
-                                <div class="d-flex gap-2">
-                                    <p class="fw-bolder addTENum">04</p>
-                                    <h4 class="fw-bolder text-dark align-content-center">Educational Information</h4>
-                                </div>
-								<div class="col-md-6 col-sm-6">
-									<div class="input-block mb-3">
-										<label class="col-form-label">Educational Qualification<span class="text-danger">*</span></label>
-										<input class="form-control" type="text" id="qualification">
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Card section 5 -->
-						<div class="card rounded-4 p-3 border-1">
-							<div class="row">
-                                <div class="d-flex gap-2">
-                                    <p class="fw-bolder addTENum">05</p>
-                                    <h4 class="fw-bolder text-dark align-content-center">Leadership Assessment Information</h4>
-                                </div>
-								<div class="col-md-12 col-sm-12">
-									<div class="input-block mb-3">
-										<label class="col-form-label">Why You want to become a Chief Techno Enterprise?<span class="text-danger">*</span></label>
-										<textarea class="form-control" id="career_objective" rows="4" cols="50"> </textarea>
-									</div>
-								</div>
-								<div class="col-md-6 col-sm-12">
-									<div class="input-block mb-3">
-										<label class="col-form-label">
-											Expected Team Building Capacity(Within 12 Months) <span class="text-danger">*</span>
-										</label>
-										
-										<div class="row mt-2">
-											<div class="col-md-6">
-												<div class="mb-2">
-													<input type="radio" id="expected1" name="teamExpected" class="teamExpected" value="5">
-													<label for="expected1">5 Techno Enterprise</label>
-												</div>
-
-												<div class="mb-2">
-													<input type="radio" id="expected2" name="teamExpected" class="teamExpected" value="10">
-													<label for="expected2">10 Techno Enterprise</label>
-												</div>
-
-												<div class="mb-2">
-													<input type="radio" id="expected3" name="teamExpected" class="teamExpected" value="15">
-													<label for="expected3">15 Techno Enterprise</label>
-												</div>
-												<div class="mb-2">
-													<input type="radio" id="expected4" name="teamExpected" class="teamExpected" value="25+">
-													<label for="expected4">25+ Techno Enterprise</label>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-6 col-sm-12">
-									<div class="input-block mb-3">
-										<label class="col-form-label">Preferred Operating Region <span class="text-danger">*</span></label>
-										<select class="form-select" id="OperatingState">
-											<option value=""> ---- Select State ---- </option>
+										<label class="col-form-label">Zone <span class="text-danger">*</span></label>
+										<select class="form-select" id="zone">
+											<option value=""> ---- Select Zone ---- </option>
 											<?php
-											require '../connect.php';
-											$sql = "SELECT * FROM `states` WHERE status ='1' ";
+											$sql = "SELECT * FROM `zone` WHERE status ='1' ";
 											$stmt = $conn->prepare($sql);
 											$stmt->execute();
 											$stmt->setFetchMode(PDO::FETCH_ASSOC);
 											if ($stmt->rowCount() > 0) {
 												foreach (($stmt->fetchAll()) as $key => $row) {
 													echo '
-																<option value="' . $row['id'] . '">' . $row['state_name'] . '</option>
+																<option value="' . $row['id'] . '">' . $row['zone_name'] . '</option>
 															';
 												}
 											} else {
@@ -493,296 +320,96 @@
 										</select>
 									</div>
 								</div>
+								<div class="col-md-6 col-sm-6">
+									<div class="input-block mb-3">
+										<label class="col-form-label">Branch <span class="text-danger">*</span></label>
+										<select class="form-select" id="branch">
+											<option value=""> ---- Select Zone First ---- </option>
+										</select>
+									</div>
+								</div>
 							</div>
 						</div>
-						<!-- Card section 6 -->
+						
+						<!-- Card section 4 -->
 						<div class="card rounded-4 p-3 border-1">
-							<div class="row">
-                                <div class="d-flex gap-2">
-                                    <p class="fw-bolder addTENum">06</p>
-                                    <h4 class="fw-bolder text-dark align-content-center">Nominee Details</h4>
+                            <div class="d-flex gap-2">
+                                <p class="fw-bolder addTENum">04</p>
+                                <h4 class="fw-bolder text-dark align-content-center">Upload Documents</h4>
+                            </div>
+                            <div class="row g-3">
+
+                                <!-- Aadhaar -->
+                                <div class="col-lg-3 col-md-4 col-6">
+                                    <div class="upload-card" data-title="Aadhaar Card" data-index="2">
+                                        <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file2">
+                                        <div class="upload-content">
+                                            <div class="upload-icon">
+                                                <i class="fa-regular fa-id-card"></i>
+                                            </div>
+                                            <h6>Aadhaar Card</h6>
+                                            <p>Click to upload<br>or drag and drop</p>
+                                            <small>(JPG, PNG, PDF)</small>
+                                        </div>
+                                    </div>
                                 </div>
-								<div class="col-lg-9">
-									<div class="row">
-										<div class="col-md-6 col-sm-6">
-											<div class="input-block mb-3">
-												<label class="col-form-label">Nominee Name<span class="text-danger">*</span></label>
-												<input class="form-control" type="text" id="nomineeName">
-											</div>
-										</div>
-										<div class="col-md-6 col-sm-6">
-											<div class="input-block mb-3">
-												<label class="col-form-label">Nominee Relation<span class="text-danger">*</span></label>
-												<input class="form-control" type="text" id="nomineeRelation">
-											</div>
-										</div>
-										<div class="col-md-6 col-sm-12 mb-3">
-											<div class="row">
-												<div class="col-md-4 col-sm-4 col-3">
-													<div class="input-block">
-														<?php
-														require '../connect.php';
-														$stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
-														$stmt->execute();
-														$stmt->setFetchMode(PDO::FETCH_ASSOC);
-														?>
-														<label for="countryCdNominee" class="col-form-label">Code:</label>
-														<select class="form-control" id="countryCdNominee">
-															<?php
-															if ($stmt->rowCount() > 0) {
-																foreach (($stmt->fetchAll()) as $key => $row) {
-																	echo '<option value="' . $row['country_code'] . '">+' . $row['country_code'] . ' (' . $row['sortname'] . ')</option>';
-																}
-															} else {
-																echo '<option value="">Country not available</option>';
-															}
-															?>
-														</select>
-													</div>
-												</div>
-												<div class="col-md-8 col-sm-8 col-9">
-													<div class="input-block">
-														<label class="col-form-label">Nominee Phone Number <span class="text-danger">*</span></label>
-														<input class="form-control" type="number" id="nomineePhone" placeholder="Enter Nominee Phone Number">
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-6 col-sm-6">
-											<div class="input-block mb-3">
-												<label class="col-form-label">Date of Birth <span class="text-danger">*</span></label>
-												<input class="form-control" type="date" id="nomineeDob" max="<?php echo $ageLimit; ?>">
-											</div>
-										</div>
-										<div class="col-md-12 col-sm-6">
-											<div class="input-block mb-3">
-												<label class="col-form-label">Nominee Address<span class="text-danger">*</span></label>
-												<textarea class="form-control" type="text" id="nomineeAddress" rows="3" placeholder="Enter nominee address"></textarea>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3">
-									<div class="row">
-										<div class="col-lg-12">
-											<div class="upload-card" data-title="Nominee Profile Photo" data-index="13">
-												<input type="hidden" id="img_path13" value="">
-												<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file13">
-												<div class="upload-content">
-													<div class="upload-icon">
-														<i class="fa-solid fa-user"></i>
-													</div>
-													<h6>Nominee Profile Photo</h6>
-													<p>Click to upload<br>or drag and drop</p>
-													<small>(JPG, PNG, PDF)</small>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Card section 7 -->
-						<div class="card rounded-4 p-3 border-1">
-							<div class="row">
-                                <div class="d-flex gap-2">
-                                    <p class="fw-bolder addTENum">07</p>
-                                    <h4 class="fw-bolder text-dark align-content-center">Bank Details</h4>
+
+                                <!-- PAN -->
+                                <div class="col-lg-3 col-md-4 col-6">
+                                    <div class="upload-card" data-title="PAN Card" data-index="3">
+                                        <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file3">
+                                        <div class="upload-content">
+                                            <div class="upload-icon">
+                                                <i class="fa-regular fa-credit-card"></i>
+                                            </div>
+                                            <h6>PAN Card</h6>
+                                            <p>Click to upload<br>or drag and drop</p>
+                                            <small>(JPG, PNG, PDF)</small>
+                                        </div>
+                                    </div>
                                 </div>
-								<div class="col-md-6 col-sm-6">
-									<div class="input-block mb-3">
-										<label class="col-form-label">Account Holder Name<span class="text-danger">*</span></label>
-										<input class="form-control" type="text" id="accHolderName">
-									</div>
-								</div>
-								<div class="col-md-6 col-sm-6">
-									<div class="input-block mb-3">
-										<label class="col-form-label">Bank Name<span class="text-danger">*</span></label>
-										<input class="form-control" type="text" id="bankName">
-									</div>
-								</div>
-								<div class="col-md-6 col-sm-6">
-									<div class="input-block mb-3">
-										<label class="col-form-label">Account Number<span class="text-danger">*</span></label>
-										<input class="form-control" type="text" id="accountNumber">
-									</div>
-								</div>
-								<div class="col-md-6 col-sm-6">
-									<div class="input-block mb-3">
-										<label class="col-form-label">Confirm Account Number<span class="text-danger">*</span></label>
-										<input class="form-control" type="text" id="confirmAccountNumber">
-									</div>
-								</div>
-								<div class="col-md-6 col-sm-6">
-									<div class="input-block mb-3">
-										<label class="col-form-label">IFSC Code<span class="text-danger">*</span></label>
-										<input class="form-control" type="text" id="ifscCode">
-									</div>
-								</div>
-								<div class="col-md-6 col-sm-6">
-									<div class="input-block mb-3">
-										<label class="col-form-label">Branch Name<span class="text-danger">*</span></label>
-										<input class="form-control" type="text" id="branchName">
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Card section 8 -->
-						<div class="card rounded-4 p-3 border-1">
-							<div class="row">
-                                <div class="d-flex gap-2">
-                                    <p class="fw-bolder addTENum">08</p>
-                                    <h4 class="fw-bolder text-dark align-content-center">Upload Documents</h4>
+
+                                <!-- Bank Passbook -->
+                                <div class="col-lg-3 col-md-4 col-6">
+                                    <div class="upload-card" data-title="Bank Passbook" data-index="4">
+                                        <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file4">
+                                        <div class="upload-content">
+                                            <div class="upload-icon">
+                                                <i class="fa-solid fa-building-columns"></i>
+                                            </div>
+                                            <h6>Bank Passbook</h6>
+                                            <p>Click to upload<br>or drag and drop</p>
+                                            <small>(JPG, PNG, PDF)</small>
+                                        </div>
+                                    </div>
                                 </div>
-								<div class="row g-3">
-									<!-- Aadhaar -->
-									<div class="col-lg-4 col-md-4 col-12">
-										<div class="upload-card" data-title="Aadhaar Card" data-index="2">
-											<input type="hidden" id="img_path2" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file2">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-regular fa-id-card"></i>
-												</div>
-												<h6>Aadhaar Card</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
 
-									<!-- PAN -->
-									<div class="col-lg-4 col-md-4 col-12">
-										<div class="upload-card" data-title="PAN Card" data-index="3">
-											<input type="hidden" id="img_path3" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file3">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-regular fa-credit-card"></i>
-												</div>
-												<h6>PAN Card</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-
-									<!-- Bank Passbook -->
-									<div class="col-lg-4 col-md-4 col-12">
-										<div class="upload-card" data-title="Bank Passbook" data-index="4">
-											<input type="hidden" id="img_path4" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file4">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-solid fa-building-columns"></i>
-												</div>
-												<h6>Cancelled Cheque / Bank Passbook</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-
-									<!-- Resume -->
-									<div class="col-lg-4 col-md-4 col-12">
-										<div class="upload-card" data-title="Resume / CV" data-index="5">
-											<input type="hidden" id="img_path5" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file5">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-regular fa-address-card"></i>
-												</div>
-												<h6>Resume / CV</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-									<!-- Address Proof -->
-									<div class="col-lg-4 col-md-4 col-12">
-										<div class="upload-card" data-title="Address Proof" data-index="6">
-											<input type="hidden" id="img_path6" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file6">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-regular fa-address-card"></i>
-												</div>
-												<h6>Address Proof</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-
-									<!-- Professional Profile -->
-									<div class="col-lg-4 col-md-4 col-12">
-										<div class="upload-card" data-title="Professional Profile" data-index="7">
-											<input type="hidden" id="img_path7" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file7">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-solid fa-file-invoice"></i>
-												</div>
-												<h6>Professional Profile</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-									<!-- Business Profile -->
-									<div class="col-lg-4 col-md-4 col-12">
-										<div class="upload-card" data-title="Business Profile" data-index="8">
-											<input type="hidden" id="img_path8" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file8">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-solid fa-file-invoice"></i>
-												</div>
-												<h6>Business Profile</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-									<!-- Income Proof -->
-									<div class="col-lg-4 col-md-4 col-12">
-										<div class="upload-card" data-title="Income Proof" data-index="9">
-											<input type="hidden" id="img_path9" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file9">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-solid fa-file-invoice"></i>
-												</div>
-												<h6>Income Proof</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-									<!-- Other Document -->
-									<div class="col-lg-4 col-md-4 col-12">
-										<div class="upload-card" data-title="Other Document" data-index="10">
-											<input type="hidden" id="img_path10" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file10">
-											<div class="upload-content">
-												<div class="upload-icon">
-													<i class="fa-solid fa-file-invoice"></i>
-												</div>
-												<h6>Other Document</h6>
-												<p>Click to upload<br>or drag and drop</p>
-												<small>(JPG, PNG, PDF)</small>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+                                <!-- Voting -->
+                                <div class="col-lg-3 col-md-4 col-6">
+                                    <div class="upload-card" data-title="Voting Card" data-index="11">
+                                        <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file11">
+                                        <div class="upload-content">
+                                            <div class="upload-icon">
+                                                <i class="fa-regular fa-address-card"></i>
+                                            </div>
+                                            <h6>Voting Card</h6>
+                                            <p>Click to upload<br>or drag and drop</p>
+                                            <small>(JPG, PNG, PDF)</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 						<div class="row">
                             <div class="col-lg-12">
+								<input type="hidden" id="testValue" name="testValue" value="26"> <!-- Business mentor -->
+								<!-- new added 14-06-2025 -->
+								<input type="hidden" id="userType" name="userType" value="<?php echo $userType; ?>"> <!-- 24,25,26 -->
+								<input type="hidden" id="userId" name="userId" value="<?php echo $userId; ?>"> 
                                 <div class="d-flex justify-content-end gap-4 submitBtnBackground">
                                     <button type="button" class="btn actionBtn cancelBtn mb-2">Cancel</button>
                                     <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftAdd">Save Draft</button>
-                                    <button type="submit" class="btn actionBtn submitBtn mb-2" id="addSuperTechnoEnterprise">
+                                    <button type="submit" class="btn actionBtn submitBtn mb-2" id="addBusinessMentor">
                                         <i class="fa-regular fa-paper-plane me-2"></i>
                                         Submit Business Mentor
                                     </button>
@@ -822,14 +449,28 @@
         <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
         <!-- !-- materialdesign icon js- -->
         <script src="../assets/js/pages/remix-icons-listing.js"></script>
-        <script src="js/super_techno_enterprise.js"></script>
+        <script src="js/business_mentor.js"></script>
 
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
 		<script src="../../uploading/uploadTechnoDashboard.js"></script>
         <!-- dialer logic scripts -->
-        
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
          <script>
+			 // on zone change get branch associated with that zone
+			$('#zone').on('change', function() {
+				var zone_id = $(this).val();
+				$.ajax({
+					url: '../assets/get_data/get_branch.php',
+					type: 'POST',
+					data: {
+						zone_id: zone_id
+					},
+					success: function(data) {
+						$('#branch').html(data);
+					}
+				});
+			});
             
             function bindUploadEvents() {
 
@@ -848,13 +489,6 @@
                         const card = this.closest('.upload-card');
                         const title = card.dataset.title;
 						const index = card.dataset.index;
-
-						const hiddenField = document.getElementById('img_path' + index);
-
-						if (hiddenField) {
-							hiddenField.value = '../../uploading/'+file.name;
-						}
-
                         if (file.type.startsWith('image/')) {
 
                             const reader = new FileReader();
@@ -872,7 +506,7 @@
 
                                     preview.innerHTML = `
                                         <img src="${e.target.result}">
-                                        
+                                        <input type="hidden" id="img_path${index}" value="${e.target.result}">
                                         <div class="file-title">
                                             ${title}
                                         </div>
@@ -898,6 +532,7 @@
 
                             preview.innerHTML = `
                                 <i class="fa-solid fa-file-pdf"></i>
+								<input type="hidden" id="img_path${index}" value="../../uploading/${file.name}">
                                 <p class="mt-2 mb-0">${file.name}</p>
                                 <div class="file-title">
                                     ${title}
@@ -1000,7 +635,7 @@
                 maxDate.setFullYear(maxDate.getFullYear() - 20);
 
                 if (selectedDate > maxDate) {
-                    alert('Age must be at least 18 years.');
+                    alert('Age must be at least 20 years.');
                     $(this).val('');
                 }
 
@@ -1008,11 +643,30 @@
         </script>
         <!-- Buttons -->
         <script>
-            document.querySelector(".cancelBtn").addEventListener("click", function () {
-                if(confirm("Are you sure you want to cancel?")){
-                    location.href = "super_techno_enterprise_list";
-                }
-            });
+            $(".cancelBtn").on("click", function () {
+
+				Swal.fire({
+					title: "Are you sure?",
+					text: "You will be redirected to list page.",
+					icon: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#d63030",
+					cancelButtonColor: "#1b721bf2",
+					confirmButtonText: "Yes, Cancel",
+					cancelButtonText: "Continue Editing",
+					reverseButtons: true,
+					focusCancel: true
+				}).then((result) => {
+
+					if (result.isConfirmed) {
+
+						window.location.href = "business_mentor_list.php";
+
+					}
+
+				});
+
+			});
             // document.querySelector(".draftBtn").addEventListener("click", function () {
             //     alert("Draft Saved Successfully");
             //     // AJAX call here

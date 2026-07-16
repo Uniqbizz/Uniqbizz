@@ -340,7 +340,7 @@
                                             <input type="checkbox" id="rememberMe">
                                             Remember Me
                                         </div>
-                                        <a href="#">Forgot Password</a>
+                                        <!-- <a href="#">Forgot Password</a> -->
                                     </div>
                                     <button id="loginBtn" class="continueBtn mt-4" onclick="userLogin()">
                                         Login
@@ -614,6 +614,22 @@
                                 else if (res.user_type == "29")
                                 {
                                     location.href = "dashboard/franchisee/franchisee_dashboard.php";
+                                }
+                                else if (res.user_type == "26")
+                                {
+                                    location.href = "dashboard/business_mentor/business_mentor_dashboard.php";
+                                }
+                                else if (res.user_type == "30")
+                                {
+                                    location.href = "dashboard/sponsor_franchisee/sponsor_franchisee_dashboard.php";
+                                }
+                                else if (res.user_type == "28")
+                                {
+                                    location.href = "dashboard/master_franchisee/master_franchisee_dashboard.php";
+                                }
+                                else if (res.user_type == "25")
+                                {
+                                    location.href = "dashboard/business_development_manager/business_development_manager_dashboard.php";
                                 }
                                 else
                                 {

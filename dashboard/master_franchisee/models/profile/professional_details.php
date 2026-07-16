@@ -22,9 +22,9 @@ try {
             pro.current_experience,
             pro.current_income
         FROM professional_and_educational pro
-        INNER JOIN super_techno_enterprise ste
+        INNER JOIN master_franchisee ste
             ON pro.application_id = ste.application_id
-        WHERE ste.super_techno_enterprise_id = :user_id
+        WHERE ste.master_franchisee_id = :user_id
         LIMIT 1
     ");
 

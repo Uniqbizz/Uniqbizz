@@ -41,6 +41,72 @@
                     ca.firstname,
                     ca.lastname
 
+                UNION ALL
+
+                SELECT
+                    ca.sub_franchisee_id AS te_id,
+
+                    CONCAT(
+                        COALESCE(ca.firstname,''),
+                        ' ',
+                        COALESCE(ca.lastname,'')
+                    ) AS te_name,
+
+                    COUNT(DISTINCT ta.ca_travelagency_id) AS tc_count,
+
+                    COUNT(DISTINCT cu.ca_customer_id) AS cu_count
+
+                FROM sub_franchisee ca
+
+                LEFT JOIN ca_travelagency ta
+                    ON ta.reference_no = ca.sub_franchisee_id
+                    AND ta.status IN (1,3)
+
+                LEFT JOIN ca_customer cu
+                    ON cu.ta_reference_no = ta.ca_travelagency_id
+                    AND cu.status IN (1,3)
+
+                WHERE ca.reference_no = :user_id
+                AND ca.status IN (1,3)
+
+                GROUP BY
+                    ca.sub_franchisee_id,
+                    ca.firstname,
+                    ca.lastname
+
+                UNION ALL
+
+                SELECT
+                    ca.institution_id AS te_id,
+
+                    CONCAT(
+                        COALESCE(ca.firstname,''),
+                        ' ',
+                        COALESCE(ca.lastname,'')
+                    ) AS te_name,
+
+                    COUNT(DISTINCT ta.institution_branch_manager_id) AS tc_count,
+
+                    COUNT(DISTINCT cu.ca_customer_id) AS cu_count
+
+                FROM institution ca
+
+                LEFT JOIN institution_branch_manager ta
+                    ON ta.reference_no = ca.institution_id
+                    AND ta.status IN (1,3)
+
+                LEFT JOIN ca_customer cu
+                    ON cu.ta_reference_no = ta.institution_branch_manager_id
+                    AND cu.status IN (1,3)
+
+                WHERE ca.reference_no = :user_id
+                AND ca.status IN (1,3)
+
+                GROUP BY
+                    ca.institution_id,
+                    ca.firstname,
+                    ca.lastname
+
                 
             ) AS combined
 

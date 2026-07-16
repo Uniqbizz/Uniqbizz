@@ -18,29 +18,13 @@ try {
 
     $sql = $conn->prepare("
         SELECT
-            doc.profile_pic,
-            doc.aadhar_card,
-            doc.pan_card,
-            doc.cancelled_cheque_bank_passbook,
-            doc.resume_cv,
-            doc.address_proof,
-            doc.professional_profile,
-            doc.business_profile,
-            doc.income_proof,
-            doc.other_document,
-            doc.nominee_profile,
+            ste.profile_pic,
+            ste.id_proof,
+            ste.bank_details
 
-            uv.payload
+        FROM employees ste
 
-        FROM executive_techno_enterprise ste
-
-        LEFT JOIN documents doc
-            ON doc.application_id = ste.application_id
-
-        LEFT JOIN user_verification uv
-            ON uv.application_id = ste.application_id
-
-        WHERE ste.executive_techno_enterprise_id = :user_id
+        WHERE ste.employee_id = :user_id
 
         LIMIT 1
     ");

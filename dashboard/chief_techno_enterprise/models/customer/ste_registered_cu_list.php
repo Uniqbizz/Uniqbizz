@@ -39,7 +39,7 @@
                     cu.email,
                     cu.register_date,
                     cu.status,
-                    cu.paid_amount,
+                    cu.paid_amount AS amount,
                     CONCAT(
                         cu.customer_type,
                         ' / ',
@@ -65,7 +65,7 @@
                     ON ta.reference_no = ca.corporate_agency_id
 
                 INNER JOIN super_techno_enterprise ste
-                    ON ta.reference_no = ste.super_techno_enterprise_id
+                    ON ca.reference_no = ste.super_techno_enterprise_id
 
                 INNER JOIN executive_techno_enterprise ete
                     ON ste.reference_no = ete.executive_techno_enterprise_id
@@ -101,7 +101,7 @@
                     ta.firstname AS ref_firstname,
                     ta.lastname AS ref_lastname,
 
-                    'F' AS ref_type
+                    'I' AS ref_type
 
                 FROM ca_customer cu
 
@@ -112,7 +112,7 @@
                     ON ta.reference_no = sf.institution_id
 
                 INNER JOIN executive_techno_enterprise ete
-                    ON ta.reference_no = ete.executive_techno_enterprise_id
+                    ON sf.reference_no = ete.executive_techno_enterprise_id
 
                 WHERE ete.reference_no = :user_id
                 AND cu.status IN (1,3)

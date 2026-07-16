@@ -121,7 +121,7 @@
                                             <i class="fa-solid fa-user-group fa-xl"></i>
                                         </div>
                                         <div class="">
-                                            <p class="mb-1 fs-6 fw-bold">Techno Enterprises</p>
+                                            <p class="mb-1 fs-6 fw-bold">TE | F</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="teCount">0</h4>
                                             <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
@@ -173,10 +173,15 @@
                         </div>
                         <!-- Card section 3 -->
                         <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-2">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-3">
                                 <div class="commission-card px-2">
-                                    <div class="commission-title">
-                                        Commission Earned This Month
+                                    <div class="card-title d-flex justify-content-between p-2">
+                                        <p class="commission-title fs-5">Overall Commission Earned</p>
+                                        <p class="">
+                                            <select class="form-select yearSelect py-1" id="pyearFilter">
+                                                
+                                            </select>
+                                        </p>
                                     </div>
                                     <div class="commission-wrapper gap-2">
                                         <div class="chart-container">
@@ -193,24 +198,30 @@
                                                         <span class="dot" style="background:#5B2EFF"></span>
                                                         <span>Recruitment Commission</span>
                                                     </div>
-                                                    <div class="amount" id="recruitmentAmount"> &#8377; 0</div>
-                                                    <div class="percent" id="recruitmentPercent">0%</div>
+                                                    <div class="d-flex gap-3 recruitmentMargin">
+                                                        <div class="amount" id="recruitmentAmount"> &#8377; 100000</div>
+                                                        <div class="percent" id="recruitmentPercent">55%</div>
+                                                    </div>
                                                 </div>
                                                 <div class="legend-item">
                                                     <div class="legend-left">
                                                         <span class="dot" style="background:#2563EB"></span>
-                                                        <span>Neo Select Commission</span>
+                                                        <span>Holiday account </br> activation Commission</span>
                                                     </div>
-                                                    <div class="amount" id="neoAmount"> &#8377; 0</div>
-                                                    <div class="percent" id="neoPercent">0%</div>
+                                                    <div class="d-flex gap-3 recruitmentMargin">
+                                                        <div class="amount" id="neoAmount"> &#8377; 100000</div>
+                                                        <div class="percent" id="neoPercent">55%</div>
+                                                    </div>
                                                 </div>
                                                 <div class="legend-item">
                                                     <div class="legend-left">
                                                         <span class="dot" style="background:#00C46A"></span>
-                                                        <span>Booking Commission</span>
+                                                        <span>Tour Booking Commission</span>
                                                     </div>
-                                                    <div class="amount" id="bookingAmount"> &#8377; 0</div>
-                                                    <div class="percent" id="bookingPercent">0%</div>
+                                                    <div class="d-flex gap-3 recruitmentMargin">
+                                                        <div class="amount" id="bookingAmount"> &#8377; 0</div>
+                                                        <div class="percent" id="bookingPercent">0%</div>
+                                                    </div>
                                                 </div>
                                                 <!-- <div class="report-link">
                                                     <a href="#">
@@ -287,7 +298,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                                 <div class="cardChart card border-1">
                                     <div class="card-title d-flex justify-content-between p-2">
-                                        <p class="commission-title fs-5">TE | I Enrollment Count (Yearly)</p>
+                                        <p class="commission-title fs-5">TE | F | I Enrollment Count (Yearly)</p>
                                         <p class="">
                                             <select class="form-select yearSelect py-1" id="enrollmentYearFilter">
                                             </select>
@@ -335,14 +346,14 @@
                                 <div class="card rounded-4 border-1 p-3">
                                     <div class="card-title d-flex justify-content-start">
                                         <p class="commission-title fs-5 mb-1">
-                                            TE | I Performance
+                                            TE | F | I Performance
                                         </p>
                                     </div>
                                     <div class="cardDetails">
                                         <table class="table">
                                             <thead>
                                                 <tr class="table-active">
-                                                    <th scope="col">TE|I Name</th>
+                                                    <th scope="col">TE| F | I Name</th>
                                                     <th scope="col">No. of TC/IBR</th>
                                                     <th scope="col">Neo Select Members</th>
                                                 </tr>
@@ -669,6 +680,121 @@
                 });
 
             }
+            function loadYearDropdown() {
+
+                const currentYear = new Date().getFullYear();
+                const startYear = 2023; // change if required
+
+                let options = '';
+
+                for (let year = currentYear; year >= startYear; year--) {
+
+                    options += `
+                        <option value="${year}" ${year === currentYear ? 'selected' : ''}>
+                            ${year}
+                        </option>
+                    `;
+
+                }
+
+                $('#pyearFilter').html(options);
+
+            }
+
+            loadYearDropdown();
+            function loadCommissionChart() {
+
+                let selectedYear = $('#pyearFilter').val();
+
+                $.ajax({
+
+                    url: 'models/dashboard/ete_com_piechart_data.php',
+                    type: 'POST',
+                    dataType: 'json',
+
+                    data: {
+                        selectedYear: selectedYear
+                    },
+
+                    success: function (res) {
+
+                        if (!res.status) {
+
+                            return;
+
+                        }
+
+                        const recruitmentAmount = Number(res.data.recruitment.amount || 0);
+                        const neoAmount = Number(res.data.neo_select.amount || 0);
+                        const bookingAmount = Number(res.data.booking.amount || 0);
+
+                        const totalEarnings = Number(res.data.total_earnings || 0);
+
+                        $('#recruitmentAmount').text('₹' + recruitmentAmount.toLocaleString('en-IN'));
+                        $('#neoAmount').text('₹' + neoAmount.toLocaleString('en-IN'));
+                        $('#bookingAmount').text('₹' + bookingAmount.toLocaleString('en-IN'));
+                        $('#paidEarnings').text('₹' + totalEarnings.toLocaleString('en-IN'));
+
+                        const recruitmentPercent = Number(res.data.recruitment.percentage || 0);
+                        const neoPercent = Number(res.data.neo_select.percentage || 0);
+                        const bookingPercent = Number(res.data.booking.percentage || 0);
+
+                        $('#recruitmentPercent').text(recruitmentPercent.toFixed(1) + '%');
+                        $('#neoPercent').text(neoPercent.toFixed(1) + '%');
+                        $('#bookingPercent').text(bookingPercent.toFixed(1) + '%');
+
+                        if (totalEarnings > 0) {
+
+                            $('.center-text p').text('Total Earnings');
+
+                        } else {
+
+                            $('.center-text p').text('No Earnings Yet');
+
+                        }
+
+                        if (commissionChart) {
+
+                            if (totalEarnings == 0) {
+
+                                commissionChart.data.datasets[0].data = [100];
+
+                                commissionChart.data.datasets[0].backgroundColor = [
+                                    '#E5E7EB'
+                                ];
+
+                            } else {
+
+                                commissionChart.data.datasets[0].data = [
+                                    recruitmentPercent,
+                                    neoPercent,
+                                    bookingPercent
+                                ];
+
+                                commissionChart.data.datasets[0].backgroundColor = [
+                                    '#5B2EFF',
+                                    '#2563EB',
+                                    '#00C46A'
+                                ];
+
+                            }
+
+                            commissionChart.update();
+
+                        }
+
+                    },
+
+                    error: function () {
+
+                        console.log('Unable to load chart.');
+
+                    }
+
+                });
+
+            }
+
             function initializeChart() {
 
                 const canvas = document.getElementById('commissionChart');
@@ -742,9 +868,7 @@
                     if (user.status && user.data) {
 
                         $('#userName').text(
-                            (user.data.firstname || '') +
-                            ' ' +
-                            (user.data.lastname || '')
+                            (user.data.name || '') 
                         );
 
                     }
@@ -774,168 +898,8 @@
                 | Commission Chart Data
                 |--------------------------------------------------------------------------
                 */
-
-                $.ajax({
-                    url: 'models/dashboard/ete_com_piechart_data.php',
-                    type: 'POST',
-                    dataType: 'json',
-
-                    success: function (res) {
-
-                        if (!res.status || !res.data) {
-                            return;
-                        }
-
-                        const recruitmentAmount =
-                            Number(res.data.recruitment?.amount || 0);
-
-                        const neoAmount =
-                            Number(res.data.neo_select?.amount || 0);
-
-                        const bookingAmount =
-                            Number(res.data.booking?.amount || 0);
-
-                        const totalEarnings =
-                            Number(res.data.total_earnings || 0);
-
-
-                        /*
-                        |--------------------------------------------------------------------------
-                        | Amounts
-                        |--------------------------------------------------------------------------
-                        */
-
-                        $('#recruitmentAmount').text(
-                            '\u20B9' + recruitmentAmount.toLocaleString('en-IN')
-                        );
-
-                        $('#neoAmount').text(
-                            '\u20B9' + neoAmount.toLocaleString('en-IN')
-                        );
-
-                        $('#bookingAmount').text(
-                            '\u20B9' + bookingAmount.toLocaleString('en-IN')
-                        );
-
-                        $('#paidEarnings').text(
-                            '\u20B9' + totalEarnings.toLocaleString('en-IN')
-                        );
-
-
-                        /*
-                        |--------------------------------------------------------------------------
-                        | Percentages
-                        |--------------------------------------------------------------------------
-                        */
-
-                        const recruitmentPercent =
-                            Number(res.data.recruitment?.percentage || 0);
-
-                        const neoPercent =
-                            Number(res.data.neo_select?.percentage || 0);
-
-                        const bookingPercent =
-                            Number(res.data.booking?.percentage || 0);
-
-                        $('#recruitmentPercent').text(
-                            recruitmentPercent.toFixed(1) + '%'
-                        );
-
-                        $('#neoPercent').text(
-                            neoPercent.toFixed(1) + '%'
-                        );
-
-                        $('#bookingPercent').text(
-                            bookingPercent.toFixed(1) + '%'
-                        );
-
-
-                        /*
-                        |--------------------------------------------------------------------------
-                        | Growth Percentage (Optional)
-                        |--------------------------------------------------------------------------
-                        */
-
-                        if ($('#growthPercentage').length) {
-
-                            const growth =
-                                Number(
-                                    res.data.month_comparison?.growth_percentage || 0
-                                );
-
-                            $('#growthPercentage').text(
-                                growth.toFixed(1) + '%'
-                            );
-
-                        }
-
-
-                        /*
-                        |--------------------------------------------------------------------------
-                        | Center Text
-                        |--------------------------------------------------------------------------
-                        */
-
-                        if (totalEarnings <= 0) {
-                            $('.center-text p').text('No Earnings Yet');
-                        } else {
-                            $('.center-text p').text('Total Earnings');
-                        }
-
-
-                        /*
-                        |--------------------------------------------------------------------------
-                        | Update Doughnut Chart
-                        |--------------------------------------------------------------------------
-                        */
-
-                        if (commissionChart) {
-
-                            const chartTotal =
-                                recruitmentPercent +
-                                neoPercent +
-                                bookingPercent;
-
-                            if (chartTotal <= 0) {
-
-                                commissionChart.data.datasets[0].data = [1];
-
-                                commissionChart.data.datasets[0].backgroundColor = [
-                                    '#E5E7EB'
-                                ];
-
-                            } else {
-
-                                commissionChart.data.datasets[0].data = [
-                                    recruitmentPercent,
-                                    neoPercent,
-                                    bookingPercent
-                                ];
-
-                                commissionChart.data.datasets[0].backgroundColor = [
-                                    '#5B2EFF',
-                                    '#2563EB',
-                                    '#00C46A'
-                                ];
-
-                            }
-
-                            commissionChart.update();
-
-                        }
-
-                    },
-
-                    error: function (xhr, status, error) {
-
-                        console.error(
-                            'Commission Chart Error:',
-                            error
-                        );
-
-                    }
-
-                });
+                loadYearDropdown();
+                loadCommissionChart();
 
             }
 
@@ -1000,6 +964,46 @@
                                     pointRadius: 4,
                                     pointHoverRadius: 6,
                                     pointBackgroundColor: '#1DB56C'
+                                },
+                                {
+                                    label: 'F',
+                                    data: Array(12).fill(0),
+                                    borderColor: '#2435f2',
+                                    backgroundColor: '#0e199b',
+                                    backgroundColor: function(context) {
+
+                                        const chart = context.chart;
+                                        const ctx = chart.ctx;
+                                        const chartArea = chart.chartArea;
+
+                                        if (!chartArea) {
+                                            return null;
+                                        }
+
+                                        const gradient = ctx.createLinearGradient(
+                                            0,
+                                            chartArea.top,
+                                            0,
+                                            chartArea.bottom
+                                        );
+
+                                        gradient.addColorStop(
+                                            0,
+                                            'rgba(47, 57, 255, 0.3)'
+                                        );
+
+                                        gradient.addColorStop(
+                                            1,
+                                            'rgba(47, 106, 255, 0.09)'
+                                        );
+
+                                        return gradient;
+                                    },
+                                    fill: true,
+                                    tension: 0.4,
+                                    pointRadius: 4,
+                                    pointHoverRadius: 6,
+                                    pointBackgroundColor: '#0e199b'
                                 },
                                 {
                                     label: 'I',
@@ -1160,6 +1164,23 @@
                                 parseInt(row.i_count) || 0;
 
                         });
+                        /*
+                        |--------------------------------------------------------------------------
+                        | I Data
+                        |--------------------------------------------------------------------------
+                        */
+
+                        let fData = Array(12).fill(0);
+
+                        $.each(res.data.f_trend, function(i, row) {
+
+                            let monthIndex =
+                                parseInt(row.month_no) - 1;
+
+                            fData[monthIndex] =
+                                parseInt(row.f_count) || 0;
+
+                        });
 
                         /*
                         |--------------------------------------------------------------------------
@@ -1168,6 +1189,7 @@
                         */
 
                         enrollmentTrendChart.data.datasets[0].data = teData;
+                        enrollmentTrendChart.data.datasets[1].data = fData;
                         enrollmentTrendChart.data.datasets[2].data = iData;
 
                         enrollmentTrendChart.update();
@@ -1303,7 +1325,11 @@
                                 textClass = 'text-success';
 
                             }
-
+                            let activityDate = new Date(row.date).toLocaleDateString('en-IN', {
+                                day: 'numeric',
+                                month: 'short',
+                                year: 'numeric'
+                            });
                             let activityTime = new Date(row.date).toLocaleTimeString(
                                 'en-IN',
                                 {
@@ -1335,7 +1361,8 @@
 
                                     </div>
 
-                                    <p class="text-muted mb-0 text-nowrap">
+                                    <p class="text-muted mb-0 text-nowrap text-end">
+                                        ${activityDate}</br>
                                         ${activityTime}
                                     </p>
 
@@ -1374,6 +1401,11 @@
 
                 }
             );
+            $('#pyearFilter').on('change', function () {
+
+                loadCommissionChart();
+
+            });
             $(document).on(
                 'change',
                 '#yearFilter',

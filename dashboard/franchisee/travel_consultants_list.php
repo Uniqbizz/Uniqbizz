@@ -132,10 +132,11 @@
                                                         <thead>
                                                             <tr class="table-primary">
                                                                 <th data-ordering="false">Full Name</th>
-                                                                <th data-ordering="false">TE ID & Name</th>
+                                                                <th data-ordering="false">F ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
+                                                                <th data-ordering="false">Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="tcTableBody">
@@ -195,7 +196,7 @@
                                                         <thead>
                                                             <tr class="table-primary">
                                                                 <th data-ordering="false">TC ID & Full Name</th>
-                                                                <th data-ordering="false">TE ID & Name</th>
+                                                                <th data-ordering="false">F ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
@@ -213,7 +214,7 @@
                             </div>
                         </div>
                         <div class="btn" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 35px; border-radius: 50%;">
-                            <a href="#" style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
+                            <a href="add_travel_consultant.php" style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
                                 <i class="fa-solid fa-circle-plus fa-beat-fade fa-3x" style="color: #4b38b3;"></i>
                             </a>
                         </div>
@@ -221,7 +222,6 @@
 
                 </div><!-- End Page-content -->
                 <?php 
-
                     include_once "franchisee_footer.php"; 
                 ?>
             </div><!-- end main content-->
@@ -270,6 +270,10 @@
                 searching: true,
                 paging: true,
                 ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
 
@@ -342,6 +346,15 @@
                         data: 'status',
                         render: function(status){
 
+                            if(status == 0){
+
+                               return `
+                                    <p class="teDeletedBtn rounded-pill text-center mb-0">
+                                        Deleted
+                                    </p>
+                                `;
+                            }
+
                             if(status == 2){
 
                                 return `
@@ -350,20 +363,43 @@
                                     </p>
                                 `;
                             }
-
-                            else if(status == 4){
-
-                                return `
-                                    <p class="teDraftBtn rounded-pill text-center mb-0">
-                                        Draft
-                                    </p>
-                                `;
-                            }
                             return `
                                     <p class="teDraftBtn rounded-pill text-center mb-0">
                                         Draft
                                     </p>
                                 `;
+                        }
+                    },
+                    {
+                        data: null,
+                        orderable: false,
+                        searchable: false,
+                        render: function(data) {
+                            
+
+                            return `
+                                <form action="edit_travel_consultant.php" method="POST" class="m-0">
+                                    <input
+                                        type="hidden"
+                                        name="id"
+                                        value="${data.id}"
+                                    >
+                                    <input
+                                        type="hidden"
+                                        name="status"
+                                        value="${data.status}"
+                                    >
+
+                                    <button
+                                        type="submit"
+                                        class="border-0 bg-transparent p-0 w-100"
+                                    >
+                                        <p class="teViewBtn text-center fw-bold mb-0">
+                                            <i class="fa-solid fa-eye me-2 mt-1"></i>${data.status == 4 ? 'Edit' : 'View'}
+                                        </p>
+                                    </button>
+                                </form>
+                            `;
                         }
                     }
                 ],
@@ -390,6 +426,7 @@
                         tcTable.clear();
                         tcTable.rows.add(res.data);
                         tcTable.draw();
+                        tcTable.columns.adjust().responsive.recalc();
                         
                     },
 
@@ -402,10 +439,16 @@
             }
             
             const tcRegTable = $('#example-dataTable-2').DataTable({
+                destroy: true,
                 responsive: true,
-                ordering: false,
+                processing: true,
                 searching: true,
                 paging: true,
+                ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
                     {
@@ -501,17 +544,22 @@
                         }
                     },
                     {
-                        data: 'ca_travelagency_id',
+                        data: null,
                         orderable: false,
                         searchable: false,
                         render: function(data) {
 
                             return `
-                                <form action="#" method="POST" class="m-0">
+                                <form action="edit_travel_consultant.php" method="POST" class="m-0">
                                     <input
                                         type="hidden"
-                                        name="ca_travelgency_id"
-                                        value="${data}"
+                                        name="id"
+                                        value="${data.ca_travelagency_id}"
+                                    >
+                                    <input
+                                        type="hidden"
+                                        name="status"
+                                        value="1"
                                     >
 
                                     <button
@@ -567,6 +615,7 @@
                         }
 
                         tcRegTable.draw();
+                        tcRegTable.columns.adjust().responsive.recalc();
 
                     },
 

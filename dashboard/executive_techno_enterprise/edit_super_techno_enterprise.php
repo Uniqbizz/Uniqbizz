@@ -45,6 +45,7 @@
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="../assets/css/verification.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     </head>
     <body>
  
@@ -1273,6 +1274,7 @@
         <script src="../assets/js/app.js"></script>
         <script src="js/super_techno_enterprise.js"></script>
         <script src="../../uploading/uploadTechnoDashboard.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!-- dialer logic scripts -->
         <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -1325,13 +1327,7 @@
         
         
         <!-- Buttons -->
-        <script>
-            document.querySelector(".cancelBtn").addEventListener("click", function () {
-                if(confirm("Are you sure you want to cancel?")){
-                    window.history.back();
-                }
-            });
-        </script>
+        
         <script>
             function bindUploadEvents() {
 
@@ -1856,11 +1852,30 @@
         </script>
         <!-- Buttons -->
         <script>
-            document.querySelector(".cancelBtn").addEventListener("click", function () {
-                if(confirm("Are you sure you want to cancel?")){
-                    location.href = "super_techno_enterprise_list";
-                }
-            });
+            $(".cancelBtn").on("click", function () {
+
+				Swal.fire({
+					title: "Are you sure?",
+					text: "You will be redirected to list page.",
+					icon: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#d63030",
+					cancelButtonColor: "#1b721bf2",
+					confirmButtonText: "Yes, Cancel",
+					cancelButtonText: "Continue Editing",
+					reverseButtons: true,
+					focusCancel: true
+				}).then((result) => {
+
+					if (result.isConfirmed) {
+
+						window.location.href = "super_techno_enterprise_list.php";
+
+					}
+
+				});
+
+			});
             $('#businessPackage').on('change', function(){
                 var business_package_amount = $(this).val();
                 $('#amount').val(business_package_amount);

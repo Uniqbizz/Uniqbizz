@@ -132,22 +132,26 @@
 
         $sqlUserDetails = $conn->prepare("
             SELECT
-                ste.firstname AS per_info_fname,
-                ste.lastname AS per_info_lname,
+                ste.name AS per_info_name,
                 ste.email AS per_info_email,
                 ste.country_code AS per_info_phone_prefix,
-                ste.contact_no AS per_info_phone,
+                ste.contact AS per_info_phone,
                 ste.date_of_birth AS per_info_dob,
-                ste.father_spouse_name AS per_info_father_spouse_name,
+                dp.dept_name AS per_info_department,
+                dg.designation_name AS per_info_designation,
                 cun.country_name,
                 CONCAT(
                     UPPER(LEFT(ste.gender, 1)),
                     LOWER(SUBSTRING(ste.gender, 2))
                 ) AS per_info_gender
-            FROM executive_techno_enterprise ste
+            FROM employees ste
             LEFT JOIN countries cun
-                ON cun.id = ste.country
-            WHERE ste.executive_techno_enterprise_id = :user_id
+                ON cun.country_code= ste.country_code
+            LEFT JOIN department dp
+                ON ste.department=dp.id
+            LEFT JOIN designation dg
+                ON ste.designation=dg.id
+            WHERE ste.employee_id = :user_id
             LIMIT 1
         ");
 

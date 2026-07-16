@@ -64,11 +64,145 @@
                 INNER JOIN corporate_agency ca
                     ON ta.reference_no = ca.corporate_agency_id
 
-                INNER JOIN super_techno_enterprise ste
-                    ON ta.reference_no = ste.super_techno_enterprise_id
+                INNER JOIN business_mentor ste
+                    ON ta.reference_no = ste.business_mentor_id
 
                 WHERE ste.reference_no = :user_id
                 AND cu.status IN (1,3)
+                AND ta.status IN (1,3)
+                AND ste.status IN (1,3)
+
+                $whereDate
+
+                UNION ALL
+
+                SELECT
+                    cu.id,
+                    cu.ca_customer_id,
+                    cu.firstname,
+                    cu.lastname,
+                    cu.contact_no,
+                    cu.email,
+                    cu.register_date,
+                    cu.status,
+                    cu.paid_amount,
+                    CONCAT(
+                        cu.customer_type,
+                        ' / ',
+                        CASE
+                            WHEN cu.comp_chek = '1' THEN 'Complementary'
+                            WHEN cu.comp_chek = '2' THEN 'Non Complementary'
+                            ELSE '-'
+                        END
+                    ) AS type,
+
+                    ta.ca_travelagency_id AS ref_id,
+                    ta.firstname AS ref_firstname,
+                    ta.lastname AS ref_lastname,
+
+                    'TE' AS ref_type
+
+                FROM ca_customer cu
+
+                INNER JOIN ca_travelagency ta
+                    ON cu.ta_reference_no = ta.ca_travelagency_id
+
+                INNER JOIN corporate_agency ca
+                    ON ta.reference_no = ca.corporate_agency_id
+
+                WHERE ca.reference_no = :user_id
+                AND cu.status IN (1,3)
+                AND ta.status IN (1,3)
+                AND ca.status IN (1,3)
+
+                $whereDate
+
+                UNION ALL
+
+                SELECT
+                    cu.id,
+                    cu.ca_customer_id,
+                    cu.firstname,
+                    cu.lastname,
+                    cu.contact_no,
+                    cu.email,
+                    cu.register_date,
+                    cu.status,
+                    cu.paid_amount,
+                    CONCAT(
+                        cu.customer_type,
+                        ' / ',
+                        CASE
+                            WHEN cu.comp_chek = '1' THEN 'Complementary'
+                            WHEN cu.comp_chek = '2' THEN 'Non Complementary'
+                            ELSE '-'
+                        END
+                    ) AS type,
+
+                    ta.ca_travelagency_id AS ref_id,
+                    ta.firstname AS ref_firstname,
+                    ta.lastname AS ref_lastname,
+
+                    'F' AS ref_type
+
+                FROM ca_customer cu
+
+                INNER JOIN ca_travelagency ta
+                    ON cu.ta_reference_no = ta.ca_travelagency_id
+
+                INNER JOIN sub_franchisee ca
+                    ON ta.reference_no = ca.sub_franchisee_id
+
+                WHERE ca.reference_no = :user_id
+                AND cu.status IN (1,3)
+                AND ta.status IN (1,3)
+                AND ca.status IN (1,3)
+
+                $whereDate
+
+                UNION ALL
+
+                SELECT
+                    cu.id,
+                    cu.ca_customer_id,
+                    cu.firstname,
+                    cu.lastname,
+                    cu.contact_no,
+                    cu.email,
+                    cu.register_date,
+                    cu.status,
+                    cu.paid_amount,
+                    CONCAT(
+                        cu.customer_type,
+                        ' / ',
+                        CASE
+                            WHEN cu.comp_chek = '1' THEN 'Complementary'
+                            WHEN cu.comp_chek = '2' THEN 'Non Complementary'
+                            ELSE '-'
+                        END
+                    ) AS type,
+
+                    ta.ca_travelagency_id AS ref_id,
+                    ta.firstname AS ref_firstname,
+                    ta.lastname AS ref_lastname,
+
+                    'F' AS ref_type
+
+                FROM ca_customer cu
+
+                INNER JOIN ca_travelagency ta
+                    ON cu.ta_reference_no = ta.ca_travelagency_id
+
+                INNER JOIN sub_franchisee ca
+                    ON ta.reference_no = ca.sub_franchisee_id
+
+                INNER JOIN business_mentor ste
+                    ON ta.reference_no = ste.business_mentor_id
+
+                WHERE ste.reference_no = :user_id
+                AND cu.status IN (1,3)
+                AND ta.status IN (1,3)
+                AND ste.status IN (1,3)
 
                 $whereDate
 

@@ -1,15 +1,13 @@
 <?php
     include (__DIR__.'/urls.php');
     include_once(__DIR__ . '/../dashboard_user_details.php');
-    include (__DIR__ .'/customer_model.php');
-    include (__DIR__ .'/customer_mapping.php');
 
-    $id = $_GET['vkvbvjfgfikix'] ?? '';
-    $taId = $_GET['taId'] ?? '';
-    $country_id = $_GET['ncy'] ?? '';
-    $state_id = $_GET['mst'] ?? '';
-    $city_id = $_GET['hct'] ?? '';
-    $editfor = $_GET['editfor'] ?? '';
+    $id = $_POST['vkvbvjfgfikix'] ?? '';
+    $taId = $_POST['taId'] ?? '';
+    $country_id = $_POST['ncy'] ?? '';
+    $state_id = $_POST['mst'] ?? '';
+    $city_id = $_POST['hct'] ?? '';
+    $editfor = $_POST['editfor'] ?? '';
 
     if ($editfor == 'addreff') {
         $stmt1 = $conn->prepare(" SELECT firstname, lastname FROM ca_customer WHERE ca_customer_id = '" . $id . "' ");
@@ -71,6 +69,8 @@
         <link rel="stylesheet" href="../assets/css/customer_dashboard.css" />
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <link rel="stylesheet" href="../assets/css/validation.css" />
     </head>
     <body>
         <!-- Begin page -->
@@ -116,7 +116,7 @@
             <div class="main-content">
 
                 <div id="testpho"></div>
-                <div id="testemails"></div>
+                <div id="testemail"></div>
 
                 <div class="page-content">
                     <div class="container-fluid">
@@ -127,7 +127,7 @@
                                     <h4 class="mb-sm-0">Add Customer</h4>
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="view_customer.php">View Customer</a></li>
+                                            <li class="breadcrumb-item"><a href="customers_list.php">View Customer</a></li>
                                             <li class="breadcrumb-item active">Add Super Techno Enterprise</li>
                                         </ol>
                                     </div>
@@ -158,123 +158,55 @@
                                     <p class="fw-bolder addTENum">01</p>
                                     <h4 class="fw-bolder text-dark align-content-center">Personal Information</h4>
                                 </div>
-                                <?php if ($editfor == 'addreff') { ?>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label" for="cu_ref_id">Customer Reference Id <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="cu_ref_id" placeholder="Enter Reference ID" value="<?php echo $id; ?>" readonly>
-                                        </div>
+                                
+                                
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="input-block mb-3">
+                                        <label class="col-form-label" for="user_id_name">Customer Reference Id  <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="cu_ref_id" placeholder="Enter Reference ID" value="<?php echo $userId; ?>" readonly>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label" for="cu_ref_name">Customer Reference Name <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="cu_ref_name" placeholder="Enter Reference Name" value="<?php echo $cuName; ?>" readonly>
-                                        </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="input-block mb-3">
+                                        <label class="col-form-label" for="reference_name">Customer Reference Name <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="cu_ref_name" placeholder="Enter Reference Name" value="<?php echo  $userFname . ' ' . $userLname; ?>" readonly>
                                     </div>
-
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label" for="user_id_name">TA Reference ID <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="user_id_name" placeholder="Enter Reference ID" value="<?php echo $userId; ?>" readonly>
-                                        </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="input-block mb-3">
+                                        <label class="col-form-label" for="user_id_name">TA Reference ID <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="user_id_name" placeholder="Enter Reference ID" value="<?php echo $tcId; ?>" readonly>
                                     </div>
-
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label" for="reference_name">TA Reference Name <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="reference_name" placeholder="Enter Reference Name" value="<?php echo $userFname . ' ' . $userLname; ?>" readonly>
-                                        </div>
-                                    </div>
-                                <?php } else if ($userType == '11' || $userType == "33") { ?>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label" for="user_id_name">TA Reference ID <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="user_id_name" placeholder="Enter Reference ID" value="<?php echo $userId; ?>" readonly>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label" for="reference_name">TA Reference Name <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="reference_name" placeholder="Enter Reference Name" value="<?php echo $userFname . ' ' . $userLname; ?>" readonly>
-                                        </div>
-                                    </div>
-                                <?php } else if ($userType == '10') { ?>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label" for="user_id_name">Customer Reference Id  <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="cu_ref_id" placeholder="Enter Reference ID" value="<?php echo $userId; ?>" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label" for="reference_name">Customer Reference Name <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="cu_ref_name" placeholder="Enter Reference Name" value="<?php echo  $userFname . ' ' . $userLname; ?>" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label" for="user_id_name">TA Reference ID <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="user_id_name" placeholder="Enter Reference ID" value="<?php echo $tcId; ?>" readonly>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label" for="reference_name">TA Reference Name <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="reference_name" placeholder="Enter Reference Name" value="<?php echo $tcFullName; ?>" readonly>
-                                        </div>
-                                    </div>
-                                <?php } else if ($userType == '3') { ?>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label" for="country">User Id & Name <span class="text-danger">*</span></label>
-                                            <select class="form-select" id="user_id_name" aria-label="Floating label select example">
-                                                <option value="">--Select Name First--</option>';
-                                                <?php
-                                                $stmt2 = $conn->prepare("SELECT * FROM `corporate_agency` WHERE reference_no = ? AND status='1'");
-                                                $stmt2->execute([$userId]);
-                                                $referrals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-
-                                                foreach ($referrals as $referral) {
-                                                    $userCA = $referral['corporate_agency_id'];
-                                                    // echo $userCA;
-
-                                                    $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ? AND status='1'");
-                                                    $stmt4->execute([$referral['corporate_agency_id']]);
-
-                                                    if ($stmt4->rowCount() > 0) {
-                                                        $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-                                                        foreach ($userCATAs as $userCATA) {
-                                                            $userTA = $userCATA['ca_travelagency_id'];
-                                                            echo '<option value="' . $userCATA['ca_travelagency_id'] . '">' . $userCATA['ca_travelagency_id'] . ' (' . $userCATA['firstname'] . ' ' . $userCATA['lastname'] . ')</option>';
-                                                        }
-                                                    } else {
-                                                        echo '<option value=""> No User </option>';
-                                                    }
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label" for="reference_name">TA Reference Name <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="reference_name" placeholder="Enter Reference Name" value="" readonly>
-                                        </div>
-                                    </div>
-                                <?php } ?>
+                                </div>
 
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
-                                        <label class="col-form-label" class="col-form-label" for="firstname">First Name <span class="text-danger">*</span> <span class="text-danger"></span></label>
-                                        <input type="text" class="form-control" id="firstname" placeholder="Enter your firstname">
+                                        <label class="col-form-label" for="reference_name">TA Reference Name <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="reference_name" placeholder="Enter Reference Name" value="<?php echo $tcFullName; ?>" readonly>
+                                    </div>
+                                </div>
+                                
+                                    
+
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="input-block mb-3">
+                                        <label class="col-form-label" for="firstname">
+                                            First Name <span class="text-danger">*</span>
+                                        </label>
+
+                                        <input type="text"
+                                            class="form-control"
+                                            id="firstname"
+                                            placeholder="Enter your firstname">
+
+                                        <small class="error-message" id="firstname_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="lastname">Last Name <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="lastname" placeholder="Enter your Lastname">
+                                        <small class="error-message" id="lastname_error"></small>
                                     </div>
                                 </div>
                                 
@@ -282,22 +214,25 @@
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="email">Email Address <span class="text-danger">*</span></label>
                                         <input type="email" class="form-control" id="email" placeholder="email">
+                                        <small class="error-message" id="email_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="dob">Date Of Birth <span class="text-danger">*</span></label>
                                         <input type="date" class="form-control" id="dob" placeholder="Enter Date" max="<?= $ageLimit ?>">
+                                        <small class="error-message" id="dob_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="col-form-label">Gender <span class="text-danger">*</span></label>
-                                        <div class="form-control d-flex justify-content-around mt-1">
+                                        <div class="form-control d-flex justify-content-around mt-1 gender-wrapper" id="gender_wrapper">
                                             <label class="radio-inline mb-0 ms-3" for="test3"><input type="radio" id="test3" class="gender" name="gender" value="male"/>&nbsp;&nbsp;&nbsp;Male</label>
                                             <label class="radio-inline mb-0 ms-3" for="test4"><input type="radio" id="test4" class="gender" name="gender" value="female"/>&nbsp;&nbsp;&nbsp;Female</label>
                                             <label class="radio-inline mb-0 ms-3" for="test5"><input type="radio" id="test5" class="gender" name="gender" value="others"/>&nbsp;&nbsp;&nbsp;Others</label>
                                         </div>
+                                        <small class="error-message" id="gender_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-sm-4 col-4">
@@ -320,6 +255,7 @@
                                                 }
                                                 ?>
                                             </select>
+                                            <small class="error-message" id="country_cd_error"></small>
                                         </div>
                                     </div>
                                 </div>
@@ -327,6 +263,7 @@
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="phone">Phone Number <span class="text-danger">*</span></label>
                                         <input type="number" class="form-control" id="phone" placeholder="Enter your Phone Number">
+                                        <small class="error-message" id="phone_error"></small>
                                     </div>
                                 </div>
                             </div>
@@ -358,6 +295,7 @@
                                             }
                                             ?>
                                         </select>
+                                        <small class="error-message" id="country_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
@@ -366,6 +304,7 @@
                                         <select class="form-select" id="mystate" aria-label="Floating label select example">
                                             <option value="">--Select country first--</option>
                                         </select>
+                                        <small class="error-message" id="mystate_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
@@ -374,18 +313,21 @@
                                         <select class="form-select" id="city" aria-label="Floating label select example">
                                             <option value="">--Select state first--</option>
                                         </select>
+                                        <small class="error-message" id="city_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="pin">Pincode <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="pin" placeholder="Enter your zipcode">
+                                        <small class="error-message" id="pin_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="address">Address <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="address" placeholder="Enter your Address">
+                                        <small class="error-message" id="address_error"></small>
                                     </div>
                                 </div>
                             </div>
@@ -402,24 +344,20 @@
                                         <div class="input-block mb-3">
                                             <label for="payment_fee" class="col-form-label">Payment Fee<span class="text-danger">*</span></label>
                                             <select class="form-select" id="payment_fee" aria-label="Floating label select example">
-                                                <option value="null">--Select Payment Fee--</option>
-                                                <!-- <option value="FOC" selected>Free</option>
-                                                <option value="10000">Prime: <span>&#8377 </span>10,000/-</option>
-                                                <option value="30000">Premium: <span>&#8377 </span>30,000/-</option>
-                                                <option value="35000">Premium Plus: <span>&#8377 </span>35,000/-</option>
-                                                <option value="35000">Premium Select: <span>&#8377 </span>35,000/-</option>
-                                                <option value="21000">Premium Select Lite: <span>&#8377 </span>21,000/-</option> -->
+                                                <option value="null" selected>--Select Payment Fee--</option>
                                                 <option value="11000">Neo Select: <span>&#8377 </span>11,000/-</option>
                                             </select>
+                                            <small class="error-message" id="payment_fee_error"></small>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-6 d-none" id="paymentMode">
                                         <label class="fw-bold col-form-label">Payment Mode: <span class="text-danger">*</span></label>
-                                        <div class="form-control radioBtn d-flex justify-content-around">
+                                        <div class="form-control radioBtn d-flex justify-content-around payment-mode-wrapper" id="payment-mode_wrapper">
                                             <label class="mb-0" for="cashPayment"><input type="radio" id="cashPayment" class="form-check-input payment me-3" name="payment" value="cash">Cash</label>
                                             <label class="mb-0" for="chequePayment"><input type="radio" id="chequePayment" class="form-check-input payment me-3" name="payment" value="cheque">Cheque</label>
                                             <label class="mb-0" for="onlinePayment"><input type="radio" id="onlinePayment" class="form-check-input payment me-3" name="payment" value="online">UPI/NEFT</label>
                                         </div>
+                                        <small class="error-message" id="payment-mode_error"></small>
                                     </div>
                                     <div class="d-none" id="payOpt">
                                         <div class="col-md-12 col-sm-12 d-none" id="chequeOpt">
@@ -428,18 +366,21 @@
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="chequeNo">Cheque No <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="chequeNo" placeholder="Enter Cheque Number">
+                                                        <small class="error-message" id="chequeNo_error"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="chequeDate">Cheque Date <span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="chequeDate" placeholder="Enter Date On Cheque">
+                                                        <input type="text" class="form-control" id="chequeDate" placeholder="YYYY-MM-DD" maxlength="10" autocomplete="off">
+                                                        <small class="error-message" id="chequeDate_error"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="bankName">Bank Name <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="bankName" placeholder="Enter your Bank Name">
+                                                        <small class="error-message" id="bankName_error"></small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -450,6 +391,7 @@
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="transactionNo">Transaction No. <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="transactionNo" placeholder="Enter your Transaction No.">
+                                                        <small class="error-message" id="transactionNo_error"></small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -469,7 +411,6 @@
                                     <!-- Profile -->
                                     <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                         <div class="upload-card" data-title="Profile Photo" data-index="1">
-                                            <input type="hidden" id="img_path1" value="">
                                             <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file1">
                                             <div class="upload-content">
                                                 <div class="upload-icon">
@@ -484,7 +425,6 @@
 									<!-- Aadhaar -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
 										<div class="upload-card" data-title="Aadhaar Card" data-index="2">
-											<input type="hidden" id="img_path2" value="">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file2">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -496,10 +436,10 @@
 											</div>
 										</div>
 									</div>
+                                    
                                     <!-- PAN -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
 										<div class="upload-card" data-title="PAN Card" data-index="3">
-											<input type="hidden" id="img_path3" value="">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file3">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -514,7 +454,6 @@
 									<!-- Bank Passbook -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
 										<div class="upload-card" data-title="Bank Passbook" data-index="4">
-											<input type="hidden" id="img_path4" value="">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file4">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -528,9 +467,8 @@
 									</div>
 									<!-- Voting Card -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
-										<div class="upload-card" data-title="Voting Card" data-index="4">
-											<input type="hidden" id="img_path4" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file5">
+										<div class="upload-card" data-title="Voting Card" data-index="11">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file11">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-building-columns"></i>
@@ -543,9 +481,8 @@
 									</div>
 									<!-- Payment Proof -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12 d-none" id="payProof">
-										<div class="upload-card" data-title="Payment Proof" data-index="4">
-											<input type="hidden" id="img_path4" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file5">
+										<div class="upload-card" data-title="Payment Proof" data-index="12">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file12">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-building-columns"></i>
@@ -556,6 +493,7 @@
 											</div>
 										</div>
 									</div>
+                                    
                                     <input type="hidden" id="testValue" name="testValue" value="10"> <!-- customer -->
                                     <input type="hidden" id="register_by" name="register_by" value="<?php echo $userType; ?>"> <!-- User type for table col register_by -->
                                     <input type="hidden" id="registrant_id" name="registrant_id" value="<?php echo $userId; ?>">
@@ -603,11 +541,6 @@
         <script src="../assets/libs/feather-icons/feather.min.js"></script>
         <script src="../assets/js/jquery/jquery-3.7.1.min.js"></script>
 
-        <script src="../assets/js/submitdata.js"></script>
-
-        <!-- file upload code js file -->
-        <script src="../../uploading/uploadUser.js"></script>
-
         <!-- !-- materialdesign icon js- -->
         <script src="../assets/js/pages/remix-icons-listing.js"></script>
         
@@ -631,172 +564,14 @@
 
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
-
+        <script src="../../uploading/uploadTechnoDashboard.js"></script>
         <script>
-            // fetch User based on selected designation
-            $('#user_id_name').on('change', function() {
-                var user_id_name = $(this).val();
-
-                var designation = 'CA_Travel_Agent';
-
-                $.ajax({
-                    type: 'POST',
-                    url: '../agents/getUsers.php',
-                    data: 'user_id_name=' + user_id_name + '&designation=' + designation,
-                    success: function(response) {
-                        $('#reference_name').val(response);
-                    }
-                });
-
-            });
-
-            $('#country').on('change', function() {
-                var countryID = $(this).val();
-                if (countryID) {
-                    $.ajax({
-                        type: 'POST',
-                        url: '../address/countrydata.php',
-                        data: 'country_id=' + countryID,
-                        success: function(htmll) {
-                            $('#mystate').html(htmll);
-                            $('#city').html('<option value="">Select state first</option>');
-                        }
-                    });
-                } else {
-                    $('#mystate').html('<option value="">Select country first</option>');
-                    $('#city').html('<option value="">Select state first</option>');
-                    $('#pin').val('');
-                }
-            });
-
-            $('#mystate').on('change', function() {
-                var stateID = $(this).val();
-                if (stateID) {
-                    $.ajax({
-                        type: 'POST',
-                        url: '../address/countrydata.php',
-                        data: 'state_id=' + stateID,
-                        success: function(html) {
-                            $('#city').html(html);
-                        }
-                    });
-                } else {
-                    $('#city').html('<option value="">Select state first</option>');
-                    $('#pin').val('');
-                }
-                //coupon applicable logic for goa
-                
-            });
-
-            function toggleDiv(show) {
-                document.getElementById("paymentMode").classList.toggle("d-none", !show);
-                document.getElementById("payOpt").classList.toggle("d-none", !show);
-                document.getElementById("payProof").classList.toggle("d-none", !show);
-                let paymentFee = document.getElementById("payment_fee");
-                paymentFee.value = show ? "10000" : "FOC";
-
-            }
-            //payment type
-            $('#payment_fee').on('change', function() {
-                var payval=$(this).val();
-                if (payval != 'FOC') {
-                    $('#paymentMode').removeClass('d-none');
-                    $('#payProof').removeClass('d-none');
-                    $('#payOpt').removeClass('d-none');
-                }else{
-                    $('#paymentMode').addClass('d-none');
-                    $('#payProof').addClass('d-none');
-                    $('#payOpt').addClass('d-none');
-                }
-            });
-            // payment mode
-            $('#paymentMode').on('click', function() {
-                var paymentMode = $(".payment:checked").val();
-                if (paymentMode == "cheque") {
-                    $("#chequeOpt").removeClass("d-none");
-                    $("#onlineOpt").addClass("d-none");
-                    $("#transactionNo").val("");
-                } else if (paymentMode == "online") {
-                    $("#onlineOpt").removeClass("d-none");
-                    $("#chequeOpt").addClass("d-none");
-                    $("#chequeNo").val("");
-                    $("#chequeDate").val("");
-                    $("#bankName").val("");
-                } else {
-                    $("#chequeOpt").addClass("d-none");
-                    $("#onlineOpt").addClass("d-none");
-                    $("#chequeNo").val("");
-                    $("#chequeDate").val("");
-                    $("#bankName").val("");
-                    $("#transactionNo").val("");
-                }
-            });
-
-            $('#city').on('change', function() {
-                var cityID = $(this).val();
-                if (cityID) {
-                    $.ajax({
-                        type: 'POST',
-                        url: 'address/pincode.php',
-                        data: 'city_id=' + cityID,
-                        success: function(response) {
-                            $('#pin').val(response);
-                        }
-                    });
-                } else {
-                    $('#city').html('<option value="">Select state first</option>');
-                    $('#pin').val('');
-                }
-            });
+            const id = '';
+            const status = '';
         </script>
-        <!-- dialer logic scripts -->
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-
-                const callBtn = document.getElementById("callBtn");
-
-                if (callBtn) {
-                    callBtn.addEventListener("click", function(e) {
-
-                        let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-                        if (!isMobile) {
-                            e.preventDefault();
-
-                            alert("📞 Calling works only on mobile devices.\nPlease dial 8010892265 from your phone.");
-                            location.reload();
-
-                            // Optional clipboard copy (safe fallback)
-                            if (navigator.clipboard) {
-                                navigator.clipboard.writeText("8010892265");
-                            }
-                        }
-                    });
-                }
-
-            });
-        </script>
-
-        <script>
-            var modal = document.getElementById('staticBackdrop');
-
-            // Store the element that opened the modal
-            let lastFocusedElement;
-
-            document.addEventListener('click', function(e) {
-                if (e.target.closest('[data-bs-toggle="modal"]')) {
-                    lastFocusedElement = e.target;
-                }
-            });
-
-            modal.addEventListener('hidden.bs.modal', function () {
-                if (lastFocusedElement) {
-                    lastFocusedElement.focus();
-                } else {
-                    document.body.focus();
-                }
-            });
-        </script>
+        <script src="js/customer.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!-- end dialer logic scripts -->
+
     </body>
 </html>

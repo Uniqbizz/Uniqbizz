@@ -16,16 +16,26 @@
 
         $sqlTE = $conn->prepare("
             SELECT
-                CONCAT(ca.firstname,' ',ca.lastname) AS name,
+                CONCAT(ca.firstname, ' ', ca.lastname) AS name,
                 ca.register_date AS activity_date
             FROM corporate_agency ca
-            INNER JOIN super_techno_enterprise st
-                ON ca.reference_no = st.super_techno_enterprise_id
-            WHERE st.reference_no = :user_id
+            INNER JOIN business_mentor bm
+                ON ca.reference_no = bm.business_mentor_id
+            WHERE bm.reference_no = :user_id
             AND ca.status IN (1,3)
-            AND st.status IN (1,3)
-            ORDER BY ca.register_date DESC
-            LIMIT 2
+            AND bm.status IN (1,3)
+
+            UNION ALL
+
+            SELECT
+                CONCAT(ca.firstname, ' ', ca.lastname) AS name,
+                ca.register_date AS activity_date
+            FROM corporate_agency ca
+            WHERE ca.reference_no = :user_id
+            AND ca.status IN (1,3)
+
+            ORDER BY activity_date DESC
+            LIMIT 2;
         ");
 
         $sqlTE->execute([
@@ -43,19 +53,77 @@
         }
         /*
         |--------------------------------------------------------------------------
+        | New F Added
+        |--------------------------------------------------------------------------
+        */
+
+        $sqlF = $conn->prepare("
+            SELECT *
+            FROM (
+                SELECT
+                    CONCAT(firstname, ' ', lastname) AS name,
+                    register_date AS activity_date
+                FROM sub_franchisee
+                WHERE reference_no = :user_id
+                AND status IN (1,3)
+
+                UNION ALL
+
+                SELECT
+                    CONCAT(sf.firstname, ' ', sf.lastname) AS name,
+                    sf.register_date AS activity_date
+                FROM sub_franchisee sf
+                INNER JOIN business_mentor bm
+                    ON sf.reference_no = bm.business_mentor_id
+                WHERE bm.reference_no = :user_id
+                AND sf.status IN (1,3)
+                AND bm.status IN (1,3)
+            ) AS result
+            ORDER BY activity_date DESC
+            LIMIT 2;
+        ");
+
+        $sqlF->execute([
+            ':user_id' => $userId
+        ]);
+
+        foreach($sqlF->fetchAll(PDO::FETCH_ASSOC) as $row){
+
+            $activities[] = [
+                'type' => 'f',
+                'title' => 'New Franchisee Added',
+                'description' => $row['name'],
+                'date' => $row['activity_date']
+            ];
+        }
+        /*
+        |--------------------------------------------------------------------------
         | New I Added
         |--------------------------------------------------------------------------
         */
 
         $sqlF = $conn->prepare("
             SELECT
-                CONCAT(firstname,' ',lastname) AS name,
+                CONCAT(firstname, ' ', lastname) AS name,
                 register_date AS activity_date
-            FROM institution 
+            FROM institution
             WHERE reference_no = :user_id
             AND status IN (1,3)
-            ORDER BY register_date DESC
-            LIMIT 2
+
+            UNION ALL
+
+            SELECT
+                CONCAT(i.firstname, ' ', i.lastname) AS name,
+                i.register_date AS activity_date
+            FROM institution i
+            INNER JOIN business_mentor bm
+                ON i.reference_no = bm.business_mentor_id
+            WHERE bm.reference_no = :user_id
+            AND i.status IN (1,3)
+            AND bm.status IN (1,3)
+
+            ORDER BY activity_date DESC
+            LIMIT 2;
         ");
 
         $sqlF->execute([
@@ -79,19 +147,98 @@
         */
 
         $sqlCU = $conn->prepare("
-            SELECT
-                CONCAT(cu.firstname,' ',cu.lastname) AS customer_name,
-                cu.register_date
-            FROM ca_customer cu
-            INNER JOIN ca_travelagency ta
-                ON cu.ta_reference_no = ta.ca_travelagency_id
-            INNER JOIN corporate_agency ca
-                ON ta.reference_no = ca.corporate_agency_id
-            INNER JOIN super_techno_enterprise st
-                ON ca.reference_no = st.super_techno_enterprise_id
-            WHERE st.reference_no = :user_id
-            AND cu.status IN (1,3)
-            ORDER BY cu.register_date DESC
+            SELECT *
+            FROM (
+                /* Customers under BM -> Corporate Agency */
+                SELECT
+                    CONCAT(cu.firstname, ' ', cu.lastname) AS customer_name,
+                    cu.register_date
+                FROM ca_customer cu
+                INNER JOIN ca_travelagency ta
+                    ON cu.ta_reference_no = ta.ca_travelagency_id
+                INNER JOIN corporate_agency ca
+                    ON ta.reference_no = ca.corporate_agency_id
+                INNER JOIN business_mentor bm
+                    ON ca.reference_no = bm.business_mentor_id
+                WHERE bm.reference_no = :user_id
+                AND cu.status IN (1,3)
+
+                UNION ALL
+
+                /* Customers under BM -> Sub Franchisee */
+                SELECT
+                    CONCAT(cu.firstname, ' ', cu.lastname),
+                    cu.register_date
+                FROM ca_customer cu
+                INNER JOIN ca_travelagency ta
+                    ON cu.ta_reference_no = ta.ca_travelagency_id
+                INNER JOIN sub_franchisee sf
+                    ON ta.reference_no = sf.sub_franchisee_id
+                INNER JOIN business_mentor bm
+                    ON sf.reference_no = bm.business_mentor_id
+                WHERE bm.reference_no = :user_id
+                AND cu.status IN (1,3)
+
+                UNION ALL
+
+                /* Customers under BM -> Institution */
+                SELECT
+                    CONCAT(cu.firstname, ' ', cu.lastname),
+                    cu.register_date
+                FROM ca_customer cu
+                INNER JOIN institution_branch_manager ibm
+                    ON cu.ta_reference_no = ibm.institution_branch_manager_id
+                INNER JOIN institution ins
+                    ON ibm.reference_no = ins.institution_id
+                INNER JOIN business_mentor bm
+                    ON ins.reference_no = bm.business_mentor_id
+                WHERE bm.reference_no = :user_id
+                AND cu.status IN (1,3)
+
+                UNION ALL
+
+                /* Direct Corporate Agency */
+                SELECT
+                    CONCAT(cu.firstname, ' ', cu.lastname),
+                    cu.register_date
+                FROM ca_customer cu
+                INNER JOIN ca_travelagency ta
+                    ON cu.ta_reference_no = ta.ca_travelagency_id
+                INNER JOIN corporate_agency ca
+                    ON ta.reference_no = ca.corporate_agency_id
+                WHERE ca.reference_no = :user_id
+                AND cu.status IN (1,3)
+
+                UNION ALL
+
+                /* Direct Sub Franchisee */
+                SELECT
+                    CONCAT(cu.firstname, ' ', cu.lastname),
+                    cu.register_date
+                FROM ca_customer cu
+                INNER JOIN ca_travelagency ta
+                    ON cu.ta_reference_no = ta.ca_travelagency_id
+                INNER JOIN sub_franchisee sf
+                    ON ta.reference_no = sf.sub_franchisee_id
+                WHERE sf.reference_no = :user_id
+                AND cu.status IN (1,3)
+
+                UNION ALL
+
+                /* Direct Institution */
+                SELECT
+                    CONCAT(cu.firstname, ' ', cu.lastname),
+                    cu.register_date
+                FROM ca_customer cu
+                INNER JOIN institution_branch_manager ibm
+                    ON cu.ta_reference_no = ibm.institution_branch_manager_id
+                INNER JOIN institution ins
+                    ON ibm.reference_no = ins.institution_id
+                WHERE ins.reference_no = :user_id
+                AND cu.status IN (1,3)
+
+            ) AS customers
+            ORDER BY register_date DESC
             LIMIT 2
         ");
 
@@ -104,6 +251,135 @@
             $activities[] = [
                 'type' => 'customer',
                 'title' => 'New Select Membership Purchased',
+                'description' => $row['customer_name'],
+                'date' => $row['register_date']
+            ];
+        }
+        /*
+        |--------------------------------------------------------------------------
+        | TC 
+        |--------------------------------------------------------------------------
+        */
+
+        $sqlTC = $conn->prepare("
+            SELECT *
+            FROM (
+                /* tc under BM -> Corporate Agency */
+                SELECT
+                    CONCAT(ta.firstname, ' ', ta.lastname) AS customer_name,
+                    ta.register_date
+                FROM ca_travelagency ta
+                INNER JOIN corporate_agency ca
+                    ON ta.reference_no = ca.corporate_agency_id
+                INNER JOIN business_mentor bm
+                    ON ca.reference_no = bm.business_mentor_id
+                WHERE bm.reference_no = :user_id
+                AND ta.status IN (1,3)
+
+                UNION ALL
+
+                /* tc under BM -> Sub Franchisee */
+                SELECT
+                    CONCAT(ta.firstname, ' ', ta.lastname),
+                    ta.register_date
+                FROM ca_travelagency ta
+                INNER JOIN sub_franchisee sf
+                    ON ta.reference_no = sf.sub_franchisee_id
+                INNER JOIN business_mentor bm
+                    ON sf.reference_no = bm.business_mentor_id
+                WHERE bm.reference_no = :user_id
+                AND ta.status IN (1,3)
+
+                UNION ALL
+
+                /* Direct Corporate Agency */
+                SELECT
+                    CONCAT(ta.firstname, ' ', ta.lastname),
+                    ta.register_date
+                FROM ca_travelagency ta
+                INNER JOIN corporate_agency ca
+                    ON ta.reference_no = ca.corporate_agency_id
+                WHERE ca.reference_no = :user_id
+                AND ta.status IN (1,3)
+
+                UNION ALL
+
+                /* Direct Sub Franchisee */
+                SELECT
+                    CONCAT(ta.firstname, ' ', ta.lastname),
+                    ta.register_date
+                FROM ca_travelagency ta
+                INNER JOIN sub_franchisee sf
+                    ON ta.reference_no = sf.sub_franchisee_id
+                WHERE sf.reference_no = :user_id
+                AND ta.status IN (1,3)
+
+            ) AS tc
+            ORDER BY register_date DESC
+            LIMIT 2
+        ");
+
+        $sqlTC->execute([
+            ':user_id' => $userId
+        ]);
+
+        foreach($sqlTC->fetchAll(PDO::FETCH_ASSOC) as $row){
+
+            $activities[] = [
+                'type' => 'tc',
+                'title' => 'New Travel Consultant Addd',
+                'description' => $row['customer_name'],
+                'date' => $row['register_date']
+            ];
+        }
+        /*
+        |--------------------------------------------------------------------------
+        | IBR 
+        |--------------------------------------------------------------------------
+        */
+
+        $sqlTC = $conn->prepare("
+            SELECT *
+            FROM (
+
+                /* ibr under BM -> Institution */
+                SELECT
+                    CONCAT(ibm.firstname, ' ', ibm.lastname),
+                    ibm.register_date
+                FROM institution_branch_manager ibm
+                INNER JOIN institution ins
+                    ON ibm.reference_no = ins.institution_id
+                INNER JOIN business_mentor bm
+                    ON ins.reference_no = bm.business_mentor_id
+                WHERE bm.reference_no = :user_id
+                AND ibm.status IN (1,3)
+
+                UNION ALL
+
+                /* Direct Institution */
+                SELECT
+                    CONCAT(ibm.firstname, ' ', ibm.lastname),
+                    ibm.register_date
+                FROM institution_branch_manager ibm
+                INNER JOIN institution ins
+                    ON ibm.reference_no = ins.institution_id
+                WHERE ins.reference_no = :user_id
+                AND ibm.status IN (1,3)
+
+            ) AS ibr
+            ORDER BY register_date DESC
+            LIMIT 2
+        ");
+
+        $sqlTC->execute([
+            ':user_id' => $userId
+        ]);
+
+        foreach($sqlTC->fetchAll(PDO::FETCH_ASSOC) as $row){
+
+            $activities[] = [
+                'type' => 'ibr',
+                'title' => 'New Institution Branch Manager Addd',
                 'description' => $row['customer_name'],
                 'date' => $row['register_date']
             ];
@@ -163,7 +439,36 @@
             $activities[] = [
                 'type' => 'customer',
                 'title' => 'Holiday Account Commission Credited',
-                'description' => '+ ₹ '.number_format($row['commission_zm']),
+                'description' => '+ ₹ '.number_format($row['commision_bdm']),
+                'date' => $row['created_date']
+            ];
+        }
+        /*
+        |--------------------------------------------------------------------------
+        | Francisee Recruitment Commission
+        |--------------------------------------------------------------------------
+        */
+
+        $sqlFRecruitment = $conn->prepare("
+            SELECT
+                commission_mf,
+                created_date
+            FROM sub_franchisee_payout
+            WHERE master_franchisee = :user_id
+            ORDER BY created_date DESC
+            LIMIT 2
+        ");
+
+        $sqlFRecruitment->execute([
+            ':user_id' => $userId
+        ]);
+
+        foreach($sqlFRecruitment->fetchAll(PDO::FETCH_ASSOC) as $row){
+
+            $activities[] = [
+                'type' => 'recruitment',
+                'title' => 'Franchisee Recruitment Commission Credited',
+                'description' => '+ ₹ '.number_format($row['commission_mf']),
                 'date' => $row['created_date']
             ];
         }
@@ -236,7 +541,7 @@
             return strtotime($b['date']) <=> strtotime($a['date']);
         });
 
-        $activities = array_slice($activities, 0, 5);
+        $activities = array_slice($activities, 0, 7);
 
         echo json_encode([
             'status' => true,
