@@ -105,9 +105,10 @@
                                         <label class="col-form-label" for="designation"> Designation<span class="text-danger">*</span></label>
                                         <select id="designation" class="form-select">
                                             <option value="">--Select Designation--</option>
-                                            <option value="business_development_manager">Business Development Manager </option>
+                                            <option value="executive_techno_enterprise">Executive Techno Enterprise</option>
                                             <option value="business_mentor">Business Mentor</option>
-                                            <option value="corporate_agency">Techno Enterprise</option>
+                                            <option value="master_franchisee">Master Franchisee</option>
+                                            <option value="sponsor_franchisee">Sponsor Franchisee</option>
                                         </select>
                                     </div>
                                 </div>
@@ -127,8 +128,8 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
-                                        <label class="col-form-label" for="firstname">Institution Name<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="firstname" placeholder="Enter your firstname">
+                                        <label class="col-form-label" for="name">Institution Name<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="name" placeholder="Enter your name">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
@@ -143,25 +144,25 @@
                                         <div class="form-control">
                                             <div class="row">
                                                 <div class="col-lg-4 col-4 col-sm-6 col-12">
-                                                    <label class="radio-inline mb-0 ms-3" for="test3"><input type="radio" id="test3" class="form-check-input instituteType me-3" name="instituteType" value="male">Bank</label>
+                                                    <label class="radio-inline mb-0 ms-3" for="test3"><input type="radio" id="test3" class="form-check-input instituteType me-3" name="instituteType" value="bank">Bank</label>
                                                 </div>
                                                 <div class="col-lg-4 col-4 col-sm-6 col-12">
-                                                    <label class="radio-inline mb-0 ms-3" for="test4"><input type="radio" id="test4" class="form-check-input instituteType me-3" name="instituteType" value="female">NBFC</label>
+                                                    <label class="radio-inline mb-0 ms-3" for="test4"><input type="radio" id="test4" class="form-check-input instituteType me-3" name="instituteType" value="nbfc">NBFC</label>
                                                 </div>
                                                 <div class="col-lg-4 col-4 col-sm-6 col-12">
-                                                    <label class="radio-inline mb-0 ms-3" for="test5"><input type="radio" id="test5" class="form-check-input instituteType me-3" name="instituteType" value="others">Corperative Bank</label>
+                                                    <label class="radio-inline mb-0 ms-3" for="test5"><input type="radio" id="test5" class="form-check-input instituteType me-3" name="instituteType" value="corperative_bank">Corperative Bank</label>
                                                 </div>
                                                 <div class="col-lg-4 col-4 col-sm-6 col-12">
-                                                    <label class="radio-inline mb-0 ms-3" for="test6"><input type="radio" id="test6" class="form-check-input instituteType me-3" name="instituteType" value="others">Society</label>
+                                                    <label class="radio-inline mb-0 ms-3" for="test6"><input type="radio" id="test6" class="form-check-input instituteType me-3" name="instituteType" value="society">Society</label>
                                                 </div>
                                                 <div class="col-lg-4 col-4 col-sm-6 col-12">
-                                                    <label class="radio-inline mb-0 ms-3" for="test7"><input type="radio" id="test7" class="form-check-input instituteType me-3" name="instituteType" value="others">Trust</label>
+                                                    <label class="radio-inline mb-0 ms-3" for="test7"><input type="radio" id="test7" class="form-check-input instituteType me-3" name="instituteType" value="trust">Trust</label>
                                                 </div>
                                                 <div class="col-lg-4 col-4 col-sm-6 col-12">
-                                                    <label class="radio-inline mb-0 ms-3" for="test8"><input type="radio" id="test8" class="form-check-input instituteType me-3" name="instituteType" value="others">Others</label>
+                                                    <label class="radio-inline mb-0 ms-3" for="test8"><input type="radio" id="test8" class="form-check-input instituteType me-3" name="instituteType" value="other">Others</label>
                                                 </div>
                                             </div>
-                                            <input type="text" name="other_leadership" id="otherLead" class="form-control mt-2" style="display:none;">
+                                            <input type="text" name="instituteTypeOther" id="instituteTypeOther" class="form-control mt-2" value="" style="display:none;">
                                         </div>
                                     </div>
                                 </div>
@@ -175,9 +176,24 @@
                                     <div class="row">
                                         <div class="col-md-4 col-sm-4 col-3">
                                             <div class="input-block">
-                                                <label class="col-form-label" for="country_cd">Code</label>
-                                                <select class="form-select" id="country_cd"></select>
-                                            </div>
+                                                <?php
+                                                    $stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
+                                                    $stmt->execute();                                            
+                                                    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                ?>
+                                                <label class="col-form-label" for="country_cd">Code:</label>
+                                                <select class="form-control" id="country_cd">
+                                                    <?php 
+                                                        if($stmt->rowCount()>0){
+                                                            foreach (($stmt->fetchAll()) as $key => $row) {  
+                                                                echo '<option value="'.$row['country_code'].'">+'.$row['country_code'].' ('.$row['sortname'].')</option>'; 
+                                                            } 
+                                                        }else{ 
+                                                            echo '<option value="">Country not available</option>'; 
+                                                        } 
+                                                    ?>
+                                                </select>
+                                            </div> 
                                         </div>
                                         <div class="col-md-8 col-sm-8 col-9">
                                             <div class="input-block">
@@ -210,9 +226,23 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
+                                        <?php
+                                            $stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
+                                            $stmt->execute();                                         
+                                            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                        ?>
                                         <label class="col-form-label" for="country">Country<span class="text-danger">*</span></label>
-                                        <select class="form-select" id="country" aria-label="Floating label select example">
+                                        <select class="form-select" id="country">
                                             <option value="" selected>--Select Country--</option>
+                                            <?php 
+                                                if($stmt->rowCount()>0){
+                                                    foreach (($stmt->fetchAll()) as $key => $row) {  
+                                                        echo '<option value="'.$row['id'].'">'.$row['country_name'].'</option>'; 
+                                                    } 
+                                                }else{ 
+                                                    echo '<option value="">Country not available</option>'; 
+                                                } 
+                                            ?>
                                         </select>
                                     </div>
                                 </div>
@@ -299,9 +329,9 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-sm-6">
+                                <div class="col-md-6 col-sm-6 d-none" id="paymentMode">
                                     <label class="fw-bold col-form-label">Payment Mode: <span class="text-danger">*</span></label>
-                                    <div class="form-control radioBtn d-flex justify-content-around" id="paymentMode">
+                                    <div class="form-control radioBtn d-flex justify-content-around" >
                                         <label class="mb-0" for="cashPayment"><input type="radio" id="cashPayment" class="form-check-input payment me-3" name="payment" value="cash">Cash</label>
                                         <label class="mb-0" for="chequePayment"><input type="radio" id="chequePayment"  class="form-check-input payment me-3" name="payment" value="cheque">Cheque</label>
                                         <label class="mb-0" for="onlinePayment"><input type="radio" id="onlinePayment"  class="form-check-input payment me-3" name="payment" value="online">UPI/NEFT</label>
@@ -353,9 +383,8 @@
                                 <div class="row g-3">
                                     <!-- Certificate of Incorporation -->
                                     <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                        <div class="upload-card" data-title="Certificate of Incorporation" data-index="1">
-                                            <input type="hidden" id="img_path1" value="">
-                                            <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file1">
+                                        <div class="upload-card" data-title="Certificate of Incorporation" data-index="11" data-folder="certificate_of_incorporation">
+                                            <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file11">
                                             <div class="upload-content">
                                                 <div class="upload-icon">
                                                     <i class="fa-solid fa-user"></i>
@@ -368,9 +397,8 @@
                                     </div>
 									<!-- GSTIN -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
-										<div class="upload-card" data-title="GSTIN" data-index="2">
-											<input type="hidden" id="img_path2" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file2">
+										<div class="upload-card" data-title="GSTIN" data-index="12" data-folder="gstin">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file12">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-regular fa-id-card"></i>
@@ -383,9 +411,8 @@
 									</div>
                                     <!-- Board Resolution -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
-										<div class="upload-card" data-title="Board Resolution" data-index="3">
-											<input type="hidden" id="img_path3" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file3">
+										<div class="upload-card" data-title="Board Resolution" data-index="13" data-folder="board_resolution">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file13">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-regular fa-credit-card"></i>
@@ -398,8 +425,7 @@
 									</div>
 									<!-- Bank Passbook -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
-										<div class="upload-card" data-title="Bank Passbook" data-index="4">
-											<input type="hidden" id="img_path4" value="">
+										<div class="upload-card" data-title="Bank Passbook" data-index="4" data-folder="passbook">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file4">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -413,9 +439,8 @@
 									</div>
 									<!-- PAN Card -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
-										<div class="upload-card" data-title="PAN Card" data-index="4">
-											<input type="hidden" id="img_path4" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file5">
+										<div class="upload-card" data-title="PAN Card" data-index="3" data-folder="pancard">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file3">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-building-columns"></i>
@@ -428,8 +453,7 @@
 									</div>
 									<!-- Address Proof -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12" id="addressProof">
-										<div class="upload-card" data-title="Address Proof" data-index="4">
-											<input type="hidden" id="img_path4" value="">
+										<div class="upload-card" data-title="Address Proof" data-index="6" data-folder="address_proof">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file6">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -442,10 +466,9 @@
 										</div>
 									</div>
 									<!-- Payment Proof -->
-									<div class="col-lg-4 col-md-4 col-sm-6 col-12" id="payProof">
-										<div class="upload-card" data-title="Payment Proof" data-index="4">
-											<input type="hidden" id="img_path4" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file7">
+									<div class="col-lg-4 col-md-4 col-sm-6 col-12 d-none" id="payProof">
+										<div class="upload-card" data-title="Payment Proof" data-index="14" data-folder="payment">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file14">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-building-columns"></i>
@@ -459,14 +482,15 @@
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" id="testValue" name="testValue" value="32"> <!-- institution -->
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="d-flex justify-content-end gap-4 submitBtnBackground">
                                     <button type="button" class="btn actionBtn cancelBtn mb-2">Cancel</button>
                                     <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftAdd">Save Draft</button>
-                                    <button type="submit" class="btn actionBtn submitBtn mb-2" id="addCustomer">
+                                    <button type="submit" class="btn actionBtn submitBtn mb-2" id="addInstitution">
                                         <i class="fa-regular fa-paper-plane me-2"></i>
-                                        Submit Customer
+                                        Submit Institution
                                     </button>
                                 </div>
                             </div>
@@ -499,7 +523,7 @@
         <script src="../assets/libs/node-waves/waves.min.js"></script>
 
         <!-- add data to database js file -->
-        <script type="text/javascript" src="../assets/js/submitdata.js"></script>
+        <script type="text/javascript" src="institution.js"></script>
 
         <!-- apexcharts -->
         <!-- <script src="../assets/libs/apexcharts/apexcharts.min.js"></script> -->
@@ -511,7 +535,7 @@
         <script src="../assets/js/app.js"></script>
 
         <!-- file upload code js file -->
-        <script src="../../uploading/upload.js"></script>
+        <!-- <script src="../../uploading/uploadTechnoAdmin.js"></script> -->
 
         <script>
             var mybutton = document.getElementById("back-to-top");
@@ -530,59 +554,11 @@
         </script>
         <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
         <script>
-            //select Register as
-            $('#registered').on('change',function(){
-                var register_type=$(this).val();
-                if(register_type == 'corporate_agency'){
-                    $('#designation1').prop('disabled', false);
-                    $('#designation1').removeClass('d-none');
-                    $('#designation2').addClass('d-none');
-                    $('#business_package_amount1').prop('disabled', false);
-                    $('#business_package_amount1').removeClass('d-none');
-                    $('#business_package_amount2').addClass('d-none');
-                    $('.gender').prop('disabled', false);
-                }else if(register_type == 'sub_franchisee'){
-                    $('#designation1').addClass('d-none');
-                    $('#designation2').removeClass('d-none');
-                    $('#business_package_amount2').removeClass('d-none');
-                    $('#business_package_amount1').addClass('d-none');
-                    $('.gender').prop('disabled', false);
-                    // var business_package_amount = $('#business_package_amount2').val();
-                    // $('#flex_amount').val(business_package_amount);
-                }else if(register_type == 'institution'){
-                    $('#designation1').addClass('d-none');
-                    $('#designation2').removeClass('d-none');
-                    $('#business_package_amount2').removeClass('d-none');
-                    $('#business_package_amount1').addClass('d-none');
-                    const val = $("#test5").val();
-
-                    $('.gender[value="' + val + '"]').prop('checked', true);
-                    $('.gender').prop('disabled', true);
-                }
-                    
-            });
             
             //select Designation
-            $('#designation1').on('change', function() {
-                var designation = $('#designation1').val();
-                console.log(designation);
-                $.ajax({
-                    type:'POST',
-                    url:'../agents/get_user_Franchisee.php',
-                    data: "designation="+designation,
-                    success:function (e) {
-                        console.log(e);
-                        $('#user_id_name').html(e); 
-                    },
-                    error: function(err){
-                        console.log(err);
-                    },
-                });
-            });
-
-            $('#designation2').on('change', function() {
-                var designation = $('#designation2').val();
-                console.log(designation);
+            $('#designation').on('change', function() {
+                var designation = $('#designation').val();
+                // console.log(designation);
                 $.ajax({
                     type:'POST',
                     url:'../agents/get_user_Franchisee.php',
@@ -600,21 +576,13 @@
             // fetch User based on selected designation
             $('#user_id_name').on('change', function(){
                 var user_id_name = $(this).val();
-                var designation = !$('#designation1').hasClass('d-none') 
-                ? $('#designation1').val() 
-                : $('#designation2').val();
-                console.log(user_id_name);
-
-                // var designation = 'franchisee';
-                // console.log(designation);
-
+                var designation = $('#designation').val();
                 $.ajax({
                     type:'POST',
                     url:'../agents/getUsers.php',
                     data: 'user_id_name=' + user_id_name + '&designation=' + designation ,
                     success:function(response){
                     // console.log(response);
-                        $('#pin').html(response);
                         $('#reference_name').val(response); 
                     }
                 }); 
@@ -676,17 +644,21 @@
                 }
             });
 
-            $('#business_package_amount1').on('change', function(){
-                var business_package_amount = $(this).val();
-                $('#flex_amount').val(business_package_amount);
+            //Activation Plan
+            $('#activationPlan').on('change', function() {
+                var payval=$(this).val();
+                if (payval != 'FOC') {
+                    $('#paymentMode').removeClass('d-none');
+                    $('#payProof').removeClass('d-none');
+                    $('#payOpt').removeClass('d-none');
+                }else{
+                    $('#paymentMode').addClass('d-none');
+                    $('#payProof').addClass('d-none');
+                    $('#payOpt').addClass('d-none');
+                }
             });
-            
-            $('#business_package_amount2').on('change', function(){
-                var business_package_amount = $(this).val();
-                $('#flex_amount').val(business_package_amount);
-            });
-            
 
+            // Payment Mode
             $('#paymentMode').on('click', function(){
                 var paymentMode = $(".payment:checked").val();
                 // console.log(paymentMode);
@@ -709,16 +681,161 @@
                     $("#transactionNo").val("");
                 }
             });
-        </script>
-        <script>
+
+            // type of institution other radio button option to show text box
             $(".instituteType").change(function () {
                 if ($("#test8").is(":checked")) {
-                    $("#otherLead").slideDown();
+                    $("#instituteTypeOther").slideDown();
                 } else {
-                    $("#otherLead").slideUp();
-                    $("#otherLead").val("");
+                    $("#instituteTypeOther").slideUp();
+                    $("#instituteTypeOther").val("");
                 }
             });
+
+            //New file upload code
+            const uploadBasePath = "../../uploading/";
+            const uploadUrl = "../../uploading/uploadAdminUsers.php";   // your upload file
+
+            function bindUploadEvents() {
+
+                $(".file-input").off("change").on("change", function () {
+
+                    let input = this;
+
+                    if (!input.files.length)
+                        return;
+
+                    let file = input.files[0];
+
+                    let card = $(input).closest(".upload-card");
+
+                    let title = card.data("title");
+
+                    let index = card.data("index");
+
+                    let folder = card.data("folder");
+
+                    let formData = new FormData();
+
+                    formData.append("file", file);
+                    formData.append("folder", folder);
+
+                    $.ajax({
+
+                        url: uploadUrl,
+
+                        type: "POST",
+
+                        data: formData,
+
+                        processData: false,
+
+                        contentType: false,
+
+                        success: function (response) {
+
+                            response = response.trim();
+
+                            if (response == "1") {
+                                alert("Upload Failed");
+                                input.value = "";
+                                return;
+                            }
+
+                            if (response == "2") {
+                                alert("Invalid File Extension");
+                                input.value = "";
+                                return;
+                            }
+
+                            if (response == "3") {
+                                alert("Please Select File");
+                                input.value = "";
+                                return;
+                            }
+
+                            if (response == "4") {
+                                alert("File size exceeds 2 MB");
+                                input.value = "";
+                                return;
+                            }
+
+                            card.find(".upload-content").remove();
+                            card.find(".preview-wrapper").remove();
+                            card.find(".pdf-preview").remove();
+
+                            let hiddenInput = $("#img_path" + index);
+
+                            if (!hiddenInput.length) {
+
+                                hiddenInput = $("<input>", {
+
+                                    type: "hidden",
+
+                                    id: "img_path" + index,
+
+                                    name: "img_path" + index
+
+                                });
+
+                                card.append(hiddenInput);
+
+                            }
+
+                            hiddenInput.val(response);
+
+                            let extension = response.split('.').pop().toLowerCase();
+
+                            if (["jpg", "jpeg", "png", "gif", "jfif"].includes(extension)) {
+
+                                card.append(`
+                                    <div class="preview-wrapper">
+
+                                        <img src="${uploadBasePath}${response}" class="img-fluid">
+
+                                        <div class="file-title">
+                                            ${title}
+                                        </div>
+
+                                    </div>
+                                `);
+
+                            } else {
+
+                                card.append(`
+                                    <div class="pdf-preview">
+
+                                        <i class="fa-solid fa-file-pdf fa-3x"></i>
+
+                                        <div class="file-title">
+                                            ${title}
+                                        </div>
+
+                                    </div>
+                                `);
+
+                            }
+
+                        },
+
+                        error: function () {
+
+                            alert("Upload Failed.");
+
+                        }
+
+                    });
+
+                });
+
+            }
+
+            $(function () {
+
+                bindUploadEvents();
+
+            });
+
         </script>
     </body>
 </html>

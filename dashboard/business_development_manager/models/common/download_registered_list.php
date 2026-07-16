@@ -21,8 +21,9 @@
 
         switch ($type) {
 
-            case 'te':
-            case 'st':
+            case 'te': 
+            case 'i': 
+            case 'bm': 
                 $alias = 'ca';
                 break;
 
@@ -48,11 +49,11 @@
         
         /*
         |--------------------------------------------------------------------------
-        | SUPER TECHNO ENTERPRISE
+        | BUSINESS MENTOR
         |--------------------------------------------------------------------------
         */
 
-        if ($type == 'st') {
+        if ($type == 'bm') {
 
             $sql = "
                 SELECT *
@@ -60,17 +61,13 @@
 
                     SELECT
                         ca.id AS row_id,
-                        ca.super_techno_enterprise_id AS id,
+                        ca.business_mentor_id AS id,
 
                         CONCAT(ca.firstname,' ',ca.lastname) AS full_name,
 
-                        CONCAT(
-                            COALESCE(ete.firstname,''),
-                            ' ',
-                            COALESCE(ete.lastname,'')
-                        ) AS reference_name,
+                        ete.name AS reference_name,
 
-                        ete.executive_techno_enterprise_id AS reference_id,
+                        ete.employee_id AS reference_id,
 
                         ca.contact_no,
                         ca.email,
@@ -83,10 +80,10 @@
                             ELSE 'Rejected'
                         END AS status
 
-                    FROM super_techno_enterprise ca
+                    FROM business_mentor ca
 
-                    INNER JOIN executive_techno_enterprise ete
-                        ON ca.reference_no = ete.executive_techno_enterprise_id
+                    INNER JOIN employees ete
+                        ON ca.reference_no = ete.employee_id
 
                     WHERE ca.reference_no = :user_id
                     AND ca.status IN (1,3)
@@ -98,7 +95,7 @@
                 ORDER BY x.row_id DESC
             ";
 
-            $fileName = 'Registered_Super_Techno_Enterprise_List.xlsx';
+            $fileName = 'Registered_business_mentor_List.xlsx';
         }
 
         /*
@@ -125,7 +122,7 @@
                             COALESCE(ste.lastname,'')
                         ) AS reference_name,
 
-                        ste.super_techno_enterprise_id AS reference_id,
+                        ste.business_mentor_id AS reference_id,
 
                         ca.contact_no,
                         ca.email,
@@ -140,8 +137,8 @@
 
                     FROM corporate_agency ca
 
-                    LEFT JOIN super_techno_enterprise ste
-                        ON ca.reference_no = ste.super_techno_enterprise_id
+                    INNER JOIN business_mentor ste
+                        ON ca.reference_no = ste.business_mentor_id
 
                     WHERE ste.reference_no = :user_id
                     AND ca.status IN (1,3)
@@ -162,7 +159,7 @@
                             COALESCE(ste.lastname,'')
                         ) AS reference_name,
 
-                        ste.super_techno_enterprise_id AS reference_id,
+                        ste.business_mentor_id AS reference_id,
 
                         ca.contact_no,
                         ca.email,
@@ -177,8 +174,8 @@
 
                     FROM sub_franchisee ca
 
-                    LEFT JOIN super_techno_enterprise ste
-                        ON ca.reference_no = ste.super_techno_enterprise_id
+                    INNER JOIN business_mentor ste
+                        ON ca.reference_no = ste.business_mentor_id
 
                     WHERE ste.reference_no = :user_id
                     AND ca.status IN (1,3)
@@ -186,6 +183,88 @@
                     $whereDate
 
                     UNION ALL
+                    SELECT
+                        ca.id AS row_id,
+                        ca.corporate_agency_id AS id,
+
+                        CONCAT(ca.firstname,' ',ca.lastname) AS full_name,
+
+                        ste.name AS reference_name,
+
+                        ste.employee_id AS reference_id,
+
+                        ca.contact_no,
+                        ca.email,
+                        ca.register_date,
+                        ca.amount,
+
+                        CASE
+                            WHEN ca.status = 1 THEN 'Active'
+                            WHEN ca.status = 3 THEN 'Inactive'
+                            ELSE 'Rejected'
+                        END AS status
+
+                    FROM corporate_agency ca
+
+                    INNER JOIN employees ste
+                        ON ca.reference_no = ste.employee_id
+
+                    WHERE ca.reference_no = :user_id
+                    AND ca.status IN (1,3)
+
+                    $whereDate
+
+                    UNION ALL
+
+                    SELECT
+                        ca.id AS row_id,
+                        ca.sub_franchisee_id AS id,
+
+                        CONCAT(ca.firstname,' ',ca.lastname) AS full_name,
+
+                        ste.name AS reference_name,
+
+                        ste.employee_id AS reference_id,
+
+                        ca.contact_no,
+                        ca.email,
+                        ca.register_date,
+                        ca.amount,
+
+                        CASE
+                            WHEN ca.status = 1 THEN 'Active'
+                            WHEN ca.status = 3 THEN 'Inactive'
+                            ELSE 'Rejected'
+                        END AS status
+
+                    FROM sub_franchisee ca
+
+                    INNER JOIN employees ste
+                        ON ca.reference_no = ste.employee_id
+
+                    WHERE ca.reference_no = :user_id
+                    AND ca.status IN (1,3)
+
+                    $whereDate
+
+                ) x
+
+                ORDER BY x.row_id DESC
+            ";
+            
+            $fileName = 'Registered_TE_Franchise_List.xlsx';
+        }
+        /*
+        |--------------------------------------------------------------------------
+        | INSTITUTION
+        |--------------------------------------------------------------------------
+        */
+
+        elseif ($type == 'i') {
+
+            $sql = "
+                SELECT *
+                FROM (
 
                     SELECT
                         ca.id AS row_id,
@@ -199,7 +278,7 @@
                             COALESCE(ste.lastname,'')
                         ) AS reference_name,
 
-                        ste.executive_techno_enterprise_id AS reference_id,
+                        ste.business_mentor_id AS reference_id,
 
                         ca.contact_no,
                         ca.email,
@@ -214,8 +293,41 @@
 
                     FROM institution ca
 
-                    LEFT JOIN executive_techno_enterprise ste
-                        ON ca.reference_no = ste.executive_techno_enterprise_id
+                    INNER JOIN business_mentor ste
+                        ON ca.reference_no = ste.business_mentor_id
+
+                    WHERE ste.reference_no = :user_id
+                    AND ca.status IN (1,3)
+
+                    $whereDate
+
+                    UNION ALL
+
+                    SELECT
+                        ca.id AS row_id,
+                        ca.institution_id AS id,
+
+                        CONCAT(ca.firstname,' ',ca.lastname) AS full_name,
+
+                        ste.name AS reference_name,
+
+                        ste.employee_id AS reference_id,
+
+                        ca.contact_no,
+                        ca.email,
+                        ca.register_date,
+                        ca.amount,
+
+                        CASE
+                            WHEN ca.status = 1 THEN 'Active'
+                            WHEN ca.status = 3 THEN 'Inactive'
+                            ELSE 'Rejected'
+                        END AS status
+
+                    FROM institution ca
+
+                    INNER JOIN employees ste
+                        ON ca.reference_no = ste.employee_id
 
                     WHERE ca.reference_no = :user_id
                     AND ca.status IN (1,3)
@@ -227,7 +339,7 @@
                 ORDER BY x.row_id DESC
             ";
 
-            $fileName = 'Registered_TE_Franchise_Institution_List.xlsx';
+            $fileName = 'Registered_Institution_List.xlsx';
         }
 
         /*
@@ -265,8 +377,8 @@
 
                     INNER JOIN corporate_agency ca
                         ON ta.reference_no = ca.corporate_agency_id
-                    INNER JOIN super_techno_enterprise ste 
-                        ON ca.reference_no = ste.super_techno_enterprise_id
+                    INNER JOIN business_mentor ste 
+                        ON ca.reference_no = ste.business_mentor_id
 
                     WHERE ste.reference_no = :user_id
                     AND ta.status IN (1,3)
@@ -298,7 +410,101 @@
 
                     INNER JOIN sub_franchisee sf
                         ON ta.reference_no = sf.sub_franchisee_id
+                    INNER JOIN business_mentor ste 
+                        ON sf.reference_no = ste.business_mentor_id
+                    WHERE ste.reference_no = :user_id
+                    AND ta.status IN (1,3)
 
+                    $whereDate
+
+                    UNION ALL
+
+                    SELECT
+                        ta.id AS row_id,
+                        ta.institution_branch_manager_id AS id,
+                        CONCAT(ta.firstname,' ',ta.lastname) AS full_name,
+
+                        CONCAT(sf.firstname,' ',sf.lastname) AS reference_name,
+                        sf.institution_id AS reference_id,
+
+                        ta.contact_no,
+                        ta.email,
+                        ta.register_date,
+                        ta.amount,
+
+                        CASE
+                            WHEN ta.status = 1 THEN 'Active'
+                            WHEN ta.status = 3 THEN 'Inactive'
+                            ELSE 'Rejected'
+                        END AS status
+
+                    FROM institution_branch_manager ta
+
+                    INNER JOIN institution sf
+                        ON ta.reference_no = sf.institution_id
+                    INNER JOIN business_mentor ste 
+                        ON sf.reference_no = ste.business_mentor_id
+                    WHERE ste.reference_no = :user_id
+                    AND ta.status IN (1,3)
+
+                    $whereDate
+
+                    UNION ALL
+
+                    SELECT
+                        ta.id AS row_id,
+                        ta.ca_travelagency_id AS id,
+                        CONCAT(ta.firstname,' ',ta.lastname) AS full_name,
+
+                        CONCAT(ca.firstname,' ',ca.lastname) AS reference_name,
+                        ca.corporate_agency_id AS reference_id,
+
+                        ta.contact_no,
+                        ta.email,
+                        ta.register_date,
+                        ta.amount,
+
+                        CASE
+                            WHEN ta.status = 1 THEN 'Active'
+                            WHEN ta.status = 3 THEN 'Inactive'
+                            ELSE 'Rejected'
+                        END AS status
+
+                    FROM ca_travelagency ta
+
+                    INNER JOIN corporate_agency ca
+                        ON ta.reference_no = ca.corporate_agency_id
+
+                    WHERE ca.reference_no = :user_id
+                    AND ta.status IN (1,3)
+
+                    $whereDate
+
+                    UNION ALL
+
+                    SELECT
+                        ta.id AS row_id,
+                        ta.ca_travelagency_id AS id,
+                        CONCAT(ta.firstname,' ',ta.lastname) AS full_name,
+
+                        CONCAT(sf.firstname,' ',sf.lastname) AS reference_name,
+                        sf.sub_franchisee_id AS reference_id,
+
+                        ta.contact_no,
+                        ta.email,
+                        ta.register_date,
+                        ta.amount,
+
+                        CASE
+                            WHEN ta.status = 1 THEN 'Active'
+                            WHEN ta.status = 3 THEN 'Inactive'
+                            ELSE 'Rejected'
+                        END AS status
+
+                    FROM ca_travelagency ta
+
+                    INNER JOIN sub_franchisee sf
+                        ON ta.reference_no = sf.sub_franchisee_id
                     WHERE sf.reference_no = :user_id
                     AND ta.status IN (1,3)
 
@@ -329,7 +535,6 @@
 
                     INNER JOIN institution sf
                         ON ta.reference_no = sf.institution_id
-
                     WHERE sf.reference_no = :user_id
                     AND ta.status IN (1,3)
 
@@ -383,8 +588,8 @@
                     INNER JOIN corporate_agency ca
                         ON ta.reference_no = ca.corporate_agency_id
 
-                    INNER JOIN super_techno_enterprise ste
-                        ON ca.reference_no = ste.super_techno_enterprise_id
+                    INNER JOIN business_mentor ste
+                        ON ca.reference_no = ste.business_mentor_id
 
                     WHERE ste.reference_no = :user_id
                     AND cu.status IN (1,3)
@@ -421,10 +626,117 @@
                     INNER JOIN sub_franchisee sf
                         ON ta.reference_no = sf.sub_franchisee_id
 
-                    INNER JOIN super_techno_enterprise ste
-                        ON sf.reference_no = ste.super_techno_enterprise_id
+                    INNER JOIN business_mentor ste
+                        ON sf.reference_no = ste.business_mentor_id
 
                     WHERE ste.reference_no = :user_id
+                    AND cu.status IN (1,3)
+
+                    $whereDate
+
+                    UNION ALL
+
+                    SELECT
+                        cu.id AS row_id,
+                        cu.ca_customer_id AS id,
+
+                        CONCAT(cu.firstname,' ',cu.lastname) AS full_name,
+
+                        CONCAT(ta.firstname,' ',ta.lastname) AS reference_name,
+                        ta.institution_branch_manager_id AS reference_id,
+
+                        cu.contact_no,
+                        cu.email,
+                        cu.register_date,
+                        cu.paid_amount AS amount,
+
+                        CASE
+                            WHEN cu.status = 1 THEN 'Active'
+                            WHEN cu.status = 3 THEN 'Inactive'
+                            ELSE 'Rejected'
+                        END AS status
+
+                    FROM ca_customer cu
+
+                    INNER JOIN institution_branch_manager ta
+                        ON cu.ta_reference_no = ta.institution_branch_manager_id
+
+                    INNER JOIN institution sf
+                        ON ta.reference_no = sf.institution_id
+                    INNER JOIN business_mentor ste
+                        ON sf.reference_no = ste.business_mentor_id
+
+                    WHERE ste.reference_no = :user_id
+                    AND cu.status IN (1,3)
+
+                    $whereDate
+
+                    UNION ALL
+
+                    SELECT
+                        cu.id AS row_id,
+                        cu.ca_customer_id AS id,
+
+                        CONCAT(cu.firstname,' ',cu.lastname) AS full_name,
+
+                        CONCAT(ta.firstname,' ',ta.lastname) AS reference_name,
+                        ta.ca_travelagency_id AS reference_id,
+
+                        cu.contact_no,
+                        cu.email,
+                        cu.register_date,
+                        cu.paid_amount AS amount,
+
+                        CASE
+                            WHEN cu.status = 1 THEN 'Active'
+                            WHEN cu.status = 3 THEN 'Inactive'
+                            ELSE 'Rejected'
+                        END AS status
+
+                    FROM ca_customer cu
+
+                    INNER JOIN ca_travelagency ta
+                        ON cu.ta_reference_no = ta.ca_travelagency_id
+
+                    INNER JOIN corporate_agency ca
+                        ON ta.reference_no = ca.corporate_agency_id
+
+                    WHERE ca.reference_no = :user_id
+                    AND cu.status IN (1,3)
+
+                    $whereDate
+
+                    UNION ALL
+
+                    SELECT
+                        cu.id AS row_id,
+                        cu.ca_customer_id AS id,
+
+                        CONCAT(cu.firstname,' ',cu.lastname) AS full_name,
+
+                        CONCAT(ta.firstname,' ',ta.lastname) AS reference_name,
+                        ta.ca_travelagency_id AS reference_id,
+
+                        cu.contact_no,
+                        cu.email,
+                        cu.register_date,
+                        cu.paid_amount AS amount,
+
+                        CASE
+                            WHEN cu.status = 1 THEN 'Active'
+                            WHEN cu.status = 3 THEN 'Inactive'
+                            ELSE 'Rejected'
+                        END AS status
+
+                    FROM ca_customer cu
+
+                    INNER JOIN ca_travelagency ta
+                        ON cu.ta_reference_no = ta.ca_travelagency_id
+
+                    INNER JOIN sub_franchisee sf
+                        ON ta.reference_no = sf.sub_franchisee_id
+
+                    WHERE sf.reference_no = :user_id
                     AND cu.status IN (1,3)
 
                     $whereDate

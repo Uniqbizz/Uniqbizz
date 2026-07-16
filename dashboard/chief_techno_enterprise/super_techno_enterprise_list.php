@@ -268,6 +268,10 @@
                 searching: true,
                 paging: true,
                 ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
 
@@ -436,6 +440,7 @@
                         teTable.clear();
                         teTable.rows.add(res.data);
                         teTable.draw();
+                        teTable.columns.adjust().responsive.recalc();
                         
                     },
 
@@ -448,10 +453,16 @@
             }
             
             const teRegTable = $('#example-dataTable-2').DataTable({
+                destroy: true,
                 responsive: true,
-                ordering: false,
+                processing: true,
                 searching: true,
                 paging: true,
+                ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
                     {
@@ -632,6 +643,7 @@
                         }
 
                         teRegTable.draw();
+                        teRegTable.columns.adjust().responsive.recalc();
 
                     },
 

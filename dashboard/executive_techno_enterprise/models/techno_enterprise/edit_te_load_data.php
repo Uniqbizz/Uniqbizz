@@ -38,7 +38,7 @@
             exit;
     }
 
-    $field = preg_match('/^(TE|F|I)/i', $id)
+    $field = preg_match('/^(TE|F|I|CA)/i', $id)
         ? $customField
         : 'id';
 

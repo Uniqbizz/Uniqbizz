@@ -22,10 +22,10 @@
                 AND ca.register_date >= :start_date
                 AND ca.register_date < DATE_ADD(:end_date, INTERVAL 1 DAY)
             ";
-            // $whereDateSF = "
-            //     AND sf.register_date >= :start_date
-            //     AND sf.register_date < DATE_ADD(:end_date, INTERVAL 1 DAY)
-            // ";
+            $whereDateSF = "
+                AND sf.register_date >= :start_date
+                AND sf.register_date < DATE_ADD(:end_date, INTERVAL 1 DAY)
+            ";
 
             $params[':start_date'] = $startDate;
             $params[':end_date']   = $endDate;
@@ -46,17 +46,73 @@
 
                     ste.firstname AS ref_firstname,
                     ste.lastname AS ref_lastname,
-                    ste.super_techno_enterprise_id
+                    ste.business_mentor_id
 
                 FROM corporate_agency ca
 
-                INNER JOIN super_techno_enterprise ste
-                    ON ca.reference_no = ste.super_techno_enterprise_id
+                INNER JOIN business_mentor ste
+                    ON ca.reference_no = ste.business_mentor_id
 
                 WHERE ca.reference_no = :user_id
                 AND ca.status IN (1,3)
 
                 $whereDateCA
+            )
+                UNION ALL
+
+            (
+                SELECT
+                    sf.sub_franchisee_id AS teuser_id,
+                    sf.firstname,
+                    sf.lastname,
+                    sf.contact_no,
+                    sf.email,
+                    sf.register_date,
+                    sf.status,
+                    sf.amount,
+                    sf.user_type,
+
+                    ste.firstname AS ref_firstname,
+                    ste.lastname AS ref_lastname,
+                    ste.business_mentor_id
+
+                FROM sub_franchisee sf
+
+                INNER JOIN business_mentor ste
+                    ON sf.reference_no = ste.business_mentor_id
+
+                WHERE sf.reference_no = :user_id
+                AND sf.status IN (1,3)
+
+                $whereDateSF
+            )
+                UNION ALL
+
+            (
+                SELECT
+                    sf.institution_id AS teuser_id,
+                    sf.firstname,
+                    sf.lastname,
+                    sf.contact_no,
+                    sf.email,
+                    sf.register_date,
+                    sf.status,
+                    sf.amount,
+                    sf.user_type,
+
+                    ste.firstname AS ref_firstname,
+                    ste.lastname AS ref_lastname,
+                    ste.business_mentor_id
+
+                FROM institution sf
+
+                INNER JOIN business_mentor ste
+                    ON sf.reference_no = ste.business_mentor_id
+
+                WHERE sf.reference_no = :user_id
+                AND sf.status IN (1,3)
+
+                $whereDateSF
             )
 
             ORDER BY register_date DESC
@@ -93,32 +149,5 @@
         ]);
     }
 
-    // UNION ALL
-
-    //         (
-    //             SELECT
-    //                 sf.sub_franchisee_id AS teuser_id,
-    //                 sf.firstname,
-    //                 sf.lastname,
-    //                 sf.contact_no,
-    //                 sf.email,
-    //                 sf.register_date,
-    //                 sf.status,
-    //                 sf.amount,
-    //                 sf.user_type,
-
-    //                 ste.firstname AS ref_firstname,
-    //                 ste.lastname AS ref_lastname,
-    //                 ste.super_techno_enterprise_id
-
-    //             FROM sub_franchisee sf
-
-    //             INNER JOIN super_techno_enterprise ste
-    //                 ON sf.reference_no = ste.super_techno_enterprise_id
-
-    //             WHERE sf.reference_no = :user_id
-    //             AND sf.status IN (1,3)
-
-    //             $whereDateSF
-    //         )
+    
 ?>

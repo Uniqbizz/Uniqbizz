@@ -43,8 +43,8 @@
     }else{
         // data insertion for logs tables
         $status= '2';
-        $message="Added new Techno Enterprise. TE name - " .$fname." ".$lname;
-        $message2="Added new Techno Enterprise by Super Techno Eenterprise";
+        $message="Added new Techno Enterprise. Franchisee name - " .$fname." ".$lname;
+        $message2="Added new Techno Enterprise by Business Mentor";
     }
 
     // get age of the user

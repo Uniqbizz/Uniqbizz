@@ -14,7 +14,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Techno Enterprise / Franchisee / Institution View | Admin Dashboard </title>
+        <title>Techno Enterprise / Franchisee View | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -149,7 +149,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Techno Enterprise / Franchisee / Institution</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Techno Enterprise / Franchisee</h4>
                                     </div>
 
                                 </div>
@@ -166,7 +166,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Pending Techno Enterprise / Franchisee / Institution List</h4>
+                                                        <h4>Pending Techno Enterprise / Franchisee List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -199,20 +199,6 @@
                                                             register_by, country, state, city,upgrade_status AS upgrade_status_val, 'NA' AS upgrade_id 
                                                             FROM sub_franchisee 
                                                             WHERE status IN ('0', '2','4')
-                                                            UNION ALL 
-                                                            SELECT 'in' AS user_type, id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, 
-                                                            register_by, country, state, city,upgrade_status AS upgrade_status_val, 'NA' AS upgrade_id 
-                                                            FROM institution 
-                                                            WHERE status IN ('0', '2','4')
-                                                            UNION ALL
-                                                            SELECT 'in' AS user_type, i.institution_id AS id, i.firstname, i.lastname, i.reference_no, i.registrant, i.country_code, i.contact_no, i.email, i.amount, i.date_of_birth, i.added_on, i.status, 
-                                                            i.register_by, i.country, i.state, i.city,i.upgrade_status AS upgrade_status_val, iu.id AS upgrade_id
-                                                            FROM institution i
-                                                            LEFT JOIN institution_upgrade iu 
-                                                                ON iu.institution_id = i.institution_id
-                                                            WHERE 
-                                                                i.status = 1 
-                                                                AND i.upgrade_status = 1
                                                             UNION ALL 
                                                             SELECT 'sf' AS user_type, f.sub_franchisee_id AS id, f.firstname, f.lastname, f.reference_no, f.registrant, f.country_code, 
                                                             f.contact_no, f.email, f.amount, f.date_of_birth, f.added_on, f.status, f.register_by, f.country, f.state, f.city, f.upgrade_status AS upgrade_status_val,
@@ -325,7 +311,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Registered Techno Enterprise / Franchisee / Institution List</h4>
+                                                        <h4>Registered Techno Enterprise / Franchisee List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -337,7 +323,7 @@
                                                             <option value="All">All</option>
                                                             <option value="TE">Techno Enterprise</option>
                                                             <option value="F">Franchisee</option>
-                                                            <option value="IN">Institution</option>
+                                                            <!-- <option value="IN">Institution</option> -->
                                                         </select>
                                                     </div>
                                                     <div class="designation-filter no-space col-md-2 col-sm-12">
@@ -420,10 +406,6 @@
                                                             UNION ALL 
                                                             SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status,upgrade_status as upgrade_pack 
                                                             FROM sub_franchisee 
-                                                            WHERE status IN ('1') 
-                                                            UNION ALL
-                                                            SELECT 'in' AS user_type, id,  institution_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status,upgrade_status as upgrade_pack 
-                                                            FROM  institution 
                                                             WHERE status IN ('1') 
                                                             ORDER BY register_date ASC
                                                         ";
@@ -592,7 +574,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Deleted Techno Enterprise / Franchisee / Institution List</h4>
+                                                        <h4>Deleted Techno Enterprise / Franchisee List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -624,10 +606,6 @@
                                                             SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status 
                                                             FROM sub_franchisee 
                                                             WHERE status IN ('3')
-                                                            UNION ALL 
-                                                            SELECT 'in' AS user_type, id, institution_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status 
-                                                            FROM institution 
-                                                            WHERE status IN ('3')  
                                                             ORDER BY register_date ASC
                                                         ";
 

@@ -21,10 +21,10 @@
                 AND ta.register_date >= :start_date
                 AND ta.register_date < DATE_ADD(:end_date, INTERVAL 1 DAY)
             ";
-            // $whereDateSF = "
-            //     AND ta.register_date >= :start_date
-            //     AND ta.register_date < DATE_ADD(:end_date, INTERVAL 1 DAY)
-            // ";
+            $whereDateSF = "
+                AND ta.register_date >= :start_date
+                AND ta.register_date < DATE_ADD(:end_date, INTERVAL 1 DAY)
+            ";
 
             $params[':start_date'] = $startDate;
             $params[':end_date']   = $endDate;
@@ -44,22 +44,52 @@
                     ta.register_date,
                     ta.status,
                     ta.amount,
+                    ta.user_type,
+                    sf.firstname AS ref_firstname,
+                    sf.lastname AS ref_lastname,
+                    sf.sub_franchisee_id AS reference_id,
 
-                    ca.firstname AS ref_firstname,
-                    ca.lastname AS ref_lastname,
-                    ca.corporate_agency_id AS reference_id,
-
-                    'TE' AS ref_type
+                    'F' AS ref_type
 
                 FROM ca_travelagency ta
 
-                INNER JOIN corporate_agency ca
-                    ON ta.reference_no = ca.corporate_agency_id
+                INNER JOIN sub_franchisee sf
+                    ON ta.reference_no = sf.sub_franchisee_id
 
-                WHERE ca.reference_no = :user_id
+                WHERE sf.reference_no = :user_id
                 AND ta.status IN (1,3)
 
-                $whereDateTE
+                $whereDateSF
+                
+                UNION ALL
+
+                SELECT
+                    ta.id,
+                    ta.institution_branch_manager_id,
+                    ta.firstname,
+                    ta.lastname,
+                    ta.contact_no,
+                    ta.email,
+                    ta.register_date,
+                    ta.status,
+                    ta.amount,
+                    ta.user_type,
+                    sf.firstname AS ref_firstname,
+                    sf.lastname AS ref_lastname,
+                    sf.institution_id AS reference_id,
+
+                    'I' AS ref_type
+
+                FROM institution_branch_manager ta
+
+                INNER JOIN institution sf
+                    ON ta.reference_no = sf.institution_id
+
+                WHERE sf.reference_no = :user_id
+                AND ta.status IN (1,3)
+
+                $whereDateSF
+                
             ) x
 
             ORDER BY x.id DESC
@@ -87,33 +117,6 @@
     }
 
     exit;
-    // UNION ALL
-
-    //             SELECT
-    //                 ta.id,
-    //                 ta.ca_travelagency_id,
-    //                 ta.firstname,
-    //                 ta.lastname,
-    //                 ta.contact_no,
-    //                 ta.email,
-    //                 ta.register_date,
-    //                 ta.status,
-    //                 ta.amount,
-
-    //                 sf.firstname AS ref_firstname,
-    //                 sf.lastname AS ref_lastname,
-    //                 sf.sub_franchisee_id AS reference_id,
-
-    //                 'F' AS ref_type
-
-    //             FROM ca_travelagency ta
-
-    //             INNER JOIN sub_franchisee sf
-    //                 ON ta.reference_no = sf.sub_franchisee_id
-
-    //             WHERE sf.reference_no = :user_id
-    //             AND ta.status IN (1,3)
-
-    //             $whereDateSF
+    
 
 ?>

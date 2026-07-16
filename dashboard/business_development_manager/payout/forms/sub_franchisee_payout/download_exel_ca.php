@@ -7,7 +7,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 $payoutYear = $_GET['payoutYear'];
 $payoutMonth = $_GET['payoutMonth'];
 $payoutmessage = $_GET['payoutmessage'];
-$designation = 'master_franchisee';
+$designation = 'zonal_manager';
 $user_id = $_GET['user_id'] ?? '';
 $user_id_str=substr($user_id,0,1) == 'F'?substr($user_id,0,1):substr($user_id,0,2);
 
@@ -58,9 +58,9 @@ if($payoutmessage == 'PreviousPayout'){
             $newDate= $rd->format('d-m-Y');
             $id = $row2['id'];
 
-            if($user_id_str == "SF" || $user_id_str == "MF" || $user_id_str == "ST"){
+            if($user_id_str == "SF" || $user_id_str == "MF" || $user_id_str == "BH"){
 
-                $BC_Commi = $row2['commision_mf'];
+                $BC_Commi = $row2['commision_zm'];
             
                 (int)$BC_Commi_TDS = (int)$BC_Commi*2/100;
                 (int)$BC_Commi_Total = (int)$BC_Commi-(int)$BC_Commi_TDS; 
@@ -70,24 +70,20 @@ if($payoutmessage == 'PreviousPayout'){
                 $dt = $dt->format('Y-m-d');
 
                 // replace dot at end of the line with break statement
-                $message1 = $row2['message_mf'];
+                $message1 = $row2['message_zm'];
                 $message1 =  str_replace('.','<br>',$message1); 
-                if($user_id_str == "SF"){
-                    $sql1= $conn->prepare("SELECT firstname,lastname FROM `sponsor_franchisee` where sponsor_franchisee_id='".$row2['master_franchisee']."'");
-                }else if($user_id_str == "MF"){
-                    $sql1= $conn->prepare("SELECT firstname,lastname FROM `master_franchisee` where master_franchisee_id='".$row2['master_franchisee']."'");
-                }else if($user_id_str == "ST"){
-                    $sql1= $conn->prepare("SELECT firstname,lastname FROM `super_techno_enterprise` where super_techno_enterprise_id='".$row2['master_franchisee']."'");
+                if($user_id_str == "BH"){
+                    $sql1= $conn->prepare("SELECT firstname,lastname FROM `employees` where employee_id='".$row2['zonal_manager']."'");
                 }
                 $sql1->execute();
                 $sql1->setFetchMode(PDO::FETCH_ASSOC);
                 if($sql1->rowCount()>0){
                     foreach (($sql1->fetchAll()) as $key => $row1) {
-                        $ta_name = $row1['firstname']. ' ' .$row1['lastname'];
+                        $ta_name = $row1['name'];
                     }
                 } 
                 $sheet->setCellValue('A'.$rowNo, $newDate);
-                $sheet->setCellValue('B'.$rowNo, $row2['master_franchisee']);
+                $sheet->setCellValue('B'.$rowNo, $row2['zonal_manager']);
                 $sheet->setCellValue('C'.$rowNo, $ta_name);
                 $sheet->setCellValue('D'.$rowNo, strip_tags($message1));
                 $sheet->setCellValue('E'.$rowNo, $BC_Commi);
@@ -95,19 +91,19 @@ if($payoutmessage == 'PreviousPayout'){
                 $sheet->setCellValue('G'.$rowNo, $BC_Commi_Total);
                 $sheet->setCellValue(
                     'H'.$rowNo,
-                    ($row2['status_mf'] == 2 ? 'Pending' : 'Paid')
+                    ($row2['status_zm'] == 2 ? 'Pending' : 'Paid')
                 );
 
                 $rowNo++;
                 // $output .= '<tr>
                 //     <td >'.$newDate.'</td>
-                //     <td>'.$row2['master_franchisee'].'</td>
+                //     <td>'.$row2['zonal_manager'].'</td>
                 //     <td>'.$ta_name.'</td>
                 //     <td class="message">'.$message1.'</td>
                 //     <td style="text-align:center;">'.$BC_Commi.'</td>
                 //     <td style="text-align:center;">'.$BC_Commi_TDS.'/-</td>
                 //     <td style="text-align:center;">'.$BC_Commi_Total.'/-</td>';
-                //     if($row2['status_mf'] == 2){
+                //     if($row2['status_zm'] == 2){
                 //         $output .='<td style="text-align:center;">Pending</td>';
                 //     }else{
                 //         $output .='<td style="text-align:center;">Paid</td>';
@@ -223,13 +219,13 @@ if($payoutmessage == 'NextPayout'){
             if(
                 $user_id_str == "SF" ||
                 $user_id_str == "MF" ||
-                $user_id_str == "ST"
+                $user_id_str == "BH"
             ){
 
-                $BC_Commi = $row2['commision_mf'];
+                $BC_Commi = $row2['commision_zm'];
 
                 $BC_Commi_TDS =
-                    $BC_Commi * 5 / 100;
+                    $BC_Commi * 2 / 100;
 
                 $BC_Commi_Total =
                     $BC_Commi - $BC_Commi_TDS;
@@ -238,7 +234,7 @@ if($payoutmessage == 'NextPayout'){
                     str_replace(
                         '.',
                         PHP_EOL,
-                        $row2['message_mf']
+                        $row2['message_zm']
                     );
 
                 $ta_name = '';
@@ -255,29 +251,28 @@ if($payoutmessage == 'NextPayout'){
 
                     $sql1 = $conn->prepare("
                         SELECT firstname, lastname
-                        FROM master_franchisee
-                        WHERE master_franchisee_id = ?
+                        FROM zonal_manager
+                        WHERE zonal_manager_id = ?
                     ");
 
                 }else{
 
                     $sql1 = $conn->prepare("
-                        SELECT firstname, lastname
-                        FROM super_techno_enterprise
-                        WHERE super_techno_enterprise_id = ?
+                        SELECT name
+                        FROM employee
+                        WHERE employee_id = ?
                     ");
 
                 }
 
                 $sql1->execute([
-                    $row2['master_franchisee']
+                    $row2['zonal_manager']
                 ]);
 
                 if($row1 = $sql1->fetch(PDO::FETCH_ASSOC)){
 
                     $ta_name =
-                        $row1['firstname'].' '.
-                        $row1['lastname'];
+                        $row1['name'];
                 }
 
                 $sheet->setCellValue(
@@ -287,7 +282,7 @@ if($payoutmessage == 'NextPayout'){
 
                 $sheet->setCellValue(
                     'B'.$rowNo,
-                    $row2['master_franchisee']
+                    $row2['zonal_manager']
                 );
 
                 $sheet->setCellValue(
@@ -317,7 +312,7 @@ if($payoutmessage == 'NextPayout'){
 
                 $sheet->setCellValue(
                     'H'.$rowNo,
-                    ($row2['status_mf'] == 2)
+                    ($row2['status_zm'] == 2)
                         ? 'Pending'
                         : 'Paid'
                 );
@@ -445,13 +440,13 @@ if($payoutmessage == 'TotalPayout'){
             if(
                 $user_id_str == "SF" ||
                 $user_id_str == "MF" ||
-                $user_id_str == "ST"
+                $user_id_str == "BH"
             ){
 
-                $BC_Commi = $row2['commision_mf'];
+                $BC_Commi = $row2['commision_zm'];
 
                 $BC_Commi_TDS =
-                    $BC_Commi * 5 / 100;
+                    $BC_Commi * 2 / 100;
 
                 $BC_Commi_Total =
                     $BC_Commi - $BC_Commi_TDS;
@@ -459,7 +454,7 @@ if($payoutmessage == 'TotalPayout'){
                 $message1 = str_replace(
                     '.',
                     PHP_EOL,
-                    $row2['message_mf']
+                    $row2['message_zm']
                 );
 
                 $ta_name = '';
@@ -476,29 +471,28 @@ if($payoutmessage == 'TotalPayout'){
 
                     $sql1 = $conn->prepare("
                         SELECT firstname, lastname
-                        FROM master_franchisee
-                        WHERE master_franchisee_id = ?
+                        FROM zonal_manager
+                        WHERE zonal_manager_id = ?
                     ");
 
                 }else{
 
                     $sql1 = $conn->prepare("
-                        SELECT firstname, lastname
-                        FROM super_techno_enterprise
-                        WHERE super_techno_enterprise_id = ?
+                        SELECT name
+                        FROM employee
+                        WHERE employee_id = ?
                     ");
 
                 }
 
                 $sql1->execute([
-                    $row2['master_franchisee']
+                    $row2['zonal_manager']
                 ]);
 
                 if($row1 = $sql1->fetch(PDO::FETCH_ASSOC)){
 
                     $ta_name =
-                        $row1['firstname'].' '.
-                        $row1['lastname'];
+                        $row1['name'];
                 }
 
                 $sheet->setCellValue(
@@ -508,7 +502,7 @@ if($payoutmessage == 'TotalPayout'){
 
                 $sheet->setCellValue(
                     'B'.$rowNo,
-                    $row2['master_franchisee']
+                    $row2['zonal_manager']
                 );
 
                 $sheet->setCellValue(
@@ -538,7 +532,7 @@ if($payoutmessage == 'TotalPayout'){
 
                 $sheet->setCellValue(
                     'H'.$rowNo,
-                    ($row2['status_mf'] == 2)
+                    ($row2['status_zm'] == 2)
                         ? 'Pending'
                         : 'Paid'
                 );
@@ -592,7 +586,7 @@ if($payoutmessage == 'allPayout'){
     if(
         $user_id_str == 'SF' ||
         $user_id_str == 'MF' ||
-        $user_id_str == 'ST'
+        $user_id_str == 'BH'
     ){
 
         $stmt2 = "
@@ -671,10 +665,10 @@ if($payoutmessage == 'allPayout'){
                 strtotime($row2['created_date'])
             );
 
-            $BC_Commi = $row2['commision_mf'];
+            $BC_Commi = $row2['commision_zm'];
 
             $BC_Commi_TDS =
-                $BC_Commi * 5 / 100;
+                $BC_Commi * 2 / 100;
 
             $BC_Commi_Total =
                 $BC_Commi - $BC_Commi_TDS;
@@ -682,7 +676,7 @@ if($payoutmessage == 'allPayout'){
             $message1 = str_replace(
                 '.',
                 PHP_EOL,
-                $row2['message_mf']
+                $row2['message_zm']
             );
 
             $ta_name = '';
@@ -700,36 +694,28 @@ if($payoutmessage == 'allPayout'){
 
                 $sql1 = $conn->prepare("
                     SELECT firstname, lastname
-                    FROM master_franchisee
-                    WHERE master_franchisee_id = ?
+                    FROM zonal_manager
+                    WHERE zonal_manager_id = ?
                 ");
 
-            }elseif($user_id_str == "ST"){
+            }elseif($user_id_str == "BH"){
 
                 $sql1 = $conn->prepare("
-                    SELECT firstname, lastname
-                    FROM super_techno_enterprise
-                    WHERE super_techno_enterprise_id = ?
+                    SELECT name
+                    FROM employee
+                    WHERE employee_id = ?
                 ");
 
-            }else{
-
-                $sql1 = $conn->prepare("
-                    SELECT firstname, lastname
-                    FROM business_mentor
-                    WHERE business_mentor_id = ?
-                ");
             }
 
             $sql1->execute([
-                $row2['master_franchisee']
+                $row2['zonal_manager']
             ]);
 
             if($row1 = $sql1->fetch(PDO::FETCH_ASSOC)){
 
                 $ta_name =
-                    $row1['firstname'].' '.
-                    $row1['lastname'];
+                    $row1['name'];
             }
 
             if(!empty($row2['sub_franchisee'])){
@@ -759,7 +745,7 @@ if($payoutmessage == 'allPayout'){
 
             $sheet->setCellValue(
                 'B'.$rowNo,
-                $row2['master_franchisee']
+                $row2['zonal_manager']
             );
 
             $sheet->setCellValue(
@@ -799,7 +785,7 @@ if($payoutmessage == 'allPayout'){
 
             $sheet->setCellValue(
                 'J'.$rowNo,
-                ($row2['status_mf'] == 2)
+                ($row2['status_zm'] == 2)
                     ? 'Pending'
                     : 'Paid'
             );

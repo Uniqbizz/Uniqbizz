@@ -15,7 +15,7 @@
 
     $tdsPercentage=2/100;
 
-    $columnDesignation = $userType == '28'?'master_franchisee':($userType == '30'?'sponsor_franchisee':'');
+    $columnDesignation = "Business Development manager";
     function truncateToTwoDecimals($num) {
      return floor($num * 100) / 100;
     }
@@ -123,8 +123,8 @@
                                                                         <?php 
 
                                                                             
-                                                                            $userIdCommi = 'master_franchisee';
-                                                                            $amtCal = 'commission_mf';
+                                                                            $userIdCommi = 'zonal_manager';
+                                                                            $amtCal = 'commission_zm';
                                                                             
 
                                                                             $previousPayout = $conn -> prepare("SELECT SUM(($amtCal)) as previousPayout FROM sub_franchisee_payout WHERE $userIdCommi = '".$userId."' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
@@ -153,8 +153,8 @@
                                                                         <p>Next Payout<span class="fw-bold date-layout "><?php echo "$date" ?></span></p>
                                                                         <?php 
                                                                             
-                                                                            $userIdCommi = 'master_franchisee';
-                                                                            $amtCal = 'commission_mf';
+                                                                            $userIdCommi = 'zonal_manager';
+                                                                            $amtCal = 'commission_zm';
                                                                             
                                                                             $nextPayout = $conn -> prepare("SELECT SUM(($amtCal)) as nextPayout FROM sub_franchisee_payout WHERE $userIdCommi = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
                                                                             $nextPayout -> execute();
@@ -194,11 +194,11 @@
                                                                     </div>
                                                                     <?php 
                                                                         
-                                                                        $userIdCommi = 'master_franchisee';
-                                                                        $amtCal = 'commission_mf';
+                                                                        $userIdCommi = 'zonal_manager';
+                                                                        $amtCal = 'commission_zm';
                                                                         
 
-                                                                        $totalPayout = "SELECT SUM($amtCal) as total_payable FROM sub_franchisee_payout WHERE $userIdCommi = '".$userId."' AND status_mf=1 ";
+                                                                        $totalPayout = "SELECT SUM($amtCal) as total_payable FROM sub_franchisee_payout WHERE $userIdCommi = '".$userId."' AND status_zm=1 ";
                                                                         $Payout = $conn -> prepare($totalPayout);
                                                                         $Payout -> execute();
                                                                         $Payout -> setFetchMode(PDO::FETCH_ASSOC);
@@ -250,7 +250,7 @@
                                                                             <?php
 
                                                                                 
-                                                                                $sql = "SELECT * FROM `sub_franchisee_payout` WHERE  master_franchisee = '".$userId."'   ";
+                                                                                $sql = "SELECT * FROM `sub_franchisee_payout` WHERE  zonal_manager = '".$userId."'   ";
                                                                                                                                                                 
                                                                                 $stmt = $conn -> prepare($sql);
                                                                                 $stmt -> execute();
@@ -263,10 +263,10 @@
                                                                                         $dt = $dt->format('Y-m-d');
                                                                                         
                                                                                         
-                                                                                        $id = $row['master_franchisee'];
-                                                                                        $message = $row['message_mf'];
-                                                                                        $amt = $row['commission_mf'];
-                                                                                        $status = $row['status_mf'];
+                                                                                        $id = $row['zonal_manager'];
+                                                                                        $message = $row['message_zm'];
+                                                                                        $amt = $row['commission_zm'];
+                                                                                        $status = $row['status_zm'];
                                                                                         $tds = $amt * $tdsPercentage;
                                                                                         $total = $amt - $tds;
                                                                                         
@@ -337,8 +337,8 @@
                                         <?php 
 
                                             
-                                            $userIdCommi = 'master_franchisee';
-                                            $amtCal = 'commission_mf';
+                                            $userIdCommi = 'zonal_manager';
+                                            $amtCal = 'commission_zm';
                                             
 
                                             $previousPayout = $conn -> prepare("SELECT SUM(($amtCal)) as previousPayout FROM sub_franchisee_payout WHERE $userIdCommi = '".$userId."' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
@@ -403,7 +403,7 @@
                                                 <?php
 
                                                     
-                                                    $sql = "SELECT * FROM `sub_franchisee_payout` WHERE  master_franchisee = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ";
+                                                    $sql = "SELECT * FROM `sub_franchisee_payout` WHERE  zonal_manager = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ";
                                                     
                                                     
                                                     $stmt = $conn -> prepare($sql);
@@ -417,10 +417,10 @@
                                                             $dt = $dt->format('Y-m-d');
                                                             
                                                             
-                                                            $id = $row['master_franchisee'];
-                                                            $message = $row['message_mf'];
-                                                            $amt = $row['commission_mf'];
-                                                            $status = $row['status_mf'];
+                                                            $id = $row['zonal_manager'];
+                                                            $message = $row['message_zm'];
+                                                            $amt = $row['commission_zm'];
+                                                            $status = $row['status_zm'];
                                                             $tds = $amt * $tdsPercentage;
                                                             $total = $amt - $tds;
                                                             
@@ -478,8 +478,8 @@
                                     <div class="d-flex">
                                         <?php 
                                             
-                                            $userIdCommi = 'master_franchisee';
-                                            $amtCal = 'commission_mf';
+                                            $userIdCommi = 'zonal_manager';
+                                            $amtCal = 'commission_zm';
                                             
                                             $nextPayout = $conn -> prepare("SELECT SUM(($amtCal)) as nextPayout FROM sub_franchisee_payout WHERE $userIdCommi = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
                                             $nextPayout -> execute();
@@ -540,7 +540,7 @@
                                                 <?php
 
                                                     
-                                                    $sql = "SELECT * FROM `sub_franchisee_payout` WHERE  master_franchisee = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."'  ";
+                                                    $sql = "SELECT * FROM `sub_franchisee_payout` WHERE  zonal_manager = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."'  ";
                                                     
                                                     
                                                     $stmt = $conn -> prepare($sql);
@@ -554,10 +554,10 @@
                                                             $dt = $dt->format('Y-m-d');
                                                             
                                                             
-                                                            $id = $row['master_franchisee'];
-                                                            $message = $row['message_mf'];
-                                                            $amt = $row['commission_mf'];
-                                                            $status = $row['status_mf'];
+                                                            $id = $row['zonal_manager'];
+                                                            $message = $row['message_zm'];
+                                                            $amt = $row['commission_zm'];
+                                                            $status = $row['status_zm'];
                                                             $tds = $amt * $tdsPercentage;
                                                             $total = $amt - $tds;
                                                             
@@ -617,10 +617,10 @@
                                     <div class="d-flex">
                                         <?php 
                                             
-                                            $userIdCommi = 'master_franchisee';
-                                            $amtCal = 'commission_mf';
+                                            $userIdCommi = 'zonal_manager';
+                                            $amtCal = 'commission_zm';
                                             
-                                            $totalPayout = "SELECT SUM($amtCal) as total_payable FROM sub_franchisee_payout WHERE $userIdCommi = '".$userId."' AND status_mf=1 ";
+                                            $totalPayout = "SELECT SUM($amtCal) as total_payable FROM sub_franchisee_payout WHERE $userIdCommi = '".$userId."' AND status_zm=1 ";
                                             $Payout = $conn -> prepare($totalPayout);
                                             $Payout -> execute();
                                             $Payout -> setFetchMode(PDO::FETCH_ASSOC);
@@ -680,7 +680,7 @@
                                                 <?php
 
                                                     
-                                                    $sql = "SELECT * FROM `sub_franchisee_payout` WHERE  master_franchisee = '".$userId."'  AND status_mf=1";
+                                                    $sql = "SELECT * FROM `sub_franchisee_payout` WHERE  zonal_manager = '".$userId."'  AND status_zm=1";
                                                     
                                                     
                                                     $stmt = $conn -> prepare($sql);
@@ -693,10 +693,10 @@
                                                             $dt = $dt->format('Y-m-d');
                                                             
                                                             
-                                                            $id = $row['master_franchisee'];
-                                                            $message = $row['message_mf'];
-                                                            $amt = $row['commission_mf'];
-                                                            $status = $row['status_mf'];
+                                                            $id = $row['zonal_manager'];
+                                                            $message = $row['message_zm'];
+                                                            $amt = $row['commission_zm'];
+                                                            $status = $row['status_zm'];
                                                             $tds = $amt * $tdsPercentage;
                                                             $total = $amt - $tds;
                                                             

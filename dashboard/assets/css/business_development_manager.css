@@ -20,6 +20,65 @@ body {
 .policy-link a {
     color: #98a6ad
 }
+/* Techno Enteprise List */
+.tePendingIcon {
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.tePendingIcon1 {
+    background-color: #35239a;
+    color: #fff;
+}
+.tePendingIcon2 {
+    background-color: #068c25;
+    color: #fff;
+}
+.tePendingBtn {
+    background-color: #ffefd8;
+    color: #f49609;
+    border: 1px solid #f49609;
+    font-weight: 900;
+    padding: 3px 0px;
+}
+.teDraftBtn {
+    background-color: #d8e8ff;
+    color: #0996f4;
+    border: 1px solid #095bf4;
+    font-weight: 900;
+    padding: 3px 0px;
+}
+.teDeletedBtn {
+    background-color: #ffefd8;
+    color: #870c0c;
+    border: 1px solid #f40909;
+    font-weight: 900;
+    padding: 3px 0px;
+}
+.teActiveBtn {
+    background-color: #d6fbdf;
+    color: #068c25;
+    border: 1px solid #068c25;
+    font-weight: 900;
+    padding: 3px 0px;
+}
+.teViewBtn {
+    background-color: #fff;
+    color: #4b38b3;
+    border: 2px solid #4b38b3;
+    padding: 5px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+}
+.teViewBtn:hover {
+    background-color: #4b38b3;
+    color: #fff;
+    border: 2px solid #4b38b3;
+}
 /* card icon */
 .icon {
     width: 60px;

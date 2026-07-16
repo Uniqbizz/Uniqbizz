@@ -87,9 +87,9 @@
     }
 
     // data insertion for logs tables 
-    $title="Executive Techo Enterprise";
-    $message="Added new Executive Techo Enterprise by admin";
-    $message2="Added new Executive Techo Enterprise by admin";
+    $title="Executive Techno Enterprise";
+    $message="Added new Executive Techno Enterprise by admin";
+    $message2="Added new Executive Techno Enterprise by admin";
     $fromWhom="1";
 	$operation="Add";
 

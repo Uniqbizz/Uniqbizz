@@ -1,5 +1,8 @@
 <?php
     include_once (__DIR__.'/../dashboard_user_details.php');
+    $id = $_POST['id'] ?? '';
+    $status = $_POST['status'] ?? '';
+    $edittype = 11;
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -33,6 +36,10 @@
         <link rel="stylesheet" href="../assets/css/techno_enterprise.css" />
         <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css" />
         <link href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <!-- FontAwesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="../assets/css/validation.css" />
         
     </head>
 
@@ -77,7 +84,7 @@
             <div class="main-content">
 
                 <div id="testpho"></div>
-                <div id="testemails"></div>
+                <div id="testemail"></div>
 
                 <div class="page-content">
                     <div class="container-fluid">
@@ -119,66 +126,6 @@
                                     <p class="fw-bolder addTENum">01</p>
                                     <h4 class="fw-bolder text-dark align-content-center">Personal Information</h4>
                                 </div>
-                                <?php if($userType == "3" ){ ?>
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <?php
-                                            $stmt = $conn->prepare("SELECT * FROM corporate_agency WHERE reference_no = '$userId' AND status = 1 ");
-                                            $stmt->execute();                                         
-                                            $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                        ?>
-                                        <label class="col-form-label" for="country">User Id & Name<span class="text-danger">*</span></label>
-                                        <select class="form-select" id="user_id_name" aria-label="Floating label select example">
-                                            <option value="">--Select Name First--</option> 
-                                            <?php 
-                                                if($stmt->rowCount()>0){
-                                                    foreach (($stmt->fetchAll()) as $key => $row) {  
-                                                        echo '
-                                                        <option value="'.$row['corporate_agency_id'].'">'.$row['corporate_agency_id'].' ('.$row['firstname'].' '.$row['lastname'].')</option>';
-                                                    } 
-                                                }else{ 
-                                                    echo '<option value="">User not available</option>'; 
-                                                } 
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <label class="col-form-label" for="reference_name">Reference Name<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="reference_name" placeholder="Enter Reference Name" value="" readonly>
-                                    </div>
-                                </div>
-
-                                <?php }else if($userType == "25"){ ?>
-
-                                    <div class="col-md-4 col-sm-12">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label" for="designation"> Designation<span class="text-danger">*</span></label>
-                                            <select id="designation" class="form-select">
-                                                <option value="">--Select Designation--</option>
-                                                <option value="business_development_manager">Business Development Manager </option>
-                                                <option value="business_mentor">Business Mentor</option>
-                                                <option value="corporate_agency">Techno Enterprise</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-4 col-sm-12">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">User ID & Name<span class="text-danger">*</span></label>
-                                            <select id="user_id_name" class="form-select"> 
-                                                <option value="">--Select Designation First--</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-sm-12">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label" for="reference_name"> Referance Name <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" readonly>
-                                        </div>    
-                                    </div>
-
-                                <?php }else { ?>
 
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
@@ -192,52 +139,57 @@
                                         <input type="text" class="form-control" id="reference_name" placeholder="Enter Reference Name" value="<?php echo $userFname.' '.$userLname; ?>" readonly>
                                     </div>
                                 </div>
-                                <?php } ?>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="firstname">First Name<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="firstname" placeholder="Enter your firstname">
+                                        <small class="error-message" id="firstname_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="lastname">Last Name<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="lastname" placeholder="Enter your Lastname">
+                                        <small class="error-message" id="lastname_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="nominee_name">Nominee Name<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="nominee_name" placeholder="Enter Nominee Name">
+                                        <small class="error-message" id="nominee_name_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="nominee_relation">Nominee Relation<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="nominee_relation" placeholder="Enter Nominee Relation">
+                                        <small class="error-message" id="nominee_relation_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="email">Email Address<span class="text-danger">*</span></label>
                                         <input type="email" class="form-control" id="email" placeholder="Enter Email Address">
+                                        <small class="error-message" id="email_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="dob">Date Of Birth<span class="text-danger">*</span></label>
                                         <input type="date" class="form-control" id="dob" placeholder="Enter Date Of Birth" max="<?= $ageLimit ?>">
+                                        <small class="error-message" id="dob_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group mb-3">
                                         <label class="col-form-label d-block">Gender:<span class="text-danger">*</span></label>
-                                        <div class="form-control d-flex justify-content-around">
+                                        <div class="form-control d-flex justify-content-around gender-wrapper" id="gender_wrapper">
                                             <label class="radio-inline mb-0 ms-3" for="test3"><input type="radio" id="test3" class="form-check-input gender me-3" name="gender" value="male">Male</label>
                                             <label class="radio-inline mb-0 ms-3" for="test4"><input type="radio" id="test4" class="form-check-input gender me-3" name="gender" value="female">Female</label>
                                             <label class="radio-inline mb-0 ms-3" for="test5"><input type="radio" id="test5" class="form-check-input gender me-3" name="gender" value="others">Others</label>
                                         </div>
-                                    </div>
+                                    </div><small class="error-message" id="gender_error"></small>
                                 </div>
                                 <div class="col-md-6 col-sm-12 mb-3">
                                     <div class="row">
@@ -260,12 +212,14 @@
                                                         } 
                                                     ?>
                                                 </select>
+                                                <small class="error-message" id="country_cd_error"></small>
                                             </div>
                                         </div>
                                         <div class="col-md-8 col-sm-8 col-9">
                                             <div class="input-block">
                                                 <label class="col-form-label" for="phone">Phone Number<span class="text-danger">*</span></label>
                                                 <input type="number" class="form-control" id="phone" placeholder="Enter your Phone Number">
+                                                <small class="error-message" id="phone_error"></small>
                                             </div>
                                         </div>
                                     </div>
@@ -299,6 +253,7 @@
                                                 } 
                                             ?>
                                         </select>
+                                        <small class="error-message" id="country_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
@@ -307,6 +262,7 @@
                                         <select class="form-select" id="mystate" aria-label="Floating label select example">
                                             <option value="">--Select country first--</option>
                                         </select>
+                                        <small class="error-message" id="mystate_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
@@ -315,40 +271,21 @@
                                         <select class="form-select" id="city" aria-label="Floating label select example">
                                             <option value="">--Select state first--</option>
                                         </select>
+                                        <small class="error-message" id="city_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="pin">Pincode<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="pin" placeholder="Enter your pincode">
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <label class="col-form-label">Branch <span class="text-danger">*</span></label>
-                                        <select class="form-select" id="branch">
-                                            <option value=""> ---- Select Branch ---- </option>
-                                            <?php
-                                                require '../connect.php';
-                                                $sql = "SELECT * FROM `branch` WHERE status ='1' ";
-                                                $stmt = $conn->prepare($sql);
-                                                $stmt->execute();
-                                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                                if ($stmt->rowCount() > 0) {
-                                                    foreach (($stmt->fetchAll()) as $key => $row) {
-                                                        echo '<option value="' . $row['id'] . '">' . $row['branch_name'] . '</option>';
-                                                    }
-                                                } else {
-                                                    echo '<option value="">Branch not available</option>';
-                                                }
-                                            ?>
-                                        </select>
+                                        <small class="error-message" id="pin_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="address">Address<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="address" placeholder="Enter your Address">
+                                        <small class="error-message" id="address_error"></small>
                                     </div>
                                 </div>
                             </div>
@@ -369,16 +306,18 @@
                                             <option value="3000"><span>&#8377 </span>3000/-</option> 
                                             <option value="10000"><span>&#8377 </span>10,000/-</option>
                                         </select>
+                                        <small class="error-message" id="payment_fee_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 d-none" id="paymentModeBlock">
                                     <div class="input-block mb-3">
                                         <label class="fw-bold col-form-label">Payment Mode: <span class="text-danger">*</span></label>
-                                        <div class="form-control radioBtn d-flex justify-content-around" id="paymentMode">
+                                        <div class="form-control radioBtn d-flex justify-content-around payment-mode-wrapper" id="payment-mode_wrapper">
                                             <label class="mb-0" for="cashPayment"><input type="radio" id="cashPayment" class="form-check-input payment me-3" name="payment" value="cash">Cash</label>
                                             <label class="mb-0" for="chequePayment"><input type="radio" id="chequePayment"  class="form-check-input payment me-3" name="payment" value="cheque">Cheque</label>
                                             <label class="mb-0" for="onlinePayment"><input type="radio" id="onlinePayment"  class="form-check-input payment me-3" name="payment" value="online">UPI/NEFT</label>
                                         </div>
+                                        <small class="error-message" id="payment-mode_error"></small>
                                     </div>
                                 </div>
                                 <div class="pb-3 d-none" id="paymentFields">
@@ -388,18 +327,21 @@
                                                 <div class="input-block">
                                                     <label class="col-form-label" for="chequeNo">Cheque No<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="chequeNo" placeholder="Enter Cheque Number">
+                                                    <small class="error-message" id="chequeNo_error"></small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 py-1">
                                                 <div class="input-block">
                                                     <label class="col-form-label" for="chequeDate">Cheque Date<span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="chequeDate" placeholder="Enter Date On Cheque">
+                                                    <input type="text" class="form-control" id="chequeDate" placeholder="YYYY-MM-DD" maxlength="10" autocomplete="off">
+                                                    <small class="error-message" id="chequeDate_error"></small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 py-1">
                                                 <div class="input-block">
                                                     <label class="col-form-label" for="bankName">Bank Name<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="bankName" placeholder="Enter your Bank Name">
+                                                    <small class="error-message" id="bankName_error"></small>
                                                 </div>
                                             </div>
                                         </div>
@@ -410,6 +352,7 @@
                                                 <div class="input-block">
                                                     <label class="col-form-label" for="transactionNo">Transaction No.<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="transactionNo" placeholder="Enter your Transaction No.">
+                                                    <small class="error-message" id="transactionNo_error"></small>
                                                 </div>
                                             </div>
                                         </div>
@@ -428,7 +371,6 @@
                                     <!-- Profile -->
                                     <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                         <div class="upload-card" data-title="Profile Photo" data-index="1">
-                                            <input type="hidden" id="img_path1" value="">
                                             <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file1">
                                             <div class="upload-content">
                                                 <div class="upload-icon">
@@ -443,7 +385,6 @@
 									<!-- Aadhaar -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
 										<div class="upload-card" data-title="Aadhaar Card" data-index="2">
-											<input type="hidden" id="img_path2" value="">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file2">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -458,7 +399,6 @@
                                     <!-- PAN -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
 										<div class="upload-card" data-title="PAN Card" data-index="3">
-											<input type="hidden" id="img_path3" value="">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file3">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -473,7 +413,6 @@
 									<!-- Bank Passbook -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
 										<div class="upload-card" data-title="Bank Passbook" data-index="4">
-											<input type="hidden" id="img_path4" value="">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file4">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -487,9 +426,8 @@
 									</div>
 									<!-- Voting Card -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
-										<div class="upload-card" data-title="Voting Card" data-index="4">
-											<input type="hidden" id="img_path4" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file5">
+										<div class="upload-card" data-title="Voting Card" data-index="11">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file11">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-building-columns"></i>
@@ -502,9 +440,8 @@
 									</div>
 									<!-- Payment Proof -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12 d-none" id="payProof">
-										<div class="upload-card" data-title="Payment Proof" data-index="4">
-											<input type="hidden" id="img_path4" value="">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file6">
+										<div class="upload-card" data-title="Payment Proof" data-index="12">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file12">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-building-columns"></i>
@@ -518,12 +455,12 @@
                                     <input type="hidden" id="testValue" name="testValue" value="10"> <!-- customer -->
                                     <input type="hidden" id="register_by" name="register_by" value="<?php echo $userType; ?>"> <!-- User type for table col register_by -->
                                     <input type="hidden" id="registrant_id" name="registrant_id" value="<?php echo $userId; ?>">
-                                    <input type="hidden" id="editfor" name="editfor" value="<?php echo $editfor; ?>">
+                                    <!-- <input type="hidden" id="editfor" name="editfor" value="<?php echo $editfor; ?>"> -->
                                     
                                     <!-- new added 14-06-2025 -->
                                     <input type="hidden" id="userType" name="userType" value="<?php echo $userType; ?>"> <!-- 24,25,26 -->
                                     <input type="hidden" id="userId" name="userId" value="<?php echo $userId; ?>"> <!-- BH250001, BM250001 -->
-                                    <input type="hidden" id="customer_type" name="customer_type" value="<?php echo $customer_type; ?>"> <!-- BH250001, BM250001 -->
+                                    <input type="hidden" id="id" name="id" value="<?php echo $id; ?>"> <!-- BH250001, BM250001 -->
                                 </div>
                             </div>
                         </div>
@@ -531,11 +468,13 @@
                             <div class="col-lg-12">
                                 <div class="d-flex justify-content-end gap-4 submitBtnBackground">
                                     <button type="button" class="btn actionBtn cancelBtn mb-2">Cancel</button>
-                                    <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftAdd">Save Draft</button>
-                                    <button type="submit" class="btn actionBtn submitBtn mb-2" id="addCustomer">
+                                    <?php if($status==4){ ?>
+                                    <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftEdit">Save Draft</button>
+                                    <button type="submit" class="btn actionBtn submitBtn mb-2" id="editTravelConsultant">
                                         <i class="fa-regular fa-paper-plane me-2"></i>
-                                        Submit Customer
+                                        Submit Travel Consultant
                                     </button>
+                                    <?php } ?>
 
                                 </div>
                             </div>
@@ -559,11 +498,6 @@
         <script src="../assets/libs/feather-icons/feather.min.js"></script>
         <script src="../assets/js/jquery/jquery-3.7.1.min.js"></script>
 
-        <script src="../assets/js/submitdata.js"></script>
-
-        <!-- file upload code js file -->
-        <script src="../uploading/uploadUser.js"></script>
-
         <!-- !-- materialdesign icon js- -->
         <script src="../assets/js/pages/remix-icons-listing.js"></script>
 
@@ -579,6 +513,9 @@
 
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
+        <script src="js/travel_consultant.js"></script>
+        <script src="../../uploading/uploadTechnoDashboard.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
 
@@ -594,46 +531,14 @@
                 $('#branch').prop('disabled', false);
             }
             
-            //select Designation
-            $('#designation').on('change', function() {
-                var designation = $('#designation').val();
-                var userId = $('#userId').val();
-                $.ajax({
-                    type:'POST',
-                    url:'agents/get_user_Franchisee.php',
-                    data: "designation="+designation+"&userId="+userId,
-                    success:function (e) {
-                        $('#user_id_name').html(e); 
-                    },
-                    error: function(err){
-                        console.log(err);
-                    },
-                });
-            });
-
-            // fetch User based on selected designation
-            $('#user_id_name').on('change', function(){
-                var user_id_name = $(this).val();
-
-                var designation = 'corporate_agency';
-
-                $.ajax({
-                    type:'POST',
-                    url:'agents/getUsers.php',
-                    data: 'user_id_name=' + user_id_name + '&designation=' + designation ,
-                    success:function(response){
-                        $('#reference_name').val(response); 
-                    }
-                }); 
-               
-            }); 
+            
 
             $('#country').on('change', function(){
                 var countryID = $(this).val();
                 if(countryID){
                     $.ajax({
                         type:'POST',
-                        url:'address/countrydata.php',
+                        url:'../address/countrydata.php',
                         data:'country_id='+countryID,
                         success:function(htmll){
                             $('#mystate').html(htmll); 
@@ -652,7 +557,7 @@
                 if(stateID){
                     $.ajax({
                         type:'POST',
-                        url:'address/countrydata.php',
+                        url:'../address/countrydata.php',
                         data:'state_id='+stateID,
                         success:function(html){
                             $('#city').html(html);
@@ -669,7 +574,7 @@
                 if(cityID){
                     $.ajax({
                         type:'POST',
-                        url:'address/pincode.php',
+                        url:'../address/pincode.php',
                         data:'city_id='+cityID,
                         success:function(response){
                             $('#pin').val(response); 
@@ -711,6 +616,381 @@
                     $("#onlineOpt").addClass("d-none");
                 }
             });
+
+            function bindUploadEvents() {
+
+                document.querySelectorAll('.file-input').forEach(input => {
+
+                    if (input.dataset.bound) return;
+
+                    input.dataset.bound = "true";
+
+                    input.addEventListener('change', function () {
+
+                        const file = this.files[0];
+
+                        if (!file) return;
+                        clearFileError(this.id);
+                        const card = this.closest('.upload-card');
+                        const title = card.dataset.title;
+                        const index = card.dataset.index;
+
+                        if (file.type.startsWith('image/')) {
+
+                            const reader = new FileReader();
+
+                            reader.onload = function (e) {
+
+                                card.querySelector('.upload-content, .preview-wrapper, .pdf-preview')?.remove();
+
+                                let preview = card.querySelector('.preview-wrapper');
+
+                                if (!preview) {
+                                    $()
+                                    preview = document.createElement('div');
+                                    preview.className = 'preview-wrapper';
+
+                                    preview.innerHTML = `
+                                        <img src="${e.target.result}" id="img_path${index}">
+                                        <input type="hidden" id="img_path${index}" value="../../uploading/${file.name}">
+                                        <div class="file-title">
+                                            ${title}
+                                        </div>
+                                    `;
+
+                                    card.appendChild(preview);
+
+                                } else {
+
+                                    preview.querySelector('img').src = e.target.result;
+                                }
+                            };
+
+                            reader.readAsDataURL(file);
+
+                        } else {
+
+                            card.querySelector('.upload-content, .preview-wrapper, .pdf-preview')?.remove();
+
+                            let preview = document.createElement('div');
+
+                            preview.className = 'pdf-preview';
+
+                            preview.innerHTML = `
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <input type="hidden" id="img_path${index}" value="../../uploading/${file.name}">
+                                <p class="mt-2 mb-0">${file.name}</p>
+                                <div class="file-title">
+                                    ${title}
+                                </div>
+                            `;
+
+                            card.appendChild(preview);
+                        }
+
+                        
+
+                    });
+
+                });
+
+            }
+            function loadExistingFile(cardSelector, filePath)
+            {
+                if (!filePath) return;
+
+                const card = document.querySelector(cardSelector);
+
+                if (!card) return;
+
+                const title = card.dataset.title;
+                const index = card.dataset.index;
+                card.querySelector(
+                    '.upload-content, .preview-wrapper, .pdf-preview'
+                )?.remove();
+
+                const extension = filePath.split('.').pop().toLowerCase();
+
+                const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+                if (imageExtensions.includes(extension)) {
+
+                    const preview = document.createElement('div');
+
+                    preview.className = 'preview-wrapper';
+
+                    preview.innerHTML = `
+                        <img src="../../uploading/${filePath}">
+                        <input type="hidden" id="img_path${index}" value="../../uploading/${filePath}">
+                        <div class="file-title">
+                            ${title}
+                        </div>
+                    `;
+
+                    card.appendChild(preview);
+                    const status =<?= $status ?>;
+                    if (status == 4) {
+                        $('.file-input').prop('disabled', false);
+                    }else{
+                        $('.file-input').prop('disabled', true);
+                    }
+
+                } else {
+
+                    const preview = document.createElement('div');
+
+                    preview.className = 'pdf-preview';
+
+                    preview.innerHTML = `
+                        <i class="fa-solid fa-file-pdf"></i>
+                        <p class="mt-2 mb-0">${filePath.split('/').pop()}</p>
+                        <input type="hidden" id="img_path${index}" value="../../uploading/${filePath}">
+                        <div class="file-title">
+                            ${title}
+                        </div>
+                    `;
+
+                    card.appendChild(preview);
+                }
+            }
+
+            function ajaxPromise(options) {
+                return new Promise(function (resolve, reject) {
+                    $.ajax({
+                        ...options,
+                        success: resolve,
+                        error: reject
+                    });
+                });
+            }
+            async function loadStates(countryID, selectedState = "") {
+
+                if (!countryID) {
+                    $("#mystate").html('<option value="">Select country first</option>');
+                    $("#city").html('<option value="">Select state first</option>');
+                    return;
+                }
+
+                try {
+
+                    const html = await ajaxPromise({
+                        type: "POST",
+                        url: "../address/countrydata.php",
+                        data: {
+                            country_id: countryID
+                        }
+                    });
+
+                    $("#mystate").html(html);
+
+                    if (selectedState) {
+                        $("#mystate").val(selectedState);
+                    }
+
+                } catch (e) {
+                    console.error(e);
+                }
+
+            }
+            async function loadCities(stateID, selectedCity = "") {
+
+                if (!stateID) {
+                    $("#city").html('<option value="">Select state first</option>');
+                    return;
+                }
+
+                try {
+
+                    const html = await ajaxPromise({
+                        type: "POST",
+                        url: "../address/countrydata.php",
+                        data: {
+                            state_id: stateID
+                        }
+                    });
+
+                    $("#city").html(html);
+
+                    if (selectedCity) {
+                        $("#city").val(selectedCity);
+                    }
+
+                } catch (e) {
+                    console.error(e);
+                }
+
+            }
+            async function loadPincode(cityID) {
+
+                if (!cityID) {
+                    $("#pin").val("");
+                    return;
+                }
+
+                try {
+
+                    const pin = await ajaxPromise({
+                        type: "POST",
+                        url: "../address/pincode.php",
+                        data: {
+                            city_id: cityID
+                        }
+                    });
+
+                    $("#pin").val($.trim(pin));
+
+                } catch (e) {
+                    console.error(e);
+                }
+
+            }
+            $("#country").on("change", async function () {
+
+                await loadStates($(this).val());
+
+                $("#city").html('<option value="">Select state first</option>');
+                $("#pin").val("");
+
+            });
+
+            $("#mystate").on("change", async function () {
+
+                await loadCities($(this).val());
+
+                $("#pin").val("");
+
+            });
+
+            $("#city").on("change", async function () {
+
+                await loadPincode($(this).val());
+
+            });
+            async function loadTravelConsultant() {
+                const id = '<?= $id ?>';
+                const edittype = '<?= $edittype ?>';
+                const res = await ajaxPromise({
+                    url: "models/travel_consultant/edit_tc_load_data.php",
+                    type: "GET",
+                    data: {
+                        id: id,
+                        edittype: edittype
+                    },
+                    dataType: "json"
+                });
+
+                if (!res.status) {
+                    alert(res.message);
+                    return;
+                }
+
+                const data = res.data;
+
+                $("#firstname").val(data.firstname);
+                $("#lastname").val(data.lastname);
+
+                $('#nominee_name').val(data.nominee_name);
+                $('#nominee_relation').val(data.nominee_relation);
+                $('#email').val(data.email);
+                $('#phone').val(data.contact_no);
+                $('#dob').val(data.date_of_birth);
+                $(`input[name="gender"][value="${data.gender}"]`).prop("checked", true);
+                $('#address').val(data.address);
+
+                // Payment Information
+                if(data.payment_mode === 'cash'){
+                    $('#cashPayment').prop('checked', true).trigger('change');
+                }
+
+                if(data.payment_mode === 'online'){
+                    $('#onlinePayment').prop('checked', true).trigger('change');
+                    $('#transactionNo').val(data.transaction_no);
+                    $('#onlineOpt').removeClass('d-none');
+                }
+
+                if(data.payment_mode === 'cheque'){
+                    $('#chequePayment').prop('checked', true).trigger('change');
+
+                    $('#chequeNo').val(data.cheque_no);
+                    $('#chequeDate').val(data.cheque_date);
+                    $('#bankName').val(data.bank_name);
+
+                    $('#chequeOpt').removeClass('d-none');
+                }
+
+                // Update radio button styling
+                $('.payment-label').removeClass('ptMode');
+                $('.payment:checked').closest('label').addClass('ptMode');
+
+                $("#country").val(data.country);
+
+                await loadStates(data.country, data.state);
+
+                await loadCities(data.state, data.city);
+
+                await loadPincode(data.city);
+                bindUploadEvents();
+                
+                loadExistingFile(
+                    '[data-index="1"]',
+                    data.profile_pic
+                );
+
+                loadExistingFile(
+                    '[data-index="2"]',
+                    data.aadhar_card
+                );
+
+                loadExistingFile(
+                    '[data-index="3"]',
+                    data.pan_card
+                );
+
+                loadExistingFile(
+                    '[data-index="4"]',
+                    data.bank_passbook
+                );
+
+                loadExistingFile(
+                    '[data-index="11"]',
+                    data.voting_card
+                );
+
+                loadExistingFile(
+                    '[data-index="12"]',
+                    data.payment_proof
+                );
+
+            }
+            loadTravelConsultant()
+            
+            $(document).on('input', '#pin', function () {
+                this.value = this.value.replace(/\D/g, '');
+            });
+            $(".cancelBtn").on("click", function () {
+
+				Swal.fire({
+					title: "Are you sure?",
+					text: "You will be redirected to list page.",
+					icon: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#d63030",
+					cancelButtonColor: "#1b721bf2",
+					confirmButtonText: "Yes, Cancel",
+					cancelButtonText: "Continue Editing",
+					reverseButtons: true,
+					focusCancel: true
+				}).then((result) => {
+
+					if (result.isConfirmed) {
+
+						window.location.href = "travel_consultants_list.php";
+
+					}
+
+				});
+
+			});
         </script>
     </body>
 </html>

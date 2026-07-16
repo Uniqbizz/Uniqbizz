@@ -22,7 +22,7 @@ $tableSearch = (substr($designation, 0, 1) === 'F')
     ? substr($designation, 0, 1) 
     : substr($designation, 0, 2);
 
-$bcNames = $conn -> prepare("SELECT * FROM super_techno_enterprise WHERE super_techno_enterprise_id = '".$designation."' AND status = 1");
+$bcNames = $conn -> prepare("SELECT * FROM employees WHERE employee_id = '".$designation."' AND status = 1");
 
 
 $bcNames -> execute();
@@ -30,8 +30,8 @@ $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
 if($bcNames -> rowCount()>0){
     foreach(($bcNames -> fetchAll()) as $key => $row){
         
-        $firstname = $row['firstname'];
-        $lastname = $row['lastname'];
+        $firstname = $row['name'];
+        $lastname = '';
         
     }
 }  
@@ -124,7 +124,7 @@ if($bcNames -> rowCount()>0){
                                 </tbody>
                             </table>  
                             <div class="col-md-12 col-sm-12" >
-                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; ">Super Techno Enterprise Payout</h5>
+                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; ">Business Development Manager Payout</h5>
                                 <div class="col-md-12 col-sm-12" style="text-align: left; margin-bottom:20px">
                                     <table class="orderTable text-center" style="padding-bottom:5px; margin:0px; border:1px solid #DDDDDD;">
                                         <thead>

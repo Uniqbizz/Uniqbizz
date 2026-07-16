@@ -8,8 +8,8 @@
 
         $sqlSTE = $conn->prepare("
             SELECT *
-            FROM executive_techno_enterprise
-            WHERE executive_techno_enterprise_id = :user_id
+            FROM employees
+            WHERE employee_id = :user_id
             AND status = 1
         ");
 

@@ -18,19 +18,18 @@ try {
 
     $sqlUserDetails = $conn->prepare("
         SELECT
-            cty.city_name,
-            sta.state_name,
+            cty.zone_name,
+            sta.branch_name,
             cun.country_name,
-            ste.pincode,
             ste.address AS resAdd
-        FROM executive_techno_enterprise ste
-        LEFT JOIN cities cty
-            ON cty.id = ste.city
-        LEFT JOIN states sta
-            ON sta.id = ste.state
+        FROM employees ste
+        LEFT JOIN zone cty
+            ON cty.id = ste.zone
+        LEFT JOIN branch sta
+            ON sta.id = ste.branch
         LEFT JOIN countries cun
-            ON cun.id = ste.country
-        WHERE ste.executive_techno_enterprise_id = :user_id
+            ON cun.country_code = ste.country_code
+        WHERE ste.employee_id = :user_id
         LIMIT 1
     ");
 
@@ -45,10 +44,9 @@ try {
         echo json_encode([
             'status' => true,
             'data'   => [
-                'city_name'    => $userDetails['city_name'] ?? '',
-                'state_name'   => $userDetails['state_name'] ?? '',
+                'zone_name'    => $userDetails['zone_name'] ?? '',
+                'branch_name'   => $userDetails['branch_name'] ?? '',
                 'country_name' => $userDetails['country_name'] ?? '',
-                'pincode'      => $userDetails['pincode'] ?? '',
                 'resAdd'      => $userDetails['resAdd'] ?? ''
             ]
         ]);

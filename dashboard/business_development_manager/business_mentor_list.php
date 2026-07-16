@@ -196,7 +196,7 @@
                                                     <table id="example-dataTable-2" class="table table-striped table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                                         <thead>
                                                             <tr class="table-primary">
-                                                                <th data-ordering="false">STE ID & Full Name</th>
+                                                                <th data-ordering="false">BM ID & Full Name</th>
                                                                 <th data-ordering="false">Reference ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
@@ -274,6 +274,10 @@
                 searching: true,
                 paging: true,
                 ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
 
@@ -281,20 +285,9 @@
                         data: null,
                         render: function(data){
 
-                            let badge = '';
-
-                            if (data.user_type == 16) {
-
-                                badge = '<span class="badge bg-primary ms-1">TE</span>';
-
-                            } else if (data.user_type == 29) {
-
-                                badge = '<span class="badge bg-success ms-1">F</span>';
-                            }
-
                             return `
                                 <p class="fs-6 mb-0">
-                                    ${badge} ${data.firstname || ''} ${data.lastname || ''}
+                                    ${data.firstname || ''} ${data.lastname || ''}
                                 </p>
                             `;
                         }
@@ -311,7 +304,7 @@
                                     </p>
 
                                     <p class="fs-6 mb-0">
-                                        ${data.executive_techno_enterprise_id || '-'}
+                                        ${data.employee_id || '-'}
                                     </p>
                                 </div>
                             `;
@@ -389,7 +382,7 @@
                             
 
                             return `
-                                <form action="edit_super_techno_enterprise.php" method="POST" class="m-0">
+                                <form action="edit_business_mentor.php" method="POST" class="m-0">
                                     <input
                                         type="hidden"
                                         name="id"
@@ -420,13 +413,13 @@
                     }
                 ],
                 language: {
-                    emptyTable: "No Pending Super Techno Enterprise Found"
+                    emptyTable: "No Pending Business Mentor Found"
                 }
             });
             function loadPendingTEList(){
 
                 $.ajax({
-                    url: 'models/super_techno_enterprise/ste_pending_te_table_data.php',
+                    url: 'models/business_mentor/ste_pending_te_table_data.php',
                     type: 'POST',
                     dataType: 'json',
 
@@ -442,6 +435,7 @@
                         teTable.clear();
                         teTable.rows.add(res.data);
                         teTable.draw();
+                        teTable.columns.adjust().responsive.recalc();
                         
                     },
 
@@ -454,10 +448,16 @@
             }
             
             const teRegTable = $('#example-dataTable-2').DataTable({
+                destroy: true,
                 responsive: true,
-                ordering: false,
+                processing: true,
                 searching: true,
                 paging: true,
+                ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
                     {
@@ -489,10 +489,10 @@
                             return `
                                 <div>
                                     <p class="fs-6 mb-0">
-                                        ${data.ref_firstname || '-'} ${data.ref_lastname || ''}
+                                        ${data.ref_name || '-'}
                                     </p>
                                     <p class="fs-6 mb-0">
-                                        ${data.executive_techno_enterprise_id || '-'}
+                                        ${data.employee_id || '-'}
                                     </p>
                                 </div>
                             `;
@@ -568,7 +568,7 @@
                         render: function(data) {
 
                             return `
-                                <form action="edit_super_techno_enterprise.php" method="POST" class="m-0">
+                                <form action="edit_business_mentor.php" method="POST" class="m-0">
                                     
                                     <input
                                         type="hidden"
@@ -599,7 +599,7 @@
                     }
                 ],
                 language: {
-                    emptyTable: 'No Super Techno Enterprise Found'
+                    emptyTable: 'No Business Mentor Found'
                 }
             });
 
@@ -608,7 +608,7 @@
 
                 $.ajax({
 
-                    url: 'models/super_techno_enterprise/ste_registered_te_list.php',
+                    url: 'models/business_mentor/ste_registered_te_list.php',
 
                     type: 'POST',
 
@@ -638,6 +638,7 @@
                         }
 
                         teRegTable.draw();
+                        teRegTable.columns.adjust().responsive.recalc();
 
                     },
 
@@ -726,7 +727,7 @@
             $('#exportte').on('click', function(){
                 window.location.href =
                 'models/common/download_registered_list.php?' +
-                'type=st' +
+                'type=bm' +
                 '&start_date=' + startDate +
                 '&end_date=' + endDate;
             });

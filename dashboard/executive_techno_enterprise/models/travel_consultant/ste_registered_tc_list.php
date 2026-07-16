@@ -44,7 +44,7 @@
                     ta.register_date,
                     ta.status,
                     ta.amount,
-
+                    ta.user_type,
                     ca.firstname AS ref_firstname,
                     ca.lastname AS ref_lastname,
                     ca.corporate_agency_id AS reference_id,
@@ -77,7 +77,7 @@
                     ta.register_date,
                     ta.status,
                     ta.amount,
-
+                    ta.user_type,
                     sf.firstname AS ref_firstname,
                     sf.lastname AS ref_lastname,
                     sf.institution_id AS reference_id,

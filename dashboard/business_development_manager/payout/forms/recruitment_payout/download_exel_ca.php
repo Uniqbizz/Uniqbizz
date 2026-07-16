@@ -79,7 +79,7 @@ if($payoutmessage == 'PreviousPayout'){
             $newDate= $rd->format('d-m-Y');
             $id = $row2['id'];
 
-            if($user_id_str == "ST"){
+            if($user_id_str == "BH"){
 
                 $BC_Commi = $row2['commision_bm'];
             
@@ -94,13 +94,13 @@ if($payoutmessage == 'PreviousPayout'){
                 $message1 = $row2['message_bm'];
                 $message1 =  str_replace('.','<br>',$message1); 
                 
-                $sql1= $conn->prepare("SELECT firstname,lastname FROM `super_techno_enterprise` where super_techno_enterprise_id='".$row2['business_mentor']."'");
+                $sql1= $conn->prepare("SELECT firstname,lastname FROM `employees` where employee_id='".$row2['business_mentor']."'");
                 
                 $sql1->execute();
                 $sql1->setFetchMode(PDO::FETCH_ASSOC);
                 if($sql1->rowCount()>0){
                     foreach (($sql1->fetchAll()) as $key => $row1) {
-                        $ta_name = $row1['firstname']. ' ' .$row1['lastname'];
+                        $ta_name = $row1['name'];
                     }
                 } 
 
@@ -218,7 +218,7 @@ if($payoutmessage == 'NextPayout'){
             $newDate= $rd->format('d-m-Y');
             $id = $row2['id'];
 
-            if($user_id_str == "ST"){
+            if($user_id_str == "BH"){
 
                 $BC_Commi = $row2['commision_bm'];
             
@@ -234,7 +234,7 @@ if($payoutmessage == 'NextPayout'){
                 $message1 =  str_replace('.','<br>',$message1); 
                 
                 
-                $sql1= $conn->prepare("SELECT firstname,lastname FROM `super_techno_enterprise` where super_techno_enterprise_id='".$row2['business_mentor']."'");
+                $sql1= $conn->prepare("SELECT firstname,lastname FROM `employees` where employee_id='".$row2['business_mentor']."'");
                 
                 $sql1->execute();
                 $sql1->setFetchMode(PDO::FETCH_ASSOC);
@@ -356,7 +356,7 @@ if($payoutmessage == 'TotalPayout'){
             $newDate= $rd->format('d-m-Y');
             $id = $row2['id'];
 
-            if($user_id_str == "ST"){
+            if($user_id_str == "BH"){
 
                 $BC_Commi = $row2['commision_bm'];
             
@@ -372,7 +372,7 @@ if($payoutmessage == 'TotalPayout'){
                 $message1 =  str_replace('.','<br>',$message1); 
                 
                 
-                $sql1= $conn->prepare("SELECT firstname,lastname FROM `super_techno_enterprise` where super_techno_enterprise_id='".$row2['business_mentor']."'");
+                $sql1= $conn->prepare("SELECT firstname,lastname FROM `employees` where employee_id='".$row2['business_mentor']."'");
                 
                 $sql1->execute();
                 $sql1->setFetchMode(PDO::FETCH_ASSOC);
@@ -526,20 +526,20 @@ if($payoutmessage == 'allPayout'){
             }else if($user_id_str == "MF"){
                 $sql1= $conn->prepare("SELECT firstname,lastname FROM `master_Super Techno Enterprise` where master_Super Techno Enterprise_id='".$row2['business_mentor']."'");
             }else{
-                $sql1= $conn->prepare("SELECT firstname,lastname FROM `business_mentor` where business_mentor_id='".$row2['business_mentor']."'");
+                $sql1= $conn->prepare("SELECT name FROM `employees` where employee_id='".$row2['business_mentor']."'");
             }
             $sql1->execute();
             $sql1->setFetchMode(PDO::FETCH_ASSOC);
             if($sql1->rowCount()>0){
                 foreach (($sql1->fetchAll()) as $key => $row1) {
-                    $ta_name = $row1['firstname']. ' ' .$row1['lastname'];
+                    $ta_name = $row1['name'];
                 }
             } 
 
             if($user_id_str == "TE" || $user_id_str == "CA"){
                 $sql2= $conn->prepare("SELECT firstname,lastname FROM `corporate_agency` where corporate_agency_id='".$row2['techno_enterprise']."'");
             }else if($user_id_str == "F"){
-                $sql2= $conn->prepare("SELECT firstname,lastname FROM `sub_Super Techno Enterprise` where sub_Super Techno Enterprise_id='".$row2['techno_enterprise']."'");
+                $sql2= $conn->prepare("SELECT firstname,lastname FROM `sub_franchisee` where sub_franchisee_id='".$row2['techno_enterprise']."'");
             }
             $sql2->execute();
             $sql2->setFetchMode(PDO::FETCH_ASSOC);

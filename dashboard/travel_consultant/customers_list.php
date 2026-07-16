@@ -135,6 +135,7 @@
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
+                                                                <th data-ordering="false">Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="cuTableBody">
@@ -193,7 +194,7 @@
                                                     <table id="example-dataTable-2" class="table table-striped table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                                         <thead>
                                                             <tr class="table-primary">
-                                                                <th data-ordering="false">Customer ID & Full Name</th>
+                                                                <th data-ordering="false">CU ID & Full Name</th>
                                                                 <th data-ordering="false">TC ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Membership Type</th>
@@ -271,6 +272,10 @@
                 searching: true,
                 paging: true,
                 ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
 
@@ -368,6 +373,38 @@
 
                             
                         }
+                    },
+                    {
+                        data: null,
+                        orderable: false,
+                        searchable: false,
+                        render: function(data) {
+                            
+
+                            return `
+                                <form action="edit_customer.php" method="POST" class="m-0">
+                                    <input
+                                        type="hidden"
+                                        name="id"
+                                        value="${data.id}"
+                                    >
+                                    <input
+                                        type="hidden"
+                                        name="status"
+                                        value="${data.status}"
+                                    >
+
+                                    <button
+                                        type="submit"
+                                        class="border-0 bg-transparent p-0 w-100"
+                                    >
+                                        <p class="teViewBtn text-center fw-bold mb-0">
+                                            <i class="fa-solid fa-eye me-2 mt-1"></i>${data.status == 4 ? 'Edit' : 'View'}
+                                        </p>
+                                    </button>
+                                </form>
+                            `;
+                        }
                     }
                 ],
                 language: {
@@ -393,6 +430,7 @@
                         cuTable.clear();
                         cuTable.rows.add(res.data);
                         cuTable.draw();
+                        cuTable.columns.adjust().responsive.recalc();
                         
                     },
 
@@ -405,10 +443,16 @@
             }
             
             const cuRegTable = $('#example-dataTable-2').DataTable({
-                responsive:true,
-                ordering: false,
+                destroy: true,
+                responsive: true,
+                processing: true,
                 searching: true,
                 paging: true,
+                ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
                     {
@@ -539,7 +583,7 @@
                         }
                     },
                     {
-                        data: 'ca_customer_id',
+                        data: null,
                         orderable: false,
                         searchable: false,
                         className: 'none',
@@ -550,13 +594,13 @@
                                     <form action="edit_customer.php" method="POST" class="m-0">
                                         <input
                                             type="hidden"
-                                            name="vkvbvjfgfikix"
-                                            value="${data}"
+                                            name="id"
+                                            value="${data.ca_customer_id}"
                                         >
                                         <input
                                             type="hidden"
-                                            name="editfor"
-                                            value="test"
+                                            name="status"
+                                            value="${data.status}"
                                         >
 
                                         <button
@@ -572,12 +616,12 @@
                                         <input
                                             type="hidden"
                                             name="vkvbvjfgfikix"
-                                            value="${data}"
+                                            value="${data.ca_customer_id}"
                                         >
                                         <input
                                             type="hidden"
                                             name="editfor"
-                                            value="test"
+                                            value="addreff"
                                         >
 
                                         <button
@@ -634,6 +678,7 @@
                         }
 
                         cuRegTable.draw();
+                        cuRegTable.columns.adjust().responsive.recalc();
 
                     },
 

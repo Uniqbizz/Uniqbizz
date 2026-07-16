@@ -81,7 +81,7 @@ $register_by = "1";
 $fromWhom = "1";
 $user_type_id = "34";
 $operation = "Update";
-$title="Chief Techo Enterprise";
+$title="Chief Techno Enterprise";
 $message2 = "";
 $resubmittedStatus = "";
 

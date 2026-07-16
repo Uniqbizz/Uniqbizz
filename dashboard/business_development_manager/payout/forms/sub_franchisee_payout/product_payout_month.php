@@ -10,11 +10,11 @@ $totalAmountMessage = $_POST['totalAmountMessage'] ?? '';
 $totalTableMessage = $_POST['totalTableMessage'] ?? '';
 $tdsPercentage=2/100;
 
-if($userType =='28' || $userType == '30' || $userType == '35'){//MF/SF
-    $userIdCommi = 'master_franchisee';
-    $amtCal = 'commission_mf';
+if($userType == '25'){//MF/SF
+    $userIdCommi = 'zonal_manager';
+    $amtCal = 'commission_zm';
 }
-$columnDesignation = $userType == '28'?'master_franchisee':($userType == '30'?'sponsor_franchisee':($userType == '35' ? 'super_techno_enterprise':''));
+$columnDesignation = 'Business Development Manager';
 if($totalAmountMessage){
     $stmt = " SELECT SUM($amtCal) as TotalPayout FROM sub_franchisee_payout WHERE $userIdCommi = '".$userID."' AND YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."'  ";
     $stmt = $conn -> prepare($stmt);
@@ -56,11 +56,11 @@ if($totalTableMessage){
             if($model2 -> rowCount()>0){
                 foreach($model2 -> fetchAll() as $key => $row){
 
-                    if($userType == '28' || $userType =='30' || $userType == '35'){
-                        $id = $row['master_franchisee'];
-                        $message = $row['message_mf'];
-                        $amt = $row['commission_mf'];
-                        $status = $row['status_mf'];
+                    if($userType == '25'){
+                        $id = $row['zonal_manager'];
+                        $message = $row['message_zm'];
+                        $amt = $row['commission_zm'];
+                        $status = $row['status_zm'];
                         $tds = $amt * $tdsPercentage;
                         $total = $amt - $tds;
                     }

@@ -17,34 +17,102 @@ try {
     */
 
     $sqlYears = $conn->prepare("
-        SELECT YEAR(cu.register_date) AS year
-        FROM ca_customer cu
-        INNER JOIN ca_travelagency ta
-            ON cu.ta_reference_no = ta.ca_travelagency_id
-        INNER JOIN corporate_agency corp
-            ON ta.reference_no = corp.corporate_agency_id
-        INNER JOIN super_techno_enterprise ste
-            ON corp.reference_no = ste.super_techno_enterprise_id
-        WHERE ste.reference_no = :user_id
-        AND cu.status IN (1,3)
-        AND ta.status IN (1,3)
-        AND corp.status IN (1,3)
-        AND ste.status IN (1,3)
+        SELECT DISTINCT year
+        FROM (
 
-        UNION ALL
+            /* BM -> Corporate Agency */
+            SELECT YEAR(cu.register_date) AS year
+            FROM ca_customer cu
+            INNER JOIN ca_travelagency ta
+                ON cu.ta_reference_no = ta.ca_travelagency_id
+            INNER JOIN corporate_agency ca
+                ON ta.reference_no = ca.corporate_agency_id
+            INNER JOIN business_mentor bm
+                ON ca.reference_no = bm.business_mentor_id
+            WHERE bm.reference_no = :user_id
+            AND cu.status IN (1,3)
+            AND ta.status IN (1,3)
+            AND ca.status IN (1,3)
+            AND bm.status IN (1,3)
 
-        SELECT YEAR(cu.register_date) AS year
-        FROM ca_customer cu
-        INNER JOIN institution_branch_manager ibr
-            ON cu.ta_reference_no = ibr.institution_branch_manager_id
-        INNER JOIN institution i
-            ON ibr.reference_no = i.institution_id
-        WHERE i.reference_no = :user_id
-        AND cu.status IN (1,3)
-        AND ibr.status IN (1,3)
-        AND i.status IN (1,3)
+            UNION ALL
 
-        ORDER BY year DESC;
+            /* BM -> Sub Franchisee */
+            SELECT YEAR(cu.register_date)
+            FROM ca_customer cu
+            INNER JOIN ca_travelagency ta
+                ON cu.ta_reference_no = ta.ca_travelagency_id
+            INNER JOIN sub_franchisee sf
+                ON ta.reference_no = sf.sub_franchisee_id
+            INNER JOIN business_mentor bm
+                ON sf.reference_no = bm.business_mentor_id
+            WHERE bm.reference_no = :user_id
+            AND cu.status IN (1,3)
+            AND ta.status IN (1,3)
+            AND sf.status IN (1,3)
+            AND bm.status IN (1,3)
+
+            UNION ALL
+
+            /* BM -> Institution */
+            SELECT YEAR(cu.register_date)
+            FROM ca_customer cu
+            INNER JOIN institution_branch_manager ibm
+                ON cu.ta_reference_no = ibm.institution_branch_manager_id
+            INNER JOIN institution i
+                ON ibm.reference_no = i.institution_id
+            INNER JOIN business_mentor bm
+                ON i.reference_no = bm.business_mentor_id
+            WHERE bm.reference_no = :user_id
+            AND cu.status IN (1,3)
+            AND ibm.status IN (1,3)
+            AND i.status IN (1,3)
+            AND bm.status IN (1,3)
+
+            UNION ALL
+
+            /* Direct Corporate Agency */
+            SELECT YEAR(cu.register_date)
+            FROM ca_customer cu
+            INNER JOIN ca_travelagency ta
+                ON cu.ta_reference_no = ta.ca_travelagency_id
+            INNER JOIN corporate_agency ca
+                ON ta.reference_no = ca.corporate_agency_id
+            WHERE ca.reference_no = :user_id
+            AND cu.status IN (1,3)
+            AND ta.status IN (1,3)
+            AND ca.status IN (1,3)
+
+            UNION ALL
+
+            /* Direct Sub Franchisee */
+            SELECT YEAR(cu.register_date)
+            FROM ca_customer cu
+            INNER JOIN ca_travelagency ta
+                ON cu.ta_reference_no = ta.ca_travelagency_id
+            INNER JOIN sub_franchisee sf
+                ON ta.reference_no = sf.sub_franchisee_id
+            WHERE sf.reference_no = :user_id
+            AND cu.status IN (1,3)
+            AND ta.status IN (1,3)
+            AND sf.status IN (1,3)
+
+            UNION ALL
+
+            /* Direct Institution */
+            SELECT YEAR(cu.register_date)
+            FROM ca_customer cu
+            INNER JOIN institution_branch_manager ibm
+                ON cu.ta_reference_no = ibm.institution_branch_manager_id
+            INNER JOIN institution i
+                ON ibm.reference_no = i.institution_id
+            WHERE i.reference_no = :user_id
+            AND cu.status IN (1,3)
+            AND ibm.status IN (1,3)
+            AND i.status IN (1,3)
+
+        ) AS years
+        ORDER BY year DESC
     ");
 
     $sqlYears->execute([
@@ -61,39 +129,124 @@ try {
 
     $sqlCustomerTrend = $conn->prepare("
         SELECT
-        MONTH(register_date) AS month,
-        COUNT(*) AS total
-        FROM (
+            MONTH(register_date) AS month,
+            COUNT(*) AS total
+        FROM
+        (
+            /*====================================================
+            = BM -> Corporate Agency
+            ====================================================*/
             SELECT cu.register_date
             FROM ca_customer cu
             INNER JOIN ca_travelagency ta
                 ON cu.ta_reference_no = ta.ca_travelagency_id
-            INNER JOIN corporate_agency corp
-                ON ta.reference_no = corp.corporate_agency_id
-            INNER JOIN super_techno_enterprise st
-                ON corp.reference_no = st.super_techno_enterprise_id
-            WHERE st.reference_no = :user_id
+            INNER JOIN corporate_agency ca
+                ON ta.reference_no = ca.corporate_agency_id
+            INNER JOIN business_mentor bm
+                ON ca.reference_no = bm.business_mentor_id
+            WHERE bm.reference_no = :user_id
             AND YEAR(cu.register_date) = :selected_year
             AND cu.status IN (1,3)
             AND ta.status IN (1,3)
-            AND corp.status IN (1,3)
-            AND st.status IN (1,3)
+            AND ca.status IN (1,3)
+            AND bm.status IN (1,3)
 
             UNION ALL
 
-            SELECT YEAR(cu.register_date) AS year
+            /*====================================================
+            = BM -> Sub Franchisee
+            ====================================================*/
+            SELECT cu.register_date
             FROM ca_customer cu
-            INNER JOIN institution_branch_manager ibr
-                ON cu.ta_reference_no = ibr.institution_branch_manager_id
-            INNER JOIN institution i
-                ON ibr.reference_no = i.institution_id
-            WHERE i.reference_no = :user_id
+            INNER JOIN ca_travelagency ta
+                ON cu.ta_reference_no = ta.ca_travelagency_id
+            INNER JOIN sub_franchisee sf
+                ON ta.reference_no = sf.sub_franchisee_id
+            INNER JOIN business_mentor bm
+                ON sf.reference_no = bm.business_mentor_id
+            WHERE bm.reference_no = :user_id
+            AND YEAR(cu.register_date) = :selected_year
             AND cu.status IN (1,3)
-            AND ibr.status IN (1,3)
+            AND ta.status IN (1,3)
+            AND sf.status IN (1,3)
+            AND bm.status IN (1,3)
+
+            UNION ALL
+
+            /*====================================================
+            = BM -> Institution
+            ====================================================*/
+            SELECT cu.register_date
+            FROM ca_customer cu
+            INNER JOIN institution_branch_manager ibm
+                ON cu.ta_reference_no = ibm.institution_branch_manager_id
+            INNER JOIN institution i
+                ON ibm.reference_no = i.institution_id
+            INNER JOIN business_mentor bm
+                ON i.reference_no = bm.business_mentor_id
+            WHERE bm.reference_no = :user_id
+            AND YEAR(cu.register_date) = :selected_year
+            AND cu.status IN (1,3)
+            AND ibm.status IN (1,3)
             AND i.status IN (1,3)
-        ) x
+            AND bm.status IN (1,3)
+
+            UNION ALL
+
+            /*====================================================
+            = Direct Corporate Agency
+            ====================================================*/
+            SELECT cu.register_date
+            FROM ca_customer cu
+            INNER JOIN ca_travelagency ta
+                ON cu.ta_reference_no = ta.ca_travelagency_id
+            INNER JOIN corporate_agency ca
+                ON ta.reference_no = ca.corporate_agency_id
+            WHERE ca.reference_no = :user_id
+            AND YEAR(cu.register_date) = :selected_year
+            AND cu.status IN (1,3)
+            AND ta.status IN (1,3)
+            AND ca.status IN (1,3)
+
+            UNION ALL
+
+            /*====================================================
+            = Direct Sub Franchisee
+            ====================================================*/
+            SELECT cu.register_date
+            FROM ca_customer cu
+            INNER JOIN ca_travelagency ta
+                ON cu.ta_reference_no = ta.ca_travelagency_id
+            INNER JOIN sub_franchisee sf
+                ON ta.reference_no = sf.sub_franchisee_id
+            WHERE sf.reference_no = :user_id
+            AND YEAR(cu.register_date) = :selected_year
+            AND cu.status IN (1,3)
+            AND ta.status IN (1,3)
+            AND sf.status IN (1,3)
+
+            UNION ALL
+
+            /*====================================================
+            = Direct Institution
+            ====================================================*/
+            SELECT cu.register_date
+            FROM ca_customer cu
+            INNER JOIN institution_branch_manager ibm
+                ON cu.ta_reference_no = ibm.institution_branch_manager_id
+            INNER JOIN institution i
+                ON ibm.reference_no = i.institution_id
+            WHERE i.reference_no = :user_id
+            AND YEAR(cu.register_date) = :selected_year
+            AND cu.status IN (1,3)
+            AND ibm.status IN (1,3)
+            AND i.status IN (1,3)
+
+        ) AS customer_data
+
         GROUP BY MONTH(register_date)
-        ORDER BY MONTH(register_date)
+
+        ORDER BY MONTH(register_date);
     ");
 
     $sqlCustomerTrend->execute([

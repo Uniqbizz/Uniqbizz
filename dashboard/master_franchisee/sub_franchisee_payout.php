@@ -15,7 +15,7 @@
 
     $tdsPercentage=2/100;
 
-    $columnDesignation = $userType == '28'?'master_franchisee':($userType == '30'?'sponsor_franchisee':'');
+    $columnDesignation = 'master_franchisee';
     function truncateToTwoDecimals($num) {
      return floor($num * 100) / 100;
     }
@@ -26,7 +26,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title> Master Franchiseee | Franchisee Contracting Payout </title>
+        <title> Master Franchisee | Franchisee Contracting Payout </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -51,7 +51,7 @@
         <link rel="stylesheet" href="../assets/css/custom.css" />
 
         <link href="payout/payout.css" rel="stylesheet" type="text/css" /> 
-        <!-- Master Franchiseee  Dashboard CSS -->
+        <!-- Sponsor Franchisee  Dashboard CSS -->
         <link rel="stylesheet" href="../assets/css/master_franchisee.css" />
         <!-- DataTables -->
         <link href="../assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />

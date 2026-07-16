@@ -22,8 +22,8 @@ if($user_id_str == 'MF'){
     $sql="SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$bc."' AND status = 1";
 }else if ($user_id_str == 'SF'){
     $sql="SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '".$bc."' AND status = 1";
-}else if ($user_id_str == 'ST'){
-    $sql="SELECT * FROM super_techno_enterprise WHERE super_techno_enterprise_id = '".$bc."' AND status = 1";
+}else if ($user_id_str == 'BM'){
+    $sql="SELECT * FROM business_mentor WHERE business_mentor_id = '".$bc."' AND status = 1";
 }
 $bcNames = $conn -> prepare($sql);
 $bcNames -> execute();

@@ -18,45 +18,42 @@
 
         if (!empty($startDate) && !empty($endDate)) {
 
-            $whereDateCA = "
-                AND ca.register_date >= :start_date
-                AND ca.register_date < DATE_ADD(:end_date, INTERVAL 1 DAY)
+            $whereDateSF = "
+                AND sf.register_date >= :start_date
+                AND sf.register_date < DATE_ADD(:end_date, INTERVAL 1 DAY)
             ";
-            // $whereDateSF = "
-            //     AND sf.register_date >= :start_date
-            //     AND sf.register_date < DATE_ADD(:end_date, INTERVAL 1 DAY)
-            // ";
 
             $params[':start_date'] = $startDate;
             $params[':end_date']   = $endDate;
         }
 
         $sql = "
+
             (
                 SELECT
-                    ca.corporate_agency_id AS teuser_id,
-                    ca.firstname,
-                    ca.lastname,
-                    ca.contact_no,
-                    ca.email,
-                    ca.register_date,
-                    ca.status,
-                    ca.amount,
-                    ca.user_type,
+                    sf.sub_franchisee_id AS teuser_id,
+                    sf.firstname,
+                    sf.lastname,
+                    sf.contact_no,
+                    sf.email,
+                    sf.register_date,
+                    sf.status,
+                    sf.amount,
+                    sf.user_type,
 
                     ste.firstname AS ref_firstname,
                     ste.lastname AS ref_lastname,
-                    ste.super_techno_enterprise_id
+                    ste.master_franchisee_id
 
-                FROM corporate_agency ca
+                FROM sub_franchisee sf
 
-                INNER JOIN super_techno_enterprise ste
-                    ON ca.reference_no = ste.super_techno_enterprise_id
+                INNER JOIN master_franchisee ste
+                    ON sf.reference_no = ste.master_franchisee_id
 
-                WHERE ca.reference_no = :user_id
-                AND ca.status IN (1,3)
+                WHERE sf.reference_no = :user_id
+                AND sf.status IN (1,3)
 
-                $whereDateCA
+                $whereDateSF
             )
 
             ORDER BY register_date DESC
@@ -93,32 +90,5 @@
         ]);
     }
 
-    // UNION ALL
-
-    //         (
-    //             SELECT
-    //                 sf.sub_franchisee_id AS teuser_id,
-    //                 sf.firstname,
-    //                 sf.lastname,
-    //                 sf.contact_no,
-    //                 sf.email,
-    //                 sf.register_date,
-    //                 sf.status,
-    //                 sf.amount,
-    //                 sf.user_type,
-
-    //                 ste.firstname AS ref_firstname,
-    //                 ste.lastname AS ref_lastname,
-    //                 ste.super_techno_enterprise_id
-
-    //             FROM sub_franchisee sf
-
-    //             INNER JOIN super_techno_enterprise ste
-    //                 ON sf.reference_no = ste.super_techno_enterprise_id
-
-    //             WHERE sf.reference_no = :user_id
-    //             AND sf.status IN (1,3)
-
-    //             $whereDateSF
-    //         )
+    
 ?>

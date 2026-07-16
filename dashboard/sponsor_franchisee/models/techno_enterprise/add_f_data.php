@@ -11,7 +11,7 @@
     $nominee_relation=$_POST['nominee_relation'];
     $email=$_POST['email'];
     $gender=$_POST['gender'];
-    $country_code=$_POST['country_code'];
+    $country_code=$_POST['country_cd'];
     $phone_no=$_POST['phone'];
     $gst_no=$_POST['gst_no'];
     $amount=$_POST['business_package'];
@@ -66,8 +66,8 @@
     }else{
         // data insertion for logs tables
         $status= '2';
-        $message="Added new Franchisee. TE name - " .$fname." ".$lname;
-        $message2="Added new Franchisee by Super Techno Eenterprise";
+        $message="Added new Franchisee. Franchisee name - " .$fname." ".$lname;
+        $message2="Added new Franchisee by Sponsor Franchisee";
     }
 
     // get age of the user
@@ -145,7 +145,16 @@
         ));
 
         if($result){
-            echo 1;
+
+            if ($status == 2) {
+                $newStatus = 1;
+            } elseif ($status == 4) {
+                $newStatus = 2;
+            } else {
+                $newStatus = $status;
+            }
+
+            echo $newStatus;
         }else{
             echo 0	;
         }

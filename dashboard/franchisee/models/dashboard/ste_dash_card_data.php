@@ -111,7 +111,7 @@
             'cu_count' => (int)$data['cu_count'],
             'all_earning' => (int)$data['all_earning'],
             'all_revenue' => (int)$data['all_revenue'],
-            'all_paid_earning' => (int)$data['cu_count'],
+            'all_paid_earning' => (int)$data['all_paid_earning'],
             'all_pending_earning' => (int)$data['all_pending_earning'],
         ]
     ], JSON_PRETTY_PRINT);

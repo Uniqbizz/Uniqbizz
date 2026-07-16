@@ -94,8 +94,8 @@ if($payoutmessage == 'PreviousPayout'){
 
                 $sql1 = $conn->prepare("
                     SELECT firstname,lastname
-                    FROM super_techno_enterprise
-                    WHERE super_techno_enterprise_id = ?
+                    FROM business_mentor
+                    WHERE business_mentor_id = ?
                 ");
                 $sql1->execute([$row2['business_mentor']]);
 
@@ -226,8 +226,8 @@ if($payoutmessage == 'NextPayout'){
 
                 $sql1 = $conn->prepare("
                     SELECT firstname,lastname
-                    FROM super_techno_enterprise
-                    WHERE super_techno_enterprise_id = ?
+                    FROM business_mentor
+                    WHERE business_mentor_id = ?
                 ");
                 $sql1->execute([$row2['business_mentor']]);
 
@@ -354,8 +354,8 @@ if($payoutmessage == 'TotalPayout'){
 
                 $sql1 = $conn->prepare("
                     SELECT firstname,lastname
-                    FROM super_techno_enterprise
-                    WHERE super_techno_enterprise_id = ?
+                    FROM business_mentor
+                    WHERE business_mentor_id = ?
                 ");
                 $sql1->execute([$row2['business_mentor']]);
 

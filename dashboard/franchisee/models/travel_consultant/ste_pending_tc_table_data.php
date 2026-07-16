@@ -20,7 +20,7 @@
                     ta.added_on,
                     ta.status,
 
-                    ca.sub_franchisee_id AS reference_id,
+                    ca.sub_franchisee_id AS techno_enterprise_id,
                     ca.firstname AS ref_firstname,
                     ca.lastname AS ref_lastname
 

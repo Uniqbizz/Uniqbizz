@@ -315,94 +315,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="recentCustomerBooking">
-                                        <tr>
-                                            <td>
-                                                <p class="fw-bolder align-content-center fs-6 mb-0">Rahul Naik</p>
-                                            </td>
-                                            <td>
-                                                <p class="fw-bolder fs-6 mb-0">Dubai Delight</p>
-                                            </td>
-                                            <td>
-                                                <p class="fw-bolder fs-6 mb-0">23 May 2024</p>
-                                            </td>
-                                            <td>
-                                                <p class="fw-bolder fs-6 mb-0">&#8377; 24,999</p>
-                                            </td>
-                                            <td>
-                                                <p class="fw-bolder teActiveBtn rounded-pill text-center mb-0">Confirmed</p>
-                                            </td>
-                                            <td>
-                                                <a href="#">
-                                                    <p class="fw-bolder teViewBtn text-center mb-0"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p class="fw-bolder align-content-center fs-6 mb-0">Rahul Naik</p>
-                                            </td>
-                                            <td>
-                                                <p class="fw-bolder fs-6 mb-0">Dubai Delight</p>
-                                            </td>
-                                            <td>
-                                                <p class="fw-bolder fs-6 mb-0">23 May 2024</p>
-                                            </td>
-                                            <td>
-                                                <p class="fw-bolder fs-6 mb-0">&#8377; 24,999</p>
-                                            </td>
-                                            <td>
-                                                <p class="fw-bolder tePendingBtn rounded-pill text-center mb-0">Pending</p>
-                                            </td>
-                                            <td>
-                                                <a href="#">
-                                                    <p class="fw-bolder teViewBtn text-center mb-0"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p class="fw-bolder align-content-center fs-6 mb-0">Rahul Naik</p>
-                                            </td>
-                                            <td>
-                                                <p class="fw-bolder fs-6 mb-0">Dubai Delight</p>
-                                            </td>
-                                            <td>
-                                                <p class="fw-bolder fs-6 mb-0">23 May 2024</p>
-                                            </td>
-                                            <td>
-                                                <p class="fw-bolder fs-6 mb-0">&#8377; 24,999</p>
-                                            </td>
-                                            <td>
-                                                <p class="fw-bolder teActiveBtn rounded-pill text-center mb-0">Confirmed</p>
-                                            </td>
-                                            <td>
-                                                <a href="#">
-                                                    <p class="fw-bolder teViewBtn text-center mb-0"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p class="fw-bolder align-content-center fs-6 mb-0">Rahul Naik</p>
-                                            </td>
-                                            <td>
-                                                <p class="fw-bolder fs-6 mb-0">Dubai Delight</p>
-                                            </td>
-                                            <td>
-                                                <p class="fw-bolder fs-6 mb-0">23 May 2024</p>
-                                            </td>
-                                            <td>
-                                                <p class="fw-bolder fs-6 mb-0">&#8377; 24,999</p>
-                                            </td>
-                                            <td>
-                                                <p class="fw-bolder tePendingBtn rounded-pill text-center mb-0">Pending</p>
-                                            </td>
-                                            <td>
-                                                <a href="#">
-                                                    <p class="fw-bolder teViewBtn text-center mb-0"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                        
                                     </tbody>
                                 </table>
                             </div>
@@ -789,10 +702,10 @@
                                                 alt="TripsImage"
                                                 class="packageImage">
 
-                                            <div class="heartIcon"
+                                            <!--<div class="heartIcon"
                                                 onclick="toggleWishlist(this)">
                                                 <i class="fa-regular fa-heart"></i>
-                                            </div>
+                                            </div>-->
 
                                         </div>
 
@@ -806,10 +719,10 @@
 
                                                 ${pkg.duration}
 
-                                                <span class="fs-6 text-muted fw-normal">
+                                                <!--<span class="fs-6 text-muted fw-normal">
                                                     <i class="fa-solid fa-star" style="color:#fdd611;"></i>
                                                     4.8 (120)
-                                                </span>
+                                                </span>-->
 
                                             </p>
 

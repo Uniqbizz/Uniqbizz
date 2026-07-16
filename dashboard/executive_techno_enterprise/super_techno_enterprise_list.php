@@ -6,7 +6,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title> Executive Techno Enterprise List | Super Techno Enterprise List </title>
+        <title> Executive Techno Enterprise | Super Techno Enterprise List </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -274,6 +274,10 @@
                 searching: true,
                 paging: true,
                 ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
 
@@ -442,6 +446,7 @@
                         teTable.clear();
                         teTable.rows.add(res.data);
                         teTable.draw();
+                        teTable.columns.adjust().responsive.recalc();
                         
                     },
 
@@ -454,10 +459,16 @@
             }
             
             const teRegTable = $('#example-dataTable-2').DataTable({
+                destroy: true,
                 responsive: true,
-                ordering: false,
+                processing: true,
                 searching: true,
                 paging: true,
+                ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
                     {
@@ -638,6 +649,7 @@
                         }
 
                         teRegTable.draw();
+                        teRegTable.columns.adjust().responsive.recalc();
 
                     },
 

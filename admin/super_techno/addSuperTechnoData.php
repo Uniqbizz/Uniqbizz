@@ -87,9 +87,9 @@
     }
 
     // data insertion for logs tables 
-    $title="Super Techo Enterprise";
-    $message="Added new Super Techo Enterprise by admin";
-    $message2="Added new Super Techo Enterprise by admin";
+    $title="Super Techno Enterprise";
+    $message="Added new Super Techno Enterprise by admin";
+    $message2="Added new Super Techno Enterprise by admin";
     $fromWhom="1";
 	$operation="Add";
 

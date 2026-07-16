@@ -24,7 +24,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Add Techno Enterprise / Franchisee  / Institution | Admin Dashboard </title>
+        <title>Add Techno Enterprise / Franchisee | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -73,7 +73,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Techno Enterprise / Franchisee  / Institution</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Techno Enterprise / Franchisee </h4>
                                 </div>
                             </div>
                         </div>
@@ -84,7 +84,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <form>
-                                            <h3>Add Techno Enterprise / Franchisee  / Institution</h3>
+                                            <h3>Add Techno Enterprise / Franchisee </h3>
                                             <div class="row">
                                                 <div class="col-md-12 col-sm-12 d-flex justify-content-end">
                                                     <div class="input-block mb-3 form-check">
@@ -103,7 +103,7 @@
                                                             <option value="">--Select --</option>
                                                             <option value="corporate_agency">Techno Enterprise </option>
                                                             <option value="sub_franchisee">Franchisee</option>
-                                                            <option value="institution">Institution</option>
+                                                            <!-- <option value="institution">Institution</option> -->
                                                         </select>
                                                     </div>
                                                 </div>
@@ -510,16 +510,17 @@
                     $('.gender').prop('disabled', false);
                     // var business_package_amount = $('#business_package_amount2').val();
                     // $('#flex_amount').val(business_package_amount);
-                }else if(register_type == 'institution'){
-                    $('#designation1').addClass('d-none');
-                    $('#designation2').removeClass('d-none');
-                    $('#business_package_amount2').removeClass('d-none');
-                    $('#business_package_amount1').addClass('d-none');
-                    const val = $("#test5").val();
-
-                    $('.gender[value="' + val + '"]').prop('checked', true);
-                    $('.gender').prop('disabled', true);
                 }
+                // else if(register_type == 'institution'){
+                //     $('#designation1').addClass('d-none');
+                //     $('#designation2').removeClass('d-none');
+                //     $('#business_package_amount2').removeClass('d-none');
+                //     $('#business_package_amount1').addClass('d-none');
+                //     const val = $("#test5").val();
+
+                //     $('.gender[value="' + val + '"]').prop('checked', true);
+                //     $('.gender').prop('disabled', true);
+                // }
                     
             });
             

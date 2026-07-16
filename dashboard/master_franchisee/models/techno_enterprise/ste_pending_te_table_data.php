@@ -7,6 +7,7 @@
     try {
 
         $sql = $conn->prepare("
+        
             SELECT
                 ca.id,
                 ca.firstname,
@@ -16,22 +17,21 @@
                 ca.added_on,
                 ca.status,
                 ca.user_type,
-                'TE' AS userTypeStr,
+                'SF' AS userTypeStr,
 
                 ste.firstname AS ref_firstname,
                 ste.lastname AS ref_lastname,
-                ste.super_techno_enterprise_id,
+                ste.master_franchisee_id,
 
-                'corporate_agency' AS source_table
+                'sub_franchisee' AS source_table
 
-            FROM corporate_agency ca
+            FROM sub_franchisee ca
 
-            INNER JOIN super_techno_enterprise ste
-                ON ca.reference_no = ste.super_techno_enterprise_id
+            INNER JOIN master_franchisee ste
+                ON ca.reference_no = ste.master_franchisee_id
 
             WHERE ca.reference_no = :user_id
-            AND ca.status IN (2,4)
-
+            AND ca.status IN (0,2,4)
             ORDER BY id DESC;
         ");
 
@@ -57,31 +57,4 @@
     }
 
     exit;
-
-    // UNION ALL
-
-    //         SELECT
-    //             sf.id,
-    //             sf.firstname,
-    //             sf.lastname,
-    //             sf.contact_no,
-    //             sf.email,
-    //             sf.added_on,
-    //             sf.status,
-    //             sf.user_type,
-    //             'SF' AS userTypeStr,
-
-    //             ste.firstname AS ref_firstname,
-    //             ste.lastname AS ref_lastname,
-    //             ste.super_techno_enterprise_id,
-
-    //             'sub_franchisee' AS source_table
-
-    //         FROM sub_franchisee sf
-
-    //         INNER JOIN super_techno_enterprise ste
-    //             ON sf.reference_no = ste.super_techno_enterprise_id
-
-    //         WHERE sf.reference_no = :user_id
-    //         AND sf.status IN (2,4)
 ?>

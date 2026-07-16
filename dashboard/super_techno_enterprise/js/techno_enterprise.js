@@ -63,7 +63,7 @@ function submitAddForm(actionType) {
     // var father_spouse_name = $("#father_spouse_name").val().trim();
     var email = $("#email").val().trim();
     var dob = $("#dob").val().trim();
-    var gender = $("#gender").val();
+    var gender = $('input[name="gender"]:checked').val();
     var country_cd = $("#country_cd").val().trim();
     var phone = $("#phone").val().trim();
     var business_package = $("#flex_amount").val();
@@ -313,7 +313,7 @@ function submitEditForm(actionType) {
     // var father_spouse_name = $("#father_spouse_name").val().trim();
     var email = $("#email").val().trim();
     var dob = $("#dob").val().trim();
-    var gender = $("#gender").val();
+    var gender = $('input[name="gender"]:checked').val();
     var country_cd = $("#country_cd").val().trim();
     var phone = $("#phone").val().trim();
     var business_package = $("#amount").val();

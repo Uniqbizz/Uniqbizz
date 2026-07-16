@@ -23,14 +23,14 @@ try {
             cun.country_name,
             ste.pincode,
             ste.address AS resAdd
-        FROM super_techno_enterprise ste
+        FROM business_mentor ste
         LEFT JOIN cities cty
             ON cty.id = ste.city
         LEFT JOIN states sta
             ON sta.id = ste.state
         LEFT JOIN countries cun
             ON cun.id = ste.country
-        WHERE ste.super_techno_enterprise_id = :user_id
+        WHERE ste.business_mentor_id = :user_id
         LIMIT 1
     ");
 

@@ -136,6 +136,7 @@
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
+                                                                <th data-ordering="false">Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="tcTableBody">
@@ -194,8 +195,8 @@
                                                     <table id="example-dataTable-2" class="table table-striped table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                                         <thead>
                                                             <tr class="table-primary">
-                                                                <th data-ordering="false">TC ID & Full Name</th>
-                                                                <th data-ordering="false">TE/F ID & Name</th>
+                                                                <th data-ordering="false">TC | IBR ID & Full Name</th>
+                                                                <th data-ordering="false">TE | I ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
@@ -265,6 +266,10 @@
                 searching: true,
                 paging: true,
                 ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
 
@@ -272,9 +277,20 @@
                         data: null,
                         render: function(data){
 
+                            let badge = '';
+
+                            if (data.user_type == 11) {
+
+                                badge = '<span class="badge bg-primary ms-1">TC</span>';
+
+                            } else if (data.user_type == 33) {
+
+                                badge = '<span class="badge bg-success ms-1">IBR</span>';
+                            } 
+
                             return `
                                 <p class="fs-6 mb-0">
-                                    ${data.firstname || ''} ${data.lastname || ''}
+                                    ${badge} ${data.firstname || ''} ${data.lastname || ''}
                                 </p>
                             `;
                         }
@@ -360,10 +376,46 @@
                                     </p>
                                 `;
                         }
+                    },
+                    {
+                        data: null,
+                        orderable: false,
+                        searchable: false,
+                        render: function(data) {
+                            
+
+                            return `
+                                <form action="edit_travel_consultant.php" method="POST" class="m-0">
+                                    <input
+                                        type="hidden"
+                                        name="id"
+                                        value="${data.id}"
+                                    >
+                                    <input
+                                        type="hidden"
+                                        name="status"
+                                        value="2"
+                                    >
+                                    <input
+                                        type="hidden"
+                                        name="tc_type"
+                                        value="${data.user_type}"
+                                    >
+                                    <button
+                                        type="submit"
+                                        class="border-0 bg-transparent p-0 w-100"
+                                    >
+                                        <p class="teViewBtn text-center fw-bold mb-0">
+                                            <i class="fa-solid fa-eye me-2 mt-1"></i>View
+                                        </p>
+                                    </button>
+                                </form>
+                            `;
+                        }
                     }
                 ],
                 language: {
-                    emptyTable: "No Pending Travel Consultant Found"
+                    emptyTable: "No Pending TC | IBR Found"
                 }
             });
             function loadPendingTEList(){
@@ -385,6 +437,7 @@
                         tcTable.clear();
                         tcTable.rows.add(res.data);
                         tcTable.draw();
+                        tcTable.columns.adjust().responsive.recalc();
                         
                     },
 
@@ -397,24 +450,41 @@
             }
             
             const tcRegTable = $('#example-dataTable-2').DataTable({
+                destroy: true,
                 responsive: true,
-                ordering: false,
+                processing: true,
                 searching: true,
                 paging: true,
+                ordering: false,
+                autoWidth: false,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedHeader: false,
                 data: [],
                 columns: [
                     {
                         data: null,
-                        render: function(data) {
+                        render: function(data){
+
+                            let badge = '';
+
+                            if (data.user_type == 11) {
+
+                                badge = '<span class="badge bg-primary ms-1">TC</span>';
+
+                            } else if (data.user_type == 33) {
+
+                                badge = '<span class="badge bg-success ms-1">IBR</span>';
+                            } 
                             return `
                                 <div>
                                     <p class="fs-6 mb-0">
-                                        ${data.firstname || ''} ${data.lastname || ''}
+                                        ${badge} ${data.firstname || ''} ${data.lastname || ''}
                                     </p>
                                     <p class="fs-6 mb-0">
                                         ${data.ca_travelagency_id || '-'}
                                     </p>
-                                <div>
+                                </div>
                             `;
                         }
                     },
@@ -496,17 +566,28 @@
                         }
                     },
                     {
-                        data: 'ca_travelagency_id',
+                        data: null,
                         orderable: false,
                         searchable: false,
                         render: function(data) {
+                            
 
                             return `
-                                <form action="#" method="POST" class="m-0">
+                                <form action="edit_travel_consultant.php" method="POST" class="m-0">
                                     <input
                                         type="hidden"
-                                        name="ca_travelgency_id"
-                                        value="${data}"
+                                        name="id"
+                                        value="${data.ca_travelagency_id}"
+                                    >
+                                    <input
+                                        type="hidden"
+                                        name="status"
+                                        value="1"
+                                    >
+                                    <input
+                                        type="hidden"
+                                        name="tc_type"
+                                        value="${data.user_type}"
                                     >
 
                                     <button
@@ -523,7 +604,7 @@
                     }
                 ],
                 language: {
-                    emptyTable: 'No Travel Consultant Found'
+                    emptyTable: 'No TC | IBR Found'
                 }
             });
 
@@ -562,6 +643,7 @@
                         }
 
                         tcRegTable.draw();
+                        tcRegTable.columns.adjust().responsive.recalc();
 
                     },
 

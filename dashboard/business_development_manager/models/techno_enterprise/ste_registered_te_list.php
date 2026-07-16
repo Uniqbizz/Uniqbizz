@@ -38,62 +38,122 @@
 
         $sql = "
             (
-                SELECT
-                    ca.corporate_agency_id AS teuser_id,
-                    ca.firstname,
-                    ca.lastname,
-                    ca.contact_no,
-                    ca.email,
-                    ca.register_date,
-                    ca.status,
-                    ca.amount,
-                    ca.user_type,
+            -- Corporate Agency (Direct)
+            SELECT
+                ca.corporate_agency_id AS teuser_id,
+                ca.firstname,
+                ca.lastname,
+                ca.contact_no,
+                ca.email,
+                ca.register_date,
+                ca.status,
+                ca.amount,
+                ca.user_type,
 
-                    ste.firstname AS ref_firstname,
-                    ste.lastname AS ref_lastname,
-                    ste.super_techno_enterprise_id AS reference_id
+                bm.name AS ref_firstname,
+                '' AS ref_lastname,
+                bm.employee_id AS reference_id
 
-                FROM corporate_agency ca
+            FROM corporate_agency ca
+            INNER JOIN employees bm
+                ON ca.reference_no = bm.employee_id
+            WHERE ca.reference_no = :user_id
+            AND ca.status IN (1,3)
 
-                INNER JOIN super_techno_enterprise ste
-                    ON ca.reference_no = ste.super_techno_enterprise_id
+            $whereDateCA
+        )
 
-                WHERE ste.reference_no = :user_id
-                AND ca.status IN (1,3)
-                AND ste.status IN (1)
+        UNION ALL
 
-                $whereDateCA
-            )
+        (
+            -- Corporate Agency (Through BM)
+            SELECT
+                ca.corporate_agency_id AS teuser_id,
+                ca.firstname,
+                ca.lastname,
+                ca.contact_no,
+                ca.email,
+                ca.register_date,
+                ca.status,
+                ca.amount,
+                ca.user_type,
 
-            UNION ALL
+                bm.firstname AS ref_firstname,
+                bm.lastname AS ref_lastname,
+                bm.business_mentor_id AS reference_id
 
-            (
-                SELECT
-                    i.institution_id AS teuser_id,
-                    i.firstname,
-                    i.lastname,
-                    i.contact_no,
-                    i.email,
-                    i.register_date,
-                    i.status,
-                    i.amount,
-                    i.user_type,
+            FROM corporate_agency ca
 
-                    ste.firstname AS ref_firstname,
-                    ste.lastname AS ref_lastname,
-                    ste.executive_techno_enterprise_id AS reference_id
+            INNER JOIN business_mentor bm
+                ON ca.reference_no = bm.business_mentor_id
 
-                FROM institution i
+            WHERE bm.reference_no = :user_id
+            AND ca.status IN (1,3)
+            AND bm.status = 1
 
-                INNER JOIN executive_techno_enterprise ste
-                    ON i.reference_no = ste.executive_techno_enterprise_id
+            $whereDateCA
+        )
 
-                WHERE i.reference_no = :user_id
-                AND i.status IN (1,3)
+        UNION ALL
 
-                $whereDateI
-            )
-            ORDER BY register_date DESC
+        (
+            -- Sub Franchisee (Direct)
+            SELECT
+                i.sub_franchisee_id AS teuser_id,
+                i.firstname,
+                i.lastname,
+                i.contact_no,
+                i.email,
+                i.register_date,
+                i.status,
+                i.amount,
+                i.user_type,
+
+                bm.name AS ref_firstname,
+                '' AS ref_lastname,
+                bm.employee_id AS reference_id
+
+            FROM sub_franchisee i
+            INNER JOIN employees bm
+                ON i.reference_no = bm.employee_id
+            WHERE i.reference_no = :user_id
+            AND i.status IN (1,3)
+
+            $whereDateI
+        )
+
+        UNION ALL
+
+        (
+            -- Sub Franchisee (Through BM)
+            SELECT
+                i.sub_franchisee_id AS teuser_id,
+                i.firstname,
+                i.lastname,
+                i.contact_no,
+                i.email,
+                i.register_date,
+                i.status,
+                i.amount,
+                i.user_type,
+
+                bm.firstname AS ref_firstname,
+                bm.lastname AS ref_lastname,
+                bm.business_mentor_id AS reference_id
+
+            FROM sub_franchisee i
+
+            INNER JOIN business_mentor bm
+                ON i.reference_no = bm.business_mentor_id
+
+            WHERE bm.reference_no = :user_id
+            AND i.status IN (1,3)
+            AND bm.status = 1
+
+            $whereDateI
+        )
+
+        ORDER BY register_date DESC;
         ";
 
         $stmt = $conn->prepare($sql);

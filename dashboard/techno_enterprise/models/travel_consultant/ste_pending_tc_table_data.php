@@ -20,7 +20,7 @@
                     ta.added_on,
                     ta.status,
 
-                    ca.corporate_agency_id AS reference_id,
+                    ca.corporate_agency_id AS techno_enterprise_id,
                     ca.firstname AS ref_firstname,
                     ca.lastname AS ref_lastname
 

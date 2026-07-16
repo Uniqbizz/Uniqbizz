@@ -222,6 +222,10 @@
                                                         <th class="text-muted fontSize1 pe-0" scope="row">Gender</th>
                                                         <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoGender"></td>
                                                     </tr>
+                                                    <tr>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Nominee Name</th>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoFs"></td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -230,19 +234,19 @@
                                                 <tbody>
                                                     <tr>
                                                         <th class="text-muted fontSize1 pe-0" scope="row">Mobile Number</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoPhone">9812334568</td>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoPhone">NA</td>
                                                     </tr>
                                                     <tr>
                                                         <th class="text-muted fontSize1 pe-0" scope="row">Email Address</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoEmail">goswamiab@gmail.com</td>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoEmail">NA</td>
                                                     </tr>
                                                     <tr>
                                                         <th class="text-muted fontSize1 pe-0" scope="row">Nationality</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoNatinality">Indian</td>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoNatinality">NA</td>
                                                     </tr>
                                                     <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">Father / Spouse Name</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoFs"></td>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Nominee Relation</th>
+                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoFsR"></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -302,236 +306,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- card section3 -->
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 colsm-12 col-12">
-                                <div class="card border rounded-4 cardHeight">
-                                    <div class="d-flex justify-content-between p-3">
-                                        <p class="align-content-center fs-4 fw-bold mb-0"><i class="fa-solid fa-briefcase fa-xl me-2" style="color: #43079e;"></i>Professional Details</p>
-                                        <p class="editBtn mb-0">Edit</p>
-                                    </div>
-                                    <hr class="text-muted border-3 mt-0 mx-3">
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6 pe-0">
-                                            <table class="table">
-                                                <tbody>
-                                                    <tr>
-                                                        <th class="text-muted fontSize1 pe-0">Occupation</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="occName">NA</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">Designation</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="occDes">NA</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">Experience</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="occExp">NA</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">Monthly Income</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="occIncome">&#8377; 0</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6 ps-0">
-                                            <table class="table">
-                                                <tbody>
-                                                    <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">Industry</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="occInd">NA</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">Organisation / Business</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="occOrg">NA</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">Professional Summary</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="occSum">NA</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 colsm-12 col-12">
-                                <div class="card border rounded-4 cardHeight">
-                                    <div class="d-flex justify-content-between p-3">
-                                        <p class="align-content-center fs-4 fw-bold mb-0"><i class="fa-solid fa-user-tie fa-xl me-2" style="color: #43079e;"></i>Leadership Assessment</p>
-                                        <p class="align-content-center fs-4 fw-bold mb-0"><i class="fa-solid fa-spinner fa-xl me-2" style="color: #43079e;"></i></p>
-                                    </div>
-                                    <hr class="text-muted border-3 mt-0 mx-3">
-                                    <div class="row px-3">
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6 mb-2">
-                                            <div class="d-flex gap-3 leaderCard">
-                                                <div class="align-content-center">
-                                                    <i class="fa-solid fa-users fa-2xl" style="color: #ffa600;"></i>
-                                                </div>
-                                                <div class="align-content-center">
-                                                    <p class="fs-4 fw-bold text-dark mb-0">0</p>
-                                                    <p class="fs-6 text-muted mb-0">Team Capacity</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6 mb-2">
-                                            <div class="d-flex gap-3 leaderCard">
-                                                <div class="align-content-center">
-                                                    <i class="fa-solid fa-user-tie fa-2xl" style="color: #ffa600;"></i>
-                                                </div>
-                                                <div class="align-content-center">
-                                                    <p class="fs-4 fw-bold text-dark mb-0">NA</p>
-                                                    <p class="fs-6 text-muted mb-0">Leadership</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6 mb-2">
-                                            <div class="d-flex gap-3 leaderCard">
-                                                <div class="align-content-center">
-                                                    <i class="fa-solid fa-bullhorn fa-2xl" style="color: #ffa600;"></i>
-                                                </div>
-                                                <div class="align-content-center">
-                                                    <p class="fs-4 fw-bold text-dark mb-0">NA</p>
-                                                    <p class="fs-6 text-muted mb-0">Public Speaking</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6 mb-2">
-                                            <div class="d-flex gap-3 leaderCard">
-                                                <div class="align-content-center">
-                                                    <i class="fa-solid fa-handshake fa-2xl" style="color: #ffa600;"></i>
-                                                </div>
-                                                <div class="align-content-center">
-                                                    <p class="fs-4 fw-bold text-dark mb-0">NA</p>
-                                                    <p class="fs-6 text-muted mb-0">Networking</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mx-3 mt-2">
-                                        <p class="fs-6 text-muted mb-2">Leadership Index</p>
-                                        <div class="progress" role="progressbar" aria-label="Warning example" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
-                                            <div class="progress-bar bg-warning" style="width: 85%"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- card section4 -->
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 colsm-12 col-12">
-                                <div class="card border rounded-4 cardHeight2">
-                                    <div class="d-flex justify-content-between p-3">
-                                        <p class="align-content-center fs-4 fw-bold mb-0"><i class="fa-solid fa-user-group fa-xl me-2" style="color: #43079e;"></i>Nominee Details</p>
-                                        <p class="editBtn mb-0">Edit</p>
-                                    </div>
-                                    <hr class="text-muted border-3 mt-0 mx-3">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-5 col-sm-5 col-5 pe-0">
-                                            <table class="table">
-                                                <tbody>
-                                                    <tr>
-                                                        <th class="text-muted fontSize1 pe-0">Nominee Name</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-muted fontSize1 pe-0">Relationship</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-muted fontSize1 pe-0">Mobile Number</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-muted fontSize1 pe-0">Date of Birth</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-muted fontSize1 pe-0">Address</th>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="col-lg-7 col-md-7 col-sm-7 col-7 ps-0">
-                                            <table class="table">
-                                                <tbody>
-                                                    <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="nomineeName">NA</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="nomineeRelation">NA</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="nomineePhone">NA</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="nomineeDob">NA</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="nomineeAddress">NA</th>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 colsm-12 col-12">
-                                <div class="card border rounded-4 cardHeight2">
-                                    <div class="d-flex justify-content-between p-3">
-                                        <p class="align-content-center fs-4 fw-bold mb-0"><i class="fa-solid fa-building-columns fa-xl me-2" style="color: #03730f;"></i>Banking Information</p>
-                                        <p class="editBtn mb-0">Edit</p>
-                                    </div>
-                                    <hr class="text-muted border-3 mt-0 mx-3">
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-5 col-sm-5 col-5 pe-0">
-                                            <table class="table">
-                                                <tbody>
-                                                    <tr>
-                                                        <th class="text-muted fontSize1 pe-0">Account Holder Name</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">Bank Name</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">Account Number</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">IFSC Code</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">Branch</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">UPI ID</th>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="col-lg-7 col-md-7 col-sm-7 col-7 ps-0">
-                                            <table class="table">
-                                                <tbody>
-                                                    <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="accHolderName">NA</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="bankName">NA</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="accountNumber">NA</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="ifscCode"></th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="branchName">NA</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-dark fw-bolder fontSize1 pe-0" scope="row" id="upiId">NA</th>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                         <!-- card section5 -->
                         <div class="card border rounded-4">
                             <div class="p-3">
@@ -542,7 +317,7 @@
                                 <!-- Profile Photo -->
                                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                                     <div class="document-card">
-                                        <!-- <input type="file" id="file1" class="file-input d-none" accept="image/*,.pdf" data-preview="preview1" data-view="view1" data-download="download1" disabled> -->
+                                        <!-- <input type="file" id="file1" class="file-input d-none" accept="image/*,.pdf" data-preview="preview1" data-view="view1" data-download="download1" corporate_agency> -->
                                         <label for="file1" class="upload-area">
                                             <span class="document-status verified"  data-document="profile_pic">Verified</span>
                                             <img id="preview1" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
@@ -566,9 +341,9 @@
                                 <!-- Aadhaar -->
                                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                                     <div class="document-card">
-                                        <!-- <input type="file" id="file2" class="file-input d-none" accept="image/*,.pdf" data-preview="preview2" data-view="view2" data-download="download2" disabled> -->
+                                        <!-- <input type="file" id="file2" class="file-input d-none" accept="image/*,.pdf" data-preview="preview2" data-view="view2" data-download="download2" corporate_agency> -->
                                         <label for="file2" class="upload-area">
-                                            <span class="document-status pending" data-document="aadhar_card">Pending</span>
+                                            <span class="document-status verified" data-document="aadhar_card">Verified</span>
                                             <img id="preview2" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
                                             <div class="upload-overlay">
                                                 <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
@@ -590,7 +365,7 @@
                                 <!-- PAN -->
                                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                                     <div class="document-card">
-                                        <!-- <input type="file" id="file3" class="file-input d-none" accept="image/*,.pdf" data-preview="preview3" data-view="view3" data-download="download3" disabled> -->
+                                        <!-- <input type="file" id="file3" class="file-input d-none" accept="image/*,.pdf" data-preview="preview3" data-view="view3" data-download="download3" corporate_agency> -->
                                         <label for="file3" class="upload-area">
                                             <span class="document-status verified" data-document="pan_card">Verified</span>
                                             <img id="preview3" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
@@ -614,9 +389,9 @@
                                 <!-- Passbook -->
                                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                                     <div class="document-card">
-                                        <!-- <input type="file" id="file4" class="file-input d-none" accept="image/*,.pdf" data-preview="preview4" data-view="view4" data-download="download4" disabled> -->
+                                        <!-- <input type="file" id="file4" class="file-input d-none" accept="image/*,.pdf" data-preview="preview4" data-view="view4" data-download="download4" corporate_agency> -->
                                         <label for="file4" class="upload-area">
-                                            <span class="document-status pending" data-document="cancelled_cheque_bank_passbook">Pending</span>
+                                            <span class="document-status verified" data-document="cancelled_cheque_bank_passbook">Verified</span>
                                             <img id="preview4" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
                                             <div class="upload-overlay">
                                                 <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
@@ -635,12 +410,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Resume CV -->
+                                <!-- Voter -->
                                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                                     <div class="document-card">
-                                        <!-- <input type="file" id="file5" class="file-input d-none" accept="image/*,.pdf" data-preview="preview5" data-view="view5" data-download="download5" disabled> -->
+                                        <!-- <input type="file" id="file5" class="file-input d-none" accept="image/*,.pdf" data-preview="preview5" data-view="view5" data-download="download5" corporate_agency> -->
                                         <label for="file5" class="upload-area">
-                                            <span class="document-status verified" data-document="resume_cv">Verified</span>
+                                            <span class="document-status verified" data-document="voting_card">Verified</span>
                                             <img id="preview5" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
                                             <div class="upload-overlay">
                                                 <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
@@ -648,7 +423,7 @@
                                                 <small>or click to upload</small> -->
                                             </div>
                                         </label>
-                                        <p class="text-center fw-semibold mt-2">Resume/CV</p>
+                                        <p class="text-center fw-semibold mt-2">Voting Card</p>
                                         <div class="d-flex gap-2">
                                             <a id="view5" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
                                                 View
@@ -659,12 +434,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Address Proof -->
+                                <!-- Payment Proof -->
                                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                                     <div class="document-card">
-                                        <!-- <input type="file" id="file6" class="file-input d-none" accept="image/*,.pdf" data-preview="preview6" data-view="view6" data-download="download6" disabled> -->
+                                        <!-- <input type="file" id="file6" class="file-input d-none" accept="image/*,.pdf" data-preview="preview6" data-view="view6" data-download="download6" corporate_agency> -->
                                         <label for="file6" class="upload-area">
-                                            <span class="document-status rejected" data-document="address_proof">Rejected</span>
+                                            <span class="document-status verified" data-document="payment_proof">Verified</span>
                                             <img id="preview6" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
                                             <div class="upload-overlay">
                                                 <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
@@ -672,7 +447,7 @@
                                                 <small>or click to upload</small> -->
                                             </div>
                                         </label>
-                                        <p class="text-center fw-semibold mt-2">Address Proof</p>
+                                        <p class="text-center fw-semibold mt-2">Payment Proof</p>
                                         <div class="d-flex gap-2">
                                             <a id="view6" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
                                                 View
@@ -683,127 +458,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Professional Profile -->
-                                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
-                                    <div class="document-card">
-                                        <!-- <input type="file" id="file6" class="file-input d-none" accept="image/*,.pdf" data-preview="preview6" data-view="view6" data-download="download6" disabled> -->
-                                        <label for="file7" class="upload-area">
-                                            <span class="document-status rejected" data-document="professional_profile">Rejected</span>
-                                            <img id="preview6" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
-                                            <div class="upload-overlay">
-                                                <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
-                                                <span>Drag & Drop</span>
-                                                <small>or click to upload</small> -->
-                                            </div>
-                                        </label>
-                                        <p class="text-center fw-semibold mt-2">Professional Profile</p>
-                                        <div class="d-flex gap-2">
-                                            <a id="view7" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
-                                                View
-                                            </a>
-                                            <a id="download7" class="py-1 btn btn-success disabled" download>
-                                                <i class="fa-solid fa-download"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Business Profile -->
-                                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
-                                    <div class="document-card">
-                                        <!-- <input type="file" id="file6" class="file-input d-none" accept="image/*,.pdf" data-preview="preview6" data-view="view6" data-download="download6" disabled> -->
-                                        <label for="file8" class="upload-area">
-                                            <span class="document-status rejected" data-document="business_profile">Rejected</span>
-                                            <img id="preview8" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
-                                            <div class="upload-overlay">
-                                                <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
-                                                <span>Drag & Drop</span>
-                                                <small>or click to upload</small> -->
-                                            </div>
-                                        </label>
-                                        <p class="text-center fw-semibold mt-2">Business Profile</p>
-                                        <div class="d-flex gap-2">
-                                            <a id="view8" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
-                                                View
-                                            </a>
-                                            <a id="download8" class="py-1 btn btn-success disabled" download>
-                                                <i class="fa-solid fa-download"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Income Proof -->
-                                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
-                                    <div class="document-card">
-                                        <!-- <input type="file" id="file6" class="file-input d-none" accept="image/*,.pdf" data-preview="preview6" data-view="view6" data-download="download6" disabled> -->
-                                        <label for="file9" class="upload-area">
-                                            <span class="document-status rejected" data-document="income_proof">Rejected</span>
-                                            <img id="preview9" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
-                                            <div class="upload-overlay">
-                                                <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
-                                                <span>Drag & Drop</span>
-                                                <small>or click to upload</small> -->
-                                            </div>
-                                        </label>
-                                        <p class="text-center fw-semibold mt-2">Income Proof</p>
-                                        <div class="d-flex gap-2">
-                                            <a id="view9" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
-                                                View
-                                            </a>
-                                            <a id="download9" class="py-1 btn btn-success disabled" download>
-                                                <i class="fa-solid fa-download"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Other Document -->
-                                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
-                                    <div class="document-card">
-                                        <!-- <input type="file" id="file6" class="file-input d-none" accept="image/*,.pdf" data-preview="preview6" data-view="view6" data-download="download6" disabled> -->
-                                        <label for="file10" class="upload-area">
-                                            <span class="document-status rejected" data-document="other_document">Rejected</span>
-                                            <img id="preview10" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
-                                            <div class="upload-overlay">
-                                                <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
-                                                <span>Drag & Drop</span>
-                                                <small>or click to upload</small> -->
-                                            </div>
-                                        </label>
-                                        <p class="text-center fw-semibold mt-2">Other Document</p>
-                                        <div class="d-flex gap-2">
-                                            <a id="view10" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
-                                                View
-                                            </a>
-                                            <a id="download10" class="py-1 btn btn-success disabled" download>
-                                                <i class="fa-solid fa-download"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Nominee Profile -->
-                                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
-                                    <div class="document-card">
-                                        <!-- <input type="file" id="file6" class="file-input d-none" accept="image/*,.pdf" data-preview="preview6" data-view="view6" data-download="download6" disabled> -->
-                                        <label for="file11" class="upload-area">
-                                            <span class="document-status rejected" data-document="nominee_profile">Rejected</span>
-                                            <img id="preview11" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
-                                            <div class="upload-overlay">
-                                                <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
-                                                <span>Drag & Drop</span>
-                                                <small>or click to upload</small> -->
-                                            </div>
-                                        </label>
-                                        <p class="text-center fw-semibold mt-2">Nominee Profile</p>
-                                        <div class="d-flex gap-2">
-                                            <a id="view11" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
-                                                View
-                                            </a>
-                                            <a id="download11" class="py-1 btn btn-success disabled" download>
-                                                <i class="fa-solid fa-download"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
+                                <!-- document-status pending/rejected -->
                             </div>
                         </div>
                     </div> <!-- container-fluid -->
@@ -989,7 +644,6 @@
                             );
 
                             $('#profileAddress').html(
-                                '<i class="fa-solid fa-location-dot"></i> ' +
                                 (profile.profile_address || '')
                             );
 
@@ -1037,7 +691,6 @@
                         console.log(error);
                     }
                 });
-
                 //status card
                 $.ajax({
                     url: 'models/profile/sub_title_card.php',
@@ -1062,15 +715,15 @@
                 });
                 //personal information card
                 loadPersonalInfo('<?= $userId ?>');
-                //residential address
+                // //residential address
                 loadResidentialInfo('<?= $userId ?>');
-                //professional details
-                loadProfessionalInfo('<?= $userId ?>');
-                //nominee detals
-                loadNomineeInfo('<?= $userId ?>');
-                //bank details
-                loadBankInfo('<?= $userId ?>');
-                //documents
+                // //professional details
+                // loadProfessionalInfo('<?= $userId ?>');
+                // //nominee detals
+                // loadNomineeInfo('<?= $userId ?>');
+                // //bank details
+                // loadBankInfo('<?= $userId ?>');
+                // //documents
                 loadDocuments('<?= $userId ?>');
             });
             function loadPersonalInfo(userId) {
@@ -1100,7 +753,8 @@
 
                             $('#perInfoEmail').text(data.per_info_email || '');
                             $('#perInfoNatinality').text(data.per_info_nationality || '');
-                            $('#perInfoFs').text(data.per_info_father_spouse_name || '');
+                            $('#perInfoFs').text(data.per_info_nominee_name || '');
+                            $('#perInfoFsR').text(data.per_info_nominee_relation || '');
 
                         } else {
 
@@ -1149,104 +803,104 @@
                     }
                 });
             }
-            function loadProfessionalInfo(userId){
-                $.ajax({
-                    url: 'models/profile/professional_details.php',
-                    type: 'GET',
-                    dataType: 'json',
-                    data: {
-                        user_id: userId
-                    },
-                    success: function(response) {
+            // function loadProfessionalInfo(userId){
+            //     $.ajax({
+            //         url: 'models/profile/professional_details.php',
+            //         type: 'GET',
+            //         dataType: 'json',
+            //         data: {
+            //             user_id: userId
+            //         },
+            //         success: function(response) {
 
-                        if (response.status) {
+            //             if (response.status) {
 
-                            $('#occName').text(response.data.current_occupation);
-                            $('#occExp').text(response.data.current_experience);
-                            $('#occIncome').html('&#8377; ' + (response.data.current_income || 0));
+            //                 $('#occName').text(response.data.current_occupation);
+            //                 $('#occExp').text(response.data.current_experience);
+            //                 $('#occIncome').html('&#8377; ' + (response.data.current_income || 0));
 
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: response.message
-                            });
-                        }
-                    },
-                    error: function() {
-                        alert('Unable to fetch professional details.');
-                    }
-                });
-            }
-            function loadNomineeInfo(userId){
-                $.ajax({
-                    url: 'models/profile/nominee_details.php',
-                    type: 'GET',
-                    dataType: 'json',
-                    data: {
-                        user_id: userId
-                    },
-                    success: function(response){
+            //             } else {
+            //                 Swal.fire({
+            //                     icon: 'error',
+            //                     title: 'Error',
+            //                     text: response.message
+            //                 });
+            //             }
+            //         },
+            //         error: function() {
+            //             alert('Unable to fetch professional details.');
+            //         }
+            //     });
+            // }
+            // function loadNomineeInfo(userId){
+            //     $.ajax({
+            //         url: 'models/profile/nominee_details.php',
+            //         type: 'GET',
+            //         dataType: 'json',
+            //         data: {
+            //             user_id: userId
+            //         },
+            //         success: function(response){
 
-                        if(response.status){
+            //             if(response.status){
 
-                            $('#nomineeName').text(response.data.nominee_name || '');
-                            $('#nomineeRelation').text(response.data.nominee_relation || '');
+            //                 $('#nomineeName').text(response.data.nominee_name || '');
+            //                 $('#nomineeRelation').text(response.data.nominee_relation || '');
 
-                            $('#nomineePhone').text(
-                                (response.data.nominee_contact_cd || '') +
-                                ' ' +
-                                (response.data.nominee_contact_no || '')
-                            );
+            //                 $('#nomineePhone').text(
+            //                     (response.data.nominee_contact_cd || '') +
+            //                     ' ' +
+            //                     (response.data.nominee_contact_no || '')
+            //                 );
 
-                            $('#nomineeDob').text(response.data.nominee_date_of_birth || '');
-                            $('#nomineeAddress').text(response.data.nominee_address || '');
+            //                 $('#nomineeDob').text(response.data.nominee_date_of_birth || '');
+            //                 $('#nomineeAddress').text(response.data.nominee_address || '');
 
-                        }else{
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: response.message
-                            });
-                        }
-                    },
-                    error: function(){
-                        alert('Unable to fetch nominee details.');
-                    }
-                });
-            }
-            function loadBankInfo(userId){
-                $.ajax({
-                    url: 'models/profile/bank_info_card.php',
-                    type: 'GET',
-                    dataType: 'json',
-                    data: {
-                        user_id: userId
-                    },
-                    success: function(response){
+            //             }else{
+            //                 Swal.fire({
+            //                     icon: 'error',
+            //                     title: 'Error',
+            //                     text: response.message
+            //                 });
+            //             }
+            //         },
+            //         error: function(){
+            //             alert('Unable to fetch nominee details.');
+            //         }
+            //     });
+            // }
+            // function loadBankInfo(userId){
+            //     $.ajax({
+            //         url: 'models/profile/bank_info_card.php',
+            //         type: 'GET',
+            //         dataType: 'json',
+            //         data: {
+            //             user_id: userId
+            //         },
+            //         success: function(response){
 
-                        if(response.status){
+            //             if(response.status){
 
-                            $('#accHolderName').text(response.data.account_holder_name || '');
-                            $('#bankName').text(response.data.bank_name || '');
-                            $('#accountNumber').text(response.data.account_number || '');
-                            $('#ifscCode').text(response.data.ifsc_code || '');
-                            $('#branchName').text(response.data.branch_name || '');
-                            $('#upiId').text(response.data.upi_id || '');
+            //                 $('#accHolderName').text(response.data.account_holder_name || '');
+            //                 $('#bankName').text(response.data.bank_name || '');
+            //                 $('#accountNumber').text(response.data.account_number || '');
+            //                 $('#ifscCode').text(response.data.ifsc_code || '');
+            //                 $('#branchName').text(response.data.branch_name || '');
+            //                 $('#upiId').text(response.data.upi_id || '');
 
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: response.message
-                            });
-                        }
-                    },
-                    error: function(){
-                        alert('Unable to fetch bank details.');
-                    }
-                });
-            }
+            //             } else {
+            //                 Swal.fire({
+            //                     icon: 'error',
+            //                     title: 'Error',
+            //                     text: response.message
+            //                 });
+            //             }
+            //         },
+            //         error: function(){
+            //             alert('Unable to fetch bank details.');
+            //         }
+            //     });
+            // }
             function loadDocuments(userId){
 
                 $.ajax({
@@ -1269,7 +923,7 @@
                         const docs = [
                             {
                                 url: data.profile_pic?'../../uploading/'+data.profile_pic:'',
-                                status: verification.profile_pic,
+                                status: 'Approved',
                                 preview: 'preview1',
                                 view: 'view1',
                                 download: 'download1',
@@ -1277,7 +931,7 @@
                             },
                             {
                                 url: data.aadhar_card?'../../uploading/'+data.aadhar_card:'',
-                                status: verification.aadhar_card,
+                                status: 'Approved',
                                 preview: 'preview2',
                                 view: 'view2',
                                 download: 'download2',
@@ -1285,77 +939,36 @@
                             },
                             {
                                 url: data.pan_card?'../../uploading/'+data.pan_card:'',
-                                status: verification.pan_card,
+                                status: 'Approved',
                                 preview: 'preview3',
                                 view: 'view3',
                                 download: 'download3',
                                 docKey: 'pan_card'
                             },
                             {
-                                url: data.cancelled_cheque_bank_passbook?'../../uploading/'+data.cancelled_cheque_bank_passbook:'',
-                                status: verification.bank_passbook,
+                                url: data.bank_passbook?'../../uploading/'+data.bank_passbook:'',
+                                status: 'Approved',
                                 preview: 'preview4',
                                 view: 'view4',
                                 download: 'download4',
-                                docKey: 'cancelled_cheque_bank_passbook'
+                                docKey: 'bank_passbook'
                             },
                             {
-                                url: data.resume_cv?'../../uploading/'+data.resume_cv:'',
-                                status: verification.resume_cv,
+                                url: data.voting_card?'../../uploading/'+data.voting_card:'',
+                                status: 'Approved',
                                 preview: 'preview5',
                                 view: 'view5',
                                 download: 'download5',
-                                docKey: 'resume_cv'
+                                docKey: 'voting_card'
                             },
                             {
-                                url: data.address_proof?'../../uploading/'+data.address_proof:'',
-                                status: verification.address_proof,
+                                url: data.payment_proof?'../../uploading/'+data.payment_proof:'',
+                                status: 'Approved',
                                 preview: 'preview6',
                                 view: 'view6',
                                 download: 'download6',
-                                docKey: 'address_proof'
-                            },
-                            {
-                                url: data.professional_profile?'../../uploading/'+data.professional_profile:'',
-                                status: verification.professional_profile,
-                                preview: 'preview7',
-                                view: 'view7',
-                                download: 'download7',
-                                docKey: 'professional_profile'
-                            },
-                            {
-                                url: data.business_profile?'../../uploading/'+data.business_profile:'',
-                                status: verification.business_profile,
-                                preview: 'preview8',
-                                view: 'view8',
-                                download: 'download8',
-                                docKey: 'business_profile'
-                            },
-                            {
-                                url: data.income_proof?'../../uploading/'+data.income_proof:'',
-                                status: verification.income_proof,
-                                preview: 'preview9',
-                                view: 'view9',
-                                download: 'download9',
-                                docKey: 'income_proof'
-                            },
-                            {
-                                url: data.other_document?'../../uploading/'+data.other_document:'',
-                                status: verification.other_document,
-                                preview: 'preview10',
-                                view: 'view10',
-                                download: 'download10',
-                                docKey: 'other_document'
-                            },
-                            {
-                                url: data.nominee_profile?'../../uploading/'+data.nominee_profile:'',
-                                status: verification.nominee_profile,
-                                preview: 'preview11',
-                                view: 'view11',
-                                download: 'download11',
-                                docKey: 'nominee_profile'
+                                docKey: 'payment_proof'
                             }
-                            
                         ];
 
                         docs.forEach(function(doc){
