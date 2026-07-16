@@ -13,49 +13,6 @@ $.ajax({
     }
 });
 
-// Set Global Variables for next page button
-var packageFormGeneralTitle = document.getElementById('package_form_general_title'),
-	packageFormExtraTitle = document.getElementById('package_form_extra_title'),
-	packageFormItineraryTitle = document.getElementById('package_form_itinerary_title'),
-	packageFormPricingTitle = document.getElementById('package_form_pricing_title'),
-	packageFormPictureTitle = document.getElementById('package_form_picture_title');
-var packageFormGeneral = document.getElementById('package_form_general'),
-	packageFormExtra = document.getElementById('package_form_extra'),
-	packageFormItinerary = document.getElementById('package_form_itinerary'),
-	packageFormPricing = document.getElementById('package_form_pricing'),
-	packageFormPicture = document.getElementById('package_form_picture');
-var packageFormGeneralNextBtn = document.getElementById('package_form_general_nextBtn'),
-	packageFormExtraNextBtn = document.getElementById('package_form_extra_nextBtn'),
-	packageFormItineraryNextBtn = document.getElementById('package_form_itinerary_nxtBtn'),
-	packageFormPricingNextBtn = document.getElementById('package_form_pricing_nextBtn'),
-	packageFormPictureNextBtn = document.getElementById('package_form_picture_nxtBtn');
-// back button function
-var view_page = document.getElementById('return_to_views_btn'),
-	general_page = document.getElementById('return_to_general_btn'),
-	extraInfo_page = document.getElementById('return_to_extraInfo_btn'),
-	itinerary_page = document.getElementById('return_to_itinerary_btn'),
-	pricing_page = document.getElementById('return_to_pricing_btn');
-
-var occupancies = [];
-var vehicles = [];
-
-// Eventt listeners
-packageFormGeneralNextBtn.addEventListener('click', generalFormNext, false);
-packageFormExtraNextBtn.addEventListener('click', extraFormNext, false);
-packageFormItineraryNextBtn.addEventListener('click', itineraryFormNext, false);
-packageFormPricingNextBtn.addEventListener('click', pricingFormNext, false);
-// return back function
-general_page.addEventListener('click', showGeneralForm, false);
-extraInfo_page.addEventListener('click', generalFormNext, false);
-itinerary_page.addEventListener('click', extraFormNext, false);
-pricing_page.addEventListener('click', itineraryFormNext, false);
-// Fetch sub categories
-document.getElementById('category_id').addEventListener('change', getSubCategories, false);
-document.getElementById('sub_category_id').addEventListener('change', getSubCategory, false);
-document.getElementById('sub_category_data').addEventListener('change', getSubCategory, false);
-// submit form
-document.getElementById('submit_form').addEventListener('click', submit_form_data, false);
-document.getElementById('update_form').addEventListener('click', update_form_data, false);
 
 // fetch sub category
 function getSubCategories() {
@@ -349,135 +306,6 @@ function packageTypeOnClick(data) {
 	}
 }
 
-var ocup_id, ocup_name = '';
-// select occupanies to inerst in array
-$('#occupancy_id').on('change', function () {
-	ocup_id = $('#occupancy_id').val();
-	// console.log(occupancies);
-
-	// fetch occupancies
-	if (ocup_id == '0') { } else {
-		$.ajax({
-			type: 'POST',
-			url: 'forms/get_occupancy_categories.php',
-			data: 'ocup_id=' + ocup_id,
-			success: function (e) {
-				// console.log(e);	// push data into array
-				var data = {
-					id: ocup_id,
-					name: e
-				};
-				if (occupancies.some(data => data['id'] === ocup_id)) {
-					console.log("Already Exist");
-				} else {
-					occupancies.push(data);
-					showOccupancy();
-					// $('#occupancy_data').html(occupancies.name);
-				}
-			},
-			error: function (err) {
-				console.log(err);
-			},
-		});
-	}
-});
-function showOccupancy() {
-	var newContainer = document.createElement("div");
-	var outputOccupancy = $('#occupancy_data');
-	outputOccupancy.empty();
-	occupancies.forEach(function (occupancy, i) {
-		var html = '<div class="card-header card-header-default occupancy_block_' + occupancy['id'] + '" style="padding: 2px 2px 0px 8px; width:100px; display:inline-flex">' +
-			'<div class="row">' +
-			'<div style="background-color: #4eb4cf; padding: 3px 3px 4px 5px; border-radius: 4px; color:white; font-weight:500; font-size:15px">' +
-			occupancy['name'] + ' <a class="delete_occupancy" href="#" data-no="' + occupancy['id'] + '" style="margin-left: 5px;color: white;font-size: 18px;background-color: red;padding: 2px;border-radius: 5px"><i class="bx bx-trash"></i></a>' +
-			'</div>' +
-			'</div>' +
-			'</div>';
-		// outputOccupancy.html(html);
-		newContainer.innerHTML += html;
-		// outputOccupancy[i].appendChild(newContainer);	// for sigle element to append
-		outputOccupancy.append(newContainer);				// for multiple element to append
-		// console.log(outputOccupancy);
-	});
-}
-$(document).on('click', '.delete_occupancy', function () {
-	let no = $(this).data('no');
-	// console.log(no);
-	occupancies.forEach(function (occupancy, i) {
-		if (occupancy['id'] == no) {
-			occupancies.splice(i, 1);
-			$(".occupancy_block_" + no).remove();
-			// console.log(occupancies);
-		}
-	});
-});
-
-
-var vehicle_id, vehicle_name = '';
-// select vehicle to inerst in array
-$('#vehicle_id').on('change', function () {
-	vehicle_id = $('#vehicle_id').val();
-	// console.log(vehicles);
-
-	// fetch vehicles
-	if (vehicle_id == '0') { } else {
-		$.ajax({
-			type: 'POST',
-			url: 'forms/get_vehicles_categories.php',
-			data: 'vehicle_id=' + vehicle_id,
-			success: function (e) {
-				// console.log(e);
-				var data = {
-					id: vehicle_id,
-					name: e
-				};
-				if (vehicles.some(data => data['id'] === vehicle_id)) {
-					console.log("Already Exist");
-				} else {
-					vehicles.push(data);		// push data into array
-					showVehicle();
-					$('#vehicle_data').html(vehicles.name);
-				}
-			},
-			error: function (err) {
-				console.log(err);
-			},
-		});
-	}
-});
-function showVehicle() {
-	var newContainerVehicle = document.createElement("div");
-	var outputVehicle = $('#vehicle_data');
-	outputVehicle.empty();
-	vehicles.forEach(function (vehicle, i) {
-		var html = '<div class="card-header card-header-default vehicle_block_' + vehicle['id'] + '" style="padding: 2px 2px 0px 8px; width:110px; display:inline-flex">' +
-			'<div class="row">' +
-			'<div style="background-color: #4eb4cf; padding: 3px 3px 4px 5px; border-radius: 4px; color:white; font-weight:500; font-size:15px">' +
-			vehicle['name'] + ' <a class="delete_vehicle" href="#" data-no="' + vehicle['id'] + '" style="margin-left: 5px;color: white;font-size: 18px;background-color: red;padding: 2px;border-radius: 5px"><i class="bx bx-trash"></i></a>' +
-			'</div>' +
-			'</div>' +
-			'</div>';
-		// outputVehicle.innerHTML(html);
-		newContainerVehicle.innerHTML += html;
-		// outputVehicle[i].appendChild(newContainerVehicle);		// for sigle element to append
-		outputVehicle.append(newContainerVehicle);				// for multiple element to append
-
-		// console.log(outputVehicle);
-	});
-}
-$(document).on('click', '.delete_vehicle', function () {
-	let no = $(this).data('no');
-	// console.log(no);
-	vehicles.forEach(function (vehicle, i) {
-		if (vehicle['id'] == no) {
-			vehicles.splice(i, 1);
-			$(".vehicle_block_" + no).remove();
-			// console.log(vehicles);
-		}
-	});
-});
-
-
 // add days function
 var wrapper = $(".input_fields_wrap"); 		// Fields wrapper
 var add_button = $(".add_field_button"); 	// Add button
@@ -493,43 +321,61 @@ $(document).ready(function () {
 		if (x < max_fields) {
 			x++;
 			$(wrapper).append(`<div class="row day-container">
-						<div class="col-md-2 col-sm-2 col-12 d-flex justify-content-center align-items-center">
-							<div class="">
-								<a type="button" class="btn btn-success px-3 ms-4 dayval">Day: ${dayCount}</a>
+						<div class="col-md-2 col-sm-2 col-12 mb-2">
+							<div class="upload-card icon-upload-card" data-title="Icons" data-index="1">
+								<input type="hidden" id="img_path1" value="">
+								<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file1">
+								<div class="upload-content">
+									<div class="upload-icon">
+										<i class="fa-solid fa-user"></i>
+									</div>
+									<h6>Add Icons</h6>
+									<p>Click to upload<br>or drag and drop</p>
+									<small>(JPG, PNG, PDF)</small>
+								</div>
 							</div>
-						</div>
+ 						</div>
 						<div class="col-md-10 col-sm-10 col-12">
-							<div class="row">
-								<div class="card rounded-5 box" draggable="true">
-									<div class="row px-4 pt-2 d-flex justify-content-between">
-										<div class="col-md-9 col-sm-8 col-8">
-											<div class="input-group mb-3">
-												<span class="input-group-text">Title</span>
-												<input type="text" class="form-control title" placeholder="Title">
-											</div>
+							<div class="card rounded-5 box border border-1 px-3 pt-3" draggable="true">
+								<div class="row">
+									<div class="col-md-2 col-sm-3 col-3">
+										<a type="button" class="btn btn-success px-3 dayval">Day: ${dayCount}</a>
+									</div>
+									<div class="col-md-8 col-sm-6 col-6">
+										<div class="input-group mb-3">
+											<span class="input-group-text">Title</span>
+											<input type="text" class="form-control title" placeholder="Title">
 										</div>
-										<div class="col-md-2 col-4 col-4">
+									</div>
+									<div class="col-md-2 col-sm-3 col-3">
+										<div class="d-flex justify-content-end">
 											<button type="button" class="remove_field btn btn-danger px-3 ms-4">Remove</button>
 										</div>
 									</div>
-									<div class="col-md-12 px-4 pb-2">
-										<div class="input-group">
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="input-group mb-3">
 											<span class="input-group-text">Description</span>
 											<textarea class="form-control description"></textarea>
 										</div>
 									</div>
-									<div class="row px-4 py-2 pb-0">
-										<div class="col-md-6">
-											<div class="input-group mb-3">
-												<span class="input-group-text">Meals Included</span>
-												<input type="text" class="form-control meals" placeholder="Meals">
-											</div>
+									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
+										<div class="input-group mb-3">
+											<span class="input-group-text">Meals Included</span>
+											<input type="text" class="form-control meals" placeholder="Meals">
 										</div>
-										<div class="col-md-6">
-											<div class="input-group mb-3">
-												<span class="input-group-text">Transport</span>
-												<input type="text" class="form-control transport" placeholder="Transport">
-											</div>
+									</div>
+									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
+										<div class="input-group mb-3">
+											<span class="input-group-text">Transport</span>
+											<input type="text" class="form-control transport" placeholder="Transport">
+										</div>
+									</div>
+									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
+										<div class="input-group mb-3">
+											<span class="input-group-text">Stay</span>
+											<input type="text" class="form-control transport" placeholder="Stay">
 										</div>
 									</div>
 								</div>
@@ -554,122 +400,6 @@ $(document).ready(function () {
 		});
 	}
 });
-// var max_fields = 16, dayCount = 0;
-// var wrapper = $(".input_fields_wrap"); 		//Fields wrapper
-// var add_button = $(".add_field_button"); 	//Add button ID
-// var x = 1; 									//initlal text box count
-// $(document).ready(function () {
-// 	$(add_button).click(function (e) { 			//on add input button click
-// 		e.preventDefault();
-
-// 		dayCount += 1;
-// 		if (x < max_fields) { 					//max input box allowed
-// 			x++; 								//text box increment
-// 			$(wrapper).append(`<div class="row day-container" id="removeDiv">
-// 						<div class="col-md-2 col-sm-2 col-12 d-flex justify-content-center align-items-center">
-// 							<div class="">
-// 								<a type="button" class="btn btn-success px-3 ms-4 dayval">Day:`+ dayCount + `</a>
-// 							</div>
-// 						</div>
-// 						<div class="col-md-10 col-sm-10 col-12">
-// 							<div class="row">
-// 								<div class="card rounded-5 box" draggable="true" id="box`+ dayCount + `">
-// 									<div class="row px-4 pt-2 d-flex justify-content-between">
-// 										<div class="col-md-10">
-// 											<div class="input-group mb-3">
-// 												<span class="input-group-text" id="basic-addon1">Title</span>
-// 												<input type="text" class="form-control title" placeholder="Title" aria-label="Username" aria-describedby="basic-addon1">
-// 											</div>
-// 										</div>
-// 										<div class="col-md-2 col-4 col-4">
-// 											<button type="button" class="remove_field btn btn-danger px-3 ms-4">Remove</button>
-// 										</div>
-// 									</div>
-// 									<div class="col-md-12 px-4 pb-2">
-// 										<div class="input-group">
-// 											<span class="input-group-text">Description</span>
-// 											<textarea class="form-control description" aria-label="With textarea"></textarea>
-// 										</div>
-// 									</div>
-// 									<div class="row px-4 py-2 pb-0">
-// 										<div class="col-md-6">
-// 											<div class="input-group mb-3">
-// 												<span class="input-group-text" id="basic-addon1">Meals Included</span>
-// 												<input type="text" class="form-control meals" placeholder="Meals" aria-label="Meals" aria-describedby="basic-addon1">
-// 											</div>
-// 										</div>
-// 										<div class="col-md-6">
-// 											<div class="input-group mb-3">
-// 												<span class="input-group-text" id="basic-addon1">Transport</span>
-// 												<input type="text" class="form-control transport" placeholder="Transport" aria-label="Transport" aria-describedby="basic-addon1">
-// 											</div>
-// 										</div>
-// 									</div>
-// 								</div>
-// 							</div>
-// 						</div>
-// 					</div>`
-
-
-
-// 			); //add input box
-// 		}
-// 	});
-
-// 	//user click on remove text
-
-// 	document.querySelectorAll('.remove_field').forEach(button => {
-// 		button.addEventListener('click', function(e) {
-// 			e.preventDefault(); // Prevent default button action
-// 			var dayContainer = this.closest('.day-container'); // Find the closest .day-container
-// 			if (dayContainer) {
-// 				dayContainer.remove();
-
-// 				dayCount -= 1 
-// 				$('.dayval').text('Day:'+dayCount);// Remove it from the DOM
-// 			}
-// 		});
-// 	});
-// });
-
-// `<div style="display:flex; align-self: center; padding: 10px 0px;">
-// 			<a href="#" class="col-1" style="padding: 0px 10px; align-self: center;">Day:`+ dayCount + ` </a>
-// 			<textarea name="days[]" rows="2" cols="100" style="padding: 0px 10px; width: 78% !important;"></textarea>
-// 			<a href="#" class="remove_field custom_btn btn2" class="col-1" style="padding: 14px 22px;">Remove</a>
-// 		</div>`
-
-// Add Days function -------------------------- NOT USING-------------------------------------
-// var addDay, dayCount = 0;
-// 	$('#add_day').on('click', function(){
-// 		dayCount += 1;
-// 		console.log(dayCount);
-// 		addDay = '<span>Day-'+dayCount+' : <textarea id="day'+dayCount+'" name="day'+dayCount+'" rows="5" cols="50"></textarea> </span>\r\n';
-// 		document.getElementById('wrapper').innerHTML += addDay;
-// 		addingDay(dayCount);
-// 	});
-// 		function addingDay(dayCount) 
-// 		{
-// 			var dayValue = $('#day'+dayCount).value;
-// 			var outputDays = $('#wrapper');
-// 			var data = {
-// 					id: 'day'+dayCount,
-// 					name: 'day'+dayCount,
-// 					value: dayValue
-// 				};
-// 				if(days.some(data => data['id'] === dayCount)){
-// 					console.log("Already Exist");
-// 				}else{
-// 					days.push(data);
-// 				}
-// 			console.log(days);
-// 		}
-// 	$('#remove_day').on('click', function(){
-// 		dayCount -= 1;
-// 		console.log(dayCount);
-// 		document.getElementById('wrapper').innerHTML -= addDay;
-// 	});
-// -------------------------- NOT USING-------------------------------------
-
 
 // All functions
 function generalformHide(d) {
