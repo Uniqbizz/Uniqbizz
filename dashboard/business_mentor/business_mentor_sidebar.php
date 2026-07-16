@@ -28,8 +28,8 @@
                         <i class="ri-user-shared-2-line"></i> <span>TE | F</span>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($current_page == 'techno_enterprise_list.php') ? 'active' : ''; ?>">
-                    <a class="nav-link menu-link" href="techno_enterprise_list.php">
+                <li class="nav-item <?php echo ($current_page == 'institution_list.php') ? 'active' : ''; ?>">
+                    <a class="nav-link menu-link" href="institution_list.php">
                         <i class="ri-user-shared-2-line"></i> <span>Institution</span>
                     </a>
                 </li>

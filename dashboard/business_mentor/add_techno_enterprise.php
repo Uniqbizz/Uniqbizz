@@ -42,9 +42,9 @@
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <link rel="stylesheet" href="../assets/css/validation.css" />
     </head>
     <body>
-        <div id="testemails"></div>
         <!-- Begin page -->
         <div id="layout-wrapper">
 
@@ -86,7 +86,8 @@
             <!-- Start right Content here -->
             <!-- ============================================================== -->
             <div class="main-content">
-
+                <div id="testpho"></div>
+                <div id="testemail"></div>
                 <div class="page-content">
                     <div class="container-fluid">
                         <!-- start page title -->
@@ -131,28 +132,32 @@
                                     <div class="mb-3">
                                         <label for="gender" class="form-label fw-bold">Register As <span class="text-danger fw-bolder">*</span></label>
                                         <select class="form-select genderSelect" id="registerAs" required>
-                                            <!-- <option value="" selected>Select Register As</option> -->
-                                            <option value="16" selected>Techno Eneterprise</option>
-                                            <!-- <option value="29">Franchisee</option> -->
+                                            <option value="" selected>Select Register As</option>
+                                            <option value="16">Techno Eneterprise</option>
+                                            <option value="29">Franchisee</option>
                                         </select>
+                                        <small class="error-message" id="registerAs_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
                                         <label for="firstname" class="form-label fw-bold">First Name <span class="text-danger fw-bolder">*</span></label>
                                         <input type="text" class="form-control" id="firstname" placeholder="Enter full name" required>
+                                        <small class="error-message" id="firstname_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
                                         <label for="lastname" class="form-label fw-bold">Last Name <span class="text-danger fw-bolder">*</span></label>
                                         <input type="text" class="form-control" id="lastname" placeholder="Enter last name" required>
+                                        <small class="error-message" id="lastname_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3 dateBirth">
                                         <label for="dob" class="form-label fw-bold">Date of Birth <span class="text-danger fw-bolder">*</span></label>
                                         <input type="date" class="form-control" id="dob" placeholder="dd-mm-yyyy"onfocus="this.type='date'" onblur="if(!this.value)this.type='text'" required>
+                                        <small class="error-message" id="dob_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
@@ -164,24 +169,28 @@
                                             <option value="female">Female</option>
                                             <option value="others">Others</option>
                                         </select>
+                                        <small class="error-message" id="gender_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
                                         <label for="email" class="form-label fw-bold">Email address <span class="text-danger fw-bolder">*</span></label>
                                         <input type="email" class="form-control" id="email" placeholder="Enter email address" required>
+                                        <small class="error-message" id="email_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
                                         <label for="nominee_name" class="form-label fw-bold">Nominee name <span class="text-danger fw-bolder">*</span></label>
                                         <input type="text" class="form-control" id="nominee_name" placeholder="Enter nominee name" required>
+                                        <small class="error-message" id="nominee_name_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
                                         <label for="nominee_relation" class="form-label fw-bold">Nominee Relation <span class="text-danger fw-bolder">*</span></label>
-                                        <input type="email" class="form-control" id="nominee_relation" placeholder="Enter relation" required>
+                                        <input type="text" class="form-control" id="nominee_relation" placeholder="Enter relation" required>
+                                        <small class="error-message" id="nominee_relation_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-sm-6 col-12">
@@ -202,11 +211,13 @@
                                             } 
                                         ?>
                                     </select>
+                                    <small class="error-message" id="country_cd_error"></small>
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-6 col-12">
                                     <div class="mb-3">
                                         <label for="phone" class="form-label fw-bold">Mobile Number <span class="text-danger fw-bolder">*</span></label>
                                         <input type="number" class="form-control" id="phone" placeholder="Enter mobile number" required>
+                                        <small class="error-message" id="phone_error"></small>
                                     </div>
                                 </div>
                             </div>
@@ -238,6 +249,7 @@
                                                 } 
                                             ?>
                                         </select>
+                                        <small class="error-message" id="country_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
@@ -246,6 +258,7 @@
                                         <select class="form-select genderSelect" id="mystate" required>
                                             <option value="">--Select country first--</option>   
                                         </select>
+                                        <small class="error-message" id="mystate_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
@@ -254,18 +267,22 @@
                                         <select class="form-select genderSelect " id="city" required>
                                             <option value="">--Select state first--</option>
                                         </select>
+                                        <small class="error-message" id="city_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
                                         <label for="pin" class="form-label fw-bold">Pincode<span class="text-danger fw-bolder">*</span></label>
                                         <input type="text" class="form-control" id="pin" placeholder="Enter pincode">
+                                        
+                                        <small class="error-message" id="pin_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                                     <div class="mb-3">
                                         <label for="address" class="form-label fw-bold">Address<span class="text-danger fw-bolder">*</span></label>
                                         <textarea class="form-control" id="address" rows="3" placeholder="Enter complete address"></textarea>
+                                        <small class="error-message" id="address_error"></small>
                                     </div>
                                 </div>
                             </div>
@@ -287,18 +304,21 @@
                                             <option value="300000">&#8377 3,00,000</option>
                                             <option value="500000">&#8377 5,00,000</option>
                                         </select>
+                                        <small class="error-message" id="businessPackage_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
                                         <label for="flex_amount" class="form-label fw-bold">Amount <span class="text-danger fw-bolder">*</span></label>
                                         <input type="text" class="form-control" id="flex_amount" placeholder="Enter amount" required>
+                                        <small class="error-message" id="flex_amount_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
                                         <label for="gst_no" class="form-label fw-bold">GST No </label>
                                         <input type="text" class="form-control" id="gst_no" placeholder="Enter GST number">
+                                        <small class="error-message" id="gst_no_error"></small>
                                     </div>
                                 </div>
                             </div>
@@ -340,13 +360,15 @@
                                                     <div class="input-block">
                                                         <label class="col-form-label" for="chequeNo">Cheque No<span class="text-danger">*</span></label>
                                                         <input type="number" class="form-control" id="chequeNo" placeholder="Enter Cheque Number">
+                                                        <small class="error-message" id="chequeNo_error"></small>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-md-4 col-sm-6 col-12 py-1">
                                                     <div class="input-block">
                                                         <label class="col-form-label" for="chequeDate">Cheque Date<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="chequeDate" placeholder="Enter Date On Cheque">
+                                                        <input type="text" class="form-control" id="chequeDate" placeholder="YYYY-MM-DD" maxlength="10" autocomplete="off">
+                                                        <small class="error-message" id="chequeDate_error"></small>
                                                     </div>
                                                 </div>
 
@@ -354,6 +376,7 @@
                                                     <div class="input-block">
                                                         <label class="col-form-label" for="bankName">Bank Name<span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="bankName" placeholder="Enter your Bank Name">
+                                                        <small class="error-message" id="bankName_error"></small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -364,6 +387,7 @@
                                                     <div class="input-block">
                                                         <label class="col-form-label" for="transactionNo">Transaction No.<span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="transactionNo" placeholder="Enter your Transaction No.">
+                                                        <small class="error-message" id="transactionNo_error"></small>
                                                     </div>
                                                 </div>
                                             </div>

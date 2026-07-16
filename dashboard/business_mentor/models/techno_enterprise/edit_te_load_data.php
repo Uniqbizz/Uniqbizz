@@ -25,6 +25,10 @@
             $table = 'sub_franchisee';
             $customField = 'sub_franchisee_id';
             break;
+        case '32':
+            $table = 'institution';
+            $customField = 'institution_id';
+            break;
 
         default:
             echo json_encode([
@@ -34,7 +38,7 @@
             exit;
     }
 
-    $field = preg_match('/^(TE|F)/i', $id)
+    $field = preg_match('/^(TE|F|I)/i', $id)
         ? $customField
         : 'id';
 

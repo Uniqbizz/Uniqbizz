@@ -38,7 +38,7 @@
         <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css" />
         
         <!-- Customer Dashboard CSS -->
-        <link rel="stylesheet" href="../assets/css/sponsor_franchisee_dashboard.css" />
+        <link rel="stylesheet" href="../assets/css/business_mentor.css" />
         <!-- Lists CSS -->
         <link rel="stylesheet" href="../assets/css/lists.css" />
         <!-- FontAwesome -->
@@ -54,7 +54,7 @@
         <div id="layout-wrapper">
 
             <?php 
-                    include_once 'sponsor_franchisee_header.php'; 
+                    include_once 'business_mentor_header.php'; 
             ?>
 
             <!-- removeNotificationModal -->
@@ -83,7 +83,7 @@
             </div><!-- /.modal -->
             <!-- ========== App Menu ========== -->
             <?php
-                    include_once 'sponsor_franchisee_sidebar.php'; 
+                    include_once 'business_mentor_sidebar.php'; 
             ?>
 
             <!-- ============================================================== -->
@@ -101,7 +101,7 @@
 
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="sponsor_franchisee_dashboard.php">Dashboard</a></li>
+                                            <li class="breadcrumb-item"><a href="business_mentor_dashboard.php">Dashboard</a></li>
                                             <li class="breadcrumb-item active">View Institution </li>
                                         </ol>
                                     </div>
@@ -226,7 +226,7 @@
 
                 </div><!-- End Page-content -->
                 <?php 
-                        include_once "sponsor_franchisee_footer.php"; 
+                        include_once "business_mentor_footer.php"; 
                 ?>
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
@@ -319,7 +319,7 @@
                                     </p>
 
                                     <p class="fs-6 mb-0">
-                                        ${data.sponsor_franchisee_id || '-'}
+                                        ${data.business_mentor_id || '-'}
                                     </p>
                                 </div>
                             `;
@@ -505,7 +505,7 @@
                                         ${data.ref_firstname || '-'} ${data.ref_lastname || ''}
                                     </p>
                                     <p class="fs-6 mb-0">
-                                        ${data.sponsor_franchisee_id || '-'}
+                                        ${data.business_mentor_id || '-'}
                                     </p>
                                 </div>
                             `;

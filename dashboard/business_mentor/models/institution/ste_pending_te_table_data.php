@@ -21,14 +21,14 @@
 
                 ste.firstname AS ref_firstname,
                 ste.lastname AS ref_lastname,
-                ste.sponsor_franchisee_id,
+                ste.business_mentor_id,
 
                 'institution' AS source_table
 
             FROM institution ca
 
-            INNER JOIN sponsor_franchisee ste
-                ON ca.reference_no = ste.sponsor_franchisee_id
+            INNER JOIN business_mentor ste
+                ON ca.reference_no = ste.business_mentor_id
 
             WHERE ca.reference_no = :user_id
             AND ca.status IN (0,2,4)
@@ -57,31 +57,4 @@
     }
 
     exit;
-
-    // UNION ALL
-
-    //         SELECT
-    //             sf.id,
-    //             sf.firstname,
-    //             sf.lastname,
-    //             sf.contact_no,
-    //             sf.email,
-    //             sf.added_on,
-    //             sf.status,
-    //             sf.user_type,
-    //             'SF' AS userTypeStr,
-
-    //             ste.firstname AS ref_firstname,
-    //             ste.lastname AS ref_lastname,
-    //             ste.sponsor_franchisee_id,
-
-    //             'sub_franchisee' AS source_table
-
-    //         FROM sub_franchisee sf
-
-    //         INNER JOIN sponsor_franchisee ste
-    //             ON sf.reference_no = ste.sponsor_franchisee_id
-
-    //         WHERE sf.reference_no = :user_id
-    //         AND sf.status IN (0,2,4)
 ?>
