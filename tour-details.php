@@ -196,13 +196,48 @@ if($user_type_id_value == '11'){
     <link rel="stylesheet" type="text/css" href="assets/css/main-style.css">
     <!-- RTL CSS::When Need RTL Uncomments File -->
     <!-- <link rel="stylesheet" type="text/css" href="assets/css/rtl.css"> -->
+
+    <style>
+        .title-section {
+            display: flex;
+            justify-content: space-between;
+        }
+        .share-icon,.wishlist-icon {
+            width: 35px;
+            height: 35px;
+            border: 1px solid #73797a;
+            border-radius: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .share-icon:hover,
+        .wishlist-icon:hover {
+            border: 1px solid #f54d0b;
+            color: #fff;
+            background: #f54d0b;
+        }
+        .destination-title {
+            font-weight: 700;
+            color: #000;
+        }
+        .image-width {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .image-width-section {
+            width: 220px;
+            height: 205px;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 
 <body>
     <?php include_once "header.php" ?>
     <main>
         <!-- Breadcrumbs S t a r t -->
-        <section class="breadcrumbs-area breadcrumb-bg">
+        <!-- <section class="breadcrumbs-area breadcrumb-bg">
             <div class="container">
                 <h1 class="title wow fadeInUp" data-wow-delay="0.0s">Tour Details</h1>
                 <div class="breadcrumb-text">
@@ -216,40 +251,80 @@ if($user_type_id_value == '11'){
                     </nav>
                 </div>
             </div>
-        </section>
+        </section> -->
+        <div class="container">
+            <p class="mt-4 ">Home > 
+                <span class="">Elephant Jungle Sanctuary Half-Day Visit with Meal</span>
+            </p>
+        </div>
         <!--/ End-of Breadcrumbs-->
 
         <!-- Destination area S t a r t -->
-        <section class="tour-details-section section-padding2">
+        <section class="tour-details-section">
             <div class="tour-details-area">
+                
                 <!-- Details Banner Slider -->
-                <div class="tour-details-banner">
+                <!-- <div class="tour-details-banner">
                     <div class="swiper tourSwiper-active">
                         <div class="swiper-wrapper">
                             <?php
-                            require 'connect.php';
-                            $data = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = $id");
-                            $data->execute();
-                            $data->setFetchMode(PDO::FETCH_ASSOC);
-                            if ($data->rowCount() > 0) {
-                                $counterimage = 0;
-                                foreach (($data->fetchAll()) as $key_1 => $image) {
-                                    echo '<div class="swiper-slide">
-                                            <img src="' . $image['image'] . '" alt="BizzMirth" style="width: 710px !important; height: 400px !important;">
-                                        </div>';
-                                }
-                            }
+                            // require 'connect.php';
+                            // $data = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = $id");
+                            // $data->execute();
+                            // $data->setFetchMode(PDO::FETCH_ASSOC);
+                            // if ($data->rowCount() > 0) {
+                            //     $counterimage = 0;
+                            //     foreach (($data->fetchAll()) as $key_1 => $image) {
+                            //         echo '<div class="swiper-slide">
+                            //                 <img src="' . $image['image'] . '" alt="BizzMirth" style="width: 710px !important; height: 400px !important;">
+                            //             </div>';
+                            //     }
+                            // }
                             ?>
 
                         </div>
                         <div class="swiper-button-next"><i class="ri-arrow-right-s-line"></i></div>
                         <div class="swiper-button-prev"><i class="ri-arrow-left-s-line"></i></div>
                     </div>
-                </div>
+                </div> -->
                 <!-- / Slider-->
                 <div class="tour-details-container">
                     <div class="container">
-
+                        <div>
+                            <div class="title-section">
+                                <h3 class="fw-bolder">Elephant Jungle Sanctualry Half-Day Visit with Meal</h3>
+                                <div class="d-flex gap-4">
+                                    <div class="share-icon">
+                                        <i class="ri-share-line"></i>
+                                    </div>
+                                    <div class="wishlist-icon">
+                                        <i class="ri-heart-line"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="destination-title">Phuket, Thailand</p>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-7 col-lg-12">
+                                <img src="assets/images/destination/Almaty1.jpg" alt="Destination" class="image-width">
+                            </div>
+                            <div class="col-xl-5 col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-6 mb-3">
+                                        <img src="assets/images/destination/Almaty1.jpg" alt="Destination" class="image-width-section">
+                                    </div>
+                                    <div class="col-lg-6 mb-3">
+                                        <img src="assets/images/destination/Almaty1.jpg" alt="Destination" class="image-width-section">
+                                    </div>
+                                    <div class="col-lg-6 mb-3">
+                                        <img src="assets/images/destination/Almaty1.jpg" alt="Destination" class="image-width-section">
+                                    </div>
+                                    <div class="col-lg-6 mb-3">
+                                        <img src="assets/images/destination/Almaty1.jpg" alt="Destination" class="image-width-section">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <!-- Details Heading -->
                         <div class="details-heading">
                             <div class="d-flex flex-column">
