@@ -159,7 +159,7 @@
                                                     <label class="radio-inline mb-0 ms-3" for="test7"><input type="radio" id="test7" class="form-check-input instituteType me-3" name="instituteType" value="trust">Trust</label>
                                                 </div>
                                                 <div class="col-lg-4 col-4 col-sm-6 col-12">
-                                                    <label class="radio-inline mb-0 ms-3" for="test8"><input type="radio" id="test8" class="form-check-input instituteType me-3" name="instituteType" value="others">Others</label>
+                                                    <label class="radio-inline mb-0 ms-3" for="test8"><input type="radio" id="test8" class="form-check-input instituteType me-3" name="instituteType" value="other">Others</label>
                                                 </div>
                                             </div>
                                             <input type="text" name="instituteTypeOther" id="instituteTypeOther" class="form-control mt-2" value="" style="display:none;">
@@ -383,7 +383,7 @@
                                 <div class="row g-3">
                                     <!-- Certificate of Incorporation -->
                                     <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                        <div class="upload-card" data-title="Certificate of Incorporation" data-index="11">
+                                        <div class="upload-card" data-title="Certificate of Incorporation" data-index="11" data-folder="certificate_of_incorporation">
                                             <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file11">
                                             <div class="upload-content">
                                                 <div class="upload-icon">
@@ -397,7 +397,7 @@
                                     </div>
 									<!-- GSTIN -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
-										<div class="upload-card" data-title="GSTIN" data-index="12">
+										<div class="upload-card" data-title="GSTIN" data-index="12" data-folder="gstin">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file12">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -411,7 +411,7 @@
 									</div>
                                     <!-- Board Resolution -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
-										<div class="upload-card" data-title="Board Resolution" data-index="13">
+										<div class="upload-card" data-title="Board Resolution" data-index="13" data-folder="board_resolution">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file13">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -425,7 +425,7 @@
 									</div>
 									<!-- Bank Passbook -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
-										<div class="upload-card" data-title="Bank Passbook" data-index="4">
+										<div class="upload-card" data-title="Bank Passbook" data-index="4" data-folder="passbook">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file4">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -439,7 +439,7 @@
 									</div>
 									<!-- PAN Card -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
-										<div class="upload-card" data-title="PAN Card" data-index="3">
+										<div class="upload-card" data-title="PAN Card" data-index="3" data-folder="pancard">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file3">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -453,7 +453,7 @@
 									</div>
 									<!-- Address Proof -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12" id="addressProof">
-										<div class="upload-card" data-title="Address Proof" data-index="6">
+										<div class="upload-card" data-title="Address Proof" data-index="6" data-folder="address_proof">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file6">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -467,7 +467,7 @@
 									</div>
 									<!-- Payment Proof -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12 d-none" id="payProof">
-										<div class="upload-card" data-title="Payment Proof" data-index="14">
+										<div class="upload-card" data-title="Payment Proof" data-index="14" data-folder="payment">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file14">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -535,7 +535,7 @@
         <script src="../assets/js/app.js"></script>
 
         <!-- file upload code js file -->
-        <script src="../../uploading/uploadTechnoAdmin.js"></script>
+        <!-- <script src="../../uploading/uploadTechnoAdmin.js"></script> -->
 
         <script>
             var mybutton = document.getElementById("back-to-top");
@@ -685,84 +685,144 @@
             // type of institution other radio button option to show text box
             $(".instituteType").change(function () {
                 if ($("#test8").is(":checked")) {
-                    $("#otherLead").slideDown();
+                    $("#instituteTypeOther").slideDown();
                 } else {
-                    $("#otherLead").slideUp();
-                    $("#otherLead").val("");
+                    $("#instituteTypeOther").slideUp();
+                    $("#instituteTypeOther").val("");
                 }
             });
 
+            //New file upload code
+            const uploadBasePath = "../../uploading/";
+            const uploadUrl = "../../uploading/uploadAdminUsers.php";   // your upload file
+
             function bindUploadEvents() {
 
-                document.querySelectorAll('.file-input').forEach(input => {
+                $(".file-input").off("change").on("change", function () {
 
-                    if (input.dataset.bound) return;
+                    let input = this;
 
-                    input.dataset.bound = "true";
+                    if (!input.files.length)
+                        return;
 
-                    input.addEventListener('change', function () {
+                    let file = input.files[0];
 
-                        const file = this.files[0];
+                    let card = $(input).closest(".upload-card");
 
-                        if (!file) return;
+                    let title = card.data("title");
 
-                        const card = this.closest('.upload-card');
-                        const title = card.dataset.title;
-                        const index = card.dataset.index;
+                    let index = card.data("index");
 
-                        if (file.type.startsWith('image/')) {
+                    let folder = card.data("folder");
 
-                            const reader = new FileReader();
+                    let formData = new FormData();
 
-                            reader.onload = function (e) {
+                    formData.append("file", file);
+                    formData.append("folder", folder);
 
-                                card.querySelector('.upload-content, .preview-wrapper, .pdf-preview')?.remove();
+                    $.ajax({
 
-                                let preview = card.querySelector('.preview-wrapper');
+                        url: uploadUrl,
 
-                                if (!preview) {
+                        type: "POST",
 
-                                    preview = document.createElement('div');
-                                    preview.className = 'preview-wrapper';
+                        data: formData,
 
-                                    preview.innerHTML = `
-                                        <img src="${e.target.result}">
-                                        <input type="hidden" id="img_path${index}" value="../../uploading/${file.name}">
+                        processData: false,
+
+                        contentType: false,
+
+                        success: function (response) {
+
+                            response = response.trim();
+
+                            if (response == "1") {
+                                alert("Upload Failed");
+                                input.value = "";
+                                return;
+                            }
+
+                            if (response == "2") {
+                                alert("Invalid File Extension");
+                                input.value = "";
+                                return;
+                            }
+
+                            if (response == "3") {
+                                alert("Please Select File");
+                                input.value = "";
+                                return;
+                            }
+
+                            if (response == "4") {
+                                alert("File size exceeds 2 MB");
+                                input.value = "";
+                                return;
+                            }
+
+                            card.find(".upload-content").remove();
+                            card.find(".preview-wrapper").remove();
+                            card.find(".pdf-preview").remove();
+
+                            let hiddenInput = $("#img_path" + index);
+
+                            if (!hiddenInput.length) {
+
+                                hiddenInput = $("<input>", {
+
+                                    type: "hidden",
+
+                                    id: "img_path" + index,
+
+                                    name: "img_path" + index
+
+                                });
+
+                                card.append(hiddenInput);
+
+                            }
+
+                            hiddenInput.val(response);
+
+                            let extension = response.split('.').pop().toLowerCase();
+
+                            if (["jpg", "jpeg", "png", "gif", "jfif"].includes(extension)) {
+
+                                card.append(`
+                                    <div class="preview-wrapper">
+
+                                        <img src="${uploadBasePath}${response}" class="img-fluid">
+
                                         <div class="file-title">
                                             ${title}
                                         </div>
-                                    `;
 
-                                    card.appendChild(preview);
+                                    </div>
+                                `);
 
-                                } else {
+                            } else {
 
-                                    preview.querySelector('img').src = e.target.result;
-                                }
-                            };
+                                card.append(`
+                                    <div class="pdf-preview">
 
-                            reader.readAsDataURL(file);
+                                        <i class="fa-solid fa-file-pdf fa-3x"></i>
 
-                        } else {
+                                        <div class="file-title">
+                                            ${title}
+                                        </div>
 
-                            card.querySelector('.upload-content, .preview-wrapper, .pdf-preview')?.remove();
+                                    </div>
+                                `);
 
-                            let preview = document.createElement('div');
+                            }
 
-                            preview.className = 'pdf-preview';
+                        },
 
-                            preview.innerHTML = `
-                                <i class="fa-solid fa-file-pdf"></i>
-                                <input type="hidden" id="img_path${index}" value="../../uploading/${file.name}">
-                                <div class="file-title">
-                                    ${title}
-                                </div>
-                            `;
+                        error: function () {
 
-                            card.appendChild(preview);
+                            alert("Upload Failed.");
+
                         }
-
-                        
 
                     });
 
@@ -770,8 +830,10 @@
 
             }
 
-            document.addEventListener('DOMContentLoaded', function () {
+            $(function () {
+
                 bindUploadEvents();
+
             });
 
         </script>

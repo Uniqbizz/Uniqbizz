@@ -69,15 +69,15 @@
     if($actionType == 'draft'){
         // data insertion for logs tables 
         $status= '4';
-        $message="Chief Techo Enterprise form saved as draft by admin from Add Page";
+        $message="Chief Techno Enterprise form saved as draft by admin from Add Page";
     }else{
         // data insertion for logs tables 
 	    $status= '2';
-        $message="Added new Chief Techo Enterprise by admin";
-        $message2="Added new Chief Techo Enterprise by admin";
+        $message="Added new Chief Techno Enterprise by admin";
+        $message2="Added new Chief Techno Enterprise by admin";
     }
 
-    $title="Chief Techo Enterprise";
+    $title="Chief Techno Enterprise";
     $operation="Add";
     $user_type="36";
     $register_by="1"; 

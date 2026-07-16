@@ -14,7 +14,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Techno Enterprise / Franchisee / Institution View | Admin Dashboard </title>
+        <title>Techno Enterprise / Franchisee View | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -149,7 +149,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Techno Enterprise / Franchisee / Institution</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Techno Enterprise / Franchisee</h4>
                                     </div>
 
                                 </div>
@@ -166,7 +166,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Pending Techno Enterprise / Franchisee / Institution List</h4>
+                                                        <h4>Pending Techno Enterprise / Franchisee List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -311,7 +311,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Registered Techno Enterprise / Franchisee / Institution List</h4>
+                                                        <h4>Registered Techno Enterprise / Franchisee List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -323,7 +323,7 @@
                                                             <option value="All">All</option>
                                                             <option value="TE">Techno Enterprise</option>
                                                             <option value="F">Franchisee</option>
-                                                            <option value="IN">Institution</option>
+                                                            <!-- <option value="IN">Institution</option> -->
                                                         </select>
                                                     </div>
                                                     <div class="designation-filter no-space col-md-2 col-sm-12">
@@ -574,7 +574,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Deleted Techno Enterprise / Franchisee / Institution List</h4>
+                                                        <h4>Deleted Techno Enterprise / Franchisee List</h4>
                                                     </div>
                                                 </div>
                                             </div>

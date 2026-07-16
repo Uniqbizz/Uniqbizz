@@ -121,7 +121,7 @@
                     <li>
                         <a href="../corporate_agency/view_corporate_agency.php" class=" waves-effect">
                             <i class="bx bxs-user-detail"></i>
-                            <span key="t-contacts">TE / F / I</span>
+                            <span key="t-contacts">TE / F</span>
                         </a>
                     </li>
                     <li>

@@ -211,15 +211,13 @@
 
                                                         if ($stmt->rowCount() > 0) {
                                                             foreach ($stmt->fetchAll() as $row) {
-                                                                $bd = new DateTime($row['date_of_birth']);
-                                                                $bdate = $bd->format('d-m-Y');
 
                                                                 $rd = new DateTime($row['added_on']);
                                                                 $rdate = $rd->format('d-m-Y');
 
                                                                 echo '<tr>
                                                                     <td>' . $row['id'] . '</td>
-                                                                    <td><span class="badge bg-secondary lable-width">' . strtoupper('i') . '</span>&nbsp' . ucfirst($row['firstname']) . ' ' . ucfirst($row['lastname']) . '</td>
+                                                                    <td><span class="badge bg-secondary lable-width">' . strtoupper('i') . '</span>&nbsp' . ucfirst($row['name']) . '</td>
                                                                     <td><p class="mb-1">' . $row['reference_no'] . '</p>
                                                                         <p class="mb-0">' . $row['registrant'] . '</p></td>
                                                                     <td>
@@ -408,8 +406,6 @@
 
                                                                 $rd = new DateTime($row['register_date']);
                                                                 $rdate = $rd->format('d-m-Y');
-                                                                
-                                                                
                                                                 
                                                                 $new_reg= new DateTime('2026-01-01');
                                                                 $new_regdate = $new_reg->format('d-m-Y');
@@ -915,7 +911,7 @@
             });
             
             function editfuncCust(id,refno,regby,cut,st,ct,editfor,usertype){ 
-                window.location.href='edit_corporate_agency.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor+'&usertype='+usertype;
+                window.location.href='edit_institution.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor+'&usertype='+usertype;
             };
 
             function deletefunc(id,fid,action,usertype){ 
@@ -923,7 +919,7 @@
 
                 $.ajax({
                 type: "POST",
-                url: "delete_corporate_agency.php",
+                url: "delete_institution.php",
                 data: dataString,
                 cache: false,
                     success:function(data){
@@ -968,7 +964,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "approve_reject_franchisee_upgrade.php",
+                    url: "approve_reject_institution_upgrade.php",
                     data: {
                         id: id,
                         action: action,
@@ -1012,7 +1008,7 @@
                 $("#loading-overlay").show(); //loading screen
                 $.ajax({
                     type: "POST",
-                    url: "confirm_corporate_agency.php",
+                    url: "confirm_institution.php",
                     data: dataString,
                     cache: false,
                     success:function(data){
@@ -1037,7 +1033,7 @@
             //franchisee upgrade
             function upgradePage(id,ref){
                 // var designation = message=='corporate_agency'?'Techno Enterprise':(message=='sub_franchisee'?'Franchisee':'');
-                window.location.href='upgrade_franchisee.php?id='+id+'&ref='+ref;
+                window.location.href='upgrade_institution.php?id='+id+'&ref='+ref;
             }
 
             // Hide date label and show input type date 

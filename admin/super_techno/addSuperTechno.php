@@ -24,7 +24,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 
 <head>
 	<meta charset="utf-8" />
-	<title>Add Super Techo Enterprise | Admin Dashboard </title>
+	<title>Add Super Techno Enterprise | Admin Dashboard </title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- App favicon -->
 	<link rel="shortcut icon" href="../assets/images/fav.png">
@@ -73,7 +73,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 					<div class="row">
 						<div class="col-12">
 							<div class="page-title-box d-sm-flex align-items-center justify-content-between">
-								<h4 class="mb-sm-0 font-size-18">Super Techo Enterprise</h4>
+								<h4 class="mb-sm-0 font-size-18">Super Techno Enterprise</h4>
 							</div>
 						</div>
 					</div>
@@ -84,7 +84,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 							<div class="card">
 								<div class="card-body">
 									<form>
-										<h3>Add Super Techo Enterprise</h3>
+										<h3>Add Super Techno Enterprise</h3>
 										<div class="row">
 											<!-- Personal Details -->
 											<h4>Personal Details</h4>
