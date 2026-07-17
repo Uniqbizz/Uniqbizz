@@ -10,7 +10,7 @@ $("#email").keyup(function () {
 var emailtest = (emailtest, testValue) => {
     $.ajax({
         type: "POST",
-        url: "../../test_data/emailtest.php",
+        url: "../test_data/emailtest.php",
         data: "email=" + emailtest + "&tablename=" + testValue,
         success: function (response) {
             if (response == 1) {
@@ -512,6 +512,9 @@ function submitAddForm(actionType) {
         } else if (address === '' || specialChar.test(address) || address.length <= 7) {
             showError("address","Enter Proper Address.");
             return;
+        } else if (payment_fee =='' || payment_fee == 'null') {
+            showError("payment_fee","Select Payment Fee.");
+            return;
         } else if (paymentMode !== 'cash' && paymentMode !== 'cheque' && paymentMode !== 'online') {
             showPaymentError("Select payment Mode");
             return;
@@ -622,7 +625,7 @@ function submitAddForm(actionType) {
     $("#loading-overlay").show(); //loading screen
     $.ajax({
         type: "POST",
-        url: "customer/add_customer_data.php",
+        url: "models/customer/add_customer_data.php",
         data: dataObj,
         cache: false,
         success: function (data) {
@@ -886,7 +889,7 @@ function submitEditForm(actionType) {
     $.ajax({
 
         type: "POST",
-        url: "customer/edit_customer_data.php",
+        url: "models/customer/edit_customer_data.php",
         data: dataObj,
         cache: false,
 
@@ -1005,6 +1008,7 @@ function loadExistingFile(cardSelector, filePath)
         preview.innerHTML = `
             <i class="fa-solid fa-file-pdf"></i>
             <p class="mt-2 mb-0">${filePath.split('/').pop()}</p>
+            <input type="hidden" id="img_path${index}" value="../../uploading/${filePath}">
             <div class="file-title">
                 ${title}
             </div>
@@ -1029,7 +1033,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
     try {
-
+        
         await initializeCustomer();
 
     } catch (err) {
@@ -1141,7 +1145,7 @@ async function initializeCustomer() {
 
     const res = await ajaxPromise({
 
-        url: "customer/edit_cu_load_data.php",
+        url: "models/customer/edit_cu_load_data.php",
 
         type: "GET",
 
@@ -1149,7 +1153,7 @@ async function initializeCustomer() {
 
         data: {
 
-            id: id,
+            id: id || '',
 
             edittype: 10
 

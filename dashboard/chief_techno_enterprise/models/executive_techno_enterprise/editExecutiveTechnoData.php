@@ -1,13 +1,12 @@
 <?php
-require "../connect.php";
+include_once(__DIR__ . '/../../../dashboard_user_details.php');
 date_default_timezone_set('Asia/Kolkata');
 
 $current_year = date('Y');
 
 // additional information to check if user is registered or not
-$ref_id = $_POST["ref_id"]; // reference of the user - ETE260003
-$editfor = $_POST["editfor"]; // pending or confirm
-$identifier_id = $_POST["id"]; // ChiefTE id value if user is not confirmed - 11 , if confirmed - STE2600011
+$ref_id        = $userId;
+$registrant    = $userFname .' '.$userLname;
 
 // Personal Details
 $designation          = $_POST['designation'] ?? '';
@@ -78,26 +77,22 @@ $register_by = "1";
 $fromWhom = "1";
 $operation = "Update";
 $user_type_id = "34";
+$editfor = $action_type = $_POST['action_type'] ?? '';
+
+if ($action_type == 'draft') {
+    $status = '4';
+} elseif ($action_type == 'submit') {
+    $status = '2';
+} else {
+    $status = '0'; // Optional default
+}
 
 $birthYear = !empty($bdate) ? date('Y', strtotime($bdate)) : $current_year;
 $age = $current_year - $birthYear;
 
 try {
 
-    if ($editfor == 'pending') {
-        $stmt = $conn->prepare("SELECT application_id FROM executive_techno_enterprise WHERE id = :id");
-        $stmt->execute([':id' => $identifier_id]);
-    } else {
-        $stmt = $conn->prepare("SELECT application_id FROM executive_techno_enterprise WHERE executive_techno_enterprise_id = :id");
-        $stmt->execute([':id' => $identifier_id]);
-    }
-    $appData = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!$appData) {
-        echo 0;
-        exit;
-    }
-
-    $application_id = $appData['application_id'];
+    $application_id = $_POST['application_id'];
 
     $conn->beginTransaction();
 
@@ -120,7 +115,8 @@ try {
         state=:state,
         city=:city,
         pincode=:pincode,
-        address=:address
+        address=:address,
+        status=:status
         WHERE application_id=:application_id");
 
     $stmt1->execute([
@@ -142,6 +138,7 @@ try {
         ':city'=>$city,
         ':pincode'=>$pincode,
         ':address'=>$address,
+        ':status'=>$status,
         ':application_id'=>$application_id
     ]);
 
@@ -249,9 +246,7 @@ try {
         ':application_id'=>$application_id
     ]);
 
-    $message = ($editfor == 'pending')
-        ? "Updated Chief Techno Enterprise details from pending list"
-        : $identifier_id . " details updated from registered list";
+    $message="Updated Chief Techno Enterprise details from pending list";
 
     $stmt7 = $conn->prepare("INSERT INTO logs
         (title,message,message2,reference_no,register_by,from_whom,operation)
@@ -279,14 +274,15 @@ try {
     }
 
     $conn->commit();
-    echo 1;
+    echo $status;
 
 } catch (Exception $e) {
 
     if ($conn->inTransaction()) {
         $conn->rollBack();
     }
-
+    // Uncomment for debugging
+    // echo $e->getMessage();
     echo 0;
 }
 ?>

@@ -785,7 +785,7 @@
                                     <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftAdd">Save Draft</button>
                                     <button type="submit" class="btn actionBtn submitBtn mb-2" id="addSuperTechnoEnterprise">
                                         <i class="fa-regular fa-paper-plane me-2"></i>
-                                        Submit Techno Enterprise | Franchisee
+                                        Submit Super Techno Enterprise
                                     </button>
 
                                 </div>

@@ -389,7 +389,13 @@
                         searchable: false,
                         render: function(data) {
                             
+                            let actionText = '';
 
+                            if (data.status == 2) {
+                                actionText = 'View';
+                            } else if (data.status == 4) {
+                                actionText = 'Edit';
+                            }
                             return `
                                 <form action="edit_executive_techno_enterprise.php" method="POST" class="m-0">
                                     <input
@@ -413,7 +419,7 @@
                                         class="border-0 bg-transparent p-0 w-100"
                                     >
                                         <p class="teViewBtn text-center fw-bold mb-0">
-                                            <i class="fa-solid fa-eye me-2 mt-1"></i>View
+                                            <i class="fa-solid fa-eye me-2 mt-1"></i>${actionText}
                                         </p>
                                     </button>
                                 </form>

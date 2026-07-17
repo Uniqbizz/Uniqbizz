@@ -6,7 +6,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title>Add Super Techno Enterprise | Customer</title>
+        <title>Add Executive Techno Enterprise | Customer</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -42,6 +42,7 @@
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+		<link rel="stylesheet" href="../assets/css/validation.css" />
 	</head>
     <body>
  
@@ -92,11 +93,11 @@
 						<div class="row">
 							<div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Super Techno Enterprise</h4>
+                                    <h4 class="mb-sm-0">Executive Techno Enterprise</h4>
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="super_techno_enterprise_list.php">View Super Techno Enterprise</a></li>
-                                            <li class="breadcrumb-item active">Add Super Techno Enterprise</li>
+                                            <li class="breadcrumb-item"><a href="executive_techno_enterprise_list.php">View Executive Techno Enterprise</a></li>
+                                            <li class="breadcrumb-item active">Add Executive Techno Enterprise</li>
                                         </ol>
                                     </div>
                                 </div>
@@ -112,8 +113,8 @@
                                             <i class="fa-solid fa-user-group addTEIcon"></i>
                                         </div>
                                         <div class="align-content-center">
-                                            <h1 class="fw-bolder text-white">Add Super Techno Enterprise</h1>
-                                            <p class="fs-5 text-white mb-0">Fill in the details below to register a new Super Techno Enterprise under your network.</p>
+                                            <h1 class="fw-bolder text-white">Add Executive Techno Enterprise</h1>
+                                            <p class="fs-5 text-white mb-0">Fill in the details below to register a new Executive Techno Enterprise under your network.</p>
                                         </div>
                                     </div>
                                     <img src="../assets/images/addTechnoFileImage.png" alt="" class="addTEImage">
@@ -134,40 +135,46 @@
 											<div class="input-block mb-3">
 												<label class="col-form-label">First Name <span class="text-danger">*</span></label>
 												<input class="form-control" type="text" id="firstname">
+												<small class="error-message" id="firstname_error"></small>
 											</div>
 										</div>
 										<div class="col-lg-6 col-md-6 col-sm-6 col-12">
 											<div class="input-block mb-3">
 												<label class="col-form-label">Last Name <span class="text-danger">*</span></label>
 												<input class="form-control" type="text" id="lastname">
+												<small class="error-message" id="lastname_error"></small>
 											</div>
 										</div>
 										<div class="col-lg-6 col-md-6 col-sm-6 col-12">
 											<div class="input-block mb-3">
 												<label class="col-form-label">Father / Spouse Name <span class="text-danger">*</span></label>
 												<input class="form-control" type="text" id="father_spouse_name">
+												<small class="error-message" id="father_spouse_name_error"></small>
 											</div>
 										</div>
 										<div class="col-lg-6 col-md-6 col-sm-6 col-12">
 											<div class="input-block mb-3">
 												<label class="col-form-label">Email Address<span class="text-danger">*</span></label>
 												<input class="form-control" type="email" id="email">
+												<small class="error-message" id="email_error"></small>
 											</div>
 										</div>
 										<div class="col-lg-6 col-md-6 col-sm-6 col-12">
 											<div class="input-block mb-3">
 												<label class="col-form-label">Date of Birth <span class="text-danger">*</span></label>
 												<input class="form-control" type="date" id="dob" max="<?php echo $ageLimit; ?>">
+												<small class="error-message" id="dob_error"></small>
 											</div>
 										</div>
 										<div class="col-md-6 col-sm-12">
 											<div class="form-group">
 												<label class="col-form-label">Gender <span class="text-danger">*</span></label>
-												<div class="form-control d-flex justify-content-around">
+												<div class="form-control d-flex justify-content-around gender-wrapper" id="gender_wrapper">
 													<label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender" id="test3" value="male">&nbsp;&nbsp;&nbsp;Male</label>
 													<label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender" id="test4" value="female">&nbsp;&nbsp;&nbsp;Female</label>
 													<label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender" id="test5" value="others">&nbsp;&nbsp;&nbsp;Other</label>
 												</div>
+												<small class="error-message" id="gender_error"></small>
 											</div>
 										</div>
 										<div class="col-md-6 col-sm-12 mb-3">
@@ -192,12 +199,14 @@
 															}
 															?>
 														</select>
+														<small class="error-message" id="country_cd_error"></small>
 													</div>
 												</div>
 												<div class="col-md-8 col-sm-8 col-9">
 													<div class="input-block">
 														<label class="col-form-label">Phone Number <span class="text-danger">*</span></label>
 														<input class="form-control" type="number" id="phone" placeholder="Enter Phone Number">
+														<small class="error-message" id="phone_error"></small>
 													</div>
 												</div>
 											</div>
@@ -224,12 +233,14 @@
 															}
 															?>
 														</select>
+														<small class="error-message" id="country_cd_alt_error"></small>
 													</div>
 												</div>
 												<div class="col-md-8 col-sm-8 col-9">
 													<div class="input-block">
 														<label class="col-form-label">Alt Phone Number <span class="text-danger">*</span></label>
 														<input class="form-control" type="number" id="altPhone" placeholder="Enter Alternative Phone Number">
+														<small class="error-message" id="altPhone_error"></small>
 													</div>
 												</div>
 											</div>
@@ -238,12 +249,14 @@
 											<div class="input-block mb-3">
 												<label class="col-form-label">Aadhar No<span class="text-danger">*</span></label>
 												<input class="form-control" type="text" id="aadharNo">
+												<small class="error-message" id="aadharNo_error"></small>
 											</div>
 										</div>
 										<div class="col-md-6 col-sm-6">
 											<div class="input-block mb-3">
 												<label class="col-form-label">PAN No<span class="text-danger">*</span></label>
 												<input class="form-control" type="text" id="panNo">
+												<small class="error-message" id="panNo_error"></small>
 											</div>
 										</div>
 									</div>
@@ -295,6 +308,7 @@
 											}
 											?>
 										</select>
+										<small class="error-message" id="country_error"></small>
 									</div>
 								</div>
 								<div class="col-md-6 col-sm-6">
@@ -303,6 +317,7 @@
 										<select class="form-select" id="mystate" aria-label="Floating label select example">
 											<option value="">--Select country first--</option>
 										</select>
+										<small class="error-message" id="mystate_error"></small>
 									</div>
 								</div>
 								<div class="col-md-6 col-sm-6">
@@ -311,18 +326,21 @@
 										<select class="form-select" id="city" aria-label="Floating label select example">
 											<option value="">--Select state first--</option>
 										</select>
+										<small class="error-message" id="city_error"></small>
 									</div>
 								</div>
 								<div class="col-md-6 col-sm-6">
 									<div class="input-block mb-3">
 										<label class="col-form-label">Pincode<span class="text-danger">*</span></label>
 										<input type="text" class="form-control" id="pin" placeholder="Pincode" readonly>
+										<small class="error-message" id="pin_error"></small>
 									</div>
 								</div>
 								<div class="col-md-12 col-sm-12">
 									<div class="input-block mb-3">
 										<label class="col-form-label">Address<span class="text-danger">*</span></label>
 										<textarea class="form-control" type="text" id="address" rows="3" placeholder="Enter complete address"></textarea>
+										<small class="error-message" id="address_error"></small>
 									</div>
 								</div>
 							</div>
@@ -338,33 +356,38 @@
 									<div class="input-block mb-3">
 										<label class="col-form-label">Current Occupation / Business<span class="text-danger">*</span></label>
 										<input class="form-control" type="text" id="occupation">
+										<small class="error-message" id="occupation_error"></small>
 									</div>
 								</div>
 								<div class="col-md-6 col-sm-6">
 									<div class="input-block mb-3">
 										<label class="col-form-label">Total Experience<span class="text-danger">*</span></label>
 										<input class="form-control" type="text" id="experience">
+										<small class="error-message" id="experience_error"></small>
 									</div>
 								</div>
 								<div class="col-md-6 col-sm-6">
 									<div class="input-block mb-3">
 										<label class="col-form-label">Current Annual Income<span class="text-danger">*</span></label>
 										<input class="form-control" type="text" id="annual_income">
+										<small class="error-message" id="annual_income_error"></small>
 									</div>
 								</div>
 								<div class="col-md-6 col-sm-12">
 									<div class="form-group">
 										<label class="col-form-label">Have You Managed teams Previously <span class="text-danger">*</span></label>
-										<div class="form-control d-flex justify-content-around">
+										<div class="form-control d-flex justify-content-around gender-wrapper" id="teamManaged_wrapper">
 											<label class="radio-inline mb-0 ms-3"><input type="radio" name="teamManaged" class="teamManaged" id="teamManagedYes" value="yes">&nbsp;&nbsp;&nbsp;Yes</label>
 											<label class="radio-inline mb-0 ms-3"><input type="radio" name="teamManaged" class="teamManaged" id="teamManagedNo" value="no">&nbsp;&nbsp;&nbsp;No</label>
 										</div>
+										<small class="error-message" id="teamManaged_error"></small>
 									</div>
 								</div>
 								<div class="col-md-6 col-sm-6">
 									<div class="input-block mb-3">
 										<label class="col-form-label">If Yes, Team size<span class="text-danger">*</span></label>
 										<textarea class="form-control" id="teamSize" rows="4" cols="50"> </textarea>
+										<small class="error-message" id="teamSize_error"></small>
 									</div>
 								</div>
 								<div class="col-md-6 col-sm-6">
@@ -375,7 +398,7 @@
 
 										<div class="row mt-2">
 											<!-- Left Column -->
-											<div class="col-md-6">
+											<div class="col-md-6 gender-wrapper" id="leadership_wrapper">
 												<div class="mb-2">
 													<input type="checkbox" id="lead1" name="leadership[]" value="Sales Leadership">
 													<label for="lead1">Sales Leadership</label>
@@ -407,6 +430,7 @@
 												</div>
 												<input type="hidden" name="leadership_json" id="leadership_json">
 											</div>
+											<small class="error-message" id="leadership_error"></small>
 										</div>
 									</div>
 								</div>
@@ -423,6 +447,7 @@
 									<div class="input-block mb-3">
 										<label class="col-form-label">Educational Qualification<span class="text-danger">*</span></label>
 										<input class="form-control" type="text" id="qualification">
+										<small class="error-message" id="qualification_error"></small>
 									</div>
 								</div>
 							</div>
@@ -438,6 +463,7 @@
 									<div class="input-block mb-3">
 										<label class="col-form-label">Why You want to become a Chief Techno Enterprise?<span class="text-danger">*</span></label>
 										<textarea class="form-control" id="career_objective" rows="4" cols="50"> </textarea>
+										<small class="error-message" id="career_objective_error"></small>
 									</div>
 								</div>
 								<div class="col-md-6 col-sm-12">
@@ -447,7 +473,7 @@
 										</label>
 										
 										<div class="row mt-2">
-											<div class="col-md-6">
+											<div class="col-md-6 gender-wrapper" id="teamCap_wrapper">
 												<div class="mb-2">
 													<input type="radio" id="expected1" name="teamExpected" class="teamExpected" value="5">
 													<label for="expected1">5 Techno Enterprise</label>
@@ -467,6 +493,7 @@
 													<label for="expected4">25+ Techno Enterprise</label>
 												</div>
 											</div>
+											<small class="error-message" id="teamCap_error"></small>
 										</div>
 									</div>
 								</div>
@@ -492,6 +519,7 @@
 											}
 											?>
 										</select>
+										<small class="error-message" id="OperatingState_error"></small>
 									</div>
 								</div>
 							</div>
@@ -509,6 +537,7 @@
 											<div class="input-block mb-3">
 												<label class="col-form-label">Nominee Name<span class="text-danger">*</span></label>
 												<input class="form-control" type="text" id="nomineeName">
+												<small class="error-message" id="nomineeName_error"></small>
 											</div>
 										</div>
 										<div class="col-md-6 col-sm-6">
@@ -539,12 +568,14 @@
 															}
 															?>
 														</select>
+														<small class="error-message" id="countryCdNominee_error"></small>
 													</div>
 												</div>
 												<div class="col-md-8 col-sm-8 col-9">
 													<div class="input-block">
 														<label class="col-form-label">Nominee Phone Number <span class="text-danger">*</span></label>
 														<input class="form-control" type="number" id="nomineePhone" placeholder="Enter Nominee Phone Number">
+														<small class="error-message" id="nomineePhone_error"></small>
 													</div>
 												</div>
 											</div>
@@ -553,12 +584,14 @@
 											<div class="input-block mb-3">
 												<label class="col-form-label">Date of Birth <span class="text-danger">*</span></label>
 												<input class="form-control" type="date" id="nomineeDob" max="<?php echo $ageLimit; ?>">
+												<small class="error-message" id="nomineeDob_error"></small>
 											</div>
 										</div>
 										<div class="col-md-12 col-sm-6">
 											<div class="input-block mb-3">
 												<label class="col-form-label">Nominee Address<span class="text-danger">*</span></label>
 												<textarea class="form-control" type="text" id="nomineeAddress" rows="3" placeholder="Enter nominee address"></textarea>
+												<small class="error-message" id="nomineeAddress_error"></small>
 											</div>
 										</div>
 									</div>
@@ -594,36 +627,42 @@
 									<div class="input-block mb-3">
 										<label class="col-form-label">Account Holder Name<span class="text-danger">*</span></label>
 										<input class="form-control" type="text" id="accHolderName">
+										<small class="error-message" id="accHolderName_error"></small>
 									</div>
 								</div>
 								<div class="col-md-6 col-sm-6">
 									<div class="input-block mb-3">
 										<label class="col-form-label">Bank Name<span class="text-danger">*</span></label>
 										<input class="form-control" type="text" id="bankName">
+										<small class="error-message" id="bankName_error"></small>
 									</div>
 								</div>
 								<div class="col-md-6 col-sm-6">
 									<div class="input-block mb-3">
 										<label class="col-form-label">Account Number<span class="text-danger">*</span></label>
 										<input class="form-control" type="text" id="accountNumber">
+										<small class="error-message" id="accountNumber_error"></small>
 									</div>
 								</div>
 								<div class="col-md-6 col-sm-6">
 									<div class="input-block mb-3">
 										<label class="col-form-label">Confirm Account Number<span class="text-danger">*</span></label>
 										<input class="form-control" type="text" id="confirmAccountNumber">
+										<small class="error-message" id="confirmAccountNumber_error"></small>
 									</div>
 								</div>
 								<div class="col-md-6 col-sm-6">
 									<div class="input-block mb-3">
 										<label class="col-form-label">IFSC Code<span class="text-danger">*</span></label>
 										<input class="form-control" type="text" id="ifscCode">
+										<small class="error-message" id="ifscCode_error"></small>
 									</div>
 								</div>
 								<div class="col-md-6 col-sm-6">
 									<div class="input-block mb-3">
 										<label class="col-form-label">Branch Name<span class="text-danger">*</span></label>
 										<input class="form-control" type="text" id="branchName">
+										<small class="error-message" id="branchName_error"></small>
 									</div>
 								</div>
 							</div>
@@ -785,7 +824,7 @@
                                     <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftAdd">Save Draft</button>
                                     <button type="submit" class="btn actionBtn submitBtn mb-2" id="addExecutiveTechnoEnterprise">
                                         <i class="fa-regular fa-paper-plane me-2"></i>
-                                        Submit Techno Enterprise | Franchisee
+                                        Submit Execitive Techno Enterprise
                                     </button>
 
                                 </div>
@@ -846,7 +885,7 @@
                         const file = this.files[0];
 
                         if (!file) return;
-
+						clearFileError(this.id);
                         const card = this.closest('.upload-card');
                         const title = card.dataset.title;
 						const index = card.dataset.index;
