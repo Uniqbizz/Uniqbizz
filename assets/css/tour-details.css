@@ -38,7 +38,7 @@
 }
 .destination-title {
     font-weight: 700;
-    color: #000;
+    color: #e03d42;
 }
 .image-width {
     width: 100%;
@@ -192,7 +192,7 @@
     bottom: 25px;
     right: 20px;
     z-index: 5;
-    background: #ffffff5a;
+    background: #ffffff9a;
     color: #e03d42;
     border: 1px solid #e03d42;
     border-radius: 8px;
