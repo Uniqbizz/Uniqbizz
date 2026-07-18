@@ -194,301 +194,12 @@ if($user_type_id_value == '11'){
         <link rel="stylesheet" type="text/css" href="assets/css/plugin.css">
         <!-- Main CSS -->
         <link rel="stylesheet" type="text/css" href="assets/css/main-style.css">
+        <!-- Tour Details CSS 18/7/2026 -->
+        <link rel="stylesheet" type="text/css" href="assets/css/tour-details.css">
         <!-- RTL CSS::When Need RTL Uncomments File -->
         <!-- <link rel="stylesheet" type="text/css" href="assets/css/rtl.css"> -->
         <!-- Swiper -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-
-        <style>
-            .breadcrumb {
-                margin-bottom: 0;
-            }
-
-            .breadcrumb-item a {
-                text-decoration: none;
-                color: #6c757d;
-                font-weight: 500;
-            }
-
-            .breadcrumb-item a:hover {
-                color: #0d6efd;
-            }
-
-            .breadcrumb-item.active {
-                color: #212529;
-                font-weight: 600;
-            }
-
-            .breadcrumb-item + .breadcrumb-item::before {
-                content: ">";
-                color: #6c757d;
-            }
-            .title-section {
-                display: flex;
-                justify-content: space-between;
-            }
-            .share-icon,.wishlist-icon {
-                width: 35px;
-                height: 35px;
-                border: 1px solid #73797a;
-                border-radius: 100%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-            .share-icon:hover,
-            .wishlist-icon:hover {
-                border: 1px solid #f54d0b;
-                color: #fff;
-                background: #f54d0b;
-            }
-            .destination-title {
-                font-weight: 700;
-                color: #000;
-            }
-            .image-width {
-                width: 100%;
-                height: 100%;
-                border-radius: 10px;
-                object-fit: fill;
-            }
-            .image-width-section {
-                width: 220px;
-                height: 205px;
-                border-radius: 10px;
-                object-fit: fill;
-            }
-            .desktop-gallery{
-                display:block;
-            }
-
-            .mobile-gallery{
-                display:none;
-            }
-
-            .slider-image{
-                width:100%;
-                height:450px !important;
-                object-fit:cover;
-                border-radius:12px;
-            }
-            .image-wrapper {
-                overflow: hidden;
-                border-radius: 10px;
-                height: 100%;
-            }
-
-            .image-width,
-            .image-width-section {
-                transition: transform .5s ease;
-            }
-
-            .image-width:hover,
-            .image-width-section:hover {
-                transform: scale(1.1);
-            }
-            .gallery-modal{
-                width:100%;
-                height:100vh;
-
-                display:flex;
-                justify-content:center;
-                align-items:center;
-
-                position:relative;
-                padding:20px;
-            }
-
-            .gallery-content{
-                width:100%;
-                max-width:1200px;
-                text-align:center;
-            }
-
-            .gallery-main-image{
-                height:70vh;
-                object-fit:cover;
-                border-radius:12px;
-                display:block;
-            }
-
-            .gallery-thumbnails{
-                margin-top:20px;
-
-                display:flex;
-                justify-content:center;
-                align-items:center;
-                gap:12px;
-
-                overflow-x:auto;
-                overflow-y:hidden;
-
-                padding:8px 0;
-
-                scrollbar-width:none;
-            }
-
-            .gallery-thumbnails::-webkit-scrollbar{
-                display:none;
-            }
-
-            .thumbnail{
-                width:90px;
-                height:90px;
-
-                object-fit:cover;
-
-                border-radius:10px;
-
-                cursor:pointer;
-
-                border:3px solid transparent;
-
-                flex-shrink:0;
-
-                transition:all .3s ease;
-            }
-
-            .thumbnail:hover{
-                transform:scale(1.08);
-            }
-
-            .active-thumb{
-                border:3px solid #fff;
-                box-shadow:0 0 10px rgba(255,255,255,.5);
-            }
-
-            .gallery-prev,
-            .gallery-next{
-                position:absolute;
-                top:50%;
-                transform:translateY(-50%);
-
-                width:65px;
-                height:65px;
-
-                border:none;
-                border-radius:50%;
-
-                background:#fff;
-
-                display:flex;
-                justify-content:center;
-                align-items:center;
-
-                cursor:pointer;
-
-                font-size:24px;
-                z-index:10;
-
-                transition:.3s;
-            }
-
-            .gallery-prev:hover,
-            .gallery-next:hover{
-                transform:translateY(-50%) scale(1.08);
-            }
-
-            .gallery-prev{
-                left:30px;
-            }
-
-            .gallery-next{
-                right:30px;
-            }
-
-            .gallery-close{
-                position:absolute;
-                top:20px;
-                right:30px;
-
-                background:none;
-                border:none;
-
-                color:#fff;
-
-                font-size:42px;
-
-                cursor:pointer;
-
-                z-index:10;
-
-                transition:.3s;
-            }
-
-            .gallery-close:hover{
-                transform:scale(1.1);
-            }
-            .transparant-black {
-                background: #0000008a !important;
-            }
-            .main-image-alignment {
-                display: flex;
-                justify-content: center;
-            }
-            @media (max-width: 1199px) {
-                .image-width {
-                    width: 100%;
-                    height: 440px;
-                    border-radius: 10px;
-                }
-            }
-            @media (max-width:992px){
-                
-                .desktop-gallery{
-                    display:none;
-                }
-
-                .mobile-gallery{
-                    display:block;
-                }
-                
-                .slider-image{
-                    height:300px;
-                }
-                .gallery-main-image{
-                    height:55vh;
-                }
-
-                .gallery-prev,
-                .gallery-next{
-                    width:50px;
-                    height:50px;
-                    font-size:18px;
-                }
-
-                .thumbnail{
-                    width:75px;
-                    height:75px;
-                }
-            }
-
-            @media(max-width:576px){
-
-                .gallery-main-image{
-                    height:45vh;
-                }
-
-                .gallery-prev{
-                    left:10px;
-                }
-
-                .gallery-next{
-                    right:10px;
-                }
-
-                .gallery-close{
-                    top:10px;
-                    right:15px;
-                    font-size:32px;
-                }
-
-                .thumbnail{
-                    width:65px;
-                    height:65px;
-                }
-            }
-        </style>
     </head>
     
     <body>
@@ -499,7 +210,7 @@ if($user_type_id_value == '11'){
                 <nav aria-label="breadcrumb" class="mt-4">
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item">
-                            <a href="tour-list.php">Home</a>
+                            <a href="index.php">Home</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">
                             <?php echo $package['name'] ?>
@@ -569,118 +280,86 @@ if($user_type_id_value == '11'){
                             ?>
                             <div class="desktop-gallery">
                                 <div class="row">
-
                                     <?php if (!empty($galleryImages)) : ?>
 
                                         <div class="col-xl-7 col-lg-12 mb-3">
                                             <div class="image-wrapper">
-                                                <img src="<?= $galleryImages[0]['image'] ?>"
-                                                    alt="<?= $package['name'] ?>"
-                                                    class="image-width">
+                                                <img src="<?= $galleryImages[0]['image'] ?>" alt="<?= $package['name'] ?>" class="image-width">
                                             </div>
                                         </div>
-
-                                        <div class="col-xl-5 col-lg-12">
+                                        <div class="col-xl-5 col-lg-12 position-relative">
                                             <div class="row">
-
                                                 <?php
                                                 foreach (array_slice($galleryImages, 1, 4) as $image) {
                                                     echo '
                                                     <div class="col-xl-6 col-lg-3 mb-3">
                                                         <div class="image-wrapper">
-                                                            <img src="' . $image['image'] . '"
-                                                                alt="' . $package['name'] . '"
-                                                                class="image-width-section">
+                                                            <img src="' . $image['image'] . '"  alt="' . $package['name'] . '" class="image-width-section">
                                                         </div>
                                                     </div>';
                                                 }
                                                 ?>
 
                                             </div>
+                                            <button class="btn all-photos-btn" data-bs-toggle="modal" data-bs-target="#allPhotosModal">
+                                                <i class="ri-image-line me-2"></i>
+                                                All Photos
+                                            </button>
                                         </div>
 
                                     <?php endif; ?>
-
                                 </div>
                             </div>
                             <div class="mobile-gallery swiper myGallery">
                                 <div class="swiper-wrapper">
-
                                     <?php foreach ($galleryImages as $image) : ?>
 
                                         <div class="swiper-slide">
-                                            <img src="<?= $image['image'] ?>"
-                                                class="slider-image"
-                                                alt="<?= $package['name'] ?>">
+                                            <img src="<?= $image['image'] ?>" class="slider-image" alt="<?= $package['name'] ?>">
                                         </div>
 
                                     <?php endforeach; ?>
 
                                 </div>
-
                                 <div class="swiper-pagination"></div>
                             </div>
-                            <button class="btn btn-primary"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#allPhotosModal">
-                                All Photos
-                            </button>
 
                             <!-- Modal -->
                             <div class="modal fade" id="allPhotosModal" tabindex="-1" aria-hidden="true">
-
                                 <div class="modal-dialog modal-fullscreen">
-
                                     <div class="modal-content transparant-black border-0">
-
                                         <div class="gallery-modal">
-
                                             <!-- Close -->
-                                            <button class="gallery-close"
-                                                    data-bs-dismiss="modal"
-                                                    aria-label="Close">
-                                                <i class="ri-close-large-line"></i>
+                                            <button class="gallery-close" data-bs-dismiss="modal" aria-label="Close">
+                                                <i class="ri-close-line"></i>
                                             </button>
-
                                             <!-- Previous -->
                                             <button class="gallery-prev">
                                                 <i class="ri-arrow-left-s-line"></i>
                                             </button>
-
                                             <!-- Gallery Content -->
                                             <div class="gallery-content">
-
                                                 <!-- Main Image -->
                                                 <div class="main-image-alignment">
                                                     <img id="mainImage" src="<?= !empty($galleryImages) ? $galleryImages[0]['image'] : '' ?>" class="gallery-main-image" alt="<?= $package['name'] ?>">
                                                 </div>
-
                                                 <!-- Thumbnails -->
                                                 <div class="gallery-thumbnails">
-
                                                     <?php foreach ($galleryImages as $index => $image) : ?>
-
                                                         <img src="<?= $image['image'] ?>"
                                                             class="thumbnail <?= $index === 0 ? 'active-thumb' : '' ?>"
                                                             alt="<?= $package['name'] ?>">
 
                                                     <?php endforeach; ?>
-
                                                 </div>
-
                                             </div>
-
                                             <!-- Next -->
                                             <button class="gallery-next">
                                                 <i class="ri-arrow-right-s-line"></i>
                                             </button>
-
                                         </div>
-
                                     </div>
-
                                 </div>
-
                             </div>
                             <!-- Details Heading -->
                             <div class="details-heading">
