@@ -42,7 +42,8 @@
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-	</head>
+        <link rel="stylesheet" href="../assets/css/validation.css" />
+    </head>
     <body>
  
         <!-- Begin page -->
@@ -135,46 +136,53 @@
 											<div class="input-block mb-3">
 												<label class="col-form-label">First Name <span class="text-danger">*</span></label>
 												<input class="form-control" type="text" id="firstname">
+                                                <small class="error-message" id="firstname_error"></small>
 											</div>
 										</div>
 										<div class="col-lg-6 col-md-6 col-sm-6 col-12">
 											<div class="input-block mb-3">
 												<label class="col-form-label">Last Name <span class="text-danger">*</span></label>
 												<input class="form-control" type="text" id="lastname">
+                                                <small class="error-message" id="lastname_error"></small>
 											</div>
 										</div>
 										<div class="col-lg-6 col-md-6 col-sm-6 col-12">
 											<div class="input-block mb-3">
 												<label class="col-form-label">Nominee Name <span class="text-danger">*</span></label>
 												<input class="form-control" type="text" id="nominee_name">
-											</div>
+                                                <small class="error-message" id="nominee_name_error"></small>
+                                            </div>
 										</div>
 										<div class="col-lg-6 col-md-6 col-sm-6 col-12">
 											<div class="input-block mb-3">
 												<label class="col-form-label">Nominee Relation <span class="text-danger">*</span></label>
 												<input class="form-control" type="text" id="nominee_relation">
-											</div>
+                                                <small class="error-message" id="nominee_relation_error"></small>
+                                            </div>
 										</div>
 										<div class="col-lg-6 col-md-6 col-sm-6 col-12">
 											<div class="input-block mb-3">
 												<label class="col-form-label">Email Address<span class="text-danger">*</span></label>
 												<input class="form-control" type="email" id="email">
+                                                <small class="error-message" id="email_error"></small>
 											</div>
 										</div>
 										<div class="col-lg-6 col-md-6 col-sm-6 col-12">
 											<div class="input-block mb-3">
 												<label class="col-form-label">Date of Birth <span class="text-danger">*</span></label>
 												<input class="form-control" type="date" id="dob" max="<?php echo $ageLimit; ?>">
-											</div>
+                                                <small class="error-message" id="dob_error"></small>
+                                            </div>
 										</div>
 										<div class="col-md-6 col-sm-12">
 											<div class="form-group">
 												<label class="col-form-label">Gender <span class="text-danger">*</span></label>
-												<div class="form-control d-flex justify-content-around">
+												<div class="form-control d-flex justify-content-around gender-wrapper" id="gender_wrapper">
 													<label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender" id="test3" value="male">&nbsp;&nbsp;&nbsp;Male</label>
 													<label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender" id="test4" value="female">&nbsp;&nbsp;&nbsp;Female</label>
 													<label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender" id="test5" value="others">&nbsp;&nbsp;&nbsp;Other</label>
 												</div>
+                                                <small class="error-message" id="gender_error"></small>
 											</div>
 										</div>
 										<div class="col-md-6 col-sm-12 mb-3">
@@ -199,13 +207,15 @@
 															}
 															?>
 														</select>
+                                                        <small class="error-message" id="country_cd_error"></small>
 													</div>
 												</div>
 												<div class="col-md-8 col-sm-8 col-9">
 													<div class="input-block">
 														<label class="col-form-label">Phone Number <span class="text-danger">*</span></label>
 														<input class="form-control" type="number" id="phone" placeholder="Enter Phone Number">
-													</div>
+                                                        <small class="error-message" id="phone_error"></small>
+                                                    </div>
 												</div>
 											</div>
 										</div>
@@ -215,7 +225,6 @@
 									<div class="row">
 										<div class="col-lg-12">
 											<div class="upload-card" data-title="Profile Photo" data-index="1">
-												<input type="hidden" id="img_path1" value="">
 												<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file1">
 												<div class="upload-content">
 													<div class="upload-icon">
@@ -258,6 +267,7 @@
 											}
 											?>
 										</select>
+                                        <small class="error-message" id="country_error"></small>
 									</div>
 								</div>
 								<div class="col-md-6 col-sm-6">
@@ -266,6 +276,7 @@
 										<select class="form-select" id="mystate" aria-label="Floating label select example">
 											<option value="">--Select country first--</option>
 										</select>
+                                        <small class="error-message" id="mystate_error"></small>
 									</div>
 								</div>
 								<div class="col-md-6 col-sm-6">
@@ -274,19 +285,23 @@
 										<select class="form-select" id="city" aria-label="Floating label select example">
 											<option value="">--Select state first--</option>
 										</select>
+                                        <small class="error-message" id="city_error"></small>
+                                        
 									</div>
 								</div>
 								<div class="col-md-6 col-sm-6">
 									<div class="input-block mb-3">
 										<label class="col-form-label">Pincode<span class="text-danger">*</span></label>
 										<input type="text" class="form-control" id="pin" placeholder="Pincode" readonly>
-									</div>
+                                        <small class="error-message" id="pin_error"></small>
+                                    </div>
 								</div>
 								<div class="col-md-12 col-sm-12">
 									<div class="input-block mb-3">
 										<label class="col-form-label">Address<span class="text-danger">*</span></label>
 										<textarea class="form-control" type="text" id="address" rows="3" placeholder="Enter complete address"></textarea>
-									</div>
+                                        <small class="error-message" id="address_error"></small>
+                                    </div>
 								</div>
 							</div>
 						</div>
@@ -318,6 +333,7 @@
 											}
 											?>
 										</select>
+                                        <small class="error-message" id="payment_fee_error"></small>
 									</div>
 								</div>
 								<div class="col-md-6 col-sm-6">
@@ -326,6 +342,7 @@
 										<select class="form-select" id="branch">
 											<option value=""> ---- Select Zone First ---- </option>
 										</select>
+                                        <small class="error-message" id="branch_error"></small>
 									</div>
 								</div>
 							</div>
@@ -485,7 +502,7 @@
                         const file = this.files[0];
 
                         if (!file) return;
-
+                        clearFileError(this.id);
                         const card = this.closest('.upload-card');
                         const title = card.dataset.title;
 						const index = card.dataset.index;

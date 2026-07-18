@@ -46,6 +46,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="../assets/css/verification.css"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <link rel="stylesheet" href="../assets/css/validation.css" />
     </head>
     <body>
  
@@ -126,283 +127,6 @@
                             </div>
 						</div>
                         <!-- Card section 1 -->
-						<!-- <div class="card rounded-4 p-3 border-1">
-							<div class="row">
-                                <div class="d-flex gap-2">
-                                    <p class="fw-bolder addTENum">01</p>
-                                    <h4 class="fw-bolder text-dark align-content-center">Personal Information</h4>
-                                </div>
-                                <div class="col-lg-9">
-									<div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="input-block mb-3">
-                                                <div class="verify-field">
-                                                    <label class="col-form-label"> First Name <span class="text-danger">*</span></label>
-                                                    
-                                                    <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[firstname]" id="firstname_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'firstname', 'approved'); ?> > 
-                                                        <label class="verify-btn approve-btn" for="firstname_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[firstname]" id="firstname_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'firstname', 'rejected'); ?> > 
-                                                        <label class="verify-btn reject-btn" for="firstname_reject"> Rejected </label>
-                                                        <input type="radio" name="verification_status[firstname]" id="firstname_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'firstname', 'rejected'); ?> > 
-                                                        <label class="verify-btn pending-btn" for="firstname_pending"> Pending </label>
-                                                    </div>
-                                                    
-                                                </div>
-                                                <input class="form-control" type="text" id="firstname" value="">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="input-block mb-3">
-                                                <div class="verify-field">
-                                                    <label class="col-form-label">Last Name <span class="text-danger">*</span></label>
-                                                
-                                                    <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[lastname]" id="lastname_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'lastname', 'approved'); ?>>
-                                                        <label class="verify-btn approve-btn" for="lastname_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[lastname]" id="lastname_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'lastname', 'rejected'); ?>>
-                                                        <label class="verify-btn reject-btn" for="lastname_reject"> Rejected </label>
-                                                        <input type="radio" name="verification_status[lastname]" id="lastname_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'lastname', 'rejected'); ?>>
-                                                        <label class="verify-btn pending-btn" for="lastname_pending"> Pending </label>
-                                                    </div>
-                                                    
-                                                </div>
-                                                <input class="form-control" type="text" id="lastname" value=" <?php //echo $lastname; ?>">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="input-block mb-3">
-                                                <div class="verify-field">
-                                                    <label class="col-form-label">Father / Spouse Name<span class="text-danger">*</span></label>
-                                                
-                                                    <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[father_spouse_name]" id="father_spouse_name_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'father_spouse_name', 'approved'); ?>>
-                                                        <label class="verify-btn approve-btn" for="father_spouse_name_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[father_spouse_name]" id="father_spouse_name_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'father_spouse_name', 'rejected'); ?>>
-                                                        <label class="verify-btn reject-btn" for="father_spouse_name_reject"> Rejected </label>
-                                                        <input type="radio" name="verification_status[father_spouse_name]" id="father_spouse_name_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'father_spouse_name', 'rejected'); ?>>
-                                                        <label class="verify-btn pending-btn" for="father_spouse_name_pending"> Pending </label>
-                                                    </div>
-                                                    
-                                                </div>
-                                                <input class="form-control" type="text" id="father_spouse_name" value=" <?php //echo $father_spouse_name; ?>">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="input-block mb-3">
-                                                <div class="verify-field">
-                                                    <label class="col-form-label">Email Address<span class="text-danger">*</span></label>
-                                                    
-                                                    <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[email]" id="email_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'email', 'approved'); ?>>
-                                                        <label class="verify-btn approve-btn" for="email_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[email]" id="email_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'email', 'rejected'); ?>>
-                                                        <label class="verify-btn reject-btn" for="email_reject"> Rejected </label>
-                                                        <input type="radio" name="verification_status[email]" id="email_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'email', 'rejected'); ?>>
-                                                        <label class="verify-btn pending-btn" for="email_pending"> Pending </label>
-                                                    </div>
-                                                    
-                                                </div>
-                                                <input class="form-control" type="email" id="email" value="<?php //echo $email;?>">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="input-block mb-3">
-                                                <div class="verify-field">
-                                                    <label class="col-form-label">Date of Birth <span class="text-danger">*</span></label>
-                                                    
-                                                    <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[dob]" id="dob_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'dob', 'approved'); ?>>
-                                                        <label class="verify-btn approve-btn" for="dob_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[dob]" id="dob_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'dob', 'rejected'); ?>>
-                                                        <label class="verify-btn reject-btn" for="dob_reject"> Rejected </label>
-                                                        <input type="radio" name="verification_status[dob]" id="dob_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'dob', 'rejected'); ?>>
-                                                        <label class="verify-btn pending-btn" for="dob_pending"> Pending </label>
-                                                    </div>
-                                                    
-                                                </div>
-                                                <input class="form-control" type="date" id="dob" value="<?php //echo $date_of_birth ;?>">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-12">
-                                            <div class="form-group">
-                                                <div class="verify-field">
-                                                    <label class="col-form-label">Gender <span class="text-danger">*</span></label>
-                                                    
-                                                    <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[gender]" id="gender_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'gender', 'approved'); ?>>
-                                                        <label class="verify-btn approve-btn" for="gender_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[gender]" id="gender_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'gender', 'rejected'); ?>>
-                                                        <label class="verify-btn reject-btn" for="gender_reject"> Rejected </label>
-                                                        <input type="radio" name="verification_status[gender]" id="gender_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'gender', 'rejected'); ?>>
-                                                        <label class="verify-btn pending-btn" for="gender_pending"> Pending </label>
-                                                    </div>
-                                                    
-                                                </div>
-                                                <div class="form-control d-flex justify-content-around">
-                                                    <label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender form-check-input" id="test3" value="male" <?php //if ($gender == 'male'){echo ' checked ';} ?>>&nbsp;&nbsp;&nbsp;Male</label>
-                                                    <label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender form-check-input" id="test4" value="female" <?php //if ($gender == 'female'){echo ' checked ';} ?>>&nbsp;&nbsp;&nbsp;Female</label>
-                                                    <label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender form-check-input" id="test5" value="others" <?php //if ($gender == 'others'){echo ' checked ';} ?>>&nbsp;&nbsp;&nbsp;Other</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-12 mb-3">
-                                            <div class="row">
-                                                <div class="col-md-4 col-sm-4 col-3">
-                                                    <div class="input-block">
-                                                        <?php
-                                                            require '../connect.php';
-                                                            $stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
-                                                            $stmt->execute();                                            
-                                                            $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                                        ?>
-                                                        <label for="country_cd" class="col-form-label">Code:</label>
-                                                        <select class="form-control" id="country_cd">
-                                                            <?php 
-                                                                if($stmt->rowCount()>0){
-                                                                    foreach (($stmt->fetchAll()) as $key => $row) {  
-                                                                        echo '<option value="'.$row['country_code'].'">+'.$row['country_code'].' ('.$row['sortname'].')</option>'; 
-                                                                    } 
-                                                                }else{ 
-                                                                    echo '<option value="">Country not available</option>'; 
-                                                                } 
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-8 col-sm-8 col-9">
-                                                    <div class="input-block">
-                                                        <div class="verify-field">
-                                                            <label class="col-form-label">Phone Number <span class="text-danger">*</span></label>
-                                                            
-                                                            <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[phone]" id="phone_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'phone', 'approved'); ?>>
-                                                                <label class="verify-btn approve-btn" for="phone_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[phone]" id="phone_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'phone', 'rejected'); ?>>
-                                                                <label class="verify-btn reject-btn" for="phone_reject"> Rejected </label>
-                                                                <input type="radio" name="verification_status[phone]" id="phone_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'phone', 'rejected'); ?>>
-                                                                <label class="verify-btn pending-btn" for="phone_pending"> Pending </label>
-                                                            </div>
-                                                            
-                                                        </div>
-                                                        <input class="form-control" type="text" id="phone" value=" <?php //echo $contact_no; ?>">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-12 mb-3">
-                                            <div class="row">
-                                                <div class="col-md-4 col-sm-4 col-3">
-                                                    <div class="input-block">
-                                                        <?php
-                                                            require '../connect.php';
-                                                            $stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
-                                                            $stmt->execute();                                            
-                                                            $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                                        ?>
-                                                        <label for="country_cd_alt" class="col-form-label">Code:</label>
-                                                        <select class="form-control" id="country_cd_alt">
-                                                            <?php 
-                                                                if($stmt->rowCount()>0){
-                                                                    foreach (($stmt->fetchAll()) as $key => $row) {  
-                                                                        echo '<option value="'.$row['country_code'].'">+'.$row['country_code'].' ('.$row['sortname'].')</option>'; 
-                                                                    } 
-                                                                }else{ 
-                                                                    echo '<option value="">Country not available</option>'; 
-                                                                } 
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-8 col-sm-8 col-9">
-                                                    <div class="input-block">
-                                                        <div class="verify-field">
-                                                            <label class="col-form-label">Alt Phone No <span class="text-danger">*</span></label>
-                                                            
-                                                            <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[altPhone]" id="altPhone_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'altPhone', 'approved'); ?>>
-                                                                <label class="verify-btn approve-btn" for="altPhone_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[altPhone]" id="altPhone_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'altPhone', 'rejected'); ?>>
-                                                                <label class="verify-btn reject-btn" for="altPhone_reject"> Rejected </label>
-                                                                <input type="radio" name="verification_status[altPhone]" id="altPhone_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'altPhone', 'rejected'); ?>>
-                                                                <label class="verify-btn pending-btn" for="altPhone_pending"> Pending </label>
-                                                            </div>
-                                                            
-                                                        </div>
-                                                        <input class="form-control" type="text" id="altPhone" value=" <?php //echo $alternative_contact_no; ?>">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6">
-                                            <div class="input-block mb-3">
-                                                <div class="verify-field">
-                                                    <label class="col-form-label">Aadhar No<span class="text-danger">*</span></label>
-                                                    
-                                                    <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[aadharNo]" id="aadharNo_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'aadharNo', 'approved'); ?>>
-                                                        <label class="verify-btn approve-btn" for="aadharNo_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[aadharNo]" id="aadharNo_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'aadharNo', 'rejected'); ?>>
-                                                        <label class="verify-btn pending-btn" for="aadharNo_pending"> Pending </label>
-                                                    </div>
-                                                    
-                                                </div>
-                                                <input class="form-control" type="text" id="aadharNo" value=" <?php //echo $aadhar_no; ?>">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6">
-                                            <div class="input-block mb-3">
-                                                <div class="verify-field">
-                                                    <label class="col-form-label">PAN No<span class="text-danger">*</span></label>
-                                                    
-                                                    <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[panNo]" id="panNo_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'panNo', 'approved'); ?>>
-                                                        <label class="verify-btn approve-btn" for="panNo_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[panNo]" id="panNo_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'panNo', 'rejected'); ?>>
-                                                        <label class="verify-btn reject-btn" for="panNo_reject"> Rejected </label>
-                                                        <input type="radio" name="verification_status[panNo]" id="panNo_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'panNo', 'rejected'); ?>>
-                                                        <label class="verify-btn pending-btn" for="panNo_pending"> pending </label>
-                                                    </div>
-                                                    
-                                                </div>
-                                                <input class="form-control" type="text" id="panNo" value=" <?php // echo $pan_no; ?>">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-									<div class="row">
-										<div class="col-lg-12">
-                                            <div class="verify-field">
-                                                
-                                                <div class="verify-toggle">
-                                                    <input type="radio" name="verification_status[profile]" id="profile_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'profile', 'approved'); ?> > 
-                                                    <label class="verify-btn approve-btn" for="profile_approve"> Approved </label>
-                                                    <input type="radio" name="verification_status[profile]" id="profile_reject" class="reject_reason" value="rejected" <?php // isChecked($verificationPayload, 'profile', 'rejected'); ?> > 
-                                                    <label class="verify-btn reject-btn" for="profile_reject"> Rejected </label>
-                                                    <input type="radio" name="verification_status[profile]" id="profile_pending" class="pending_reason" value="pending" <?php // isChecked($verificationPayload, 'profile', 'rejected'); ?> > 
-                                                    <label class="verify-btn pending-btn" for="profile_pending"> Pending </label>
-                                                </div>
-                                                
-                                            </div>
-											<div class="upload-card" data-title="Profile Photo" data-index="1">
-                                                <input type="hidden" id="img_path1" value="">
-												<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file1">
-												<div class="upload-content">
-													<div class="upload-icon">
-														<i class="fa-solid fa-user"></i>
-													</div>
-													<h6>Profile Photo</h6>
-													<p>Click to upload<br>or drag and drop</p>
-													<small>(JPG, PNG, PDF)</small>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-                            </div>
-                        </div> -->
-                        <!-- Card section 1 -->
 						<div class="card rounded-4 p-3 border-1">
 							<div class="row">
                                 <div class="d-flex gap-2">
@@ -416,46 +140,53 @@
 											<div class="input-block mb-3">
 												<label class="col-form-label">First Name <span class="text-danger">*</span></label>
 												<input class="form-control" type="text" id="firstname">
+                                                <small class="error-message" id="firstname_error"></small>
 											</div>
 										</div>
 										<div class="col-lg-6 col-md-6 col-sm-6 col-12">
 											<div class="input-block mb-3">
 												<label class="col-form-label">Last Name <span class="text-danger">*</span></label>
 												<input class="form-control" type="text" id="lastname">
+                                                <small class="error-message" id="lastname_error"></small>
 											</div>
 										</div>
 										<div class="col-lg-6 col-md-6 col-sm-6 col-12">
 											<div class="input-block mb-3">
 												<label class="col-form-label">Nominee Name <span class="text-danger">*</span></label>
 												<input class="form-control" type="text" id="nominee_name">
+                                                <small class="error-message" id="nominee_name_error"></small>
 											</div>
 										</div>
 										<div class="col-lg-6 col-md-6 col-sm-6 col-12">
 											<div class="input-block mb-3">
 												<label class="col-form-label">Nominee Relation <span class="text-danger">*</span></label>
 												<input class="form-control" type="text" id="nominee_relation">
+                                                <small class="error-message" id="nominee_relation_error"></small>
 											</div>
 										</div>
 										<div class="col-lg-6 col-md-6 col-sm-6 col-12">
 											<div class="input-block mb-3">
 												<label class="col-form-label">Email Address<span class="text-danger">*</span></label>
 												<input class="form-control" type="email" id="email">
+                                                <small class="error-message" id="email_error"></small>
 											</div>
 										</div>
 										<div class="col-lg-6 col-md-6 col-sm-6 col-12">
 											<div class="input-block mb-3">
 												<label class="col-form-label">Date of Birth <span class="text-danger">*</span></label>
 												<input class="form-control" type="date" id="dob" max="<?php echo $ageLimit; ?>">
-											</div>
+                                                <small class="error-message" id="dob_error"></small>
+                                            </div>
 										</div>
 										<div class="col-md-6 col-sm-12">
 											<div class="form-group">
 												<label class="col-form-label">Gender <span class="text-danger">*</span></label>
-												<div class="form-control d-flex justify-content-around">
+												<div class="form-control d-flex justify-content-around gender-wrapper" id="gender_wrapper">
 													<label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender" id="test3" value="male">&nbsp;&nbsp;&nbsp;Male</label>
 													<label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender" id="test4" value="female">&nbsp;&nbsp;&nbsp;Female</label>
 													<label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender" id="test5" value="others">&nbsp;&nbsp;&nbsp;Other</label>
 												</div>
+                                                <small class="error-message" id="gender_error"></small>
 											</div>
 										</div>
 										<div class="col-md-6 col-sm-12 mb-3">
@@ -480,13 +211,15 @@
 															}
 															?>
 														</select>
+                                                        <small class="error-message" id="country_cd_error"></small>
 													</div>
 												</div>
 												<div class="col-md-8 col-sm-8 col-9">
 													<div class="input-block">
 														<label class="col-form-label">Phone Number <span class="text-danger">*</span></label>
 														<input class="form-control" type="number" id="phone" placeholder="Enter Phone Number">
-													</div>
+                                                        <small class="error-message" id="phone_error"></small>
+                                                    </div>
 												</div>
 											</div>
 										</div>
@@ -539,6 +272,7 @@
 											}
 											?>
 										</select>
+                                        <small class="error-message" id="country_error"></small>
 									</div>
 								</div>
 								<div class="col-md-6 col-sm-6">
@@ -547,6 +281,7 @@
 										<select class="form-select" id="mystate" aria-label="Floating label select example">
 											<option value="">--Select country first--</option>
 										</select>
+                                        <small class="error-message" id="mystate_error"></small>
 									</div>
 								</div>
 								<div class="col-md-6 col-sm-6">
@@ -555,19 +290,22 @@
 										<select class="form-select" id="city" aria-label="Floating label select example">
 											<option value="">--Select state first--</option>
 										</select>
-									</div>
+                                        <small class="error-message" id="city_error"></small>
+                                    </div>
 								</div>
 								<div class="col-md-6 col-sm-6">
 									<div class="input-block mb-3">
 										<label class="col-form-label">Pincode<span class="text-danger">*</span></label>
 										<input type="text" class="form-control" id="pin" placeholder="Pincode" readonly>
-									</div>
+                                        <small class="error-message" id="pin_error"></small>
+                                    </div>
 								</div>
 								<div class="col-md-12 col-sm-12">
 									<div class="input-block mb-3">
 										<label class="col-form-label">Address<span class="text-danger">*</span></label>
 										<textarea class="form-control" type="text" id="address" rows="3" placeholder="Enter complete address"></textarea>
-									</div>
+                                        <small class="error-message" id="address_error"></small>
+                                    </div>
 								</div>
 							</div>
 						</div>
@@ -599,6 +337,7 @@
 											}
 											?>
 										</select>
+                                        <small class="error-message" id="payment_fee_error"></small>
 									</div>
 								</div>
 								<div class="col-md-6 col-sm-6">
@@ -607,6 +346,7 @@
 										<select class="form-select" id="branch">
 											<option value=""> ---- Select Zone First ---- </option>
 										</select>
+                                        <small class="error-message" id="branch_error"></small>
 									</div>
 								</div>
 							</div>
@@ -686,6 +426,7 @@
                         <!-- new added 14-06-2025 -->
                         <input type="hidden" id="userType" name="userType" value="<?php echo $userType; ?>"> <!-- 24,25,26 -->
                         <input type="hidden" id="userId" name="userId" value="<?php echo $userId; ?>"> 
+                        <input type="hidden" id="id" name="id" value="<?php echo $id; ?>"> 
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="d-flex justify-content-end gap-4 submitBtnBackground">
@@ -694,9 +435,9 @@
                                         if ($status == 4) {
                                     ?>
                                     <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftEdit">Save Draft</button>
-                                    <button type="submit" class="btn actionBtn submitBtn mb-2" id="editSuperTechnoEnterprise">
+                                    <button type="submit" class="btn actionBtn submitBtn mb-2" id="editBusinessMentor">
                                         <i class="fa-regular fa-paper-plane me-2"></i>
-                                        Submit Techno Enterprise | Franchisee
+                                        Submit Business Mentor
                                     </button>
                                     <?php
                                         }

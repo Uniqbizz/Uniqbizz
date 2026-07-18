@@ -114,6 +114,8 @@ function getFormData(){
 
         registeredas : $("#registered").val()?.trim(),
 
+        id: $("#id").length ? $("#id").val().trim() : "",
+
         user_id_name : $("#user_id_name").val()?.trim(),
 
         reference_name : $("#reference_name").val()?.trim(),
@@ -150,15 +152,15 @@ function getFormData(){
 
         branch : $("#branch").val().trim(),
 
-        profile_pic : $("#img_path1").val().trim(),
+        profile_pic: $("#upload_file1").val().trim() !== "" ? $("#img_path1").val().trim() : "",
 
-        aadhar_card : $("#img_path2").val().trim(),
+        aadhar_card: $("#upload_file2").val().trim() !== "" ? $("#img_path2").val().trim() : "",
 
-        pan_card : $("#img_path3").val().trim(),
+        pan_card: $("#upload_file3").val().trim() !== "" ? $("#img_path3").val().trim() : "",
 
-        passbook : $("#img_path4").val().trim(),
+        passbook: $("#upload_file4").val().trim() !== "" ? $("#img_path4").val().trim() : "",
 
-        voting_card : $("#img_path11").val().trim(),
+        voting_card: $("#upload_file11").val().trim() !== "" ? $("#img_path11").val().trim() : "",
 
         userId : $("#userId").val(),
 
@@ -178,29 +180,9 @@ function getFormData(){
 
 function validateBusinessMentor(data,isEdit=false){
 
-    if(!isEdit){
-
-        if(data.registeredas == ''){
-
-            alert("Select Register As");
-
-            return false;
-
-        }
-
-        if(data.reference_name == ''){
-
-            alert("Select Reference Name");
-
-            return false;
-
-        }
-
-    }
-
     if(data.firstname == ''){
 
-        alert("Enter First Name");
+        showError("firstname","Enter First Name");
 
         return false;
 
@@ -208,7 +190,7 @@ function validateBusinessMentor(data,isEdit=false){
 
     if(!characterLetters.test(data.firstname)){
 
-        alert("First Name should contain only alphabets");
+        showError("firstname","First Name should contain only alphabets");
 
         return false;
 
@@ -216,7 +198,7 @@ function validateBusinessMentor(data,isEdit=false){
 
     if(data.lastname == ''){
 
-        alert("Enter Last Name");
+        showError("lastname","Enter Last Name");
 
         return false;
 
@@ -224,7 +206,7 @@ function validateBusinessMentor(data,isEdit=false){
 
     if(!characterLetters.test(data.lastname)){
 
-        alert("Last Name should contain only alphabets");
+        showError("lastname","Last Name should contain only alphabets");
 
         return false;
 
@@ -232,7 +214,7 @@ function validateBusinessMentor(data,isEdit=false){
 
     if(data.nominee_name == ''){
 
-        alert("Enter Nominee Name");
+        showError("nominee_name","Enter Nominee Name");
 
         return false;
 
@@ -240,7 +222,7 @@ function validateBusinessMentor(data,isEdit=false){
 
     if(data.nominee_relation == ''){
 
-        alert("Enter Nominee Relation");
+        showError("nominee_relation","Enter Nominee Relation");
 
         return false;
 
@@ -248,7 +230,7 @@ function validateBusinessMentor(data,isEdit=false){
 
     if(data.email == ''){
 
-        alert("Enter Email");
+        showError("email","Enter Email");
 
         return false;
 
@@ -256,7 +238,7 @@ function validateBusinessMentor(data,isEdit=false){
 
     if(!emailReg.test(data.email)){
 
-        alert("Enter Valid Email");
+        showError("email","Enter Valid Email");
 
         return false;
 
@@ -264,7 +246,7 @@ function validateBusinessMentor(data,isEdit=false){
 
     if(data.testEmail == "1"){
 
-        alert("Email already exists");
+        showError("email","Email already exists");
 
         return false;
 
@@ -272,7 +254,7 @@ function validateBusinessMentor(data,isEdit=false){
 
     if(data.dob == ''){
 
-        alert("Select Date of Birth");
+        showError("dob","Select Date of Birth");
 
         return false;
 
@@ -280,7 +262,7 @@ function validateBusinessMentor(data,isEdit=false){
 
     if(data.age < 20){
 
-        alert("Age must be 20 years or above");
+        showError("dob","Age must be 20 years or above");
 
         return false;
 
@@ -288,7 +270,7 @@ function validateBusinessMentor(data,isEdit=false){
 
     if(!data.gender){
 
-        alert("Select Gender");
+        showGenderError("Please Select Gender.");
 
         return false;
 
@@ -296,7 +278,7 @@ function validateBusinessMentor(data,isEdit=false){
 
     if(data.phone == ''){
 
-        alert("Enter Phone Number");
+        showError("phone","Enter Phone Number");
 
         return false;
 
@@ -304,7 +286,7 @@ function validateBusinessMentor(data,isEdit=false){
 
     if(!phoneReg.test(data.phone)){
 
-        alert("Phone Number must be 10 digits");
+        showError("phone","Phone Number must be 10 digits");
 
         return false;
 
@@ -312,7 +294,7 @@ function validateBusinessMentor(data,isEdit=false){
 
     if(data.country == ''){
 
-        alert("Select Country");
+        showError("country","Select Country");
 
         return false;
 
@@ -320,7 +302,7 @@ function validateBusinessMentor(data,isEdit=false){
 
     if(data.state == ''){
 
-        alert("Select State");
+        showError("mystate","Select State");
 
         return false;
 
@@ -328,7 +310,7 @@ function validateBusinessMentor(data,isEdit=false){
 
     if(data.city == ''){
 
-        alert("Select City");
+        showError("city","Select City");
 
         return false;
 
@@ -336,7 +318,7 @@ function validateBusinessMentor(data,isEdit=false){
 
     if(data.address == ''){
 
-        alert("Enter Address");
+        showError("address","Enter Address");
 
         return false;
 
@@ -344,7 +326,7 @@ function validateBusinessMentor(data,isEdit=false){
 
     if(data.zone == ''){
 
-        alert("Select Zone");
+        showError("zone","Select Zone");
 
         return false;
 
@@ -352,7 +334,7 @@ function validateBusinessMentor(data,isEdit=false){
 
     if(data.branch == ''){
 
-        alert("Select Branch");
+        showError("branch","Select Branch");
 
         return false;
 
@@ -360,7 +342,7 @@ function validateBusinessMentor(data,isEdit=false){
 
     if(data.profile_pic == ''){
 
-        alert("Upload Profile Photo");
+        showFileError("upload_file1","Upload Profile Photo");
 
         return false;
 
@@ -368,7 +350,7 @@ function validateBusinessMentor(data,isEdit=false){
 
     if(data.aadhar_card == ''){
 
-        alert("Upload Aadhaar Card");
+        showFileError("upload_file2","Upload Aadhaar Card");
 
         return false;
 
@@ -376,7 +358,7 @@ function validateBusinessMentor(data,isEdit=false){
 
     if(data.pan_card == ''){
 
-        alert("Upload PAN Card");
+        showFileError("upload_file3","Upload PAN Card");
 
         return false;
 
@@ -384,7 +366,7 @@ function validateBusinessMentor(data,isEdit=false){
 
     if(data.passbook == ''){
 
-        alert("Upload Passbook");
+        showFileError("upload_file4","Upload Passbook");
 
         return false;
 
@@ -393,7 +375,90 @@ function validateBusinessMentor(data,isEdit=false){
     return true;
 
 }
+//validations 
+function showError(fieldId, message) {
 
+    $("#" + fieldId)
+        .addClass("is-invalid")
+        .focus();
+
+    $("#" + fieldId + "_error").text(message);
+}
+
+function clearError(fieldId) {
+
+    $("#" + fieldId)
+        .removeClass("is-invalid");
+
+    $("#" + fieldId + "_error").text("");
+}
+
+function clearAllErrors() {
+
+    $(".form-control, .form-select").removeClass("is-invalid");
+    $(".error-message").text("");
+}
+function showGenderError(message){
+
+    $("#gender_wrapper")
+        .addClass("error")
+        .attr("tabindex","-1")
+        .focus();
+
+    $("#gender_error").text(message);
+}
+
+function clearGenderError(){
+
+    $("#gender_wrapper").removeClass("error");
+
+    $("#gender_error").text("");
+}
+
+$(".gender").on("change",function(){
+
+    clearGenderError();
+
+});
+function showPaymentError(message){
+
+    $("#payment-mode_wrapper")
+        .addClass("error")
+        .attr("tabindex","-1")
+        .focus();
+
+    $("#payment-mode_error").text(message);
+}
+
+function clearPaymentError(){
+
+    $("#payment-mode_wrapper").removeClass("error");
+
+    $("#payment-mode_error").text("");
+}
+
+$(".payment").on("change",function(){
+
+    clearPaymentError();
+
+});
+function showFileError(fileId, message) {
+
+    const input = $("#" + fileId);
+
+    input.closest(".upload-card").addClass("error");
+
+    $("#" + fileId + "_error").text(message);
+
+    input.trigger("click"); // Opens file selector
+}
+function clearFileError(fileId) {
+
+    $("#" + fileId)
+        .closest(".upload-card")
+        .removeClass("error");
+}
+//-------------------------------
 //==============================================================
 // Add Business Mentor
 //==============================================================
@@ -401,7 +466,7 @@ function validateBusinessMentor(data,isEdit=false){
 $("#addBusinessMentor").on("click", function (e) {
 
     e.preventDefault();
-
+    clearAllErrors();
     let data = getFormData();
 
     if (!validateBusinessMentor(data, false)) {
@@ -409,9 +474,7 @@ $("#addBusinessMentor").on("click", function (e) {
     }
 
     let dataString =
-        "registeredas=" + encodeURIComponent(data.registeredas) +
-        "&user_id_name=" + encodeURIComponent(data.user_id_name) +
-        "&reference_name=" + encodeURIComponent(data.reference_name) +
+        "action_type=submit"+
         "&firstname=" + encodeURIComponent(data.firstname) +
         "&lastname=" + encodeURIComponent(data.lastname) +
         "&nominee_name=" + encodeURIComponent(data.nominee_name) +
@@ -466,7 +529,7 @@ $("#addBusinessMentor").on("click", function (e) {
 
             response = $.trim(response);
 
-            if (response == "1") {
+            if (response == "2") {
 
                 Swal.fire({
                     icon: "success",
@@ -479,51 +542,16 @@ $("#addBusinessMentor").on("click", function (e) {
 
                 });
 
-            } else if (response == "2") {
-
-                Swal.fire({
-                    icon: "warning",
-                    title: "Email Already Exists",
-                    text: "The email address you entered is already registered.",
-                    confirmButtonColor: "#f39c12"
-                });
-
-            } else if (response == "3") {
-
-                Swal.fire({
-                    icon: "warning",
-                    title: "Phone Number Already Exists",
-                    text: "The phone number you entered is already registered.",
-                    confirmButtonColor: "#f39c12"
-                });
-
-            } else if (response == "4") {
-
-                Swal.fire({
-                    icon: "error",
-                    title: "Reference User Not Found",
-                    text: "Please select a valid reference user.",
-                    confirmButtonColor: "#d33"
-                });
-
-            } else if (response == "5") {
-
-                Swal.fire({
-                    icon: "info",
-                    title: "Business Mentor Already Exists",
-                    text: "A Business Mentor already exists for the selected reference.",
-                    confirmButtonColor: "#3085d6"
-                });
-
             } else {
 
                 Swal.fire({
                     icon: "error",
                     title: "Something Went Wrong",
-                    html: `
-                        <p>An unexpected error occurred.</p>
-                        <small><b>Server Response:</b> ${response}</small>
-                    `,
+                    text: "Something went wrong.",
+                    // html: `
+                    //     <p>An unexpected error occurred.</p>
+                    //     <small><b>Server Response:</b> ${response}</small>
+                    // `,
                     confirmButtonColor: "#d33"
                 });
 
@@ -543,11 +571,12 @@ $("#addBusinessMentor").on("click", function (e) {
 
             Swal.fire({
                 icon: "error",
-                title: "Connection Failed",
-                html: `
-                    Unable to connect to the server.<br><br>
-                    <small><b>Error:</b> ${xhr.status} - ${xhr.statusText}</small>
-                `,
+                title: "Error",
+                text: "Something went wrong.",
+                // html: `
+                //     Unable to connect to the server.<br><br>
+                //     <small><b>Error:</b> ${xhr.status} - ${xhr.statusText}</small>
+                // `,
                 confirmButtonColor: "#d33"
             });
 
@@ -591,15 +620,36 @@ function submitBusinessMentor(url, dataString, buttonId, buttonText, successMsg)
 
             console.log(response);
 
-            if(response == "1"){
+            if ($.trim(response) == "2") {
 
-                alert(successMsg);
+                Swal.fire({
+                    icon: "success",
+                    title: "Success",
+                    text: successMsg,
+                    confirmButtonText: "OK"
+                }).then(() => {
+                    location.href = "business_mentor_list.php";
+                });
 
-                location.href="business_mentor_list.php";
+            } else if ($.trim(response) == "4") {
 
-            }else{
+                Swal.fire({
+                    icon: "info",
+                    title: "Draft Saved",
+                    text: "Details have been saved as a draft.",
+                    confirmButtonColor: "#0dcaf0"
+                }).then(() => {
+                    location.href = "business_mentor_list.php";
+                });
 
-                alert(response);
+            } else {
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Failed",
+                    text: response +"Something went wrong.", //response || 
+                    confirmButtonText: "OK"
+                });
 
             }
 
@@ -628,15 +678,15 @@ function submitBusinessMentor(url, dataString, buttonId, buttonText, successMsg)
 // Edit Business Mentor
 //==============================================================
 
-$("#editBuisnessMentor").on("click",function(e){
+$("#editBusinessMentor").on("click",function(e){
 
     e.preventDefault();
-
+    clearAllErrors();
     let data = getFormData();
 
-    data.editfor = $("#editfor").val().trim();
-    data.ref_id = $("#ref_id").val().trim();
-    data.id = $("#id").val().trim();
+    // data.editfor = $("#editfor").val().trim();
+    // data.ref_id = $("#ref_id").val().trim();
+    // data.id = $("#id").val().trim();
 
     if(!validateBusinessMentor(data,true)){
 
@@ -645,10 +695,7 @@ $("#editBuisnessMentor").on("click",function(e){
     }
 
     let dataString =
-
-        "editfor="+encodeURIComponent(data.editfor)+
-
-        "&ref_id="+encodeURIComponent(data.ref_id)+
+        "action_type=submit"+
 
         "&id="+encodeURIComponent(data.id)+
 
@@ -722,14 +769,84 @@ $("#editBuisnessMentor").on("click",function(e){
 $("#saveDraftAdd").on("click",function(e){
 
     e.preventDefault();
-
+    clearAllErrors();
     let data = getFormData();
+
+    if(data.firstname == ''){
+
+        showError("firstname","Enter First Name");
+
+        return false;
+
+    }
+
+    if(!characterLetters.test(data.firstname)){
+
+        showError("firstname","First Name should contain only alphabets");
+
+        return false;
+
+    }
+
+    if(data.lastname == ''){
+
+        showError("lastname","Enter Last Name");
+
+        return false;
+
+    }
+
+    if(!characterLetters.test(data.lastname)){
+
+        showError("lastname","Last Name should contain only alphabets");
+
+        return false;
+
+    }
+
+    if(data.email == ''){
+
+        showError("email","Enter Email");
+
+        return false;
+
+    }
+
+    if(!emailReg.test(data.email)){
+
+        showError("email","Enter Valid Email");
+
+        return false;
+
+    }
+
+    if(data.testEmail == "1"){
+
+        showError("email","Email already exists");
+
+        return false;
+
+    }
+
+    if(data.phone == ''){
+
+        showError("phone","Enter Phone Number");
+
+        return false;
+
+    }
+
+    if(!phoneReg.test(data.phone)){
+
+        showError("phone","Phone Number must be 10 digits");
+
+        return false;
+
+    }
 
     let dataString =
 
-        "draft=1"+
-
-        "&registeredas="+encodeURIComponent(data.registeredas)+
+        "action_type=draft"+
 
         "&user_id_name="+encodeURIComponent(data.user_id_name)+
 
@@ -783,7 +900,154 @@ $("#saveDraftAdd").on("click",function(e){
 
     submitBusinessMentor(
 
-        "business_mentor/save_business_mentor_draft.php",
+        "models/business_mentor/add_business_mentor_data.php",
+
+        dataString,
+
+        "#saveDraftEdit",
+
+        "Save Draft",
+
+        "Draft Saved Successfully."
+
+    );
+
+});
+$("#saveDraftEdit").on("click",function(e){
+
+    e.preventDefault();
+    clearAllErrors();
+    let data = getFormData();
+
+    if(data.firstname == ''){
+
+        showError("firstname","Enter First Name");
+
+        return false;
+
+    }
+
+    if(!characterLetters.test(data.firstname)){
+
+        showError("firstname","First Name should contain only alphabets");
+
+        return false;
+
+    }
+
+    if(data.lastname == ''){
+
+        showError("lastname","Enter Last Name");
+
+        return false;
+
+    }
+
+    if(!characterLetters.test(data.lastname)){
+
+        showError("lastname","Last Name should contain only alphabets");
+
+        return false;
+
+    }
+
+    if(data.email == ''){
+
+        showError("email","Enter Email");
+
+        return false;
+
+    }
+
+    if(!emailReg.test(data.email)){
+
+        showError("email","Enter Valid Email");
+
+        return false;
+
+    }
+
+    if(data.testEmail == "1"){
+
+        showError("email","Email already exists");
+
+        return false;
+
+    }
+
+    if(data.phone == ''){
+
+        showError("phone","Enter Phone Number");
+
+        return false;
+
+    }
+
+    if(!phoneReg.test(data.phone)){
+
+        showError("phone","Phone Number must be 10 digits");
+
+        return false;
+
+    }
+
+    let dataString =
+
+        "action_type=draft"+
+
+        "&user_id_name="+encodeURIComponent(data.user_id_name)+
+
+        "&reference_name="+encodeURIComponent(data.reference_name)+
+
+        "&firstname="+encodeURIComponent(data.firstname)+
+
+        "&lastname="+encodeURIComponent(data.lastname)+
+
+        "&nominee_name="+encodeURIComponent(data.nominee_name)+
+
+        "&nominee_relation="+encodeURIComponent(data.nominee_relation)+
+
+        "&email="+encodeURIComponent(data.email)+
+
+        "&dob="+encodeURIComponent(data.dob)+
+
+        "&gender="+encodeURIComponent(data.gender)+
+
+        "&country_code="+encodeURIComponent(data.country_code)+
+
+        "&phone="+encodeURIComponent(data.phone)+
+
+        "&country="+encodeURIComponent(data.country)+
+
+        "&state="+encodeURIComponent(data.state)+
+
+        "&city="+encodeURIComponent(data.city)+
+
+        "&pincode="+encodeURIComponent(data.pincode)+
+
+        "&address="+encodeURIComponent(data.address)+
+
+        "&zone="+encodeURIComponent(data.zone)+
+
+        "&branch="+encodeURIComponent(data.branch)+
+
+        "&profile_pic="+encodeURIComponent(data.profile_pic)+
+
+        "&aadhar_card="+encodeURIComponent(data.aadhar_card)+
+
+        "&pan_card="+encodeURIComponent(data.pan_card)+
+
+        "&passbook="+encodeURIComponent(data.passbook)+
+
+        "&voting_card="+encodeURIComponent(data.voting_card)+
+
+        "&userId="+encodeURIComponent(data.userId)+
+
+        "&userType="+encodeURIComponent(data.userType);
+
+    submitBusinessMentor(
+
+        "models/business_mentor/edit_business_mentor_data.php",
 
         dataString,
 
@@ -796,7 +1060,6 @@ $("#saveDraftAdd").on("click",function(e){
     );
 
 });
-
 
 //==============================================================
 // Cancel Button

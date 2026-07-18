@@ -30,12 +30,26 @@
 
     $user_type=26;
     $register_by = $userType;
-	$status= '2';
+	$actionType           = $_POST['action_type'] ?? '';
+	if($actionType == 'draft'){
+        // data insertion for logs tables
+        $status= '4';
+        //$message="Techno Enterprise form saved as draft by $userId($userFname' '$userLname) from Add Page";
+    }else{
+        // data insertion for logs tables
+        $status= '2';
+        // $message="Added new Techno Enterprise. TE name - " .$fname." ".$lname;
+        // $message2="Added new Techno Enterprise by Super Techno Eenterprise";
+    }
 
     // get age of the user
-    $birthYear = str_split($bdate,4);
-    $birth_year = $birthYear[0];
-    $age = $current_year - $birth_year;
+	if($bdate){
+		$birthYear = str_split($bdate,4);
+		$birth_year = $birthYear[0];
+		$age = $current_year - $birth_year;
+	}else{
+		$age=0;
+	}
 
     // data insertion for logs tables 
 		$title="Business Mentor";
@@ -99,7 +113,7 @@
 		));
 
 		if($result3){		
-			echo 1;
+			echo $status;
 		}else{  
 			echo 0	;
 		}

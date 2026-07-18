@@ -655,7 +655,7 @@
                         const file = this.files[0];
 
                         if (!file) return;
-
+                        clearFileError(this.id);
                         const card = this.closest('.upload-card');
                         const title = card.dataset.title;
                         const index = card.dataset.index;

@@ -1,18 +1,14 @@
 <?php
-require "../../../connect.php";
+include_once(__DIR__.'/../../../dashboard_user_details.php');
 $current_year = date('Y'); 
-
-$fid= $_POST["ref_id"];
-$editfor= $_POST["editfor"];
+$reference_no         = $userId;
+$registrant           = $userFname .' '.$userLname;
 
 $identifier_id= $_POST["id"];
 $identifier_id_str=substr($identifier_id,0,2);
-if($editfor == 'registered') {
-	$identifier_name = $identifier_id_str == 'BM'?'business_mentor_id=':($identifier_id_str == 'MF'?'master_franchisee_id=':($identifier_id_str == 'SF'?'sponsor_franchisee_id=':'NA'));
-	$identifier_tablename = $identifier_id_str == 'BM'?'business_mentor':($identifier_id_str == 'MF'?'master_franchisee':($identifier_id_str == 'SF'?'sponsor_franchisee':'NA'));
-	$message=$identifier_id. " Details has been updated from ".$editfor. " list";
-	$message2=$identifier_id. " Details has been updated from ".$editfor. " list";
-}
+
+$message=$identifier_id. " Details has been updated for Business Mentor list";
+$message2=$identifier_id. " Details has been updated for Business Mentor list";
 
 $firstname=$_POST['firstname'];
 $lastname=$_POST['lastname'];
@@ -42,10 +38,17 @@ $branch=$_POST['branch'];
 $userId = $_POST['userId']; // BH250001 
 $userType = $_POST['userType']; //25
 
-$user_type_id = $identifier_id_str == 'BM'?'26':($identifier_id_str == 'MF'?'28':($identifier_id_str == 'SF'?'30':'NA'));;
+$user_type_id = '26';
 
-$title = $identifier_id_str == 'BM'?'Business Mentor':($identifier_id_str == 'MF'?'Master Franchisee':($identifier_id_str == 'SF'?'Sponsor Franchisee':'NA'));
-
+$title = 'Business Mentor';
+$actionType = $_POST['action_type'] ?? '';
+if($actionType == 'draft'){
+	// data insertion for logs tables
+	$status= '4';
+}else{
+	// data insertion for logs tables
+	$status= '2';
+}
 $fromWhom=$userType;
 $register_by=$userType;
 
@@ -53,7 +56,11 @@ $operation = "Edit";
  
 if($firstname !='' ||$lastname !='' ||$phone !='' ||$email !='' ||$gender !='' ||$dob !='' ||$address !='' ||$profile_pic !=''){
 	
-    $sql1 = "UPDATE $identifier_tablename SET firstname=:firstname,lastname=:lastname,nominee_name=:nominee_name,nominee_relation=:nominee_relation,country_code=:country_code,contact_no=:contact_no,email=:email,gender=:gender,date_of_birth=:date_of_birth,age=:age, country=:country,state=:state,city=:city,pincode=:pincode,address=:address,zone=:zone,branch=:branch,profile_pic=:profile_pic,pan_card=:pan_card,aadhar_card=:aadhar_card,voting_card=:voting_card ,bank_passbook=:passbook WHERE $identifier_name:identifier_id ";
+    $sql1 = "UPDATE business_mentor SET firstname=:firstname,lastname=:lastname,nominee_name=:nominee_name,nominee_relation=:nominee_relation,
+			country_code=:country_code,contact_no=:contact_no,email=:email,gender=:gender,date_of_birth=:date_of_birth,age=:age, country=:country,state=:state,
+			city=:city,pincode=:pincode,address=:address,zone=:zone,branch=:branch,profile_pic=:profile_pic,pan_card=:pan_card,aadhar_card=:aadhar_card,
+			voting_card=:voting_card ,bank_passbook=:passbook,status=:status 
+			WHERE id=:identifier_id ";
         $stmt = $conn->prepare($sql1);
         $result=  $stmt->execute(array(
             ':firstname' => $firstname,
@@ -78,6 +85,7 @@ if($firstname !='' ||$lastname !='' ||$phone !='' ||$email !='' ||$gender !='' |
             ':aadhar_card' => $aadhar_card,
             ':voting_card' => $voting_card,
             ':passbook' => $bank_passbook,
+            ':status' => $status,
             ':identifier_id' => $identifier_id	
         ));
 
@@ -107,7 +115,7 @@ if($firstname !='' ||$lastname !='' ||$phone !='' ||$email !='' ||$gender !='' |
 			':operation' => $operation
 			));
 			if($result3){
-				echo 1;
+				echo $status;
 			}
 			else{
 				echo 0	;
