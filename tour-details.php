@@ -310,7 +310,7 @@ if($user_type_id_value == '11'){
                                     <?php endif; ?>
                                 </div>
                             </div>
-                            <div class="mobile-gallery swiper myGallery">
+                            <div class="mobile-gallery swiper myGallery mb-3">
                                 <div class="swiper-wrapper">
                                     <?php foreach ($galleryImages as $image) : ?>
 
@@ -361,6 +361,78 @@ if($user_type_id_value == '11'){
                                     </div>
                                 </div>
                             </div>
+                            <!-- Card section start 1 -->
+                            <div class="card p-3 pb-0 mb-0">
+                                <div class="row">
+                                    <div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-6 mb-3">
+                                        <div class="d-flex gap-2">
+                                            <div class="iconColor align-content-center">
+                                                <i class="ri-history-line"></i>
+                                            </div>
+                                            <div class="fontSize1">
+                                                <p class="fw-bolder">Duration</p>
+                                                <p class="text-muted">5 Nights / 6 Days</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-6 mb-3">
+                                        <div class="d-flex gap-2">
+                                            <div class="iconColor align-content-center">
+                                                <i class="ri-timer-flash-line"></i>
+                                            </div>
+                                            <div class="fontSize1">
+                                                <p class="fw-bolder">Best Time</p>
+                                                <p class="text-muted">Oct - May</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-6 mb-3">
+                                        <div class="d-flex gap-2">
+                                            <div class="iconColor align-content-center">
+                                                <i class="ri-passport-line"></i>
+                                            </div>
+                                            <div class="fontSize1">
+                                                <p class="fw-bolder">Visa</p>
+                                                <p class="text-muted">Not Required</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-6 mb-3">
+                                        <div class="d-flex gap-2">
+                                            <div class="iconColor align-content-center">
+                                                <i class="ri-restaurant-line"></i>
+                                            </div>
+                                            <div class="fontSize1">
+                                                <p class="fw-bolder">Meal Plan</p>
+                                                <p class="text-muted">Breakfast & Dinner</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-6 mb-3">
+                                        <div class="d-flex gap-2">
+                                            <div class="iconColor align-content-center">
+                                                <i class="ri-landscape-line"></i>
+                                            </div>
+                                            <div class="fontSize1">
+                                                <p class="fw-bolder">Tour Type</p>
+                                                <p class="text-muted">Group Tour</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-6 mb-3">
+                                        <div class="d-flex gap-2">
+                                            <div class="iconColor align-content-center">
+                                                <i class="ri-car-line"></i>
+                                            </div>
+                                            <div class="fontSize1">
+                                                <p class="fw-bolder">Pickup/Drop</p>
+                                                <p class="text-muted">Port Blair Airport</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Card section end 1 -->
                             <!-- Details Heading -->
                             <div class="details-heading">
                                 <div class="d-flex flex-column">
