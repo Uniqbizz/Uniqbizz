@@ -435,7 +435,7 @@ if($user_type_id_value == '11'){
                             <!-- Card section end 1 -->
                             <!-- Card Section Start 2 -->
                             <div class="row">
-                                <div class="col-xl-9">
+                                <div class="col-xl-8">
                                     <div class="nav-placeholder"></div>
                                     <div class="sticky-nav-wrapper">
                                         <div class="borderColor1 pt-3">
@@ -516,7 +516,73 @@ if($user_type_id_value == '11'){
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-3"></div>
+                                <div class="col-xl-4">
+                                    <!-- Pricing Section -->
+                                    <div class="pricingSection">
+                                        <div class="card mb-3">
+                                            <div class="pricingHeader p-3">
+                                                <p class="text-white mb-2">Starting From</p>
+                                                <div class="row">
+                                                    <div class="col-xl-6">
+                                                        <div class="border-end">
+                                                            <h4 class="fw-bold text-white">&#8377; 22,900</h4>
+                                                            <p class="text-white">Adult / Person</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-6">
+                                                        <div class="">
+                                                            <h4 class="fw-bold text-white">&#8377; 18,900</h4>
+                                                            <p class="text-white">Child (5-12 yrs)</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="p-3">
+                                                <div class="durationCard p-2 mb-3">
+                                                    <p class="text-muted fw-bolder">DURATION: <span class="text-black fw-bolder fs-5">4 Nights / 5 Days</span></p>
+                                                </div>
+                                                <button class="request-btn mb-3">
+                                                    <i class="ri-image-line me-2"></i>
+                                                    Request Details
+                                                </button>      
+                                                <button class="enquiry-btn mb-3">
+                                                    <i class="ri-image-line me-2"></i>
+                                                    Send Enquiry
+                                                </button>  
+                                                <div class="contactNum d-flex justify-content-center gap-2 mb-3">
+                                                    <i class="ri-phone-line"></i>
+                                                    <p class="textBlue fw-bolder pb-0">+919677355555</p>    
+                                                </div> 
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-4">
+                                                <div class="blueCardBtn rounded-4 p-3">
+                                                    <div class="goldBtn">
+                                                        <i class="ri-download-2-line"></i>
+                                                    </div>
+                                                    <p class="text-center">Download Ininery</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4">
+                                                <div class="blueCardBtn rounded-4 p-3">
+                                                    <div class="goldBtn">
+                                                        <i class="ri-mail-line"></i>
+                                                    </div>
+                                                    <p class="text-center">Email Ininery</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4">
+                                                <div class="blueCardBtn rounded-4 p-3">
+                                                    <div class="goldBtn">
+                                                        <i class="ri-send-ins-line"></i>
+                                                    </div>
+                                                    <p class="text-center">Send Ininery</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <!-- Card Section End 2 -->
                             <!-- Details Heading -->
@@ -3269,7 +3335,7 @@ if($user_type_id_value == '11'){
                             $(target).offset().top -
                             headerHeight -
                             navHeight +
-                            30
+                            20
                     }, 500);
 
                 });
