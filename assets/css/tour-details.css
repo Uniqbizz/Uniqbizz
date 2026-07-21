@@ -1,3 +1,6 @@
+html {
+    scroll-behavior: smooth;
+}
 .breadcrumb {
     margin-bottom: 0;
 }
@@ -206,11 +209,53 @@
 }
 .iconColor i {
     color: #0d6efd;
-    font-size: 20px;
+    font-size: 30px;
 }
 .fontSize1 p {
-    font-size: 12px;
+    font-size: 14px;
 }
+.borderColor {
+    border: 1px solid #ebf1f2 !important;
+    border-radius: 6px;
+}
+.nav-placeholder {
+    display: none;
+    height: 76px;
+}
+
+.borderColor1 {
+    background: #fff;
+    border: 1px solid #ebf1f2;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.borderColor1.nav-fixed {
+    position: fixed;
+    top: 90px;
+    z-index: 999;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,.08);
+}
+
+.navItem .nav-link {
+    color: #000;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.navItem .nav-link.active {
+    color: #e03d42;
+    border-bottom: 3px solid #e03d42;
+}
+
+.section-block {
+    padding-top: 20px;
+    border-bottom: 1px solid #eee;
+    scroll-margin-top: 180px;
+}
+
+
 @media (max-width: 1199px) {
     .image-width {
         width: 100%;

@@ -362,7 +362,7 @@ if($user_type_id_value == '11'){
                                 </div>
                             </div>
                             <!-- Card section start 1 -->
-                            <div class="card p-3 pb-0 mb-0">
+                            <div class="borderColor p-3 pb-0 mb-3">
                                 <div class="row">
                                     <div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-6 mb-3">
                                         <div class="d-flex gap-2">
@@ -433,6 +433,92 @@ if($user_type_id_value == '11'){
                                 </div>
                             </div>
                             <!-- Card section end 1 -->
+                            <!-- Card Section Start 2 -->
+                            <div class="row">
+                                <div class="col-xl-9">
+                                    <div class="nav-placeholder"></div>
+                                    <div class="sticky-nav-wrapper">
+                                        <div class="borderColor1 pt-3">
+                                            <ul class="nav nav-underline justify-content-between">
+                                                <li class="nav-item navItem">
+                                                    <div class="text-center">
+                                                        <i class="ri-dashboard-line"></i>
+                                                    </div>
+                                                    <a class="nav-link pt-0 active" aria-current="page" href="#overview">Overview</a>
+                                                </li>
+                                                <li class="nav-item navItem">
+                                                    <div class="text-center">
+                                                        <i class="ri-mark-pen-line"></i>
+                                                    </div>
+                                                    <a class="nav-link pt-0" href="#highlights">Highlights</a>
+                                                </li>
+                                                <li class="nav-item navItem">
+                                                    <div class="text-center">
+                                                        <i class="ri-route-line"></i>
+                                                    </div>
+                                                    <a class="nav-link pt-0" href="#itinerary">Itinerary</a>
+                                                </li>
+                                                <li class="nav-item navItem">
+                                                    <div class="text-center">
+                                                        <i class="ri-dashboard-line"></i>
+                                                    </div>
+                                                    <a class="nav-link pt-0" href="#inclusion">Inclusion</a>
+                                                </li>
+                                                <li class="nav-item navItem">
+                                                    <div class="text-center">
+                                                        <i class="ri-dashboard-line"></i>
+                                                    </div>
+                                                    <a class="nav-link pt-0" href="#exclusion">Exclusion</a>
+                                                </li>
+                                                <li class="nav-item navItem">
+                                                    <div class="text-center">
+                                                        <i class="ri-dashboard-line"></i>
+                                                    </div>
+                                                    <a class="nav-link pt-0" href="#policies">Policies</a>
+                                                </li>
+                                                <li class="nav-item navItem">
+                                                    <div class="text-center">
+                                                        <i class="ri-question-answer-line"></i>
+                                                    </div>
+                                                    <a class="nav-link pt-0" href="#faqs">FAQs</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="content-sections">
+                                        <div id="overview" class="section-block">
+                                            <h4>Overview</h4>
+                                            Nishant
+                                        </div>
+                                        <div id="highlights" class="section-block">
+                                            <h4>Highlights</h4>
+                                            Pandurang
+                                        </div>
+                                        <div id="itinerary" class="section-block">
+                                            <h4>Itinerary</h4>
+                                            Savio
+                                        </div>
+                                        <div id="inclusion" class="section-block">
+                                            <h4>Inclusion</h4>
+                                            Harsh
+                                        </div>
+                                        <div id="exclusion" class="section-block">
+                                            <h4>Exclusion</h4>
+                                            Shravan
+                                        </div>
+                                        <div id="policies" class="section-block">
+                                            <h4>Policies</h4>
+                                            Pratiksha
+                                        </div>
+                                        <div id="faqs" class="section-block">
+                                            <h4>FAQs</h4>
+                                            Rohan
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3"></div>
+                            </div>
+                            <!-- Card Section End 2 -->
                             <!-- Details Heading -->
                             <div class="details-heading">
                                 <div class="d-flex flex-column">
@@ -3093,7 +3179,104 @@ if($user_type_id_value == '11'){
 
         });
         </script>
-        <!-- New Design 17/7/26 -->
+        <script>
+            $(document).ready(function () {
+
+                const $nav = $(".borderColor1");
+                const $placeholder = $(".nav-placeholder");
+                const $content = $(".content-sections");
+
+                let navTop = $nav.offset().top;
+
+                function updateStickyNav() {
+
+                    const headerHeight = $(".sticky-bar").outerHeight() || 90;
+
+                    const contentTop = $content.offset().top;
+                    const contentBottom = contentTop + $content.outerHeight();
+
+                    const scrollTop = $(window).scrollTop();
+
+                    if (
+                        scrollTop >= navTop - headerHeight &&
+                        scrollTop < contentBottom - headerHeight - $nav.outerHeight()
+                    ) {
+
+                        $placeholder.show();
+
+                        $nav.addClass("nav-fixed");
+
+                        $nav.css({
+                            width: $(".col-xl-9").width() + "px"
+                        });
+
+                    } else {
+
+                        $placeholder.hide();
+
+                        $nav.removeClass("nav-fixed");
+
+                        $nav.css("width", "");
+
+                    }
+                }
+
+                updateStickyNav();
+
+                $(window).on("scroll resize", function () {
+
+                    updateStickyNav();
+
+                    const headerHeight = $(".sticky-bar").outerHeight() || 90;
+                    const navHeight = $nav.outerHeight() || 76;
+
+                    let scrollPos =
+                        $(window).scrollTop() +
+                        headerHeight +
+                        navHeight +
+                        50;
+
+                    $(".section-block").each(function () {
+
+                        let top = $(this).offset().top;
+                        let bottom = top + $(this).outerHeight();
+                        let id = $(this).attr("id");
+
+                        if (scrollPos >= top && scrollPos < bottom) {
+
+                            $(".nav-link").removeClass("active");
+
+                            $('.nav-link[href="#' + id + '"]').addClass("active");
+                        }
+                    });
+
+                });
+
+                $(".nav-link").on("click", function (e) {
+
+                    e.preventDefault();
+
+                    $(".nav-link").removeClass("active");
+                    $(this).addClass("active");
+
+                    const target = $(this).attr("href");
+
+                    const headerHeight = $(".sticky-bar").outerHeight() || 90;
+                    const navHeight = $nav.outerHeight() || 76;
+
+                    $("html, body").animate({
+                        scrollTop:
+                            $(target).offset().top -
+                            headerHeight -
+                            navHeight +
+                            30
+                    }, 500);
+
+                });
+
+            });
+        </script>
+        <!-- New Design /7/26 -->
     </body>
 
 </html>
