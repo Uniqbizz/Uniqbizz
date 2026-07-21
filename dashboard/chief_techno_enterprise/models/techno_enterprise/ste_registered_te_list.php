@@ -74,8 +74,8 @@
             (
                 SELECT
                     i.institution_id AS teuser_id,
-                    i.firstname,
-                    i.lastname,
+                    i.name AS firstname,
+                    '' AS lastname,
                     i.contact_no,
                     i.email,
                     i.register_date,

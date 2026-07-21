@@ -742,7 +742,7 @@
             $('#exportte').on('click', function(){
                 window.location.href =
                 'models/common/download_registered_list.php?' +
-                'type=st' +
+                'type=et' +
                 '&start_date=' + startDate +
                 '&end_date=' + endDate;
             });
