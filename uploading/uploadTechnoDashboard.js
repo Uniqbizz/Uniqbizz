@@ -495,6 +495,120 @@ $('#upload_file13').change(function () {
     });
 });
 
+// ** Certificate of Incorporation upload **
+$('#upload_file14').change(function () {
+    var folder = 'certificate_of_incorporation';
+
+    var file_data = $('#upload_file14').prop('files')[0];
+    var form_data = new FormData();
+    form_data.append('file', file_data);
+    form_data.append('folder', folder);
+    $.ajax({
+        url: uploadUrl,
+        type: "POST",
+        data: form_data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+            // console.log(data);
+            if(data == 1){
+                alert("Upload Failed");
+                $('#upload_file14').val('');
+            }else if(data == 2){
+                alert("Invalid file Extension");
+                $('#upload_file14').val('');
+            }else if(data == 3){
+                alert("Please select File");
+                $('#upload_file14').val('');
+            }else if(data == 4){
+                alert("File size is greater then 2 MB");
+                $('#upload_file14').val('');
+            }else{
+                $("#preview14").show();
+                $("#img_pre14").attr("src","../../uploading/"+data);
+                $("#img_path14").val(data);
+            }
+        }
+    });
+});
+
+// ** GSTIN upload **
+$('#upload_file15').change(function () {
+    var folder = 'gstin';
+
+    var file_data = $('#upload_file15').prop('files')[0];
+    var form_data = new FormData();
+    form_data.append('file', file_data);
+    form_data.append('folder', folder);
+    $.ajax({
+        url: uploadUrl,
+        type: "POST",
+        data: form_data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+            // console.log(data);
+            if(data == 1){
+                alert("Upload Failed");
+                $('#upload_file15').val('');
+            }else if(data == 2){
+                alert("Invalid file Extension");
+                $('#upload_file15').val('');
+            }else if(data == 3){
+                alert("Please select File");
+                $('#upload_file15').val('');
+            }else if(data == 4){
+                alert("File size is greater then 2 MB");
+                $('#upload_file15').val('');
+            }else{
+                $("#preview15").show();
+                $("#img_pre15").attr("src","../../uploading/"+data);
+                $("#img_path15").val(data);
+            }
+        }
+    });
+});
+
+// ** Board Resolution upload **
+$('#upload_file16').change(function () {
+    var folder = 'board_resolution';
+
+    var file_data = $('#upload_file16').prop('files')[0];
+    var form_data = new FormData();
+    form_data.append('file', file_data);
+    form_data.append('folder', folder);
+    $.ajax({
+        url: uploadUrl,
+        type: "POST",
+        data: form_data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+            // console.log(data);
+            if(data == 1){
+                alert("Upload Failed");
+                $('#upload_file16').val('');
+            }else if(data == 2){
+                alert("Invalid file Extension");
+                $('#upload_file16').val('');
+            }else if(data == 3){
+                alert("Please select File");
+                $('#upload_file16').val('');
+            }else if(data == 4){
+                alert("File size is greater then 2 MB");
+                $('#upload_file16').val('');
+            }else{
+                $("#preview16").show();
+                $("#img_pre16").attr("src","../../uploading/"+data);
+                $("#img_path16").val(data);
+            }
+        }
+    });
+});
+
 // ** cheque/transact pic **
 $('#upload_cheque').change(function () {
     

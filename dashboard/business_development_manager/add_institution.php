@@ -404,8 +404,8 @@
                                 <div class="row g-3">
                                     <!-- Certificate of Incorporation -->
                                     <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                        <div class="upload-card" data-title="Certificate of Incorporation" data-index="11" data-folder="certificate_of_incorporation">
-                                            <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file11">
+                                        <div class="upload-card" data-title="Certificate of Incorporation" data-index="14" data-folder="certificate_of_incorporation">
+                                            <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file14">
                                             <div class="upload-content">
                                                 <div class="upload-icon">
                                                     <i class="fa-solid fa-user"></i>
@@ -418,8 +418,8 @@
                                     </div>
 									<!-- GSTIN -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
-										<div class="upload-card" data-title="GSTIN" data-index="12" data-folder="gstin">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file12">
+										<div class="upload-card" data-title="GSTIN" data-index="15" data-folder="gstin">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file15">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-regular fa-id-card"></i>
@@ -432,8 +432,8 @@
 									</div>
                                     <!-- Board Resolution -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12">
-										<div class="upload-card" data-title="Board Resolution" data-index="13" data-folder="board_resolution">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file13">
+										<div class="upload-card" data-title="Board Resolution" data-index="16" data-folder="board_resolution">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file16">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-regular fa-credit-card"></i>
@@ -488,8 +488,8 @@
 									</div>
 									<!-- Payment Proof -->
 									<div class="col-lg-4 col-md-4 col-sm-6 col-12 d-none" id="payProof">
-										<div class="upload-card" data-title="Payment Proof" data-index="14" data-folder="payment">
-											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file14">
+										<div class="upload-card" data-title="Payment Proof" data-index="12" data-folder="payment">
+											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file12">
 											<div class="upload-content">
 												<div class="upload-icon">
 													<i class="fa-solid fa-building-columns"></i>
@@ -682,8 +682,8 @@
             });
 
             //New file upload code
-            const uploadBasePath = "../../../uploading/";
-            const uploadUrl = "../../../uploading/uploadAdminUsers.php";   // your upload file
+            const uploadBasePath = "../../uploading/";
+            const uploadUrl = "../../uploading/uploadAdminUsers.php";   // your upload file
 
             function bindUploadEvents() {
 
