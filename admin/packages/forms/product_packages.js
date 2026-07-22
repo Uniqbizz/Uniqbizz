@@ -1,4 +1,37 @@
 var payoutData1 = '';
+//for current and future dates only
+document.getElementById("pac_validity").min = new Date().toISOString().split("T")[0];
+//to accept only alpha numerics 
+function allowedCharset(inputId) {
+    const input = document.getElementById(inputId);
+
+    if (!input) return;
+
+    input.addEventListener("keypress", function (e) {
+        const char = String.fromCharCode(e.which || e.keyCode);
+		//only alphabets and spaces
+        if (!/^[a-zA-Z\s]$/.test(char)) {
+            e.preventDefault();
+        }
+		//only alphabets, numbers and spaces
+		// if (!/^[a-zA-Z0-9\s]$/.test(char)) {
+		// 	e.preventDefault();
+		// }
+
+		// Only alphabets, numbers, spaces, hyphen (-) and underscore (_)
+		// if (!/^[a-zA-Z0-9\s_-]$/.test(char)) {
+		// 	e.preventDefault();
+		// }
+    });
+
+    input.addEventListener("input", function () {
+        this.value = this.value.replace(/[^a-zA-Z\s]/g, "");
+    });
+}
+//pacLocation
+allowedCharset("pacLocation");
+//language_type
+allowedCharset("language_type");
 
 $.ajax({
     url: 'forms/payout_data.php', // fixed file name
@@ -10,6 +43,47 @@ $.ajax({
     },
     error: function(xhr, status, error) {
         console.error('AJAX Error:', error);
+    }
+});
+
+$.ajax({
+    url: "forms/get_institution_slab.php",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+
+        let html = "";
+
+        if (response.length > 0) {
+
+            response.forEach(function (row) {
+
+                html += `
+                    <tr>
+                        <td>${Number(row.lower_limit).toLocaleString("en-IN")} - ${Number(row.upper_limit).toLocaleString("en-IN")}</td>
+                        <td class="text-start">${Number(row.institution_commission).toLocaleString("en-IN")}</td>
+                    </tr>
+                `;
+
+            });
+
+        } else {
+
+            html = `
+                <tr>
+                    <td colspan="2" class="text-center text-muted">
+                        No records found
+                    </td>
+                </tr>
+            `;
+
+        }
+
+        $("#commissionTableBody").html(html);
+
+    },
+    error: function (xhr, status, error) {
+        console.error(error);
     }
 });
 

@@ -58,6 +58,7 @@ $product_payout_data_ins = $data9->fetchAll();
         <link href="../assets/css/packages.css" rel="stylesheet" type="text/css" />
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     </head>
     <body data-sidebar="dark" id="page_body">
         <div id="testpho"></div>
@@ -164,7 +165,7 @@ $product_payout_data_ins = $data9->fetchAll();
                                                         </div>
                                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
                                                             <div class="form-floating my-3">
-                                                                <select class="form-select" id="category_id" name="category_id" aria-label="Floating label select example">
+                                                                <select class="form-select" id="category_id" name="category_id" aria-label="Floating label select example" onchange="getSubCategories()">
                                                                     <?php
                                                                     $cat_data = $conn->prepare("SELECT * FROM category where status='1' ");
                                                                     $cat_data->execute();
@@ -263,8 +264,8 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                 </div>
                                                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="text" class="form-control" id="tour_days" name="tour_days" placeholder="Unique Code">
-                                                                        <label for="tour_days" class="required">Location / Destination</label>
+                                                                        <input type="text" class="form-control" id="pacLocation" name="pacLocation" placeholder="Unique Code">
+                                                                        <label for="tour_days" class="required">Location</label>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -316,19 +317,41 @@ $product_payout_data_ins = $data9->fetchAll();
                                                             <label for="description1" class="required">Detailed Description</label>
                                                         </div>
                                                     </div>
-                                                    <div class="col-xl-6 col-lg-8 col-md-8 col-sm-12 mt-3">
-                                                        <div class="form-floating">
-                                                            <div class="form-control">
-                                                                <input type="radio" name="package_type" value="trending" id="trending" checked>
-                                                                <label style="padding-right:15px; padding-left: 5px;" for="trending">Trending</label>
-                                                                <input type="radio" name="package_type" value="popular" id="popular">
-                                                                <label style="padding-right:15px; padding-left: 5px;" for="popular">Popular</label>
-                                                                <input type="radio" name="package_type" value="most-selling" id="most_selling">
-                                                                <label style="padding-right:15px; padding-left: 5px;" for="most_selling">Most Selling</label>
-                                                                <input type="radio" name="package_type" value="new-arrival" id="new_arrival">
-                                                                <label style="padding-right:15px; padding-left: 5px;" for="new_arrival">New Arrival</label>
+                                                    <div class="row">
+
+                                                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 mt-3">
+                                                            <div class="form-floating">
+                                                                <div class="form-control d-flex justify-content-between">
+                                                                    <div>
+                                                                        <input type="radio" name="package_type" value="trending" id="trending" checked>
+                                                                        <label style="padding-right:15px; padding-left: 5px;" for="trending">Trending</label>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input type="radio" name="package_type" value="popular" id="popular">
+                                                                        <label style="padding-right:15px; padding-left: 5px;" for="popular">Popular</label>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input type="radio" name="package_type" value="most-selling" id="most_selling">
+                                                                        <label style="padding-right:15px; padding-left: 5px;" for="most_selling">Most Selling</label>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input type="radio" name="package_type" value="new-arrival" id="new_arrival">
+                                                                        <label style="padding-right:15px; padding-left: 5px;" for="new_arrival">New Arrival</label>
+                                                                    </div>
+                                                                </div>
+                                                                <label class="">Highlight Type <span class="required"></span></label>
                                                             </div>
-                                                            <label class="">Highlight Type <span class="required"></span></label>
+                                                        </div>
+                                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mt-3">
+                                                            <div class="form-floating">
+                                                                <div class="form-control">
+                                                                    <input type="radio" name="package_type" value="visaYes" id="visaYes" checked>
+                                                                    <label style="padding-right:15px; padding-left: 5px;" for="visaYes">Yes</label>
+                                                                    <input type="radio" name="package_type" value="visaNo" id="visaNo">
+                                                                    <label style="padding-right:15px; padding-left: 5px;" for="visaNo">No</label>
+                                                                </div>
+                                                                <label class="">Visa Required <span class="required"></span></label>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-12 mt-3">
@@ -479,18 +502,18 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                 <label for="language_type" class="required">Language Type</label>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-12 col-sm-12">
+                                                        <!-- <div class="col-md-12 col-sm-12">
                                                             <div class="form-floating mb-3">
                                                                 <input type="text" id="package_keywords" name="package_keywords" value="" placeholder="Package Keywords" class="form-control">
                                                                 <label for="package_keywords" class="required">Package Keywords</label>
                                                             </div>
 
-                                                        </div>
+                                                        </div> -->
                                                         <div class="col-lg-12 mb-3">
                                                             <div class="highlights-section p-3">
                                                                 <label class="highlight-label">Package Keyword</label>
                                                                 <div class="highlight-container" id="packageKeybord">
-                                                                    <div class="highlight-tag">
+                                                                    <!-- <div class="highlight-tag">
                                                                         Delhi
                                                                         <span class="remove-btn">&times;</span>
                                                                     </div>
@@ -513,7 +536,7 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                     <div class="highlight-tag">
                                                                         Keralam
                                                                         <span class="remove-btn">&times;</span>
-                                                                    </div>
+                                                                    </div> -->
                                                                 </div>
                                                                 <div class="add-highlight">
                                                                     <a href="#" id="addPackageKeywordBtn">+ Add More Keyword</a>
@@ -532,6 +555,27 @@ $product_payout_data_ins = $data9->fetchAll();
                                                 <div id="package_form_itinerary" style="display: none;">
                                                     <div class="row mt-3">
                                                         <label for="w3review">This section will contain the information about the package that this product is offering.</label>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                                            <div class="card rounded-4">
+                                                                <div class="d-flex justify-content-between remarkTitleCard">
+                                                                    <p class="title remarkTitle mb-0"><i class="fa-solid fa-book fa-xl me-2"></i>Highlights</p>
+                                                                    <a href="#" id="hightlightBtn" class="remarkTitle">+ Add Items</a>
+                                                                </div>
+                                                                <div class="p-3" id="hightlightList">
+                                                                    <div class="remark-item d-flex justify-content-between align-items-start mb-2">
+                                                                        <p class="mb-0 remark-text">03 Night accommodation in 3 Star Hotel</p>
+                                                                        <div class="d-flex gap-3">
+                                                                            <a href="#" class="edit-remark text-primary">
+                                                                                <i class="fa-solid fa-pencil"></i>
+                                                                            </a>
+                                                                            <a href="#" class="delete-remark text-danger">
+                                                                                <i class="fa-solid fa-trash-can"></i>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <label for="" style="color: #ff4b4b; font-weight: 600; display:block">NOTE : Number Of Days may look different on deletion of previous "DAY", but Days will be listed from first to last in increasing order .</label>
                                                         <!-- <div class="row">
                                                             <div class="input-field col-sm-12" style="margin-top: 20px;">
@@ -540,6 +584,7 @@ $product_payout_data_ins = $data9->fetchAll();
                                                             </div>
                                                         </div>
                                                         <div id="wrapper"></div> -->
+                                                        
 
                                                         <!-- add days -->
                                                         <div class="col-md-2 col-sm-2 col-12 d-flex justify-content-center align-items-center">
@@ -732,6 +777,12 @@ $product_payout_data_ins = $data9->fetchAll();
                                                         <div class="col-lg-12">
                                                             <h5 class="mb-3 fw-bolder" id="#">4. Pricing Modal</h5>
                                                             <div class="borderHighlight px-3 pt-3 mb-3 table-responsive">
+                                                                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                                    <div class="form-floating mb-3">
+                                                                        <input type="number" id="travelConsultant" name="travelConsultant" placeholder="travelConsultant" class="form-control">
+                                                                        <label for="travelConsultant" class="required">Travel Consultant</label>
+                                                                    </div>
+                                                                </div>
                                                                 <table class="table table-bordered">
                                                                     <thead class="table-light">
                                                                         <tr>
@@ -748,17 +799,14 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                         <tr>
                                                                             <td>CTE</td>
                                                                             <td class="text-end">1.25%</td>
-                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end editable-comm" id="cteComm">&#8377; 50,000</td>
                                                                             <td class="text-end">1.5%</td>
-                                                                            <td class="text-end">&#8377; 75,000</td>
-                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td class="text-end editable-ins" id="cteIns">&#8377; 75,000</td>
+                                                                            <td class="text-end editable-total" id="cteCommInsTotal">&#8377; 1,25,000</td>
                                                                             <td>
-                                                                                <div class="d-flex gap-3">
+                                                                                <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
                                                                                         <i class="fa-solid fa-pencil"></i>
-                                                                                    </a>
-                                                                                    <a href="#" class="delete-price-distribution text-danger">
-                                                                                        <i class="fa-solid fa-trash-can"></i>
                                                                                     </a>
                                                                                 </div>
                                                                             </td>
@@ -766,17 +814,14 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                         <tr>
                                                                             <td>ETE</td>
                                                                             <td class="text-end">1.25%</td>
-                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end editable-comm" id="eteComm">&#8377; 50,000</td>
                                                                             <td class="text-end">1.5%</td>
-                                                                            <td class="text-end">&#8377; 75,000</td>
-                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td class="text-end editable-ins" id="eteIns">&#8377; 75,000</td>
+                                                                            <td class="text-end editable-total" id="eteCommInsTotal">&#8377; 1,25,000</td>
                                                                             <td>
-                                                                                <div class="d-flex gap-3">
+                                                                                <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
                                                                                         <i class="fa-solid fa-pencil"></i>
-                                                                                    </a>
-                                                                                    <a href="#" class="delete-price-distribution text-danger">
-                                                                                        <i class="fa-solid fa-trash-can"></i>
                                                                                     </a>
                                                                                 </div>
                                                                             </td>
@@ -784,36 +829,34 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                         <tr>
                                                                             <td>STE</td>
                                                                             <td class="text-end">1.25%</td>
-                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end editable-comm" id="steComm">&#8377; 50,000</td>
                                                                             <td class="text-end">1.5%</td>
-                                                                            <td class="text-end">&#8377; 75,000</td>
-                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td class="text-end editable-ins" id="steIns">&#8377; 75,000</td>
+                                                                            <td class="text-end editable-total" id="steCommInsTotal">&#8377; 1,25,000</td>
                                                                             <td>
-                                                                                <div class="d-flex gap-3">
+                                                                                <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
                                                                                         <i class="fa-solid fa-pencil"></i>
                                                                                     </a>
-                                                                                    <a href="#" class="delete-price-distribution text-danger">
-                                                                                        <i class="fa-solid fa-trash-can"></i>
-                                                                                    </a>
+                                                                                    
                                                                                 </div>
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td>TE | Franchisee</td>
                                                                             <td class="text-end">1.25%</td>
-                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end editable-comm" id="cTeFComm" data-value="50000">&#8377; 50,000</td>
                                                                             <td class="text-end">1.5%</td>
-                                                                            <td class="text-end">&#8377; 75,000</td>
-                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td class="text-end editable-ins" id="cTeFIns" data-value="75000">&#8377; 75,000</td>
+                                                                            <td class="text-end editable-total" id="cTeFCommInsTotal">&#8377; 1,25,000</td>
                                                                             <td>
-                                                                                <div class="d-flex gap-3">
+                                                                                <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
                                                                                         <i class="fa-solid fa-pencil"></i>
                                                                                     </a>
-                                                                                    <a href="#" class="delete-price-distribution text-danger">
+                                                                                    <!-- <a href="#" class="delete-price-distribution text-danger">
                                                                                         <i class="fa-solid fa-trash-can"></i>
-                                                                                    </a>
+                                                                                    </a> -->
                                                                                 </div>
                                                                             </td>
                                                                         </tr>
@@ -821,10 +864,10 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                     <tfoot>
                                                                         <td class="fw-bolder">Total Distribution</td>
                                                                         <td class="text-end fw-bolder">5%</td>
-                                                                        <td class="text-end fw-bolder">&#8377; 2,00,000</td>
+                                                                        <td class="text-end fw-bolder" id="cteChainCommTotal">&#8377; 2,00,000</td>
                                                                         <td class="text-end fw-bolder">6%</td>
-                                                                        <td class="text-end fw-bolder">&#8377; 3,00,000</td>
-                                                                        <td class="text-end fw-bolder">&#8377; 5,00,000</td>
+                                                                        <td class="text-end fw-bolder" id="cteChainInsTotal">&#8377; 3,00,000</td>
+                                                                        <td class="text-end fw-bolder" id="cteChainCommInsTotal">&#8377; 5,00,000</td>
                                                                     </tfoot>
                                                                 </table>
                                                                 <table class="table table-bordered">
@@ -840,10 +883,10 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        <tr>
+                                                                        <!-- <tr>
                                                                             <td>BDM | RM</td>
                                                                             <td class="text-end">1.25%</td>
-                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end editable-comm" id="">&#8377; 50,000</td>
                                                                             <td class="text-end">1.5%</td>
                                                                             <td class="text-end">&#8377; 75,000</td>
                                                                             <td class="text-end">&#8377; 1,25,000</td>
@@ -857,21 +900,18 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                                     </a>
                                                                                 </div>
                                                                             </td>
-                                                                        </tr>
+                                                                        </tr> -->
                                                                         <tr>
                                                                             <td>BM | SF | MF</td>
                                                                             <td class="text-end">1.25%</td>
-                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end editable-comm" id="teBmComm">&#8377; 50,000</td>
                                                                             <td class="text-end">1.5%</td>
-                                                                            <td class="text-end">&#8377; 75,000</td>
-                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td class="text-end editable-ins" id="teBmComm">&#8377; 75,000</td>
+                                                                            <td class="text-end editable-total" id="teBmComInsTotal">&#8377; 1,25,000</td>
                                                                             <td>
-                                                                                <div class="d-flex gap-3">
+                                                                                <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
                                                                                         <i class="fa-solid fa-pencil"></i>
-                                                                                    </a>
-                                                                                    <a href="#" class="delete-price-distribution text-danger">
-                                                                                        <i class="fa-solid fa-trash-can"></i>
                                                                                     </a>
                                                                                 </div>
                                                                             </td>
@@ -879,17 +919,14 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                         <tr>
                                                                             <td>TE | Franchisee</td>
                                                                             <td class="text-end">1.25%</td>
-                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end editable-comm" id="bmTeComm">&#8377; 50,000</td>
                                                                             <td class="text-end">1.5%</td>
-                                                                            <td class="text-end">&#8377; 75,000</td>
-                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td class="text-end editable-ins" id="bmTeIns">&#8377; 75,000</td>
+                                                                            <td class="text-end editable-total" id="bmTeCommInsTotal">&#8377; 1,25,000</td>
                                                                             <td>
-                                                                                <div class="d-flex gap-3">
+                                                                                <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
                                                                                         <i class="fa-solid fa-pencil"></i>
-                                                                                    </a>
-                                                                                    <a href="#" class="delete-price-distribution text-danger">
-                                                                                        <i class="fa-solid fa-trash-can"></i>
                                                                                     </a>
                                                                                 </div>
                                                                             </td>
@@ -903,6 +940,19 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                         <td class="text-end fw-bolder">&#8377; 3,00,000</td>
                                                                         <td class="text-end fw-bolder">&#8377; 5,00,000</td>
                                                                     </tfoot>
+                                                                </table>
+                                                                <!-- table dat load from onload ajax -->
+                                                                <h5 class="mb-3 fw-bolder" id="#">Institution Slab</h5>
+                                                                <table class="table table-bordered">
+                                                                    <thead class="table-light">
+                                                                        <tr>
+                                                                            <th scope="col">Range</th>
+                                                                            <th scope="col">Commission Amount</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="commissionTableBody">
+                                                                        
+                                                                    </tbody>
                                                                 </table>
                                                                 <table class="table table-bordered">
                                                                     <thead class="table-light">
@@ -920,35 +970,29 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                         <tr>
                                                                             <td>BM |SF | MF</td>
                                                                             <td class="text-end">1.25%</td>
-                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end editable-comm" id="iBmComm">&#8377; 50,000</td>
                                                                             <td class="text-end">1.5%</td>
-                                                                            <td class="text-end">&#8377; 75,000</td>
-                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td class="text-end editable-ins" id="iBmIns">&#8377; 75,000</td>
+                                                                            <td class="text-end editable-total" id="iBmCommInsTotal">&#8377; 1,25,000</td>
                                                                             <td>
-                                                                                <div class="d-flex gap-3">
+                                                                                <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
                                                                                         <i class="fa-solid fa-pencil"></i>
-                                                                                    </a>
-                                                                                    <a href="#" class="delete-price-distribution text-danger">
-                                                                                        <i class="fa-solid fa-trash-can"></i>
                                                                                     </a>
                                                                                 </div>
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td>Institute</td>
-                                                                            <td class="text-end">1.25%</td>
-                                                                            <td class="text-end">&#8377; 50,000</td>
-                                                                            <td class="text-end">1.5%</td>
-                                                                            <td class="text-end">&#8377; 75,000</td>
-                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td class="text-end">NA</td>
+                                                                            <td class="text-end editable-comm" id="bmIComm">&#8377; 50,000</td>
+                                                                            <td class="text-end">NA</td>
+                                                                            <td class="text-end" id="bmIIns">NA</td>
+                                                                            <td class="text-end editable-total" id="bmICommInsTotal">&#8377; 1,25,000</td>
                                                                             <td>
-                                                                                <div class="d-flex gap-3">
+                                                                                <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
                                                                                         <i class="fa-solid fa-pencil"></i>
-                                                                                    </a>
-                                                                                    <a href="#" class="delete-price-distribution text-danger">
-                                                                                        <i class="fa-solid fa-trash-can"></i>
                                                                                     </a>
                                                                                 </div>
                                                                             </td>
@@ -979,17 +1023,14 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                         <tr>
                                                                             <td>CTE</td>
                                                                             <td class="text-end">1.25%</td>
-                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end editable-comm" id="iCteComm">&#8377; 50,000</td>
                                                                             <td class="text-end">1.5%</td>
-                                                                            <td class="text-end">&#8377; 75,000</td>
-                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td class="text-end editable-ins" id="iCteIns">&#8377; 75,000</td>
+                                                                            <td class="text-end editable-total" id="iCteCommInsTotal">&#8377; 1,25,000</td>
                                                                             <td>
-                                                                                <div class="d-flex gap-3">
+                                                                                <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
                                                                                         <i class="fa-solid fa-pencil"></i>
-                                                                                    </a>
-                                                                                    <a href="#" class="delete-price-distribution text-danger">
-                                                                                        <i class="fa-solid fa-trash-can"></i>
                                                                                     </a>
                                                                                 </div>
                                                                             </td>
@@ -997,35 +1038,29 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                         <tr>
                                                                             <td>ETE</td>
                                                                             <td class="text-end">1.25%</td>
-                                                                            <td class="text-end">&#8377; 50,000</td>
+                                                                            <td class="text-end editable-comm" id="iEteComm">&#8377; 50,000</td>
                                                                             <td class="text-end">1.5%</td>
-                                                                            <td class="text-end">&#8377; 75,000</td>
-                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td class="text-end editable-ins" id="iEteIns">&#8377; 75,000</td>
+                                                                            <td class="text-end editable-total" id="iEteCommInsTotal">&#8377; 1,25,000</td>
                                                                             <td>
-                                                                                <div class="d-flex gap-3">
+                                                                                <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
                                                                                         <i class="fa-solid fa-pencil"></i>
-                                                                                    </a>
-                                                                                    <a href="#" class="delete-price-distribution text-danger">
-                                                                                        <i class="fa-solid fa-trash-can"></i>
                                                                                     </a>
                                                                                 </div>
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td>Institute</td>
-                                                                            <td class="text-end">1.25%</td>
-                                                                            <td class="text-end">&#8377; 50,000</td>
-                                                                            <td class="text-end">1.5%</td>
-                                                                            <td class="text-end">&#8377; 75,000</td>
-                                                                            <td class="text-end">&#8377; 1,25,000</td>
+                                                                            <td class="text-end">NA</td>
+                                                                            <td class="text-end editable-comm" id="cteIComm">&#8377; 50,000</td>
+                                                                            <td class="text-end">NA</td>
+                                                                            <td class="text-end" id="cteIIns">NA</td>
+                                                                            <td class="text-end editable-total" id="cteICommInsTotal">&#8377; 1,25,000</td>
                                                                             <td>
-                                                                                <div class="d-flex gap-3">
+                                                                                <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
                                                                                         <i class="fa-solid fa-pencil"></i>
-                                                                                    </a>
-                                                                                    <a href="#" class="delete-price-distribution text-danger">
-                                                                                        <i class="fa-solid fa-trash-can"></i>
                                                                                     </a>
                                                                                 </div>
                                                                             </td>
@@ -1402,6 +1437,7 @@ $product_payout_data_ins = $data9->fetchAll();
         <script src="../assets/js/app.js"></script>
         <!-- custom js -->
         <script src="forms/product_packages.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             var mybutton = document.getElementById("back-to-top");
 
@@ -1581,37 +1617,79 @@ $product_payout_data_ins = $data9->fetchAll();
             document.getElementById("addHighlightBtn").addEventListener("click", function (e) {
                 e.preventDefault();
 
-                let highlight = prompt("Enter Highlight");
+                Swal.fire({
+                    title: "Add City",
+                    input: "text",
+                    inputPlaceholder: "Enter City",
+                    showCancelButton: true,
+                    showCloseButton: true,
+                    confirmButtonText: "OK",
+                    cancelButtonText: "Cancel",
+                    inputValidator: (value) => {
+                        value = value.trim();
 
-                if (highlight && highlight.trim() !== "") {
-                    let tag = document.createElement("div");
-                    tag.className = "highlight-tag";
+                        if (!value) {
+                            return "Please enter a City Name.";
+                        }
 
-                    tag.innerHTML = `
-                        ${highlight}
-                        <span class="remove-btn">&times;</span>
-                    `;
+                        if (!/^[a-zA-Z0-9\s_-]+$/.test(value)) {
+                            return "Only alphabets, numbers, spaces, hyphens (-), and underscores (_) are allowed.";
+                        }
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        let highlight = result.value.trim();
 
-                    document.getElementById("highlightContainer").appendChild(tag);
-                }
+                        let tag = document.createElement("div");
+                        tag.className = "highlight-tag";
+
+                        tag.innerHTML = `
+                            ${highlight}
+                            <span class="remove-btn">&times;</span>
+                        `;
+
+                        document.getElementById("highlightContainer").appendChild(tag);
+                    }
+                });
             });
             // Add New Package Keyword
             document.getElementById("addPackageKeywordBtn").addEventListener("click", function (e) {
                 e.preventDefault();
 
-                let keyword = prompt("Enter Package Keyword");
+                Swal.fire({
+                    title: "Add Package keyword",
+                    input: "text",
+                    inputPlaceholder: "Enter Package keyword",
+                    showCancelButton: true,
+                    showCloseButton: true,
+                    confirmButtonText: "OK",
+                    cancelButtonText: "Cancel",
+                    inputValidator: (value) => {
+                        value = value.trim();
 
-                if (keyword && keyword.trim() !== "") {
-                    let tag = document.createElement("div");
-                    tag.className = "highlight-tag";
+                        if (!value) {
+                            return "Please enter a Package keyword Name.";
+                        }
 
-                    tag.innerHTML = `
-                        ${keyword}
-                        <span class="remove-btn">&times;</span>
-                    `;
+                        if (!/^[a-zA-Z0-9\s_-]+$/.test(value)) {
+                            return "Only alphabets, numbers, spaces, hyphens (-), and underscores (_) are allowed.";
+                        }
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        let highlight = result.value.trim();
 
-                    document.getElementById("packageKeybord").appendChild(tag);
-                }
+                        let tag = document.createElement("div");
+                        tag.className = "highlight-tag";
+
+                        tag.innerHTML = `
+                            ${highlight}
+                            <span class="remove-btn">&times;</span>
+                        `;
+
+                        document.getElementById("packageKeybord").appendChild(tag);
+                    }
+                });
             });
         </script>
         <!-- Upload Icons Section -->
@@ -1670,26 +1748,67 @@ $product_payout_data_ins = $data9->fetchAll();
 
                 function addItem(listId, itemClass, textClass, editClass, deleteClass, label) {
 
-                    let text = prompt(`Enter ${label}`);
+                    // let text = prompt(`Enter ${label}`);
 
-                    if (text && text.trim() !== "") {
+                    // if (text && text.trim() !== "") {
 
-                        $(listId).append(`
-                            <div class="${itemClass} d-flex justify-content-between align-items-start mb-2">
-                                <p class="mb-0 ${textClass}">${text}</p>
+                    //     $(listId).append(`
+                    //         <div class="${itemClass} d-flex justify-content-between align-items-start mb-2">
+                    //             <p class="mb-0 ${textClass}">${text}</p>
 
-                                <div class="d-flex gap-3">
-                                    <a href="#" class="${editClass} text-primary">
-                                        <i class="fa-solid fa-pencil"></i>
-                                    </a>
+                    //             <div class="d-flex gap-3">
+                    //                 <a href="#" class="${editClass} text-primary">
+                    //                     <i class="fa-solid fa-pencil"></i>
+                    //                 </a>
 
-                                    <a href="#" class="${deleteClass} text-danger">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </a>
+                    //                 <a href="#" class="${deleteClass} text-danger">
+                    //                     <i class="fa-solid fa-trash-can"></i>
+                    //                 </a>
+                    //             </div>
+                    //         </div>
+                    //     `);
+                    // }
+                    Swal.fire({
+                        title: `Enter ${label}`,
+                        input: "textarea",
+                        inputPlaceholder: `Enter ${label}`,
+                        showCancelButton: true,
+                        showCloseButton: true,
+                        confirmButtonText: "OK",
+                        cancelButtonText: "Cancel",
+                        inputValidator: (value) => {
+                            value = value.trim();
+
+                            if (!value) {
+                                return `Please enter ${label}.`;
+                            }
+
+                            if (!/^[a-zA-Z0-9\s_-]+$/.test(value)) {
+                                return "Only alphabets, numbers, spaces, hyphens (-), and underscores (_) are allowed.";
+                            }
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+                            let text = result.value.trim();
+
+                            $(listId).append(`
+                                <div class="${itemClass} d-flex justify-content-between align-items-start mb-2">
+                                    <p class="mb-0 ${textClass}">${text}</p>
+
+                                    <div class="d-flex gap-3">
+                                        <a href="#" class="${editClass} text-primary">
+                                            <i class="fa-solid fa-pencil"></i>
+                                        </a>
+
+                                        <a href="#" class="${deleteClass} text-danger">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                        `);
-                    }
+                            `);
+                        }
+                    });
                 }
 
                 // ====================
@@ -1735,6 +1854,19 @@ $product_payout_data_ins = $data9->fetchAll();
                     );
                 });
 
+                $("#hightlightBtn").click(function (e) {
+                    e.preventDefault();
+
+                    addItem(
+                        "#hightlightList",
+                        "remark-item",
+                        "remark-text",
+                        "edit-remark",
+                        "delete-remark",
+                        "Highlights"
+                    );
+                });
+
                 $("#addThingsBtn").click(function (e) {
                     e.preventDefault();
 
@@ -1752,7 +1884,9 @@ $product_payout_data_ins = $data9->fetchAll();
                 // Edit
                 // ====================
 
-                $(document).on("click",
+                
+                $(document).on(
+                    "click",
                     ".edit-inclusion, .edit-exclusion, .edit-remark, .edit-things",
                     function (e) {
 
@@ -1764,29 +1898,72 @@ $product_payout_data_ins = $data9->fetchAll();
 
                         let currentText = textElement.text();
 
-                        let updatedText = prompt("Edit Item", currentText);
+                        Swal.fire({
+                            title: "Edit Item",
+                            input: "textarea",
+                            inputValue: currentText,
+                            inputPlaceholder: "Enter item",
+                            showCancelButton: true,
+                            showCloseButton: true,
+                            confirmButtonText: "Update",
+                            cancelButtonText: "Cancel",
+                            inputValidator: (value) => {
+                                value = value.trim();
 
-                        if (updatedText && updatedText.trim() !== "") {
-                            textElement.text(updatedText);
-                        }
-                    });
+                                if (!value) {
+                                    return "Please enter a value.";
+                                }
+
+                                if (!/^[a-zA-Z0-9\s_-]+$/.test(value)) {
+                                    return "Only alphabets, numbers, spaces, hyphens (-), and underscores (_) are allowed.";
+                                }
+                            }
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                textElement.text(result.value.trim());
+                            }
+                        });
+                    }
+                );
 
                 // ====================
                 // Delete
                 // ====================
 
-                $(document).on("click",
+                
+                $(document).on(
+                    "click",
                     ".delete-inclusion, .delete-exclusion, .delete-remark, .delete-things",
                     function (e) {
 
                         e.preventDefault();
 
-                        if (confirm("Delete this item?")) {
-                            $(this)
-                                .closest("[class*='item']")
-                                .remove();
-                        }
-                    });
+                        const item = $(this).closest("[class*='item']");
+
+                        Swal.fire({
+                            title: "Delete Item?",
+                            text: "This action cannot be undone.",
+                            icon: "warning",
+                            showCancelButton: true,
+                            showCloseButton: true,
+                            confirmButtonText: "Delete",
+                            cancelButtonText: "Cancel",
+                            confirmButtonColor: "#d33"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                item.remove();
+
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Deleted!",
+                                    text: "Item has been deleted.",
+                                    timer: 1500,
+                                    showConfirmButton: false
+                                });
+                            }
+                        });
+                    }
+                );
             });
         </script>
         <!-- Price Visibility & Guest User Premium -->
@@ -2358,6 +2535,154 @@ $product_payout_data_ins = $data9->fetchAll();
                         $(".video-example").show();
                     }
                 });
+
+            });
+        </script>
+        <!-- package markup editable / save -->
+        <script>
+            function formatCurrency(amount) {
+                return "₹" + Number(amount).toLocaleString("en-IN");
+            }
+            //edit
+            $(document).on("click", ".edit-price-distribution", function (e) {
+
+                e.preventDefault();
+
+                const row = $(this).closest("tr");
+
+                const comm = row.find(".editable-comm");
+                const ins = row.find(".editable-ins");
+
+                comm.data("old", comm.data("value"));
+                ins.data("old", ins.data("value"));
+
+                comm.html(`
+                    <input type="number"
+                        class="form-control form-control-sm comm-input"
+                        value="${comm.data("value")}">
+                `);
+
+                ins.html(`
+                    <input type="number"
+                        class="form-control form-control-sm ins-input"
+                        value="${ins.data("value")}">
+                `);
+
+                row.find("td:last").html(`
+                    <div class="d-flex gap-3">
+                        <a href="#" class="save-price-distribution text-success">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </a>
+
+                        <a href="#" class="cancel-price-distribution text-danger">
+                            <i class="fa-solid fa-circle-xmark"></i>
+                        </a>
+                    </div>
+                `);
+
+            });
+
+            //save
+            $(document).on("click", ".save-price-distribution", function (e) {
+
+                e.preventDefault();
+
+                const row = $(this).closest("tr");
+
+                const commCell = row.find(".editable-comm");
+                const insCell = row.find(".editable-ins");
+                const totalCell = row.find(".editable-total");
+
+                const oldComm = Number(commCell.data("old"));
+                const oldIns = Number(insCell.data("old"));
+
+                const newComm = Number(row.find(".comm-input").val());
+                const newIns = Number(row.find(".ins-input").val());
+
+                commCell.data("value", newComm);
+                insCell.data("value", newIns);
+
+                commCell.html(`
+                    <div>${formatCurrency(newComm)}</div>
+                    <small class="text-danger text-decoration-line-through">
+                        ${formatCurrency(oldComm)}
+                    </small>
+                `);
+
+                insCell.html(`
+                    <div>${formatCurrency(newIns)}</div>
+                    <small class="text-danger text-decoration-line-through">
+                        ${formatCurrency(oldIns)}
+                    </small>
+                `);
+
+                totalCell.html(formatCurrency(newComm + newIns));
+
+                row.find("td:last").html(`
+                    <div class="d-flex gap-3">
+                        <a href="#" class="edit-price-distribution text-primary">
+                            <i class="fa-solid fa-pencil"></i>
+                        </a>
+
+                        <a href="#" class="reset-price-distribution text-warning">
+                            <i class="fa-solid fa-rotate-left"></i>
+                        </a>
+                    </div>
+                `);
+
+            });
+
+            //cancel
+            $(document).on("click", ".cancel-price-distribution", function (e) {
+
+                e.preventDefault();
+
+                const row = $(this).closest("tr");
+
+                const commCell = row.find(".editable-comm");
+                const insCell = row.find(".editable-ins");
+
+                commCell.html(formatCurrency(commCell.data("old")));
+                insCell.html(formatCurrency(insCell.data("old")));
+
+                row.find("td:last").html(`
+                    <div class="d-flex gap-3">
+                        <a href="#" class="edit-price-distribution text-primary">
+                            <i class="fa-solid fa-pencil"></i>
+                        </a>
+                    </div>
+                `);
+
+            });
+
+            //reset
+            $(document).on("click", ".reset-price-distribution", function (e) {
+
+                e.preventDefault();
+
+                const row = $(this).closest("tr");
+
+                const commCell = row.find(".editable-comm");
+                const insCell = row.find(".editable-ins");
+                const totalCell = row.find(".editable-total");
+
+                const oldComm = Number(commCell.data("old"));
+                const oldIns = Number(insCell.data("old"));
+
+                commCell.data("value", oldComm);
+                insCell.data("value", oldIns);
+
+                commCell.html(formatCurrency(oldComm));
+                insCell.html(formatCurrency(oldIns));
+                totalCell.html(formatCurrency(oldComm + oldIns));
+
+                row.find("td:last").html(`
+                    <div class="d-flex gap-3">
+                        <a href="#" class="edit-price-distribution text-primary">
+                            <i class="fa-solid fa-pencil"></i>
+                        </a>
+                    </div>
+                `);
 
             });
         </script>
