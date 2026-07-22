@@ -383,6 +383,43 @@ html {
         width:75px;
         height:75px;
     }
+    .borderColor1.nav-fixed {
+        position: static !important;
+        top: auto !important;
+        width: auto !important;
+    }
+
+    .pricingSection.pricing-fixed {
+        position: static !important;
+        top: auto !important;
+        width: auto !important;
+    }
+}
+@media (max-width: 767px) {
+    .borderColor1 .nav {
+        flex-wrap: nowrap !important;
+        overflow-x: auto;
+        overflow-y: hidden;
+        justify-content: flex-start !important;
+        white-space: nowrap;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        padding-bottom: 5px;
+    }
+
+    .borderColor1 .nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .navItem {
+        flex: 0 0 auto;
+        min-width: 90px;
+        text-align: center;
+    }
+
+    .navItem .nav-link {
+        white-space: nowrap;
+    }
 }
 @media(max-width:576px){
 

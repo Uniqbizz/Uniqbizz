@@ -435,7 +435,7 @@ if($user_type_id_value == '11'){
                             <!-- Card section end 1 -->
                             <!-- Card Section Start 2 -->
                             <div class="row">
-                                <div class="col-xl-8">
+                                <div class="col-xl-8 col-lg-9 col-md-12 col-sm-12 col-12 mb-3">
                                     <div class="nav-placeholder"></div>
                                     <div class="sticky-nav-wrapper">
                                         <div class="borderColor1 pt-3">
@@ -516,20 +516,20 @@ if($user_type_id_value == '11'){
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-4 pricing-wrapper">
+                                <div class="col-xl-4 col-lg-3 col-md-12 col-sm-12 col-12 mb-3 pricing-wrapper">
                                     <!-- Pricing Section -->
                                     <div class="pricingSection">
                                         <div class="card priceCard rounded-3 mb-3">
                                             <div class="pricingHeader p-3">
                                                 <p class="text-white mb-2">Starting From</p>
                                                 <div class="row">
-                                                    <div class="col-xl-6">
+                                                    <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-6">
                                                         <div class="border-end">
                                                             <h4 class="fw-bold text-white">&#8377; 22,900</h4>
                                                             <p class="text-white">Adult / Person</p>
                                                         </div>
                                                     </div>
-                                                    <div class="col-xl-6">
+                                                    <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-6">
                                                         <div class="">
                                                             <h4 class="fw-bold text-white">&#8377; 18,900</h4>
                                                             <p class="text-white">Child (5-12 yrs)</p>
@@ -555,8 +555,8 @@ if($user_type_id_value == '11'){
                                                 </div> 
                                             </div>
                                         </div>
-                                        <div class="row mb-3">
-                                            <div class="col-xl-4">
+                                        <div class="row">
+                                            <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3">
                                                 <div class="blueCardBtn text-center rounded-4 p-3">
                                                     <div class="goldBtn">
                                                         <i class="ri-download-2-line"></i>
@@ -564,7 +564,7 @@ if($user_type_id_value == '11'){
                                                     Download Ininery
                                                 </div>
                                             </div>
-                                            <div class="col-xl-4">
+                                            <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3">
                                                 <div class="blueCardBtn text-center rounded-4 p-3">
                                                     <div class="goldBtn">
                                                         <i class="ri-mail-line"></i>
@@ -572,7 +572,7 @@ if($user_type_id_value == '11'){
                                                     Email Ininery
                                                 </div>
                                             </div>
-                                            <div class="col-xl-4">
+                                            <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3">
                                                 <div class="blueCardBtn text-center rounded-4 p-3">
                                                     <div class="goldBtn">
                                                         <i class="ri-send-plane-line"></i>
@@ -3284,6 +3284,11 @@ if($user_type_id_value == '11'){
                 let navTop = $nav.offset().top;
 
                 function updateStickyNav() {
+                    if ($(window).width() < 992) {
+                        $placeholder.hide();
+                        $nav.removeClass("nav-fixed").css("width", "");
+                        return;
+                    }
 
                     const headerHeight = $(".sticky-bar").outerHeight() || 90;
 
@@ -3317,7 +3322,15 @@ if($user_type_id_value == '11'){
                 }
 
                 function updatePricingSticky() {
-
+                    if ($(window).width() < 992) {
+                        $(".pricingSection")
+                            .removeClass("pricing-fixed")
+                            .css({
+                                width: "",
+                                top: ""
+                            });
+                        return;
+                    }
                     const headerHeight = $(".sticky-bar").outerHeight() || 90;
                     const navHeight = $(".borderColor1").outerHeight() || 76;
 
