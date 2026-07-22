@@ -254,10 +254,12 @@ html {
     border-bottom: 1px solid #eee;
     scroll-margin-top: 180px;
 }
-
+.priceCard {
+    border: 1px solid #a4a3a31a;
+}
 .pricingHeader {
     background-color: #03033e;
-    border-radius: 5px 5px 0px 0px;
+    border-radius: 8px 8px 0px 0px;
     border: 1px solid #03033e;
 }
 .durationCard {
@@ -293,33 +295,63 @@ html {
     border: 1px solid #e03d42;
 }
 .textBlue {
-    color: #0ab7e2;
+    color: #03033e;
 }
 .contactNum i, p {
     font-size: 18px;
 }
 .blueCardBtn {
     background-color: #03033e;
+    color: #fff !important;
     border: 1px solid #03033e;
-}
-.blueCardBtn:hover {
-    background-color: #e6e6fb;
-    border: 1px solid #03033e;
-}
-.blueCardBtn p {
-    color: #fff;
     font-weight: 900;
     font-size: 13px;
 }
-.blueCardBtn p:hover {
-    color: #03033e;
+.blueCardBtn:hover {
+    background-color: #e6e6fb;
+    color: #03033e !important;
+    border: 1px solid #03033e;
 }
 .goldBtn {
+    font-size: 16px;
     border-radius: 50%;
     width: 30px;
     height: 30px;
     background-color: goldenrod;
     color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: center;
+    margin-bottom: 5px;
+}
+.greenCard {
+    background-color: #f6fff6;
+    border: 1px solid #e0e0e01a;
+}
+.greenIcon {
+    background-color: #ebfbeb;
+    color: #008000;
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 26px;
+}
+.greenCardText p:first-child{
+    font-size: 14px;
+}
+.greenCardText p:last-child{
+    font-size: 12px;
+}
+.pricing-wrapper {
+    position: relative;
+}
+.pricingSection.pricing-fixed {
+    position: fixed;
+    z-index: 998;
 }
 @media (max-width: 1199px) {
     .image-width {

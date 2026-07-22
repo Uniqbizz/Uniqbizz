@@ -516,10 +516,10 @@ if($user_type_id_value == '11'){
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-4">
+                                <div class="col-xl-4 pricing-wrapper">
                                     <!-- Pricing Section -->
                                     <div class="pricingSection">
-                                        <div class="card mb-3">
+                                        <div class="card priceCard rounded-3 mb-3">
                                             <div class="pricingHeader p-3">
                                                 <p class="text-white mb-2">Starting From</p>
                                                 <div class="row">
@@ -539,7 +539,7 @@ if($user_type_id_value == '11'){
                                             </div>
                                             <div class="p-3">
                                                 <div class="durationCard p-2 mb-3">
-                                                    <p class="text-muted fw-bolder">DURATION: <span class="text-black fw-bolder fs-5">4 Nights / 5 Days</span></p>
+                                                    <p class="text-muted fw-bolder">Duration: <span class="text-black fw-bolder fs-5">4 Nights / 5 Days</span></p>
                                                 </div>
                                                 <button class="request-btn mb-3">
                                                     <i class="ri-image-line me-2"></i>
@@ -549,35 +549,64 @@ if($user_type_id_value == '11'){
                                                     <i class="ri-image-line me-2"></i>
                                                     Send Enquiry
                                                 </button>  
-                                                <div class="contactNum d-flex justify-content-center gap-2 mb-3">
+                                                <div class="contactNum d-flex justify-content-center gap-2">
                                                     <i class="ri-phone-line"></i>
                                                     <p class="textBlue fw-bolder pb-0">+919677355555</p>    
                                                 </div> 
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row mb-3">
                                             <div class="col-xl-4">
-                                                <div class="blueCardBtn rounded-4 p-3">
+                                                <div class="blueCardBtn text-center rounded-4 p-3">
                                                     <div class="goldBtn">
                                                         <i class="ri-download-2-line"></i>
                                                     </div>
-                                                    <p class="text-center">Download Ininery</p>
+                                                    Download Ininery
                                                 </div>
                                             </div>
                                             <div class="col-xl-4">
-                                                <div class="blueCardBtn rounded-4 p-3">
+                                                <div class="blueCardBtn text-center rounded-4 p-3">
                                                     <div class="goldBtn">
                                                         <i class="ri-mail-line"></i>
                                                     </div>
-                                                    <p class="text-center">Email Ininery</p>
+                                                    Email Ininery
                                                 </div>
                                             </div>
                                             <div class="col-xl-4">
-                                                <div class="blueCardBtn rounded-4 p-3">
+                                                <div class="blueCardBtn text-center rounded-4 p-3">
                                                     <div class="goldBtn">
-                                                        <i class="ri-send-ins-line"></i>
+                                                        <i class="ri-send-plane-line"></i>
                                                     </div>
-                                                    <p class="text-center">Send Ininery</p>
+                                                    Send Ininery
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card rounded-3 greenCard p-3 mb-3">
+                                            <div class="d-flex gap-3 mb-2">
+                                                <div class="greenIcon">
+                                                    <i class="ri-calendar-check-line"></i>
+                                                </div>
+                                                <div class="greenCardText align-content-center">
+                                                    <p class="fw-bolder text-black">Best Price Guarantee</p>
+                                                    <p class="text-muted pb-0">Competitive pricing with exceptional travel value</p>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex gap-3 mb-2">
+                                                <div class="greenIcon">
+                                                    <i class="ri-calendar-check-line"></i>
+                                                </div>
+                                                <div class="greenCardText align-content-center">
+                                                    <p class="fw-bolder text-black">Hassle Free Booking</p>
+                                                    <p class="text-muted pb-0">Simple, quick and secure reservations</p>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex gap-3">
+                                                <div class="greenIcon">
+                                                    <i class="ri-calendar-check-line"></i>
+                                                </div>
+                                                <div class="greenCardText align-content-center">
+                                                    <p class="fw-bolder text-black">End-to-End Travel Assistance</p>
+                                                    <p class="text-muted pb-0">From planning to return, we've got you covered</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -3273,7 +3302,7 @@ if($user_type_id_value == '11'){
                         $nav.addClass("nav-fixed");
 
                         $nav.css({
-                            width: $(".col-xl-9").width() + "px"
+                            width: $(".col-xl-8").width() + "px"
                         });
 
                     } else {
@@ -3287,11 +3316,51 @@ if($user_type_id_value == '11'){
                     }
                 }
 
+                function updatePricingSticky() {
+
+                    const headerHeight = $(".sticky-bar").outerHeight() || 90;
+                    const navHeight = $(".borderColor1").outerHeight() || 76;
+
+                    const fixedTop = headerHeight + navHeight + 10;
+
+                    const startSticky =
+                        $(".sticky-nav-wrapper").offset().top - headerHeight;
+
+                    const contentBottom =
+                        $(".content-sections").offset().top +
+                        $(".content-sections").outerHeight();
+
+                    const scrollTop = $(window).scrollTop();
+
+                    if (
+                        scrollTop >= startSticky &&
+                        scrollTop < contentBottom - fixedTop
+                    ) {
+
+                        $(".pricingSection")
+                            .addClass("pricing-fixed")
+                            .css({
+                                top: fixedTop + "px",
+                                width: $(".col-xl-4")[0].getBoundingClientRect().width + "px"
+                            });
+
+                    } else {
+
+                        $(".pricingSection")
+                            .removeClass("pricing-fixed")
+                            .css({
+                                width: ""
+                            });
+                    }
+                }
+
                 updateStickyNav();
+                updatePricingSticky();
 
                 $(window).on("scroll resize", function () {
 
                     updateStickyNav();
+                    updatePricingSticky();
 
                     const headerHeight = $(".sticky-bar").outerHeight() || 90;
                     const navHeight = $nav.outerHeight() || 76;
