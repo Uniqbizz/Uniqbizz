@@ -487,8 +487,24 @@ if($user_type_id_value == '11'){
                                     </div>
                                     <div class="content-sections">
                                         <div id="overview" class="section-block">
-                                            <h4>Overview</h4>
-                                            Nishant
+                                            <div class="card rounded-3 p-3 mb-3">
+                                                <h5 class="fw-bolder ">Overview</h5>
+                                                <p class="text-muted fw-bold fontSize2">
+                                                    Experience the best of Thailand with pristine beaches, vibrant nightlife, iconic temples, thrilling water
+                                                    activities and world-class shopping. A perfect holiday for families, couples and groups.
+                                                </p>
+                                                <div class="packageCode mt-2">
+                                                    <div class="d-flex gap-2">
+                                                        <div class="iconColor align-content-center">
+                                                            <i class="ri-barcode-box-fill"></i>
+                                                        </div>
+                                                        <div class="fontSize1">
+                                                            <p class="fw-bolder">Package Code</p>
+                                                            <p class="text-muted">TH-EX-001</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div id="highlights" class="section-block">
                                             <h4>Highlights</h4>
