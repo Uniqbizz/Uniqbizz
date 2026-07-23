@@ -45,7 +45,8 @@
         allowEnterKey: true
     }).then(function(result){
         if(result.isConfirmed){
-            window.location.href = "../login.php";
+            // window.location.href = "../login.php";
+            window.location.href = window.location.origin + "/login.php";
         }
     });
     </script>

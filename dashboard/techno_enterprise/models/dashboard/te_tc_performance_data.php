@@ -27,16 +27,20 @@
                 ";
             break;
 
+            // case 'year':
+            //     $dateWhere = "
+            //         AND YEAR(cu.register_date) = YEAR(CURDATE())
+            //     ";
             case 'year':
                 $dateWhere = "
-                    AND YEAR(cu.register_date) = YEAR(CURDATE())
+                    AND cu.register_date >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
+                    AND cu.register_date <= CURDATE()
                 ";
             break;
         }
 
         $sql = $conn->prepare("
             SELECT
-
                 ca.ca_travelagency_id AS tc_id,
 
                 CONCAT(
@@ -47,9 +51,9 @@
 
                 COUNT(DISTINCT cu.ca_customer_id) AS cu_count,
 
-                COALESCE(SUM(cu.paid_amount),0) AS tc_revenue,
+                COALESCE(SUM(cu.paid_amount), 0) AS tc_revenue,
 
-                COALESCE(SUM(tc.commision_tc),0) AS tc_earning
+                COALESCE(SUM(tc.commision_tc), 0) AS tc_earning
 
             FROM ca_travelagency ca
 
@@ -59,7 +63,8 @@
                 $dateWhere
 
             LEFT JOIN ca_cu_payout tc
-                ON tc.travel_consultant = ca.ca_travelagency_id
+                ON tc.customer = cu.ca_customer_id
+                AND tc.travel_consultant = ca.ca_travelagency_id
 
             WHERE ca.reference_no = :user_id
             AND ca.status IN (1,3)
