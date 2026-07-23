@@ -716,344 +716,218 @@ function truncateToTwoDecimals(num) {
     return Math.round(num * 10) / 10;
 }
 
-//all cal fuction by SV
-function calculatePackagePrice(payoutData) {
-    // console.log("calculatePackagePrice called");
-	getMarkupValues();
-    // --------------------------
-    // 1️⃣ Prepare Inputs
-    // --------------------------
-    let netPriceAdult = parseInt(document.getElementById('netPriceAdult').value, 10) || 0;
-    let netPriceChild = parseInt(document.getElementById('netPriceChild').value, 10) || 0;
-    let netGst = parseFloat(document.getElementById('nGst').value) || 0;
-	let text = document.getElementById('mark_up_title').textContent;
-	//added on 11-05-2026 by SV -- coupon amount on change logic
-	coupon_title = $("#coupon_total").val();
-		
-	$('#cup_title').html('Coupon (Total: ' + coupon_title + ')');
-	// Extract first number (integer or decimal)
-	mark_up_title = parseFloat(text.match(/[\d.]+/)?.[0]) || 0;
 
-    let ta_mark_up = parseFloat(document.getElementById("mp_ca_ta").value) || 0;
-    let company_share = parseFloat(document.getElementById("mp_company").value) || 0;
-    // let customer_share = parseFloat(document.getElementById("mp_customer").value) || 0;
-	let l1_cust_comm=truncateToTwoDecimals(parseFloat($('#l1_cust_comm').val())||0);
-	let l2_cust_comm=l1_cust_comm * 0.5;
-	
-	let l3_cust_comm=l2_cust_comm * 0.5;
-	
-    let customer_share =(l1_cust_comm+l2_cust_comm+l3_cust_comm) ;
-
-    // --------------------------
-    // 2️⃣ GST Calculations
-    // --------------------------
-    let GSTofNetPriceAdult = netPriceAdult * netGst / 100;
-    let GSTofNetPriceChild = netPriceChild * netGst / 100;
-
-    let netPriceAdultWithGST = netPriceAdult + GSTofNetPriceAdult;
-    let netPriceChildWithGST = netPriceChild + GSTofNetPriceChild;
-
-    // Assign back to fields
-    document.getElementById('totalNetPriceAdult').value = truncateToTwoDecimals(netPriceAdultWithGST);
-    document.getElementById('totalNetPriceChild').value = truncateToTwoDecimals(netPriceChildWithGST);
-
-    // --------------------------
-    // 3️⃣ Role-wise Markup Calculation (from payoutData)
-    // --------------------------
-    const roleMap = {};
-    payoutData.forEach(entry => {
-        roleMap[entry.role] = entry;
-    });
-
-    // TE
-    let ca_ovr_per = roleMap['TE']?.overall_percentage || 0;
-    let ca_com_per = roleMap['TE']?.comm_percentage || 0;
-    let ca_ins_per = roleMap['TE']?.ins_percentage || 0;
-
-    // BM
-    let bm_ovr_per = roleMap['BM']?.overall_percentage || 0;
-    let bm_com_per = roleMap['BM']?.comm_percentage || 0;
-    let bm_ins_per = roleMap['BM']?.ins_percentage || 0;
-
-    // BDM
-    let bdm_ovr_per = roleMap['BDM']?.overall_percentage || 0;
-    let bdm_com_per = roleMap['BDM']?.comm_percentage || 0;
-    let bdm_ins_per = roleMap['BDM']?.ins_percentage || 0;
-
-    // BCM
-    let bcm_ovr_per = roleMap['BCM']?.overall_percentage || 0;
-    let bcm_com_per = roleMap['BCM']?.comm_percentage || 0;
-    let bcm_ins_per = roleMap['BCM']?.ins_percentage || 0;
-
-    // --------------------------
-    // 4️⃣ Commission Distribution
-    // --------------------------
-    let ca_mark_up_comm = (ta_mark_up * (ca_ovr_per / 100)) * (ca_com_per / 100);
-    let ca_mark_up_ins = (ta_mark_up * (ca_ovr_per / 100)) * (ca_ins_per / 100);
-    let ca_mark_up = ca_mark_up_comm + ca_mark_up_ins;
-
-    let bm_mark_up_comm = (ca_mark_up_comm * (bm_ovr_per / 100)) * (bm_com_per / 100);
-    let bm_mark_up_ins = (ca_mark_up_comm * (bm_ovr_per / 100)) * (bm_ins_per / 100);
-    let bm_mark_up = bm_mark_up_comm + bm_mark_up_ins;
-
-    let bdm_mark_up_comm = (bm_mark_up_comm * (bdm_ovr_per / 100)) * (bdm_com_per / 100);
-    let bdm_mark_up_ins = (bm_mark_up_comm * (bdm_ovr_per / 100)) * (bdm_ins_per / 100);
-    let bdm_mark_up = bdm_mark_up_comm + bdm_mark_up_ins;
-
-    let bcm_mark_up_comm = (bdm_mark_up_comm * (bcm_ovr_per / 100)) * (bcm_com_per / 100);
-    let bcm_mark_up_ins = (bdm_mark_up_comm * (bcm_ovr_per / 100)) * (bcm_ins_per / 100);
-    let bcm_mark_up = bcm_mark_up_comm + bcm_mark_up_ins;
-
-    // Round to 2 decimals
-    ca_mark_up = truncateToTwoDecimals(ca_mark_up);
-    bm_mark_up = truncateToTwoDecimals(bm_mark_up);
-    bdm_mark_up = truncateToTwoDecimals(bdm_mark_up);
-    bcm_mark_up = truncateToTwoDecimals(bcm_mark_up);
-
-    // --------------------------
-    // 5️⃣ Totals
-    // --------------------------
-    total_mark_up = truncateToTwoDecimals(
-        parseFloat(ca_mark_up) +
-        parseFloat(bm_mark_up) +
-        parseFloat(ta_mark_up) +
-        parseFloat(customer_share) +
-        parseFloat(company_share)+
-		parseFloat(coupon_title)
-    );
-
-    total_adult_price = truncateToTwoDecimals(
-        netPriceAdultWithGST + parseFloat(ca_mark_up) + parseFloat(bm_mark_up) +
-        parseFloat(ta_mark_up) + parseFloat(customer_share) + parseFloat(company_share)
-    );
-
-    total_child_price = truncateToTwoDecimals(
-        netPriceChildWithGST + parseFloat(ca_mark_up) + parseFloat(bm_mark_up) +
-        parseFloat(ta_mark_up) + parseFloat(customer_share) + parseFloat(company_share)
-    );
-
-    // --------------------------
-    // 6️⃣ Update UI
-    // --------------------------
-    document.getElementById("mrp_per_adult").value = total_adult_price;
-    document.getElementById("mrp_per_child").value = total_child_price;
-
-    $('#mark_up_title').html('Mark-Up Price Distribution (Total: ' + total_mark_up + ')');
-    $('#bcm_div label[for="bcm_div"]').html('Business Channel Manager (Total: ' + bcm_mark_up + ')');
-    $('#bdm_div label[for="bdm_div"]').html('Business Development Manager (Total: ' + bdm_mark_up + ')');
-    $('#bm_div label[for="bm_div"]').html('Business Consultant/Mentor (Total: ' + bm_mark_up + ')');
-    $('#ca_div label[for="ca_div"]').html('Techno Enterprise (Total: ' + ca_mark_up + ')');
-
-    $('#mp_bcm_comm').val(bcm_mark_up_comm);
-    $('#mp_bcm_ins').val(bcm_mark_up_ins);
-    $('#mp_bdm_comm').val(bdm_mark_up_comm);
-    $('#mp_bdm_ins').val(bdm_mark_up_ins);
-    $('#mp_bm_comm').val(bm_mark_up_comm);
-    $('#mp_bm_ins').val(bm_mark_up_ins);
-    $('#mp_ca_comm').val(ca_mark_up_comm);
-    $('#mp_ca_ins').val(ca_mark_up_ins);
-    $('#mp_customer').val(customer_share);
-    $('#l2_cust_comm').val(l2_cust_comm);
-    $('#l3_cust_comm').val(l3_cust_comm);
-
-    // --------------------------
-    // 7️⃣ Debug Data
-    // --------------------------
-    // console.log([
-    //     { label: "TA Mark Up", value: ta_mark_up },
-    //     { label: "Company Share", value: company_share },
-    //     { label: "Customer Share", value: customer_share },
-    //     { label: "CA Mark Up", value: ca_mark_up },
-    //     { label: "BM Mark Up", value: bm_mark_up },
-    //     { label: "BDM Mark Up", value: bdm_mark_up },
-    //     { label: "BCM Mark Up", value: bcm_mark_up },
-    //     { label: "Total Mark Up", value: total_mark_up }
-    // ]);
-
-    return {
-        total_mark_up,
-        total_adult_price,
-        total_child_price,
-        ca_mark_up,
-        bm_mark_up,
-        bdm_mark_up,
-        bcm_mark_up
-    };
-}
 //new cheif techno calulation funtion for new markup structure
+document.getElementById('travelConsultant').addEventListener('input', function () {
+	calculatePackagePriceNew(payoutDataNew);
+	calculatePackagePrice(payoutData);
+});
+//cte->ete->ste->te
 function calculatePackagePriceNew(payoutData) {
-    // console.log("calculatePackagePriceNew called");
-	getMarkupValues();
-    // --------------------------
-    // 1️⃣ Prepare Inputs
-    // --------------------------
-    let netPriceAdult = parseInt(document.getElementById('netPriceAdult').value, 10) || 0;
-    let netPriceChild = parseInt(document.getElementById('netPriceChild').value, 10) || 0;
-    let netGst = parseFloat(document.getElementById('nGst').value) || 0;
-	//prev markup total
-	let text = document.getElementById('mark_up_title').textContent;
-	//coupon on change added on 11-05-2026 by SV
-	newcoupon_title = $("#newcoupon_total").val();
-	$('#newcup_title').html('Coupon (Total: ' + newcoupon_title + ')');
-	// Extract first number (integer or decimal)
-	mark_up_title = parseFloat(text.match(/[\d.]+/)?.[0]) || 0;
 
-    let newta_mark_up = parseFloat($("#new_mp_ca_ta").val()) || 0;
-    let company_share = parseFloat($("#new_mp_company").val()) || 0;
-    // let customer_share = parseFloat(document.getElementById("mp_customer").value) || 0;
-	let l1_cust_comm=truncateToTwoDecimals(parseFloat($('#new_l1_cust_comm').val())) || 0;
-	let l2_cust_comm=l1_cust_comm * 0.5;
-	
-    let customer_share =(l1_cust_comm+l2_cust_comm) ;
+    let tcValue = parseFloat($("#travelConsultant").val()) || 0;
 
-    // --------------------------
-    // 2️⃣ GST Calculations
-    // --------------------------
-    let GSTofNetPriceAdult = netPriceAdult * netGst / 100;
-    let GSTofNetPriceChild = netPriceChild * netGst / 100;
+    //=========================
+    // Percentages
+    //=========================
 
-    let netPriceAdultWithGST = netPriceAdult + GSTofNetPriceAdult;
-    let netPriceChildWithGST = netPriceChild + GSTofNetPriceChild;
+    const teComPer  = parseFloat(payoutData.TE.comm_percentage)  || 0;
+    const teInsPer  = parseFloat(payoutData.TE.ins_percentage)   || 0;
 
-    // Assign back to fields
-    document.getElementById('totalNetPriceAdult').value = truncateToTwoDecimals(netPriceAdultWithGST);
-    document.getElementById('totalNetPriceChild').value = truncateToTwoDecimals(netPriceChildWithGST);
+    const steComPer = parseFloat(payoutData.STE.comm_percentage) || 0;
+    const steInsPer = parseFloat(payoutData.STE.ins_percentage)  || 0;
 
-    // --------------------------
-    // 3️⃣ Role-wise Markup Calculation (from payoutData)
-    // --------------------------
-    const roleMap = {};
-    payoutData.forEach(entry => {
-        roleMap[entry.role] = entry;
-    });
+    const eteComPer = parseFloat(payoutData.ETE.comm_percentage) || 0;
+    const eteInsPer = parseFloat(payoutData.ETE.ins_percentage)  || 0;
 
+    const cteComPer = parseFloat(payoutData.CTE.comm_percentage) || 0;
+    const cteInsPer = parseFloat(payoutData.CTE.ins_percentage)  || 0;
+
+
+    //=========================
     // TE
-    let ca_ovr_per = roleMap['TE']?.overall_percentage || 0;
-    let ca_com_per = roleMap['TE']?.comm_percentage || 0;
-    let ca_ins_per = roleMap['TE']?.ins_percentage || 0;
+    //=========================
 
-    // ETE
-    let ete_ovr_per = roleMap['ETE']?.overall_percentage || 0;
-    let ete_com_per = roleMap['ETE']?.comm_percentage || 0;
-    let ete_ins_per = roleMap['ETE']?.ins_percentage || 0;
+    let teComm = truncateToTwoDecimals(tcValue * teComPer / 100);
+    let teIns  = truncateToTwoDecimals(tcValue * teInsPer / 100);
 
+    //=========================
     // STE
-    let ste_ovr_per = roleMap['STE']?.overall_percentage || 0;
-    let ste_com_per = roleMap['STE']?.comm_percentage || 0;
-    let ste_ins_per = roleMap['STE']?.ins_percentage || 0;
+    //=========================
 
+    let steComm = truncateToTwoDecimals(teComm * steComPer / 100);
+    let steIns  = truncateToTwoDecimals(teComm * steInsPer / 100);
+
+    //=========================
+    // ETE
+    //=========================
+
+    let eteComm = truncateToTwoDecimals(steComm * eteComPer / 100);
+    let eteIns  = truncateToTwoDecimals(steComm * eteInsPer / 100);
+
+    //=========================
     // CTE
-    let cte_ovr_per = roleMap['CTE']?.overall_percentage || 0;
-    let cte_com_per = roleMap['CTE']?.comm_percentage || 0;
-    let cte_ins_per = roleMap['CTE']?.ins_percentage || 0;
+    //=========================
 
-    // --------------------------
-    // 4️⃣ Commission Distribution
-    // --------------------------
-    let ca_mark_up_comm = (newta_mark_up * (ca_ovr_per / 100)) * (ca_com_per / 100);
-    let ca_mark_up_ins = (newta_mark_up * (ca_ovr_per / 100)) * (ca_ins_per / 100);
-    let ca_mark_up = ca_mark_up_comm + ca_mark_up_ins;
+    let cteComm = truncateToTwoDecimals(eteComm * cteComPer / 100);
+    let cteIns  = truncateToTwoDecimals(eteComm * cteInsPer / 100);
 
-    let ete_mark_up_comm = (ca_mark_up_comm * (ete_ovr_per / 100)) * (ete_com_per / 100);
-    let ete_mark_up_ins = (ca_mark_up_comm * (ete_ovr_per / 100)) * (ete_ins_per / 100);
-    // let ete_mark_up = ete_mark_up_comm + ete_mark_up_ins;
-    let ete_mark_up = ca_mark_up_comm * (ete_ovr_per / 100);
 
-    let ste_mark_up_comm = truncateToTwoDecimals((ete_mark_up_comm * (ste_ovr_per / 100)) * (ste_com_per / 100));
-    let ste_mark_up_ins = truncateToTwoDecimals((ete_mark_up_comm * (ste_ovr_per / 100)) * (ste_ins_per / 100));
-    // let ste_mark_up = ste_mark_up_comm + ste_mark_up_ins;
-    let ste_mark_up = truncateToTwoDecimals(ete_mark_up_comm * (ste_ovr_per / 100));
 
-    let cte_mark_up_comm = truncateToTwoDecimals((ste_mark_up_comm * (cte_ovr_per / 100)) * (cte_com_per / 100));
-    let cte_mark_up_ins = truncateToTwoDecimals((ste_mark_up_comm * (cte_ovr_per / 100)) * (cte_ins_per / 100));
-    // let cte_mark_up = cte_mark_up_comm + cte_mark_up_ins;
-    let cte_mark_up = truncateToTwoDecimals(ste_mark_up_comm * (cte_ovr_per / 100));
+    //=========================
+    // Update Table
+    //=========================
 
-    // Round to 2 decimals
-    ca_mark_up = truncateToTwoDecimals(ca_mark_up);
-    ete_mark_up = truncateToTwoDecimals(ete_mark_up);
-    // ste_mark_up = truncateToTwoDecimals(ste_mark_up);
-    // cte_mark_up = truncateToTwoDecimals(cte_mark_up);
-
- 
-
-	//---------------------------
-	//  Calulate compony value prev marup total -(tc+cutomer+te+ete+ste+cte+coupon) -- coupon is not defined as of now
-	//---------------------------
-	// console.log('markup title:'+mark_up_title);
-	
-	company_share =truncateToTwoDecimals(mark_up_title-(
-		parseFloat(cte_mark_up) +
-        parseFloat(ste_mark_up) +
-        parseFloat(ete_mark_up) +
-		parseFloat(ca_mark_up) +
-        parseFloat(newta_mark_up) +
-        parseFloat(customer_share)+
-		parseFloat(newcoupon_title))) 
-   	// --------------------------
-    // 5️⃣ Totals
-    // --------------------------
-    newtotal_mark_up = truncateToTwoDecimals(
-        parseFloat(cte_mark_up) +
-        parseFloat(ste_mark_up) +
-        parseFloat(ete_mark_up) +
-        parseFloat(ca_mark_up) +
-        parseFloat(newta_mark_up) +
-        parseFloat(customer_share) +
-        parseFloat(company_share)+
-		parseFloat(newcoupon_title)
+    updateRole(
+        "#cTeFComm",
+        "#cTeFIns",
+        "#cTeFCommInsTotal",
+        teComm,
+        teIns
     );
 
-    // --------------------------
-    // 6️⃣ Update UI
-    // --------------------------
-    
-    document.getElementById("new_mp_company").value = company_share;
-	newmark_up_title=newtotal_mark_up;
-    $('#new_mark_up_title').html('Chief Techno Mark-Up Price Distribution (Total: ' + newtotal_mark_up + ')');
-    $('#cte_div label[for="cte_div"]').html('Chief Techno Enterprise (Total: ' + cte_mark_up + ')');
-    $('#ste_div label[for="ste_div"]').html('Super Techno Enterprise (Total: ' + ste_mark_up + ')');
-    $('#ete_div label[for="ete_div"]').html('Executive Techno Enterprise (Total: ' + ete_mark_up + ')');
-    $('#new_ca_div label[for="new_ca_div"]').html('Techno Enterprise (Total: ' + ca_mark_up + ')');
+    updateRole(
+        "#steComm",
+        "#steIns",
+        "#steCommInsTotal",
+        steComm,
+        steIns
+    );
 
-    $('#mp_cte_comm').val(cte_mark_up_comm); 
-    $('#mp_cte_ins').val(cte_mark_up_ins);
-    $('#mp_ste_comm').val(ste_mark_up_comm); 
-    $('#mp_ste_ins').val(ste_mark_up_ins);
-    $('#mp_ete_comm').val(ete_mark_up_comm); 
-    $('#mp_ete_ins').val(ete_mark_up_ins);
-    $('#new_mp_ca_comm').val(ca_mark_up_comm); 
-    $('#new_mp_ca_ins').val(ca_mark_up_ins);
-    $('#new_mp_customer').val(customer_share);
-    $('#new_l2_cust_comm').val(l2_cust_comm);
+    updateRole(
+        "#eteComm",
+        "#eteIns",
+        "#eteCommInsTotal",
+        eteComm,
+        eteIns
+    );
 
-	//commission + incentive
-	$('#ete_total').val(ete_mark_up);
-	$('#ste_total').val(ste_mark_up);
-	$('#cte_total').val(cte_mark_up);
+    updateRole(
+        "#cteComm",
+        "#cteIns",
+        "#cteCommInsTotal",
+        cteComm,
+        cteIns
+    );
 
 
-    // --------------------------
-    // 7️⃣ Debug Data
-    // --------------------------
-    // console.log([
-    //     { label: "New TA Mark Up", value: newta_mark_up },
-    //     { label: "Company Share", value: company_share },
-    //     { label: "Customer Share", value: customer_share },
-    //     { label: "TE Mark Up", value: ca_mark_up },
-    //     { label: "ETE Mark Up", value: ete_mark_up },
-    //     { label: "STE Mark Up", value: ste_mark_up },
-    //     { label: "CTE Mark Up", value: cte_mark_up },
-    //     { label: "New Total Mark Up", value: newtotal_mark_up }
-    // ]);
+    //=========================
+    // Footer Totals
+    //=========================
 
-    return {
-        newtotal_mark_up,
-        ca_mark_up,
-        ete_mark_up,
-    	ste_mark_up,
-        cte_mark_up
-    };
+    const totalComm =
+        teComm +
+        steComm +
+        eteComm +
+        cteComm;
+
+    const totalIns =
+        teIns +
+        steIns +
+        eteIns +
+        cteIns;
+
+    $("#cteChainCommTotal")
+        .text("₹ " + formatNumber(totalComm));
+
+    $("#cteChainInsTotal")
+        .text("₹ " + formatNumber(totalIns));
+
+    $("#cteChainCommInsTotal")
+        .text("₹ " + formatNumber(totalComm + totalIns));
+
+}
+//bm/mf/sf->te/f
+function calculatePackagePrice(payoutData) {
+    let tcValue = parseFloat($("#travelConsultant").val()) || 0;
+
+    //=========================
+    // Percentages
+    //=========================
+
+    const teComPer  = parseFloat(payoutData.TE.comm_percentage)  || 0;
+    const teInsPer  = parseFloat(payoutData.TE.ins_percentage)   || 0;
+
+    const bmComPer = parseFloat(payoutData.BM.comm_percentage) || 0;
+    const bmInsPer = parseFloat(payoutData.BM.ins_percentage)  || 0;
+
+    //=========================
+    // TE
+    //=========================
+
+    let teComm = truncateToTwoDecimals(tcValue * teComPer / 100);
+    let teIns  = truncateToTwoDecimals(tcValue * teInsPer / 100);
+
+    //=========================
+    // STE
+    //=========================
+
+    let bmComm = truncateToTwoDecimals(teComm * bmComPer / 100);
+    let bmIns  = truncateToTwoDecimals(teComm * bmInsPer / 100);
+
+    //=========================
+    // Update Table
+    //=========================
+
+    updateRole(
+        "#bmTeComm",
+        "#bmTeIns",
+        "#teBmComInsTotal",
+        teComm,
+        teIns
+    );
+
+    updateRole(
+        "#teBmComm",
+        "#teBmIns",
+        "#bmTeCommInsTotal",
+        bmComm,
+        bmIns
+    );
+
+    //=========================
+    // Footer Totals
+    //=========================
+
+    const totalComm =
+        teComm +
+        bmComm ;
+
+    const totalIns =
+        teIns +
+        bmIns ;
+
+    $("#bmTeChainCommTotal")
+        .text("₹ " + formatNumber(totalComm));
+
+    $("#bmTeChainInsTotal")
+        .text("₹ " + formatNumber(totalIns));
+
+    $("#bmTeChainCommInsTotal")
+        .text("₹ " + formatNumber(totalComm + totalIns));
+}
+//reuable table field update 
+function updateRole(commId, insId, totalId, comm, ins) {
+
+    $(commId)
+        .attr("data-value", comm)
+        .html("&#8377; " + formatNumber(comm));
+
+    $(insId)
+        .attr("data-value", ins)
+        .html("&#8377; " + formatNumber(ins));
+
+    $(totalId)
+        .html("&#8377; " + formatNumber(comm + ins));
+
+}
+function formatNumber(value) {
+
+    return Number(value).toLocaleString("en-IN", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+
 }
 
 //new institution calulation funtion for new markup structure
