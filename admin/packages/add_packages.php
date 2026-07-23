@@ -799,9 +799,9 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                         <tr>
                                                                             <td>CTE</td>
                                                                             <td class="text-end">1.25%</td>
-                                                                            <td class="text-end editable-comm" id="cteComm">&#8377; 50,000</td>
+                                                                            <td class="text-end editable-comm" id="cteComm" data-value="50000">&#8377; 50,000</td>
                                                                             <td class="text-end">1.5%</td>
-                                                                            <td class="text-end editable-ins" id="cteIns">&#8377; 75,000</td>
+                                                                            <td class="text-end editable-ins" id="cteIns" data-value="75000">&#8377; 75,000</td>
                                                                             <td class="text-end editable-total" id="cteCommInsTotal">&#8377; 1,25,000</td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
@@ -814,9 +814,9 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                         <tr>
                                                                             <td>ETE</td>
                                                                             <td class="text-end">1.25%</td>
-                                                                            <td class="text-end editable-comm" id="eteComm">&#8377; 50,000</td>
+                                                                            <td class="text-end editable-comm" id="eteComm" data-value="50000">&#8377; 50,000</td>
                                                                             <td class="text-end">1.5%</td>
-                                                                            <td class="text-end editable-ins" id="eteIns">&#8377; 75,000</td>
+                                                                            <td class="text-end editable-ins" id="eteIns" data-value="75000">&#8377; 75,000</td>
                                                                             <td class="text-end editable-total" id="eteCommInsTotal">&#8377; 1,25,000</td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
@@ -829,9 +829,9 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                         <tr>
                                                                             <td>STE</td>
                                                                             <td class="text-end">1.25%</td>
-                                                                            <td class="text-end editable-comm" id="steComm">&#8377; 50,000</td>
+                                                                            <td class="text-end editable-comm" id="steComm" data-value="50000">&#8377; 50,000</td>
                                                                             <td class="text-end">1.5%</td>
-                                                                            <td class="text-end editable-ins" id="steIns">&#8377; 75,000</td>
+                                                                            <td class="text-end editable-ins" id="steIns" data-value="75000">&#8377; 75,000</td>
                                                                             <td class="text-end editable-total" id="steCommInsTotal">&#8377; 1,25,000</td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
@@ -870,6 +870,12 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                         <td class="text-end fw-bolder" id="cteChainCommInsTotal">&#8377; 5,00,000</td>
                                                                     </tfoot>
                                                                 </table>
+                                                                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                                    <div class="form-floating mb-3">
+                                                                        <input type="number" id="cteSuspence" name="cteSuspence" placeholder="cteSuspence" class="form-control">
+                                                                        <label for="cteSuspence" class="required">Suspence</label>
+                                                                    </div>
+                                                                </div>
                                                                 <table class="table table-bordered">
                                                                     <thead class="table-light">
                                                                         <tr>
@@ -904,9 +910,9 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                         <tr>
                                                                             <td>BM | SF | MF</td>
                                                                             <td class="text-end">1.25%</td>
-                                                                            <td class="text-end editable-comm" id="teBmComm">&#8377; 50,000</td>
+                                                                            <td class="text-end editable-comm" id="teBmComm" data-value="50000">&#8377; 50,000</td>
                                                                             <td class="text-end">1.5%</td>
-                                                                            <td class="text-end editable-ins" id="teBmComm">&#8377; 75,000</td>
+                                                                            <td class="text-end editable-ins" id="teBmComm" data-value="75000">&#8377; 75,000</td>
                                                                             <td class="text-end editable-total" id="teBmComInsTotal">&#8377; 1,25,000</td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
@@ -919,9 +925,9 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                         <tr>
                                                                             <td>TE | Franchisee</td>
                                                                             <td class="text-end">1.25%</td>
-                                                                            <td class="text-end editable-comm" id="bmTeComm">&#8377; 50,000</td>
+                                                                            <td class="text-end editable-comm" id="bmTeComm" data-value="50000">&#8377; 50,000</td>
                                                                             <td class="text-end">1.5%</td>
-                                                                            <td class="text-end editable-ins" id="bmTeIns">&#8377; 75,000</td>
+                                                                            <td class="text-end editable-ins" id="bmTeIns" data-value="75000">&#8377; 75,000</td>
                                                                             <td class="text-end editable-total" id="bmTeCommInsTotal">&#8377; 1,25,000</td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
@@ -941,6 +947,12 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                         <td class="text-end fw-bolder">&#8377; 5,00,000</td>
                                                                     </tfoot>
                                                                 </table>
+                                                                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                                    <div class="form-floating mb-3">
+                                                                        <input type="number" id="bmSuspence" name="bmSuspence" placeholder="bmSuspence" class="form-control">
+                                                                        <label for="bmSuspence" class="required">Suspence</label>
+                                                                    </div>
+                                                                </div>
                                                                 <!-- table dat load from onload ajax -->
                                                                 <h5 class="mb-3 fw-bolder" id="#">Institution Slab</h5>
                                                                 <table class="table table-bordered">
@@ -970,9 +982,9 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                         <tr>
                                                                             <td>BM |SF | MF</td>
                                                                             <td class="text-end">1.25%</td>
-                                                                            <td class="text-end editable-comm" id="iBmComm">&#8377; 50,000</td>
+                                                                            <td class="text-end editable-comm" id="iBmComm" data-value="50000">&#8377; 50,000</td>
                                                                             <td class="text-end">1.5%</td>
-                                                                            <td class="text-end editable-ins" id="iBmIns">&#8377; 75,000</td>
+                                                                            <td class="text-end editable-ins" id="iBmIns" data-value="75000">&#8377; 75,000</td>
                                                                             <td class="text-end editable-total" id="iBmCommInsTotal">&#8377; 1,25,000</td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
@@ -985,7 +997,7 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                         <tr>
                                                                             <td>Institute</td>
                                                                             <td class="text-end">NA</td>
-                                                                            <td class="text-end editable-comm" id="bmIComm">&#8377; 50,000</td>
+                                                                            <td class="text-end editable-comm" id="bmIComm" data-value="50000">&#8377; 50,000</td>
                                                                             <td class="text-end">NA</td>
                                                                             <td class="text-end" id="bmIIns">NA</td>
                                                                             <td class="text-end editable-total" id="bmICommInsTotal">&#8377; 1,25,000</td>
@@ -1007,6 +1019,12 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                         <td class="text-end fw-bolder">&#8377; 5,00,000</td>
                                                                     </tfoot>
                                                                 </table>
+                                                                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                                    <div class="form-floating mb-3">
+                                                                        <input type="number" id="bmISuspence" name="bmISuspence" placeholder="bmISuspence" class="form-control">
+                                                                        <label for="bmISuspence" class="required">Suspence</label>
+                                                                    </div>
+                                                                </div>
                                                                 <table class="table table-bordered">
                                                                     <thead class="table-light">
                                                                         <tr>
@@ -1023,9 +1041,9 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                         <tr>
                                                                             <td>CTE</td>
                                                                             <td class="text-end">1.25%</td>
-                                                                            <td class="text-end editable-comm" id="iCteComm">&#8377; 50,000</td>
+                                                                            <td class="text-end editable-comm" id="iCteComm" data-value="50000">&#8377; 50,000</td>
                                                                             <td class="text-end">1.5%</td>
-                                                                            <td class="text-end editable-ins" id="iCteIns">&#8377; 75,000</td>
+                                                                            <td class="text-end editable-ins" id="iCteIns" data-value="75000">&#8377; 75,000</td>
                                                                             <td class="text-end editable-total" id="iCteCommInsTotal">&#8377; 1,25,000</td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
@@ -1038,9 +1056,9 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                         <tr>
                                                                             <td>ETE</td>
                                                                             <td class="text-end">1.25%</td>
-                                                                            <td class="text-end editable-comm" id="iEteComm">&#8377; 50,000</td>
+                                                                            <td class="text-end editable-comm" id="iEteComm" data-value="50000">&#8377; 50,000</td>
                                                                             <td class="text-end">1.5%</td>
-                                                                            <td class="text-end editable-ins" id="iEteIns">&#8377; 75,000</td>
+                                                                            <td class="text-end editable-ins" id="iEteIns" data-value="75000">&#8377; 75,000</td>
                                                                             <td class="text-end editable-total" id="iEteCommInsTotal">&#8377; 1,25,000</td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
@@ -1053,7 +1071,7 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                         <tr>
                                                                             <td>Institute</td>
                                                                             <td class="text-end">NA</td>
-                                                                            <td class="text-end editable-comm" id="cteIComm">&#8377; 50,000</td>
+                                                                            <td class="text-end editable-comm" id="cteIComm" data-value="50000">&#8377; 50,000</td>
                                                                             <td class="text-end">NA</td>
                                                                             <td class="text-end" id="cteIIns">NA</td>
                                                                             <td class="text-end editable-total" id="cteICommInsTotal">&#8377; 1,25,000</td>
@@ -1075,6 +1093,12 @@ $product_payout_data_ins = $data9->fetchAll();
                                                                         <td class="text-end fw-bolder">&#8377; 5,00,000</td>
                                                                     </tfoot>
                                                                 </table>
+                                                                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                                    <div class="form-floating mb-3">
+                                                                        <input type="number" id="cteISuspence" name="cteISuspence" placeholder="cteISuspence" class="form-control">
+                                                                        <label for="cteISuspence" class="required">Suspence</label>
+                                                                    </div>
+                                                                </div>
                                                                 <div class="row">
                                                                     <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                         <div class="form-floating mb-3">
@@ -2552,7 +2576,8 @@ $product_payout_data_ins = $data9->fetchAll();
 
                 const comm = row.find(".editable-comm");
                 const ins = row.find(".editable-ins");
-
+                console.log(comm);
+                
                 comm.data("old", comm.data("value"));
                 ins.data("old", ins.data("value"));
 
