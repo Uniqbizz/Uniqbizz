@@ -33,16 +33,59 @@ while ($row = $data8->fetch(PDO::FETCH_ASSOC)) {
 }
 
 //product payout commission new added on 12 may 2026
-$data9 = $conn->prepare("SELECT * FROM `product_commission_institution` WHERE status = 1");
+$data9 = $conn->prepare("
+    SELECT *
+    FROM product_commission_institution
+    WHERE status = 1
+");
 $data9->execute();
-$data9->setFetchMode(PDO::FETCH_ASSOC);
-$product_payout_data_ins = $data9->fetchAll();
 
-//product payout commission new added on 23 july 2026
-$data10 = $conn->prepare("SELECT * FROM `product_commission_cte_ins` WHERE status = 1");
+$institutionData = [];  
+
+while ($row = $data9->fetch(PDO::FETCH_ASSOC)) {
+    $institutionData['roles'][$row['role']] = [
+        'overall_percentage' => $row['overall_percentage'],
+        'comm_percentage'    => $row['comm_percentage'],
+        'ins_percentage'     => $row['ins_percentage']
+    ];
+}
+//product payout commission cte cheian
+$data11 = $conn->prepare("SELECT * FROM `product_commission_cte_ins` WHERE status = 1");
+$data11->execute();
+
+$institutionCteData = [];
+
+while ($row = $data11->fetch(PDO::FETCH_ASSOC)) {
+    $institutionCteData['roles'][$row['role']] = [
+        'overall_percentage' => $row['overall_percentage'],
+        'comm_percentage'    => $row['comm_percentage'],
+        'ins_percentage'     => $row['ins_percentage']
+    ];
+}
+
+//=====================================
+// Institution Slabs
+//=====================================
+
+$data10 = $conn->prepare("
+    SELECT
+        institution_commission,
+        lower_limit,
+        upper_limit
+    FROM institution_slab
+    WHERE status = 1
+    ORDER BY lower_limit
+");
 $data10->execute();
-$data10->setFetchMode(PDO::FETCH_ASSOC);
-$product_payout_data_cte_ins = $data10->fetchAll();
+
+$slabs = $data10->fetchAll(PDO::FETCH_ASSOC);
+
+$institutionData['slabs'] = $slabs;
+$institutionCteData['slabs'] = $slabs;
+
+//cutomer commission 
+$l2_per=$l3_per=50;
+
 ?>
 
 <!DOCTYPE html>
@@ -714,19 +757,19 @@ $product_payout_data_cte_ins = $data10->fetchAll();
                                                             <div class="row">
                                                                 <div class="col-md-4 col-sm-4 mt-3">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="number" onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' id="netPriceAdult" name="net_price_adult" value="" placeholder="NET Price for 1 Adult:" class="form-control">
+                                                                        <input type="number" id="netPriceAdult" name="net_price_adult" value="" placeholder="NET Price for 1 Adult:" class="form-control">
                                                                         <label for="netPriceAdult" class="required">Base Price for per Adult:</label>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-4 col-sm-4 mt-3" id="netPriceChildData">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="number" onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' id="netPriceChild" name="netPriceChild" value="" placeholder="NET Price for 1 Child" class="form-control" value='0'>
+                                                                        <input type="number" id="netPriceChild" name="netPriceChild" value="" placeholder="NET Price for 1 Child" class="form-control" value='0'>
                                                                         <label for="netPriceChild" class="required">Base Price for per Child:</label>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-4 col-sm-4 mt-3">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="number" onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' id="nGst" name="nGst" value="" placeholder="Net GST Title" class="form-control">
+                                                                        <input type="number" id="nGst" name="nGst" value="" placeholder="Net GST Title" class="form-control">
                                                                         <label id="net_gst_title" for="nGst">Extra Mattress</label>
                                                                     </div>
                                                                 </div>
@@ -801,7 +844,7 @@ $product_payout_data_cte_ins = $data10->fetchAll();
                                                                         <label for="travelConsultant" class="required">Travel Consultant</label>
                                                                     </div>
                                                                 </div>
-                                                                <table class="table table-bordered">
+                                                                <table class="table table-bordered" id="cteChainTable">
                                                                     <thead class="table-light">
                                                                         <tr>
                                                                             <th scope="col">Role</th>
@@ -817,10 +860,10 @@ $product_payout_data_cte_ins = $data10->fetchAll();
                                                                         <tr>
                                                                             <td>CTE</td>
                                                                             <td class="text-end" id="cteComPer"><?= $product_payout_data_new['CTE']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="cteComm" data-value="0">&#8377; 0</td>
+                                                                            <td class="text-end editable-comm" id="cteComm" data-value="0">&#8377; 0.00</td>
                                                                             <td class="text-end" id="cteInsPer"><?= $product_payout_data_new['CTE']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="cteIns" data-value="0">&#8377; 0</td>
-                                                                            <td class="text-end editable-total" id="cteCommInsTotal">&#8377; 0</td>
+                                                                            <td class="text-end editable-ins" id="cteIns" data-value="0">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-total" id="cteCommInsTotal">&#8377; 0.00</td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -832,10 +875,10 @@ $product_payout_data_cte_ins = $data10->fetchAll();
                                                                         <tr>
                                                                             <td>ETE</td>
                                                                             <td class="text-end" id="eteComPer"><?= $product_payout_data_new['ETE']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="eteComm" data-value="0">&#8377; 0</td>
+                                                                            <td class="text-end editable-comm" id="eteComm" data-value="0">&#8377; 0.00</td>
                                                                             <td class="text-end" id="eteInsPer"><?= $product_payout_data_new['ETE']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="eteIns" data-value="0">&#8377; 0</td>
-                                                                            <td class="text-end editable-total" id="eteCommInsTotal">&#8377; 0</td>
+                                                                            <td class="text-end editable-ins" id="eteIns" data-value="0">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-total" id="eteCommInsTotal">&#8377; 0.00</td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -847,10 +890,10 @@ $product_payout_data_cte_ins = $data10->fetchAll();
                                                                         <tr>
                                                                             <td>STE</td>
                                                                             <td class="text-end" id="steComPer"><?= $product_payout_data_new['STE']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="steComm" data-value="0">&#8377; 0</td>
+                                                                            <td class="text-end editable-comm" id="steComm" data-value="0">&#8377; 0.00</td>
                                                                             <td class="text-end" id="steInsPer"><?= $product_payout_data_new['STE']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="steIns" data-value="0">&#8377; 0</td>
-                                                                            <td class="text-end editable-total" id="steCommInsTotal">&#8377; 0</td>
+                                                                            <td class="text-end editable-ins" id="steIns" data-value="0">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-total" id="steCommInsTotal">&#8377; 0.00</td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -863,10 +906,10 @@ $product_payout_data_cte_ins = $data10->fetchAll();
                                                                         <tr>
                                                                             <td>TE | Franchisee</td>
                                                                             <td class="text-end" id="cTeFComPer"><?= $product_payout_data_new['TE']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="cTeFComm" data-value="0">&#8377; 0</td>
+                                                                            <td class="text-end editable-comm" id="cTeFComm" data-value="0">&#8377; 0.00</td>
                                                                             <td class="text-end" id="cTeFInsPer"><?= $product_payout_data_new['TE']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="cTeFIns" data-value="0">&#8377; 0</td>
-                                                                            <td class="text-end editable-total" id="cTeFCommInsTotal">&#8377; 0</td>
+                                                                            <td class="text-end editable-ins" id="cTeFIns" data-value="0">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-total" id="cTeFCommInsTotal">&#8377; 0.00</td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -882,19 +925,19 @@ $product_payout_data_cte_ins = $data10->fetchAll();
                                                                     <tfoot>
                                                                         <td class="fw-bolder">Total Distribution</td>
                                                                         <td class="text-end fw-bolder"></td>
-                                                                        <td class="text-end fw-bolder" id="cteChainCommTotal">&#8377; 2,00,000</td>
+                                                                        <td class="text-end fw-bolder" id="cteChainCommTotal">&#8377; 0.00</td>
                                                                         <td class="text-end fw-bolder"></td>
-                                                                        <td class="text-end fw-bolder" id="cteChainInsTotal">&#8377; 3,00,000</td>
-                                                                        <td class="text-end fw-bolder" id="cteChainCommInsTotal">&#8377; 5,00,000</td>
+                                                                        <td class="text-end fw-bolder" id="cteChainInsTotal">&#8377; 0.00</td>
+                                                                        <td class="text-end fw-bolder" id="cteChainCommInsTotal">&#8377; 0.00</td>
                                                                     </tfoot>
                                                                 </table>
                                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="number" id="cteSuspence" name="cteSuspence" placeholder="cteSuspence" class="form-control">
+                                                                        <input type="number" id="cteSuspence" name="cteSuspence" placeholder="cteSuspence" class="form-control" readonly>
                                                                         <label for="cteSuspence" class="required">Suspence</label>
                                                                     </div>
                                                                 </div>
-                                                                <table class="table table-bordered">
+                                                                <table class="table table-bordered" id="bmTeTable">
                                                                     <thead class="table-light">
                                                                         <tr>
                                                                             <th scope="col">Role</th>
@@ -910,10 +953,10 @@ $product_payout_data_cte_ins = $data10->fetchAll();
                                                                         <tr>
                                                                             <td>BM | SF | MF</td>
                                                                             <td class="text-end" id="teBmComPer"><?= $product_payout_data['BM']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="teBmComm" data-value="0">&#8377; 0</td>
+                                                                            <td class="text-end editable-comm" id="teBmComm" data-value="0">&#8377; 0.00</td>
                                                                             <td class="text-end" id="teBmInsPer"><?= $product_payout_data['BM']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="teBmIns" data-value="0">&#8377; 0</td>
-                                                                            <td class="text-end editable-total" id="teBmComInsTotal">&#8377; 0</td>
+                                                                            <td class="text-end editable-ins" id="teBmIns" data-value="0">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-total" id="teBmComInsTotal">&#8377; 0.00</td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -925,10 +968,10 @@ $product_payout_data_cte_ins = $data10->fetchAll();
                                                                         <tr>
                                                                             <td>TE | Franchisee</td>
                                                                             <td class="text-end" id="bmTeComPer"><?= $product_payout_data['TE']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="bmTeComm" data-value="0">&#8377; 0</td>
+                                                                            <td class="text-end editable-comm" id="bmTeComm" data-value="0">&#8377; 0.00</td>
                                                                             <td class="text-end" id="bmTeInsPer"><?= $product_payout_data['TE']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="bmTeIns" data-value="0">&#8377; 0</td>
-                                                                            <td class="text-end editable-total" id="bmTeCommInsTotal">&#8377; 0</td>
+                                                                            <td class="text-end editable-ins" id="bmTeIns" data-value="0">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-total" id="bmTeCommInsTotal">&#8377; 0.00</td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -941,15 +984,15 @@ $product_payout_data_cte_ins = $data10->fetchAll();
                                                                     <tfoot>
                                                                         <td class="fw-bolder">Total Distribution</td>
                                                                         <td class="text-end fw-bolder"></td>
-                                                                        <td class="text-end fw-bolder" id="bmTeChainCommTotal">&#8377; 0</td>
+                                                                        <td class="text-end fw-bolder" id="bmTeChainCommTotal">&#8377; 0.00</td>
                                                                         <td class="text-end fw-bolder"></td>
-                                                                        <td class="text-end fw-bolder" id="bmTeChainInsTotal">&#8377; 0</td>
-                                                                        <td class="text-end fw-bolder" id="bmTeChainCommInsTotal">&#8377; 0</td>
+                                                                        <td class="text-end fw-bolder" id="bmTeChainInsTotal">&#8377; 0.00</td>
+                                                                        <td class="text-end fw-bolder" id="bmTeChainCommInsTotal">&#8377; 0.00</td>
                                                                     </tfoot>
                                                                 </table>
                                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="number" id="bmSuspence" name="bmSuspence" placeholder="bmSuspence" class="form-control">
+                                                                        <input type="number" id="bmSuspence" name="bmSuspence" placeholder="bmSuspence" class="form-control" readonly>
                                                                         <label for="bmSuspence" class="required">Suspence</label>
                                                                     </div>
                                                                 </div>
@@ -966,7 +1009,7 @@ $product_payout_data_cte_ins = $data10->fetchAll();
                                                                         
                                                                     </tbody>
                                                                 </table>
-                                                                <table class="table table-bordered">
+                                                                <table class="table table-bordered" id="bmITable">
                                                                     <thead class="table-light">
                                                                         <tr>
                                                                             <th scope="col">Role</th>
@@ -981,11 +1024,11 @@ $product_payout_data_cte_ins = $data10->fetchAll();
                                                                     <tbody>
                                                                         <tr>
                                                                             <td>BM |SF | MF</td>
-                                                                            <td class="text-end" id="iBmComPer">0%</td>
-                                                                            <td class="text-end editable-comm" id="iBmComm" data-value="50000">&#8377; 50,000</td>
-                                                                            <td class="text-end" id="iBmInsPer">0%</td>
-                                                                            <td class="text-end editable-ins" id="iBmIns" data-value="75000">&#8377; 75,000</td>
-                                                                            <td class="text-end editable-total" id="iBmCommInsTotal">&#8377; 1,25,000</td>
+                                                                            <td class="text-end" id="iBmComPer"><?= $institutionData['roles']['BM']['comm_percentage'] ?>%</td>
+                                                                            <td class="text-end editable-comm" id="iBmComm" data-value="0">&#8377; 0.00</td>
+                                                                            <td class="text-end" id="iBmInsPer"><?= $institutionData['roles']['BM']['ins_percentage'] ?>%</td>
+                                                                            <td class="text-end editable-ins" id="iBmIns" data-value="0">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-total" id="iBmCommInsTotal">&#8377; 0.00</td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -997,10 +1040,10 @@ $product_payout_data_cte_ins = $data10->fetchAll();
                                                                         <tr>
                                                                             <td>Institute</td>
                                                                             <td class="text-end">As Per Slab</td>
-                                                                            <td class="text-end editable-comm" id="bmIComm" data-value="50000">&#8377; 50,000</td>
+                                                                            <td class="text-end editable-comm" id="bmIComm" data-value="0">&#8377; 0.00</td>
                                                                             <td class="text-end">NA</td>
                                                                             <td class="text-end" id="bmIIns">NA</td>
-                                                                            <td class="text-end editable-total" id="bmICommInsTotal">&#8377; 1,25,000</td>
+                                                                            <td class="text-end editable-total" id="bmICommInsTotal">&#8377; 0.00</td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -1012,20 +1055,20 @@ $product_payout_data_cte_ins = $data10->fetchAll();
                                                                     </tbody>
                                                                     <tfoot>
                                                                         <td class="fw-bolder">Total Distribution</td>
-                                                                        <td class="text-end fw-bolder">5%</td>
-                                                                        <td class="text-end fw-bolder">&#8377; 2,00,000</td>
-                                                                        <td class="text-end fw-bolder">6%</td>
-                                                                        <td class="text-end fw-bolder">&#8377; 3,00,000</td>
-                                                                        <td class="text-end fw-bolder">&#8377; 5,00,000</td>
+                                                                        <td class="text-end fw-bolder"></td>
+                                                                        <td class="text-end fw-bolder" id="bmIComTotal">&#8377; 0.00</td>
+                                                                        <td class="text-end fw-bolder"></td>
+                                                                        <td class="text-end fw-bolder" id="bmIInsTotal">&#8377; 0.00</td>
+                                                                        <td class="text-end fw-bolder" id="bmIComInsTotal">&#8377; 0.00</td>
                                                                     </tfoot>
                                                                 </table>
                                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="number" id="bmISuspence" name="bmISuspence" placeholder="bmISuspence" class="form-control">
+                                                                        <input type="number" id="bmISuspence" name="bmISuspence" placeholder="bmISuspence" class="form-control" readonly>
                                                                         <label for="bmISuspence" class="required">Suspence</label>
                                                                     </div>
                                                                 </div>
-                                                                <table class="table table-bordered">
+                                                                <table class="table table-bordered" id="iCteTable">
                                                                     <thead class="table-light">
                                                                         <tr>
                                                                             <th scope="col">Role</th>
@@ -1040,11 +1083,11 @@ $product_payout_data_cte_ins = $data10->fetchAll();
                                                                     <tbody>
                                                                         <tr>
                                                                             <td>CTE</td>
-                                                                            <td class="text-end" id="iCteComPer">0%</td>
-                                                                            <td class="text-end editable-comm" id="iCteComm" data-value="50000">&#8377; 50,000</td>
-                                                                            <td class="text-end" id="iCteInsPer">0%</td>
-                                                                            <td class="text-end editable-ins" id="iCteIns" data-value="75000">&#8377; 75,000</td>
-                                                                            <td class="text-end editable-total" id="iCteCommInsTotal">&#8377; 1,25,000</td>
+                                                                            <td class="text-end" id="iCteComPer"><?= $institutionCteData['roles']['CTE']['comm_percentage'] ?>%</td>
+                                                                            <td class="text-end editable-comm" id="iCteComm" data-value="0">&#8377; 0.00</td>
+                                                                            <td class="text-end" id="iCteInsPer"><?= $institutionCteData['roles']['CTE']['ins_percentage'] ?>%</td>
+                                                                            <td class="text-end editable-ins" id="iCteIns" data-value="0">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-total" id="iCteCommInsTotal">&#8377; 0.00</td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -1055,11 +1098,11 @@ $product_payout_data_cte_ins = $data10->fetchAll();
                                                                         </tr>
                                                                         <tr>
                                                                             <td>ETE</td>
-                                                                            <td class="text-end" id="iEteComPer">0%</td>
-                                                                            <td class="text-end editable-comm" id="iEteComm" data-value="50000">&#8377; 50,000</td>
-                                                                            <td class="text-end" id="iEteInsPer">0%</td>
-                                                                            <td class="text-end editable-ins" id="iEteIns" data-value="75000">&#8377; 75,000</td>
-                                                                            <td class="text-end editable-total" id="iEteCommInsTotal">&#8377; 1,25,000</td>
+                                                                            <td class="text-end" id="iEteComPer"><?= $institutionCteData['roles']['ETE']['comm_percentage'] ?>%</td>
+                                                                            <td class="text-end editable-comm" id="iEteComm" data-value="0">&#8377; 0.00</td>
+                                                                            <td class="text-end" id="iEteInsPer"><?= $institutionCteData['roles']['ETE']['ins_percentage'] ?>%</td>
+                                                                            <td class="text-end editable-ins" id="iEteIns" data-value="0">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-total" id="iEteCommInsTotal">&#8377; 0.00</td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -1071,10 +1114,10 @@ $product_payout_data_cte_ins = $data10->fetchAll();
                                                                         <tr>
                                                                             <td>Institute</td>
                                                                             <td class="text-end">As Per Slab</td>
-                                                                            <td class="text-end editable-comm" id="cteIComm" data-value="50000">&#8377; 50,000</td>
+                                                                            <td class="text-end editable-comm" id="cteIComm" data-value="0">&#8377; 0.00</td>
                                                                             <td class="text-end">NA</td>
                                                                             <td class="text-end" id="cteIIns">NA</td>
-                                                                            <td class="text-end editable-total" id="cteICommInsTotal">&#8377; 1,25,000</td>
+                                                                            <td class="text-end editable-total" id="cteICommInsTotal">&#8377; 0.00</td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -1086,16 +1129,16 @@ $product_payout_data_cte_ins = $data10->fetchAll();
                                                                     </tbody>
                                                                     <tfoot>
                                                                         <td class="fw-bolder">Total Distribution</td>
-                                                                        <td class="text-end fw-bolder">5%</td>
-                                                                        <td class="text-end fw-bolder">&#8377; 2,00,000</td>
-                                                                        <td class="text-end fw-bolder">6%</td>
-                                                                        <td class="text-end fw-bolder">&#8377; 3,00,000</td>
-                                                                        <td class="text-end fw-bolder">&#8377; 5,00,000</td>
+                                                                        <td class="text-end fw-bolder"></td>
+                                                                        <td class="text-end fw-bolder" id="iCteComTotal">&#8377; 0.00</td>
+                                                                        <td class="text-end fw-bolder"></td>
+                                                                        <td class="text-end fw-bolder" id="iCteInsTotal">&#8377; 0.00</td>
+                                                                        <td class="text-end fw-bolder" id="iCteComInsTotal">&#8377; 0.00</td>
                                                                     </tfoot>
                                                                 </table>
                                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="number" id="cteISuspence" name="cteISuspence" placeholder="cteISuspence" class="form-control">
+                                                                        <input type="number" id="cteISuspence" name="cteISuspence" placeholder="cteISuspence" class="form-control" readonly>
                                                                         <label for="cteISuspence" class="required">Suspence</label>
                                                                     </div>
                                                                 </div>
@@ -1108,13 +1151,13 @@ $product_payout_data_cte_ins = $data10->fetchAll();
                                                                     </div>
                                                                     <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                         <div class="form-floating mb-3">
-                                                                            <input type="text" id="customer2" name="customer2" placeholder="Customer2" class="form-control">
+                                                                            <input type="text" id="customer2" name="customer2" data-per="<?= $l2_per ?>" placeholder="Customer2" class="form-control" readonly>
                                                                             <label for="customer2" class="required">Customer 2</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                         <div class="form-floating mb-3">
-                                                                            <input type="text" id="customer3" name="customer3" placeholder="Customer3" class="form-control">
+                                                                            <input type="text" id="customer3" name="customer3" data-per="<?= $l3_per ?>" placeholder="Customer3" class="form-control" readonly>
                                                                             <label for="customer3" class="required">Customer 3</label>
                                                                         </div>
                                                                     </div>
@@ -2566,10 +2609,14 @@ $product_payout_data_cte_ins = $data10->fetchAll();
         <script>
             const payoutDataNew = <?= json_encode($product_payout_data_new); ?>;
             const payoutData = <?= json_encode($product_payout_data); ?>;
+            const payoutDataInsBm = <?= json_encode($institutionData); ?>;
+            const payoutDataInsCte = <?= json_encode($institutionCteData); ?>;
             function formatCurrency(amount) {
                 return "₹" + Number(amount).toLocaleString("en-IN");
             }
-            //edit
+            // =========================================
+            // EDIT
+            // =========================================
             $(document).on("click", ".edit-price-distribution", function (e) {
 
                 e.preventDefault();
@@ -2578,10 +2625,15 @@ $product_payout_data_cte_ins = $data10->fetchAll();
 
                 const comm = row.find(".editable-comm");
                 const ins = row.find(".editable-ins");
-                console.log(comm);
-                
-                comm.data("old", comm.data("value"));
-                ins.data("old", ins.data("value"));
+
+                // Store original value only once
+                if (comm.data("original") === undefined) {
+                    comm.data("original", parseFloat(comm.data("value")) || 0);
+                }
+
+                if (ins.data("original") === undefined) {
+                    ins.data("original", parseFloat(ins.data("value")) || 0);
+                }
 
                 comm.html(`
                     <input type="number"
@@ -2609,7 +2661,10 @@ $product_payout_data_cte_ins = $data10->fetchAll();
 
             });
 
-            //save
+
+            // =========================================
+            // SAVE
+            // =========================================
             $(document).on("click", ".save-price-distribution", function (e) {
 
                 e.preventDefault();
@@ -2620,30 +2675,120 @@ $product_payout_data_cte_ins = $data10->fetchAll();
                 const insCell = row.find(".editable-ins");
                 const totalCell = row.find(".editable-total");
 
-                const oldComm = Number(commCell.data("old"));
-                const oldIns = Number(insCell.data("old"));
+                // Original values (saved when Edit is clicked)
+                const originalComm = parseFloat(commCell.data("original")) || 0;
+                const originalIns = parseFloat(insCell.data("original")) || 0;
 
-                const newComm = Number(row.find(".comm-input").val());
-                const newIns = Number(row.find(".ins-input").val());
+                // New values entered by user
+                const newComm = parseFloat(row.find(".comm-input").val()) || 0;
+                const newIns = parseFloat(row.find(".ins-input").val()) || 0;
 
-                commCell.data("value", newComm);
-                insCell.data("value", newIns);
+                // Save current value
+                commCell
+                    .data("value", newComm)
+                    .data("edited", true)
+                    .attr("data-value", newComm);
 
-                commCell.html(`
-                    <div>${formatCurrency(newComm)}</div>
-                    <small class="text-danger text-decoration-line-through">
-                        ${formatCurrency(oldComm)}
-                    </small>
+                insCell
+                    .data("value", newIns)
+                    .data("edited", true)
+                    .attr("data-value", newIns);
+
+                // Commission HTML
+                let commHtml = `<div>₹ ${formatNumber(newComm)}</div>`;
+
+                if (Math.abs(newComm - originalComm) > 0.001) {
+                    commHtml += `
+                        <small class="text-danger text-decoration-line-through">
+                            ₹ ${formatNumber(originalComm)}
+                        </small>
+                    `;
+                }
+
+                commCell.html(commHtml);
+
+                // Incentive HTML
+                let insHtml = `<div>₹ ${formatNumber(newIns)}</div>`;
+
+                if (Math.abs(newIns - originalIns) > 0.001) {
+                    insHtml += `
+                        <small class="text-danger text-decoration-line-through">
+                            ₹ ${formatNumber(originalIns)}
+                        </small>
+                    `;
+                }
+
+                insCell.html(insHtml);
+
+                // Total
+                totalCell.html(`₹ ${formatNumber(newComm + newIns)}`);
+
+                // Restore action buttons
+                row.find("td:last").html(`
+                    <div class="d-flex gap-3 justify-content-center">
+                        <a href="#" class="edit-price-distribution text-primary">
+                            <i class="fa-solid fa-pencil"></i>
+                        </a>
+
+                        <a href="#" class="reset-price-distribution text-warning">
+                            <i class="fa-solid fa-rotate-left"></i>
+                        </a>
+                    </div>
                 `);
+                // CTE -> ETE -> STE -> TE
+                updateTableTotals(
+                    "#cteChainTable",
+                    "#cteChainCommTotal",
+                    "#cteChainInsTotal",
+                    "#cteChainCommInsTotal"
+                );
 
-                insCell.html(`
-                    <div>${formatCurrency(newIns)}</div>
-                    <small class="text-danger text-decoration-line-through">
-                        ${formatCurrency(oldIns)}
-                    </small>
-                `);
+                // BM -> TE
+                updateTableTotals(
+                    "#bmTeTable",
+                    "#bmTeChainCommTotal",
+                    "#bmTeChainInsTotal",
+                    "#bmTeChainCommInsTotal"
+                );
 
-                totalCell.html(formatCurrency(newComm + newIns));
+                // BM Institution
+                updateTableTotals(
+                    "#bmITable",
+                    "#bmIComTotal",
+                    "#bmIInsTotal",
+                    "#bmIComInsTotal"
+                );
+
+                // CTE Institution
+                updateTableTotals(
+                    "#iCteTable",
+                    "#iCteComTotal",
+                    "#iCteInsTotal",
+                    "#iCteComInsTotal"
+                );
+                // console.log("Saved Successfully");
+                calculateFinalValues();
+
+            });
+
+
+            // =========================================
+            // CANCEL
+            // =========================================
+            $(document).on("click", ".cancel-price-distribution", function (e) {
+
+                e.preventDefault();
+
+                const row = $(this).closest("tr");
+
+                const commCell = row.find(".editable-comm");
+                const insCell = row.find(".editable-ins");
+
+                const currentComm = parseFloat(commCell.data("value")) || 0;
+                const currentIns = parseFloat(insCell.data("value")) || 0;
+
+                commCell.html(`<div>${formatCurrency(currentComm)}</div>`);
+                insCell.html(`<div>${formatCurrency(currentIns)}</div>`);
 
                 row.find("td:last").html(`
                     <div class="d-flex gap-3">
@@ -2656,33 +2801,15 @@ $product_payout_data_cte_ins = $data10->fetchAll();
                         </a>
                     </div>
                 `);
+                commCell.removeData("edited");
+                insCell.removeData("edited");
 
             });
 
-            //cancel
-            $(document).on("click", ".cancel-price-distribution", function (e) {
 
-                e.preventDefault();
-
-                const row = $(this).closest("tr");
-
-                const commCell = row.find(".editable-comm");
-                const insCell = row.find(".editable-ins");
-
-                commCell.html(formatCurrency(commCell.data("old")));
-                insCell.html(formatCurrency(insCell.data("old")));
-
-                row.find("td:last").html(`
-                    <div class="d-flex gap-3 justify-content-center">
-                        <a href="#" class="edit-price-distribution text-primary">
-                            <i class="fa-solid fa-pencil"></i>
-                        </a>
-                    </div>
-                `);
-
-            });
-
-            //reset
+            // =========================================
+            // RESET
+            // =========================================
             $(document).on("click", ".reset-price-distribution", function (e) {
 
                 e.preventDefault();
@@ -2693,25 +2820,47 @@ $product_payout_data_cte_ins = $data10->fetchAll();
                 const insCell = row.find(".editable-ins");
                 const totalCell = row.find(".editable-total");
 
-                const oldComm = Number(commCell.data("old"));
-                const oldIns = Number(insCell.data("old"));
+                const originalComm = parseFloat(commCell.data("original")) || 0;
+                const originalIns = parseFloat(insCell.data("original")) || 0;
 
-                commCell.data("value", oldComm);
-                insCell.data("value", oldIns);
+                commCell.data("value", originalComm);
+                insCell.data("value", originalIns);
+                
+                commCell.html(`<div>${formatCurrency(originalComm)}</div>`);
+                insCell.html(`<div>${formatCurrency(originalIns)}</div>`);
 
-                commCell.html(formatCurrency(oldComm));
-                insCell.html(formatCurrency(oldIns));
-                totalCell.html(formatCurrency(oldComm + oldIns));
+                totalCell.html(formatCurrency(originalComm + originalIns));
 
                 row.find("td:last").html(`
-                    <div class="d-flex gap-3 justify-content-center">
+                    <div class="d-flex gap-3">
                         <a href="#" class="edit-price-distribution text-primary">
                             <i class="fa-solid fa-pencil"></i>
                         </a>
                     </div>
                 `);
+                commCell.removeData("edited");
+                insCell.removeData("edited");
+                calculateEverything();
 
             });
+
+            //reusabe
+            function updateTableTotals(tableSelector, commTotalId, insTotalId, grandTotalId) {
+
+                let totalComm = 0;
+                let totalIns = 0;
+
+                $(`${tableSelector} tbody tr`).each(function () {
+
+                    totalComm += Number($(this).find(".editable-comm").data("value")) || 0;
+                    totalIns += Number($(this).find(".editable-ins").data("value")) || 0;
+
+                });
+
+                $(commTotalId).text(`₹ ${formatNumber(totalComm)}`);
+                $(insTotalId).text(`₹ ${formatNumber(totalIns)}`);
+                $(grandTotalId).text(`₹ ${formatNumber(totalComm + totalIns)}`);
+            }
         </script>
     </body>
 </html>
