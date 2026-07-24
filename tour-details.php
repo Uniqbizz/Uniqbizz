@@ -535,55 +535,72 @@ if($user_type_id_value == '11'){
                                                 <h5 class="fw-bolder ">Itinerary</h5>
                                                 <div class="tour-details-content">
                                                     <div class="destination-accordion mt-2">
-                                                        <div class="accordion" id="accordionPanelsStayOpenExample">
+                                                        <div class="accordion" id="accordionItinerary">
                                                             <?php
-                                                            // package_trip_days 
+                                                            $count = 1;
+
                                                             $data4 = $conn->prepare("SELECT * FROM package_trip_days WHERE package_id = $id");
                                                             $data4->execute();
                                                             $data4->setFetchMode(PDO::FETCH_ASSOC);
 
                                                             if ($data4->rowCount() > 0) {
-                                                                foreach (($data4->fetchAll()) as $key_3 => $day) {
+                                                                foreach ($data4->fetchAll() as $key_3 => $day) {
+
                                                                     $decription = $day['day_details'];
                                                                     $decription_1 = explode(".", $decription);
                                                                     $decription_2 = implode(".<br>", $decription_1);
-                                                                    echo '<div class="accordion-item">
-                                                                            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                                                                <button class="accordion-button" type="button"
+                                                            ?>
+                                                                    <div class="accordion-item">
+                                                                        <h2 class="accordion-header" id="panelsStayOpen-heading<?= $count; ?>">
+                                                                            <button class="accordion-button <?= ($count != 1) ? 'collapsed' : ''; ?>"
+                                                                                    type="button"
                                                                                     data-bs-toggle="collapse"
-                                                                                    data-bs-target="#panelsStayOpen-collapseOne"
-                                                                                    aria-expanded="true"
-                                                                                    aria-controls="panelsStayOpen-collapseOne">
-                                                                                    Day ' . ++$key_3 . ' - ' . $day['title'] . '
-                                                                                </button>
-                                                                            </h2>
-                                                                            <div id="panelsStayOpen-collapseOne"
-                                                                                class="accordion-collapse collapse show"
-                                                                                aria-labelledby="panelsStayOpen-headingOne">
-                                                                                <div class="accordion-body">
-                                                                                    <ul class="listing">
-                                                                                        <li class="list">
-                                                                                            ' . $decription_2 . '
-                                                                                        </li>
-                                                                                    </ul>
-                                                                                    <hr class="my-3" style="border-top: 1px solid #4b5051" />
-                                                                                    <div>
-                                                                                        <div class="gap-1 d-flex">
-                                                                                            <h6 class="fw-bold">Meal:&nbsp;</h6>
-                                                                                            <p class="text-muted fontSize3">' . $day['meal_plan'] . '</p>
-                                                                                        </div>
-                                                                                        <div class="gap-1 d-flex">
-                                                                                            <h6 class="fw-bold">Transport:&nbsp;</h6>
-                                                                                            <p class="text-muted fontSize3">' . $day['day_tansport'] . '</p>
-                                                                                        </div>
-                                                                                        <div class="gap-1 d-flex">
-                                                                                            <h6 class="fw-bold">Stay:&nbsp;</h6>
-                                                                                            <p class="text-muted fontSize3">' . $day['day_tansport'] . '</p>
-                                                                                        </div>
+                                                                                    data-bs-target="#panelsStayOpen-collapse<?= $count; ?>"
+                                                                                    aria-expanded="<?= ($count == 1) ? 'true' : 'false'; ?>"
+                                                                                    aria-controls="panelsStayOpen-collapse<?= $count; ?>">
+
+                                                                                Day <?= $key_3 + 1; ?> - <?= $day['title']; ?>
+
+                                                                            </button>
+                                                                        </h2>
+
+                                                                        <div id="panelsStayOpen-collapse<?= $count; ?>"
+                                                                            class="accordion-collapse collapse <?= ($count == 1) ? 'show' : ''; ?>"
+                                                                            aria-labelledby="panelsStayOpen-heading<?= $count; ?>"
+                                                                            data-bs-parent="#accordionItinerary">
+
+                                                                            <div class="accordion-body">
+
+                                                                                <ul class="listing">
+                                                                                    <li class="list">
+                                                                                        <?= $decription_2; ?>
+                                                                                    </li>
+                                                                                </ul>
+
+                                                                                <hr class="my-3" style="border-top:1px solid #4b5051;">
+
+                                                                                <div>
+                                                                                    <div class="gap-1 d-flex">
+                                                                                        <h6 class="fw-bold">Meal:&nbsp;</h6>
+                                                                                        <p class="text-muted fontSize3"><?= $day['meal_plan']; ?></p>
+                                                                                    </div>
+
+                                                                                    <div class="gap-1 d-flex">
+                                                                                        <h6 class="fw-bold">Transport:&nbsp;</h6>
+                                                                                        <p class="text-muted fontSize3"><?= $day['day_tansport']; ?></p>
+                                                                                    </div>
+
+                                                                                    <div class="gap-1 d-flex">
+                                                                                        <h6 class="fw-bold">Stay:&nbsp;</h6>
+                                                                                        <p class="text-muted fontSize3"><?= $day['day_tansport']; ?></p>
                                                                                     </div>
                                                                                 </div>
+
                                                                             </div>
-                                                                        </div>';
+                                                                        </div>
+                                                                    </div>
+                                                            <?php
+                                                                    $count++;
                                                                 }
                                                             }
                                                             ?>
