@@ -353,6 +353,9 @@ html {
     position: fixed;
     z-index: 998;
 }
+.cardBackgroundColor {
+    background-color: #f8fafb;
+}
 .fontSize2 {
     font-size: 13px;
 }
@@ -362,6 +365,23 @@ html {
     width: fit-content;
     padding: 10px;
     border-radius: 8px;
+}
+.highlightIcon {
+    background-color: #fbe4e4;
+    width: 35px !important;
+    height: 35px !important;
+    padding: 5px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.highlightIcon i {
+    color: #e03d42;
+    font-size: 20px;
+}
+.fontSize3 {
+    font-size: 15px;
 }
 @media (max-width: 1199px) {
     .image-width {

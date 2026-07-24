@@ -189,7 +189,7 @@ if($user_type_id_value == '11'){
         <!-- Bootstrap -->
         <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-5.3.0.min.css">
         <!-- Fonts & icon -->
-        <link rel="stylesheet" type="text/css" href="assets/css/remixicon.css">
+        <!-- <link rel="stylesheet" type="text/css" href="assets/css/remixicon.css"> -->
         <!-- Plugin -->
         <link rel="stylesheet" type="text/css" href="assets/css/plugin.css">
         <!-- Main CSS -->
@@ -200,6 +200,7 @@ if($user_type_id_value == '11'){
         <!-- <link rel="stylesheet" type="text/css" href="assets/css/rtl.css"> -->
         <!-- Swiper -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
     
     <body>
@@ -487,9 +488,9 @@ if($user_type_id_value == '11'){
                                     </div>
                                     <div class="content-sections">
                                         <div id="overview" class="section-block">
-                                            <div class="card rounded-3 p-3 mb-3">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 mb-3">
                                                 <h5 class="fw-bolder ">Overview</h5>
-                                                <p class="text-muted fw-bold fontSize2">
+                                                <p class="text-muted fw-bold fontSize2 mt-2">
                                                     Experience the best of Thailand with pristine beaches, vibrant nightlife, iconic temples, thrilling water
                                                     activities and world-class shopping. A perfect holiday for families, couples and groups.
                                                 </p>
@@ -507,8 +508,27 @@ if($user_type_id_value == '11'){
                                             </div>
                                         </div>
                                         <div id="highlights" class="section-block">
-                                            <h4>Highlights</h4>
-                                            Pandurang
+                                            <div class="card cardBackgroundColor rounded-3 p-3 mb-3">
+                                                <h5 class="fw-bolder ">Highlights</h5>
+                                                <div class="d-flex gap-3 mt-2">
+                                                    <div class="highlightIcon">
+                                                        <i class="ri-arrow-right-up-box-line"></i>
+                                                    </div>
+                                                    <p class="text-muted fontSize3 align-content-center">Exclusive merchandise available at each show</p>
+                                                </div>
+                                                <div class="d-flex gap-3 mt-2">
+                                                    <div class="highlightIcon">
+                                                        <i class="ri-arrow-right-up-box-line"></i>
+                                                    </div>
+                                                    <p class="text-muted fontSize3 align-content-center">VIP Packages with meet-and-greet options</p>
+                                                </div>
+                                                <div class="d-flex gap-3 mt-2">
+                                                    <div class="highlightIcon">
+                                                        <i class="ri-arrow-right-up-box-line"></i>
+                                                    </div>
+                                                    <p class="text-muted fontSize3 align-content-center">Special acoustic set in select cities</p>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div id="itinerary" class="section-block">
                                             <h4>Itinerary</h4>
