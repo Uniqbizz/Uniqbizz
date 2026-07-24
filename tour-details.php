@@ -488,7 +488,7 @@ if($user_type_id_value == '11'){
                                     </div>
                                     <div class="content-sections">
                                         <div id="overview" class="section-block">
-                                            <div class="card cardBackgroundColor rounded-3 p-3 mb-3">
+                                            <div class="card cardBackgroundColor rounded-3 p-3">
                                                 <h5 class="fw-bolder ">Overview</h5>
                                                 <p class="text-muted fw-bold fontSize2 mt-2">
                                                     Experience the best of Thailand with pristine beaches, vibrant nightlife, iconic temples, thrilling water
@@ -508,7 +508,7 @@ if($user_type_id_value == '11'){
                                             </div>
                                         </div>
                                         <div id="highlights" class="section-block">
-                                            <div class="card cardBackgroundColor rounded-3 p-3 mb-3">
+                                            <div class="card cardBackgroundColor rounded-3 p-3">
                                                 <h5 class="fw-bolder ">Highlights</h5>
                                                 <div class="d-flex gap-3 mt-2">
                                                     <div class="highlightIcon">
@@ -531,8 +531,66 @@ if($user_type_id_value == '11'){
                                             </div>
                                         </div>
                                         <div id="itinerary" class="section-block">
-                                            <h4>Itinerary</h4>
-                                            Savio
+                                            <div class="card cardBackgroundColor rounded-3 p-3 pb-0">
+                                                <h5 class="fw-bolder ">Itinerary</h5>
+                                                <div class="tour-details-content">
+                                                    <div class="destination-accordion mt-2">
+                                                        <div class="accordion" id="accordionPanelsStayOpenExample">
+                                                            <?php
+                                                            // package_trip_days 
+                                                            $data4 = $conn->prepare("SELECT * FROM package_trip_days WHERE package_id = $id");
+                                                            $data4->execute();
+                                                            $data4->setFetchMode(PDO::FETCH_ASSOC);
+
+                                                            if ($data4->rowCount() > 0) {
+                                                                foreach (($data4->fetchAll()) as $key_3 => $day) {
+                                                                    $decription = $day['day_details'];
+                                                                    $decription_1 = explode(".", $decription);
+                                                                    $decription_2 = implode(".<br>", $decription_1);
+                                                                    echo '<div class="accordion-item">
+                                                                            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                                                                <button class="accordion-button" type="button"
+                                                                                    data-bs-toggle="collapse"
+                                                                                    data-bs-target="#panelsStayOpen-collapseOne"
+                                                                                    aria-expanded="true"
+                                                                                    aria-controls="panelsStayOpen-collapseOne">
+                                                                                    Day ' . ++$key_3 . ' - ' . $day['title'] . '
+                                                                                </button>
+                                                                            </h2>
+                                                                            <div id="panelsStayOpen-collapseOne"
+                                                                                class="accordion-collapse collapse show"
+                                                                                aria-labelledby="panelsStayOpen-headingOne">
+                                                                                <div class="accordion-body">
+                                                                                    <ul class="listing">
+                                                                                        <li class="list">
+                                                                                            ' . $decription_2 . '
+                                                                                        </li>
+                                                                                    </ul>
+                                                                                    <hr class="my-3" style="border-top: 1px solid #4b5051" />
+                                                                                    <div>
+                                                                                        <div class="gap-1 d-flex">
+                                                                                            <h6 class="fw-bold">Meal:&nbsp;</h6>
+                                                                                            <p class="text-muted fontSize3">' . $day['meal_plan'] . '</p>
+                                                                                        </div>
+                                                                                        <div class="gap-1 d-flex">
+                                                                                            <h6 class="fw-bold">Transport:&nbsp;</h6>
+                                                                                            <p class="text-muted fontSize3">' . $day['day_tansport'] . '</p>
+                                                                                        </div>
+                                                                                        <div class="gap-1 d-flex">
+                                                                                            <h6 class="fw-bold">Stay:&nbsp;</h6>
+                                                                                            <p class="text-muted fontSize3">' . $day['day_tansport'] . '</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>';
+                                                                }
+                                                            }
+                                                            ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div id="inclusion" class="section-block">
                                             <h4>Inclusion</h4>
@@ -768,59 +826,59 @@ if($user_type_id_value == '11'){
                                         <!-- / Tour Include Exclude -->
 
                                         <!-- Tour Plan accordion-->
-                                        <div class="tour-details-content mb-30">
+                                        <!-- <div class="tour-details-content mb-30">
                                             <h4 class="title">Tour Plan</h4>
                                             <div class="destination-accordion">
                                                 <div class="accordion" id="accordionPanelsStayOpenExample">
                                                     <?php
                                                     // package_trip_days 
-                                                    $data4 = $conn->prepare("SELECT * FROM package_trip_days WHERE package_id = $id");
-                                                    $data4->execute();
-                                                    $data4->setFetchMode(PDO::FETCH_ASSOC);
+                                                    // $data4 = $conn->prepare("SELECT * FROM package_trip_days WHERE package_id = $id");
+                                                    // $data4->execute();
+                                                    // $data4->setFetchMode(PDO::FETCH_ASSOC);
 
-                                                    if ($data4->rowCount() > 0) {
-                                                        foreach (($data4->fetchAll()) as $key_3 => $day) {
-                                                            $decription = $day['day_details'];
-                                                            $decription_1 = explode(".", $decription);
-                                                            $decription_2 = implode(".<br>", $decription_1);
-                                                            echo '<div class="accordion-item">
-                                                                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                                                        <button class="accordion-button" type="button"
-                                                                            data-bs-toggle="collapse"
-                                                                            data-bs-target="#panelsStayOpen-collapseOne"
-                                                                            aria-expanded="true"
-                                                                            aria-controls="panelsStayOpen-collapseOne">
-                                                                            Day ' . ++$key_3 . ' - ' . $day['title'] . '
-                                                                        </button>
-                                                                    </h2>
-                                                                    <div id="panelsStayOpen-collapseOne"
-                                                                        class="accordion-collapse collapse show"
-                                                                        aria-labelledby="panelsStayOpen-headingOne">
-                                                                        <div class="accordion-body">
-                                                                            <ul class="listing">
-                                                                                <li class="list">
-                                                                                    ' . $decription_2 . '
-                                                                                </li>
-                                                                            </ul>
-                                                                            <hr style="border-top: 1px solid #4b5051" />
-                                                                            <div class="row">
-                                                                                <div class="col-md-6 col-sm-12 col-12 d-flex">
-                                                                                    <h6>Meal:&nbsp;</h6>
-                                                                                    <p>' . $day['meal_plan'] . '</p>
-                                                                                </div>
-                                                                                <div class="col-md-6 col-sm-12 col-12 d-flex">
-                                                                                    <h6>Transport:&nbsp;</h6>
-                                                                                    <p>' . $day['day_tansport'] . '</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>';
-                                                        }
-                                                    }
+                                                    // if ($data4->rowCount() > 0) {
+                                                    //     foreach (($data4->fetchAll()) as $key_3 => $day) {
+                                                    //         $decription = $day['day_details'];
+                                                    //         $decription_1 = explode(".", $decription);
+                                                    //         $decription_2 = implode(".<br>", $decription_1);
+                                                    //         echo '<div class="accordion-item">
+                                                    //                 <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                                    //                     <button class="accordion-button" type="button"
+                                                    //                         data-bs-toggle="collapse"
+                                                    //                         data-bs-target="#panelsStayOpen-collapseOne"
+                                                    //                         aria-expanded="true"
+                                                    //                         aria-controls="panelsStayOpen-collapseOne">
+                                                    //                         Day ' . ++$key_3 . ' - ' . $day['title'] . '
+                                                    //                     </button>
+                                                    //                 </h2>
+                                                    //                 <div id="panelsStayOpen-collapseOne"
+                                                    //                     class="accordion-collapse collapse show"
+                                                    //                     aria-labelledby="panelsStayOpen-headingOne">
+                                                    //                     <div class="accordion-body">
+                                                    //                         <ul class="listing">
+                                                    //                             <li class="list">
+                                                    //                                 ' . $decription_2 . '
+                                                    //                             </li>
+                                                    //                         </ul>
+                                                    //                         <hr style="border-top: 1px solid #4b5051" />
+                                                    //                         <div class="row">
+                                                    //                             <div class="col-md-6 col-sm-12 col-12 d-flex">
+                                                    //                                 <h6>Meal:&nbsp;</h6>
+                                                    //                                 <p>' . $day['meal_plan'] . '</p>
+                                                    //                             </div>
+                                                    //                             <div class="col-md-6 col-sm-12 col-12 d-flex">
+                                                    //                                 <h6>Transport:&nbsp;</h6>
+                                                    //                                 <p>' . $day['day_tansport'] . '</p>
+                                                    //                             </div>
+                                                    //                         </div>
+                                                    //                     </div>
+                                                    //                 </div>
+                                                    //             </div>';
+                                                    //     }
+                                                    // }
                                                     ?>
 
-                                                    <!-- <div class="accordion-item">
+                                                    <div class="accordion-item">
                                                         <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
                                                             <button class="accordion-button collapsed" type="button"
                                                                 data-bs-toggle="collapse"
@@ -874,11 +932,11 @@ if($user_type_id_value == '11'){
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div> -->
+                                                    </div>
 
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
 
                                         <div class="tour-include-exclude radius-6">
                                             <div class="row">
