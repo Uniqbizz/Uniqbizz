@@ -1,6 +1,5 @@
-var payoutData1 = '';
 //for current and future dates only
-document.getElementById("pac_validity").min = new Date().toISOString().split("T")[0];
+document.getElementById("pacValidity").min = new Date().toISOString().split("T")[0];
 //to accept only alpha numerics 
 function allowedCharset(inputId) {
     const input = document.getElementById(inputId);
@@ -32,19 +31,6 @@ function allowedCharset(inputId) {
 allowedCharset("pacLocation");
 //language_type
 allowedCharset("language_type");
-
-$.ajax({
-    url: 'forms/payout_data.php', // fixed file name
-    type: 'GET',            // GET is fine since we’re not sending sensitive data
-    dataType: 'json',       // expecting JSON from PHP
-    success: function(response) {
-        payoutData1 = response;
-        // console.log('Payout Data1:', payoutData1);
-    },
-    error: function(xhr, status, error) {
-        console.error('AJAX Error:', error);
-    }
-});
 
 $.ajax({
     url: "forms/get_institution_slab.php",
@@ -90,10 +76,10 @@ $.ajax({
 
 // fetch sub category
 function getSubCategories() {
-	document.getElementById("sub_category_id").style.display = "block";
-	document.getElementById("sub_category_data").style.display = "none";
+	document.getElementById("subCategoryId").style.display = "block";
+	document.getElementById("subCategoryData").style.display = "none";
 
-	var cat_id = document.getElementById('category_id').value;
+	var cat_id = document.getElementById('categoryId').value;
 	// console.log('categoruy selected = ' +cat_id);
 
 	$.ajax({
@@ -102,146 +88,23 @@ function getSubCategories() {
 		data: 'cat_id=' + cat_id,
 		success: function (e) {
 			// console.log(e);
-			$('#sub_category_id').html(e);
+			$('#subCategoryId').html(e);
 		},
 		error: function (err) {
 			console.log(err);
 		},
 	});
 
-	getSubCategory();
 }
 
 
-var club_class_display = document.getElementById('club_class_display');
-var stag_id = document.getElementById('stag_id');
-var couple_id = document.getElementById('couple_id');
-var family_id = document.getElementById('family_id');
-
-var stag_id_field = document.getElementById('stag_id_field');
-var couple_id_field = document.getElementById('couple_id_field');
-var family_id_field = document.getElementById('family_id_field');
-
-// get extra club data
-function getSubCategory() {
-	packageTypeValue = '';			// set package type null
-	$('input:radio[name=package_type]').val(['']);
-
-	getClubData();
-}
-function getClubData() {
-	var cat_id = document.getElementById('category_id').value;
-	var selected_cat_id = document.getElementById("selected_cat_id");
-	if (cat_id) { } else {
-		cat_id = selected_cat_id.value;
-	}
-	var sub_cat_id = document.getElementById('sub_category_id').value;
-	var selected_sub_cat_id = document.getElementById("sub_category_data");
-	if (sub_cat_id) { } else {
-		sub_cat_id = selected_sub_cat_id.value;
-	}
-	// console.log(cat_id+ ' cat_id ,sub_cat_id '+sub_cat_id);
-
-	// club
-	if (cat_id == 1 && sub_cat_id == 1) {
-		//  International
-		club_class_display.style.display = "block";
-		couple_id_field.style.display = "inline";
-		family_id_field.style.display = "inline";
-		stag_id_field.style.display = "none";
-	} else if (cat_id == 2 && sub_cat_id == 4) {
-		//  Domestic
-		club_class_display.style.display = "block";
-		couple_id_field.style.display = "inline";
-		family_id_field.style.display = "inline";
-		stag_id_field.style.display = "none";
-
-		// Individual
-	} else if (cat_id == 1 && sub_cat_id == 2) {
-		//  International
-		club_class_display.style.display = "none";
-		$("#club_id").val('0');
-		stag_id_field.style.display = "inline";
-		couple_id_field.style.display = "none";
-		family_id_field.style.display = "inline";
-	} else if (cat_id == 2 && sub_cat_id == 5) {
-		//  Domestic
-		club_class_display.style.display = "none";
-		$("#club_id").val('0');
-		stag_id_field.style.display = "inline";
-		couple_id_field.style.display = "none";
-		family_id_field.style.display = "inline";
-
-		// Group
-	} else if (cat_id == 1 && sub_cat_id == 3) {
-		//  Domestic & club
-		club_class_display.style.display = "none";
-		$("#club_id").val('0');
-		stag_id_field.style.display = "inline";
-		couple_id_field.style.display = "inline";
-		family_id_field.style.display = "none";
-	} else if (cat_id == 2 && sub_cat_id == 8) {
-		//  Domestic & club
-		club_class_display.style.display = "none";
-		$("#club_id").val('0');
-		stag_id_field.style.display = "inline";
-		couple_id_field.style.display = "inline";
-		family_id_field.style.display = "none";
-	} else {
-		club_class_display.style.display = "none";
-		$("#club_id").val('0');
-		stag_id_field.style.display = "inline";
-		couple_id_field.style.display = "inline";
-		family_id_field.style.display = "inline";
-	}
-}
-
-
-//  validate data
-var isValid_a1 = false, isValid_a2 = false;
-var isValid_b1 = false, isValid_b2 = false, isValid_b3 = false;
-var isValid_c1 = false, isValid_c2 = false, isValid_c3 = false, isValid_c4 = false, isValid_c5 = false, isValid_c6 = false;
-var isValid_d1 = false, isValid_d2 = false;
-var regexExp = /[^a-zA-Z0-9 ]/;		// letters, number, space
-var regexExp_alphanumeric = /[^a-zA-Z0-9]/;		// letters, number
-var regexExp_numeric = /[^0-9]/;			// number
-var total_mark_up=0;
-let mark_up_title = newmark_up_title = coupon_title = newcoupon_title = insmark_up_title = inscoupon_title = 0;
-function getMarkupValues() {
-
-    let text = $('#mark_up_title').text();
-    let text2 = $('#new_mark_up_title').text();
-    let text3 = $('#cup_title').text();
-    let text4 = $('#newcup_title').text();
-	let text5 = $('#ins_mark_up_title').text();
-	let text6 = $('#inscup_title').text();
-
-    mark_up_title = parseFloat(text.match(/[\d.]+/)?.[0]) || 0;
-    newmark_up_title = parseFloat(text2.match(/[\d.]+/)?.[0]) || 0;
-    coupon_title = parseFloat(text3.match(/[\d.]+/)?.[0]) || 0;
-    newcoupon_title = parseFloat(text4.match(/[\d.]+/)?.[0]) || 0;
-    insmark_up_title = parseFloat(text3.match(/[\d.]+/)?.[0]) || 0;
-    inscoupon_title = parseFloat(text4.match(/[\d.]+/)?.[0]) || 0;
-
-	//equate the old markup with new on change
-	insmark_up_title = newmark_up_title = mark_up_title 
-
-    console.log({
-        mark_up_title,
-        newmark_up_title,
-		insmark_up_title,
-        coupon_title,
-        newcoupon_title,
-		inscoupon_title
-    });
-}
-
-
-// observe text changes in spans/divs/labels
 const observer = new MutationObserver(function (mutations) {
-    getMarkupValues();
+    mutations.forEach(function (mutation) {
+        console.log("Changed:", mutation.target.textContent);
+        
+        // Your logic here
+    });
 });
-
 
 // target elements
 [
@@ -263,122 +126,6 @@ const observer = new MutationObserver(function (mutations) {
         });
     }
 });
-
-
-// initial load
-getMarkupValues();
-
-// form 1
-$('#name').on('keyup', function () {
-	var nameID = document.getElementById("name");
-	isValid_a1 = validateInput(
-		regexExp,
-		nameID,
-		"Please enter valid Name !!"
-	);
-	// if (isValid_a1) {
-	// check if the name does exist
-	// validateIdenticalRecord('name', nameID, "Package Name is already been used !!");
-	// }
-});
-$('#unique_code').on('keyup', function () {
-	var codeID = document.getElementById("unique_code");
-
-	isValid_a2 = validateInput(
-		regexExp_alphanumeric,
-		codeID,
-		"Special characters are not allowed !!"
-	);
-	if (isValid_a2) {
-		// check if the code does exist
-		validateIdenticalRecord('unique_code', codeID, "This Code is already been used !!");
-	}
-});
-
-
-// form 2
-// 	$('#location').on('keyup', function(){
-// 		isValid_b1 = validateInput(
-// 						regexExp, 
-// 						document.getElementById("location"), 
-// 						"Special characters are not allowed !!"
-// 					);
-// 	});
-$('#travel_from').on('keyup', function () {
-	isValid_b2 = validateInput(
-		regexExp,
-		document.getElementById("travel_from"),
-		"Special characters are not allowed !!"
-	);
-});
-$('#travel_to').on('keyup', function () {
-	isValid_b3 = validateInput(
-		regexExp,
-		document.getElementById("travel_to"),
-		"Special characters are not allowed !!"
-	);
-});
-
-// form 4
-$('#netPriceAdult').on('keyup', function () {
-	isValid_c1 = validateInput(
-		regexExp_numeric,
-		document.getElementById("netPriceAdult"),
-		"Invalid Price for Adult!! "
-	);
-});
-$('#netPriceChild').on('keyup', function () {
-	isValid_c2 = validateInput(
-		regexExp_numeric,
-		document.getElementById("netPriceChild"),
-		"Invalid Price for Child !! "
-	);
-});
-$('#nGst').on('keyup', function () {
-	isValid_c3 = validateInput(
-		regexExp_numeric,
-		document.getElementById("nGst"),
-		"Invalid value for Net GST !! "
-	);
-});
-$('#mpGst').on('keyup', function () {
-	isValid_c4 = validateInput(
-		regexExp_numeric,
-		document.getElementById("markup"),
-		"Invalid Markup Price!! "
-	);
-});
-$('#mpGst').on('keyup', function () {
-	isValid_c5 = validateInput(
-		regexExp_numeric,
-		document.getElementById("markup_loading_price"),
-		"Invalid Markup Loading Price !! "
-	);
-});
-$('#mpGst').on('keyup', function () {
-	isValid_c6 = validateInput(
-		regexExp_numeric,
-		document.getElementById("mpGst"),
-		"Invalid value for Makup GST !! "
-	);
-});
-
-
-var packageTypeValue = '';
-function packageTypeOnClick(data) {
-	packageTypeValue = data.value;
-	if (packageTypeValue == "couple") {
-		document.getElementById("netPriceChildData").style.display = "none";
-		document.getElementById("totalNetPriceChildData").style.display = "none";
-		document.getElementById("net_gst_title").innerText = "Net GST (%) for Adult :";
-		document.getElementById('netPriceChild').value = 0;
-		getNetPrice();
-	} else {
-		document.getElementById("netPriceChildData").style.display = "block";
-		document.getElementById("totalNetPriceChildData").style.display = "block";
-		document.getElementById("net_gst_title").innerText = "Net GST (%) for Adult & Child :";
-	}
-}
 
 // add days function
 var wrapper = $(".input_fields_wrap"); 		// Fields wrapper
@@ -474,235 +221,17 @@ $(document).ready(function () {
 		});
 	}
 });
+$(document).on('input change', '.title, .description, .meals, .transport', function() {
+    $(this).removeClass('border-danger');
+    $(this).closest('.input-group').next('.error-message').remove();
+});
 
-// All functions
-function generalformHide(d) {
-	packageFormGeneralTitle.style.display = d;
-	packageFormGeneral.style.display = d;
-}
-function extraformHide(d) {
-	packageFormExtraTitle.style.display = d;
-	packageFormExtra.style.display = d;
-}
-function itineraryformHide(d) {
-	packageFormItineraryTitle.style.display = d;
-	packageFormItinerary.style.display = d;
-}
-function pricingformHide(d) {
-	packageFormPricingTitle.style.display = d;
-
-	packageFormPricing.style.display = d;
-}
-function pictureformHide(d) {
-	packageFormPictureTitle.style.display = d;
-	packageFormPicture.style.display = d;
-}
-// form peginations
-function showGeneralForm(e) {
-	e.preventDefault();
-	generalformHide("block");
-	extraformHide("none");
-	general_page.style.display = "none";
-	view_page.style.display = "block";
-}
-function generalFormNext(e) {
-	e.preventDefault();
-
-	var category_id = $("#category_id").val();
-	var sub_category_id = $("#sub_category_id").val();
-	var selected_sub_cat_id = document.getElementById("sub_category_data");
-	if (sub_category_id) { } else {
-		sub_category_id = selected_sub_cat_id.value;
-	}
-	var club_id = $("#club_id").val();
-	var name = $("#name").val();
-	var unique_code = $("#unique_code").val();
-	let pac_validity = $('#pac_validity').val();
-	let tour_days = $('#tour_days').val();
-	var description = $("#description").val();
-
-	if (category_id == "" || sub_category_id == "" || name == "" || unique_code == "" || description == "" || pac_validity == "" || tour_days == "") {
-		if (category_id == "") {
-			alert("Please Select Category !");
-		} else if (sub_category_id == "") {
-			alert("Please Select Sub-categoy !");
-		} else if (name == "") {
-			alert("Please Enter name !");
-		} else if (unique_code == "") {
-			alert("Please Enter Unique Code !");
-		} else if (pac_validity == "") {
-			alert("Please Select the Package Validity !");
-		} else if (tour_days == "") {
-			alert("Please Enter Tours No of Days !");
-		} else if (description == "") {
-			alert("Description cannot be empty !");
-		}
-	} else if (sub_category_id == 1 && club_id == "0") {
-		alert("Please Select Club-categoy !");
-	} else if (sub_category_id == 4 && club_id == "0") {
-		alert("Please Select Club-categoy !");
-	} else if (packageTypeValue == "") {
-		alert("Please Select Package Type !");
-	} else if (isValid_a1 == false) {
-		alert("Please enter valid Name !");
-	} else if (isValid_a2 == false) {
-		alert("Please enter valid Unique Code !");
-	} else {
-		// console.log('General Form Clicked');
-		generalformHide("none");
-		extraformHide("block");
-		itineraryformHide("none");
-		view_page.style.display = "none";
-		general_page.style.display = "block";
-		extraInfo_page.style.display = "none";
-	}
-}
-function extraFormNext(e) {
-	e.preventDefault();
-
-	var destination = $("#destination").val();
-	var location = $("#location").val();
-	var travel_from = $("#travel_from").val();
-	var travel_to = $("#travel_to").val();
-	var sightseeing_type = $("#sightseeing_type").val();
-	if (destination == "" || location == "" || travel_from == "" || travel_to == "" || sightseeing_type == "") {
-		if (destination == "") {
-			alert("Please enter Destination !");
-		} else if (location == "") {
-			alert("Please Enter Location !");
-		} else if (travel_from == "") {
-			alert("Please Enter starting point of travelling !");
-		} else if (travel_to == "") {
-			alert("Please Enter Travelling To !");
-		} else if (sightseeing_type == "") {
-			alert("Sightseeing cannot be empty !");
-		}
-		// } else if( isValid_b1 == false ) {
-		// 	alert("Please enter valid Location Type !");
-	} else if (isValid_b2 == false) {
-		alert("Please enter valid Data !");
-	} else if (isValid_b3 == false) {
-		alert("Please enter valid Data !");
-	} else {
-		// console.log('Extra Form Clicked');
-		extraformHide("none");
-		itineraryformHide("block");
-		pricingformHide("none");
-		extraInfo_page.style.display = "block";
-		general_page.style.display = "none";
-		itinerary_page.style.display = "none";
-	}
-}
-function itineraryFormNext(e) {
-	e.preventDefault();
-
-	var inclusion = $("#inclusion").val();
-	var exclusion = $("#exclusion").val();
-
-	if (inclusion == "" || exclusion == "") {
-		if (inclusion == "") {
-			alert("Please enter inclusion !");
-		} else if (exclusion == "") {
-			alert("Please Enter exclusion !");
-		}
-	} else {
-		// console.log('Itinerary Form Clicked');
-		itineraryformHide("none");
-		pricingformHide("block");
-		pictureformHide("none");
-		extraInfo_page.style.display = "none";
-		itinerary_page.style.display = "block";
-		pricing_page.style.display = "none";
-	}
-}
-function pricingFormNext(e) {
-	e.preventDefault();
-	
-	var netPriceAdult = $("#netPriceAdult").val();
-	var netPriceChild = $("#netPriceChild").val();
-	var nGst = $("#nGst").val();
-	var ta = $("#mp_ca_ta").val();
-	var company = $('#mp_company').val();
-	var cus = $('#mp_customer').val();
-	var L1_customer_share=$('#l1_cust_comm').val();
-	//new markup variables dded on 09 may 2026 by SV
-	var newta = $("#new_mp_ca_ta").val();
-	var newcus = $('#mp_customer').val();
-	var newL1_customer_share=$('#new_l1_cust_comm').val();
-	// ins markup validation add on 12-05-2026 by SV
-	var ins_mp_ca_ta = $("#ins_mp_ca_ta").val();
-	var inscus = $('#ins_mp_customer').val();
-	var insL1_customer_share=$('#ins_l1_cust_comm').val();
-	//--------------
-	var policy_1 = $('#can_per_1').val(), policy_2 = $('#can_per_2').val(), policy_3 = $('#can_per_3').val();
-	var add_adult_p=$('#add_adult_price').val();
-	//commented on 25 jan 2025 by sv
-	// var markup = $("#markup").val();
-	// var mpGst = $("#mpGst").val();
-	// var markup_loading_price = $("#markup_loading_price").val();
-	if (netPriceAdult == "" || netPriceChild == "" || nGst == "" || ta == "" 
-		|| company == "" || L1_customer_share=="" || policy_1 == '' || policy_2 == '' || policy_3 == ''
-		|| netPriceAdult == 0 || netPriceChild == 0 || nGst == 0 || ta == 0 || company == 0 
-		|| add_adult_p == '' || add_adult_p == 0 || newta == "" || newta == 0 || newL1_customer_share == "" || newL1_customer_share == 0
-		|| ins_mp_ca_ta == "" || ins_mp_ca_ta == 0 || insL1_customer_share == "" || insL1_customer_share == 0) {
-			
-		if (netPriceAdult == 0) {
-			alert("Please enter Net Price Per Adult !");
-		} else if ((netPriceChild == "" || netPriceChild == 0) && (packageTypeValue == "stag" || packageTypeValue == "family")) {
-			alert("Please enter Net Price Per Child !");
-		} else if (nGst == "" || nGst == 0) {
-			alert("Please Enter GST for Net Price !");
-		}
-		else if (ta == "" || ta == 0) {
-			alert("Please enter Travel Agent value !");
-		}
-		else if (company == "" || company == 0) {
-			alert("Please enter Company value !");
-		} else if (L1_customer_share=="" || L1_customer_share==0) {
-			alert("Please enter L1 Customer value !");
-		} else if (add_adult_p == "" || add_adult_p == 0) {
-			alert("Please enter Additional Adult Price !");
-		} else if (policy_1 == '' || policy_2 == '' || policy_3 == '') {
-			alert("Please fill all cancellation fields");
-		}
-		//new chief techno markup validation add on 09 may 2026 by SV
-		else if (newta == "" || newta == 0) {
-			alert("Please enter chief techno Travel Agent value !");
-		}else if (newL1_customer_share=="" || newL1_customer_share==0) {
-			alert("Please enter chief techno L1 Customer value !");
-		}
-		//new institution markup validation add on 09 may 2026 by SV
-		else if (ins_mp_ca_ta == "" || ins_mp_ca_ta == 0) {
-			alert("Please enter Instituion value !");
-		}else if (insL1_customer_share=="" || insL1_customer_share==0) {
-			alert("Please enter Instituion L1 Customer value !");
-		}
-	} else if (isValid_c1 == false) {
-		alert("Please enter valid Price for Adult ! ");
-	} else if ((isValid_c2 == false) && (packageTypeValue == "stag" || packageTypeValue == "family")) {
-		alert("Please enter valid Price for Child !");
-	} else if (isValid_c3 == false) {
-		alert("Please enter valid Value for Net GST !");
-	}
-
-	else {
-		console.log('Pricing Form Completed');
-		pricingformHide("none");
-		pictureformHide("block");
-
-
-		pricing_page.style.display = "block";
-		itinerary_page.style.display = "none";
-	}
-}
-
-
-
-var netPriceAdult = 0, netPriceChild = 0, netGst, totalNetPriceAdult, totalNetPriceChild, markUpPrice, loadingPrice, markupGst, markupPrice_LoadingPrice;
-var netPriceAdultWithGST = 0, GSTofNetPriceAdult = 0, netPriceChildWithGST = 0, GSTofNetPriceChild = 0;
-var netTotal, markupTotal, GSTofNetTotal, GSTofMarkUpTotal, finalPriceWithGST = 0, finalNetPriceWithGST = 0, finalMarkupPriceWithGST = 0, Product_PriceTotal, GST_PriceTotal, ca_mark_up = 0, ca_mark_up_comm = 0, ca_mark_up_ins = 0, bm_mark_up = 0, bm_mark_up_comm = 0, bm_mark_up_ins = 0, bdm_mark_up = 0, bdm_mark_up_comm = 0, bdm_mark_up_ins = 0, bcm_mark_up = 0, bcm_mark_up_comm = 0
-	, bcm_mark_up_ins = 0
-
+// Clear errors when adding/removing days
+$(document).on('click', '.add_field_button, .remove_field', function() {
+    $('.error-message').remove();
+    $('.border-danger').removeClass('border-danger');
+    $("#days_error").text("");
+});
 //for keeping 2 decimals without rounding added on 25-Jan-2025 by SV
 function truncateToTwoDecimals(num) {
 
@@ -817,8 +346,8 @@ function calculateFinalValues() {
     let childMaxTotal = Math.max(childTotal1, childTotal2, childTotal3, childTotal4);
 
     // Set MRP
-    $("#mrp_per_adult").val(truncateToTwoDecimals(adultMaxTotal));
-    $("#mrp_per_child").val(truncateToTwoDecimals(childMaxTotal));
+    $("#mrpPerAdult").val(truncateToTwoDecimals(adultMaxTotal));
+    $("#mrpPerChild").val(truncateToTwoDecimals(childMaxTotal));
 
     // Suspense values
     $("#cteSuspence").val((truncateToTwoDecimals(adultMaxTotal - adultTotal1)));
@@ -1253,9 +782,6 @@ function formatNumber(value) {
 
 }
 
-
-
-
 // Multiple images preview in browser
 var input_image, images = [], j = 0;
 
@@ -1283,7 +809,913 @@ $(function () {
 		imagesPreview(this, 'div.gallery');
 	});
 });
+//show section
+function showSection(target) {
 
+	// Hide all sections
+	sections.forEach(function (section) {
+		$(section).hide();
+	});
+
+	// Show selected section
+	$(target).show();
+
+	// Update active step
+	$(".step-link").removeClass("active");
+	$(".roundedCircle").removeClass("active");
+
+	$('.step-link[href="' + target + '"]').addClass("active");
+	$('.step-link[href="' + target + '"] .roundedCircle').addClass("active");
+
+	// Update page title
+	$("#pageTitle").text(pageData[target].title);
+
+	// Update return text
+	$("#pageSubTitle").text(pageData[target].backText);
+
+	// Update back button target
+	$("#dynamicBackBtn").attr("data-target", pageData[target].backLink);
+}
+//validation common functions
+function showFileError(fileId, message) {
+
+    const input = $("#" + fileId);
+
+    input.closest(".upload-card").addClass("error");
+
+    $("#" + fileId + "_error").text(message);
+
+    input.trigger("click"); // Opens file selector
+}
+function clearFileError(fileId) {
+
+    $("#" + fileId)
+        .closest(".upload-card")
+        .removeClass("error");
+}
+function validateDayFields() {
+    let isValid = true;
+    let errorMessages = [];
+    let firstErrorDay = null;
+    
+    // Clear previous error styles
+    $('.field-error-indicator').remove();
+    $('.border-danger').removeClass('border-danger');
+    $('.input-group-text-danger').removeClass('input-group-text-danger');
+    
+    $(".day-container").each(function(index) {
+        const dayNumber = index + 1;
+        const title = $(this).find(".title").val().trim();
+        const description = $(this).find(".description").val().trim();
+        const meals = $(this).find(".meals").val().trim();
+        const transport = $(this).find(".transport").eq(0).val().trim();
+        const stay = $(this).find(".transport").eq(1).val().trim();
+        // Check if icon is uploaded
+        const fileInput = $(this).find('.file-input');
+        const iconUploaded = fileInput.val() !== '';
+        const hiddenIconPath = $(this).find('#img_path1').val();
+        const hasIcon = iconUploaded || (hiddenIconPath && hiddenIconPath !== '');
+        let dayHasError = false;
+        
+        // Validate Title
+        if (!title) {
+            $(this).find(".title").addClass('border-danger');
+            // Add error message after the input group
+            const titleInputGroup = $(this).find(".title").closest('.input-group');
+            if (!titleInputGroup.next('.error-message').length) {
+                titleInputGroup.after(`<div class="error-message text-danger small mt-1">Title is required</div>`);
+            }
+            dayHasError = true;
+        }
+        
+        // Validate Description
+        if (!description) {
+            $(this).find(".description").addClass('border-danger');
+            const descInputGroup = $(this).find(".description").closest('.input-group');
+            if (!descInputGroup.next('.error-message').length) {
+                descInputGroup.after(`<div class="error-message text-danger small mt-1">Description is required</div>`);
+            }
+            dayHasError = true;
+        }
+        
+        // Validate Meals
+        if (!meals) {
+            $(this).find(".meals").addClass('border-danger');
+            const mealsInputGroup = $(this).find(".meals").closest('.input-group');
+            if (!mealsInputGroup.next('.error-message').length) {
+                mealsInputGroup.after(`<div class="error-message text-danger small mt-1">Meals are required</div>`);
+            }
+            dayHasError = true;
+        }
+        
+        // Validate Transport
+        if (!transport) {
+            $(this).find(".transport").eq(0).addClass('border-danger');
+            const transportInputGroup = $(this).find(".transport").eq(0).closest('.input-group');
+            if (!transportInputGroup.next('.error-message').length) {
+                transportInputGroup.after(`<div class="error-message text-danger small mt-1">Transport is required</div>`);
+            }
+            dayHasError = true;
+        }
+        
+        // Validate Stay
+        if (!stay) {
+            $(this).find(".transport").eq(1).addClass('border-danger');
+            const stayInputGroup = $(this).find(".transport").eq(1).closest('.input-group');
+            if (!stayInputGroup.next('.error-message').length) {
+                stayInputGroup.after(`<div class="error-message text-danger small mt-1">Stay is required</div>`);
+            }
+            dayHasError = true;
+        }
+		 // Validate Icon
+        if (!hasIcon) {
+			const uploadCard = $(this).find('.upload-card');
+			uploadCard.addClass('border-danger upload-card-error');
+			
+			// Add error message below the upload card
+			const uploadContent = uploadCard.find('.upload-content');
+			if (!uploadCard.find('.icon-error-message').length) {
+				uploadCard.append(`<div class="icon-error-message text-danger small mt-1 px-2">Icon is required</div>`);
+			}
+		    dayHasError = true;
+        }
+        
+        if (dayHasError) {
+            isValid = false;
+            if (!firstErrorDay) {
+                firstErrorDay = dayNumber;
+            }
+            errorMessages.push(`Day ${dayNumber}: All fields are required`);
+        }
+    });
+    
+    return { isValid, errorMessages, firstErrorDay };
+}
+function showError(fieldId, message) {
+
+    $("#" + fieldId)
+        .addClass("is-invalid")
+        .focus();
+
+    $("#" + fieldId + "_error").text(message);
+}
+
+function clearError(fieldId) {
+
+    $("#" + fieldId)
+        .removeClass("is-invalid");
+
+    $("#" + fieldId + "_error").text("");
+}
+
+function clearAllErrors() {
+
+    $(".form-control, .form-select").removeClass("is-invalid");
+    $(".error-message").text("");
+}
+function showTravelThemeError(message){
+
+    $("#travelTheme_wrapper")
+        .addClass("error")
+        .attr("tabindex","-1")
+        .focus();
+
+    $("#travelTheme_error").text(message);
+}
+
+function clearTravelThemeError(){
+
+    $("#travelTheme_wrapper").removeClass("error");
+
+    $("#travelTheme_error").text("");
+}
+
+$(".travelTheme").on("change",function(){
+
+    clearTravelThemeError();
+
+});
+//cities
+function showHighlightContainerError(message){
+
+    $("#highlightContainer_wrapper")
+        .addClass("error")
+        .attr("tabindex","-1")
+        .focus();
+
+    $("#highlightContainer_error").text(message);
+}
+
+function clearHighlightContainerError(){
+
+    $("#highlightContainer_wrapper").removeClass("error");
+
+    $("#highlightContainer_error").text("");
+}
+
+$(".highlight-tag").on("change",function(){
+
+    clearHighlightContainerError();
+
+});
+//package type
+function showPackageTypeError(message){
+
+    $("#packageType_wrapper")
+        .addClass("error")
+        .attr("tabindex","-1")
+        .focus();
+
+    $("#packageType_error").text(message);
+}
+
+function clearPackageTypeError(){
+
+    $("#packageType_wrapper").removeClass("error");
+
+    $("#packageType_error").text("");
+}
+
+$(".packageType").on("change",function(){
+
+    clearPackageTypeError();
+
+});
+//visa type
+function showVisaTypeError(message){
+
+    $("#visaType_wrapper")
+        .addClass("error")
+        .attr("tabindex","-1")
+        .focus();
+
+    $("#visaType_error").text(message);
+}
+
+function clearVisaTypeError(){
+
+    $("#visaType_wrapper").removeClass("error");
+
+    $("#visaType_error").text("");
+}
+
+$(".visaType").on("change",function(){
+
+    clearVisaTypeError();
+
+});
+//package keywords
+function showPackageKeyWordsError(message){
+
+    $("#packageKeyWords_wrapper")
+        .addClass("error")
+        .attr("tabindex","-1")
+        .focus();
+
+    $("#packageKeyWords_error").text(message);
+}
+
+function clearPackageKeyWordsError(){
+
+    $("#packageKeyWords_wrapper").removeClass("error");
+
+    $("#packageKeyWords_error").text("");
+}
+// Error handling functions for lists
+function showListError(listId, message) {
+    // Remove any existing error message
+    $(`#${listId} .list-error`).remove();
+    
+    // Add error message after the list
+    $(`#${listId}`).after(`<div class="list-error text-danger mt-1">${message}</div>`);
+    
+    // Add error class to the list container
+    $(`#${listId}`).addClass('border border-danger');
+}
+
+function clearListError(listId) {
+    // Remove error message
+    $(`#${listId} .list-error`).remove();
+    
+    // Remove error class
+    $(`#${listId}`).removeClass('border border-danger');
+}
+$(".packageKeyWords").on("change",function(){
+
+    clearPackageKeyWordsError();
+
+});
+//------------------------------------
+let payLoadData={};
+//general information next
+$('#package_form_general_nextBtn').on('click',function (e){
+	e.preventDefault();
+	clearAllErrors();
+    clearTravelThemeError();
+    clearHighlightContainerError();
+    clearPackageTypeError();
+    clearVisaTypeError();
+	let packName=$('#packName').val();
+	let uniqueCode=$('#uniqueCode').val();
+	let categoryId=$('#categoryId').val();
+	let subCategoryId=$('#subCategoryId').val();
+	let travelTheme = $('input[name="travelTheme"]:checked').val();
+	let tourDays=$('#tourDays').val();
+	let pacValidity=$('#pacValidity').val();
+	let season=$('#season').val();
+	let pacLocation=$('#pacLocation').val();
+	let cities = [...document.querySelectorAll(".highlight-tag")].map(tag => tag.dataset.city);
+	let description=$('#description').val();
+	let descriptionDetail=$('#descriptionDetail').val();
+	let packageType = $('input[name="packageType"]:checked').val();
+	let visaType = $('input[name="visaType"]:checked').val();
+	let dropPrice=$('#dropPrice').val();
+
+	//validation
+	// Package Name
+    if (packName === "") {
+        showError("packName", "Please enter Package Name.");
+        return false;
+    }
+
+    // Unique Code
+    if (uniqueCode === "") {
+        showError("uniqueCode", "Please enter Unique Code.");
+        return false;
+    }
+
+    // Category
+    if (categoryId === "" || categoryId == null) {
+        showError("categoryId", "Please select Category.");
+        return false;
+    }
+
+    // Sub Category
+    if (subCategoryId === "" || subCategoryId == null) {
+        showError("subCategoryId", "Please select Sub Category.");
+        return false;
+    }
+
+    // Travel Theme
+    if (!travelTheme) {
+        showTravelThemeError("Please select a Travel Theme.");
+        return false;
+    }
+
+    // Tour Days
+    if (tourDays === "") {
+        showError("tourDays", "Please enter Tour Days.");
+        return false;
+    }
+
+    // Package Validity
+    if (pacValidity === "") {
+        showError("pacValidity", "Please select Package Validity.");
+        return false;
+    }
+
+    // Package Location
+    if (pacLocation === "") {
+        showError("pacLocation", "Please enter Package Location.");
+        return false;
+    }
+
+    // Cities
+    if (cities.length === 0) {
+        showHighlightContainerError("Please add at least one City.");
+        return false;
+    }
+
+    // Description
+    if (description === "") {
+        showError("description", "Please enter Short Description.");
+        return false;
+    }
+
+    // Detailed Description
+    if (descriptionDetail === "") {
+        showError("descriptionDetail", "Please enter Detailed Description.");
+        return false;
+    }
+
+    // Package Type
+    if (!packageType) {
+        showPackageTypeError("Please select Package Type.");
+        return false;
+    }
+
+    // Visa Type
+    if (!visaType) {
+        showVisaTypeError("Please select Visa Type.");
+        return false;
+    }
+
+    // Drop Price
+    if (dropPrice === "") {
+        showError("dropPrice", "Please select a Drop Price.");
+        return false;
+    }
+	payLoadData.general_info = {
+		packName,
+		uniqueCode,
+		categoryId,
+		subCategoryId,
+		travelTheme,
+		tourDays,
+		pacValidity,
+		season,
+		pacLocation,
+		cities,
+		description,
+		descriptionDetail,
+		packageType,
+		visaType,
+		dropPrice
+	};
+
+	showSection("#package_form_extra");
+
+});
+//Extra Informtion
+$('#package_form_extra_nextBtn').on('click', function (e) {
+
+    e.preventDefault();
+
+    clearAllErrors();
+    clearPackageKeyWordsError();
+
+    let destination = $('#destination').val().trim();
+    let travelFrom = $('#travelFrom').val().trim();
+    let travelTo = $('#travelTo').val().trim();
+    let sightseeingType = $('#sightseeingType').val().trim();
+    let categoryHotelId = $('#categoryHotelId').val();
+    let occupancyId = $('#occupancyId').val();
+    let categoryMealId = $('#categoryMealId').val();
+    let vehicleId = $('#vehicleId').val();
+    let languageType = $('#languageType').val().trim();
+    let packageKeywords = [...document.querySelectorAll(".package-tag")]
+        .map(tag => tag.dataset.packageKey);
+
+    // Validation
+    if (destination === "") {
+        showError("destination", "Please enter Destination.");
+        return false;
+    }
+
+    if (travelFrom === "") {
+        showError("travelFrom", "Please enter Pick Up Point.");
+        return false;
+    }
+
+    if (travelTo === "") {
+        showError("travelTo", "Please enter Drop Point.");
+        return false;
+    }
+
+    if (sightseeingType === "") {
+        showError("sightseeingType", "Please enter Sightseeing Type.");
+        return false;
+    }
+
+    if (categoryHotelId === "" || categoryHotelId == 0) {
+        showError("categoryHotelId", "Please select Hotel Category.");
+        return false;
+    }
+
+    if (occupancyId === "" || occupancyId == 0) {
+        showError("occupancyId", "Please select Occupancy Category.");
+        return false;
+    }
+
+    if (categoryMealId === "" || categoryMealId == 0) {
+        showError("categoryMealId", "Please select Meal Category.");
+        return false;
+    }
+
+    if (vehicleId === "" || vehicleId == 0) {
+        showError("vehicleId", "Please select Vehicle Category.");
+        return false;
+    }
+
+    if (languageType === "") {
+        showError("languageType", "Please enter Language Type.");
+        return false;
+    }
+
+    if (packageKeywords.length === 0) {
+        showPackageKeyWordsError("Please add at least one Package Keyword.");
+        return false;
+    }
+
+    // Save data
+    payLoadData.extra_info = {
+        destination,
+        travelFrom,
+        travelTo,
+        sightseeingType,
+        categoryHotelId,
+        occupancyId,
+        categoryMealId,
+        vehicleId,
+        languageType,
+        packageKeywords
+    };
+
+    showSection("#package_form_itinerary");
+});
+//itenerary & inclusion
+$('#package_form_itinerary_nxtBtn').on('click', function (e) {
+
+    e.preventDefault();
+
+    clearListError("hightlightList");
+    clearListError("inclusionList");
+    clearListError("exclusionList");
+    clearListError("remarkList");
+    clearListError("thingsList");
+
+    // Highlights
+    const highlightList = $("#hightlightList");
+
+	if (
+		highlightList.find(".remark-item").length === 0 ||
+		highlightList.text().trim().includes("Placeholder Text")
+	) {
+        showListError("hightlightList", "Please add at least one Highlight.");
+        return false;
+    }
+
+    // Days validation
+    const dayContainers = $(".input_fields_wrap .day-container");
+    if (dayContainers.length === 0) {
+        $("#days_error").text("Please add at least one Day.");
+        return false;
+    } else {
+        $("#days_error").text("");
+    }
+
+    // Validate all day fields
+    const dayValidation = validateDayFields();
+    if (!dayValidation.isValid) {
+        // Show SweetAlert with all errors
+        let errorMessage = 'Please fill all required fields in each day:\n\n';
+        dayValidation.errorMessages.forEach((msg, index) => {
+            errorMessage += `${index + 1}. ${msg}\n`;
+        });
+        
+        Swal.fire({
+            icon: 'error',
+            title: 'Incomplete Day Fields',
+            html: errorMessage.replace(/\n/g, '<br>'),
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK',
+            width: '500px'
+        });
+        
+        // Scroll to first error
+        if (dayValidation.firstErrorDay) {
+            const targetDay = $(`.day-container:eq(${dayValidation.firstErrorDay - 1})`);
+            if (targetDay.length) {
+                $('html, body').animate({
+                    scrollTop: targetDay.offset().top - 100
+                }, 500);
+            }
+        }
+        
+        return false;
+    }
+
+    // Inclusions
+	const inclusionList = $("#inclusionList");
+
+	if (
+		inclusionList.find(".inclusion-item").length === 0 ||
+		inclusionList.text().trim().includes("Placeholder Text")
+	)
+    {
+        showListError("inclusionList", "Please add at least one Inclusion.");
+        return false;
+    }
+
+    // Exclusions
+	const exclusionList = $("#exclusionList");
+
+	if (
+		exclusionList.find(".exclusion-item").length === 0 ||
+		exclusionList.text().trim().includes("Placeholder Text")
+	)
+    {
+        showListError("exclusionList", "Please add at least one Exclusion.");
+        return false;
+    }
+
+    // Remarks
+	const remarkList = $("#remarkList");
+
+	if (
+		remarkList.find(".remark-item").length === 0 ||
+		remarkList.text().trim().includes("Placeholder Text")
+	)
+    {
+        showListError("remarkList", "Please add at least one Remark.");
+        return false;
+    }
+
+    // Things to Know
+	const thingsList = $("#thingsList");
+
+	if (
+		thingsList.find(".things-item").length === 0 ||
+		thingsList.text().trim().includes("Placeholder Text")
+	)
+    {
+        showListError("thingsList", "Please add at least one Thing to Know.");
+        return false;
+    }
+
+    // Save data with day details
+    const dayData = [];
+    $(".day-container").each(function() {
+        const dayObj = {
+            day: $(this).find(".dayval").text().trim(),
+            title: $(this).find(".title").val().trim(),
+            description: $(this).find(".description").val().trim(),
+            meals: $(this).find(".meals").val().trim(),
+            transport: $(this).find(".transport").eq(0).val().trim(),
+            stay: $(this).find(".transport").eq(1).val().trim(),
+            icon: $(this).find("#img_path1").val() // If you store icon path
+        };
+        dayData.push(dayObj);
+    });
+
+    payLoadData.itinerary = {
+        highlights: $("#hightlightList .remark-text").map(function () {
+            return $(this).text().trim();
+        }).get(),
+
+        inclusions: $("#inclusionList .inclusion-text").map(function () {
+            return $(this).text().trim();
+        }).get(),
+
+        exclusions: $("#exclusionList .exclusion-text").map(function () {
+            return $(this).text().trim();
+        }).get(),
+
+        remarks: $("#remarkList .remark-text").map(function () {
+            return $(this).text().trim();
+        }).get(),
+
+        thingsToKnow: $("#thingsList .things-text").map(function () {
+            return $(this).text().trim();
+        }).get(),
+        
+        days: dayData // Add the days data
+    };
+
+    // console.log(payLoadData);
+
+    showSection("#package_form_pricing");
+});
+//pricing
+$('#package_form_extra_nextBtn').on('click', function (e) {
+
+    e.preventDefault();
+
+    clearAllErrors();
+
+    let netPriceAdult = $('#netPriceAdult').val().trim();
+    let netPriceChild = $('#netPriceChild').val().trim();
+    let companyMarkup = $('#companyMarkup').val().trim();
+    let couponAdjustment = $('#couponAdjustment').val().trim();
+    let guestAmount = $("#guestAmount").prop("disabled")
+    ? ""
+    : $("#guestAmount").val().trim();
+
+	let guestPercentage = $("#guestPercentage").prop("disabled")
+    ? ""
+    : $("#guestPercentage").val().trim();
+	let travelConsultant= $("#travelConsultant").val().trim();
+	let cteComm= $("#cteComm").val().trim();
+	let cteIns= $("#cteIns").val().trim();
+	let cteCommInsTotal= $("#cteCommInsTotal").val().trim();
+	let eteComm= $("#eteComm").val().trim();
+	let eteIns= $("#eteIns").val().trim();
+	let eteCommInsTotal= $("#eteCommInsTotal").val().trim();
+	let steComm= $("#steComm").val().trim();
+	let steIns= $("#steIns").val().trim();
+	let steCommInsTotal= $("#steCommInsTotal").val().trim();
+	let cTeFComm= $("#cTeFComm").val().trim();
+	let cTeFIns= $("#cTeFIns").val().trim();
+	let cTeFCommInsTotal= $("#cTeFCommInsTotal").val().trim();
+	let cteChainCommTotal= $("#cteChainCommTotal").val().trim();
+	let cteChainInsTotal= $("#cteChainInsTotal").val().trim();
+	let cteChainCommInsTotal= $("#cteChainCommInsTotal").val().trim();
+	let cteSuspence= $("#cteSuspence").val().trim();
+	let teBmComm= $("#teBmComm").val().trim();
+	let teBmIns= $("#teBmIns").val().trim();
+	let teBmComInsTotal= $("#teBmComInsTotal").val().trim();
+	let bmTeComm= $("#bmTeComm").val().trim();
+	let bmTeIns= $("#bmTeIns").val().trim();
+	let bmTeCommInsTotal= $("#bmTeCommInsTotal").val().trim();
+	let bmTeChainCommTotal= $("#bmTeChainCommTotal").val().trim();
+	let bmTeChainInsTotal= $("#bmTeChainInsTotal").val().trim();
+	let bmTeChainCommInsTotal= $("#bmTeChainCommInsTotal").val().trim();
+	let bmSuspence= $("#bmSuspence").val().trim();
+	let iBmComm= $("#iBmComm").val().trim();
+	let iBmIns= $("#iBmIns").val().trim();
+	let bmIComm= $("#bmIComm").val().trim();
+	let bmICommInsTotal= $("#bmICommInsTotal").val().trim();
+	let iBmCommInsTotal= $("#iBmCommInsTotal").val().trim();
+	let bmIComTotal= $("#bmIComTotal").val().trim();
+	let bmIInsTotal= $("#bmIInsTotal").val().trim();
+	let bmIComInsTotal= $("#bmIComInsTotal").val().trim();
+	let bmISuspence= $("#bmISuspence").val().trim();
+	let iCteComm= $("#iCteComm").val().trim();
+	let iCteIns= $("#iCteIns").val().trim();
+	let iCteCommInsTotal= $("#iCteCommInsTotal").val().trim();
+	let iEteComm= $("#iEteComm").val().trim();
+	let iEteIns= $("#iEteIns").val().trim();
+	let iEteCommInsTotal= $("#iEteCommInsTotal").val().trim();
+	let cteIComm= $("#cteIComm").val().trim();
+	let cteICommInsTotal= $("#cteICommInsTotal").val().trim();
+	let iCteComTotal= $("#iCteComTotal").val().trim();
+	let iCteInsTotal= $("#iCteInsTotal").val().trim();
+	let iCteComInsTotal= $("#iCteComInsTotal").val().trim();
+	let cteISuspence= $("#cteISuspence").val().trim();
+	let customer1= $("#customer1").val().trim();
+	let customer2= $("#customer2").val().trim();
+	let customer3= $("#customer3").val().trim();
+	let mrpPerAdult= $("#mrpPerAdult").val().trim();
+	let mrpPerChild= $("#mrpPerChild").val().trim();
+	let cancellationPercentage1= $("#cancellationPercentage1").val().trim();
+	let cancellationPercentage2= $("#cancellationPercentage2").val().trim();
+	let cancellationPercentage3= $("#cancellationPercentage3").val().trim();
+	let cancellationPercentage4= $("#cancellationPercentage4").val().trim();
+	let cancellationPercentage5= $("#cancellationPercentage5").val().trim();
+
+    // Validation
+    if (netPriceAdult === "") {
+        showError("netPriceAdult", "Please enter Base Price for per Adult.");
+        return false;
+    }
+
+    if (netPriceChild === "") {
+        showError("netPriceChild", "Please enter Base Price for per Child.");
+        return false;
+    }
+
+    if (companyMarkup === "") {
+        showError("companyMarkup", "Please enter Company Markup.");
+        return false;
+    }
+
+    if (couponAdjustment === "") {
+        showError("couponAdjustment", "Please enter Default Coupon Adjustment.");
+        return false;
+    }
+	if ($("#switchCheckGuestUser").is(":checked")) {
+
+		// Check if any option is selected
+		if (!$("#radioDefault1").is(":checked") && !$("#radioDefault2").is(":checked")) {
+			showError("guestAmount", "Please select either Fixed Amount or Percentage.");
+			return false;
+		}
+
+		// Fixed Amount validation
+		if ($("#radioDefault1").is(":checked")) {
+			
+
+			if (guestAmount === "") {
+				showError("guestAmount", "Please enter Fixed Amount.");
+				return false;
+			}
+		}
+
+		// Percentage validation
+		if ($("#radioDefault2").is(":checked")) {
+			
+
+			if (guestPercentage === "") {
+				showError("guestPercentage", "Please enter Percentage.");
+				return false;
+			}
+
+			if (isNaN(guestPercentage) || Number(guestPercentage) < 0 || Number(guestPercentage) > 100) {
+				showError("guestPercentage", "Percentage must be between 0 and 100.");
+				return false;
+			}
+		}
+	}
+	if (travelConsultant === "") {
+        showError("travelConsultant", "Please enter Travel Consultant.");
+        return false;
+    }
+	for (let i = 1; i <= 5; i++) {
+		let value = $(`#cancellationPercentage${i}`).val().trim();
+
+		if (value === "") {
+			showError(`cancellationPercentage${i}`, "Please enter Cancellation Percentage.");
+			return false;
+		}
+	}
+    
+
+    // Save data
+    payLoadData.pricing = {
+		netPriceAdult,
+		netPriceChild,
+		companyMarkup,
+		couponAdjustment,
+
+		guestUser: $("#switchCheckGuestUser").is(":checked") ? 1 : 0,
+		guestPricingType: $("#radioDefault1").is(":checked")
+			? "fixed"
+			: $("#radioDefault2").is(":checked")
+				? "percentage"
+				: "",
+
+		guestAmount,
+		guestPercentage,
+
+		travelConsultant,
+
+		cteComm,
+		cteIns,
+		cteCommInsTotal,
+
+		eteComm,
+		eteIns,
+		eteCommInsTotal,
+
+		steComm,
+		steIns,
+		steCommInsTotal,
+
+		cTeFComm,
+		cTeFIns,
+		cTeFCommInsTotal,
+
+		cteChainCommTotal,
+		cteChainInsTotal,
+		cteChainCommInsTotal,
+		cteSuspence,
+
+		teBmComm,
+		teBmIns,
+		teBmComInsTotal,
+
+		bmTeComm,
+		bmTeIns,
+		bmTeCommInsTotal,
+
+		bmTeChainCommTotal,
+		bmTeChainInsTotal,
+		bmTeChainCommInsTotal,
+		bmSuspence,
+
+		iBmComm,
+		iBmIns,
+		iBmCommInsTotal,
+
+		bmIComm,
+		bmICommInsTotal,
+		bmIComTotal,
+		bmIInsTotal,
+		bmIComInsTotal,
+		bmISuspence,
+
+		iCteComm,
+		iCteIns,
+		iCteCommInsTotal,
+
+		iEteComm,
+		iEteIns,
+		iEteCommInsTotal,
+
+		cteIComm,
+		cteICommInsTotal,
+
+		iCteComTotal,
+		iCteInsTotal,
+		iCteComInsTotal,
+		cteISuspence,
+
+		customer1,
+		customer2,
+		customer3,
+
+		mrpPerAdult,
+		mrpPerChild,
+
+		cancellationPercentage1,
+		cancellationPercentage2,
+		cancellationPercentage3,
+		cancellationPercentage4,
+		cancellationPercentage5
+	};
+
+    showSection("#package_form_policy");
+});
 //  submit form changed on 25 jan 2025 by sv
 function submit_form_data(e) {
 	e.preventDefault();
@@ -1358,8 +1790,8 @@ function submit_form_data(e) {
 		var net_gst = $('#nGst').val();
 		var net_price_adult_with_GST = $('#totalNetPriceAdult').val(); // new
 		var net_price_child_with_GST = $('#totalNetPriceChild').val(); // new
-		var total_package_price_per_adult = $('#mrp_per_adult').val();
-		var total_package_price_per_child = $('#mrp_per_child').val().trim() || '0'
+		var total_package_price_per_adult = $('#mrpPerAdult').val();
+		var total_package_price_per_child = $('#mrpPerChild').val().trim() || '0'
 		// mark_up distribution
 		var ta_mark_up = parseFloat($("#mp_ca_ta").val());
 		var company_share = parseFloat($("#mp_company").val());
@@ -1630,8 +2062,8 @@ function update_form_data(e) {
 	var net_gst = $('#nGst').val();
 	var net_price_adult_with_GST = $('#totalNetPriceAdult').val(); // new
 	var net_price_child_with_GST = $('#totalNetPriceChild').val(); // new
-	var total_package_price_per_adult = $('#mrp_per_adult').val();
-	var total_package_price_per_child = $('#mrp_per_child').val().trim() || '0';
+	var total_package_price_per_adult = $('#mrpPerAdult').val();
+	var total_package_price_per_child = $('#mrpPerChild').val().trim() || '0';
 	// mark_up distribution
 	var ta_mark_up = parseFloat($("#mp_ca_ta").val());
 	var company_share = parseFloat($("#mp_company").val());
@@ -1824,84 +2256,4 @@ function update_form_data(e) {
 			console.log(err);
 		}
 	});
-}
-
-
-
-
-
-
-
-var loader = document.getElementById("loading-loader");
-var page_body = document.getElementById("page_body");
-
-function showLoader(value) {
-	if (value) {
-		page_body.classList.add('parent_disable');
-		loader.style.display = "block";
-	} else {
-		page_body.classList.remove('parent_disable')
-		loader.style.display = "none";
-		window.scrollTo(0, document.body.scrollHeight);
-	}
-}
-
-// validate function
-function validateInput(regex, elementID, errorMessage) {
-	if (regex.test(elementID.value)) {
-		showErrorMessage(errorMessage, elementID);
-		return false;
-	} else {
-		hideErrorMessage(elementID);
-		return true;
-	}
-}
-
-function showErrorMessage(errorMessage, elementID) {
-	showBottomSnackBar(errorMessage);
-	elementID.classList.add('invalid_input');
-}
-function hideErrorMessage(elementID) {
-	elementID.classList.remove('invalid_input');
-}
-
-function validateIdenticalRecord(type, elementID, errorMessage) {
-	$.ajax({
-		type: "POST",
-		url: 'forms/validate_records.php',
-		data: 'type=' + type + '&value=' + elementID.value,
-		success: function (res) {
-
-			if (res.toString() == 'success') {
-				showErrorMessage(errorMessage, elementID);
-				isValid_a2 = false;
-			} else {
-				hideErrorMessage(elementID);
-				isValid_a2 = true;
-			}
-		},
-		error: function (err) {
-			console.log(err);
-		}
-	});
-}
-
-// disable next button
-function showNextFormButton(isValid, showButton) {
-	if (isValid == true) {
-		showButton.classList.remove('disable_clickablea_area');
-	} else {
-		showButton.classList.add('disable_clickablea_area');
-	}
-}
-
-// snack bar
-function showBottomSnackBar(textString) {
-	var x = document.getElementById("bottom-snackbar");
-	x.style.display = "block";
-	x.innerText = textString;
-
-	setTimeout(function () {
-		x.style.display = "none";
-	}, 4000);
 }

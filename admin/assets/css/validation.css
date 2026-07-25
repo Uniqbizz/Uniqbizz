@@ -1,0 +1,129 @@
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border: 1px solid #d80b20!important;
+    box-shadow: 0 0 0 .15rem rgba(220,53,69,.15);
+}
+/* .team-managed-wrapper.error {
+    border: 1px solid #dc3545 !important;
+    box-shadow: 0 0 0 .15rem rgba(220,53,69,.25);
+}
+
+.team-managed-wrapper:focus-within {
+    box-shadow: 0 0 0 .15rem rgba(220,53,69,.25);
+} */
+.travelTheme-wrapper.error {
+    border: 1px solid #dc3545 !important;
+    box-shadow: 0 0 0 .15rem rgba(220,53,69,.25);
+}
+
+.travelTheme-wrapper:focus-within {
+    box-shadow: 0 0 0 .15rem rgba(220,53,69,.25);
+}
+.highlightContainer-wrapper.error {
+    border: 1px solid #dc3545 !important;
+    box-shadow: 0 0 0 .15rem rgba(220,53,69,.25);
+}
+
+.highlightContainer-wrapper:focus-within {
+    box-shadow: 0 0 0 .15rem rgba(220,53,69,.25);
+}
+.packageType-wrapper.error {
+    border: 1px solid #dc3545 !important;
+    box-shadow: 0 0 0 .15rem rgba(220,53,69,.25);
+}
+
+.packageType-wrapper:focus-within {
+    box-shadow: 0 0 0 .15rem rgba(220,53,69,.25);
+}
+.visaType-wrapper.error {
+    border: 1px solid #dc3545 !important;
+    box-shadow: 0 0 0 .15rem rgba(220,53,69,.25);
+}
+
+.visaType-wrapper:focus-within {
+    box-shadow: 0 0 0 .15rem rgba(220,53,69,.25);
+}
+.packageKeyWords-wrapper.error {
+    border: 1px solid #dc3545 !important;
+    box-shadow: 0 0 0 .15rem rgba(220,53,69,.25);
+}
+
+.packageKeyWords-wrapper:focus-within {
+    box-shadow: 0 0 0 .15rem rgba(220,53,69,.25);
+}
+.payment-mode-wrapper.error {
+    border: 1px solid #dc3545 !important;
+    box-shadow: 0 0 0 .15rem rgba(220,53,69,.25);
+}
+
+.payment-mode-wrapper:focus-within {
+    box-shadow: 0 0 0 .15rem rgba(220,53,69,.25);
+}
+
+.upload-card.error {
+    border: 2px solid #dc3545 !important;
+    border-radius: 12px;
+    position: relative;
+    animation: shake 0.25s;
+}
+
+.upload-card.error::after {
+    content: "!";
+    position: absolute;
+    top: 2px;
+    right: 3px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #dc3545;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* .field-error {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+} */
+.error-message{
+    display:block;
+    margin-top:4px;
+    font-size:13px;
+    color: #d80b20;
+}
+/* Border danger for input groups */
+.border-danger {
+    border-color: #dc3545 !important;
+}
+
+/* Animation for error messages */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Optional: Style the day container when it has errors */
+.day-container.has-error {
+    border-left: 3px solid #dc3545;
+    padding-left: 10px;
+}
+
+/* Optional: Highlight the day button when there are errors */
+.dayval.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #000;
+}
+@keyframes shake{
+    0%,100%{transform:translateX(0);}
+    25%{transform:translateX(-4px);}
+    75%{transform:translateX(4px);}
+}

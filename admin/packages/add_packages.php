@@ -120,6 +120,7 @@ $l2_per=$l3_per=50;
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <link rel="stylesheet" href="../assets/css/validation.css">
     </head>
     <body data-sidebar="dark" id="page_body">
         <div id="testpho"></div>
@@ -214,19 +215,21 @@ $l2_per=$l3_per=50;
                                                     <div class="row">
                                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
                                                             <div class="form-floating my-3">
-                                                                <input type="text" class="form-control" id="name" name="name" placeholder="Package Name">
+                                                                <input type="text" class="form-control" id="packName" name="packName" placeholder="Package Name">
                                                                 <label for="name" class="required">Package Name</label>
+                                                                <small class="error-message" id="packName_error"></small>
                                                             </div>
                                                         </div>
                                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
                                                             <div class="form-floating my-3">
-                                                                <input type="text" class="form-control" id="unique_code" name="unique_code" placeholder="Unique Code">
+                                                                <input type="text" class="form-control" id="uniqueCode" name="uniqueCode" placeholder="Unique Code">
                                                                 <label for="unique_code" class="required">Unique Code</label>
+                                                                <small class="error-message" id="uniqueCode_error"></small>
                                                             </div>
                                                         </div>
                                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
                                                             <div class="form-floating my-3">
-                                                                <select class="form-select" id="category_id" name="category_id" aria-label="Floating label select example" onchange="getSubCategories()">
+                                                                <select class="form-select" id="categoryId" name="categoryId" aria-label="Floating label select example" onchange="getSubCategories()">
                                                                     <?php
                                                                     $cat_data = $conn->prepare("SELECT * FROM category where status='1' ");
                                                                     $cat_data->execute();
@@ -243,174 +246,164 @@ $l2_per=$l3_per=50;
                                                                     }
                                                                     ?>
                                                                 </select>
+                                                                <small class="error-message" id="categoryId_error"></small>
                                                                 <label>Select Category Type <span class="required"></span></label>
                                                             </div>
                                                         </div>
                                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
                                                             <div class="form-floating my-3">
-                                                                <select id="sub_category_id" name="sub_category_id" class="form-select">
+                                                                <select id="subCategoryId" name="subCategoryId" class="form-select">
                                                                     <option value="">--Select Category First--</option>
                                                                 </select>
+                                                                <small class="error-message" id="subCategoryId_error"></small>
                                                                 <label class="required">Select Sub-Category Type <span class="required"></span></label>
                                                             </div>
-                                                            <select id="sub_category_data" name="sub_category_data" class="form-select" style="display: none"></select>
+                                                            <select id="subCategoryData" name="subCategoryData" class="form-select" style="display: none"></select>
                                                         </div>
                                                         <div class="col-xl-12 col-lg-12 mb-3">
-                                                            <div class="borderHighlight px-3 py-2">
+                                                            <div class="borderHighlight px-3 py-2 travelTheme-wrapper" id="travelTheme_wrapper">
                                                                 <label>Travel Theme / Type <span class="required"></span></label>
                                                                 <div class="d-flex gap-4">
                                                                     <div>
-                                                                        <input type="radio" class="btn-check" name="options-base" id="option1" autocomplete="off" checked>
+                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option1" autocomplete="off" value="Leisure">
                                                                         <label class="btn fw-bold" for="option1">
                                                                             <i class="fa-solid fa-mountain-city"></i>
                                                                             Leisure
                                                                         </label>
                                                                     </div>
                                                                     <div>
-                                                                        <input type="radio" class="btn-check" name="options-base" id="option2" autocomplete="off">
+                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option2" autocomplete="off" value="Adventure">
                                                                         <label class="btn fw-bold" for="option2">
                                                                             <i class="fa-solid fa-mountain-sun"></i>
                                                                             Adventure
                                                                         </label>
                                                                     </div>
                                                                     <div>
-                                                                        <input type="radio" class="btn-check" name="options-base" id="option3" autocomplete="off">
+                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option3" autocomplete="off" value="Spiritual">
                                                                         <label class="btn fw-bold" for="option3">
                                                                             <i class="fa-solid fa-place-of-worship"></i>
                                                                             Spiritual
                                                                         </label>
                                                                     </div>
                                                                     <div>
-                                                                        <input type="radio" class="btn-check" name="options-base" id="option4" autocomplete="off">
+                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option4" autocomplete="off" value="Beach">
                                                                         <label class="btn fw-bold" for="option4">
                                                                             <i class="fa-solid fa-umbrella-beach"></i>
                                                                             Beach
                                                                         </label>
                                                                     </div>
                                                                     <div>
-                                                                        <input type="radio" class="btn-check" name="options-base" id="option5" autocomplete="off">
+                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option5" autocomplete="off" value="Honeymoon">
                                                                         <label class="btn fw-bold" for="option5">
                                                                             <i class="fa-solid fa-heart"></i>
                                                                             Honeymoon
                                                                         </label>
                                                                     </div>
                                                                     <div>
-                                                                        <input type="radio" class="btn-check" name="options-base" id="option6" autocomplete="off">
+                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option6" autocomplete="off" value="Other">
                                                                         <label class="btn fw-bold" for="option6">
                                                                             <i class="fa-solid fa-crosshairs"></i>
                                                                             Other</label>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <small class="error-message" id="travelTheme_error"></small>
                                                         </div>
                                                         <div class="col-lg-12">
                                                             <div class="row">
                                                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="number" class="form-control" id="tour_days" name="tour_days" placeholder="Unique Code">
-                                                                        <label for="tour_days" class="required">Tour Days</label>
+                                                                        <input type="number" class="form-control" id="tourDays" name="tourDays" placeholder="Unique Code">
+                                                                        <label for="tourDays" class="required">Tour Days</label>
+                                                                        <small class="error-message" id="tourDays_error"></small>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="date" class="form-control" id="pac_validity" name="pac_validity" placeholder="Package Validity">
-                                                                        <label for="pac_validity" class="required">Validity Upto</label>
+                                                                        <input type="date" class="form-control" id="pacValidity" name="pacValidity" placeholder="Package Validity">
+                                                                        <label for="pacValidity" class="required">Validity Upto</label>
+                                                                        <small class="error-message" id="pacValidity_error"></small>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="text" class="form-control" id="tour_days" name="tour_days" placeholder="Unique Code">
-                                                                        <label for="tour_days">Best Season To Visit</label>
+                                                                        <input type="text" class="form-control" id="season" name="season" placeholder="Unique Code">
+                                                                        <label for="season">Best Season To Visit</label>
+                                                                        <small class="error-message" id="season_error"></small>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
                                                                         <input type="text" class="form-control" id="pacLocation" name="pacLocation" placeholder="Unique Code">
-                                                                        <label for="tour_days" class="required">Location</label>
+                                                                        <label for="pacLocation" class="required">Location</label>
+                                                                        <small class="error-message" id="pacLocation_error"></small>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-12 mb-3">
-                                                        <div class="highlights-section p-3">
-                                                            <label class="highlight-label">Cities</label>
-                                                            <div class="highlight-container" id="highlightContainer">
-                                                                <div class="highlight-tag">
-                                                                    Delhi
-                                                                    <span class="remove-btn">&times;</span>
-                                                                </div>
-                                                                <div class="highlight-tag">
-                                                                    Shimla
-                                                                    <span class="remove-btn">&times;</span>
-                                                                </div>
-                                                                <div class="highlight-tag">
-                                                                    Manali
-                                                                    <span class="remove-btn">&times;</span>
-                                                                </div>
-                                                                <div class="highlight-tag">
-                                                                    Chandhigarh
-                                                                    <span class="remove-btn">&times;</span>
-                                                                </div>
-                                                                <div class="highlight-tag">
-                                                                    Goa
-                                                                    <span class="remove-btn">&times;</span>
-                                                                </div>
-                                                                <div class="highlight-tag">
-                                                                    Keralam
-                                                                    <span class="remove-btn">&times;</span>
-                                                                </div>
+                                                        <div class="highlights-section p-3 highlightContainer-wrapper" id="highlightContainer_wrapper">
+                                                            <label class="highlight-label required">Cities</label>
+                                                            <div class="highlight-container" id="highlightContainer" >
+                                                                
                                                             </div>
+                                                            
                                                             <div class="add-highlight">
-                                                                <a href="#" id="addHighlightBtn">+ Add More Cities</a>
+                                                                <a href="#" id="addHighlightBtn">+ Add Cities</a>
                                                             </div>
                                                         </div>
+                                                        <small class="error-message" id="highlightContainer_error"></small>
                                                     </div>
                                                     <div class="col-lg-12 col-md-12 col-sm-12">
                                                         <div class="form-floating mb-3">
                                                             <input id="description" class="form-control" type="text" name="description" placeholder="Description">
                                                             <label for="description" class="required">Short Description</label>
+                                                            <small class="error-message" id="description_error"></small>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-12 col-md-12 col-sm-12">
                                                         <div class="form-floating">
-                                                            <textarea class="form-control" placeholder="Leave a comment here" id="description1"></textarea>
-                                                            <label for="description1" class="required">Detailed Description</label>
+                                                            <textarea class="form-control" placeholder="Leave a comment here" id="descriptionDetail"></textarea>
+                                                            <label for="descriptionDetail" class="required">Detailed Description</label>
+                                                            <small class="error-message" id="descriptionDetail_error"></small>
                                                         </div>
                                                     </div>
                                                     <div class="row">
 
                                                         <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 mt-3">
                                                             <div class="form-floating">
-                                                                <div class="form-control d-flex justify-content-between">
+                                                                <div class="form-control d-flex justify-content-between packageType-wrapper" id="packageType_wrapper">
                                                                     <div>
-                                                                        <input type="radio" name="package_type" value="trending" id="trending" checked>
+                                                                        <input type="radio" class="packageType" name="packageType" value="Trending" id="trending">
                                                                         <label style="padding-right:15px; padding-left: 5px;" for="trending">Trending</label>
                                                                     </div>
                                                                     <div>
-                                                                        <input type="radio" name="package_type" value="popular" id="popular">
+                                                                        <input type="radio" class="packageType" name="packageType" value="Popular" id="popular">
                                                                         <label style="padding-right:15px; padding-left: 5px;" for="popular">Popular</label>
                                                                     </div>
                                                                     <div>
-                                                                        <input type="radio" name="package_type" value="most-selling" id="most_selling">
-                                                                        <label style="padding-right:15px; padding-left: 5px;" for="most_selling">Most Selling</label>
+                                                                        <input type="radio" class="packageType" name="packageType" value="Most Selling" id="mostSelling">
+                                                                        <label style="padding-right:15px; padding-left: 5px;" for="mostSelling">Most Selling</label>
                                                                     </div>
                                                                     <div>
-                                                                        <input type="radio" name="package_type" value="new-arrival" id="new_arrival">
-                                                                        <label style="padding-right:15px; padding-left: 5px;" for="new_arrival">New Arrival</label>
+                                                                        <input type="radio" class="packageType" name="packageType" value="New Arrival" id="newArrival">
+                                                                        <label style="padding-right:15px; padding-left: 5px;" for="newArrival">New Arrival</label>
                                                                     </div>
                                                                 </div>
+                                                                <small class="error-message" id="packageType_error"></small>
                                                                 <label class="">Highlight Type <span class="required"></span></label>
                                                             </div>
                                                         </div>
                                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mt-3">
                                                             <div class="form-floating">
-                                                                <div class="form-control">
-                                                                    <input type="radio" name="package_type" value="visaYes" id="visaYes" checked>
+                                                                <div class="form-control visaType-wrapper" id="visaType_wrapper">
+                                                                    <input type="radio" class="visaType" name="visaType" value="visaYes" id="visaYes">
                                                                     <label style="padding-right:15px; padding-left: 5px;" for="visaYes">Yes</label>
-                                                                    <input type="radio" name="package_type" value="visaNo" id="visaNo">
+                                                                    <input type="radio" class="visaType" name="visaType" value="visaNo" id="visaNo">
                                                                     <label style="padding-right:15px; padding-left: 5px;" for="visaNo">No</label>
                                                                 </div>
+                                                                <small class="error-message" id="visaType_error"></small>
                                                                 <label class="">Visa Required <span class="required"></span></label>
                                                             </div>
                                                         </div>
@@ -421,12 +414,13 @@ $l2_per=$l3_per=50;
                                                                 <div class="borderHighlight px-3 py-2">
                                                                     <label>Drop Price (Optional) <span class="required"></span></label>
                                                                     <div class="form-check form-switch">
-                                                                        <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
-                                                                        <label class="form-check-label" for="switchCheckDefault">Enable Drop Price</label>
+                                                                        <input class="form-check-input" type="checkbox" role="switch" id="dropPriceCheck">
+                                                                        <label class="form-check-label" for="dropPriceCheck">Enable Drop Price</label>
                                                                     </div>
                                                                     <div class="form-floating my-2">
-                                                                        <input id="description" class="form-control" type="text" name="description" placeholder="Description">
-                                                                        <label for="description" class="required">Drop Price Per Person (&#8377;)</label>
+                                                                        <input id="dropPrice" class="form-control" type="text" name="dropPrice">
+                                                                        <label for="dropPrice" class="required">Drop Price Per Person (&#8377;)</label>
+                                                                        <small class="error-message" id="dropPrice_error"></small>
                                                                     </div>
                                                                     <p class="mb-0">This price will be shown as starting price</p>
                                                                 </div>
@@ -447,29 +441,33 @@ $l2_per=$l3_per=50;
                                                             <div class="form-floating my-3">
                                                                 <input type="text" id="destination" name="destination" placeholder="Destination" class="form-control">
                                                                 <label for="destination" class="required">Destination</label>
+                                                                <small class="error-message" id="destination_error"></small>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                             <div class="form-floating my-3">
-                                                                <input type="text" id="travel_from" name="travel_from" value="" placeholder="Transfer From" class="form-control">
-                                                                <label for="travel_from" class="required">Pick Up Point</label>
+                                                                <input type="text" id="travelFrom" name="travelFrom" value="" placeholder="Transfer From" class="form-control">
+                                                                <label for="travelFrom" class="required">Pick Up Point</label>
+                                                                <small class="error-message" id="travelFrom_error"></small>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                             <div class="form-floating my-3">
-                                                                <input type="text" id="travel_to" name="travel_to" value="" placeholder="Transfer To" class="form-control">
-                                                                <label for="travel_to" class="required">Drop Point</label>
+                                                                <input type="text" id="travelTo" name="travelTo" value="" placeholder="Transfer To" class="form-control">
+                                                                <label for="travelTo" class="required">Drop Point</label>
+                                                                <small class="error-message" id="travelTo_error"></small>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                             <div class="form-floating mb-3">
-                                                                <input type="text" id="sightseeing_type" name="sightseeing_type" value="" placeholder="Sightseeing Type" class="form-control">
-                                                                <label for="sightseeing_type" class="required">Sightseeing Type</label>
+                                                                <input type="text" id="sightseeingType" name="sightseeingType" value="" placeholder="Sightseeing Type" class="form-control">
+                                                                <label for="sightseeingType" class="required">Sightseeing Type</label>
+                                                                <small class="error-message" id="sightseeingType_error"></small>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                             <div class="form-floating mb-3">
-                                                                <select id="category_hotel_id" name="category_hotel_id" class="selectdesign form-select">
+                                                                <select id="categoryHotelId" name="categoryHotelId" class="selectdesign form-select">
                                                                     <?php
                                                                     $cat_data_hotel = $conn->prepare("SELECT * FROM category_hotel");
                                                                     $cat_data_hotel->execute();
@@ -486,12 +484,13 @@ $l2_per=$l3_per=50;
                                                                     }
                                                                     ?>
                                                                 </select>
+                                                                <small class="error-message" id="categoryHotelId_error"></small>
                                                                 <label class="required">Hotel Category</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                             <div class="form-floating mb-3 form">
-                                                                <select id="occupancy_id" name="occupancy_id" class="form-select">
+                                                                <select id="occupancyId" name="occupancyId" class="form-select">
                                                                     <?php
                                                                     $cat_data_occupancy = $conn->prepare("SELECT * FROM category_occupancy");
                                                                     $cat_data_occupancy->execute();
@@ -508,13 +507,14 @@ $l2_per=$l3_per=50;
                                                                     }
                                                                     ?>
                                                                 </select>
+                                                                <small class="error-message" id="occupancyId_error"></small>
                                                                 <label class="required">Occupancy Category</label>
                                                                 <div id="occupancy_data"></div>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                             <div class="form-floating mb-3">
-                                                                <select id="category_meal_id" name="category_meal_id" class="form-select">
+                                                                <select id="categoryMealId" name="categoryMealId" class="form-select">
                                                                     <?php
                                                                     $cat_data_meal = $conn->prepare("SELECT * FROM category_meal");
                                                                     $cat_data_meal->execute();
@@ -531,12 +531,13 @@ $l2_per=$l3_per=50;
                                                                     }
                                                                     ?>
                                                                 </select>
+                                                                <small class="error-message" id="categoryMealId_error"></small>
                                                                 <label class="required">Meal Category</label>
                                                             </div>
                                                         </div>
                                                         <div class="form-group col-lg-4 col-md-4 col-sm-6 col-12">
                                                             <div class="form-floating mb-3">
-                                                                <select id="vehicle_id" name="vehicle_id" class="form-select">
+                                                                <select id="vehicleId" name="vehicleId" class="form-select">
                                                                     <?php
                                                                     $cat_data_vehicle = $conn->prepare("SELECT * FROM category_vehicle");
                                                                     $cat_data_vehicle->execute();
@@ -553,56 +554,29 @@ $l2_per=$l3_per=50;
                                                                     }
                                                                     ?>
                                                                 </select>
+                                                                <small class="error-message" id="vehicleId_error"></small>
                                                                 <label class="required">Vehicle Category</label>
                                                                 <div id="vehicle_data"></div>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                             <div class="form-floating mb-3">
-                                                                <input type="text" id="language_type" name="language_type" value="" placeholder="Language Type" class="form-control">
-                                                                <label for="language_type" class="required">Language Type</label>
+                                                                <input type="text" id="languageType" name="languageType" value="" placeholder="Language Type" class="form-control">
+                                                                <label for="languageType" class="required">Language Type</label>
+                                                                <small class="error-message" id="languageType_error"></small>
                                                             </div>
                                                         </div>
-                                                        <!-- <div class="col-md-12 col-sm-12">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="text" id="package_keywords" name="package_keywords" value="" placeholder="Package Keywords" class="form-control">
-                                                                <label for="package_keywords" class="required">Package Keywords</label>
-                                                            </div>
-
-                                                        </div> -->
                                                         <div class="col-lg-12 mb-3">
-                                                            <div class="highlights-section p-3">
+                                                            <div class="highlights-section p-3 packageKeyWords-wrapper" id="packageKeyWords_wrapper">
                                                                 <label class="highlight-label">Package Keyword</label>
-                                                                <div class="highlight-container" id="packageKeybord">
-                                                                    <!-- <div class="highlight-tag">
-                                                                        Delhi
-                                                                        <span class="remove-btn">&times;</span>
-                                                                    </div>
-                                                                    <div class="highlight-tag">
-                                                                        Shimla
-                                                                        <span class="remove-btn">&times;</span>
-                                                                    </div>
-                                                                    <div class="highlight-tag">
-                                                                        Manali
-                                                                        <span class="remove-btn">&times;</span>
-                                                                    </div>
-                                                                    <div class="highlight-tag">
-                                                                        Chandhigarh
-                                                                        <span class="remove-btn">&times;</span>
-                                                                    </div>
-                                                                    <div class="highlight-tag">
-                                                                        Goa
-                                                                        <span class="remove-btn">&times;</span>
-                                                                    </div>
-                                                                    <div class="highlight-tag">
-                                                                        Keralam
-                                                                        <span class="remove-btn">&times;</span>
-                                                                    </div> -->
+                                                                <div class="highlight-container" id="packageKeyWords">
+                                                                    
                                                                 </div>
                                                                 <div class="add-highlight">
-                                                                    <a href="#" id="addPackageKeywordBtn">+ Add More Keyword</a>
+                                                                    <a href="#" id="addPackageKeywordBtn">+ Add Keyword</a>
                                                                 </div>
                                                             </div>
+                                                            <small class="error-message" id="packageKeyWords_error"></small>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -624,7 +598,7 @@ $l2_per=$l3_per=50;
                                                                 </div>
                                                                 <div class="p-3" id="hightlightList">
                                                                     <div class="remark-item d-flex justify-content-between align-items-start mb-2">
-                                                                        <p class="mb-0 remark-text">03 Night accommodation in 3 Star Hotel</p>
+                                                                        <p class="mb-0 remark-text">Placeholder Text</p>
                                                                         <div class="d-flex gap-3">
                                                                             <a href="#" class="edit-remark text-primary">
                                                                                 <i class="fa-solid fa-pencil"></i>
@@ -635,25 +609,18 @@ $l2_per=$l3_per=50;
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                <small class="error-message" id="hightlightList_error"></small>
                                                             </div>
                                                         </div>
                                                         <label for="" style="color: #ff4b4b; font-weight: 600; display:block">NOTE : Number Of Days may look different on deletion of previous "DAY", but Days will be listed from first to last in increasing order .</label>
-                                                        <!-- <div class="row">
-                                                            <div class="input-field col-sm-12" style="margin-top: 20px;">
-                                                                <div id="add_day" class="custom_btn btn1">Add Day</div>
-                                                                <div id="remove_day" class="custom_btn btn2">Remove Day</div>
-                                                            </div>
-                                                        </div>
-                                                        <div id="wrapper"></div> -->
-                                                        
-
                                                         <!-- add days -->
                                                         <div class="col-md-2 col-sm-2 col-12 d-flex justify-content-center align-items-center">
                                                             <button class="add_field_button custom_btn btn1 mt-2 ms-3 mb-3 addButton btn btn-success px-3">
                                                                 Add Days
                                                             </button>
                                                         </div>
-                                                        <div class="input_fields_wrap"></div> <!-- Show Added Days -->
+                                                        <small class="error-message" id="days_error"></small> 
+                                                        <div class="input_fields_wrap"></div><!-- Show Added Days -->
                                                         <!-- add days -->
                                                     </div>
                                                     <div class="row">
@@ -665,7 +632,7 @@ $l2_per=$l3_per=50;
                                                                 </div>
                                                                 <div class="p-3" id="inclusionList">
                                                                     <div class="inclusion-item d-flex justify-content-between align-items-start mb-2">
-                                                                        <p class="mb-0 inclusion-text">03 Night accommodation in 3 Star Hotel</p>
+                                                                        <p class="mb-0 inclusion-text">Placeholder Text</p>
                                                                         <div class="d-flex gap-3">
                                                                             <a href="#" class="edit-inclusion text-primary">
                                                                                 <i class="fa-solid fa-pencil"></i>
@@ -677,6 +644,7 @@ $l2_per=$l3_per=50;
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <small class="error-message" id="inclusionList_error"></small>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                                                             <div class="card rounded-4">
@@ -686,7 +654,7 @@ $l2_per=$l3_per=50;
                                                                 </div>
                                                                 <div class="p-3" id="exclusionList">
                                                                     <div class="exclusion-item d-flex justify-content-between align-items-start mb-2">
-                                                                        <p class="mb-0 exclusion-text">03 Night accommodation in 3 Star Hotel</p>
+                                                                        <p class="mb-0 exclusion-text">Placeholder Text</p>
                                                                         <div class="d-flex gap-3">
                                                                             <a href="#" class="edit-exclusion text-primary">
                                                                                 <i class="fa-solid fa-pencil"></i>
@@ -698,6 +666,7 @@ $l2_per=$l3_per=50;
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <small class="error-message" id="exclusionList_error"></small>
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                                                             <div class="card rounded-4">
@@ -707,7 +676,7 @@ $l2_per=$l3_per=50;
                                                                 </div>
                                                                 <div class="p-3" id="remarkList">
                                                                     <div class="remark-item d-flex justify-content-between align-items-start mb-2">
-                                                                        <p class="mb-0 remark-text">03 Night accommodation in 3 Star Hotel</p>
+                                                                        <p class="mb-0 remark-text">Placeholder Text</p>
                                                                         <div class="d-flex gap-3">
                                                                             <a href="#" class="edit-remark text-primary">
                                                                                 <i class="fa-solid fa-pencil"></i>
@@ -719,6 +688,7 @@ $l2_per=$l3_per=50;
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <small class="error-message" id="remarkList_error"></small>
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                                                             <div class="card rounded-4">
@@ -728,7 +698,7 @@ $l2_per=$l3_per=50;
                                                                 </div>
                                                                 <div class="p-3" id="thingsList">
                                                                     <div class="things-item d-flex justify-content-between align-items-start mb-2">
-                                                                        <p class="mb-0 things-text">03 Night accommodation in 3 Star Hotel</p>
+                                                                        <p class="mb-0 things-text">Placeholder Text</p>
                                                                         <div class="d-flex gap-3">
                                                                             <a href="#" class="edit-things text-primary">
                                                                                 <i class="fa-solid fa-pencil"></i>
@@ -740,6 +710,7 @@ $l2_per=$l3_per=50;
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <small class="error-message" id="thingsList_error"></small>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -759,12 +730,14 @@ $l2_per=$l3_per=50;
                                                                     <div class="form-floating mb-3">
                                                                         <input type="number" id="netPriceAdult" name="net_price_adult" value="" placeholder="NET Price for 1 Adult:" class="form-control">
                                                                         <label for="netPriceAdult" class="required">Base Price for per Adult:</label>
+                                                                        <small class="error-message" id="netPriceAdult_error"></small>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-4 col-sm-4 mt-3" id="netPriceChildData">
                                                                     <div class="form-floating mb-3">
                                                                         <input type="number" id="netPriceChild" name="netPriceChild" value="" placeholder="NET Price for 1 Child" class="form-control" value='0'>
                                                                         <label for="netPriceChild" class="required">Base Price for per Child:</label>
+                                                                        <small class="error-message" id="netPriceChild_error"></small>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-4 col-sm-4 mt-3">
@@ -782,12 +755,14 @@ $l2_per=$l3_per=50;
                                                                     <div class="form-floating my-3">
                                                                         <input type="text" id="companyMarkup" name="companyMarkup" placeholder="Destination" class="form-control">
                                                                         <label for="companyMarkup" class="required">Company Markup</label>
+                                                                        <small class="error-message" id="companyMarkup_error"></small>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                     <div class="form-floating my-3">
                                                                         <input type="text" id="couponAdjustment" name="couponAdjustment" placeholder="Destination" class="form-control">
                                                                         <label for="couponAdjustment" class="required">Default Coupon Adjustment</label>
+                                                                        <small class="error-message" id="couponAdjustment_error"></small>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -806,8 +781,10 @@ $l2_per=$l3_per=50;
                                                                                 <div class="form-check align-content-center">
                                                                                     <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault1">
                                                                                     <label class="form-check-label" for="radioDefault1"> Add Fixed Amount</label>
+                                                                                    
                                                                                 </div>
-                                                                                <input type="text" id="fixedAmount" name="fixedAmount" class="form-control inputWidth">
+                                                                                <input type="number" id="guestAmount" name="guestAmount" class="form-control inputWidth">
+                                                                                <small class="error-message" id="guestAmount_error"></small>
                                                                             </div>
                                                                             <div class="d-flex gap-4">
                                                                                 <div class="form-check align-content-center">
@@ -815,8 +792,9 @@ $l2_per=$l3_per=50;
                                                                                     <label class="form-check-label" for="radioDefault2">Add Percentage</label>
                                                                                 </div>
                                                                                 <div class="input-group my-3 inputWidth">
-                                                                                    <input type="text" class="form-control" id="percentage" name="percentage">
+                                                                                    <input type="number" class="form-control" id="guestPercentage" name="guestPercentage">
                                                                                     <span class="input-group-text">%</span>
+                                                                                    <small class="error-message" id="guestPercentage_error"></small>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -842,6 +820,7 @@ $l2_per=$l3_per=50;
                                                                     <div class="form-floating mb-3">
                                                                         <input type="number" id="travelConsultant" name="travelConsultant" placeholder="travelConsultant" class="form-control">
                                                                         <label for="travelConsultant" class="required">Travel Consultant</label>
+                                                                        <small class="error-message" id="travelConsultant_error"></small>
                                                                     </div>
                                                                 </div>
                                                                 <table class="table table-bordered" id="cteChainTable">
@@ -1147,6 +1126,7 @@ $l2_per=$l3_per=50;
                                                                         <div class="form-floating mb-3">
                                                                             <input type="text" id="customer1" name="customer1" placeholder="Customer1" class="form-control">
                                                                             <label for="customer1" class="required">Customer 1</label>
+                                                                            <small class="error-message" id="customer1_error"></small>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-4 col-md-4 col-sm-6 col-12">
@@ -1171,17 +1151,17 @@ $l2_per=$l3_per=50;
                                                                     <div class="col-md-12 col-sm-12">
                                                                         <div class="d-flex gap-4 mb-3">
                                                                             <div class="align-content-center">
-                                                                                <label for="mrp_per_adult" class="mb-0">Total Price Per Adult</label>
+                                                                                <label for="mrpPerAdult" class="mb-0">Total Price Per Adult</label>
                                                                             </div>
-                                                                            <input type="number" value="" id="mrp_per_adult" class="form-control inputWidth" readOnly>
+                                                                            <input type="number" value="" id="mrpPerAdult" class="form-control inputWidth" readOnly>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-12 col-sm-12">
                                                                         <div class="d-flex gap-4">
                                                                             <div class="align-content-center">
-                                                                                <label for="mrp_per_child" class="mb-0">Total Price Per Child</label>
+                                                                                <label for="mrpPerChild" class="mb-0">Total Price Per Child</label>
                                                                             </div>
-                                                                            <input type="number" value="" id="mrp_per_child" class="form-control inputWidth" readOnly>
+                                                                            <input type="number" value="" id="mrpPerChild" class="form-control inputWidth" readOnly>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1194,40 +1174,45 @@ $l2_per=$l3_per=50;
                                                             <div class="row borderHighlight mx-0">
                                                                 <div class="col-lg-6 col-md-6 col-sm-12 col-12 py-3">
                                                                     <div class="text-center mb-2">
-                                                                        <label for="mrp_per_adult" class="mb-0">Cancellation Before Travel</label>
+                                                                        <label for="mrpPerAdult" class="mb-0">Cancellation Before Travel</label>
                                                                     </div>
                                                                     <div class="inputFieldAlignment">
-                                                                        <input type="number" value="" id="mrp_per_adult" placeholder="30+ Days" class="form-control inputWidth" readOnly>
-                                                                        <input type="number" value="" id="mrp_per_adult" placeholder="15 - 30 Days" class="form-control inputWidth" readOnly>
-                                                                        <input type="number" value="" id="mrp_per_adult" placeholder="7 - 15 Days" class="form-control inputWidth" readOnly>
-                                                                        <input type="number" value="" id="mrp_per_adult" placeholder="0 - 7 Days" class="form-control inputWidth" readOnly>
-                                                                        <input type="number" value="" id="mrp_per_adult" placeholder="No Show" class="form-control inputWidth" readOnly>
+                                                                        <input type="number" value="" id="mrpPerAdult" placeholder="30+ Days" class="form-control inputWidth" readOnly>
+                                                                        <input type="number" value="" id="mrpPerAdult" placeholder="15 - 30 Days" class="form-control inputWidth" readOnly>
+                                                                        <input type="number" value="" id="mrpPerAdult" placeholder="7 - 15 Days" class="form-control inputWidth" readOnly>
+                                                                        <input type="number" value="" id="mrpPerAdult" placeholder="0 - 7 Days" class="form-control inputWidth" readOnly>
+                                                                        <input type="number" value="" id="mrpPerAdult" placeholder="No Show" class="form-control inputWidth" readOnly>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-6 col-md-6 col-sm-12 col-12 py-3">
                                                                     <div class="text-center mb-2">
-                                                                        <label for="mrp_per_child" class="mb-0">Cancellation Charges</label>
+                                                                        <label for="mrpPerChild" class="mb-0">Cancellation Charges</label>
                                                                     </div>
                                                                     <div class="inputFieldAlignment">
                                                                         <div class="input-group inputWidth">
-                                                                            <input type="text" class="form-control" id="cancellationPercentage" name="cancellationPercentage" placeholder="10" readOnly>
+                                                                            <input type="text" class="form-control" id="cancellationPercentage1" name="cancellationPercentage1" placeholder="0">
                                                                             <span class="input-group-text">%</span>
+                                                                            <small class="error-message" id="cancellationPercentage1_error"></small>
                                                                         </div>
                                                                         <div class="input-group inputWidth">
-                                                                            <input type="text" class="form-control" id="cancellationPercentage" name="cancellationPercentage" placeholder="25" readOnly>
+                                                                            <input type="text" class="form-control" id="cancellationPercentage2" name="cancellationPercentage2" placeholder="0">
                                                                             <span class="input-group-text">%</span>
+                                                                            <small class="error-message" id="cancellationPercentage2_error"></small>
                                                                         </div>
                                                                         <div class="input-group inputWidth">
-                                                                            <input type="text" class="form-control" id="cancellationPercentage" name="cancellationPercentage" placeholder="50" readOnly>
+                                                                            <input type="text" class="form-control" id="cancellationPercentage3" name="cancellationPercentage3" placeholder="0">
                                                                             <span class="input-group-text">%</span>
+                                                                            <small class="error-message" id="cancellationPercentage3_error"></small>
                                                                         </div>
                                                                         <div class="input-group inputWidth">
-                                                                            <input type="text" class="form-control" id="cancellationPercentage" name="cancellationPercentage" placeholder="75" readOnly>
+                                                                            <input type="text" class="form-control" id="cancellationPercentage4" name="cancellationPercentage4" placeholder="0">
                                                                             <span class="input-group-text">%</span>
+                                                                            <small class="error-message" id="cancellationPercentage4_error"></small>
                                                                         </div>
                                                                         <div class="input-group inputWidth">
-                                                                            <input type="text" class="form-control" id="cancellationPercentage" name="cancellationPercentage" placeholder="100" readOnly>
+                                                                            <input type="text" class="form-control" id="cancellationPercentage5" name="cancellationPercentage5" placeholder="0">
                                                                             <span class="input-group-text">%</span>
+                                                                            <small class="error-message" id="cancellationPercentage5_error"></small>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1267,7 +1252,7 @@ $l2_per=$l3_per=50;
                                                                     <div class="col-md-12 col-sm-12">
                                                                         <div class="d-flex gap-4">
                                                                             <div class="align-content-center">
-                                                                                <label for="mrp_per_adult" class="mb-3">Minimum Advance Payment</label>
+                                                                                <label for="mrpPerAdult" class="mb-3">Minimum Advance Payment</label>
                                                                             </div>
                                                                             <div class="input-group mb-3 inputWidth">
                                                                                 <input type="text" class="form-control" id="bookingPercentage" name="bookingPercentage" placeholder="30">
@@ -1278,7 +1263,7 @@ $l2_per=$l3_per=50;
                                                                     <div class="col-md-12 col-sm-12">
                                                                         <div class="d-flex gap-4">
                                                                             <div class="align-content-center">
-                                                                                <label for="mrp_per_child" class="mb-0">Full Payment Before Travel</label>
+                                                                                <label for="mrpPerChild" class="mb-0">Full Payment Before Travel</label>
                                                                             </div>
                                                                             <div class="input-group inputWidth">
                                                                                 <input type="text" class="form-control" id="bookingDay" name="bookingDay" placeholder="3">
@@ -1645,20 +1630,20 @@ $l2_per=$l3_per=50;
                 });
 
                 // Next buttons
-                $("#package_form_general_nextBtn").on("click", function (e) {
-                    e.preventDefault();
-                    showSection("#package_form_extra");
-                });
+                // $("#package_form_general_nextBtn").on("click", function (e) {
+                //     e.preventDefault();
+                //     showSection("#package_form_extra");
+                // });
 
-                $("#package_form_extra_nextBtn").on("click", function (e) {
-                    e.preventDefault();
-                    showSection("#package_form_itinerary");
-                });
+                // $("#package_form_extra_nextBtn").on("click", function (e) {
+                //     e.preventDefault();
+                //     showSection("#package_form_itinerary");
+                // });
 
-                $("#package_form_itinerary_nxtBtn").on("click", function (e) {
-                    e.preventDefault();
-                    showSection("#package_form_pricing");
-                });
+                // $("#package_form_itinerary_nxtBtn").on("click", function (e) {
+                //     e.preventDefault();
+                //     showSection("#package_form_pricing");
+                // });
 
                 $("#package_form_pricing_nextBtn").on("click", function (e) {
                     e.preventDefault();
@@ -1705,13 +1690,14 @@ $l2_per=$l3_per=50;
                     }
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        let highlight = result.value.trim();
+                        let city = result.value.trim();
 
                         let tag = document.createElement("div");
                         tag.className = "highlight-tag";
+                        tag.dataset.city = city; // Store city name
 
                         tag.innerHTML = `
-                            ${highlight}
+                            <span class="city-name">${city}</span>
                             <span class="remove-btn">&times;</span>
                         `;
 
@@ -1724,9 +1710,9 @@ $l2_per=$l3_per=50;
                 e.preventDefault();
 
                 Swal.fire({
-                    title: "Add Package keyword",
+                    title: "Add Package Keyword",
                     input: "text",
-                    inputPlaceholder: "Enter Package keyword",
+                    inputPlaceholder: "Enter Package Keyword",
                     showCancelButton: true,
                     showCloseButton: true,
                     confirmButtonText: "OK",
@@ -1735,7 +1721,7 @@ $l2_per=$l3_per=50;
                         value = value.trim();
 
                         if (!value) {
-                            return "Please enter a Package keyword Name.";
+                            return "Please enter a Package Keyword.";
                         }
 
                         if (!/^[a-zA-Z0-9\s_-]+$/.test(value)) {
@@ -1744,17 +1730,19 @@ $l2_per=$l3_per=50;
                     }
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        let highlight = result.value.trim();
+
+                        let keyword = result.value.trim();
 
                         let tag = document.createElement("div");
-                        tag.className = "highlight-tag";
+                        tag.className = "highlight-tag package-tag";
+                        tag.dataset.packageKey = keyword; // Store the keyword
 
                         tag.innerHTML = `
-                            ${highlight}
+                            <span class="package-name">${keyword}</span>
                             <span class="remove-btn">&times;</span>
                         `;
 
-                        document.getElementById("packageKeybord").appendChild(tag);
+                        document.getElementById("packageKeyWords").appendChild(tag);
                     }
                 });
             });
@@ -1767,7 +1755,7 @@ $l2_per=$l3_per=50;
 
                 const file = e.target.files[0];
                 if (!file) return;
-
+                clearFileError(this.id);
                 const card = e.target.closest('.upload-card');
                 const title = card.dataset.title;
                 const index = card.dataset.index;
@@ -1815,26 +1803,6 @@ $l2_per=$l3_per=50;
 
                 function addItem(listId, itemClass, textClass, editClass, deleteClass, label) {
 
-                    // let text = prompt(`Enter ${label}`);
-
-                    // if (text && text.trim() !== "") {
-
-                    //     $(listId).append(`
-                    //         <div class="${itemClass} d-flex justify-content-between align-items-start mb-2">
-                    //             <p class="mb-0 ${textClass}">${text}</p>
-
-                    //             <div class="d-flex gap-3">
-                    //                 <a href="#" class="${editClass} text-primary">
-                    //                     <i class="fa-solid fa-pencil"></i>
-                    //                 </a>
-
-                    //                 <a href="#" class="${deleteClass} text-danger">
-                    //                     <i class="fa-solid fa-trash-can"></i>
-                    //                 </a>
-                    //             </div>
-                    //         </div>
-                    //     `);
-                    // }
                     Swal.fire({
                         title: `Enter ${label}`,
                         input: "textarea",
@@ -1859,7 +1827,13 @@ $l2_per=$l3_per=50;
 
                             let text = result.value.trim();
 
-                            $(listId).append(`
+                            // Remove placeholder if present
+                            const container = $(listId);
+                            if (container.text().trim() === "Placeholder Text") {
+                                container.empty();
+                            }
+
+                            container.append(`
                                 <div class="${itemClass} d-flex justify-content-between align-items-start mb-2">
                                     <p class="mb-0 ${textClass}">${text}</p>
 
@@ -2041,46 +2015,57 @@ $l2_per=$l3_per=50;
 
                     if ($("#switchCheckGuestUser").is(":checked")) {
 
-                        // Enable radios
+                        // Enable radio buttons
                         $("#radioDefault1, #radioDefault2").prop("disabled", false);
+
+                        // Enable the corresponding textbox
+                        if ($("#radioDefault1").is(":checked")) {
+                            $("#guestAmount").prop("disabled", false);
+                            $("#guestPercentage").prop("disabled", true).val("");
+                        } else if ($("#radioDefault2").is(":checked")) {
+                            $("#guestPercentage").prop("disabled", false);
+                            $("#guestAmount").prop("disabled", true).val("");
+                        } else {
+                            // No radio selected yet
+                            $("#guestAmount, #guestPercentage").prop("disabled", true);
+                        }
 
                     } else {
 
-                        // Disable radios and inputs
+                        // Disable everything and clear values
                         $("#radioDefault1, #radioDefault2")
-                            .prop("disabled", true)
-                            .prop("checked", false);
+                            .prop("checked", false)
+                            .prop("disabled", true);
 
-                        $("#fixedAmount, #percentage")
-                            .prop("disabled", true)
-                            .val("");
+                        $("#guestAmount, #guestPercentage")
+                            .val("")
+                            .prop("disabled", true);
                     }
                 }
 
-                // Switch
+                // Guest User Switch
                 $("#switchCheckGuestUser").on("change", function () {
                     updateSection();
                 });
 
-                // Fixed Amount Radio
+                // Fixed Amount
                 $("#radioDefault1").on("change", function () {
                     if ($(this).is(":checked")) {
-                        $("#fixedAmount").prop("disabled", false);
-                        $("#percentage").prop("disabled", true).val("");
+                        $("#guestAmount").prop("disabled", false);
+                        $("#guestPercentage").prop("disabled", true).val("");
                     }
                 });
 
-                // Percentage Radio
+                // Percentage
                 $("#radioDefault2").on("change", function () {
                     if ($(this).is(":checked")) {
-                        $("#percentage").prop("disabled", false);
-                        $("#fixedAmount").prop("disabled", true).val("");
+                        $("#guestPercentage").prop("disabled", false);
+                        $("#guestAmount").prop("disabled", true).val("");
                     }
                 });
 
                 // Initial state
-                $("#radioDefault1, #radioDefault2").prop("disabled", true);
-                $("#fixedAmount, #percentage").prop("disabled", true);
+                updateSection();
 
             });
         </script>
