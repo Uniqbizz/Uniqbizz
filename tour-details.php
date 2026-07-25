@@ -469,7 +469,7 @@ if($user_type_id_value == '11'){
                                                     <div class="text-center">
                                                         <i class="ri-dashboard-line"></i>
                                                     </div>
-                                                    <a class="nav-link pt-0" href="#exclusion">Exclusion</a>
+                                                    <a class="nav-link pt-0" href="#inclusion">Exclusion</a>
                                                 </li>
                                                 <li class="nav-item navItem">
                                                     <div class="text-center">
@@ -489,7 +489,7 @@ if($user_type_id_value == '11'){
                                     <div class="content-sections">
                                         <div id="overview" class="section-block">
                                             <div class="card cardBackgroundColor rounded-3 p-3">
-                                                <h5 class="fw-bolder ">Overview</h5>
+                                                <h5 class="fw-bolder">Overview</h5>
                                                 <p class="text-muted fw-bold fontSize2 mt-2">
                                                     Experience the best of Thailand with pristine beaches, vibrant nightlife, iconic temples, thrilling water
                                                     activities and world-class shopping. A perfect holiday for families, couples and groups.
@@ -509,7 +509,7 @@ if($user_type_id_value == '11'){
                                         </div>
                                         <div id="highlights" class="section-block">
                                             <div class="card cardBackgroundColor rounded-3 p-3">
-                                                <h5 class="fw-bolder ">Highlights</h5>
+                                                <h5 class="fw-bolder">Highlights</h5>
                                                 <div class="d-flex gap-3 mt-2">
                                                     <div class="highlightIcon">
                                                         <i class="ri-arrow-right-up-box-line"></i>
@@ -532,7 +532,7 @@ if($user_type_id_value == '11'){
                                         </div>
                                         <div id="itinerary" class="section-block">
                                             <div class="card cardBackgroundColor rounded-3 p-3 pb-0">
-                                                <h5 class="fw-bolder ">Itinerary</h5>
+                                                <h5 class="fw-bolder">Itinerary</h5>
                                                 <div class="tour-details-content">
                                                     <div class="destination-accordion mt-2">
                                                         <div class="accordion" id="accordionItinerary">
@@ -610,13 +610,99 @@ if($user_type_id_value == '11'){
                                             </div>
                                         </div>
                                         <div id="inclusion" class="section-block">
-                                            <h4>Inclusion</h4>
-                                            Harsh
+                                            <div class="card cardBackgroundColor rounded-3 p-3">
+                                                <h5 class="fw-bolder">Inclusion & Exclusion</h5>
+                                                <div class="row">
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="checkIcon">
+                                                                <i class="ri-checkbox-circle-fill"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center">Exclusive Merchandise</p>
+                                                        </div>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="checkIcon">
+                                                                <i class="ri-checkbox-circle-fill"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center">Early Venue Access</p>
+                                                        </div>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="checkIcon">
+                                                                <i class="ri-checkbox-circle-fill"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center">Acoustic Performance</p>
+                                                        </div>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="checkIcon">
+                                                                <i class="ri-checkbox-circle-fill"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center">Tour Program</p>
+                                                        </div>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="checkIcon">
+                                                                <i class="ri-checkbox-circle-fill"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center">Transportation (if applicable)</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="closeIcon">
+                                                                <i class="ri-close-circle-fill"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center">Travel Expenses</p>
+                                                        </div>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="closeIcon">
+                                                                <i class="ri-close-circle-fill"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center">Accommodation</p>
+                                                        </div>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="closeIcon">
+                                                                <i class="ri-close-circle-fill"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center">Food and Beverage</p>
+                                                        </div>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="closeIcon">
+                                                                <i class="ri-close-circle-fill"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center">Parking Fees</p>
+                                                        </div>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="closeIcon">
+                                                                <i class="ri-close-circle-fill"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center">Personal Expenses</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div id="exclusion" class="section-block">
-                                            <h4>Exclusion</h4>
-                                            Shravan
-                                        </div>
+                                        <!-- <div id="exclusion" class="section-block">
+                                            <div class="card cardBackgroundColor rounded-3 p-3">
+                                                <h5 class="fw-bolder ">Exclusion</h5>
+                                                <div class="d-flex gap-3 mt-2">
+                                                    <div class="highlightIcon">
+                                                        <i class="ri-arrow-right-up-box-line"></i>
+                                                    </div>
+                                                    <p class="text-muted fontSize3 align-content-center">Exclusive merchandise available at each show</p>
+                                                </div>
+                                                <div class="d-flex gap-3 mt-2">
+                                                    <div class="highlightIcon">
+                                                        <i class="ri-arrow-right-up-box-line"></i>
+                                                    </div>
+                                                    <p class="text-muted fontSize3 align-content-center">VIP Packages with meet-and-greet options</p>
+                                                </div>
+                                                <div class="d-flex gap-3 mt-2">
+                                                    <div class="highlightIcon">
+                                                        <i class="ri-arrow-right-up-box-line"></i>
+                                                    </div>
+                                                    <p class="text-muted fontSize3 align-content-center">Special acoustic set in select cities</p>
+                                                </div>
+                                            </div>
+                                        </div> -->
                                         <div id="policies" class="section-block">
                                             <h4>Policies</h4>
                                             Pratiksha
