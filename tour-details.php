@@ -680,36 +680,51 @@ if($user_type_id_value == '11'){
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- <div id="exclusion" class="section-block">
-                                            <div class="card cardBackgroundColor rounded-3 p-3">
-                                                <h5 class="fw-bolder ">Exclusion</h5>
-                                                <div class="d-flex gap-3 mt-2">
-                                                    <div class="highlightIcon">
-                                                        <i class="ri-arrow-right-up-box-line"></i>
-                                                    </div>
-                                                    <p class="text-muted fontSize3 align-content-center">Exclusive merchandise available at each show</p>
-                                                </div>
-                                                <div class="d-flex gap-3 mt-2">
-                                                    <div class="highlightIcon">
-                                                        <i class="ri-arrow-right-up-box-line"></i>
-                                                    </div>
-                                                    <p class="text-muted fontSize3 align-content-center">VIP Packages with meet-and-greet options</p>
-                                                </div>
-                                                <div class="d-flex gap-3 mt-2">
-                                                    <div class="highlightIcon">
-                                                        <i class="ri-arrow-right-up-box-line"></i>
-                                                    </div>
-                                                    <p class="text-muted fontSize3 align-content-center">Special acoustic set in select cities</p>
-                                                </div>
-                                            </div>
-                                        </div> -->
                                         <div id="policies" class="section-block">
                                             <h4>Policies</h4>
                                             Pratiksha
                                         </div>
                                         <div id="faqs" class="section-block">
-                                            <h4>FAQs</h4>
-                                            Rohan
+                                            <div class="card cardBackgroundColor rounded-3 p-3 pb-0">
+                                                <h5 class="fw-bolder">Frequently Asked Questions</h5>
+                                                <div class="faq-wrapper mt-2">
+                                                    <div class="faq-item active">
+                                                        <div class="faq-header">
+                                                            <h5>Does offer free cancellation for a full refund?</h5>
+                                                            <i class="ri-eye-line faq-icon"></i>
+                                                        </div>
+                                                        <div class="faq-body">
+                                                            <p>
+                                                                Does have fully refundable room rates available to book on our site.
+                                                                If you've booked a fully refundable room rate, this can be cancelled
+                                                                up to a few days before check-in depending on the property's
+                                                                cancellation policy. Just make sure to check this property's cancellation 
+                                                                policy for the exact terms and conditions.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="faq-item">
+                                                        <div class="faq-header">
+                                                            <h5>Is there a pool?</h5>
+                                                            <i class="ri-eye-off-line faq-icon"></i>
+                                                        </div>
+
+                                                        <div class="faq-body">
+                                                            <p>Pool information goes here.</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="faq-item">
+                                                        <div class="faq-header">
+                                                            <h5>Are pets allowed?</h5>
+                                                            <i class="ri-eye-off-line faq-icon"></i>
+                                                        </div>
+                                                        <div class="faq-body">
+                                                            <p>Pet policy goes here.</p>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -3617,6 +3632,38 @@ if($user_type_id_value == '11'){
                             20
                     }, 500);
 
+                });
+
+            });
+        </script>
+        <script>
+            $(document).ready(function () {
+
+                $(".faq-header").click(function () {
+
+                    const currentItem = $(this).closest(".faq-item");
+
+                    $(".faq-item").not(currentItem).removeClass("active");
+
+                    $(".faq-item").not(currentItem)
+                        .find(".faq-icon")
+                        .removeClass("ri-eye-line")
+                        .addClass("ri-eye-off-line");
+
+                    currentItem.toggleClass("active");
+
+                    if (currentItem.hasClass("active")) {
+
+                        currentItem.find(".faq-icon")
+                            .removeClass("ri-eye-off-line")
+                            .addClass("ri-eye-line");
+
+                    } else {
+
+                        currentItem.find(".faq-icon")
+                            .removeClass("ri-eye-line")
+                            .addClass("ri-eye-off-line");
+                    }
                 });
 
             });
