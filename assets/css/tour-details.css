@@ -432,6 +432,48 @@ html {
 .faq-item.active .faq-icon {
     color: #e03d42;
 }
+.policyItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #eef1f4;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    transition: all .3s ease;
+}
+.policyItem:last-child {
+    margin-bottom: 0;
+}
+.policyItem p {
+    margin-bottom: 0;
+    font-size: 15px;
+    font-weight: 500;
+    color: #343a40;
+}
+.highlightIcon {
+    color: #e03d42;
+    font-size: 22px;
+}
+.downloadBtn {
+    width: 38px;
+    height: 38px;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #03033e;
+    background: #fff;
+    transition: all .3s ease;
+}
+.downloadBtn:hover {
+    background: #03033e;
+    border-color: #03033e;
+    color: #fff;
+}
 @media (max-width: 1199px) {
     .image-width {
         width: 100%;

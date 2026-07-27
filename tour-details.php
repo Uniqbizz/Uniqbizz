@@ -695,8 +695,42 @@ if($user_type_id_value == '11'){
                                             </div>
                                         </div>
                                         <div id="policies" class="section-block">
-                                            <h4>Policies</h4>
-                                            Pratiksha
+                                            <div class="card cardBackgroundColor rounded-3 p-3">
+                                                <h5 class="fw-bolder mb-3">Policies</h5>
+                                                <div class="policyItem">
+                                                    <div class="d-flex align-items-center gap-3">
+                                                        <div class="highlightIcon">
+                                                            <i class="ri-file-pdf-line"></i>
+                                                        </div>
+                                                        <p class="mb-0">Package Brochure</p>
+                                                    </div>
+                                                    <a href="<?= $policy_file ?>" target="_blank" class="downloadBtn">
+                                                        <i class="ri-download-line"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="policyItem">
+                                                    <div class="d-flex align-items-center gap-3">
+                                                        <div class="highlightIcon">
+                                                            <i class="ri-file-pdf-line"></i>
+                                                        </div>
+                                                        <p class="mb-0">Detailed Itinerary</p>
+                                                    </div>
+                                                    <a href="uploads/detailed-itinerary.pdf" download class="downloadBtn">
+                                                        <i class="ri-download-line"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="policyItem">
+                                                    <div class="d-flex align-items-center gap-3">
+                                                        <div class="highlightIcon">
+                                                            <i class="ri-file-pdf-line"></i>
+                                                        </div>
+                                                        <p class="mb-0">Terms & Conditions</p>
+                                                    </div>
+                                                    <a href="uploads/terms-conditions.pdf" download class="downloadBtn">
+                                                        <i class="ri-download-line"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div id="faqs" class="section-block">
                                             <div class="card cardBackgroundColor rounded-3 p-3 pb-0">
@@ -747,6 +781,7 @@ if($user_type_id_value == '11'){
                                     <div class="pricingSection">
                                         <div class="card priceCard rounded-3 mb-3">
                                             <div class="pricingHeader p-3">
+                                                <h5 class="text-white fw-bolder mb-2"><?= $package['name'] ?></h5>
                                                 <p class="text-white mb-2">Starting From</p>
                                                 <div class="row">
                                                     <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-6">
@@ -840,837 +875,10 @@ if($user_type_id_value == '11'){
                                 </div>
                             </div>
                             <!-- Card Section End 2 -->
-                            <!-- Details Heading -->
-                            <div class="details-heading">
-                                <div class="d-flex flex-column">
-                                    <h4 class="title" id="pack_name"><?php echo $package['name'] ?></h4>
-                                    <div class="d-flex flex-wrap align-items-center gap-30 mt-16">
-                                        <div class="location">
-                                            <i class="ri-map-pin-line"></i>
-                                            <div class="name"><?php echo $package['destination'] ?></div>
-                                        </div>
-                                        <div class="divider"></div>
-                                        <div class="d-flex align-items-center flex-wrap gap-20">
-                                            <div class="count">
-                                                <!-- <i class="ri-time-line"></i>
-                                                <p class="pera"><?php echo $package['description'] ?> </p> -->
-                                                <i class="ri-map-pin-line"></i>
-                                                <p class="pera"><?php echo $package['location'] ?></p>
-                                            </div>
-                                            <div class="count">
-                                                <i class="ri-landscape-line"></i>
-                                                <p class="pera"><?php echo $package['sightseeing_type'] ?></p>
-                                            </div>
-                                            <div class="count">
-                                                <i class="ri-roadster-line"></i>
-                                                <?php
-                                                $veh_names = []; // Initialize an array to store vehicle names
-
-                                                foreach ($vehicle_type as $value) { // Corrected variable name
-                                                    foreach ($vehicle_type_id as $idvalue) { // Corrected variable name
-                                                        if ($idvalue['id'] == $value['vehicle_id']) { // Corrected key reference
-                                                            $veh_names[] = $idvalue['name']; // Store vehicle names in an array
-                                                        }
-                                                    }
-                                                }
-
-                                                echo '<p class="pera">' . implode(', ', $veh_names) . '</p>'; // Join array values with commas
-                                                ?>
-                                            </div>
-                                            <div class="count">
-                                                <i class="ri-hotel-bed-line"></i>
-                                                <?php
-                                                $occu_names = []; // Initialize an array to store occupancy names
-
-                                                foreach ($occu_type as $value) {
-                                                    foreach ($occu_type_id as $idvalue) {
-                                                        if ($idvalue['id'] == $value['occupancy_id']) { // Ensure proper key reference
-                                                            $occu_names[] = $idvalue['name']; // Store occupancy names in an array
-                                                        }
-                                                    }
-                                                }
-
-                                                echo '<p class="pera">' . implode(', ', $occu_names) . '</p>';
-                                                ?>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="price-review">
-                                    <div class="d-flex gap-10 align-items-end">
-                                        <p class="light-pera">Starting From</p>
-                                        <p class="pera">
-                                            <span>&#8377</span><?php echo $amount['total_package_price_per_adult'] + $amount['price_up_per_adult'] + $ta_markup_price_val ?>/-
-                                        </p>
-                                        <!-- <p class="light-pera">exclusive of Tax</p> -->
-                                    </div>
-                                    <!-- <div class="rating">
-                                        <i class="ri-star-s-fill"></i>
-                                        <p class="pera">4.7 (20 Reviews)</p>
-                                    </div> -->
-                                </div>
-                            </div>
-                            <!-- / Details Heading -->
-
-                            <div class="mt-30">
-                                <div class="row g-4">
-                                    <!-- Left content -->
-                                    <div class="col-xl-8 col-lg-7">
-
-                                        <!-- About tour -->
-                                        <div class="tour-details-content">
-                                            <h4 class="title">About</h4>
-                                            <p class="pera"><?php echo $package['description'] ?></p>
-                                        </div>
-                                        <!-- / About tour -->
-
-                                        <!-- Tour Include Exclude -->
-                                        <div class="tour-include-exclude radius-6">
-                                            <div class="row">
-                                                <div class="includ-exclude-point col-md-5">
-                                                    <h4 class="title">Included</h4>
-                                                    <ul class="expect-list">
-                                                        <?php
-                                                        $decription = $itinery['inclusion'];
-                                                        $decription_1 = explode('.', $decription);
-                                                        foreach ($decription_1 as $desc) {
-                                                            echo ' <li class="list">' . $desc . '</li> ';
-                                                        }
-                                                        ?>
-                                                    </ul>
-                                                </div>
-                                                <div class="divider border-1 p-0"></div>
-                                                <div class="includ-exclude-point col-md-5">
-                                                    <h4 class="title">Exclude</h4>
-                                                    <ul class="expect-list">
-                                                        <?php
-                                                        $decription = $itinery['exclusion'];
-                                                        $decription_1 = explode('.', $decription);
-                                                        foreach ($decription_1 as $desc) {
-                                                            echo ' <li class="list">' . $desc . '</li> ';
-                                                        }
-                                                        ?>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- / Tour Include Exclude -->
-
-                                        <!-- Tour Plan accordion-->
-                                        <!-- <div class="tour-details-content mb-30">
-                                            <h4 class="title">Tour Plan</h4>
-                                            <div class="destination-accordion">
-                                                <div class="accordion" id="accordionPanelsStayOpenExample">
-                                                    <?php
-                                                    // package_trip_days 
-                                                    // $data4 = $conn->prepare("SELECT * FROM package_trip_days WHERE package_id = $id");
-                                                    // $data4->execute();
-                                                    // $data4->setFetchMode(PDO::FETCH_ASSOC);
-
-                                                    // if ($data4->rowCount() > 0) {
-                                                    //     foreach (($data4->fetchAll()) as $key_3 => $day) {
-                                                    //         $decription = $day['day_details'];
-                                                    //         $decription_1 = explode(".", $decription);
-                                                    //         $decription_2 = implode(".<br>", $decription_1);
-                                                    //         echo '<div class="accordion-item">
-                                                    //                 <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                                    //                     <button class="accordion-button" type="button"
-                                                    //                         data-bs-toggle="collapse"
-                                                    //                         data-bs-target="#panelsStayOpen-collapseOne"
-                                                    //                         aria-expanded="true"
-                                                    //                         aria-controls="panelsStayOpen-collapseOne">
-                                                    //                         Day ' . ++$key_3 . ' - ' . $day['title'] . '
-                                                    //                     </button>
-                                                    //                 </h2>
-                                                    //                 <div id="panelsStayOpen-collapseOne"
-                                                    //                     class="accordion-collapse collapse show"
-                                                    //                     aria-labelledby="panelsStayOpen-headingOne">
-                                                    //                     <div class="accordion-body">
-                                                    //                         <ul class="listing">
-                                                    //                             <li class="list">
-                                                    //                                 ' . $decription_2 . '
-                                                    //                             </li>
-                                                    //                         </ul>
-                                                    //                         <hr style="border-top: 1px solid #4b5051" />
-                                                    //                         <div class="row">
-                                                    //                             <div class="col-md-6 col-sm-12 col-12 d-flex">
-                                                    //                                 <h6>Meal:&nbsp;</h6>
-                                                    //                                 <p>' . $day['meal_plan'] . '</p>
-                                                    //                             </div>
-                                                    //                             <div class="col-md-6 col-sm-12 col-12 d-flex">
-                                                    //                                 <h6>Transport:&nbsp;</h6>
-                                                    //                                 <p>' . $day['day_tansport'] . '</p>
-                                                    //                             </div>
-                                                    //                         </div>
-                                                    //                     </div>
-                                                    //                 </div>
-                                                    //             </div>';
-                                                    //     }
-                                                    // }
-                                                    ?>
-
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                                                            <button class="accordion-button collapsed" type="button"
-                                                                data-bs-toggle="collapse"
-                                                                data-bs-target="#panelsStayOpen-collapseTwo"
-                                                                aria-expanded="false"
-                                                                aria-controls="panelsStayOpen-collapseTwo">
-                                                                Edit 
-                                                            </button>
-                                                        </h2>
-                                                        <div id="panelsStayOpen-collapseTwo"
-                                                            class="accordion-collapse collapse"
-                                                            aria-labelledby="panelsStayOpen-headingTwo">
-                                                            <div class="accordion-body">
-                                                                <p class="pera mb-16">Lorem ipsum dolor sit amet,
-                                                                    consectetur adipiscing elit, sed do
-                                                                    eiusmod tempor incididunt ut labore et dolore magna
-                                                                    aliqua. Ut enim ad minim veniam,
-                                                                    quis nostrud exercitation ullamco laboris nisi ut
-                                                                    aliquip ex ea commodo consequat. Duis
-                                                                    aute irure dolor in reprehenderit in voluptate velit
-                                                                    esse cillum dolore eu fugiat nulla
-                                                                    pariatur. Excepteur sint occaecat cupidatat non
-                                                                    proident, sunt in culpa qui officia
-                                                                    deserunt mollit anim id est laborum."</p>
-                                                                <ul class="listing">
-                                                                    <li class="list">
-                                                                        “Life is either a daring adventure or nothing at
-                                                                        all.” ...
-                                                                    </li>
-                                                                    <li class="list">
-                                                                        “Travel far enough, you meet yourself.” ...
-                                                                    </li>
-                                                                    <li class="list">
-                                                                        “Wherever you go becomes a part of you somehow.” ...
-                                                                    </li>
-                                                                    <li class="list">
-                                                                        “Once a year, go someplace you've never been
-                                                                        before.”
-                                                                    </li>
-                                                                </ul>
-                                                                <hr style="border-top: 1px solid #4b5051" />
-                                                                <div class="row">
-                                                                    <div class="col-md-6 col-sm-12 col-12 d-flex">
-                                                                        <h6>Meal:&nbsp;</h6>
-                                                                        <p>Breakfast</p>
-                                                                    </div>
-                                                                    <div class="col-md-6 col-sm-12 col-12 d-flex">
-                                                                        <h6>Transport:&nbsp;</h6>
-                                                                        <p>Car</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div> -->
-
-                                        <div class="tour-include-exclude radius-6">
-                                            <div class="row">
-                                                <div class="includ-exclude-point col-md-12 col-sm-12 col-12">
-                                                    <h4 class="title">Remark</h4>
-                                                    <ul class="expect-list">
-                                                        <?php
-                                                        $decription = $itinery['remark'];
-                                                        $decription_1 = explode('.', $decription);
-                                                        foreach ($decription_1 as $desc) {
-                                                            echo ' <li class="list">' . $desc . '</li> ';
-                                                        }
-                                                        ?>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        
-                                    </div>
-                                    <div class="col-xl-4 col-lg-5" id="sidebar-sticky">
-                                        <!-- added on 30 Jan 2025 by N-->
-                                        <div class="row">
-                                            <div class="col-xl-12 col-lg-12 mb-3" id="sidebar-sticky">
-                                                <aside class="date-travel-card position-sticky top-0 pt-3 pb-1">
-                                                    <div class="sidebar-item sidebar-item-dark">
-                                                        <div class="detail-title mb-3">
-                                                            <p class="fs-6 text-muted">Per Adult Price: <b>₹
-                                                                    <?php echo $amount['total_package_price_per_adult'] + $amount['price_up_per_adult'] + $ta_markup_price_val; ?>/-</b>
-                                                            </p>
-                                                            <p class="fs-6 text-muted">Per Child Price: <b>₹
-                                                                    <?php echo $amount['total_package_price_per_child']; ?>/-</b>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </aside>
-                                            </div>
-                                            <div class="detail-title mb-3 d-flex justify-content-between bookBtn">
-                                                <?php if($userId !='0'){ ?>
-                                                <button class="send-btn toggle-btn p-2 bookBtn1" id="button1">Book This Tour</button>
-                                                <?php  } ?>
-                                                <button class="send-btn toggle-btn p-2" id="button2">Request Quotation</button>
-                                            </div>
-                                            <div id="sidebar-sticky">
-                                                <div class="sidebar-item sidebar-item-dark">
-                                                    <?php if($userId !='0'){ ?>
-                                                    <div class="form-container date-travel-card position-sticky top-0" id="form1">
-                                                        <form>
-                                                            <h5 class="fw-bolder my-2">Book Tour</h5>
-                                                            <input type="hidden" name="_token" id="csrf-token"
-                                                                value="{{ Session::token() }}" />
-                                                            <input type="hidden" name="package_id" id="package_id"
-                                                                value="<?php echo $id ?>" />
-                                                            <div class="row">
-                                                                <?php
-                                                                $user_type = $_SESSION['user_type_id_value'];
-
-                                                                $fname = '';
-                                                                $lname = '';
-                                                                $email = '';
-                                                                $phone = '';
-                                                                $dob = '';
-                                                                $customer_id = '';
-                                                                $user_cust_id = "0";
-                                                                $ta_markup_price = 0;
-                                                                $ta_id = '';
-
-                                                                // For Travel Agent Reference Customers 
-                                                                if ($_SESSION['user_id']) {
-                                                                    $user_cust_id = $_SESSION['user_id'];
-                                                                }
-
-                                                                //  If Customer then
-                                                                if ($user_type == "10") {
-                                                                    $stmt = $conn->prepare("SELECT * FROM ca_customer where ca_customer_id='" . $user_cust_id . "' AND status=1");
-                                                                    $stmt->execute();
-                                                                    $data = $stmt->fetch();
-                                                                    if ($data) {
-                                                                        $fname = $data['firstname'];
-                                                                        $lname = $data['lastname'];
-                                                                        $email = $data['email'];
-                                                                        $phone = $data['contact_no'];
-                                                                        $dob = $data['age'];
-                                                                        $customer_id = $data['ca_customer_id'];
-
-                                                                        $ta_id = $data['ta_reference_no'];
-                                                                    }
-
-                                                                ?>
-                                                                    <input type="hidden" id="cust_id"
-                                                                        value="<?php echo $customer_id ?>" />
-                                                                    <!-- // Else If Travel Agent -->
-                                                                <?php } else if ($user_type == "11") {
-                                                                    $ta_id = $user_cust_id;
-                                                                ?>
-                                                                    <input type="hidden" id="user_id"
-                                                                        value="<?php echo $ta_id ?>" />
-                                                                    <!-- get Customer Type -->
-                                                                    <div class="form-group col-sm-12 mb-3">
-                                                                        <label class="b_label" for="b_cust_type">Customer Type</label>
-                                                                        <div class="selectdesign mt-2">
-                                                                            <span>
-                                                                                <input type="radio" name="cust_type" value="1"
-                                                                                    id="registered" class="radio_label"
-                                                                                    checked="checked">
-                                                                                <label class="radio_label b_label"
-                                                                                    for="registered">Registered</label>
-                                                                            </span>
-                                                                            <span class="ms-5">
-                                                                                <input type="radio" name="cust_type" value="2"
-                                                                                    id="lead" class="radio_label">
-                                                                                <label class="radio_label b_label"
-                                                                                    for="lead">Lead</label>
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <!-- TA -->
-                                                                    <!-- <div class="input-box col-sm-12 customersID">
-                                                                        <input type="text" class="border-0 fs-6 bg-transparent"
-                                                                            list="customer_suggestion" id="cust_id"
-                                                                            placeholder="Select Customer ID" />
-                                                                        <datalist id="customer_suggestion" class="selectdesign">
-                                                                            <?php // echo '<option> No Customer to Show </option>'; ?>
-                                                                        </datalist>
-                                                                    </div> -->
-                                                                    <div class="input-box fs-6 col-sm-12 customersID">
-                                                                        <select id="cust_id" class="border-0 fs-6 bg-transparent" style="width:100%;">
-                                                                            <option value="">Select Customer ID</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <!--  TA End -->
-                                                                <?php } else { ?>
-                                                                    <input type="hidden" id="cust_id" value="0" />
-                                                                <?php }
-
-                                                                // get TA Mark up Price
-                                                                if ($ta_id) {
-                                                                    $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '" . $ta_id . "' AND package_id = '" . $id . "' LIMIT 1");
-                                                                    $ta_markup_data->execute();
-                                                                    $ta_markup = $ta_markup_data->fetch();
-                                                                    if ($ta_markup) {
-                                                                        $ta_markup_price = $ta_markup['markup'] ?? 0;
-                                                                    } else {
-                                                                        $ta_markup_price = 0;
-                                                                    }
-                                                                } else {
-                                                                    $ta_markup_price = 0;
-                                                                }
-                                                                ?>
-                                                                <input type="hidden" name="dob" id="dob"
-                                                                    value="<?php echo $dob ?>" />
-                                                                <!-- payee details -->
-                                                                <input type="hidden" id="payee_name" value="" />
-                                                                <input type="hidden" id="payee_email" value="" />
-                                                                <input type="hidden" id="payee_contact" value="" />
-                                                                <input type="hidden" id="book_id" value="" />
-                                                                <!-- payee details -->
-
-                                                                <label class="b_label d-flex justify-content-between pe-0" for="b_name">Name
-                                                                    <span id="primeCustomer_span" class="mb-2 d-none">
-                                                                        <span id="specCust" class="py-1 px-2 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 border-0 fontSize">
-                                                                            
-                                                                        </span>
-                                                                    </span>
-                                                                </label>
-                                                                <div class="input-box col-sm-12">
-                                                                    <input type="text"
-                                                                        class=" border-0 fs-6 bg-transparent w-100"
-                                                                        name="b_name" id="b_name" placeholder="Name"
-                                                                        value="<?php echo $fname . ' ' . $lname ?>">
-                                                                </div>
-
-                                                                <label class="b_label" for="b_email">Email </label>
-                                                                <div class="input-box col-sm-12">
-                                                                    <input type="email"
-                                                                        class=" border-0 fs-6 bg-transparent w-100"
-                                                                        name="b_email" id="b_email" placeholder="Email"
-                                                                        value="<?php echo $email ?>">
-                                                                </div>
-                                                                <label class="b_label" for="b_phn_no">Mobile </label>
-                                                                <div class="input-box col-sm-12 ">
-                                                                    <input type="tel"
-                                                                        class=" border-0 fs-6 bg-transparent w-100"
-                                                                        name="b_phn_no" id="b_phn_no"
-                                                                        placeholder="Phone Number"
-                                                                        value="<?php echo $phone ?>">
-                                                                </div>
-                                                                <label class="b_label" for="b_date">Tour Date </label>
-                                                                <div class="input-box col-sm-12">
-                                                                    <input type="date"
-                                                                        class=" border-0 fs-6 bg-transparent w-100"
-                                                                        name="b_date" id="b_date" value="">
-                                                                </div>
-
-                                                                <div class="form-group col-sm-12 px-0">
-                                                                    <div class="row">
-                                                                        <?php if (!empty($amount['total_package_price_per_child'])) { ?>
-                                                                            <div class="form-group col-sm-4 col-6">
-                                                                            <?php } else { ?>
-                                                                                <div class="form-group col-sm-4 col-6">
-                                                                                <?php } ?>
-                                                                                <label class="b_label ps-3" for="b_no_adult">Adults</label>
-                                                                                <div class="input-box p-2 mb-1">
-                                                                                    <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="b_no_adult" id="b_no_adult" value="" placeholder="Adults" min="1">
-                                                                                </div>
-                                                                                <span class="label_txt ps-3 fontSize"> (12+ Yrs) </span>
-                                                                                </div>
-                                                                                <?php if (!empty($amount['total_package_price_per_child'])) { ?>
-                                                                                    <div class="form-group col-sm-4 col-6">
-                                                                                        <label class="b_label ps-3"
-                                                                                            for="b_no_child">Children </label>
-                                                                                        <div class="input-box p-2 mb-1">
-                                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="b_no_child" id="b_no_child" value="0" placeholder="Children" min="0">
-                                                                                        </div>
-                                                                                        <span class="label_txt ps-3 fontSize"> (3-11 Yrs) </span>
-                                                                                    </div>
-                                                                                <?php } else { ?>
-                                                                                    <input type="number" class="form-control" name="b_no_child" id="b_no_child" value="0" placeholder="Children" min="0" style="display:none">
-                                                                                <?php } ?>
-                                                                                <?php if (!empty($amount['total_package_price_per_child'])) { ?>
-                                                                                    <div class="form-group col-sm-4 col-6">
-                                                                                    <?php } else { ?>
-                                                                                        <div class="form-group col-sm-6 pe-0">
-                                                                                        <?php } ?>
-                                                                                        <label class="b_label ps-3"
-                                                                                            for="b_no_infants">Infants </label>
-                                                                                        <div class="input-box p-2 mb-1">
-                                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="b_no_infants" id="b_no_infants" placeholder="Infants" value="0" min="0">
-                                                                                        </div>
-                                                                                        <span class="label_txt ps-3 fontSize"> (Under 2 Yrs)</span>
-                                                                                        </div>
-                                                                                    </div>
-                                                                            </div>
-
-                                                                            <div id="discount_price_box" class="px-0 d-none">
-                                                                                <h5 class="fw-bold fs-6 my-2">Available Coupons</h5>
-                                                                                <select class="form-select" id="coupon_select" onchange="applySelectedCoupon()">
-                                                                                    <option value="" disabled>Select a coupon</option>
-                                                                                </select>
-                                                                            </div>
-                                                                            <div class="col-sm-12" id="primeCustomer" style="display: none;">
-                                                                                <div class="row">
-                                                                                    <div class="col-12 col-sm-12 text-end text-color t1 mt-3">
-                                                                                        <h5 class="fw-bold"><del style="font-size: 14px;">₹ <span id="get_total_package_price">0</span></del>
-                                                                                    </div>
-                                                                                    <div class="col-6 col-sm-6 text-color t1 pe-0">
-                                                                                        <h5 class="fw-bold">Total Amount</h5>
-                                                                                    </div>
-                                                                                    <div class="col-xs-5 col-sm-6 text-color text-end t2 d-none">
-                                                                                        ₹ <span id="get_single_adult_package_price">0</span>
-                                                                                    </div>
-                                                                                    <div class="col-6 col-sm-6 text-color text-end t2 ps-0">
-                                                                                        <h5 class="fw-bold">₹ <span id="get_total_package_price_actual">0</span></h5>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-sm-12 d-none" id="nonprimeCustomer">
-                                                                                <div class="row">
-                                                                                    <div class="col-7 col-sm-7 text-color t1 mt-3">
-                                                                                        <h5 class="fw-bold">Total Amount</h5>
-                                                                                    </div>
-                                                                                    <div class="col-xs-5 col-sm-6 text-color text-end t2 d-none">
-                                                                                        ₹ <span id="get_single_adult_package_price_np">0</span>
-                                                                                    </div>
-                                                                                    <div class="col-5 col-sm-5 text-color text-end t2 mt-3">
-                                                                                        <h5 class="fw-bold">₹ <span id="get_total_package_price_np">0</span></h5>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div id="discount_price_box_amt" class="d-none">
-                                                                                <div class="row mt-2">
-                                                                                    <div class="col-sm-6 col-6">
-                                                                                        <h5 class="fw-bold fs-6">Coupon Discount</h5>
-                                                                                    </div>
-                                                                                    <div class="col-sm-6 col-6 text-end">
-                                                                                        <h5 class="fw-bold fs-6"><span> - </span>₹ <span id="get_total_discount_price">0</span></h5>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div id="offer_price_box" class="d-none">
-                                                                                <div class="row mt-2">
-                                                                                    <div class="col-sm-7 col-7">
-                                                                                        <h5 class="fw-bold">Total Net Payable</h5>
-                                                                                    </div>
-                                                                                    <div class="col-sm-5 col-5 text-end">
-                                                                                        <h5 class="fw-bold">₹ <span id="get_total_offer_price">0</span></h5>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-12 col-sm-12 text-color t1 pt-2">
-                                                                                <!-- <h5 class="fw-bold fs-6">Convenience Fee @3%</h5> -->
-                                                                                <h5 class="fw-bold fs-6">Cancellation Policy before travel date:</h5>
-                                                                            </div>
-                                                                            <div class="col-7 col-sm-7 text-color t1 pt-2">
-                                                                                <!-- <h5 class="fw-bold fs-6">Convenience Fee @3%</h5> -->
-                                                                                <!-- <h5 class="fw-bold">Cancellation Policy before travel date:</h5> -->
-                                                                                <h5 class=" fs-6">30+ days:</h5>
-                                                                                <h5 class=" fs-6">15-30 days:</h5>
-                                                                                <h5 class=" fs-6">Less then 15 days:</h5>
-                                                                            </div>
-                                                                            <div class="col-5 col-sm-5 text-color t2 pt-2">
-                                                                                <h5 class="fw-bold fs-6"></h5>
-                                                                                <h5 class="fw-bold fs-6">
-                                                                                    <?php echo $cancel_policy['policy_1'] . "% Refund";
-                                                                                    ?> </h5>
-                                                                                <h5 class="fw-bold fs-6">
-                                                                                    <?php echo $cancel_policy['policy_2'] . "% Refund";
-                                                                                    ?> </h5>
-                                                                                <h5 class="fw-bold fs-6">
-                                                                                    <?php echo $cancel_policy['policy_3'] . "% Refund";
-                                                                                    ?> </h5>
-                                                                            </div>
-                                                                            <div class="col-12 col-sm-12 text-color t1 pt-2">
-                                                                                <h5>Please Note:<p class="fst-italic text-muted"> Cancellation (%) will be applicable to only to the amount paid and not on remaining balance in case of part payment</p>
-                                                                                </h5>
-                                                                            </div>
-                                                                            <?php
-
-                                                                            ?>
-
-
-                                                                            <div class="checkbox-outer checkBox-align pt-3">
-                                                                                <input type="checkbox" name="product_terms" id="terms_condtion">
-                                                                                <label for="terms_condtion" style="cursor: pointer"> I agree to the terms and condition</label><br>
-                                                                                <!-- <a id="view_terms" href="javascript:void(0)" onclick="document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'"> View Terms and Conditions</a> -->
-                                                                            </div>
-                                                                            <div class="mt-3 px-0">
-                                                                                <!-- <div class=""> -->
-                                                                                <!-- <a href="#" class="text-white" id="book_tour"></a> -->
-                                                                                <button type="button" class="send-btn w-100 d-flex justify-content-center" id="book_tour" class="text-white">
-                                                                                    Book Now
-                                                                                </button>
-                                                                                <!-- </div> -->
-                                                                            </div>
-                                                                    </div>
-                                                        </form>
-                                                    </div>
-                                                    <?php  } ?>
-                                                    <div class="form-container date-travel-card position-sticky top-0" id="form2">
-                                                        
-                                                        <form>
-                                                            <h5 class="fw-bolder my-2">Enquiry / Quotation Form</h5>
-                                                            <div class="row">
-                                                                <label class="q_label" for="q_name">Name <span class="text-danger">*</span></label>
-                                                                <div class="input-box col-sm-12">
-                                                                    <input type="text" class="form-control border-0 fs-6 bg-transparent w-100" name="q_name" id="q_name" placeholder="Full Name" value="">
-                                                                </div>
-                                                                <label class="q_label" for="q_phn_no">Mobile <span class="text-danger">*</span></label>
-                                                                <div class="input-box col-sm-12 ">
-                                                                    <input type="tel" class="form-control border-0 fs-6 bg-transparent w-100" name="q_phn_no" id="q_phn_no" placeholder="Phone Number" value="">
-                                                                </div>
-                                                                <label class="q_label" for="q_email">Email <span class="text-danger">*</span></label>
-                                                                <div class="input-box col-sm-12">
-                                                                    <input type="email" class="form-control border-0 fs-6 bg-transparent w-100" name="q_email" id="q_email" placeholder="Email" value="">
-                                                                </div>
-                                                                <label class="q_label" for="q_duration">Trip Duration <span class="text-danger">*</span></label>
-                                                                <div class="form-group col-sm-12 px-0 pb-2">
-                                                                    <div class="row">
-                                                                        <!-- <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_duration" id="q_duration" placeholder="Trip Duration" value=""> -->
-                                                                        <div class="form-group col-sm-6 col-6">
-                                                                            <div class="input-box p-2 mb-1">
-                                                                                <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_duration_min" id="q_duration_min" value="0" placeholder="Min">
-                                                                            </div>
-                                                                            <span class="label_txt ps-3 fontSize">( Min )</span>
-                                                                        </div>
-                                                                        <div class="form-group col-sm-6 col-6">
-                                                                            <div class="input-box p-2 mb-1">
-                                                                                <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_duration_max" id="q_duration_max" value="0" placeholder="Max">
-                                                                            </div>
-                                                                            <span class="label_txt ps-3 fontSize">( Max )</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <label class="q_label" for="q_date">Travel Date <span class="text-danger">*</span></label>
-                                                                <div class="input-box col-sm-12">
-                                                                    <input type="date" class="form-control border-0 fs-6 bg-transparent w-100" name="q_date" id="q_date" value="">
-                                                                </div>
-
-                                                                <div class="form-group col-sm-12 px-0">
-                                                                    <div class="row">
-                                                                        <div class="form-group col-sm-4 col-6">
-                                                                            <label class="q_label ps-3" for="q_no_adult">Adults<span class="text-danger">*</span></label>
-                                                                            <div class="input-box p-2 mb-1">
-                                                                                <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_no_adult" id="q_no_adult" value="1" placeholder="Adults" min="1">
-                                                                            </div>
-                                                                            <span class="label_txt ps-3 fontSize"> (12+ Yrs) </span>
-                                                                        </div>
-                                                                        <div class="form-group col-sm-4 col-6">
-                                                                            <label class="q_label ps-3" for="q_no_child">Children </label>
-                                                                            <div class="input-box p-2 mb-1">
-                                                                                <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_no_child" id="q_no_child" value="0" placeholder="Children" min="0">
-                                                                            </div>
-                                                                            <span class="label_txt ps-3 fontSize"> (3-11 Yrs) </span>
-                                                                        </div>
-                                                                        <div class="form-group col-sm-4 col-6">
-                                                                            <label class="q_label ps-3"
-                                                                                for="q_no_infants">Infants </label>
-                                                                            <div class="input-box p-2 mb-1">
-                                                                                <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_no_infants" id="q_no_infants" min="0" value="0">
-                                                                            </div>
-                                                                            <span class="label_txt ps-3 fontSize"> (Under 2 Yrs)</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <label class="q_label" for="q_budget">Approx. Budget (&#8377;) <span class="text-danger">*</span></label>
-                                                                <div class="form-group col-sm-12 px-0 pb-2">
-                                                                    <div class="row">
-                                                                        <div class="form-group col-sm-6 col-6">
-                                                                            <div class="input-box p-2 mb-1">
-                                                                                <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_budget_min" id="q_budget_min" value="0" placeholder="Min">
-                                                                            </div>
-                                                                            <span class="label_txt ps-3 fontSize">( Min )</span>
-                                                                        </div>
-                                                                        <div class="form-group col-sm-6 col-6">
-                                                                            <div class="input-box p-2 mb-1">
-                                                                                <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_budget_max" id="q_budget_max" value="0" placeholder="Max">
-                                                                            </div>
-                                                                            <span class="label_txt ps-3 fontSize">( Max )</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <label class="q_label" for="q_meals">Meals Required <span class="text-danger">*</span></label>
-                                                                <div class="input-box col-sm-12 d-flex justify-content-around">
-                                                                    <div class="form-check form-check-inline fs-6 me-0">
-                                                                        <input class="form-check-input meal-checkbox" type="checkbox" id="inlineCheckbox1" value="breakfast">
-                                                                        <label class="form-check-label" for="inlineCheckbox1">Breakfast</label>
-                                                                    </div>
-                                                                    <div class="form-check form-check-inline fs-6 me-0">
-                                                                        <input class="form-check-input meal-checkbox" type="checkbox" id="inlineCheckbox2" value="lunch">
-                                                                        <label class="form-check-label" for="inlineCheckbox2">Lunch</label>
-                                                                    </div>
-                                                                    <div class="form-check form-check-inline fs-6 me-0">
-                                                                        <input class="form-check-input meal-checkbox" type="checkbox" id="inlineCheckbox3" value="dinner">
-                                                                        <label class="form-check-label" for="inlineCheckbox3">Dinner</label>
-                                                                    </div>
-                                                                </div>
-                                                                <label class="q_label" for="q_comment">Additional Remarks(If Any)</label>
-                                                                <div class="form-floating px-0">
-                                                                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-                                                                    <!-- <label for="floatingTextarea2">Comments</label> -->
-                                                                </div>
-                                                                <input type="hidden" value="<?= $userId ?>" id="q_user_id">
-                                                                <div class="mt-3 px-0">
-                                                                    <button type="button" class="send-btn w-100 d-flex justify-content-center" id="submit_quotations" class="text-white">
-                                                                        Submit
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </section>
-
-            <!-- pop booking members -->
-            <!-- <div id="show_ticket_book_box" > -->
-            <div class="modal fade" id="show_ticket_book_box" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Tour Members:</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row d-flex justify-content-between member-details p-3">
-                                <div class="input-box col-12 col-sm-12 col-md-5 col-lg-5 col-xl-5 col-xxl-5">
-                                    <label for="m_name">Adult</label>
-                                    <input type="text" id="m_name_1" name="m_name[]" class="border-0 fs-6 w-100" placeholder="Name" onInput="validateTourMemberName(this)">
-                                </div>
-
-                                <div class="input-box col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 col-xxl-3">
-                                    <label for="m_age_1"></label>
-                                    <input type="text" id="m_age_1" name="m_age[]" class="border-0 fs-6 w-100" placeholder="Age" onblur="validateAge(this)" maxlength="3">
-                                </div>
-
-                                <div class="input-box col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 col-xxl-3">
-                                    <label for="m_gender"></label>
-                                    <select name="m_gender[]" class="border-0 fs-6 w-100" placeholder="Gender" class="selectdesign">
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <!-- adding additional member function -->
-                            <div class="input_fields_wrap_members"></div>
-                            <button class="add_field_button_member custom_btn btn1 w-25 border-0 py-3 rounded-3 mt-3 ms-2" id="add_field_button_member">
-                                <span id="hide_add_member">
-                                    No Member to Add
-                                </span>
-                                <span id="show_add_member" style="display:none">
-                                    <span id="show_add_remove_member">Add/Remove</span> &nbsp; <span id="member_count"></span> &nbsp; Member
-                                </span>
-                            </button>
-                            <!-- adding additional member function -->
-                            <!-- error msg -->
-                            <!-- <label for="error" id="member_validation" class="error_msg" style="padding: 1px 5px; margin: 10px 0px; font-size: 12px; display: none">Error</label> -->
-                            <label for="error" id="members_error" class="error_msg" style="padding: 1px 5px; margin: 10px 0px; font-size: 12px"></label>
-                            <label for="error" id="member_validationAdult" class="error_msg text-danger-emphasis bg-danger-subtle border border-danger-subtle fs-6 rounded-2 py-1 ms-1" style="padding: 1px 5px; margin: 10px 0px; font-size: 12px; display: none">Error</label>
-                            <label for="error" id="member_validationChild" class="error_msg text-danger-emphasis bg-danger-subtle border border-danger-subtle fs-6 rounded-2 py-1 ms-1" style="padding: 1px 5px; margin: 10px 0px; font-size: 12px; display: none">Error</label>
-                            <label for="error" id="member_validationInfant" class="error_msg text-danger-emphasis bg-danger-subtle border border-danger-subtle fs-6 rounded-2 py-1 ms-1" style="padding: 1px 5px; margin: 10px 0px; font-size: 12px; display: none">Error</label>
-                            <label for="error" id="member_validationName" class="error_msg text-danger-emphasis bg-danger-subtle border border-danger-subtle fs-6 rounded-2 py-1 ms-1" style="padding: 1px 5px; margin: 10px 0px; font-size: 12px; display: none">Error</label>
-                            <label for="error" id="member_validation" class="error_msg text-danger-emphasis bg-danger-subtle border border-danger-subtle fs-6 rounded-2 py-1 ms-1" style="padding: 1px 5px; margin: 10px 0px; font-size: 12px; display: none">Error</label>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" id="cancel_order" class="btn btn-secondary" data-bs-dismiss="modal" onclick="window.location.reload()">Close</button>
-                            <button type="button" data-bs-toggle="modal" data-bs-target="#paymentModal" class="btn btn-primary" id="pay_modal">Place Order</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- </div>  -->
-
-            <!-- Payment Screen start -->
-            <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Payment</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-8 col-sm-8 col-12">
-                                    <p class="fw-bold text-muted fs-6">Amount to be Paid: <span class="fw-bolder" id="amountToBePaid" style="color: var(--pure-black);"></span></p>
-                                    <p class="fw-bold text-muted fs-6">Available TopUp Balance:
-                                        <span class="fw-bolder" style="color: var(--pure-black);" id="avalableBalance">
-                                            <?php
-                                            // Only for TA login
-                                            require 'connect.php';
-                                            // Check if user exists
-                                            $stmt1 = $conn->prepare("SELECT * FROM `login` WHERE status = '1' AND `user_id` = ? AND `user_type_id` = '11'");
-                                            $stmt1->execute([$userId]);
-                                            // Fetch the latest available balance for the given ta_id
-                                            $stmt2 = $conn->prepare("SELECT available_balance FROM ta_top_up_utilisation WHERE ta_id = :ta_id ORDER BY id DESC LIMIT 1");
-                                            $stmt2->execute(array(':ta_id' => $userId));
-                                            $result3 = $stmt2->fetch(PDO::FETCH_ASSOC);
-                                            $available_bal = ($result3['available_balance'] ?? 0);
-                                            echo $available_bal
-                                            ?>
-                                        </span>
-                                        <i class="ri-refresh-line fs-5" style="color: red;"></i>
-                                    </p>
-                                    <span class="bg-danger-subtle text-danger py-1 px-2 mt-2 rounded-2 lowBal d-none" id="low_bal">
-                                        Low Balance for full payment
-                                    </span>
-                                </div>
-                                <div class="col-md-4 col-sm-4 col-12 text-end">
-                                    <a href="dashboard/view_ta_topup.php" target="_blank">
-                                        <button type="button" class="btn text-dark-emphasis bg-dark-subtle border border-dark-subtle fw-bold">
-                                            <i class="ri-wallet-2-line" style="color: #615a5a;"></i>
-                                            Add TopUp
-                                        </button>
-                                    </a>
-                                </div>
-                            </div>
-                            <div id='payTypeDiv'>
-                                <p class="fs-6 fw-bolder py-3" style="color: var(--pure-black);">Pay Type</p>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
-                                    <label class="form-check-label" for="inlineRadio1" style="color: var(--pure-black);">Full</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                                    <label class="form-check-label" for="inlineRadio2">Part</label>
-                                </div>
-                                <div id="toggleDiv">
-                                    <select class="form-select w-50" id="payTypeSelect" aria-label="Default select example">
-                                        <option selected value="--Select the Pay Type">--Select the Pay Type</option>
-                                        <option value="2">2 Parts</option>
-                                        <option value="3">3 Parts</option>
-                                    </select>
-                                </div>
-                                <div class="py-3">
-                                    <p class="fw-bolder fs-5 d-flex" style="color: var(--pure-black);">Amount:
-                                        <span><input class="form-control" type="text" id="amountInput" value="" aria-label="readonly input example" readonly></span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" id="place_order">Pay</button>
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="window.location.reload()">Cancel</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Payment Screen end -->
-
-            <!-- pop booking tickets -->
-
             <!--/ End-of Destination -->
         </main>
 
@@ -3251,180 +2459,6 @@ if($user_type_id_value == '11'){
             var regexExp = /[^a-zA-Z ]/; // letters, space
             var regexExpNum = /[^0-9]/; // nu,ber
         </script>
-        <!-- Book tour form -->
-        <script>
-            // // Get buttons and form containers
-            // const button1 = document.getElementById('button1');
-            // const button2 = document.getElementById('button2');
-            // const form1 = document.getElementById('form1');
-            // const form2 = document.getElementById('form2');
-
-            // // Ensure form1 is always visible initially
-            // if (form1) {
-            //     form1.style.display = 'block';
-            //     button1.addEventListener('click', () => toggleForm('form1', 'form2'));
-            // }
-            // form2.style.display = 'none';
-
-            // // Toggle forms when the buttons are clicked
-            // button2.addEventListener('click', () => toggleForm('form2', 'form1'));
-
-            // function toggleForm(formToShow, formToHide) {
-            //     // Show the selected form and hide the other one
-            //     if (form1) {
-            //         const form1Visible = formToShow === 'form1' && form1.style.display === 'block';
-            //         const form2Visible = formToShow === 'form2' && form2.style.display === 'block';
-
-            //         if (!form1Visible && !form2Visible) {
-            //             document.getElementById(formToShow).style.display = 'block';
-            //             document.getElementById(formToHide).style.display = 'none';
-            //         }
-            //     }else{
-                    
-            //         const form2Visible = formToShow === 'form2' && form2.style.display === 'block';
-            //         if (!form1Visible && !form2Visible) {
-            //             document.getElementById(formToShow).style.display = 'block';
-            //             document.getElementById(formToHide).style.display = 'none';
-            //         }
-            //     }
-
-            //     //const form1Visible = formToShow === 'form1' && form1.style.display === 'block';
-
-            //     // if (!form1Visible && !form2Visible) {
-            //     //     document.getElementById(formToShow).style.display = 'block';
-            //     //     document.getElementById(formToHide).style.display = 'none';
-            //     // }
-            // }
-            document.addEventListener('DOMContentLoaded', () => {
-
-                const button1 = document.getElementById('button1');
-                const button2 = document.getElementById('button2');
-                const form1 = document.getElementById('form1');
-                const form2 = document.getElementById('form2');
-
-                // CASE 1: form1 exists → show form1 by default
-                if (form1) {
-                    form1.style.display = 'block';
-                    if (form2) form2.style.display = 'none';
-
-                    if (button1 && form2) {
-                        button1.addEventListener('click', () => toggleForm(form1, form2));
-                    }
-
-                    if (button2 && form2) {
-                        button2.addEventListener('click', () => toggleForm(form2, form1));
-                    }
-                }
-                // CASE 2: form1 does NOT exist → show form2 & button2
-                else {
-                    if (form2) form2.style.display = 'block';
-                    if (button2) button2.style.display = 'inline-block';
-                }
-
-                function toggleForm(showForm, hideForm) {
-                    if (!showForm || !hideForm) return;
-
-                    showForm.style.display = 'block';
-                    hideForm.style.display = 'none';
-                }
-
-            });
-
-
-            //quotation submit action with validation
-            $('#submit_quotations').click(function() {
-                var enName = $('#q_name').val().trim();
-                var enPhone = $('#q_phn_no').val().trim();
-                var enEmail = $('#q_email').val().trim();
-                var enDurationMin = $('#q_duration_min').val().trim();
-                var enDurationMax = $('#q_duration_max').val().trim();
-                var enDuration = enDurationMin+"-"+enDurationMax;
-                var enTDate = $('#q_date').val().trim();
-                var enNadults = $('#q_no_adult').val().trim();
-                var enNChild = $('#q_no_child').val().trim();
-                var enNInfants = $('#q_no_infants').val().trim();
-                var enBudgetMin = $('#q_budget_min').val().trim();
-                var enBudgetMax = $('#q_budget_max').val().trim();
-                var enBudget = enBudgetMin+"-"+enBudgetMax;
-                var enDestination = $('#pack_name').text();
-                var enUserId = $('#q_user_id').val();
-                let selectedMeals = [];
-                document.querySelectorAll(".meal-checkbox:checked").forEach((checkbox) => {
-                    selectedMeals.push(checkbox.value);
-                });
-                var enRemarks = $('#floatingTextarea2').val().trim();
-
-                //validation
-                const phoneRegex = /^[0-9]{10}$/;
-                const alphabetRegex = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
-                const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-                if (enName == '') {
-                    alert('Please enter your name');
-                } else if (!alphabetRegex.test(enName)) {
-                    alert('Please enter alphabets only (minimum 3 characters long)');
-                } else if (enPhone == '') {
-                    alert('Please enter your phone number');
-                } else if (!phoneRegex.test(enPhone)) {
-                    alert("Invalid phone number");
-                } else if (enEmail == '') {
-                    alert("Please enter your email");
-                } else if (!emailRegex.test(enEmail)) {
-                    alert("Invalid email");
-                } else if (enDurationMin == 0) {
-                    alert("Minimum duration days cannot be 0");
-                } else if (enDurationMax == 0) {
-                    alert("maximum duration days cannot be 0");
-                }else if (Number(enDurationMin) > Number(enDurationMax)) {
-                    alert("Maximum duration should be greater then Minimum duration");
-                } else if (enTDate == '') {
-                    alert("Please select Travel date");
-                } else if (enNadults == 0) {
-                    alert("Number of adults cannot be 0");
-                } else if (enBudgetMin == 0) {
-                    alert("Minimum budget cannot be 0");
-                } else if (enBudgetMax == 0) {
-                    alert("Maximum budget cannot be 0");
-                } else if (Number(enBudgetMin) > Number(enBudgetMax)) {
-                    alert("Maximum budget should be greater then Minimum budget");
-                }else if (selectedMeals.length === 0) {
-                    alert("Select at least one required meal");
-                } else {
-                    var formdata = {
-                        enName: enName,
-                        enPhone: enPhone,
-                        enEmail: enEmail,
-                        enDuration: enDuration,
-                        enTDate: enTDate,
-                        enNadults: enNadults,
-                        enNChild: enNChild,
-                        enNInfants: enNInfants,
-                        enBudget: enBudget,
-                        meals: selectedMeals,
-                        enDestination: enDestination,
-                        enUserId: enUserId,
-                        enRemarks:enRemarks
-                    }
-
-                    console.log('formdata:');
-                    console.log(formdata);
-                    $.ajax({
-                        url: "assets/submit/create_quotations.php",
-                        type: "POST",
-                        data: formdata,
-                        success: function(res) {
-                            if (res == 1) {
-                                alert("Quotation will be sent to your email!");
-                                location.reload();
-                            } else {
-                                alert("Server Error: " + res);
-                                location.reload();
-                            }
-                        }
-                    });
-                }
-
-            });
-        </script>
         <!-- New Design 17/7/26 -->
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
@@ -3448,57 +2482,57 @@ if($user_type_id_value == '11'){
         <script>
             document.addEventListener("DOMContentLoaded", function () {
 
-            const thumbnails = document.querySelectorAll(".thumbnail");
-            const mainImage = document.getElementById("mainImage");
+                const thumbnails = document.querySelectorAll(".thumbnail");
+                const mainImage = document.getElementById("mainImage");
 
-            if (!thumbnails.length || !mainImage) return;
+                if (!thumbnails.length || !mainImage) return;
 
-            let currentIndex = 0;
+                let currentIndex = 0;
 
-            function updateGallery(index) {
+                function updateGallery(index) {
 
-                currentIndex = index;
+                    currentIndex = index;
 
-                mainImage.src = thumbnails[index].src;
+                    mainImage.src = thumbnails[index].src;
 
-                thumbnails.forEach(item => {
-                    item.classList.remove("active-thumb");
-                });
+                    thumbnails.forEach(item => {
+                        item.classList.remove("active-thumb");
+                    });
 
-                thumbnails[index].classList.add("active-thumb");
-            }
-
-            thumbnails.forEach((thumb, index) => {
-
-                thumb.addEventListener("click", function () {
-                    updateGallery(index);
-                });
-
-            });
-
-            document.querySelector(".gallery-next")?.addEventListener("click", function () {
-
-                currentIndex++;
-
-                if (currentIndex >= thumbnails.length) {
-                    currentIndex = 0;
+                    thumbnails[index].classList.add("active-thumb");
                 }
 
-                updateGallery(currentIndex);
+                thumbnails.forEach((thumb, index) => {
+
+                    thumb.addEventListener("click", function () {
+                        updateGallery(index);
+                    });
+
+                });
+
+                document.querySelector(".gallery-next")?.addEventListener("click", function () {
+
+                    currentIndex++;
+
+                    if (currentIndex >= thumbnails.length) {
+                        currentIndex = 0;
+                    }
+
+                    updateGallery(currentIndex);
+                });
+
+                document.querySelector(".gallery-prev")?.addEventListener("click", function () {
+
+                    currentIndex--;
+
+                    if (currentIndex < 0) {
+                        currentIndex = thumbnails.length - 1;
+                    }
+
+                    updateGallery(currentIndex);
+                });
+
             });
-
-            document.querySelector(".gallery-prev")?.addEventListener("click", function () {
-
-                currentIndex--;
-
-                if (currentIndex < 0) {
-                    currentIndex = thumbnails.length - 1;
-                }
-
-                updateGallery(currentIndex);
-            });
-
-        });
         </script>
         <script>
             $(document).ready(function () {
