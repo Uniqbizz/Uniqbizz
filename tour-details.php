@@ -2582,19 +2582,27 @@ if($user_type_id_value == '11'){
                 }
 
                 function updatePricingSticky() {
+
+                    const $pricing = $(".pricingSection");
+                    const $wrapper = $(".pricing-wrapper");
+
                     if ($(window).width() < 992) {
-                        $(".pricingSection")
-                            .removeClass("pricing-fixed")
+                        $pricing
+                            .removeClass("pricing-fixed pricing-bottom")
                             .css({
                                 width: "",
-                                top: ""
+                                top: "",
+                                left: ""
                             });
                         return;
                     }
+
                     const headerHeight = $(".sticky-bar").outerHeight() || 90;
                     const navHeight = $(".borderColor1").outerHeight() || 76;
 
-                    const fixedTop = headerHeight + navHeight + 10;
+                    const fixedTop = 90;
+
+                    const pricingHeight = $pricing.outerHeight();
 
                     const startSticky =
                         $(".sticky-nav-wrapper").offset().top - headerHeight;
@@ -2603,26 +2611,54 @@ if($user_type_id_value == '11'){
                         $(".content-sections").offset().top +
                         $(".content-sections").outerHeight();
 
+                    const stopSticky =
+                        contentBottom -
+                        pricingHeight -
+                        fixedTop;
+
                     const scrollTop = $(window).scrollTop();
+                    const pricingWidth = $pricing[0].getBoundingClientRect().width;
 
-                    if (
-                        scrollTop >= startSticky &&
-                        scrollTop < contentBottom - fixedTop
-                    ) {
+                    // Before sticky
+                    if (scrollTop < startSticky) {
 
-                        $(".pricingSection")
+                        $pricing
+                            .removeClass("pricing-fixed pricing-bottom")
+                            .css({
+                                width: "",
+                                top: "",
+                                left: ""
+                            });
+                    }
+
+                    // Sticky state
+                    else if (scrollTop < stopSticky) {
+
+                        $pricing
+                            .removeClass("pricing-bottom")
                             .addClass("pricing-fixed")
                             .css({
-                                top: fixedTop + "px",
-                                width: $(".col-xl-4")[0].getBoundingClientRect().width + "px"
+                                top: "90px",
+                                left: $wrapper.offset().left + "px",
+                                width: pricingWidth + "px"
                             });
+                    }
 
-                    } else {
+                    // Stop at bottom of left content
+                    else {
 
-                        $(".pricingSection")
+                        const absoluteTop =
+                            contentBottom -
+                            $wrapper.offset().top -
+                            pricingHeight;
+
+                        $pricing
                             .removeClass("pricing-fixed")
+                            .addClass("pricing-bottom")
                             .css({
-                                width: ""
+                                top: absoluteTop + "px",
+                                width: "100%",
+                                left: ""
                             });
                     }
                 }

@@ -296,7 +296,8 @@ html {
 .textBlue {
     color: #03033e;
 }
-.contactNum i, p {
+.contactNum i,
+.contactNum p {
     font-size: 18px;
 }
 .blueCardBtn {
@@ -344,13 +345,6 @@ html {
 }
 .greenCardText p:last-child{
     font-size: 12px;
-}
-.pricing-wrapper {
-    position: relative;
-}
-.pricingSection.pricing-fixed {
-    position: fixed;
-    z-index: 998;
 }
 .cardBackgroundColor {
     background-color: #f8fafb;
@@ -452,10 +446,6 @@ html {
     font-weight: 500;
     color: #343a40;
 }
-.highlightIcon {
-    color: #e03d42;
-    font-size: 22px;
-}
 .downloadBtn {
     width: 38px;
     height: 38px;
@@ -473,6 +463,17 @@ html {
     background: #03033e;
     border-color: #03033e;
     color: #fff;
+}
+.pricing-wrapper{
+    position: relative;
+}
+.pricingSection.pricing-fixed{
+    position: fixed;
+    z-index: 998;
+}
+.pricingSection.pricing-bottom{
+    position: absolute;
+    left: 0;
 }
 @media (max-width: 1199px) {
     .image-width {
