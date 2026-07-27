@@ -442,46 +442,60 @@ if($user_type_id_value == '11'){
                                         <div class="borderColor1 pt-3">
                                             <ul class="nav nav-underline justify-content-between">
                                                 <li class="nav-item navItem">
-                                                    <div class="text-center">
-                                                        <i class="ri-dashboard-line"></i>
-                                                    </div>
-                                                    <a class="nav-link pt-0 active" aria-current="page" href="#overview">Overview</a>
+                                                    <a class="nav-link pt-0 active" aria-current="page" href="#overview">
+                                                        <div class="text-center">
+                                                            <i class="ri-dashboard-line"></i>
+                                                        </div>
+                                                        Overview
+                                                    </a>
                                                 </li>
                                                 <li class="nav-item navItem">
-                                                    <div class="text-center">
-                                                        <i class="ri-mark-pen-line"></i>
-                                                    </div>
-                                                    <a class="nav-link pt-0" href="#highlights">Highlights</a>
+                                                    <a class="nav-link pt-0" href="#highlights">
+                                                        <div class="text-center">
+                                                            <i class="ri-mark-pen-line"></i>
+                                                        </div>
+                                                        Highlights
+                                                    </a>
                                                 </li>
                                                 <li class="nav-item navItem">
-                                                    <div class="text-center">
-                                                        <i class="ri-route-line"></i>
-                                                    </div>
-                                                    <a class="nav-link pt-0" href="#itinerary">Itinerary</a>
+                                                    <a class="nav-link pt-0" href="#itinerary">
+                                                        <div class="text-center">
+                                                            <i class="ri-route-line"></i>
+                                                        </div>
+                                                        Itinerary
+                                                    </a>
                                                 </li>
                                                 <li class="nav-item navItem">
-                                                    <div class="text-center">
-                                                        <i class="ri-dashboard-line"></i>
-                                                    </div>
-                                                    <a class="nav-link pt-0" href="#inclusion">Inclusion</a>
+                                                    <a class="nav-link pt-0" href="#inclusion">
+                                                        <div class="text-center">
+                                                            <i class="ri-dashboard-line"></i>
+                                                        </div>
+                                                        Inclusion
+                                                    </a>
                                                 </li>
                                                 <li class="nav-item navItem">
-                                                    <div class="text-center">
-                                                        <i class="ri-dashboard-line"></i>
-                                                    </div>
-                                                    <a class="nav-link pt-0" href="#inclusion">Exclusion</a>
+                                                    <a class="nav-link pt-0" href="#inclusion">
+                                                        <div class="text-center">
+                                                            <i class="ri-dashboard-line"></i>
+                                                        </div>
+                                                        Exclusion
+                                                    </a>
                                                 </li>
                                                 <li class="nav-item navItem">
-                                                    <div class="text-center">
-                                                        <i class="ri-dashboard-line"></i>
-                                                    </div>
-                                                    <a class="nav-link pt-0" href="#policies">Policies</a>
+                                                    <a class="nav-link pt-0" href="#policies">
+                                                        <div class="text-center">
+                                                            <i class="ri-dashboard-line"></i>
+                                                        </div>
+                                                        Policies
+                                                    </a>
                                                 </li>
                                                 <li class="nav-item navItem">
-                                                    <div class="text-center">
-                                                        <i class="ri-question-answer-line"></i>
-                                                    </div>
-                                                    <a class="nav-link pt-0" href="#faqs">FAQs</a>
+                                                    <a class="nav-link pt-0" href="#faqs">
+                                                        <div class="text-center">
+                                                            <i class="ri-question-answer-line"></i>
+                                                        </div>
+                                                        FAQs
+                                                    </a>
                                                 </li>
                                             </ul>
                                         </div>
