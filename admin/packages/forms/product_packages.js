@@ -1282,6 +1282,7 @@ $('#package_form_general_nextBtn').on('click',function (e){
 	let descriptionDetail=$('#descriptionDetail').val();
 	let packageType = $('input[name="packageType"]:checked').val();
 	let visaType = $('input[name="visaType"]:checked').val();
+	let dropPriceCheck = $('input[name="dropPriceCheck"]:checked').val();
 	let dropPrice=$('#dropPrice').val();
 
 	//validation
@@ -1399,6 +1400,7 @@ $('#package_form_general_nextBtn').on('click',function (e){
 		descriptionDetail,
 		packageType,
 		visaType,
+		dropPriceCheck,
 		dropPrice
 	};
 

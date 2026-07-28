@@ -1365,13 +1365,13 @@ $l2_per=$l3_per=50;
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-12">
-                                                            <div class="borderHighlight p-3 mt-3">
+                                                            <!-- <div class="borderHighlight p-3 mt-3">
                                                                 <h4 class="fw-bolder">2. Image Gallery</h4>
-                                                                <p>Upload multiple images to highlight attractions, hotels, activities and experiences.</p>
+                                                                <p>Upload multiple images to highlight attractions, hotels, activities and experiences.</p> -->
                                                                 <!-- Gallery Preview -->
-                                                                <div class="row" id="galleryContainer"></div>
+                                                                <!-- <div class="row" id="galleryContainer"></div> -->
                                                                 <!-- Upload Area -->
-                                                                <div class="row">
+                                                                <!-- <div class="row">
                                                                     <div class="col-lg-12">
                                                                         <div class="small-drop-zone" id="imageGalleryZone">
                                                                             <div>
@@ -1384,12 +1384,52 @@ $l2_per=$l3_per=50;
                                                                                 You can upload up to 18 images | Max Size: 5MB each | Min No. uploads 4 | Format: JPG, PNG, WEBP
                                                                             </p>
                                                                             <div id="galleryMessage" class="text-danger mt-2 fw-semibold"></div>
-                                                                            <input type="file" id="galleryInput" accept="image/jpeg,image/png,image/webp" multiple hidden>
+                                                                            <input type="file" id="galleryInput" accept="image/jpeg,image/png,image/webp" multiple hidden> -->
                                                                             <!-- Hidden field -->
-                                                                            <input type="hidden" id="galleryImageUrls" value="[]">
+                                                                            <!-- <input type="hidden" id="galleryImageUrls" value="[]">
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                            </div> -->
+                                                            <div class="borderHighlight p-3 mt-3">
+                ```                                             <h4 class="fw-bolder">2. Image Gallery</h4>
+                                                                <p>Upload multiple images to highlight attractions, hotels, activities and experiences.</p>
+
+                                                                <!-- Gallery Preview -->
+                                                                <div class="row" id="galleryContainer"></div>
+
+                                                                <!-- Upload Area -->
+                                                                <div class="row">
+                                                                    <div class="col-lg-12">
+                                                                        <div class="small-drop-zone" id="imageGalleryZone">
+                                                                            <div>
+                                                                                <i class="fa-solid fa-cloud-arrow-up me-2"></i>
+                                                                                <span id="galleryText">
+                                                                                    Drag & Drop multiple images here or Click to Upload
+                                                                                </span>
+                                                                            </div>
+
+                                                                            <p class="mb-0 text-muted">
+                                                                                You can upload up to 18 images | Max Size: 5MB each | Min No. uploads 4 | Format: JPG, PNG, WEBP
+                                                                            </p>
+
+                                                                            <div id="galleryMessage" class="text-danger mt-2 fw-semibold"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Hidden Inputs -->
+                                                                <input
+                                                                    type="file"
+                                                                    id="galleryInput"
+                                                                    accept="image/jpeg,image/png,image/webp"
+                                                                    multiple
+                                                                    hidden>
+
+                                                                <input
+                                                                    type="hidden"
+                                                                    id="galleryImageUrls"
+                                                                    value="[]">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-12">
@@ -2174,6 +2214,100 @@ $l2_per=$l3_per=50;
         <!-- Picture & Media Section -->
         <!-- Package Cover Image -->
         <script>
+            // $(document).ready(function () {
+
+            //     const dropZone = $("#dragDropZone");
+            //     const fileInput = $("#imageUpload");
+            //     const previewImage = $("#packageCoverImage");
+            //     const deleteBtn = $("#deleteImageBtn");
+            //     const fileText = $("#selectedFileText");
+
+            //     // Click Drop Zone
+            //     dropZone.on("click", function () {
+            //         fileInput.trigger("click");
+            //     });
+
+            //     // File Selection
+            //     fileInput.on("change", function () {
+            //         if (this.files.length) {
+            //             previewFile(this.files[0]);
+            //         }
+            //     });
+
+            //     // Drag Events
+            //     dropZone.on("dragover", function (e) {
+            //         e.preventDefault();
+            //         $(this).addClass("dragover");
+            //     });
+
+            //     dropZone.on("dragleave", function () {
+            //         $(this).removeClass("dragover");
+            //     });
+
+            //     dropZone.on("drop", function (e) {
+            //         e.preventDefault();
+            //         $(this).removeClass("dragover");
+
+            //         const files = e.originalEvent.dataTransfer.files;
+
+            //         if (files.length) {
+            //             fileInput[0].files = files;
+            //             previewFile(files[0]);
+            //         }
+            //     });
+
+            //     function previewFile(file) {
+
+            //         const validTypes = [
+            //             "image/jpeg",
+            //             "image/jpg",
+            //             "image/png",
+            //             "image/webp"
+            //         ];
+
+            //         if (!validTypes.includes(file.type)) {
+            //             alert("Please upload JPG, PNG or WEBP image.");
+            //             return;
+            //         }
+
+            //         if (file.size > 5 * 1024 * 1024) {
+            //             alert("Maximum file size is 5MB.");
+            //             return;
+            //         }
+
+            //         const reader = new FileReader();
+
+            //         reader.onload = function (e) {
+
+            //             previewImage.attr("src", e.target.result);
+            //             deleteBtn.css("display", "flex");
+            //             fileText.text(file.name);
+
+                        
+            //             // Store URL
+            //             $("#coverImageUrl").val("uploading/packages/" + file.name);
+
+            //             // Store Base64
+            //             $("#coverImageUrl").data("base64", e.target.result);
+            //         };
+
+            //         reader.readAsDataURL(file);
+            //     }
+
+            //     // Delete Image
+            //     deleteBtn.on("click", function () {
+            //         previewImage.attr(
+            //             "src",
+            //             "https://placehold.co/600x300?text=No+Image"
+            //         );
+
+            //         fileInput.val("");
+            //         $("#coverImageUrl").val(""); 
+            //         fileText.text("Drag & Drop image here or Click to browse");
+            //         $(this).hide();
+            //     });
+
+            // });
             $(document).ready(function () {
 
                 const dropZone = $("#dragDropZone");
@@ -2182,19 +2316,30 @@ $l2_per=$l3_per=50;
                 const deleteBtn = $("#deleteImageBtn");
                 const fileText = $("#selectedFileText");
 
-                // Click Drop Zone
+                // track delete status
+                let coverImageDeleted = false;
+
+                // ==========================
+                // Click Upload
+                // ==========================
                 dropZone.on("click", function () {
                     fileInput.trigger("click");
                 });
 
-                // File Selection
+                // ==========================
+                // Select Image
+                // ==========================
                 fileInput.on("change", function () {
+
                     if (this.files.length) {
                         previewFile(this.files[0]);
                     }
+
                 });
 
-                // Drag Events
+                // ==========================
+                // Drag Over
+                // ==========================
                 dropZone.on("dragover", function (e) {
                     e.preventDefault();
                     $(this).addClass("dragover");
@@ -2204,7 +2349,11 @@ $l2_per=$l3_per=50;
                     $(this).removeClass("dragover");
                 });
 
+                // ==========================
+                // Drop Image
+                // ==========================
                 dropZone.on("drop", function (e) {
+
                     e.preventDefault();
                     $(this).removeClass("dragover");
 
@@ -2214,8 +2363,12 @@ $l2_per=$l3_per=50;
                         fileInput[0].files = files;
                         previewFile(files[0]);
                     }
+
                 });
 
+                // ==========================
+                // Preview
+                // ==========================
                 function previewFile(file) {
 
                     const validTypes = [
@@ -2239,96 +2392,392 @@ $l2_per=$l3_per=50;
 
                     reader.onload = function (e) {
 
-                        previewImage.attr("src", e.target.result);
-                        deleteBtn.css("display", "flex");
+                        // image is active again
+                        coverImageDeleted = false;
+
+                        previewImage
+                            .attr("src", e.target.result)
+                            .removeClass("d-none");
+
+                        deleteBtn.show();
+
                         fileText.text(file.name);
 
-                        
-                        // Store URL
+                        // Relative URL
                         $("#coverImageUrl").val("uploading/packages/" + file.name);
 
-                        // Store Base64
+                        // Base64
                         $("#coverImageUrl").data("base64", e.target.result);
+
                     };
 
                     reader.readAsDataURL(file);
+
                 }
 
-                // Delete Image
+                // ==========================
+                // Delete (Hide only)
+                // ==========================
                 deleteBtn.on("click", function () {
-                    previewImage.attr(
-                        "src",
-                        "https://placehold.co/600x300?text=No+Image"
-                    );
 
-                    fileInput.val("");
-                    $("#coverImageUrl").val(""); 
-                    fileText.text("Drag & Drop image here or Click to browse");
+                    coverImageDeleted = true;
+
+                    previewImage.addClass("d-none");
+
                     $(this).hide();
+
+                    fileText.text("Drag & Drop image here or Click to browse");
+
+                    // IMPORTANT
+                    // Don't clear:
+                    // fileInput
+                    // #coverImageUrl
+                    // base64
+
                 });
+
+                // Make accessible globally
+                window.isCoverImageDeleted = function () {
+                    return coverImageDeleted;
+                };
 
             });
         </script>
         <!-- Image Gallery  -->
         <script>
+            // const maxImages = 18;
+            // let galleryImages = [];
+            // $(document).ready(function () {
+
+
+            //     // Click Upload Area
+            //     $(document).on("click", "#imageGalleryZone", function (e) {
+
+            //         if ($(e.target).closest(".delete-image").length) {
+            //             return;
+            //         }
+
+            //         const input = document.getElementById("galleryInput");
+
+            //         if (!input) {
+            //             console.error("galleryInput not found");
+            //             return;
+            //         }
+
+            //         try {
+            //             if (typeof input.showPicker === "function") {
+            //                 input.showPicker();
+            //             } else {
+            //                 input.click();
+            //             }
+            //         } catch (err) {
+            //             input.click();
+            //         }
+            //     });
+
+            //     // File Selection
+            //     $(document).on("change", "#galleryInput", function () {
+
+            //         const files = this.files;
+
+            //         if (files && files.length) {
+            //             handleFiles(files);
+            //         }
+
+            //         $(this).val("");
+            //     });
+
+            //     // Drag Over
+            //     $(document).on("dragover", "#imageGalleryZone", function (e) {
+            //         e.preventDefault();
+            //         e.stopPropagation();
+            //         $(this).addClass("dragover");
+            //     });
+
+            //     // Drag Leave
+            //     $(document).on("dragleave", "#imageGalleryZone", function (e) {
+            //         e.preventDefault();
+            //         e.stopPropagation();
+            //         $(this).removeClass("dragover");
+            //     });
+
+            //     // Drop Files
+            //     $(document).on("drop", "#imageGalleryZone", function (e) {
+
+            //         e.preventDefault();
+            //         e.stopPropagation();
+
+            //         $(this).removeClass("dragover");
+
+            //         const files = e.originalEvent.dataTransfer.files;
+
+            //         if (files && files.length) {
+            //             handleFiles(files);
+            //         }
+            //     });
+
+            //     function handleFiles(files) {
+
+            //         const remainingSlots = maxImages - galleryImages.length;
+
+            //         if (remainingSlots <= 0) {
+
+            //             $("#galleryMessage")
+            //                 .removeClass("text-muted text-warning")
+            //                 .addClass("text-danger")
+            //                 .html("Maximum limit of 18 images reached.");
+
+            //             return;
+            //         }
+
+            //         if (files.length > remainingSlots) {
+
+            //             $("#galleryMessage")
+            //                 .removeClass("text-muted text-danger")
+            //                 .addClass("text-warning")
+            //                 .html(`Only ${remainingSlots} image(s) can be uploaded.`);
+            //         }
+
+            //         Array.from(files)
+            //             .slice(0, remainingSlots)
+            //             .forEach(function (file) {
+
+            //                 const validTypes = [
+            //                     "image/jpeg",
+            //                     "image/png",
+            //                     "image/webp"
+            //                 ];
+
+            //                 if (!validTypes.includes(file.type)) {
+            //                     return;
+            //                 }
+
+            //                 if (file.size > 5 * 1024 * 1024) {
+            //                     return;
+            //                 }
+
+            //                 const reader = new FileReader();
+
+            //                 reader.onload = function (e) {
+
+            //                     // galleryImages.push({
+            //                     //     id: Date.now() + Math.random(),
+            //                     //     src: e.target.result,
+            //                     //     url: "uploading/packages/" + file.name,
+            //                     //     file: file
+            //                     // });
+            //                     galleryImages.push({
+            //                         id: Date.now() + Math.random(),
+            //                         src: e.target.result,
+            //                         url: "uploading/packages/" + file.name,
+            //                         file: file,
+            //                         base64: e.target.result,
+            //                         deleted: false
+            //                     });
+            //                     $("#galleryImageUrls").val(
+            //                         JSON.stringify(galleryImages.map(img => img.url))
+            //                     );
+            //                     renderGallery();
+            //                 };
+
+            //                 reader.readAsDataURL(file);
+            //             });
+            //     }
+
+            //     function toggleUploadZone() {
+
+            //         if (galleryImages.length >= maxImages) {
+
+            //             $("#imageGalleryZone").hide();
+
+            //             $("#galleryMessage")
+            //                 .removeClass("text-muted text-warning")
+            //                 .addClass("text-danger")
+            //                 .html("Maximum limit of 18 images reached. Delete an image to upload more.");
+
+            //         } else {
+
+            //             $("#imageGalleryZone").show();
+
+            //             $("#galleryMessage")
+            //                 .removeClass("text-danger text-warning")
+            //                 .addClass("text-muted")
+            //                 .html(`${galleryImages.length}/${maxImages} images uploaded`);
+            //         }
+            //     }
+
+            //     function renderGallery() {
+
+            //         let html = '';
+            //         const totalImages = galleryImages.length;
+
+            //         galleryImages.forEach(function (image) {
+
+            //             // let colClass = "col-lg-2 col-md-3 col-sm-4 col-6";
+
+            //             // if (totalImages <= 6) {
+
+            //             //     switch (totalImages) {
+            //             //         case 1:
+            //             //             colClass = "col-12";
+            //             //             break;
+            //             //         case 2:
+            //             //             colClass = "col-6";
+            //             //             break;
+            //             //         case 3:
+            //             //             colClass = "col-4";
+            //             //             break;
+            //             //         case 4:
+            //             //             colClass = "col-3";
+            //             //             break;
+            //             //         case 5:
+            //             //             colClass = "custom-col-5";
+            //             //             break;
+            //             //         case 6:
+            //             //             colClass = "col-2";
+            //             //             break;
+            //             //     }
+            //             // }
+
+            //             // html += `
+            //             //     <div class="${colClass} mb-1">
+            //             //         <div class="gallery-item position-relative">
+            //             //             <img src="${image.src}" class="w-100" alt="Gallery Image">
+
+            //             //             <button type="button"
+            //             //                     class="gallery-delete delete-image"
+            //             //                     data-id="${image.id}">
+            //             //                 <i class="fa-solid fa-trash-can"></i>
+            //             //             </button>
+            //             //         </div>
+            //             //     </div>
+            //             // `;
+            //             const visibleImages = galleryImages.filter(img => !img.deleted);
+            //             const totalImages = visibleImages.length;
+
+            //             visibleImages.forEach(function (image) {
+
+            //                 let colClass = "col-lg-2 col-md-3 col-sm-4 col-6";
+
+            //                 if (totalImages <= 6) {
+            //                     switch (totalImages) {
+            //                         case 1: colClass = "col-12"; break;
+            //                         case 2: colClass = "col-6"; break;
+            //                         case 3: colClass = "col-4"; break;
+            //                         case 4: colClass = "col-3"; break;
+            //                         case 5: colClass = "custom-col-5"; break;
+            //                         case 6: colClass = "col-2"; break;
+            //                     }
+            //                 }
+
+            //                 html += `
+            //                     <div class="${colClass} mb-1">
+            //                         <div class="gallery-item position-relative">
+            //                             <img src="${image.src}" class="w-100" alt="Gallery Image">
+
+            //                             <button
+            //                                 type="button"
+            //                                 class="gallery-delete delete-image"
+            //                                 data-id="${image.id}">
+            //                                 <i class="fa-solid fa-trash-can"></i>
+            //                             </button>
+            //                         </div>
+            //                     </div>
+            //                 `;
+            //             });
+            //         });
+
+            //         $("#galleryContainer").html(html);
+
+            //         toggleUploadZone();
+            //     }
+
+            //     // Delete Image
+            //     $(document).on("click", ".delete-image", function (e) {
+
+            //         e.preventDefault();
+            //         e.stopPropagation();
+
+            //         const imageId = $(this).data("id");
+
+            //         galleryImages = galleryImages.filter(function (image) {
+            //             return image.id !== imageId;
+            //         });
+            //         // Update hidden field
+            //         $("#galleryImageUrls").val(
+            //             JSON.stringify(galleryImages.map(img => img.src))
+            //         );
+
+            //         renderGallery();
+            //     });
+
+            //     toggleUploadZone();
+
+            // });
             const maxImages = 18;
             let galleryImages = [];
+
             $(document).ready(function () {
 
+                // ==========================
+                // Upload Zone Click
+                // ==========================
+                $("#imageGalleryZone").on("click", function (e) {
 
-                // Click Upload Area
-                $(document).on("click", "#imageGalleryZone", function (e) {
-
+                    // Don't open chooser when delete button is clicked
                     if ($(e.target).closest(".delete-image").length) {
                         return;
                     }
 
                     const input = document.getElementById("galleryInput");
 
-                    if (!input) {
-                        console.error("galleryInput not found");
-                        return;
-                    }
-
                     try {
                         if (typeof input.showPicker === "function") {
                             input.showPicker();
                         } else {
-                            input.click();
+                            input.click(); // Native click (NOT jQuery trigger)
                         }
                     } catch (err) {
                         input.click();
                     }
+
                 });
 
-                // File Selection
-                $(document).on("change", "#galleryInput", function () {
+                // ==========================
+                // File Selected
+                // ==========================
+                $("#galleryInput").on("change", function () {
 
-                    const files = this.files;
-
-                    if (files && files.length) {
-                        handleFiles(files);
+                    if (this.files.length) {
+                        handleFiles(this.files);
                     }
 
-                    $(this).val("");
+                    this.value = "";
+
                 });
 
-                // Drag Over
-                $(document).on("dragover", "#imageGalleryZone", function (e) {
+                // ==========================
+                // Drag Events
+                // ==========================
+                $("#imageGalleryZone").on("dragover", function (e) {
+
                     e.preventDefault();
                     e.stopPropagation();
+
                     $(this).addClass("dragover");
+
                 });
 
-                // Drag Leave
-                $(document).on("dragleave", "#imageGalleryZone", function (e) {
+                $("#imageGalleryZone").on("dragleave", function (e) {
+
                     e.preventDefault();
                     e.stopPropagation();
+
                     $(this).removeClass("dragover");
+
                 });
 
-                // Drop Files
-                $(document).on("drop", "#imageGalleryZone", function (e) {
+                $("#imageGalleryZone").on("drop", function (e) {
 
                     e.preventDefault();
                     e.stopPropagation();
@@ -2337,31 +2786,28 @@ $l2_per=$l3_per=50;
 
                     const files = e.originalEvent.dataTransfer.files;
 
-                    if (files && files.length) {
+                    if (files.length) {
                         handleFiles(files);
                     }
+
                 });
 
+                // ==========================
+                // Handle Files
+                // ==========================
                 function handleFiles(files) {
 
-                    const remainingSlots = maxImages - galleryImages.length;
+                    const activeImages = galleryImages.filter(img => !img.deleted).length;
+                    const remainingSlots = maxImages - activeImages;
 
                     if (remainingSlots <= 0) {
 
                         $("#galleryMessage")
                             .removeClass("text-muted text-warning")
                             .addClass("text-danger")
-                            .html("Maximum limit of 18 images reached.");
+                            .text("Maximum limit of 18 images reached.");
 
                         return;
-                    }
-
-                    if (files.length > remainingSlots) {
-
-                        $("#galleryMessage")
-                            .removeClass("text-muted text-danger")
-                            .addClass("text-warning")
-                            .html(`Only ${remainingSlots} image(s) can be uploaded.`);
                     }
 
                     Array.from(files)
@@ -2374,44 +2820,78 @@ $l2_per=$l3_per=50;
                                 "image/webp"
                             ];
 
-                            if (!validTypes.includes(file.type)) {
+                            if (!validTypes.includes(file.type))
                                 return;
-                            }
 
-                            if (file.size > 5 * 1024 * 1024) {
+                            if (file.size > 5 * 1024 * 1024)
                                 return;
-                            }
 
                             const reader = new FileReader();
 
                             reader.onload = function (e) {
 
                                 galleryImages.push({
+
                                     id: Date.now() + Math.random(),
+
                                     src: e.target.result,
+
+                                    base64: e.target.result,
+
                                     url: "uploading/packages/" + file.name,
-                                    file: file
+
+                                    file: file,
+
+                                    deleted: false
+
                                 });
-                                $("#galleryImageUrls").val(
-                                    JSON.stringify(galleryImages.map(img => img.url))
-                                );
+
+                                updateHiddenField();
                                 renderGallery();
+
                             };
 
                             reader.readAsDataURL(file);
+
                         });
+
                 }
 
+                // ==========================
+                // Hidden URLs
+                // ==========================
+                function updateHiddenField() {
+
+                    $("#galleryImageUrls").val(
+
+                        JSON.stringify(
+
+                            galleryImages
+                                .filter(img => !img.deleted)
+                                .map(img => img.url)
+
+                        )
+
+                    );
+
+                }
+
+                // ==========================
+                // Upload Zone Status
+                // ==========================
                 function toggleUploadZone() {
 
-                    if (galleryImages.length >= maxImages) {
+                    const activeImages =
+                        galleryImages.filter(img => !img.deleted).length;
+
+                    if (activeImages >= maxImages) {
 
                         $("#imageGalleryZone").hide();
 
                         $("#galleryMessage")
-                            .removeClass("text-muted text-warning")
+                            .removeClass("text-warning text-muted")
                             .addClass("text-danger")
-                            .html("Maximum limit of 18 images reached. Delete an image to upload more.");
+                            .text("Maximum limit of 18 images reached.");
 
                     } else {
 
@@ -2420,37 +2900,50 @@ $l2_per=$l3_per=50;
                         $("#galleryMessage")
                             .removeClass("text-danger text-warning")
                             .addClass("text-muted")
-                            .html(`${galleryImages.length}/${maxImages} images uploaded`);
+                            .text(activeImages + "/" + maxImages + " images uploaded");
+
                     }
+
                 }
 
+                // ==========================
+                // Render Gallery
+                // ==========================
                 function renderGallery() {
 
-                    let html = '';
-                    const totalImages = galleryImages.length;
+                    let html = "";
+
+                    // Count only active (not deleted) images for layout
+                    const activeImages = galleryImages.filter(img => !img.deleted).length;
 
                     galleryImages.forEach(function (image) {
 
                         let colClass = "col-lg-2 col-md-3 col-sm-4 col-6";
 
-                        if (totalImages <= 6) {
+                        if (activeImages <= 6) {
 
-                            switch (totalImages) {
+                            switch (activeImages) {
+
                                 case 1:
                                     colClass = "col-12";
                                     break;
+
                                 case 2:
                                     colClass = "col-6";
                                     break;
+
                                 case 3:
                                     colClass = "col-4";
                                     break;
+
                                 case 4:
                                     colClass = "col-3";
                                     break;
+
                                 case 5:
                                     colClass = "custom-col-5";
                                     break;
+
                                 case 6:
                                     colClass = "col-2";
                                     break;
@@ -2458,16 +2951,24 @@ $l2_per=$l3_per=50;
                         }
 
                         html += `
-                            <div class="${colClass} mb-1">
+                            <div class="${colClass} mb-2 ${image.deleted ? 'd-none' : ''}" data-id="${image.id}">
+
                                 <div class="gallery-item position-relative">
+
                                     <img src="${image.src}" class="w-100" alt="Gallery Image">
 
-                                    <button type="button"
-                                            class="gallery-delete delete-image"
-                                            data-id="${image.id}">
+                                    <button
+                                        type="button"
+                                        class="gallery-delete delete-image"
+                                        data-id="${image.id}"
+                                        ${image.deleted ? 'style="display:none;"' : ''}>
+
                                         <i class="fa-solid fa-trash-can"></i>
+
                                     </button>
+
                                 </div>
+
                             </div>
                         `;
                     });
@@ -2475,25 +2976,28 @@ $l2_per=$l3_per=50;
                     $("#galleryContainer").html(html);
 
                     toggleUploadZone();
+
                 }
 
-                // Delete Image
+                // ==========================
+                // Delete Preview Only
+                // ==========================
                 $(document).on("click", ".delete-image", function (e) {
 
                     e.preventDefault();
                     e.stopPropagation();
 
-                    const imageId = $(this).data("id");
+                    const id = $(this).data("id");
 
-                    galleryImages = galleryImages.filter(function (image) {
-                        return image.id !== imageId;
-                    });
-                    // Update hidden field
-                    $("#galleryImageUrls").val(
-                        JSON.stringify(galleryImages.map(img => img.src))
-                    );
+                    const image = galleryImages.find(img => img.id == id);
 
+                    if (image) {
+                        image.deleted = true;
+                    }
+
+                    updateHiddenField();
                     renderGallery();
+
                 });
 
                 toggleUploadZone();
