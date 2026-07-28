@@ -59,6 +59,22 @@
 .payment-mode-wrapper:focus-within {
     box-shadow: 0 0 0 .15rem rgba(220,53,69,.25);
 }
+.couponRule-wrapper.error {
+    border: 1px solid #dc3545 !important;
+    box-shadow: 0 0 0 .15rem rgba(220,53,69,.25);
+}
+
+.couponRule-wrapper:focus-within {
+    box-shadow: 0 0 0 .15rem rgba(220,53,69,.25);
+}
+.otherPolicy-wrapper.error {
+    border: 1px solid #dc3545 !important;
+    box-shadow: 0 0 0 .15rem rgba(220,53,69,.25);
+}
+
+.otherPolicy-wrapper:focus-within {
+    box-shadow: 0 0 0 .15rem rgba(220,53,69,.25);
+}
 
 .upload-card.error {
     border: 2px solid #dc3545 !important;

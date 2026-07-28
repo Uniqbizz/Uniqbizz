@@ -729,8 +729,8 @@ $l2_per=$l3_per=50;
                                                                 <div class="col-md-4 col-sm-4 mt-3">
                                                                     <div class="form-floating mb-3">
                                                                         <input type="number" id="netPriceAdult" name="net_price_adult" value="" placeholder="NET Price for 1 Adult:" class="form-control">
-                                                                        <label for="netPriceAdult" class="required">Base Price for per Adult:</label>
                                                                         <small class="error-message" id="netPriceAdult_error"></small>
+                                                                        <label for="netPriceAdult" class="required">Base Price for per Adult:</label>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-4 col-sm-4 mt-3" id="netPriceChildData">
@@ -742,8 +742,9 @@ $l2_per=$l3_per=50;
                                                                 </div>
                                                                 <div class="col-md-4 col-sm-4 mt-3">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="number" id="nGst" name="nGst" value="" placeholder="Net GST Title" class="form-control">
-                                                                        <label id="net_gst_title" for="nGst">Extra Mattress</label>
+                                                                        <input type="number" id="extraMatress" name="extraMatress" value="" placeholder="Extra Mattress" class="form-control">
+                                                                        <label class="required" for="extraMatress">Extra Mattress</label>
+                                                                        <small class="error-message" id="extraMatress_error"></small>
                                                                     </div>
                                                                 </div>
                                                             </div>    
@@ -1228,7 +1229,7 @@ $l2_per=$l3_per=50;
                                                 <!-- Fifth Box Package Picture  -->
                                                 <div id="package_form_policy" style="display: none;">
                                                     <div class="row">
-                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-12 couponRule-wrapper" id="couponRule_wrapper">
                                                             <h4 class="mt-3 fw-bolder">Coupon Rule</h4>
                                                             <div class="borderHighlight p-3">
                                                                 <div class="d-flex justify-content-between mb-2">
@@ -1244,6 +1245,7 @@ $l2_per=$l3_per=50;
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <small class="error-message" id="couponRule_error"></small>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                                                             <h4 class="mt-3 fw-bolder">Booking Policy</h4>
@@ -1255,8 +1257,9 @@ $l2_per=$l3_per=50;
                                                                                 <label for="mrpPerAdult" class="mb-3">Minimum Advance Payment</label>
                                                                             </div>
                                                                             <div class="input-group mb-3 inputWidth">
-                                                                                <input type="text" class="form-control" id="bookingPercentage" name="bookingPercentage" placeholder="30">
+                                                                                <input type="number" class="form-control" id="bookingPercentage" name="bookingPercentage" >
                                                                                 <span class="input-group-text">%</span>
+                                                                                <small class="error-message" id="bookingPercentage_error"></small>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1266,8 +1269,9 @@ $l2_per=$l3_per=50;
                                                                                 <label for="mrpPerChild" class="mb-0">Full Payment Before Travel</label>
                                                                             </div>
                                                                             <div class="input-group inputWidth">
-                                                                                <input type="text" class="form-control" id="bookingDay" name="bookingDay" placeholder="3">
+                                                                                <input type="number" class="form-control" id="bookingDay" name="bookingDay" >
                                                                                 <span class="input-group-text">Days</span>
+                                                                                <small class="error-message" id="bookingDay_error"></small>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1281,7 +1285,7 @@ $l2_per=$l3_per=50;
                                                                     <p class="upload-description">
                                                                         Upload brochures, itinerary PDFs or any other important documents for reference.
                                                                     </p>
-                                                                    <div class="upload-wrapper">
+                                                                    <div class="upload-wrapper otherPolicy-wrapper" id="otherPolicy_wrapper">
                                                                         <table class="table upload-table">
                                                                             <thead>
                                                                                 <tr>
@@ -1294,36 +1298,9 @@ $l2_per=$l3_per=50;
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody id="fileTableBody">
-                                                                                <tr>
-                                                                                    <td>Thailand</td>
-                                                                                    <td>
-                                                                                        <div class="file-info">
-                                                                                            <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" class="file-icon">
-                                                                                            Thailand_Brochure.pdf
-                                                                                        </div>
-                                                                                    </td>
-                                                                                    <td>Brochure</td>
-                                                                                    <td>2.45 MB</td>
-                                                                                    <td>27 May 2025</td>
-                                                                                    <td class="text-center">
-                                                                                        <i class="fa-solid fa-download action-btn me-3"></i>
-                                                                                        <i class="fa-regular fa-trash-can action-btn delete-btn"></i>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>Detailed</td>
-                                                                                    <td>
-                                                                                        <div class="file-info">
-                                                                                            <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" class="file-icon">
-                                                                                            Detailed_Itinerary.pdf
-                                                                                        </div>
-                                                                                    </td>
-                                                                                    <td>Itinerary</td>
-                                                                                    <td>1.85 MB</td>
-                                                                                    <td>27 May 2025</td>
-                                                                                    <td class="text-center">
-                                                                                        <i class="fa-solid fa-download action-btn me-3"></i>
-                                                                                        <i class="fa-regular fa-trash-can action-btn delete-btn"></i>
+                                                                                <tr id="noAttachmentRow">
+                                                                                    <td colspan="6" class="text-center text-muted">
+                                                                                        No Attachment found
                                                                                     </td>
                                                                                 </tr>
                                                                             </tbody>
@@ -1341,6 +1318,7 @@ $l2_per=$l3_per=50;
                                                                             </button>
                                                                         </div>
                                                                     </div>
+                                                                    <small class="error-message" id="otherPolicy_error"></small>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1361,6 +1339,7 @@ $l2_per=$l3_per=50;
                                                                 <div class="row">
                                                                     <div class="col-lg-6">
                                                                         <div class="image-preview-wrapper">
+                                                                            <input type="hidden" id="coverImageUrl" value="">
                                                                             <img src="https://placehold.co/600x300?text=No+Image" alt="Package Cover" class="packageCoverImage" id="packageCoverImage">
                                                                             <button type="button" class="delete-image-btn" id="deleteImageBtn">
                                                                                 <i class="fa-solid fa-trash-can"></i>
@@ -1402,10 +1381,12 @@ $l2_per=$l3_per=50;
                                                                                 </span>
                                                                             </div>
                                                                             <p class="mb-0 text-muted">
-                                                                                You can upload up to 18 images | Max Size: 5MB each | Format: JPG, PNG, WEBP
+                                                                                You can upload up to 18 images | Max Size: 5MB each | Min No. uploads 4 | Format: JPG, PNG, WEBP
                                                                             </p>
                                                                             <div id="galleryMessage" class="text-danger mt-2 fw-semibold"></div>
                                                                             <input type="file" id="galleryInput" accept="image/jpeg,image/png,image/webp" multiple hidden>
+                                                                            <!-- Hidden field -->
+                                                                            <input type="hidden" id="galleryImageUrls" value="[]">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1444,8 +1425,8 @@ $l2_per=$l3_per=50;
                                                     </div>
                                                     <div class="row">
                                                         <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" >
-                                                            <a href="#" id="update_form" class="waves-effect waves-light btn-large" style=" color: white;">Submit</a>
-                                                            <a href="#" id="update_form" style="display:none"></a>
+                                                            <a href="#" id="update_form" class="waves-effect waves-light btn-large" style=" color: white;" >Submit</a>
+                                                            <!-- <a href="#" id="update_form" style="display:none"></a> -->
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1490,6 +1471,7 @@ $l2_per=$l3_per=50;
         <!-- custom js -->
         <script src="forms/product_packages.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <!-- keep all the folowing scripts on the same page -->
         <script>
             var mybutton = document.getElementById("back-to-top");
 
@@ -1527,135 +1509,131 @@ $l2_per=$l3_per=50;
                 }            
             }
         </script>
-        <!-- <script>
-                $(document).ready(function(){
-                    $("#user_table").DataTable();
-                });
-            </script> -->
+        
         <script>
-            $(document).ready(function () {
+            // $(document).ready(function () {
 
-                const sections = [
-                    "#package_form_general",
-                    "#package_form_extra",
-                    "#package_form_itinerary",
-                    "#package_form_pricing",
-                    "#package_form_policy",
-                    "#package_form_picture"
-                ];
+            //     const sections = [
+            //         "#package_form_general",
+            //         "#package_form_extra",
+            //         "#package_form_itinerary",
+            //         "#package_form_pricing",
+            //         "#package_form_policy",
+            //         "#package_form_picture"
+            //     ];
 
-                const pageData = {
-                    "#package_form_general": {
-                        title: "Add New Package - General Information",
-                        backText: "Return to Package Listing",
-                        backLink: "all_packages.php"
-                    },
-                    "#package_form_extra": {
-                        title: "Add New Package - Extra Information",
-                        backText: "Return to General Information",
-                        backLink: "#package_form_general"
-                    },
-                    "#package_form_itinerary": {
-                        title: "Add New Package - Itinerary & Inclusions",
-                        backText: "Return to Extra Information",
-                        backLink: "#package_form_extra"
-                    },
-                    "#package_form_pricing": {
-                        title: "Add New Package - Pricing",
-                        backText: "Return to Itinerary & Inclusions",
-                        backLink: "#package_form_itinerary"
-                    },
-                    "#package_form_policy": {
-                        title: "Add New Package - Policy",
-                        backText: "Return to Pricing",
-                        backLink: "#package_form_pricing"
-                    },
-                    "#package_form_picture": {
-                        title: "Add New Package - Pictures & Media",
-                        backText: "Return to Policy",
-                        backLink: "#package_form_policy"
-                    }
-                };
+            //     const pageData = {
+            //         "#package_form_general": {
+            //             title: "Add New Package - General Information",
+            //             backText: "Return to Package Listing",
+            //             backLink: "all_packages.php"
+            //         },
+            //         "#package_form_extra": {
+            //             title: "Add New Package - Extra Information",
+            //             backText: "Return to General Information",
+            //             backLink: "#package_form_general"
+            //         },
+            //         "#package_form_itinerary": {
+            //             title: "Add New Package - Itinerary & Inclusions",
+            //             backText: "Return to Extra Information",
+            //             backLink: "#package_form_extra"
+            //         },
+            //         "#package_form_pricing": {
+            //             title: "Add New Package - Pricing",
+            //             backText: "Return to Itinerary & Inclusions",
+            //             backLink: "#package_form_itinerary"
+            //         },
+            //         "#package_form_policy": {
+            //             title: "Add New Package - Policy",
+            //             backText: "Return to Pricing",
+            //             backLink: "#package_form_pricing"
+            //         },
+            //         "#package_form_picture": {
+            //             title: "Add New Package - Pictures & Media",
+            //             backText: "Return to Policy",
+            //             backLink: "#package_form_policy"
+            //         }
+            //     };
 
-                function showSection(target) {
+            //     function showSection(target) {
 
-                    // Hide all sections
-                    sections.forEach(function (section) {
-                        $(section).hide();
-                    });
+            //         // Hide all sections
+            //         sections.forEach(function (section) {
+            //             $(section).hide();
+            //         });
 
-                    // Show selected section
-                    $(target).show();
+            //         // Show selected section
+            //         $(target).show();
 
-                    // Update active step
-                    $(".step-link").removeClass("active");
-                    $(".roundedCircle").removeClass("active");
+            //         // Update active step
+            //         $(".step-link").removeClass("active");
+            //         $(".roundedCircle").removeClass("active");
 
-                    $('.step-link[href="' + target + '"]').addClass("active");
-                    $('.step-link[href="' + target + '"] .roundedCircle').addClass("active");
+            //         $('.step-link[href="' + target + '"]').addClass("active");
+            //         $('.step-link[href="' + target + '"] .roundedCircle').addClass("active");
 
-                    // Update page title
-                    $("#pageTitle").text(pageData[target].title);
+            //         // Update page title
+            //         $("#pageTitle").text(pageData[target].title);
 
-                    // Update return text
-                    $("#pageSubTitle").text(pageData[target].backText);
+            //         // Update return text
+            //         $("#pageSubTitle").text(pageData[target].backText);
 
-                    // Update back button target
-                    $("#dynamicBackBtn").attr("data-target", pageData[target].backLink);
-                }
+            //         // Update back button target
+            //         $("#dynamicBackBtn").attr("data-target", pageData[target].backLink);
+            //     }
 
-                // Initial load
-                showSection("#package_form_general");
+            //     // Initial load
+            //     showSection("#package_form_general");
 
-                // Stepper navigation click
-                $(".step-link").on("click", function (e) {
-                    e.preventDefault();
+            //     // Stepper navigation click
+            //     $(".step-link").on("click", function (e) {
+            //         e.preventDefault();
 
-                    let target = $(this).attr("href");
-                    showSection(target);
-                });
+            //         let target = $(this).attr("href");
+            //         showSection(target);
+            //     });
 
-                // Back button click
-                $("#dynamicBackBtn").on("click", function (e) {
-                    e.preventDefault();
+            //     // Back button click
+            //     $("#dynamicBackBtn").on("click", function (e) {
+            //         e.preventDefault();
 
-                    let target = $(this).attr("data-target");
+            //         let target = $(this).attr("data-target");
 
-                    if (target === "all_packages.php") {
-                        window.location.href = target;
-                        return;
-                    }
+            //         if (target === "all_packages.php") {
+            //             window.location.href = target;
+            //             return;
+            //         }
 
-                    showSection(target);
-                });
+            //         showSection(target);
+            //     });
 
-                // Next buttons
-                // $("#package_form_general_nextBtn").on("click", function (e) {
-                //     e.preventDefault();
-                //     showSection("#package_form_extra");
-                // });
+            //     // Next buttons
+            //     // $("#package_form_general_nextBtn").on("click", function (e) {
+            //     //     e.preventDefault();
+            //     //     showSection("#package_form_extra");
+            //     // });
 
-                // $("#package_form_extra_nextBtn").on("click", function (e) {
-                //     e.preventDefault();
-                //     showSection("#package_form_itinerary");
-                // });
+            //     // $("#package_form_extra_nextBtn").on("click", function (e) {
+            //     //     e.preventDefault();
+            //     //     showSection("#package_form_itinerary");
+            //     // });
 
-                // $("#package_form_itinerary_nxtBtn").on("click", function (e) {
-                //     e.preventDefault();
-                //     showSection("#package_form_pricing");
-                // });
+            //     // $("#package_form_itinerary_nxtBtn").on("click", function (e) {
+            //     //     e.preventDefault();
+            //     //     showSection("#package_form_pricing");
+            //     // });
 
-                $("#package_form_pricing_nextBtn").on("click", function (e) {
-                    e.preventDefault();
-                    showSection("#package_form_policy");
-                });
+            //     // $("#package_form_pricing_nextBtn").on("click", function (e) {
+            //     //     e.preventDefault();
+            //     //     showSection("#package_form_policy");
+            //     // });
 
-                $("#package_form_policy_nextBtn").on("click", function (e) {
-                    e.preventDefault();
-                    showSection("#package_form_picture");
-                });
+            //     // $("#package_form_policy_nextBtn").on("click", function (e) {
+            //     //     e.preventDefault();
+            //     //     showSection("#package_form_picture");
+            //     // });
 
-            });
+            // });
         </script>
         <script>
             // Remove Tag
@@ -2117,22 +2095,21 @@ $l2_per=$l3_per=50;
             });
 
             // Submit
-            addDocumentBtn.addEventListener("click", function(){
-
+            addDocumentBtn.addEventListener("click", function () {
+                $("#noAttachmentRow").remove();
                 let title = document.getElementById("documentTitle").value.trim();
 
-                if(title === ""){
+                if (title === "") {
                     alert("Please enter title");
                     return;
                 }
 
-                if(!selectedFile){
+                if (!selectedFile) {
                     alert("Please select a file");
                     return;
                 }
 
                 let size = (selectedFile.size / (1024 * 1024)).toFixed(2) + " MB";
-
                 let fileType = selectedFile.name.split('.').pop().toUpperCase();
 
                 let today = new Date().toLocaleDateString("en-GB", {
@@ -2141,11 +2118,14 @@ $l2_per=$l3_per=50;
                     year: "numeric"
                 });
 
-                let row = `
-                    <tr>
-                        <td>${title}</td>
+                // Generate unique row id
+                let rowId = Date.now();
 
-                        <td>
+                let row = `
+                    <tr id="docRow_${rowId}">
+                        <td id="docTitle_${rowId}">${title}</td>
+
+                        <td id="docFileName_${rowId}">
                             <div class="file-info">
                                 <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png"
                                     class="file-icon">
@@ -2153,13 +2133,13 @@ $l2_per=$l3_per=50;
                             </div>
                         </td>
 
-                        <td>${fileType}</td>
+                        <td id="docType_${rowId}">${fileType}</td>
 
-                        <td>${size}</td>
+                        <td id="docSize_${rowId}">${size}</td>
 
-                        <td>${today}</td>
+                        <td id="docUploadedOn_${rowId}">${today}</td>
 
-                        <td class="text-center">
+                        <td id="docAction_${rowId}" class="text-center">
                             <i class="fa-solid fa-download action-btn me-3"></i>
                             <i class="fa-regular fa-trash-can action-btn delete-btn remove-file"></i>
                         </td>
@@ -2180,6 +2160,15 @@ $l2_per=$l3_per=50;
             // Delete row
             $(document).on("click", ".remove-file", function(){
                 $(this).closest("tr").remove();
+                if ($("#fileTableBody tr").length === 0) {
+                    $("#fileTableBody").html(`
+                        <tr id="noAttachmentRow">
+                            <td colspan="6" class="text-center text-muted">
+                                No Attachment found
+                            </td>
+                        </tr>
+                    `);
+                }
             });
         </script>
         <!-- Picture & Media Section -->
@@ -2249,9 +2238,17 @@ $l2_per=$l3_per=50;
                     const reader = new FileReader();
 
                     reader.onload = function (e) {
+
                         previewImage.attr("src", e.target.result);
                         deleteBtn.css("display", "flex");
                         fileText.text(file.name);
+
+                        
+                        // Store URL
+                        $("#coverImageUrl").val("uploading/packages/" + file.name);
+
+                        // Store Base64
+                        $("#coverImageUrl").data("base64", e.target.result);
                     };
 
                     reader.readAsDataURL(file);
@@ -2265,6 +2262,7 @@ $l2_per=$l3_per=50;
                     );
 
                     fileInput.val("");
+                    $("#coverImageUrl").val(""); 
                     fileText.text("Drag & Drop image here or Click to browse");
                     $(this).hide();
                 });
@@ -2273,10 +2271,10 @@ $l2_per=$l3_per=50;
         </script>
         <!-- Image Gallery  -->
         <script>
+            const maxImages = 18;
+            let galleryImages = [];
             $(document).ready(function () {
 
-                const maxImages = 18;
-                let galleryImages = [];
 
                 // Click Upload Area
                 $(document).on("click", "#imageGalleryZone", function (e) {
@@ -2390,9 +2388,13 @@ $l2_per=$l3_per=50;
 
                                 galleryImages.push({
                                     id: Date.now() + Math.random(),
-                                    src: e.target.result
+                                    src: e.target.result,
+                                    url: "uploading/packages/" + file.name,
+                                    file: file
                                 });
-
+                                $("#galleryImageUrls").val(
+                                    JSON.stringify(galleryImages.map(img => img.url))
+                                );
                                 renderGallery();
                             };
 
@@ -2486,6 +2488,10 @@ $l2_per=$l3_per=50;
                     galleryImages = galleryImages.filter(function (image) {
                         return image.id !== imageId;
                     });
+                    // Update hidden field
+                    $("#galleryImageUrls").val(
+                        JSON.stringify(galleryImages.map(img => img.src))
+                    );
 
                     renderGallery();
                 });

@@ -143,9 +143,11 @@ $(document).ready(function () {
 			x++;
 			$(wrapper).append(`<div class="row day-container">
 						<div class="col-md-2 col-sm-2 col-12 mb-2">
-							<div class="upload-card icon-upload-card" data-title="Icons" data-index="1">
-								<input type="hidden" id="img_path1" value="">
-								<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file1">
+							<div class="upload-card icon-upload-card" data-title="Icons" data-index="${dayCount}">
+								<input type="hidden" id="img_path${dayCount}" value="">
+    							<input type="hidden" id="img_base64${dayCount}" value="">
+								
+								<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file${dayCount}">
 								<div class="upload-content">
 									<div class="upload-icon">
 										<i class="fa-solid fa-user"></i>
@@ -873,7 +875,7 @@ function validateDayFields() {
         // Check if icon is uploaded
         const fileInput = $(this).find('.file-input');
         const iconUploaded = fileInput.val() !== '';
-        const hiddenIconPath = $(this).find('#img_path1').val();
+        const hiddenIconPath = $(this).find('#img_path'+index).val();
         const hasIcon = iconUploaded || (hiddenIconPath && hiddenIconPath !== '');
         let dayHasError = false;
         
@@ -1012,7 +1014,35 @@ function clearHighlightContainerError(){
 
     $("#highlightContainer_error").text("");
 }
+function showCouponRuleError(message) {
 
+    $("#couponRule_wrapper")
+        .addClass("error")
+        .attr("tabindex", "-1")
+        .focus();
+
+    $("#couponRule_error").text(message);
+}
+function clearCouponRuleError() {
+    $("#couponRule_wrapper").removeClass("error");
+    $("#couponRule_error").text("");
+}
+function showOtherPolicyError(message) {
+
+    $("#otherPolicy_wrapper")
+        .addClass("error")
+        .attr("tabindex", "-1")
+        .focus();
+
+    $("#otherPolicy_error").text(message);
+}
+
+function clearOtherPolicyError() {
+
+    $("#otherPolicy_wrapper").removeClass("error");
+    $("#otherPolicy_error").text("");
+
+}
 $(".highlight-tag").on("change",function(){
 
     clearHighlightContainerError();
@@ -1106,6 +1136,129 @@ $(".packageKeyWords").on("change",function(){
 
 });
 //------------------------------------
+
+
+	const sections = [
+		"#package_form_general",
+		"#package_form_extra",
+		"#package_form_itinerary",
+		"#package_form_pricing",
+		"#package_form_policy",
+		"#package_form_picture"
+	];
+
+	const pageData = {
+		"#package_form_general": {
+			title: "Add New Package - General Information",
+			backText: "Return to Package Listing",
+			backLink: "all_packages.php"
+		},
+		"#package_form_extra": {
+			title: "Add New Package - Extra Information",
+			backText: "Return to General Information",
+			backLink: "#package_form_general"
+		},
+		"#package_form_itinerary": {
+			title: "Add New Package - Itinerary & Inclusions",
+			backText: "Return to Extra Information",
+			backLink: "#package_form_extra"
+		},
+		"#package_form_pricing": {
+			title: "Add New Package - Pricing",
+			backText: "Return to Itinerary & Inclusions",
+			backLink: "#package_form_itinerary"
+		},
+		"#package_form_policy": {
+			title: "Add New Package - Policy",
+			backText: "Return to Pricing",
+			backLink: "#package_form_pricing"
+		},
+		"#package_form_picture": {
+			title: "Add New Package - Pictures & Media",
+			backText: "Return to Policy",
+			backLink: "#package_form_policy"
+		}
+	};
+
+	// function showSection(target) {
+
+	// 	// Hide all sections
+	// 	sections.forEach(function (section) {
+	// 		$(section).hide();
+	// 	});
+
+	// 	// Show selected section
+	// 	$(target).show();
+
+	// 	// Update active step
+	// 	$(".step-link").removeClass("active");
+	// 	$(".roundedCircle").removeClass("active");
+
+	// 	$('.step-link[href="' + target + '"]').addClass("active");
+	// 	$('.step-link[href="' + target + '"] .roundedCircle').addClass("active");
+
+	// 	// Update page title
+	// 	$("#pageTitle").text(pageData[target].title);
+
+	// 	// Update return text
+	// 	$("#pageSubTitle").text(pageData[target].backText);
+
+	// 	// Update back button target
+	// 	$("#dynamicBackBtn").attr("data-target", pageData[target].backLink);
+	// }
+
+	// Initial load
+	showSection("#package_form_general");
+
+	// Stepper navigation click
+	$(".step-link").on("click", function (e) {
+		e.preventDefault();
+
+		let target = $(this).attr("href");
+		showSection(target);
+	});
+
+	// Back button click
+	$("#dynamicBackBtn").on("click", function (e) {
+		e.preventDefault();
+
+		let target = $(this).attr("data-target");
+
+		if (target === "all_packages.php") {
+			window.location.href = target;
+			return;
+		}
+
+		showSection(target);
+	});
+
+	// Next buttons
+	// $("#package_form_general_nextBtn").on("click", function (e) {
+	//     e.preventDefault();
+	//     showSection("#package_form_extra");
+	// });
+
+	// $("#package_form_extra_nextBtn").on("click", function (e) {
+	//     e.preventDefault();
+	//     showSection("#package_form_itinerary");
+	// });
+
+	// $("#package_form_itinerary_nxtBtn").on("click", function (e) {
+	//     e.preventDefault();
+	//     showSection("#package_form_pricing");
+	// });
+
+	// $("#package_form_pricing_nextBtn").on("click", function (e) {
+	//     e.preventDefault();
+	//     showSection("#package_form_policy");
+	// });
+
+	// $("#package_form_policy_nextBtn").on("click", function (e) {
+	//     e.preventDefault();
+	//     showSection("#package_form_picture");
+	// });
+
+// });
 let payLoadData={};
 //general information next
 $('#package_form_general_nextBtn').on('click',function (e){
@@ -1143,78 +1296,94 @@ $('#package_form_general_nextBtn').on('click',function (e){
         showError("uniqueCode", "Please enter Unique Code.");
         return false;
     }
+	$.ajax({
+		url: "forms/unique_code_vefication.php",
+		type: "POST",
+		data: { uniqueCode },
+		dataType: "json",
+		success: function (res) {
 
-    // Category
-    if (categoryId === "" || categoryId == null) {
-        showError("categoryId", "Please select Category.");
-        return false;
-    }
+			if (res.exists) {
+				showError("uniqueCode", "Unique Code already exists.");
+				return false;
+			}
+			// Continue with the remaining validations
+			// Category
+			if (categoryId === "" || categoryId == null) {
+				showError("categoryId", "Please select Category.");
+				return false;
+			}
 
-    // Sub Category
-    if (subCategoryId === "" || subCategoryId == null) {
-        showError("subCategoryId", "Please select Sub Category.");
-        return false;
-    }
+			// Sub Category
+			if (subCategoryId === "" || subCategoryId == null) {
+				showError("subCategoryId", "Please select Sub Category.");
+				return false;
+			}
 
-    // Travel Theme
-    if (!travelTheme) {
-        showTravelThemeError("Please select a Travel Theme.");
-        return false;
-    }
+			// Travel Theme
+			if (!travelTheme) {
+				showTravelThemeError("Please select a Travel Theme.");
+				return false;
+			}
 
-    // Tour Days
-    if (tourDays === "") {
-        showError("tourDays", "Please enter Tour Days.");
-        return false;
-    }
+			// Tour Days
+			if (tourDays === "") {
+				showError("tourDays", "Please enter Tour Days.");
+				return false;
+			}
 
-    // Package Validity
-    if (pacValidity === "") {
-        showError("pacValidity", "Please select Package Validity.");
-        return false;
-    }
+			// Package Validity
+			if (pacValidity === "") {
+				showError("pacValidity", "Please select Package Validity.");
+				return false;
+			}
 
-    // Package Location
-    if (pacLocation === "") {
-        showError("pacLocation", "Please enter Package Location.");
-        return false;
-    }
+			// Package Location
+			if (pacLocation === "") {
+				showError("pacLocation", "Please enter Package Location.");
+				return false;
+			}
 
-    // Cities
-    if (cities.length === 0) {
-        showHighlightContainerError("Please add at least one City.");
-        return false;
-    }
+			// Cities
+			if (cities.length === 0) {
+				showHighlightContainerError("Please add at least one City.");
+				return false;
+			}
 
-    // Description
-    if (description === "") {
-        showError("description", "Please enter Short Description.");
-        return false;
-    }
+			// Description
+			if (description === "") {
+				showError("description", "Please enter Short Description.");
+				return false;
+			}
 
-    // Detailed Description
-    if (descriptionDetail === "") {
-        showError("descriptionDetail", "Please enter Detailed Description.");
-        return false;
-    }
+			// Detailed Description
+			if (descriptionDetail === "") {
+				showError("descriptionDetail", "Please enter Detailed Description.");
+				return false;
+			}
 
-    // Package Type
-    if (!packageType) {
-        showPackageTypeError("Please select Package Type.");
-        return false;
-    }
+			// Package Type
+			if (!packageType) {
+				showPackageTypeError("Please select Package Type.");
+				return false;
+			}
 
-    // Visa Type
-    if (!visaType) {
-        showVisaTypeError("Please select Visa Type.");
-        return false;
-    }
+			// Visa Type
+			if (!visaType) {
+				showVisaTypeError("Please select Visa Type.");
+				return false;
+			}
 
-    // Drop Price
-    if (dropPrice === "") {
-        showError("dropPrice", "Please select a Drop Price.");
-        return false;
-    }
+			// Drop Price
+			if (dropPrice === "") {
+				showError("dropPrice", "Please select a Drop Price.");
+				return false;
+			}
+
+		}
+	});
+
+    
 	payLoadData.general_info = {
 		packName,
 		uniqueCode,
@@ -1436,6 +1605,7 @@ $('#package_form_itinerary_nxtBtn').on('click', function (e) {
     // Save data with day details
     const dayData = [];
     $(".day-container").each(function() {
+		const index = $(this).find(".upload-card").data("index");
         const dayObj = {
             day: $(this).find(".dayval").text().trim(),
             title: $(this).find(".title").val().trim(),
@@ -1443,7 +1613,8 @@ $('#package_form_itinerary_nxtBtn').on('click', function (e) {
             meals: $(this).find(".meals").val().trim(),
             transport: $(this).find(".transport").eq(0).val().trim(),
             stay: $(this).find(".transport").eq(1).val().trim(),
-            icon: $(this).find("#img_path1").val() // If you store icon path
+            icon: index !== undefined ? $("#img_path" + index).val().trim() : "",
+        	iconBase64: index !== undefined ? $("#img_base64" + index).val().trim() : ""
         };
         dayData.push(dayObj);
     });
@@ -1477,7 +1648,7 @@ $('#package_form_itinerary_nxtBtn').on('click', function (e) {
     showSection("#package_form_pricing");
 });
 //pricing
-$('#package_form_extra_nextBtn').on('click', function (e) {
+$('#package_form_pricing_nextBtn').on('click', function (e) {
 
     e.preventDefault();
 
@@ -1485,6 +1656,7 @@ $('#package_form_extra_nextBtn').on('click', function (e) {
 
     let netPriceAdult = $('#netPriceAdult').val().trim();
     let netPriceChild = $('#netPriceChild').val().trim();
+    let extraMatress = $('#extraMatress').val().trim();
     let companyMarkup = $('#companyMarkup').val().trim();
     let couponAdjustment = $('#couponAdjustment').val().trim();
     let guestAmount = $("#guestAmount").prop("disabled")
@@ -1552,7 +1724,7 @@ $('#package_form_extra_nextBtn').on('click', function (e) {
 	let cancellationPercentage3= $("#cancellationPercentage3").val().trim();
 	let cancellationPercentage4= $("#cancellationPercentage4").val().trim();
 	let cancellationPercentage5= $("#cancellationPercentage5").val().trim();
-
+	
     // Validation
     if (netPriceAdult === "") {
         showError("netPriceAdult", "Please enter Base Price for per Adult.");
@@ -1561,6 +1733,10 @@ $('#package_form_extra_nextBtn').on('click', function (e) {
 
     if (netPriceChild === "") {
         showError("netPriceChild", "Please enter Base Price for per Child.");
+        return false;
+    }
+    if (extraMatress === "") {
+        showError("extraMatress", "Please enter Extra Matress.");
         return false;
     }
 
@@ -1624,6 +1800,7 @@ $('#package_form_extra_nextBtn').on('click', function (e) {
     payLoadData.pricing = {
 		netPriceAdult,
 		netPriceChild,
+		extraMatress,
 		companyMarkup,
 		couponAdjustment,
 
@@ -1716,270 +1893,184 @@ $('#package_form_extra_nextBtn').on('click', function (e) {
 
     showSection("#package_form_policy");
 });
-//  submit form changed on 25 jan 2025 by sv
-function submit_form_data(e) {
+//policy
+$('#package_form_policy_nextBtn').on('click',function (e){
 	e.preventDefault();
+	clearAllErrors();
+    clearCouponRuleError();
+	clearOtherPolicyError();
+	let switchCoupon = $('#switchCoupon').is(':checked') ? 1 : 0;
+	let switchCombine = $('#switchCombine').is(':checked') ? 1 : 0;
+	let bookingPercentage = $('#bookingPercentage').val().trim();
+	let bookingDay = $('#bookingDay').val().trim();
+	let tableData = [];
+	let isValid = true;
 
-	var image_data = $("#gallery-photo-add").val();
-	if (image_data == "") {
-		alert("Pictures cannot be Empty !");
-	} else {
-		var category_id = parseInt($('#category_id').val());
-		var sub_category_id = parseInt($('#sub_category_id').val());
-		var club_id = parseInt($('#club_id').val());
-		// var package_type = packageType;
-		var category_hotel_id = parseInt($('#category_hotel_id').val());
-		var category_meal_id = parseInt($('#category_meal_id').val());
-		var name = $('#name').val();
-		var unique_code = $('#unique_code').val();
-		var pac_validity = $('#pac_validity').val();
-		var tour_days = $('#tour_days').val();
-		var description = $('#description').val();
-		var destination = $('#destination').val();
-		var location = $('#location').val();
-		var travel_from = $('#travel_from').val();
-		var travel_to = $('#travel_to').val();
-		var sightseeing_type = $('#sightseeing_type').val();
-		var package_keywords = $('#package_keywords').val();
-		var bcm_mark_up_comm = parseFloat($('#mp_bcm_comm').val());
-		var bcm_mark_up_ins = parseFloat($('#mp_bcm_ins').val());
-		var bdm_mark_up_comm = parseFloat($('#mp_bdm_comm').val());
-		var bdm_mark_up_ins = parseFloat($('#mp_bdm_ins').val());
-		var bm_mark_up_comm = parseFloat($('#mp_bm_comm').val());
-		var bm_mark_up_ins = parseFloat($('#mp_bm_ins').val());
-		var ca_mark_up_comm = parseFloat($('#mp_ca_comm').val());
-		var ca_mark_up_ins = parseFloat($('#mp_ca_ins').val());
-		var te_mark_up_comm = parseFloat($('#new_mp_ca_comm').val());
-		var te_mark_up_ins = parseFloat($('#new_mp_ca_ins').val());
-		var cte_mark_up_comm = parseFloat($('#mp_cte_comm').val());
-		var cte_mark_up_ins = parseFloat($('#mp_cte_ins').val());
-		var ste_mark_up_comm = parseFloat($('#mp_ste_comm').val());
-		var ste_mark_up_ins = parseFloat($('#mp_ste_ins').val());
-		var ete_mark_up_comm = parseFloat($('#mp_ete_comm').val());
-		var ete_mark_up_ins = parseFloat($('#mp_ete_ins').val());
-		var newca_mark_up_comm = parseFloat($('#new_mp_ca_comm').val());
-		var newca_mark_up_ins = parseFloat($('#new_mp_ca_ins').val());
-		var ins_bm_mf_sf_comm = parseFloat($('#ins_bm_mf_sf_comm').val());
-		var ins_bm_mf_sf_ins = parseFloat($('#ins_bm_mf_sf_ins').val());
-		var ins_mp_company = parseFloat($('#ins_mp_company').val());
-		var ins_mp_ca_ta = parseFloat($('#ins_mp_ca_ta').val());
-		var ins_mp_customer = parseFloat($('#ins_mp_customer').val());
-		var ins_l1_cust_comm = parseFloat($('#ins_l1_cust_comm').val());
-		var ins_l2_cust_comm = parseFloat($('#ins_l2_cust_comm').val());
-		var inclusion, exclusion, remark;
-		var temp_inclusion = $('#inclusion').val();
-		if (temp_inclusion) {
-			inclusion = $('#inclusion').val();
-		} else {
-			inclusion = '';
-		}
-		var temp_exclusion = $('#exclusion').val();
-		if (temp_exclusion) {
-			exclusion = $('#exclusion').val();
-		} else {
-			exclusion = '';
-		}
-		var temp_remark = $('#remark').val();
-		if (temp_remark) {
-			remark = $('#remark').val();
-		} else {
-			remark = '';
-		}
-		var net_price_adult = $('#netPriceAdult').val(); // new
-		var net_price_child = $('#netPriceChild').val(); // new
-		var net_gst = $('#nGst').val();
-		var net_price_adult_with_GST = $('#totalNetPriceAdult').val(); // new
-		var net_price_child_with_GST = $('#totalNetPriceChild').val(); // new
-		var total_package_price_per_adult = $('#mrpPerAdult').val();
-		var total_package_price_per_child = $('#mrpPerChild').val().trim() || '0'
-		// mark_up distribution
-		var ta_mark_up = parseFloat($("#mp_ca_ta").val());
-		var company_share = parseFloat($("#mp_company").val());
-		var customer_share = parseFloat($("#mp_customer").val());
-		var newta_mark_up = parseFloat($("#new_mp_ca_ta").val());
-		var newcompany_share = parseFloat($("#new_mp_company").val());
-		var newcustomer_share = parseFloat($("#new_mp_customer").val());
-		
-		// CA calculation
-		var ca_mark_up = ca_mark_up_ins + ca_mark_up_comm;
-		// BM calculation
-		var bm_mark_up = bm_mark_up_ins + bm_mark_up_comm;
-		// BDM calculation
-		var bdm_mark_up = bdm_mark_up_ins + bdm_mark_up_comm;
-		// BCM calculation
-		var bcm_mark_up = bcm_mark_up_ins + bcm_mark_up_comm;
+	$("#fileTableBody tr").each(function () {
 
-		// New TE calculation
-		var te_mark_up = te_mark_up_ins + te_mark_up_comm;
-		// ETE calculation
-		var ete_mark_up = ete_mark_up_ins + ete_mark_up_comm;
-		// STE calculation
-		var ste_mark_up = ste_mark_up_ins + ste_mark_up_comm;
-		// CTE calculation
-		var cte_mark_up = cte_mark_up_ins + cte_mark_up_comm;
-		//institution markup
-		// BM | MF | SF calculation
-		var ins_bm_mf_sf_total = ins_bm_mf_sf_comm + ins_bm_mf_sf_ins;
-		//var details_of_day = document.getElementsByName('days[]');
-		//addition adult price
-		var add_adult_price=$('#add_adult_price').val();
-		var L1_customer_share = $('#l1_cust_comm').val();
-        var L2_customer_share = $('#l2_cust_comm').val();
-		var newL1_customer_share = $('#new_l1_cust_comm').val();
-        var newL2_customer_share = $('#new_l2_cust_comm').val();
-        var L3_customer_share = $('#l3_cust_comm').val();
-		//cancel policy
-		var policy_1 = $('#can_per_1').val();
-		var policy_2 = $('#can_per_2').val();
-		var policy_3 = $('#can_per_3').val();
-		var allTripDaysData = [];
-
-		$(".day-container").each(function () {
-			var dayData = {
-				title: $(this).find(".title").val(),
-				description: $(this).find(".description").val(),
-				meals: $(this).find(".meals").val(),
-				transport: $(this).find(".transport").val(),
-			};
-			allTripDaysData.push(dayData);
-		});
-
-		var formdata = {
-			category_id: category_id,
-			category_hotel_id: category_hotel_id,
-			category_meal_id: category_meal_id,
-			club_id: club_id,
-			sub_category_id: sub_category_id,
-			package_type: packageTypeValue,
-			name: name,
-			unique_code: unique_code,
-			pac_validity: pac_validity,
-			tour_days: tour_days,
-			description: description,
-			destination: destination,
-			location: location,
-			travel_from: travel_from,
-			travel_to: travel_to,
-			package_keywords: package_keywords,
-			sightseeing_type: sightseeing_type,
-			occupancies: [],
-			vehicles: [],
-			inclusion: inclusion,
-			exclusion: exclusion,
-			remark: remark,
-			net_price_adult: net_price_adult,
-			net_price_child: net_price_child,
-			net_gst: net_gst,
-			net_price_adult_with_GST: net_price_adult_with_GST,
-			net_price_child_with_GST: net_price_child_with_GST,
-			ta_mark_up: ta_mark_up,
-			ca_mark_up: ca_mark_up,
-			ca_mark_up_comm: ca_mark_up_comm,
-			ca_mark_up_ins: ca_mark_up_ins,
-			bm_mark_up: bm_mark_up,
-			bm_mark_up_comm: bm_mark_up_comm,
-			bm_mark_up_ins: bm_mark_up_ins,
-			bdm_mark_up: bdm_mark_up,
-			bdm_mark_up_comm: bdm_mark_up_comm,
-			bdm_mark_up_ins: bdm_mark_up_ins,
-			bcm_mark_up: bcm_mark_up,
-			bcm_mark_up_comm: bcm_mark_up_comm,
-			bcm_mark_up_ins: bcm_mark_up_ins,
-			coupon_amt:coupon_title,
-			newta_mark_up: newta_mark_up,
-			te_mark_up: te_mark_up,
-			te_mark_up_comm: te_mark_up_comm,
-			te_mark_up_ins: te_mark_up_ins,
-			ete_mark_up: ete_mark_up,
-			ete_mark_up_comm: ete_mark_up_comm,
-			ete_mark_up_ins: ete_mark_up_ins,
-			ste_mark_up: ste_mark_up,
-			ste_mark_up_comm: ste_mark_up_comm,
-			ste_mark_up_ins: ste_mark_up_ins,
-			cte_mark_up: cte_mark_up,
-			cte_mark_up_comm: cte_mark_up_comm,
-			cte_mark_up_ins: cte_mark_up_ins,
-			newcoupon_amt:newcoupon_title,
-			ins_bm_mf_sf_comm:ins_bm_mf_sf_comm,
-			ins_bm_mf_sf_ins:ins_bm_mf_sf_ins,
-			ins_bm_mf_sf_total:ins_bm_mf_sf_total,
-			ins_l1_cust_comm:ins_l1_cust_comm,
-			ins_l2_cust_comm:ins_l2_cust_comm,
-			ins_mp_ca_ta:ins_mp_ca_ta,
-			ins_mp_company:ins_mp_company,
-			ins_mp_customer:ins_mp_customer,
-			inscoupon_title:inscoupon_title,
-			insmark_up_title:insmark_up_title,
-			total_package_price_per_adult: total_package_price_per_adult,
-			total_package_price_per_child: total_package_price_per_child,
-			company_share: company_share,
-			customer_share: customer_share,
-			newcompany_share: newcompany_share,
-			newcustomer_share: newcustomer_share,
-			L1_customer_share: L1_customer_share,
-			L2_customer_share: L2_customer_share,
-			newL1_customer_share: newL1_customer_share,
-			newL2_customer_share: newL2_customer_share,
-			L3_customer_share: L3_customer_share,
-			total_mark_up:mark_up_title,
-			newtotal_mark_up:newmark_up_title,
-			add_adult_price:add_adult_price,
-			policy_1: policy_1,
-			policy_2: policy_2,
-			policy_3: policy_3,
-			images: [],
-			details_of_day: allTripDaysData
+		let rowData = {
+			id: $(this).attr("id"),
+			title: $(this).find("td:eq(0)").text().trim(),
+			fileName: $(this).find("td:eq(1) .file-info").text().trim(),
+			type: $(this).find("td:eq(2)").text().trim(),
+			size: $(this).find("td:eq(3)").text().trim(),
+			uploadedOn: $(this).find("td:eq(4)").text().trim()
 		};
 
+		if (
+			rowData.title === "" ||
+			rowData.fileName === "" ||
+			rowData.type === "" ||
+			rowData.size === "" ||
+			rowData.uploadedOn === ""
+		) {
+			isValid = false;
+			return false;
+		}
 
-		images.forEach(function (image, i) {
-			formdata.images.push({
-				'name': image.name
-			});
-		});
-		occupancies.forEach(function (data, i) {
-			formdata.occupancies.push({
-				'id': data.id
-			});
-		});
-		vehicles.forEach(function (data, i) {
-			formdata.vehicles.push({
-				'id': data.id
-			});
-		});
+		tableData.push(rowData);
+	});
+	
 
-		// console.log(formdata);
-
-		let data = JSON.stringify(formdata);
-		console.log(data);
-		showLoader(true);       // loader start
-		$.ajax({
-			type: "POST",
-			url: 'forms/create.php',
-			data: data,
-			headers: {
-				"Content-Type": "application/json",
-				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-			},
-			success: function (res) {
-				//	console.log(res);
-				if (res.toString() == "success") {
-					// console.log('Record Created');
-					alert("Create successfully");
-					window.location = "../packages/all_packages.php";
-				} else {
-					console.log('Failed to create data ');
-				}
-			},
-			complete: function () {
-				showLoader(false);   // loader end 
-			},
-			error: function (err) {
-				console.log(err);
-			}
-		});
+	//validation
+	//coupon rule
+	if (!switchCoupon && !switchCombine) {
+		showCouponRuleError("Please enable at least one coupon rule.");
+		return false;
 	}
-}
+	// Minimum Advance Payment
+    if (bookingPercentage === "") {
+        showError("bookingPercentage", "Please enter Minimum Advance Payment.");
+        return false;
+    }
+
+    // Full Payment Before Travel
+    if (bookingDay === "") {
+        showError("bookingDay", "Please enter Full Payment Before Travel.");
+        return false;
+    }
+
+    // other policy
+    // if (!isValid || tableData.length === 0) {
+	// 	showOtherPolicyError("Please add at least one complete document.");
+	// 	return false;
+	// }
+
+    
+	payLoadData.policy = {
+		couponRule: {
+			couponAllowed: switchCoupon,
+			combineWithOffers: switchCombine
+		},
+		booking: {
+			bookingPercentage,
+			bookingDay
+		},
+		documents: tableData
+	};
+
+	showSection("#package_form_picture");
+
+});
+//  submit form changed on 25 jan 2025 by sv
+$("#update_form").on('click',function (e) {
+	e.preventDefault();
+
+	// Cover Image
+	const coverImage = {
+		name: $("#coverImageUrl").data("base64") || "",
+		url: $("#coverImageUrl").val().trim()
+	};
+
+	// Gallery Images
+	const gallery = galleryImages.map(img => ({
+		name: img.src,   // Base64 for PHP
+		url: img.url     // uploading/packages/filename.jpg
+	}));
+
+	// Videos
+	let videos = [];
+
+	$("#videoPreviewList .video-preview-item").each(function () {
+		videos.push({
+			url: $(this).find(".video-url").text().trim()
+		});
+	});
+
+	// Media Payload
+	payLoadData.media = {
+		coverImage,
+		gallery,
+		videos
+	};
+	console.log(payLoadData);
+	
+	Swal.fire({
+		title: "Creating Package...",
+		text: "Please wait while we save your package.",
+		allowOutsideClick: false,
+		allowEscapeKey: false
+		// didOpen: () => {
+		// 	Swal.showLoading();
+		// }
+	});
+
+	// $.ajax({
+	// 	type: "POST",
+	// 	url: "forms/create.php",
+	// 	data: JSON.stringify(payLoadData),
+	// 	contentType: "application/json",
+	// 	dataType: "json",
+	// 	headers: {
+	// 		"X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+	// 	},
+
+	// 	success: function (res) {
+
+	// 		Swal.close();
+
+	// 		if (res.status === "success") {
+
+	// 			Swal.fire({
+	// 				icon: "success",
+	// 				title: "Success!",
+	// 				text: "Package created successfully.",//res.message || 
+	// 				confirmButtonText: "OK"
+	// 			}).then(() => {
+	// 				window.location.href = "../packages/all_packages.php";
+	// 			});
+
+	// 		} else {
+
+	// 			Swal.fire({
+	// 				icon: "error",
+	// 				title: "Failed!",
+	// 				text: "Unable to create package."
+	// 			});
+
+	// 		}
+	// 	},
+
+	// 	error: function (xhr) {
+
+	// 		Swal.close();
+
+	// 		let message = "Something went wrong. Please try again.";
+
+	// 		if (xhr.responseJSON && xhr.responseJSON.message) {
+	// 			message = xhr.responseJSON.message;
+	// 		}
+
+	// 		Swal.fire({
+	// 			icon: "error",
+	// 			title: "Error",
+	// 			text: message
+	// 		});
+
+	// 		console.error(xhr);
+	// 	},
+	// });
+});
 
 // update form chaged on 25 jan 2025 by sv
 function update_form_data(e) {
