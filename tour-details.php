@@ -704,7 +704,7 @@ if($user_type_id_value == '11'){
                                                         </div>
                                                         <p class="mb-0">Package Brochure</p>
                                                     </div>
-                                                    <a href="<?= $policy_file ?>" target="_blank" class="downloadBtn">
+                                                    <a href="uploads/package-brochure.pdf" download class="downloadBtn">
                                                         <i class="ri-download-line"></i>
                                                     </a>
                                                 </div>
