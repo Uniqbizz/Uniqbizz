@@ -1392,7 +1392,7 @@ $l2_per=$l3_per=50;
                                                                 </div>
                                                             </div> -->
                                                             <div class="borderHighlight p-3 mt-3">
-                ```                                             <h4 class="fw-bolder">2. Image Gallery</h4>
+                                                                <h4 class="fw-bolder">2. Image Gallery</h4>
                                                                 <p>Upload multiple images to highlight attractions, hotels, activities and experiences.</p>
 
                                                                 <!-- Gallery Preview -->
@@ -2089,118 +2089,303 @@ $l2_per=$l3_per=50;
         </script>
         <!-- Policy section -->
         <script>
+            // const dropZone = document.getElementById("dropZone");
+            // const fileInput = document.getElementById("fileInput");
+            // const selectedFileText = document.getElementById("selectedFileText");
+            // const addDocumentBtn = document.getElementById("addDocumentBtn");
+
+            // let selectedFile = null;
+
+            // // Open file picker
+            // dropZone.addEventListener("click", () => {
+            //     fileInput.click();
+            // });
+
+            // // File selection
+            // fileInput.addEventListener("change", function () {
+            //     selectedFile = this.files[0];
+
+            //     if(selectedFile){
+            //         selectedFileText.textContent = selectedFile.name;
+            //     }
+            // });
+
+            // // Drag Over
+            // dropZone.addEventListener("dragover", function(e){
+            //     e.preventDefault();
+            //     dropZone.classList.add("dragover");
+            // });
+
+            // // Drag Leave
+            // dropZone.addEventListener("dragleave", function(){
+            //     dropZone.classList.remove("dragover");
+            // });
+
+            // // Drop
+            // dropZone.addEventListener("drop", function(e){
+            //     e.preventDefault();
+
+            //     dropZone.classList.remove("dragover");
+
+            //     selectedFile = e.dataTransfer.files[0];
+
+            //     if(selectedFile){
+            //         selectedFileText.textContent = selectedFile.name;
+            //     }
+            // });
+
+            // // Submit
+            // addDocumentBtn.addEventListener("click", function () {
+            //     $("#noAttachmentRow").remove();
+            //     let title = document.getElementById("documentTitle").value.trim();
+
+            //     if (title === "") {
+            //         alert("Please enter title");
+            //         return;
+            //     }
+
+            //     if (!selectedFile) {
+            //         alert("Please select a file");
+            //         return;
+            //     }
+
+            //     let size = (selectedFile.size / (1024 * 1024)).toFixed(2) + " MB";
+            //     let fileType = selectedFile.name.split('.').pop().toUpperCase();
+
+            //     let today = new Date().toLocaleDateString("en-GB", {
+            //         day: "2-digit",
+            //         month: "short",
+            //         year: "numeric"
+            //     });
+
+            //     // Generate unique row id
+            //     let rowId = Date.now();
+
+            //     let row = `
+            //         <tr id="docRow_${rowId}">
+            //             <td id="docTitle_${rowId}">${title}</td>
+
+            //             <td id="docFileName_${rowId}">
+            //                 <div class="file-info">
+            //                     <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png"
+            //                         class="file-icon">
+            //                     ${selectedFile.name}
+            //                 </div>
+            //             </td>
+
+            //             <td id="docType_${rowId}">${fileType}</td>
+
+            //             <td id="docSize_${rowId}">${size}</td>
+
+            //             <td id="docUploadedOn_${rowId}">${today}</td>
+
+            //             <td id="docAction_${rowId}" class="text-center">
+            //                 <i class="fa-solid fa-download action-btn me-3"></i>
+            //                 <i class="fa-regular fa-trash-can action-btn delete-btn remove-file"></i>
+            //             </td>
+            //         </tr>
+            //     `;
+
+            //     document
+            //         .getElementById("fileTableBody")
+            //         .insertAdjacentHTML("beforeend", row);
+
+            //     // Reset
+            //     document.getElementById("documentTitle").value = "";
+            //     fileInput.value = "";
+            //     selectedFile = null;
+            //     selectedFileText.textContent = "Drag & Drop or Click to Upload";
+            // });
+
+            // // Delete row
+            // $(document).on("click", ".remove-file", function(){
+            //     $(this).closest("tr").remove();
+            //     if ($("#fileTableBody tr").length === 0) {
+            //         $("#fileTableBody").html(`
+            //             <tr id="noAttachmentRow">
+            //                 <td colspan="6" class="text-center text-muted">
+            //                     No Attachment found
+            //                 </td>
+            //             </tr>
+            //         `);
+            //     }
+            // });
             const dropZone = document.getElementById("dropZone");
             const fileInput = document.getElementById("fileInput");
             const selectedFileText = document.getElementById("selectedFileText");
             const addDocumentBtn = document.getElementById("addDocumentBtn");
 
             let selectedFile = null;
+            let attachments = [];
 
-            // Open file picker
-            dropZone.addEventListener("click", () => {
-                fileInput.click();
-            });
+            // Return icon based on file extension
+            function getFileIcon(fileName) {
+                const ext = fileName.split(".").pop().toLowerCase();
 
-            // File selection
+                switch (ext) {
+                    case "pdf":
+                        return "https://cdn-icons-png.flaticon.com/512/337/337946.png";
+
+                    case "doc":
+                    case "docx":
+                        return "https://cdn-icons-png.flaticon.com/512/281/281760.png";
+
+                    case "xls":
+                    case "xlsx":
+                    case "csv":
+                        return "https://cdn-icons-png.flaticon.com/512/732/732220.png";
+
+                    case "ppt":
+                    case "pptx":
+                        return "https://cdn-icons-png.flaticon.com/512/888/888880.png";
+
+                    case "jpg":
+                    case "jpeg":
+                    case "png":
+                    case "gif":
+                    case "bmp":
+                    case "webp":
+                        return "https://cdn-icons-png.flaticon.com/512/136/136524.png";
+
+                    case "zip":
+                    case "rar":
+                    case "7z":
+                        return "https://cdn-icons-png.flaticon.com/512/2306/2306184.png";
+
+                    case "txt":
+                        return "https://cdn-icons-png.flaticon.com/512/3022/3022256.png";
+
+                    default:
+                        return "https://cdn-icons-png.flaticon.com/512/833/833524.png";
+                }
+            }
+
+            // Open picker
+            dropZone.addEventListener("click", () => fileInput.click());
+
+            // File picker
             fileInput.addEventListener("change", function () {
                 selectedFile = this.files[0];
 
-                if(selectedFile){
+                if (selectedFile) {
                     selectedFileText.textContent = selectedFile.name;
                 }
             });
 
-            // Drag Over
-            dropZone.addEventListener("dragover", function(e){
+            // Drag over
+            dropZone.addEventListener("dragover", function (e) {
                 e.preventDefault();
                 dropZone.classList.add("dragover");
             });
 
-            // Drag Leave
-            dropZone.addEventListener("dragleave", function(){
+            // Drag leave
+            dropZone.addEventListener("dragleave", function () {
                 dropZone.classList.remove("dragover");
             });
 
             // Drop
-            dropZone.addEventListener("drop", function(e){
+            dropZone.addEventListener("drop", function (e) {
+
                 e.preventDefault();
 
                 dropZone.classList.remove("dragover");
 
                 selectedFile = e.dataTransfer.files[0];
 
-                if(selectedFile){
+                if (selectedFile) {
                     selectedFileText.textContent = selectedFile.name;
                 }
+
             });
 
-            // Submit
+            // Add document
             addDocumentBtn.addEventListener("click", function () {
+
                 $("#noAttachmentRow").remove();
-                let title = document.getElementById("documentTitle").value.trim();
+
+                const title = $("#documentTitle").val().trim();
 
                 if (title === "") {
-                    alert("Please enter title");
+                    alert("Please enter document title.");
                     return;
                 }
 
                 if (!selectedFile) {
-                    alert("Please select a file");
+                    alert("Please select a file.");
                     return;
                 }
 
-                let size = (selectedFile.size / (1024 * 1024)).toFixed(2) + " MB";
-                let fileType = selectedFile.name.split('.').pop().toUpperCase();
+                const rowId = Date.now();
 
-                let today = new Date().toLocaleDateString("en-GB", {
+                const size = (selectedFile.size / (1024 * 1024)).toFixed(2) + " MB";
+
+                const ext = selectedFile.name.split(".").pop().toUpperCase();
+
+                const uploadedOn = new Date().toLocaleDateString("en-GB", {
                     day: "2-digit",
                     month: "short",
                     year: "numeric"
                 });
 
-                // Generate unique row id
-                let rowId = Date.now();
+                // Save actual file object
+                attachments.push({
+                    id: rowId,
+                    title: title,
+                    file: selectedFile
+                });
 
-                let row = `
-                    <tr id="docRow_${rowId}">
-                        <td id="docTitle_${rowId}">${title}</td>
+                const icon = getFileIcon(selectedFile.name);
 
-                        <td id="docFileName_${rowId}">
-                            <div class="file-info">
-                                <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png"
-                                    class="file-icon">
+                $("#fileTableBody").append(`
+                    <tr id="docRow_${rowId}" data-id="${rowId}">
+
+                        <td>${title}</td>
+
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="${icon}"
+                                    width="28"
+                                    class="me-2">
+
                                 ${selectedFile.name}
                             </div>
                         </td>
 
-                        <td id="docType_${rowId}">${fileType}</td>
+                        <td>${ext}</td>
 
-                        <td id="docSize_${rowId}">${size}</td>
+                        <td>${size}</td>
 
-                        <td id="docUploadedOn_${rowId}">${today}</td>
+                        <td>${uploadedOn}</td>
 
-                        <td id="docAction_${rowId}" class="text-center">
-                            <i class="fa-solid fa-download action-btn me-3"></i>
-                            <i class="fa-regular fa-trash-can action-btn delete-btn remove-file"></i>
+                        <td class="text-center">
+                            <i class="fa-regular fa-trash-can text-danger remove-file"
+                            style="cursor:pointer"></i>
                         </td>
-                    </tr>
-                `;
 
-                document
-                    .getElementById("fileTableBody")
-                    .insertAdjacentHTML("beforeend", row);
+                    </tr>
+                `);
 
                 // Reset
-                document.getElementById("documentTitle").value = "";
+                $("#documentTitle").val("");
                 fileInput.value = "";
                 selectedFile = null;
                 selectedFileText.textContent = "Drag & Drop or Click to Upload";
+
             });
 
-            // Delete row
-            $(document).on("click", ".remove-file", function(){
-                $(this).closest("tr").remove();
+            // Delete
+            $(document).on("click", ".remove-file", function () {
+
+                const row = $(this).closest("tr");
+
+                const id = Number(row.data("id"));
+
+                attachments = attachments.filter(file => file.id !== id);
+
+                row.remove();
+
                 if ($("#fileTableBody tr").length === 0) {
+
                     $("#fileTableBody").html(`
                         <tr id="noAttachmentRow">
                             <td colspan="6" class="text-center text-muted">
@@ -2208,8 +2393,12 @@ $l2_per=$l3_per=50;
                             </td>
                         </tr>
                     `);
+
                 }
+
             });
+
+            console.log(attachments);
         </script>
         <!-- Picture & Media Section -->
         <!-- Package Cover Image -->

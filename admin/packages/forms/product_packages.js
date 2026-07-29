@@ -73,7 +73,20 @@ $.ajax({
     }
 });
 
+let gst = 0;
 
+$.ajax({
+    url: "forms/gst_percentage.php",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+        gst = parseFloat(response.gst) || 0;
+        // console.log(gst);
+    },
+    error: function (xhr, status, error) {
+        console.error(error);
+    }
+});
 // fetch sub category
 function getSubCategories() {
 	document.getElementById("subCategoryId").style.display = "block";
@@ -138,27 +151,28 @@ $(document).ready(function () {
 	$(add_button).click(function (e) {
 		e.preventDefault();
 		dayCount += 1;
-
+		//icon section removed on 29-07-2026 by SV
+		// <div class="col-md-2 col-sm-2 col-12 mb-2">
+		// 					<div class="upload-card icon-upload-card" data-title="Icons" data-index="${dayCount}">
+		// 						<input type="hidden" id="img_path${dayCount}" value="">
+    	// 						<input type="hidden" id="img_base64${dayCount}" value="">
+								
+		// 						<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file${dayCount}">
+		// 						<div class="upload-content">
+		// 							<div class="upload-icon">
+		// 								<i class="fa-solid fa-user"></i>
+		// 							</div>
+		// 							<h6>Add Icons</h6>
+		// 							<p>Click to upload<br>or drag and drop</p>
+		// 							<small>(JPG, PNG, PDF)</small>
+		// 						</div>
+		// 					</div>
+ 		// 				</div>
 		if (x < max_fields) {
 			x++;
 			$(wrapper).append(`<div class="row day-container">
-						<div class="col-md-2 col-sm-2 col-12 mb-2">
-							<div class="upload-card icon-upload-card" data-title="Icons" data-index="${dayCount}">
-								<input type="hidden" id="img_path${dayCount}" value="">
-    							<input type="hidden" id="img_base64${dayCount}" value="">
-								
-								<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file${dayCount}">
-								<div class="upload-content">
-									<div class="upload-icon">
-										<i class="fa-solid fa-user"></i>
-									</div>
-									<h6>Add Icons</h6>
-									<p>Click to upload<br>or drag and drop</p>
-									<small>(JPG, PNG, PDF)</small>
-								</div>
-							</div>
- 						</div>
-						<div class="col-md-10 col-sm-10 col-12">
+						
+						<div class="col-md-12 col-sm-12 col-12">
 							<div class="card rounded-5 box border border-1 px-3 pt-3" draggable="true">
 								<div class="row">
 									<div class="col-md-2 col-sm-3 col-3">
@@ -873,10 +887,10 @@ function validateDayFields() {
         const transport = $(this).find(".transport").eq(0).val().trim();
         const stay = $(this).find(".transport").eq(1).val().trim();
         // Check if icon is uploaded
-        const fileInput = $(this).find('.file-input');
-        const iconUploaded = fileInput.val() !== '';
-        const hiddenIconPath = $(this).find('#img_path'+index).val();
-        const hasIcon = iconUploaded || (hiddenIconPath && hiddenIconPath !== '');
+        // const fileInput = $(this).find('.file-input');
+        // const iconUploaded = fileInput.val() !== '';
+        // const hiddenIconPath = $(this).find('#img_path'+index).val();
+        // const hasIcon = iconUploaded || (hiddenIconPath && hiddenIconPath !== '');
         let dayHasError = false;
         
         // Validate Title
@@ -930,17 +944,17 @@ function validateDayFields() {
             dayHasError = true;
         }
 		 // Validate Icon
-        if (!hasIcon) {
-			const uploadCard = $(this).find('.upload-card');
-			uploadCard.addClass('border-danger upload-card-error');
+        // if (!hasIcon) {
+		// 	const uploadCard = $(this).find('.upload-card');
+		// 	uploadCard.addClass('border-danger upload-card-error');
 			
-			// Add error message below the upload card
-			const uploadContent = uploadCard.find('.upload-content');
-			if (!uploadCard.find('.icon-error-message').length) {
-				uploadCard.append(`<div class="icon-error-message text-danger small mt-1 px-2">Icon is required</div>`);
-			}
-		    dayHasError = true;
-        }
+		// 	// Add error message below the upload card
+		// 	const uploadContent = uploadCard.find('.upload-content');
+		// 	if (!uploadCard.find('.icon-error-message').length) {
+		// 		uploadCard.append(`<div class="icon-error-message text-danger small mt-1 px-2">Icon is required</div>`);
+		// 	}
+		//     dayHasError = true;
+        // }
         
         if (dayHasError) {
             isValid = false;
@@ -1232,33 +1246,6 @@ $(".packageKeyWords").on("change",function(){
 		showSection(target);
 	});
 
-	// Next buttons
-	// $("#package_form_general_nextBtn").on("click", function (e) {
-	//     e.preventDefault();
-	//     showSection("#package_form_extra");
-	// });
-
-	// $("#package_form_extra_nextBtn").on("click", function (e) {
-	//     e.preventDefault();
-	//     showSection("#package_form_itinerary");
-	// });
-
-	// $("#package_form_itinerary_nxtBtn").on("click", function (e) {
-	//     e.preventDefault();
-	//     showSection("#package_form_pricing");
-	// });
-
-	// $("#package_form_pricing_nextBtn").on("click", function (e) {
-	//     e.preventDefault();
-	//     showSection("#package_form_policy");
-	// });
-
-	// $("#package_form_policy_nextBtn").on("click", function (e) {
-	//     e.preventDefault();
-	//     showSection("#package_form_picture");
-	// });
-
-// });
 let payLoadData={};
 //general information next
 $('#package_form_general_nextBtn').on('click',function (e){
@@ -1614,9 +1601,9 @@ $('#package_form_itinerary_nxtBtn').on('click', function (e) {
             description: $(this).find(".description").val().trim(),
             meals: $(this).find(".meals").val().trim(),
             transport: $(this).find(".transport").eq(0).val().trim(),
-            stay: $(this).find(".transport").eq(1).val().trim(),
-            icon: index !== undefined ? $("#img_path" + index).val().trim() : "",
-        	iconBase64: index !== undefined ? $("#img_base64" + index).val().trim() : ""
+            stay: $(this).find(".transport").eq(1).val().trim()
+            // icon: index !== undefined ? $("#img_path" + index).val().trim() : "",
+        	// iconBase64: index !== undefined ? $("#img_base64" + index).val().trim() : ""
         };
         dayData.push(dayObj);
     });
@@ -1669,58 +1656,61 @@ $('#package_form_pricing_nextBtn').on('click', function (e) {
     ? ""
     : $("#guestPercentage").val().trim();
 	let travelConsultant= $("#travelConsultant").val().trim();
-	let cteComm= $("#cteComm").val().trim();
-	let cteIns= $("#cteIns").val().trim();
-	let cteCommInsTotal= $("#cteCommInsTotal").val().trim();
-	let eteComm= $("#eteComm").val().trim();
-	let eteIns= $("#eteIns").val().trim();
-	let eteCommInsTotal= $("#eteCommInsTotal").val().trim();
-	let steComm= $("#steComm").val().trim();
-	let steIns= $("#steIns").val().trim();
-	let steCommInsTotal= $("#steCommInsTotal").val().trim();
-	let cTeFComm= $("#cTeFComm").val().trim();
-	let cTeFIns= $("#cTeFIns").val().trim();
-	let cTeFCommInsTotal= $("#cTeFCommInsTotal").val().trim();
-	let cteChainCommTotal= $("#cteChainCommTotal").val().trim();
-	let cteChainInsTotal= $("#cteChainInsTotal").val().trim();
-	let cteChainCommInsTotal= $("#cteChainCommInsTotal").val().trim();
+	let cteComm= $("#cteComm").text().replace("&#8377;", "").trim();
+	let cteIns= $("#cteIns").text().replace("&#8377;", "").trim();
+	let cteCommInsTotal= $("#cteCommInsTotal").text().replace("&#8377;", "").trim();
+	let eteComm= $("#eteComm").text().replace("&#8377;", "").trim();
+	let eteIns= $("#eteIns").text().replace("&#8377;", "").trim();
+	let eteCommInsTotal= $("#eteCommInsTotal").text().replace("&#8377;", "").trim();
+	let steComm= $("#steComm").text().replace("&#8377;", "").trim();
+	let steIns= $("#steIns").text().replace("&#8377;", "").trim();
+	let steCommInsTotal= $("#steCommInsTotal").text().replace("&#8377;", "").trim();
+	let cTeFComm= $("#cTeFComm").text().replace("&#8377;", "").trim();
+	let cTeFIns= $("#cTeFIns").text().replace("&#8377;", "").trim();
+	let cTeFCommInsTotal= $("#cTeFCommInsTotal").text().replace("&#8377;", "").trim();
+	let cteChainCommTotal= $("#cteChainCommTotal").text().replace("&#8377;", "").trim();
+	let cteChainInsTotal= $("#cteChainInsTotal").text().replace("&#8377;", "").trim();
+	let cteChainCommInsTotal= $("#cteChainCommInsTotal").text().replace("&#8377;", "").trim();
 	let cteSuspence= $("#cteSuspence").val().trim();
-	let teBmComm= $("#teBmComm").val().trim();
-	let teBmIns= $("#teBmIns").val().trim();
-	let teBmComInsTotal= $("#teBmComInsTotal").val().trim();
-	let bmTeComm= $("#bmTeComm").val().trim();
-	let bmTeIns= $("#bmTeIns").val().trim();
-	let bmTeCommInsTotal= $("#bmTeCommInsTotal").val().trim();
-	let bmTeChainCommTotal= $("#bmTeChainCommTotal").val().trim();
-	let bmTeChainInsTotal= $("#bmTeChainInsTotal").val().trim();
-	let bmTeChainCommInsTotal= $("#bmTeChainCommInsTotal").val().trim();
+	let teBmComm= $("#teBmComm").text().replace("&#8377;", "").trim();
+	let teBmIns= $("#teBmIns").text().replace("&#8377;", "").trim();
+	let teBmComInsTotal= $("#teBmComInsTotal").text().replace("&#8377;", "").trim();
+	let bmTeComm= $("#bmTeComm").text().replace("&#8377;", "").trim();
+	let bmTeIns= $("#bmTeIns").text().replace("&#8377;", "").trim();
+	let bmTeCommInsTotal= $("#bmTeCommInsTotal").text().replace("&#8377;", "").trim();
+	let bmTeChainCommTotal= $("#bmTeChainCommTotal").text().replace("&#8377;", "").trim();
+	let bmTeChainInsTotal= $("#bmTeChainInsTotal").text().replace("&#8377;", "").trim();
+	let bmTeChainCommInsTotal= $("#bmTeChainCommInsTotal").text().replace("&#8377;", "").trim();
 	let bmSuspence= $("#bmSuspence").val().trim();
-	let iBmComm= $("#iBmComm").val().trim();
-	let iBmIns= $("#iBmIns").val().trim();
-	let bmIComm= $("#bmIComm").val().trim();
-	let bmICommInsTotal= $("#bmICommInsTotal").val().trim();
-	let iBmCommInsTotal= $("#iBmCommInsTotal").val().trim();
-	let bmIComTotal= $("#bmIComTotal").val().trim();
-	let bmIInsTotal= $("#bmIInsTotal").val().trim();
-	let bmIComInsTotal= $("#bmIComInsTotal").val().trim();
+	let iBmComm= $("#iBmComm").text().replace("&#8377;", "").trim();
+	let iBmIns= $("#iBmIns").text().replace("&#8377;", "").trim();
+	let bmIComm= $("#bmIComm").text().replace("&#8377;", "").trim();
+	let bmICommInsTotal= $("#bmICommInsTotal").text().replace("&#8377;", "").trim();
+	let iBmCommInsTotal= $("#iBmCommInsTotal").text().replace("&#8377;", "").trim();
+	let bmIComTotal= $("#bmIComTotal").text().replace("&#8377;", "").trim();
+	let bmIInsTotal= $("#bmIInsTotal").text().replace("&#8377;", "").trim();
+	let bmIComInsTotal= $("#bmIComInsTotal").text().replace("&#8377;", "").trim();
 	let bmISuspence= $("#bmISuspence").val().trim();
-	let iCteComm= $("#iCteComm").val().trim();
-	let iCteIns= $("#iCteIns").val().trim();
-	let iCteCommInsTotal= $("#iCteCommInsTotal").val().trim();
-	let iEteComm= $("#iEteComm").val().trim();
-	let iEteIns= $("#iEteIns").val().trim();
-	let iEteCommInsTotal= $("#iEteCommInsTotal").val().trim();
-	let cteIComm= $("#cteIComm").val().trim();
-	let cteICommInsTotal= $("#cteICommInsTotal").val().trim();
-	let iCteComTotal= $("#iCteComTotal").val().trim();
-	let iCteInsTotal= $("#iCteInsTotal").val().trim();
-	let iCteComInsTotal= $("#iCteComInsTotal").val().trim();
+	let iCteComm= $("#iCteComm").text().replace("&#8377;", "").trim();
+	let iCteIns= $("#iCteIns").text().replace("&#8377;", "").trim();
+	let iCteCommInsTotal= $("#iCteCommInsTotal").text().replace("&#8377;", "").trim();
+	let iEteComm= $("#iEteComm").text().replace("&#8377;", "").trim();
+	let iEteIns= $("#iEteIns").text().replace("&#8377;", "").trim();
+	let iEteCommInsTotal= $("#iEteCommInsTotal").text().replace("&#8377;", "").trim();
+	let cteIComm= $("#cteIComm").text().replace("&#8377;", "").trim();
+	let cteICommInsTotal= $("#cteICommInsTotal").text().replace("&#8377;", "").trim();
+	let iCteComTotal= $("#iCteComTotal").text().replace("&#8377;", "").trim();
+	let iCteInsTotal= $("#iCteInsTotal").text().replace("&#8377;", "").trim();
+	let iCteComInsTotal= $("#iCteComInsTotal").text().replace("&#8377;", "").trim();
 	let cteISuspence= $("#cteISuspence").val().trim();
 	let customer1= $("#customer1").val().trim();
 	let customer2= $("#customer2").val().trim();
 	let customer3= $("#customer3").val().trim();
+	let totalCustomerShare=customer1+customer2+customer3;
 	let mrpPerAdult= $("#mrpPerAdult").val().trim();
 	let mrpPerChild= $("#mrpPerChild").val().trim();
+	let mrpPerAdultGst = mrpPerAdult + (mrpPerAdult * (gst / 100));
+	let mrpPerChildGst = mrpPerChild + (mrpPerChild * (gst / 100));
 	let cancellationPercentage1= $("#cancellationPercentage1").val().trim();
 	let cancellationPercentage2= $("#cancellationPercentage2").val().trim();
 	let cancellationPercentage3= $("#cancellationPercentage3").val().trim();
@@ -1882,9 +1872,12 @@ $('#package_form_pricing_nextBtn').on('click', function (e) {
 		customer1,
 		customer2,
 		customer3,
+		totalCustomerShare,
 
 		mrpPerAdult,
 		mrpPerChild,
+		mrpPerAdultGst,
+		mrpPerChildGst,
 
 		cancellationPercentage1,
 		cancellationPercentage2,
@@ -1896,82 +1889,93 @@ $('#package_form_pricing_nextBtn').on('click', function (e) {
     showSection("#package_form_policy");
 });
 //policy
-$('#package_form_policy_nextBtn').on('click',function (e){
-	e.preventDefault();
-	clearAllErrors();
+$('#package_form_policy_nextBtn').on('click', function (e) {
+
+    e.preventDefault();
+
+    clearAllErrors();
     clearCouponRuleError();
-	clearOtherPolicyError();
-	let switchCoupon = $('#switchCoupon').is(':checked') ? 1 : 0;
-	let switchCombine = $('#switchCombine').is(':checked') ? 1 : 0;
-	let bookingPercentage = $('#bookingPercentage').val().trim();
-	let bookingDay = $('#bookingDay').val().trim();
-	let tableData = [];
-	let isValid = true;
+    clearOtherPolicyError();
 
-	$("#fileTableBody tr").each(function () {
+    let switchCoupon = $('#switchCoupon').is(':checked') ? 1 : 0;
+    let switchCombine = $('#switchCombine').is(':checked') ? 1 : 0;
+    let bookingPercentage = $('#bookingPercentage').val().trim();
+    let bookingDay = $('#bookingDay').val().trim();
 
-		let rowData = {
-			id: $(this).attr("id"),
-			title: $(this).find("td:eq(0)").text().trim(),
-			fileName: $(this).find("td:eq(1) .file-info").text().trim(),
-			type: $(this).find("td:eq(2)").text().trim(),
-			size: $(this).find("td:eq(3)").text().trim(),
-			uploadedOn: $(this).find("td:eq(4)").text().trim()
-		};
+    let tableData = [];
 
-		if (
-			rowData.title === "" ||
-			rowData.fileName === "" ||
-			rowData.type === "" ||
-			rowData.size === "" ||
-			rowData.uploadedOn === ""
-		) {
-			isValid = false;
-			return false;
-		}
+    // Coupon Rule Validation
+    if (!switchCoupon && !switchCombine) {
+        showCouponRuleError("Please enable at least one coupon rule.");
+        return;
+    }
 
-		tableData.push(rowData);
-	});
-	
-
-	//validation
-	//coupon rule
-	if (!switchCoupon && !switchCombine) {
-		showCouponRuleError("Please enable at least one coupon rule.");
-		return false;
-	}
-	// Minimum Advance Payment
+    // Booking Validation
     if (bookingPercentage === "") {
         showError("bookingPercentage", "Please enter Minimum Advance Payment.");
-        return false;
+        return;
     }
 
-    // Full Payment Before Travel
     if (bookingDay === "") {
         showError("bookingDay", "Please enter Full Payment Before Travel.");
-        return false;
+        return;
     }
 
-    // other policy
-    // if (!isValid || tableData.length === 0) {
-	// 	showOtherPolicyError("Please add at least one complete document.");
-	// 	return false;
-	// }
+    // Document Validation
+    if (attachments.length === 0) {
+        showOtherPolicyError("Please add at least one document.");
+        return;
+    }
 
-    
-	payLoadData.policy = {
-		couponRule: {
-			couponAllowed: switchCoupon,
-			combineWithOffers: switchCombine
-		},
-		booking: {
-			bookingPercentage,
-			bookingDay
-		},
-		documents: tableData
-	};
+    // Build document metadata
+    attachments.forEach(function(item){
 
-	showSection("#package_form_picture");
+        tableData.push({
+            id: item.id,
+            title: item.title,
+            fileName: item.file.name,
+            type: item.file.name.split(".").pop().toUpperCase(),
+            size: (item.file.size / (1024 * 1024)).toFixed(2) + " MB",
+            uploadedOn: new Date().toLocaleDateString("en-GB")
+        });
+
+    });
+
+    // Save in payload
+    payLoadData.policy = {
+        couponRule: {
+            couponAllowed: switchCoupon,
+            combineWithOffers: switchCombine
+        },
+        booking: {
+            bookingPercentage,
+            bookingDay
+        },
+        documents: tableData
+    };
+
+    // Create FormData
+    let formData = new FormData();
+
+    // Complete payload
+    formData.append("payload", JSON.stringify(payLoadData));
+
+    // Attach files
+    attachments.forEach(function(item){
+
+        formData.append("documents[]", item.file);
+        formData.append("document_titles[]", item.title);
+        formData.append("document_ids[]", item.id);
+
+    });
+
+    // Store globally if you want to submit later
+    window.packageFormData = formData;
+
+    console.log(payLoadData);
+    console.log(formData);
+
+    showSection("#package_form_picture");
 
 });
 //  submit form changed on 25 jan 2025 by sv
@@ -2011,10 +2015,10 @@ $("#update_form").on('click',function (e) {
 		title: "Creating Package...",
 		text: "Please wait while we save your package.",
 		allowOutsideClick: false,
-		allowEscapeKey: false
-		// didOpen: () => {
-		// 	Swal.showLoading();
-		// }
+		allowEscapeKey: false,
+		didOpen: () => {
+			Swal.showLoading();
+		}
 	});
 
 	// $.ajax({

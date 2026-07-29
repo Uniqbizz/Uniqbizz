@@ -16,7 +16,7 @@ $today = date('Y-m-d H:i:s');
 
 
 // insert package data
-   $sql = "INSERT INTO package
+    $sql = "INSERT INTO package
     (
         category_id,
         sub_category_id,
@@ -110,67 +110,80 @@ $today = date('Y-m-d H:i:s');
     }
     
 // insert package itinerary data
-    if ( $mydata['inclusion'] || $mydata['exclusion'] || $mydata['remark'] ) 
+    if ( $mydata['itinerary']['inclusions'] && $mydata['itinerary']['exclusions'] 
+        && $mydata['itinerary']['remarks'] && $mydata['itinerary']['thingsToKnow'] && 
+        $mydata['itinerary']['thingsToKnow'] && $mydata['itinerary']['highlights']) 
     {
-        $sql_2 = 'INSERT INTO package_itinerary_details (package_id,inclusion,exclusion,remark)
-                VALUES(:package_id,:inclusion,:exclusion,:remark)';
+        $sql_2 = 'INSERT INTO package_itinerary_details (package_id,inclusion,exclusion,remark,travel_info,highlights)
+                VALUES(:package_id,:inclusion,:exclusion,:remark,:travel_info,:highlights)';
         $statement_2 = $conn->prepare($sql_2);
         $result_2 = $statement_2->execute([
                 ':package_id' => $get_id,
-                ':inclusion' => $mydata['inclusion'],
-                ':exclusion' => $mydata['exclusion'],
-                ':remark' => $mydata['remark']
+                ':inclusion' => json_encode($mydata['itinerary']['inclusions']),
+                ':exclusion' => json_encode($mydata['itinerary']['exclusions']),
+                ':remark' => json_encode($mydata['itinerary']['remarks']),
+                ":travel_info" => json_encode($mydata['itinerary']['thingsToKnow']),
+                ":highlights" => json_encode($mydata['itinerary']['highlights'])
             ]);
-        if (  $result_2 ) {
-            $itinerary_query = $conn->prepare("SELECT id FROM package_itinerary_details ORDER BY id DESC LIMIT 1");
-            $itinerary_query->execute();
-            $get_itinerary_query_id = $itinerary_query->fetch();
-            // echo $get_itinerary_query_id["id"];
-            $get_itinerary_id = (int)$get_itinerary_query_id["id"];
-        }
 
     }
 
 
-    if (!empty($mydata['details_of_day'])) {
+    if (!empty($mydata['itinerary']['days'])) {
         // Debugging: Log the details_of_day array in the browser console
         //echo '<script>console.log(' . json_encode($mydata['details_of_day']) . ');</script>';
     
-        $sql_3 = 'INSERT INTO package_trip_days (package_id, title, day_details, meal_plan, day_tansport) 
-                  VALUES (:package_id, :title, :day_details, :meal_plan, :day_tansport)';
+        $sql_3 = 'INSERT INTO package_trip_days (package_id,day_id, title, day_details, meal_plan, day_tansport, stay) 
+                  VALUES (:package_id,:day_id, :title, :day_details, :meal_plan, :day_tansport, stay)';
         $statement_3 = $conn->prepare($sql_3);
     
-        foreach ($mydata['details_of_day'] as $day) { // Single loop (flat array)
+        foreach ($mydata['itinerary']['days'] as $day) { // Single loop (flat array)
             $statement_3->bindValue(':package_id', $get_id, PDO::PARAM_INT);
+            $statement_3->bindValue(':day_id', json_encode($day['day']), PDO::PARAM_INT);
             $statement_3->bindValue(':title', $day['title'] ?? '', PDO::PARAM_STR);
             $statement_3->bindValue(':day_details', $day['description'] ?? '', PDO::PARAM_STR);
             $statement_3->bindValue(':meal_plan', $day['meals'] ?? '', PDO::PARAM_STR);
             $statement_3->bindValue(':day_tansport', $day['transport'] ?? '', PDO::PARAM_STR);
+            $statement_3->bindValue(':stay', $day['stay'] ?? '', PDO::PARAM_STR);
             $statement_3->execute();
         }
     }
     
 // insert package pricing data
-    if ( $mydata['total_package_price_per_adult'] ||  $mydata['total_package_price_per_child'] ) 
+    if ( $mydata['pricing']['netPriceAdult'] &&  $mydata['pricing']['netPriceChild'] &&
+         $mydata['pricing']['mrpPerAdult'] &&  $mydata['pricing']['mrpPerChild'] &&
+         $mydata['pricing']['mrpPerAdultGst'] &&  $mydata['pricing']['mrpPerChildGst'] ) 
     {
-        $sql_4 = 'INSERT INTO package_pricing (package_id,net_price_adult,net_price_child,net_gst,net_price_adult_with_GST,net_price_child_with_GST,total_package_price_per_adult,total_package_price_per_child,price_up_per_adult)
-                VALUES(:package_id,:net_price_adult,:net_price_child,:net_gst,:net_price_adult_with_GST,:net_price_child_with_GST,:total_package_price_per_adult,:total_package_price_per_child,:price_up_per_adult)';
+        $sql_4 = 'INSERT INTO package_pricing (
+                    package_id,
+                    net_price_adult,
+                    net_price_child,
+                    net_price_adult_with_GST,
+                    net_price_child_with_GST,
+                    total_package_price_per_adult,
+                    total_package_price_per_child)
+                VALUES(
+                    :package_id,
+                    :net_price_adult,
+                    :net_price_child,
+                    :net_price_adult_with_GST,
+                    :net_price_child_with_GST,
+                    :total_package_price_per_adult,
+                    :total_package_price_per_child)';
         $statement_4 = $conn->prepare($sql_4);
         $result_4 = $statement_4->execute([
                 ':package_id' => $get_id,
-                ':net_price_adult' => $mydata['net_price_adult'],
-                ':net_price_child' => $mydata['net_price_child'],
-                ':net_gst' => $mydata['net_gst'],
-                ':net_price_adult_with_GST' => $mydata['net_price_adult_with_GST'],
-                ':net_price_child_with_GST' => $mydata['net_price_child_with_GST'],
-                ':total_package_price_per_adult'=>$mydata['total_package_price_per_adult'],
-                ':total_package_price_per_child'=>$mydata['total_package_price_per_child'],
-                ':price_up_per_adult'=>$mydata['add_adult_price']??0
+                ':net_price_adult' => $mydata['pricing']['netPriceAdult'], //15000
+                ':net_price_child' => $mydata['pricing']['netPriceChild'], //8000
+                ':net_price_adult_with_GST' => $mydata['pricing']['mrpPerAdult'],
+                ':net_price_child_with_GST' => $mydata['pricing']['mrpPerChild'],
+                ':total_package_price_per_adult'=>$mydata['pricing']['mrpPerAdultGst'],//19083.5
+                ':total_package_price_per_child'=>$mydata['pricing']['mrpPerChildGst']
                 
             ]);
 
     }
-// insert package pictures / images
+// insert package pictures / images //need changes
     if ( $mydata['images'] )
     {
         $sql_5 = 'INSERT INTO package_pictures (package_id,image) VALUES(:package_id,:image)';
@@ -197,116 +210,162 @@ $today = date('Y-m-d H:i:s');
             $statement_5->execute();
         }
     }
-// insert package category_occupancy
-    if ( $mydata['occupancies'] )
-    {
-        $sql_6 = 'INSERT INTO package_to_category_occupancy (package_id,occupancy_id) VALUES(:package_id,:occupancy_id)';
-        $statement_6 = $conn->prepare($sql_6);
-        
-        foreach ( $mydata['occupancies'] as $occupancy ) 
-        {
-            // echo $occupancy['id'];
-            $statement_6->bindParam(':package_id', $get_id, PDO::PARAM_INT);
-            $statement_6->bindParam(':occupancy_id', $occupancy['id'], PDO::PARAM_INT);
-            $result_6 = $statement_6->execute();
-        }
-    }
-// insert package category_vehicle
-    if ( $mydata['vehicles'] )
-    {
-        $sql_7 = 'INSERT INTO package_to_category_vehicle (package_id,vehicle_id) VALUES(:package_id,:vehicle_id)';
-        $statement_7 = $conn->prepare($sql_7);
-       
-        foreach ( $mydata['vehicles'] as $vehicle ) 
-        {
-            // echo $vehicle['id'];
-            $statement_7->bindParam(':package_id', $get_id, PDO::PARAM_INT);
-            $statement_7->bindParam(':vehicle_id', $vehicle['id'], PDO::PARAM_INT);
-            $result_7 = $statement_7->execute();
-        }
-    }
     
 
-//updated markup distribution 24-01-2025 by sv
-    if ( $mydata['ta_mark_up'] )
+//updated markup distribution 29-07-2026 by sv
+    if ( $mydata['price']['travelConsultant'] )
     {
         $sql_8 = 'INSERT INTO package_pricing_markup (
-            package_id, company, customer, ta_markup, ca_mark_up_total, ca_direct_commission, ca_incentive,
-            bm_mark_up_total, bm_direct_commission, bm_incentive, bdm_mark_up_total, bdm_direct_commission,
-            bdm_incentive, bcm_mark_up_total, bcm_direct_commission, bcm_incentive, prime_customer, L1_customer, L2_customer, total_mark_up
+            package_id, 
+            company, 
+            customer, 
+            ta_markup, 
+            ca_mark_up_total, 
+            ca_direct_commission, 
+            ca_incentive,
+            bm_mark_up_total, 
+            bm_direct_commission, 
+            bm_incentive,  
+            prime_customer, 
+            L1_customer, 
+            L2_customer, 
+            total_mark_up,
+            total_commission_amount,
+            total_insentive_amount,
+            coupon_amount,
+            suspence
         ) VALUES (
-            :package_id, :company, :customer, :ta_markup, :ca_mark_up_total, :ca_direct_commission, :ca_incentive,
-            :bm_mark_up_total, :bm_direct_commission, :bm_incentive, :bdm_mark_up_total, :bdm_direct_commission,
-            :bdm_incentive, :bcm_mark_up_total, :bcm_direct_commission, :bcm_incentive , :prime_customer, :L1_customer, :L2_customer, :total_mark_up
+            :package_id, 
+            :company, 
+            :customer, 
+            :ta_markup, 
+            :ca_mark_up_total, 
+            :ca_direct_commission, 
+            :ca_incentive,
+            :bm_mark_up_total, 
+            :bm_direct_commission, 
+            :bm_incentive, 
+            :prime_customer, 
+            :L1_customer, 
+            :L2_customer, 
+            :total_mark_up,
+            :total_commission_amount,
+            :total_insentive_amount,
+            :coupon_amount,
+            :suspence
         )';
     
         $statement_8 = $conn->prepare($sql_8);
     
         $result_8 = $statement_8->execute([
             ':package_id' => $get_id,
-            ':company' => $mydata['company_share'],
-            ':customer' => $mydata['customer_share'],
-            ':ta_markup' => $mydata['ta_mark_up'],
-            ':ca_mark_up_total' => $mydata['ca_mark_up'],
-            ':ca_direct_commission' => $mydata['ca_mark_up_comm'],
-            ':ca_incentive' => $mydata['ca_mark_up_ins'],
-            ':bm_mark_up_total' => $mydata['bm_mark_up'],
-            ':bm_direct_commission' => $mydata['bm_mark_up_comm'],
-            ':bm_incentive' => $mydata['bm_mark_up_ins'],
-            ':bdm_mark_up_total' => $mydata['bdm_mark_up'] ?? 0,
-            ':bdm_direct_commission' => $mydata['bdm_mark_up_comm'] ?? 0,
-            ':bdm_incentive' => $mydata['bdm_mark_up_ins'] ?? 0,
-            ':bcm_mark_up_total' => $mydata['bcm_mark_up'] ?? 0,
-            ':bcm_direct_commission' => $mydata['bcm_mark_up_comm'] ?? 0,
-            ':bcm_incentive' => $mydata['bcm_mark_up_ins'] ?? 0,
-            ':prime_customer' => $mydata['L1_customer_share'],
-            ':L1_customer' => $mydata['L2_customer_share'],
-            ':L2_customer' => $mydata['L3_customer_share'],
-            ':total_mark_up'=>$mydata['total_mark_up']
+            ':company' => $mydata['price']['componyMarkup'],
+            ':customer' => $mydata['price']['totalCustomerShare'],
+            ':ta_markup' => $mydata['price']['travelConsultant'],
+            ':ca_mark_up_total' => $mydata['price']['teBmComInsTotal'],
+            ':ca_direct_commission' => $mydata['price']['teBmComm'],
+            ':ca_incentive' => $mydata['price']['teBmIns'],
+            ':bm_mark_up_total' => $mydata['price']['bmTeComInstotal'],
+            ':bm_direct_commission' => $mydata['price']['bmTeComm'],
+            ':bm_incentive' => $mydata['price']['bmTeIns'],
+            ':prime_customer' => $mydata['price']['customer1'],
+            ':L1_customer' => $mydata['price']['customer2'],
+            ':L2_customer' => $mydata['price']['customer3'],
+            ':total_mark_up'=>$mydata['price']['bmTeChainCommInsTotal'],
+            ':total_commission_amount' => $mydata['price']['bmTeChainCommTotal'],
+            ':total_insentive_amount' => $mydata['price']['bmTeChainInsTotal'],
+            ':coupon_amount' => $mydata['price']['couponAdjustment'],
+            ':suspence' => $mydata['price']['bmSuspence']
         ]);
        
     }
-//new markup distribution 09-05-2026 by sv
-    if ( $mydata['newta_mark_up'] )
+//new markup distribution 29-07-2026 by sv
+    if ( $mydata['price']['travelConsultant'] )
     {
         $sql_8 = 'INSERT INTO package_pricing_markup_te_chain (
-            package_id, company, customer, ta_markup, te_mark_up_total, te_direct_commission, te_incentive,
-            ete_mark_up_total, ete_direct_commission, ete_incentive, ste_mark_up_total, ste_direct_commission,
-            ste_incentive, cte_mark_up_total, cte_direct_commission, cte_incentive, prime_customer, L1_customer, L2_customer, total_mark_up
+            package_id, 
+            company, 
+            customer, 
+            ta_markup, 
+            te_mark_up_total, 
+            te_direct_commission, 
+            te_incentive,
+            ete_mark_up_total, 
+            ete_direct_commission, 
+            ete_incentive, 
+            ste_mark_up_total, 
+            ste_direct_commission,
+            ste_incentive, 
+            cte_mark_up_total, 
+            cte_direct_commission, 
+            cte_incentive, 
+            prime_customer, 
+            L1_customer, 
+            L2_customer, 
+            total_mark_up,
+            total_commission_amount,
+            total_insentive_amount,
+            coupon_amount,
+            suspence
         ) VALUES (
-            :package_id, :company, :customer, :ta_markup, :te_mark_up_total, :te_direct_commission, :te_incentive,
-            :ete_mark_up_total, :ete_direct_commission, :ete_incentive, :ste_mark_up_total, :ste_direct_commission,
-            :ste_incentive, :cte_mark_up_total, :cte_direct_commission, :bcm_incentive , :prime_customer, :L1_customer, :L2_customer, :total_mark_up
+            ":package_id", 
+            ":company", 
+            ":customer", 
+            ":ta_markup", 
+            ":te_mark_up_total", 
+            ":te_direct_commission", 
+            ":te_incentive",
+            ":ete_mark_up_total", 
+            ":ete_direct_commission", 
+            ":ete_incentive", 
+            ":ste_mark_up_total", 
+            ":ste_direct_commission",
+            ":ste_incentive", 
+            ":cte_mark_up_total", 
+            ":cte_direct_commission", 
+            ":cte_incentive", 
+            ":prime_customer", 
+            ":L1_customer", 
+            ":L2_customer", 
+            ":total_mark_up",
+            ":total_commission_amount",
+            ":total_insentive_amount",
+            ":coupon_amount",
+            ":suspence"
         )';
     
         $statement_8 = $conn->prepare($sql_8);
     
         $result_8 = $statement_8->execute([
             ':package_id' => $get_id,
-            ':company' => $mydata['newcompany_share'],
-            ':customer' => $mydata['newcustomer_share'],
-            ':ta_markup' => $mydata['newta_mark_up'],
-            ':te_mark_up_total' => $mydata['te_mark_up'],
-            ':te_direct_commission' => $mydata['te_mark_up_comm'],
-            ':te_incentive' => $mydata['te_mark_up_ins'],
-            ':ete_mark_up_total' => $mydata['ete_mark_up'],
-            ':ete_direct_commission' => $mydata['ete_mark_up_comm'],
-            ':ete_incentive' => $mydata['ete_mark_up_ins'],
-            ':ste_mark_up_total' => $mydata['ste_mark_up'] ?? 0,
-            ':ste_direct_commission' => $mydata['ste_mark_up_comm'] ?? 0,
-            ':ste_incentive' => $mydata['ste_mark_up_ins'] ?? 0,
-            ':cte_mark_up_total' => $mydata['cte_mark_up'] ?? 0,
-            ':cte_direct_commission' => $mydata['cte_mark_up_comm'] ?? 0,
-            ':cte_incentive' => $mydata['cte_mark_up_ins'] ?? 0,
-            ':prime_customer' => $mydata['L1_customer_share'],
-            ':L1_customer' => $mydata['L2_customer_share'],
-            ':L2_customer' => $mydata['L3_customer_share'],
-            ':total_mark_up'=>$mydata['total_mark_up']
+            ':company' => $mydata['price']['componyMarkup'],
+            ':customer' => $mydata['price']['totalCustomerShare'],
+            ':ta_markup' => $mydata['price']['travelConsultant'],
+            ':te_mark_up_total' => $mydata['price']['cTeFCommInsTotal'],
+            ':te_direct_commission' => $mydata['price']['cTeFComm'],
+            ':te_incentive' => $mydata['price']['cTeFIns'],
+            ':ete_mark_up_total' => $mydata['price']['eteCommInsTotal'],
+            ':ete_direct_commission' => $mydata['price']['eteComm'],
+            ':ete_incentive' => $mydata['price']['eteIns'],
+            ':ste_mark_up_total' => $mydata['price']['steCommInsTotal'],
+            ':ste_direct_commission' => $mydata['price']['steComm'],
+            ':ste_incentive' => $mydata['price']['steIns'],
+            ':cte_mark_up_total' => $mydata['price']['cteCommInsTotal'],
+            ':cte_direct_commission' => $mydata['price']['cteComm'],
+            ':cte_incentive' => $mydata['price']['cteIns'],
+            ':prime_customer' => $mydata['price']['customer1'],
+            ':L1_customer' => $mydata['price']['customer2'],
+            ':L2_customer' => $mydata['price']['customer3'],
+            ':total_mark_up'=>$mydata['price']['cteChainCommInsTotal'],
+            ':total_commission_amount' => $mydata['price']['cteChainCommTotal'],
+            ':total_insentive_amount' => $mydata['price']['cteChainInsTotal'],
+            ':coupon_amount' => $mydata['price']['couponAdjustment'],
+            ':suspence' => $mydata['price']['cteSuspence']
         ]);
        
     }
-//new institution markup distribution 09-05-2026 by sv
-    if ($mydata['ins_mp_ca_ta'])
+//new institution markup distribution 29-07-2026 by sv
+    if ($mydata['price']['bmIComm'])
     {
         $sql_9 = 'SELECT * FROM package_pricing_markup_institution WHERE package_id=:package_id';
         $statement_9 = $conn->prepare($sql_9);
@@ -317,63 +376,270 @@ $today = date('Y-m-d H:i:s');
 
             // INSERT  package_pricing_markup_institution
             $sql_8 = 'INSERT INTO package_pricing_markup_institution (
-                package_id, company, customer, ins_markup, bm_mark_up_total,
-                bm_direct_commission, bm_incentive, prime_customer,
-                L1_customer, total_mark_up, coupon_amount
+                package_id, 
+                company, 
+                customer, 
+                ins_markup, 
+                bm_mark_up_total,
+                bm_direct_commission, 
+                bm_incentive, 
+                prime_customer,
+                L1_customer,
+                L2_customer, 
+                total_mark_up, 
+                coupon_amount,
+                suspence
             ) VALUES (
-                :package_id, :company, :customer, :ins_markup,
-                :bm_mark_up_total, :bm_direct_commission, :bm_incentive,
-                :prime_customer, :L1_customer, :total_mark_up, :coupon_amount
+                :package_id, 
+                :company, 
+                :customer, 
+                :ins_markup,
+                :bm_mark_up_total, 
+                :bm_direct_commission, 
+                :bm_incentive,
+                :prime_customer, 
+                :L1_customer,
+                :L2_customer, 
+                :total_mark_up, 
+                :coupon_amount,
+                :suspence
             )';
 
-        } else {
-
-            // UPDATE  package_pricing_markup_institution
-            $sql_8 = 'UPDATE package_pricing_markup_institution SET
-                company=:company,
-                customer=:customer,
-                ins_markup=:ins_markup,
-                bm_mark_up_total=:bm_mark_up_total,
-                bm_direct_commission=:bm_direct_commission,
-                bm_incentive=:bm_incentive,
-                prime_customer=:prime_customer,
-                L1_customer=:L1_customer,
-                total_mark_up=:total_mark_up,
-                coupon_amount=:coupon_amount
-                WHERE package_id=:package_id';
-        }
+        } 
 
         $statement_8 = $conn->prepare($sql_8);
 
         $result_8 = $statement_8->execute([
             ':package_id' => $get_id,
-            ':company' => $mydata['ins_mp_company'],
-            ':customer' => $mydata['ins_mp_customer'],
-            ':ins_markup' => $mydata['ins_mp_ca_ta'],
-            ':bm_mark_up_total' => $mydata['ins_bm_mf_sf_total'],
-            ':bm_direct_commission' => $mydata['ins_bm_mf_sf_comm'],
-            ':bm_incentive' => $mydata['ins_bm_mf_sf_ins'],
-            ':prime_customer' => $mydata['ins_l1_cust_comm'],
-            ':L1_customer' => $mydata['ins_l2_cust_comm'],
-            ':total_mark_up' => $mydata['insmark_up_title'],
-            ':coupon_amount'=> $mydata['inscoupon_title']
+            ':company' => $mydata['price']['componyMarkup'],
+            ':customer' => $mydata['price']['totalCustomerShare'],
+            ':ins_markup' => $mydata['price']['bmIComm'],
+            ':bm_mark_up_total' => $mydata['price']['iBmCommInsTotal'],
+            ':bm_direct_commission' => $mydata['price']['iBmComm'],
+            ':bm_incentive' => $mydata['price']['iBmIns'],
+            ':prime_customer' => $mydata['price']['customer1'],
+            ':L1_customer' => $mydata['price']['customer2'],
+            ':L2_customer' => $mydata['price']['customer3'],
+            ':total_mark_up'=>$mydata['price']['bmIComInsTotal'],
+            ':total_commission_amount' => $mydata['price']['bmIComTotal'],
+            ':total_insentive_amount' => $mydata['price']['bmIInsTotal'],
+            ':coupon_amount' => $mydata['price']['couponAdjustment'],
+            ':suspence' => $mydata['price']['bmISuspence']
         ]);
     }
-//    cancel policy insert added on 24-01-2025 by sv
-    if ( $mydata['policy_1'] )
+    //new institution cte chain
+    if ($mydata['price']['cteIComm'])
+    {
+        $sql_9 = 'SELECT * FROM package_pricing_markup_institution WHERE package_id=:package_id';
+        $statement_9 = $conn->prepare($sql_9);
+        $statement_9->execute([':package_id' => $get_id]);
+        $result_9 = $statement_9->fetch(PDO::FETCH_ASSOC);
+
+        if($result_9 == null){
+
+            // INSERT  package_pricing_markup_institution
+            $sql_8 = 'INSERT INTO package_pricing_markup_te_chain (
+                package_id, 
+                company, 
+                customer, 
+                ins_markup, 
+                ete_mark_up_total,
+                ete_direct_commission, 
+                ete_incentive,
+                cte_mark_up_total,
+                cte_direct_commission, 
+                cte_incentive, 
+                prime_customer,
+                L1_customer,
+                L2_customer, 
+                total_mark_up, 
+                coupon_amount,
+                suspence
+            ) VALUES (
+                :package_id, 
+                :company, 
+                :customer, 
+                :ins_markup,
+                :ete_mark_up_total, 
+                :ete_direct_commission, 
+                :ete_incentive,
+                :cte_mark_up_total, 
+                :cte_direct_commission, 
+                :cte_incentive,
+                :prime_customer, 
+                :L1_customer,
+                :L2_customer, 
+                :total_mark_up, 
+                :coupon_amount,
+                :suspence
+            )';
+
+        } 
+
+        $statement_8 = $conn->prepare($sql_8);
+
+        $result_8 = $statement_8->execute([
+            ':package_id' => $get_id,
+            ':company' => $mydata['price']['componyMarkup'],
+            ':customer' => $mydata['price']['totalCustomerShare'],
+            ':ins_markup' => $mydata['price']['cteIComm'],
+            ':ete_mark_up_total' => $mydata['price']['iEteCommInsTotal'],
+            ':ete_direct_commission' => $mydata['price']['iEteComm'],
+            ':ete_incentive' => $mydata['price']['iEteIns'],
+            ':cte_mark_up_total' => $mydata['price']['iCteCommInsTotal'],
+            ':cte_direct_commission' => $mydata['price']['iCteComm'],
+            ':cte_incentive' => $mydata['price']['iCteComm'],
+            ':prime_customer' => $mydata['price']['customer1'],
+            ':L1_customer' => $mydata['price']['customer2'],
+            ':L2_customer' => $mydata['price']['customer3'],
+            ':total_mark_up'=>$mydata['price']['iCteComInsTotal'],
+            ':total_commission_amount' => $mydata['price']['iCteComTotal'],
+            ':total_insentive_amount' => $mydata['price']['iCteInsTotal'],
+            ':coupon_amount' => $mydata['price']['couponAdjustment'],
+            ':suspence' => $mydata['price']['cteISuspence']
+        ]);
+    }
+//    cancel policy insert added on 29-07-2026 by sv
+    if ( $mydata['price']['policy_1'] && $mydata['price']['policy_2']
+         && $mydata['price']['policy_3'] && $mydata['price']['policy_4']
+         && $mydata['price']['policy_5'] )
     {
         
 
-        $sql_10 = 'INSERT INTO cancel_policy (package_id, policy_1, policy_2, policy_3) VALUES (:package_id, :policy_1, :policy_2, :policy_3)';
+        $sql_10 = 'INSERT INTO cancel_policy (
+                    package_id,     
+                    policy_1, 
+                    policy_2, 
+                    policy_3, 
+                    policy_4, 
+                    policy_5) 
+                VALUES (
+                    :package_id, 
+                    :policy_1, 
+                    :policy_2, 
+                    :policy_3,
+                    :policy_4,
+                    :policy_5)
+                    ';
+        $statement_10 = $conn->prepare($sql_10);
+        $result_10 = $statement_10->execute([
+            ':package_id'=>$get_id, 
+            ':policy_1'=>$mydata['price']['policy_1'], 
+            ':policy_2'=>$mydata['price']['policy_2'], 
+            ':policy_3'=>$mydata['price']['policy_3'],
+            ':policy_4'=>$mydata['price']['policy_4'],
+            ':policy_5'=>$mydata['price']['policy_5']
+            ]);
+    }
+    // policy tab
+    if ( $mydata['policy']['couponRule'] && $mydata['policy']['booking']
+         && $mydata['policy']['documents'] )
+    {
+        
+
+        $sql_10 = 'INSERT INTO package_policy (
+                    package_id,     
+                    coupon_allowed, 
+                    combine_with_other_offers, 
+                    minimum_advance_payment, 
+                    full_payment_before_travel) 
+                VALUES (
+                    :package_id, 
+                    :coupon_allowed, 
+                    :combine_with_other_offers, 
+                    :minimum_advance_payment,
+                    :full_payment_before_travel)
+                    ';
+        $statement_10 = $conn->prepare($sql_10);
+        $result_10 = $statement_10->execute([
+            ':package_id'=>$get_id, 
+            ':coupon_allowed'=>$mydata['policy_1'], 
+            ':combine_with_other_offers'=>$mydata['policy_2'], 
+            ':minimum_advance_payment'=>$mydata['policy_3'],
+            ':full_payment_before_travel'=>$mydata['policy_4']
+            ]);
+        $payload = json_decode($_POST['payload'], true);
+
+        // print_r($payload);
+
+        if (isset($_FILES['documents']) && !empty($_FILES['documents']['name'][0])) {
+
+            $uploadDir = "../../uploading/package_documents/";
+
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+
+            foreach ($_FILES['documents']['name'] as $i => $originalName) {
+
+                if ($_FILES['documents']['error'][$i] != UPLOAD_ERR_OK) {
+                    continue;
+                }
+
+                $tmpName = $_FILES['documents']['tmp_name'][$i];
+
+                $extension = pathinfo($originalName, PATHINFO_EXTENSION);
+
+                $newFileName = uniqid("DOC_") . "." . $extension;
+
+                if (move_uploaded_file($tmpName, $uploadDir . $newFileName)) {
+
+                    $title = $_POST['document_titles'][$i];
+                    $documentId = $_POST['document_ids'][$i];
+
+                    // Example insert
+                    $stmt = $conn->prepare("
+                        INSERT INTO package_documents
+                        (
+                            package_id,
+                            title,
+                            file_name,
+                            original_name
+                        )
+                        VALUES
+                        (
+                            :package_id,
+                            :title,
+                            :file_name,
+                            :original_name
+                        )
+                    ");
+
+                    $stmt->execute([
+                        ':package_id'    => $packageId, // Your inserted package id
+                        ':title'         => $title,
+                        ':file_name'     => $newFileName,
+                        ':original_name' => $originalName
+                    ]);
+                }
+            }
+        }
+        //documents
+        $sql_10 = 'INSERT INTO cancel_policy (
+                    package_id,     
+                    policy_1, 
+                    policy_2, 
+                    policy_3, 
+                    policy_4, 
+                    policy_5) 
+                VALUES (
+                    :package_id, 
+                    :policy_1, 
+                    :policy_2, 
+                    :policy_3,
+                    :policy_4,
+                    :policy_5)
+                    ';
         $statement_10 = $conn->prepare($sql_10);
         $result_10 = $statement_10->execute([
             ':package_id'=>$get_id, 
             ':policy_1'=>$mydata['policy_1'], 
             ':policy_2'=>$mydata['policy_2'], 
-            ':policy_3'=>$mydata['policy_3']
+            ':policy_3'=>$mydata['policy_3'],
+            ':policy_4'=>$mydata['policy_4'],
+            ':policy_5'=>$mydata['policy_5']
             ]);
     }
-
 // check success
     if ( $result && $result_4) {
 
