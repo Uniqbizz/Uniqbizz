@@ -418,7 +418,7 @@ $l2_per=$l3_per=50;
                                                                         <label class="form-check-label" for="dropPriceCheck">Enable Drop Price</label>
                                                                     </div>
                                                                     <div class="form-floating my-2">
-                                                                        <input id="dropPrice" class="form-control" type="text" name="dropPrice">
+                                                                        <input id="dropPrice" class="form-control" type="number" name="dropPrice">
                                                                         <label for="dropPrice" class="required">Drop Price Per Person (&#8377;)</label>
                                                                         <small class="error-message" id="dropPrice_error"></small>
                                                                     </div>
@@ -754,14 +754,14 @@ $l2_per=$l3_per=50;
                                                             <div class="row">
                                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                     <div class="form-floating my-3">
-                                                                        <input type="text" id="companyMarkup" name="companyMarkup" placeholder="Destination" class="form-control">
+                                                                        <input type="number" id="companyMarkup" name="companyMarkup" placeholder="Destination" class="form-control">
                                                                         <label for="companyMarkup" class="required">Company Markup</label>
                                                                         <small class="error-message" id="companyMarkup_error"></small>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                     <div class="form-floating my-3">
-                                                                        <input type="text" id="couponAdjustment" name="couponAdjustment" placeholder="Destination" class="form-control">
+                                                                        <input type="number" id="couponAdjustment" name="couponAdjustment" placeholder="Destination" class="form-control">
                                                                         <label for="couponAdjustment" class="required">Default Coupon Adjustment</label>
                                                                         <small class="error-message" id="couponAdjustment_error"></small>
                                                                     </div>
@@ -1125,20 +1125,20 @@ $l2_per=$l3_per=50;
                                                                 <div class="row">
                                                                     <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                         <div class="form-floating mb-3">
-                                                                            <input type="text" id="customer1" name="customer1" placeholder="Customer1" class="form-control">
+                                                                            <input type="number" id="customer1" name="customer1" placeholder="Customer1" class="form-control">
                                                                             <label for="customer1" class="required">Customer 1</label>
                                                                             <small class="error-message" id="customer1_error"></small>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                         <div class="form-floating mb-3">
-                                                                            <input type="text" id="customer2" name="customer2" data-per="<?= $l2_per ?>" placeholder="Customer2" class="form-control" readonly>
+                                                                            <input type="number" id="customer2" name="customer2" data-per="<?= $l2_per ?>" placeholder="Customer2" class="form-control" readonly>
                                                                             <label for="customer2" class="required">Customer 2</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                         <div class="form-floating mb-3">
-                                                                            <input type="text" id="customer3" name="customer3" data-per="<?= $l3_per ?>" placeholder="Customer3" class="form-control" readonly>
+                                                                            <input type="number" id="customer3" name="customer3" data-per="<?= $l3_per ?>" placeholder="Customer3" class="form-control" readonly>
                                                                             <label for="customer3" class="required">Customer 3</label>
                                                                         </div>
                                                                     </div>
@@ -1191,27 +1191,27 @@ $l2_per=$l3_per=50;
                                                                     </div>
                                                                     <div class="inputFieldAlignment">
                                                                         <div class="input-group inputWidth">
-                                                                            <input type="text" class="form-control" id="cancellationPercentage1" name="cancellationPercentage1" placeholder="0">
+                                                                            <input type="number" class="form-control" id="cancellationPercentage1" name="cancellationPercentage1" placeholder="0">
                                                                             <span class="input-group-text">%</span>
                                                                             <small class="error-message" id="cancellationPercentage1_error"></small>
                                                                         </div>
                                                                         <div class="input-group inputWidth">
-                                                                            <input type="text" class="form-control" id="cancellationPercentage2" name="cancellationPercentage2" placeholder="0">
+                                                                            <input type="number" class="form-control" id="cancellationPercentage2" name="cancellationPercentage2" placeholder="0">
                                                                             <span class="input-group-text">%</span>
                                                                             <small class="error-message" id="cancellationPercentage2_error"></small>
                                                                         </div>
                                                                         <div class="input-group inputWidth">
-                                                                            <input type="text" class="form-control" id="cancellationPercentage3" name="cancellationPercentage3" placeholder="0">
+                                                                            <input type="number" class="form-control" id="cancellationPercentage3" name="cancellationPercentage3" placeholder="0">
                                                                             <span class="input-group-text">%</span>
                                                                             <small class="error-message" id="cancellationPercentage3_error"></small>
                                                                         </div>
                                                                         <div class="input-group inputWidth">
-                                                                            <input type="text" class="form-control" id="cancellationPercentage4" name="cancellationPercentage4" placeholder="0">
+                                                                            <input type="number" class="form-control" id="cancellationPercentage4" name="cancellationPercentage4" placeholder="0">
                                                                             <span class="input-group-text">%</span>
                                                                             <small class="error-message" id="cancellationPercentage4_error"></small>
                                                                         </div>
                                                                         <div class="input-group inputWidth">
-                                                                            <input type="text" class="form-control" id="cancellationPercentage5" name="cancellationPercentage5" placeholder="0">
+                                                                            <input type="number" class="form-control" id="cancellationPercentage5" name="cancellationPercentage5" placeholder="0">
                                                                             <span class="input-group-text">%</span>
                                                                             <small class="error-message" id="cancellationPercentage5_error"></small>
                                                                         </div>
@@ -1365,32 +1365,7 @@ $l2_per=$l3_per=50;
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-12">
-                                                            <!-- <div class="borderHighlight p-3 mt-3">
-                                                                <h4 class="fw-bolder">2. Image Gallery</h4>
-                                                                <p>Upload multiple images to highlight attractions, hotels, activities and experiences.</p> -->
-                                                                <!-- Gallery Preview -->
-                                                                <!-- <div class="row" id="galleryContainer"></div> -->
-                                                                <!-- Upload Area -->
-                                                                <!-- <div class="row">
-                                                                    <div class="col-lg-12">
-                                                                        <div class="small-drop-zone" id="imageGalleryZone">
-                                                                            <div>
-                                                                                <i class="fa-solid fa-cloud-arrow-up me-2"></i>
-                                                                                <span id="galleryText">
-                                                                                    Drag & Drop multiple images here or Click to Upload
-                                                                                </span>
-                                                                            </div>
-                                                                            <p class="mb-0 text-muted">
-                                                                                You can upload up to 18 images | Max Size: 5MB each | Min No. uploads 4 | Format: JPG, PNG, WEBP
-                                                                            </p>
-                                                                            <div id="galleryMessage" class="text-danger mt-2 fw-semibold"></div>
-                                                                            <input type="file" id="galleryInput" accept="image/jpeg,image/png,image/webp" multiple hidden> -->
-                                                                            <!-- Hidden field -->
-                                                                            <!-- <input type="hidden" id="galleryImageUrls" value="[]">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div> -->
+                                                            
                                                             <div class="borderHighlight p-3 mt-3">
                                                                 <h4 class="fw-bolder">2. Image Gallery</h4>
                                                                 <p>Upload multiple images to highlight attractions, hotels, activities and experiences.</p>
@@ -1548,132 +1523,6 @@ $l2_per=$l3_per=50;
                     }); 
                 }            
             }
-        </script>
-        
-        <script>
-            // $(document).ready(function () {
-
-            //     const sections = [
-            //         "#package_form_general",
-            //         "#package_form_extra",
-            //         "#package_form_itinerary",
-            //         "#package_form_pricing",
-            //         "#package_form_policy",
-            //         "#package_form_picture"
-            //     ];
-
-            //     const pageData = {
-            //         "#package_form_general": {
-            //             title: "Add New Package - General Information",
-            //             backText: "Return to Package Listing",
-            //             backLink: "all_packages.php"
-            //         },
-            //         "#package_form_extra": {
-            //             title: "Add New Package - Extra Information",
-            //             backText: "Return to General Information",
-            //             backLink: "#package_form_general"
-            //         },
-            //         "#package_form_itinerary": {
-            //             title: "Add New Package - Itinerary & Inclusions",
-            //             backText: "Return to Extra Information",
-            //             backLink: "#package_form_extra"
-            //         },
-            //         "#package_form_pricing": {
-            //             title: "Add New Package - Pricing",
-            //             backText: "Return to Itinerary & Inclusions",
-            //             backLink: "#package_form_itinerary"
-            //         },
-            //         "#package_form_policy": {
-            //             title: "Add New Package - Policy",
-            //             backText: "Return to Pricing",
-            //             backLink: "#package_form_pricing"
-            //         },
-            //         "#package_form_picture": {
-            //             title: "Add New Package - Pictures & Media",
-            //             backText: "Return to Policy",
-            //             backLink: "#package_form_policy"
-            //         }
-            //     };
-
-            //     function showSection(target) {
-
-            //         // Hide all sections
-            //         sections.forEach(function (section) {
-            //             $(section).hide();
-            //         });
-
-            //         // Show selected section
-            //         $(target).show();
-
-            //         // Update active step
-            //         $(".step-link").removeClass("active");
-            //         $(".roundedCircle").removeClass("active");
-
-            //         $('.step-link[href="' + target + '"]').addClass("active");
-            //         $('.step-link[href="' + target + '"] .roundedCircle').addClass("active");
-
-            //         // Update page title
-            //         $("#pageTitle").text(pageData[target].title);
-
-            //         // Update return text
-            //         $("#pageSubTitle").text(pageData[target].backText);
-
-            //         // Update back button target
-            //         $("#dynamicBackBtn").attr("data-target", pageData[target].backLink);
-            //     }
-
-            //     // Initial load
-            //     showSection("#package_form_general");
-
-            //     // Stepper navigation click
-            //     $(".step-link").on("click", function (e) {
-            //         e.preventDefault();
-
-            //         let target = $(this).attr("href");
-            //         showSection(target);
-            //     });
-
-            //     // Back button click
-            //     $("#dynamicBackBtn").on("click", function (e) {
-            //         e.preventDefault();
-
-            //         let target = $(this).attr("data-target");
-
-            //         if (target === "all_packages.php") {
-            //             window.location.href = target;
-            //             return;
-            //         }
-
-            //         showSection(target);
-            //     });
-
-            //     // Next buttons
-            //     // $("#package_form_general_nextBtn").on("click", function (e) {
-            //     //     e.preventDefault();
-            //     //     showSection("#package_form_extra");
-            //     // });
-
-            //     // $("#package_form_extra_nextBtn").on("click", function (e) {
-            //     //     e.preventDefault();
-            //     //     showSection("#package_form_itinerary");
-            //     // });
-
-            //     // $("#package_form_itinerary_nxtBtn").on("click", function (e) {
-            //     //     e.preventDefault();
-            //     //     showSection("#package_form_pricing");
-            //     // });
-
-            //     // $("#package_form_pricing_nextBtn").on("click", function (e) {
-            //     //     e.preventDefault();
-            //     //     showSection("#package_form_policy");
-            //     // });
-
-            //     // $("#package_form_policy_nextBtn").on("click", function (e) {
-            //     //     e.preventDefault();
-            //     //     showSection("#package_form_picture");
-            //     // });
-
-            // });
         </script>
         <script>
             // Remove Tag
@@ -2403,100 +2252,7 @@ $l2_per=$l3_per=50;
         <!-- Picture & Media Section -->
         <!-- Package Cover Image -->
         <script>
-            // $(document).ready(function () {
-
-            //     const dropZone = $("#dragDropZone");
-            //     const fileInput = $("#imageUpload");
-            //     const previewImage = $("#packageCoverImage");
-            //     const deleteBtn = $("#deleteImageBtn");
-            //     const fileText = $("#selectedFileText");
-
-            //     // Click Drop Zone
-            //     dropZone.on("click", function () {
-            //         fileInput.trigger("click");
-            //     });
-
-            //     // File Selection
-            //     fileInput.on("change", function () {
-            //         if (this.files.length) {
-            //             previewFile(this.files[0]);
-            //         }
-            //     });
-
-            //     // Drag Events
-            //     dropZone.on("dragover", function (e) {
-            //         e.preventDefault();
-            //         $(this).addClass("dragover");
-            //     });
-
-            //     dropZone.on("dragleave", function () {
-            //         $(this).removeClass("dragover");
-            //     });
-
-            //     dropZone.on("drop", function (e) {
-            //         e.preventDefault();
-            //         $(this).removeClass("dragover");
-
-            //         const files = e.originalEvent.dataTransfer.files;
-
-            //         if (files.length) {
-            //             fileInput[0].files = files;
-            //             previewFile(files[0]);
-            //         }
-            //     });
-
-            //     function previewFile(file) {
-
-            //         const validTypes = [
-            //             "image/jpeg",
-            //             "image/jpg",
-            //             "image/png",
-            //             "image/webp"
-            //         ];
-
-            //         if (!validTypes.includes(file.type)) {
-            //             alert("Please upload JPG, PNG or WEBP image.");
-            //             return;
-            //         }
-
-            //         if (file.size > 5 * 1024 * 1024) {
-            //             alert("Maximum file size is 5MB.");
-            //             return;
-            //         }
-
-            //         const reader = new FileReader();
-
-            //         reader.onload = function (e) {
-
-            //             previewImage.attr("src", e.target.result);
-            //             deleteBtn.css("display", "flex");
-            //             fileText.text(file.name);
-
-                        
-            //             // Store URL
-            //             $("#coverImageUrl").val("uploading/packages/" + file.name);
-
-            //             // Store Base64
-            //             $("#coverImageUrl").data("base64", e.target.result);
-            //         };
-
-            //         reader.readAsDataURL(file);
-            //     }
-
-            //     // Delete Image
-            //     deleteBtn.on("click", function () {
-            //         previewImage.attr(
-            //             "src",
-            //             "https://placehold.co/600x300?text=No+Image"
-            //         );
-
-            //         fileInput.val("");
-            //         $("#coverImageUrl").val(""); 
-            //         fileText.text("Drag & Drop image here or Click to browse");
-            //         $(this).hide();
-            //     });
-
-            // });
+            
             $(document).ready(function () {
 
                 const dropZone = $("#dragDropZone");

@@ -1268,8 +1268,8 @@ $('#package_form_general_nextBtn').on('click',function (e){
 	let description=$('#description').val();
 	let descriptionDetail=$('#descriptionDetail').val();
 	let packageType = $('input[name="packageType"]:checked').val();
-	let visaType = $('input[name="visaType"]:checked').val();
-	let dropPriceCheck = $('input[name="dropPriceCheck"]:checked').val();
+	let visaType = $('input[name="visaType"]:checked')?1:0;
+	let dropPriceCheck = $('#dropPriceCheck').is(':checked') ? 1 : 0;
 	let dropPrice=$('#dropPrice').val();
 
 	//validation
@@ -1954,20 +1954,15 @@ $('#package_form_policy_nextBtn').on('click', function (e) {
         documents: tableData
     };
 
-    // Create FormData
     let formData = new FormData();
 
-    // Complete payload
-    formData.append("payload", JSON.stringify(payLoadData));
+	formData.append("payload", JSON.stringify(payLoadData));
 
-    // Attach files
-    attachments.forEach(function(item){
+	attachments.forEach(item => {
+		formData.append("documents[]", item.file);
+	});
 
-        formData.append("documents[]", item.file);
-        formData.append("document_titles[]", item.title);
-        formData.append("document_ids[]", item.id);
-
-    });
+	window.packageFormData = formData;
 
     // Store globally if you want to submit later
     window.packageFormData = formData;
@@ -2003,12 +1998,16 @@ $("#update_form").on('click',function (e) {
 		});
 	});
 
-	// Media Payload
+	let formData = window.packageFormData;
+
 	payLoadData.media = {
 		coverImage,
 		gallery,
 		videos
 	};
+
+	// Update the payload
+	formData.set("payload", JSON.stringify(payLoadData));
 	console.log(payLoadData);
 	
 	Swal.fire({
@@ -2021,61 +2020,62 @@ $("#update_form").on('click',function (e) {
 		}
 	});
 
-	// $.ajax({
-	// 	type: "POST",
-	// 	url: "forms/create.php",
-	// 	data: JSON.stringify(payLoadData),
-	// 	contentType: "application/json",
-	// 	dataType: "json",
-	// 	headers: {
-	// 		"X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
-	// 	},
+	$.ajax({
+		type: "POST",
+		url: "forms/add_pacakage.php",
+		data: formData,
+		processData: false,   // IMPORTANT
+    	contentType: false,   // IMPORTANT
+		dataType: "json",
+		headers: {
+			"X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+		},
 
-	// 	success: function (res) {
+		success: function (res) {
 
-	// 		Swal.close();
+			Swal.close();
 
-	// 		if (res.status === "success") {
+			if (res.status) {//true flase
 
-	// 			Swal.fire({
-	// 				icon: "success",
-	// 				title: "Success!",
-	// 				text: "Package created successfully.",//res.message || 
-	// 				confirmButtonText: "OK"
-	// 			}).then(() => {
-	// 				window.location.href = "../packages/all_packages.php";
-	// 			});
+				Swal.fire({
+					icon: "success",
+					title: "Success!",
+					text: "Package created successfully.",//res.message || 
+					confirmButtonText: "OK"
+				}).then(() => {
+					window.location.href = "../packages/all_packages.php";
+				});
 
-	// 		} else {
+			} else {
 
-	// 			Swal.fire({
-	// 				icon: "error",
-	// 				title: "Failed!",
-	// 				text: "Unable to create package."
-	// 			});
+				Swal.fire({
+					icon: "error",
+					title: "Failed!",
+					text: "Unable to create package."
+				});
 
-	// 		}
-	// 	},
+			}
+		},
 
-	// 	error: function (xhr) {
+		error: function (xhr) {
 
-	// 		Swal.close();
+			Swal.close();
 
-	// 		let message = "Something went wrong. Please try again.";
+			let message = "Something went wrong. Please try again.";
 
-	// 		if (xhr.responseJSON && xhr.responseJSON.message) {
-	// 			message = xhr.responseJSON.message;
-	// 		}
+			if (xhr.responseJSON && xhr.responseJSON.message) {
+				message = xhr.responseJSON.message;
+			}
 
-	// 		Swal.fire({
-	// 			icon: "error",
-	// 			title: "Error",
-	// 			text: message
-	// 		});
+			Swal.fire({
+				icon: "error",
+				title: "Error",
+				text: message
+			});
 
-	// 		console.error(xhr);
-	// 	},
-	// });
+			console.error(xhr);
+		},
+	});
 });
 
 // update form chaged on 25 jan 2025 by sv
