@@ -4,7 +4,7 @@ require '../../connect.php';
 
 if ( !empty($_POST['cat_id']) ) {
     
-    $data = $conn->prepare("SELECT * FROM subcategory WHERE category_id = '".$_POST['cat_id']."'");
+    $data = $conn->prepare("SELECT * FROM subcategory WHERE category_id = '".$_POST['cat_id']."' status = 1 ");
     $data->execute();
     $data->setFetchMode(PDO::FETCH_ASSOC);
 
