@@ -1566,7 +1566,6 @@ $product_payout_data_ins = $data9->fetchAll();
                     e.preventDefault();
                     showSection("#package_form_picture");
                 });
-
             });
         </script>
         <script>
