@@ -347,7 +347,7 @@ try {
     */
 
     if (!empty($mydata['price']['travelConsultant'])) {
-
+        // bm/mf/sf->te/f
         $sql = "
             INSERT INTO package_pricing_markup
             (
@@ -434,6 +434,281 @@ try {
             ':suspence'=>$mydata['price']['bmSuspence']
 
         ]);
+        // cte->ete->ste->te
+        $sql = "
+            INSERT INTO package_pricing_markup_te_chain
+            (
+                package_id,
+                company,
+                customer,
+                ta_markup,
+                te_mark_up_total,
+                te_direct_commission,
+                te_incentive,
+                ete_mark_up_total,
+                ete_direct_commission,
+                ete_incentive,
+                ste_mark_up_total,
+                ste_direct_commission,
+                ste_incentive,
+                cte_mark_up_total,
+                cte_direct_commission,
+                cte_incentive,
+                prime_customer,
+                L1_customer,
+                L2_customer,
+                total_mark_up,
+                total_commission_amount,
+                total_insentive_amount,
+                coupon_amount,
+                suspence
+            )
+            VALUES
+            (
+                :package_id,
+                :company,
+                :customer,
+                :ta_markup,
+                :te_mark_up_total,
+                :te_direct_commission,
+                :te_incentive,
+                :ete_mark_up_total,
+                :ete_direct_commission,
+                :ete_incentive,
+                :ste_mark_up_total,
+                :ste_direct_commission,
+                :ste_incentive,
+                :cte_mark_up_total,
+                :cte_direct_commission,
+                :cte_incentive,
+                :prime_customer,
+                :L1_customer,
+                :L2_customer,
+                :total_mark_up,
+                :total_commission_amount,
+                :total_insentive_amount,
+                :coupon_amount,
+                :suspence
+            )
+        ";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->execute([
+
+            ':package_id'=>$get_id,
+
+            ':company'=>$mydata['price']['componyMarkup'],
+
+            ':customer'=>$mydata['price']['totalCustomerShare'],
+
+            ':ta_markup'=>$mydata['price']['travelConsultant'],
+
+            ':te_mark_up_total'=>$mydata['price']['cTeFCommInsTotal'],
+
+            ':te_direct_commission'=>$mydata['price']['cTeFComm'],
+
+            ':te_incentive'=>$mydata['price']['cTeFIns'],
+
+            ':ete_mark_up_total'=>$mydata['price']['eteCommInsTotal'],
+
+            ':ete_direct_commission'=>$mydata['price']['eteComm'],
+
+            ':ete_incentive'=>$mydata['price']['eteIns'],
+
+            ':ste_mark_up_total'=>$mydata['price']['steCommInsTotal'],
+
+            ':ste_direct_commission'=>$mydata['price']['steComm'],
+
+            ':ste_incentive'=>$mydata['price']['steIns'],
+
+            ':cte_mark_up_total'=>$mydata['price']['cteCommInsTotal'],
+
+            ':cte_direct_commission'=>$mydata['price']['cteComm'],
+
+            ':cte_incentive'=>$mydata['price']['cteIns'],
+
+            ':prime_customer'=>$mydata['price']['customer1'],
+
+            ':L1_customer'=>$mydata['price']['customer2'],
+
+            ':L2_customer'=>$mydata['price']['customer3'],
+
+            ':total_mark_up'=>$mydata['price']['cteChainCommTotal'],
+
+            ':total_commission_amount'=>$mydata['price']['cteChainCommInsTotal'],
+
+            ':total_insentive_amount'=>$mydata['price']['cteChainInsTotal'],
+
+            ':coupon_amount'=>$mydata['price']['couponAdjustment'],
+
+            ':suspence'=>$mydata['price']['cteSuspence']
+
+        ]);
+
+        // cte->ete->i
+        $sql = "
+            INSERT INTO package_pricing_markup_techno_institution
+            (
+                package_id,
+                company,
+                customer,
+                ins_markup,
+                ete_mark_up_total,
+                ete_direct_commission,
+                ete_incentive,
+                cte_mark_up_total,
+                cte_direct_commission,
+                cte_incentive,
+                prime_customer,
+                L1_customer,
+                L2_customer,
+                total_mark_up,
+                total_commission_amount,
+                total_insentive_amount,
+                coupon_amount,
+                suspence
+            )
+            VALUES
+            (
+                :package_id,
+                :company,
+                :customer,
+                :ins_markup,
+                :ete_mark_up_total,
+                :ete_direct_commission,
+                :ete_incentive,
+                :cte_mark_up_total,
+                :cte_direct_commission,
+                :cte_incentive,
+                :prime_customer,
+                :L1_customer,
+                :L2_customer,
+                :total_mark_up,
+                :total_commission_amount,
+                :total_insentive_amount,
+                :coupon_amount,
+                :suspence
+            )
+        ";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->execute([
+
+            ':package_id'=>$get_id,
+
+            ':company'=>$mydata['price']['componyMarkup'],
+
+            ':customer'=>$mydata['price']['totalCustomerShare'],
+
+            ':ins_markup'=>$mydata['price']['cteIComm'],
+
+            ':ete_mark_up_total'=>$mydata['price']['iEteCommInsTotal'],
+
+            ':ete_direct_commission'=>$mydata['price']['iEteComm'],
+
+            ':ete_incentive'=>$mydata['price']['iEteIns'],
+
+            ':cte_mark_up_total'=>$mydata['price']['iCteCommInsTotal'],
+
+            ':cte_direct_commission'=>$mydata['price']['iCteComm'],
+
+            ':cte_incentive'=>$mydata['price']['iCteIns'],
+
+            ':prime_customer'=>$mydata['price']['customer1'],
+
+            ':L1_customer'=>$mydata['price']['customer2'],
+
+            ':L2_customer'=>$mydata['price']['customer3'],
+
+            ':total_mark_up'=>$mydata['price']['iCteComInsTotal'],
+
+            ':total_commission_amount'=>$mydata['price']['iCteComTotal'],
+
+            ':total_insentive_amount'=>$mydata['price']['iCteInsTotal'],
+
+            ':coupon_amount'=>$mydata['price']['couponAdjustment'],
+
+            ':suspence'=>$mydata['price']['cteISuspence']
+
+        ]);
+        // bm/mf/sf->i
+        $sql = "
+            INSERT INTO package_pricing_markup_institution
+            (
+                package_id,
+                company,
+                customer,
+                ins_markup,
+                bm_mark_up_total,
+                bm_direct_commission,
+                bm_incentive,
+                prime_customer,
+                L1_customer,
+                L2_customer,
+                total_mark_up,
+                total_commission_amount,
+                total_insentive_amount,
+                coupon_amount,
+                suspence
+            )
+            VALUES
+            (
+                :package_id,
+                :company,
+                :customer,
+                :ins_markup,
+                :bm_mark_up_total,
+                :bm_direct_commission,
+                :bm_incentive,
+                :prime_customer,
+                :L1_customer,
+                :L2_customer,
+                :total_mark_up,
+                :total_commission_amount,
+                :total_insentive_amount,
+                :coupon_amount,
+                :suspence
+            )
+        ";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->execute([
+
+            ':package_id'=>$get_id,
+
+            ':company'=>$mydata['price']['componyMarkup'],
+
+            ':customer'=>$mydata['price']['totalCustomerShare'],
+
+            ':ins_markup'=>$mydata['price']['bmIComm'],
+
+            ':bm_mark_up_total'=>$mydata['price']['iBmCommInsTotal'],
+
+            ':bm_direct_commission'=>$mydata['price']['iBmComm'],
+
+            ':bm_incentive'=>$mydata['price']['iBmIns'],
+
+            ':prime_customer'=>$mydata['price']['customer1'],
+
+            ':L1_customer'=>$mydata['price']['customer2'],
+
+            ':L2_customer'=>$mydata['price']['customer3'],
+
+            ':total_mark_up'=>$mydata['price']['bmIComInsTotal'],
+
+            ':total_commission_amount'=>$mydata['price']['bmIComTotal'],
+
+            ':total_insentive_amount'=>$mydata['price']['bmIInsTotal'],
+
+            ':coupon_amount'=>$mydata['price']['couponAdjustment'],
+
+            ':suspence'=>$mydata['price']['bmISuspence']
+
+        ]);
+
 
     }
     /*
