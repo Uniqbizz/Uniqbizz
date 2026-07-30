@@ -88,26 +88,28 @@ $.ajax({
     }
 });
 // fetch sub category
-function getSubCategories() {
-	document.getElementById("subCategoryId").style.display = "block";
-	document.getElementById("subCategoryData").style.display = "none";
 
-	var cat_id = document.getElementById('categoryId').value;
-	// console.log('categoruy selected = ' +cat_id);
+function getSubCategories(selected = '') {
 
-	$.ajax({
-		type: 'POST',
-		url: 'forms/get_sub_categories.php',
-		data: 'cat_id=' + cat_id,
-		success: function (e) {
-			// console.log(e);
-			$('#subCategoryId').html(e);
-		},
-		error: function (err) {
-			console.log(err);
-		},
-	});
+    document.getElementById("subCategoryId").style.display = "block";
+    document.getElementById("subCategoryData").style.display = "none";
 
+    var cat_id = $('#categoryId').val();
+
+    $.ajax({
+        type: 'POST',
+        url: 'forms/get_sub_categories.php',
+        data: {
+            cat_id: cat_id,
+            selected: selected
+        },
+        success: function (e) {
+            $('#subCategoryId').html(e);
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
 }
 
 
@@ -1152,99 +1154,102 @@ $(".packageKeyWords").on("change",function(){
 //------------------------------------
 
 
-	const sections = [
-		"#package_form_general",
-		"#package_form_extra",
-		"#package_form_itinerary",
-		"#package_form_pricing",
-		"#package_form_policy",
-		"#package_form_picture"
-	];
+const sections = [
+	"#package_form_general",
+	"#package_form_extra",
+	"#package_form_itinerary",
+	"#package_form_pricing",
+	"#package_form_policy",
+	"#package_form_picture"
+];
 
-	const pageData = {
-		"#package_form_general": {
-			title: "Add New Package - General Information",
-			backText: "Return to Package Listing",
-			backLink: "all_packages.php"
-		},
-		"#package_form_extra": {
-			title: "Add New Package - Extra Information",
-			backText: "Return to General Information",
-			backLink: "#package_form_general"
-		},
-		"#package_form_itinerary": {
-			title: "Add New Package - Itinerary & Inclusions",
-			backText: "Return to Extra Information",
-			backLink: "#package_form_extra"
-		},
-		"#package_form_pricing": {
-			title: "Add New Package - Pricing",
-			backText: "Return to Itinerary & Inclusions",
-			backLink: "#package_form_itinerary"
-		},
-		"#package_form_policy": {
-			title: "Add New Package - Policy",
-			backText: "Return to Pricing",
-			backLink: "#package_form_pricing"
-		},
-		"#package_form_picture": {
-			title: "Add New Package - Pictures & Media",
-			backText: "Return to Policy",
-			backLink: "#package_form_policy"
-		}
-	};
+const isEdit = $("#editFlag").length && $("#editFlag").val() == "1";
+const actionText = isEdit ? "Edit Package" : "Add New Package";
 
-	// function showSection(target) {
+const pageData = {
+	"#package_form_general": {
+		title: `${actionText} - General Information`,
+		backText: "Return to Package Listing",
+		backLink: "all_packages.php"
+	},
+	"#package_form_extra": {
+		title: `${actionText} - Extra Information`,
+		backText: "Return to General Information",
+		backLink: "#package_form_general"
+	},
+	"#package_form_itinerary": {
+		title: `${actionText} - Itinerary & Inclusions`,
+		backText: "Return to Extra Information",
+		backLink: "#package_form_extra"
+	},
+	"#package_form_pricing": {
+		title: `${actionText} - Pricing`,
+		backText: "Return to Itinerary & Inclusions",
+		backLink: "#package_form_itinerary"
+	},
+	"#package_form_policy": {
+		title: `${actionText} - Policy`,
+		backText: "Return to Pricing",
+		backLink: "#package_form_pricing"
+	},
+	"#package_form_picture": {
+		title: `${actionText} - Pictures & Media`,
+		backText: "Return to Policy",
+		backLink: "#package_form_policy"
+	}
+};
 
-	// 	// Hide all sections
-	// 	sections.forEach(function (section) {
-	// 		$(section).hide();
-	// 	});
+// function showSection(target) {
 
-	// 	// Show selected section
-	// 	$(target).show();
+// 	// Hide all sections
+// 	sections.forEach(function (section) {
+// 		$(section).hide();
+// 	});
 
-	// 	// Update active step
-	// 	$(".step-link").removeClass("active");
-	// 	$(".roundedCircle").removeClass("active");
+// 	// Show selected section
+// 	$(target).show();
 
-	// 	$('.step-link[href="' + target + '"]').addClass("active");
-	// 	$('.step-link[href="' + target + '"] .roundedCircle').addClass("active");
+// 	// Update active step
+// 	$(".step-link").removeClass("active");
+// 	$(".roundedCircle").removeClass("active");
 
-	// 	// Update page title
-	// 	$("#pageTitle").text(pageData[target].title);
+// 	$('.step-link[href="' + target + '"]').addClass("active");
+// 	$('.step-link[href="' + target + '"] .roundedCircle').addClass("active");
 
-	// 	// Update return text
-	// 	$("#pageSubTitle").text(pageData[target].backText);
+// 	// Update page title
+// 	$("#pageTitle").text(pageData[target].title);
 
-	// 	// Update back button target
-	// 	$("#dynamicBackBtn").attr("data-target", pageData[target].backLink);
-	// }
+// 	// Update return text
+// 	$("#pageSubTitle").text(pageData[target].backText);
 
-	// Initial load
-	showSection("#package_form_general");
+// 	// Update back button target
+// 	$("#dynamicBackBtn").attr("data-target", pageData[target].backLink);
+// }
 
-	// Stepper navigation click
-	$(".step-link").on("click", function (e) {
-		e.preventDefault();
+// Initial load
+showSection("#package_form_general");
 
-		let target = $(this).attr("href");
-		showSection(target);
-	});
+// Stepper navigation click
+$(".step-link").on("click", function (e) {
+	e.preventDefault();
 
-	// Back button click
-	$("#dynamicBackBtn").on("click", function (e) {
-		e.preventDefault();
+	let target = $(this).attr("href");
+	showSection(target);
+});
 
-		let target = $(this).attr("data-target");
+// Back button click
+$("#dynamicBackBtn").on("click", function (e) {
+	e.preventDefault();
 
-		if (target === "all_packages.php") {
-			window.location.href = target;
-			return;
-		}
+	let target = $(this).attr("data-target");
 
-		showSection(target);
-	});
+	if (target === "all_packages.php") {
+		window.location.href = target;
+		return;
+	}
+
+	showSection(target);
+});
 
 let payLoadData={};
 //general information next
@@ -1271,6 +1276,7 @@ $('#package_form_general_nextBtn').on('click',function (e){
 	let visaType = $('input[name="visaType"]:checked')?1:0;
 	let dropPriceCheck = $('#dropPriceCheck').is(':checked') ? 1 : 0;
 	let dropPrice=$('#dropPrice').val();
+	const isEdit = $("#editFlag").length && $("#editFlag").val() == "1";
 
 	//validation
 	// Package Name
@@ -1284,19 +1290,28 @@ $('#package_form_general_nextBtn').on('click',function (e){
         showError("uniqueCode", "Please enter Unique Code.");
         return false;
     }
-	$.ajax({
-		url: "forms/unique_code_vefication.php",
-		type: "POST",
-		data: { uniqueCode },
-		dataType: "json",
-		success: function (res) {
+	if (isEdit) {
+		continueValidation();
+	} else {
+		$.ajax({
+			url: "forms/unique_code_vefication.php",
+			type: "POST",
+			data: { uniqueCode },
+			dataType: "json",
+			success: function (res) {
 
-			if (res.exists) {
-				showError("uniqueCode", "Unique Code already exists.");
-				return false;
+				if (res.exists) {
+					showError("uniqueCode", "Unique Code already exists.");
+					return false;
+				}
+				// Continue with the remaining validations
+				continueValidation();
+
 			}
-			// Continue with the remaining validations
-			// Category
+		});
+	}
+	function continueValidation(){
+		// Category
 			if (categoryId === "" || categoryId == null) {
 				showError("categoryId", "Please select Category.");
 				return false;
@@ -1367,9 +1382,7 @@ $('#package_form_general_nextBtn').on('click',function (e){
 				showError("dropPrice", "Please select a Drop Price.");
 				return false;
 			}
-
-		}
-	});
+	}
 
     
 	payLoadData.general_info = {

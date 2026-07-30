@@ -65,6 +65,7 @@ try {
             sub_category_id,
             package_type,
             category_hotel_id,
+            category_occupancy_id,
             category_meal_id,
             name,
             unique_code,
@@ -93,6 +94,7 @@ try {
             :sub_category_id,
             :package_type,
             :category_hotel_id,
+            :category_occupancy_id,
             :category_meal_id,
             :name,
             :unique_code,
@@ -128,6 +130,8 @@ try {
         ":package_type" => $mydata['general_info']['travelTheme'],
 
         ":category_hotel_id" => $mydata['extra_info']['categoryHotelId'],
+
+        ":category_occupancy_id" => $mydata['extra_info']['occupancyId'],
 
         ":category_meal_id" => $mydata['extra_info']['categoryMealId'],
 

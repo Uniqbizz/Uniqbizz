@@ -1,91 +1,91 @@
 <?php
-session_start();
+    session_start();
 
-if (!isset($_SESSION['username'])) {
-    echo '<script>location.href = "../login.php";</script>';
-}
+    if (!isset($_SESSION['username'])) {
+        echo '<script>location.href = "../login.php";</script>';
+    }
 
-require '../connect.php';
-$date = date('Y');
+    require '../connect.php';
+    $date = date('Y');
 
-//product payout commission
-$data7 = $conn->prepare("SELECT * FROM `product_commission` WHERE status = 1");
-$data7->execute();
-$data7->setFetchMode(PDO::FETCH_ASSOC);
-$product_payout_data = [];
+    //product payout commission
+    $data7 = $conn->prepare("SELECT * FROM `product_commission` WHERE status = 1");
+    $data7->execute();
+    $data7->setFetchMode(PDO::FETCH_ASSOC);
+    $product_payout_data = [];
 
-while ($row = $data7->fetch(PDO::FETCH_ASSOC)) {
-    $product_payout_data[$row['role']] = $row;
-}
+    while ($row = $data7->fetch(PDO::FETCH_ASSOC)) {
+        $product_payout_data[$row['role']] = $row;
+    }
 
-//product payout commission new added on 09 may 2026
-$data8 = $conn->prepare("
-    SELECT *
-    FROM product_commission_te_chain
-    WHERE status = 1
-");
-$data8->execute();
+    //product payout commission new added on 09 may 2026
+    $data8 = $conn->prepare("
+        SELECT *
+        FROM product_commission_te_chain
+        WHERE status = 1
+    ");
+    $data8->execute();
 
-$product_payout_data_new = [];
+    $product_payout_data_new = [];
 
-while ($row = $data8->fetch(PDO::FETCH_ASSOC)) {
-    $product_payout_data_new[$row['role']] = $row;
-}
+    while ($row = $data8->fetch(PDO::FETCH_ASSOC)) {
+        $product_payout_data_new[$row['role']] = $row;
+    }
 
-//product payout commission new added on 12 may 2026
-$data9 = $conn->prepare("
-    SELECT *
-    FROM product_commission_institution
-    WHERE status = 1
-");
-$data9->execute();
+    //product payout commission new added on 12 may 2026
+    $data9 = $conn->prepare("
+        SELECT *
+        FROM product_commission_institution
+        WHERE status = 1
+    ");
+    $data9->execute();
 
-$institutionData = [];  
+    $institutionData = [];  
 
-while ($row = $data9->fetch(PDO::FETCH_ASSOC)) {
-    $institutionData['roles'][$row['role']] = [
-        'overall_percentage' => $row['overall_percentage'],
-        'comm_percentage'    => $row['comm_percentage'],
-        'ins_percentage'     => $row['ins_percentage']
-    ];
-}
-//product payout commission cte cheian
-$data11 = $conn->prepare("SELECT * FROM `product_commission_cte_ins` WHERE status = 1");
-$data11->execute();
+    while ($row = $data9->fetch(PDO::FETCH_ASSOC)) {
+        $institutionData['roles'][$row['role']] = [
+            'overall_percentage' => $row['overall_percentage'],
+            'comm_percentage'    => $row['comm_percentage'],
+            'ins_percentage'     => $row['ins_percentage']
+        ];
+    }
+    //product payout commission cte cheian
+    $data11 = $conn->prepare("SELECT * FROM `product_commission_cte_ins` WHERE status = 1");
+    $data11->execute();
 
-$institutionCteData = [];
+    $institutionCteData = [];
 
-while ($row = $data11->fetch(PDO::FETCH_ASSOC)) {
-    $institutionCteData['roles'][$row['role']] = [
-        'overall_percentage' => $row['overall_percentage'],
-        'comm_percentage'    => $row['comm_percentage'],
-        'ins_percentage'     => $row['ins_percentage']
-    ];
-}
+    while ($row = $data11->fetch(PDO::FETCH_ASSOC)) {
+        $institutionCteData['roles'][$row['role']] = [
+            'overall_percentage' => $row['overall_percentage'],
+            'comm_percentage'    => $row['comm_percentage'],
+            'ins_percentage'     => $row['ins_percentage']
+        ];
+    }
 
-//=====================================
-// Institution Slabs
-//=====================================
+    //=====================================
+    // Institution Slabs
+    //=====================================
 
-$data10 = $conn->prepare("
-    SELECT
-        institution_commission,
-        lower_limit,
-        upper_limit
-    FROM institution_slab
-    WHERE status = 1
-    ORDER BY lower_limit
-");
-$data10->execute();
+    $data10 = $conn->prepare("
+        SELECT
+            institution_commission,
+            lower_limit,
+            upper_limit
+        FROM institution_slab
+        WHERE status = 1
+        ORDER BY lower_limit
+    ");
+    $data10->execute();
 
-$slabs = $data10->fetchAll(PDO::FETCH_ASSOC);
+    $slabs = $data10->fetchAll(PDO::FETCH_ASSOC);
 
-$institutionData['slabs'] = $slabs;
-$institutionCteData['slabs'] = $slabs;
+    $institutionData['slabs'] = $slabs;
+    $institutionCteData['slabs'] = $slabs;
 
-//cutomer commission 
-$l2_per=$l3_per=50;
-
+    //cutomer commission 
+    $l2_per=$l3_per=50;
+    require __DIR__ . '/forms/edit_package_load.php';
 ?>
 
 <!DOCTYPE html>
@@ -93,7 +93,7 @@ $l2_per=$l3_per=50;
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Add Packages</title>
+        <title>Edit Packages</title>
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
         <!-- custom css file -->
@@ -143,7 +143,7 @@ $l2_per=$l3_per=50;
                                     <div class="p-4 d-flex justify-content-between align-items-center border-bottom">
                                         <div>
                                             <h4 id="pageTitle" class="mb-0">
-                                                Add New Package - General Information
+                                                Edit Package - General Information
                                             </h4>
                                             <small id="pageSubTitle" class="text-muted">
                                                 Return to Package Listing
@@ -215,37 +215,44 @@ $l2_per=$l3_per=50;
                                                     <div class="row">
                                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
                                                             <div class="form-floating my-3">
-                                                                <input type="text" class="form-control" id="packName" name="packName" placeholder="Package Name">
+                                                                <input type="text" class="form-control" id="packName" name="packName" placeholder="Package Name" value="<?= $package['name'] ?>">
                                                                 <label for="name" class="required">Package Name</label>
                                                                 <small class="error-message" id="packName_error"></small>
                                                             </div>
                                                         </div>
                                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
                                                             <div class="form-floating my-3">
-                                                                <input type="text" class="form-control" id="uniqueCode" name="uniqueCode" placeholder="Unique Code">
+                                                                <input type="text" class="form-control" id="uniqueCode" name="uniqueCode" placeholder="Unique Code" value="<?= $package['unique_code'] ?>">
                                                                 <label for="unique_code" class="required">Unique Code</label>
                                                                 <small class="error-message" id="uniqueCode_error"></small>
                                                             </div>
                                                         </div>
                                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
                                                             <div class="form-floating my-3">
-                                                                <select class="form-select" id="categoryId" name="categoryId" aria-label="Floating label select example" onchange="getSubCategories()">
-                                                                    <?php
-                                                                    $cat_data = $conn->prepare("SELECT * FROM category where status='1' ");
-                                                                    $cat_data->execute();
-                                                                    // set the resulting array to associative
-                                                                    $cat_data->setFetchMode(PDO::FETCH_ASSOC);
+                                                                <select class="form-select"
+                                                                    id="categoryId"
+                                                                    name="categoryId"
+                                                                    aria-label="Floating label select example"
+                                                                    onchange="getSubCategories()">
 
-                                                                    if ($cat_data->rowCount() > 0) {
-                                                                        echo '<option value="">--Select Category--</option>';
-                                                                        foreach (($cat_data->fetchAll()) as $key => $row) {
-                                                                            echo '<option value="' . $row['id'] . '">' . $row['category_name'] . '</option>';
-                                                                        }
-                                                                    } else {
-                                                                        echo '<option value=""> No Category Avaiable </option>';
+                                                                <option value="">--Select Category--</option>
+
+                                                                <?php
+                                                                $cat_data = $conn->prepare("SELECT * FROM category WHERE status='1'");
+                                                                $cat_data->execute();
+                                                                $categories = $cat_data->fetchAll(PDO::FETCH_ASSOC);
+
+                                                                if (!empty($categories)) {
+                                                                    foreach ($categories as $row) {
+                                                                        $selected = ($row['id'] == $package['category_id']) ? 'selected' : '';
+                                                                        echo '<option value="' . $row['id'] . '" ' . $selected . '>' . $row['category_name'] . '</option>';
                                                                     }
-                                                                    ?>
-                                                                </select>
+                                                                } else {
+                                                                    echo '<option value="">No Category Available</option>';
+                                                                }
+                                                                ?>
+
+                                                            </select>
                                                                 <small class="error-message" id="categoryId_error"></small>
                                                                 <label>Select Category Type <span class="required"></span></label>
                                                             </div>
@@ -265,42 +272,42 @@ $l2_per=$l3_per=50;
                                                                 <label>Travel Theme / Type <span class="required"></span></label>
                                                                 <div class="d-flex gap-4">
                                                                     <div>
-                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option1" autocomplete="off" value="Leisure">
+                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option1" autocomplete="off" value="Leisure" <?= $package['package_type'] === "Leisure"?'checked':'' ?>>
                                                                         <label class="btn fw-bold" for="option1">
                                                                             <i class="fa-solid fa-mountain-city"></i>
                                                                             Leisure
                                                                         </label>
                                                                     </div>
                                                                     <div>
-                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option2" autocomplete="off" value="Adventure">
+                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option2" autocomplete="off" value="Adventure" <?= $package['package_type'] === "Adventure"?'checked':'' ?>>
                                                                         <label class="btn fw-bold" for="option2">
                                                                             <i class="fa-solid fa-mountain-sun"></i>
                                                                             Adventure
                                                                         </label>
                                                                     </div>
                                                                     <div>
-                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option3" autocomplete="off" value="Spiritual">
+                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option3" autocomplete="off" value="Spiritual" <?= $package['package_type'] === "Spiritual"?'checked':'' ?>>
                                                                         <label class="btn fw-bold" for="option3">
                                                                             <i class="fa-solid fa-place-of-worship"></i>
                                                                             Spiritual
                                                                         </label>
                                                                     </div>
                                                                     <div>
-                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option4" autocomplete="off" value="Beach">
+                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option4" autocomplete="off" value="Beach" <?= $package['package_type'] === "Beach"?'checked':'' ?>>
                                                                         <label class="btn fw-bold" for="option4">
                                                                             <i class="fa-solid fa-umbrella-beach"></i>
                                                                             Beach
                                                                         </label>
                                                                     </div>
                                                                     <div>
-                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option5" autocomplete="off" value="Honeymoon">
+                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option5" autocomplete="off" value="Honeymoon" <?= $package['package_type'] === "Honeymoon"?'checked':'' ?>>
                                                                         <label class="btn fw-bold" for="option5">
                                                                             <i class="fa-solid fa-heart"></i>
                                                                             Honeymoon
                                                                         </label>
                                                                     </div>
                                                                     <div>
-                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option6" autocomplete="off" value="Other">
+                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option6" autocomplete="off" value="Other" <?= $package['package_type'] === "Other"?'checked':'' ?>>
                                                                         <label class="btn fw-bold" for="option6">
                                                                             <i class="fa-solid fa-crosshairs"></i>
                                                                             Other</label>
@@ -313,28 +320,28 @@ $l2_per=$l3_per=50;
                                                             <div class="row">
                                                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="number" class="form-control" id="tourDays" name="tourDays" placeholder="Unique Code">
+                                                                        <input type="number" class="form-control" id="tourDays" name="tourDays" placeholder="Unique Code" value="<?= $package['tour_days'] ?>">
                                                                         <label for="tourDays" class="required">Tour Days</label>
                                                                         <small class="error-message" id="tourDays_error"></small>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="date" class="form-control" id="pacValidity" name="pacValidity" placeholder="Package Validity">
+                                                                        <input type="date" class="form-control" id="pacValidity" name="pacValidity" placeholder="Package Validity" value="<?= $package['validity']?>">
                                                                         <label for="pacValidity" class="required">Validity Upto</label>
                                                                         <small class="error-message" id="pacValidity_error"></small>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="text" class="form-control" id="season" name="season" placeholder="Unique Code">
+                                                                        <input type="text" class="form-control" id="season" name="season" placeholder="Unique Code" value="<?= $package['best_season'] ?>">
                                                                         <label for="season">Best Season To Visit</label>
                                                                         <small class="error-message" id="season_error"></small>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="text" class="form-control" id="pacLocation" name="pacLocation" placeholder="Unique Code">
+                                                                        <input type="text" class="form-control" id="pacLocation" name="pacLocation" placeholder="Unique Code" value="<?= $package['location'] ?>">
                                                                         <label for="pacLocation" class="required">Location</label>
                                                                         <small class="error-message" id="pacLocation_error"></small>
                                                                     </div>
@@ -345,8 +352,23 @@ $l2_per=$l3_per=50;
                                                     <div class="col-lg-12 mb-3">
                                                         <div class="highlights-section p-3 highlightContainer-wrapper" id="highlightContainer_wrapper">
                                                             <label class="highlight-label required">Cities</label>
-                                                            <div class="highlight-container" id="highlightContainer" >
-                                                                
+                                                            <div class="highlight-container" id="highlightContainer">
+                                                                <?php
+                                                                if (!empty($package['cities'])) {
+                                                                    $cities = json_decode($package['cities'], true);
+
+                                                                    if (is_array($cities)) {
+                                                                        foreach ($cities as $city) {
+                                                                            ?>
+                                                                            <div class="highlight-tag" data-city="<?= htmlspecialchars($city) ?>">
+                                                                                <span class="city-name"><?= htmlspecialchars($city) ?></span>
+                                                                                <span class="remove-btn">&times;</span>
+                                                                            </div>
+                                                                            <?php
+                                                                        }
+                                                                    }
+                                                                }
+                                                                ?>
                                                             </div>
                                                             
                                                             <div class="add-highlight">
@@ -357,14 +379,14 @@ $l2_per=$l3_per=50;
                                                     </div>
                                                     <div class="col-lg-12 col-md-12 col-sm-12">
                                                         <div class="form-floating mb-3">
-                                                            <input id="description" class="form-control" type="text" name="description" placeholder="Description">
+                                                            <input id="description" class="form-control" type="text" name="description" placeholder="Description" value="<?= $package['description'] ?>">
                                                             <label for="description" class="required">Short Description</label>
                                                             <small class="error-message" id="description_error"></small>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-12 col-md-12 col-sm-12">
                                                         <div class="form-floating">
-                                                            <textarea class="form-control" placeholder="Leave a comment here" id="descriptionDetail"></textarea>
+                                                            <textarea class="form-control" placeholder="Leave a comment here" id="descriptionDetail"><?= $package['detailed_description'] ?></textarea>
                                                             <label for="descriptionDetail" class="required">Detailed Description</label>
                                                             <small class="error-message" id="descriptionDetail_error"></small>
                                                         </div>
@@ -375,19 +397,19 @@ $l2_per=$l3_per=50;
                                                             <div class="form-floating">
                                                                 <div class="form-control d-flex justify-content-between packageType-wrapper" id="packageType_wrapper">
                                                                     <div>
-                                                                        <input type="radio" class="packageType" name="packageType" value="Trending" id="trending">
+                                                                        <input type="radio" class="packageType" name="packageType" value="Trending" id="trending" <?= $package['highlight_type'] ==='Trending'?'checked':'' ?>>
                                                                         <label style="padding-right:15px; padding-left: 5px;" for="trending">Trending</label>
                                                                     </div>
                                                                     <div>
-                                                                        <input type="radio" class="packageType" name="packageType" value="Popular" id="popular">
+                                                                        <input type="radio" class="packageType" name="packageType" value="Popular" id="popular" <?= $package['highlight_type'] ==='Popular'?'checked':'' ?>>
                                                                         <label style="padding-right:15px; padding-left: 5px;" for="popular">Popular</label>
                                                                     </div>
                                                                     <div>
-                                                                        <input type="radio" class="packageType" name="packageType" value="Most Selling" id="mostSelling">
+                                                                        <input type="radio" class="packageType" name="packageType" value="Most Selling" id="mostSelling" <?= $package['highlight_type'] ==='Most Selling'?'checked':'' ?>>
                                                                         <label style="padding-right:15px; padding-left: 5px;" for="mostSelling">Most Selling</label>
                                                                     </div>
                                                                     <div>
-                                                                        <input type="radio" class="packageType" name="packageType" value="New Arrival" id="newArrival">
+                                                                        <input type="radio" class="packageType" name="packageType" value="New Arrival" id="newArrival" <?= $package['highlight_type'] ==='New Arrival'?'checked':'' ?>>
                                                                         <label style="padding-right:15px; padding-left: 5px;" for="newArrival">New Arrival</label>
                                                                     </div>
                                                                 </div>
@@ -398,9 +420,9 @@ $l2_per=$l3_per=50;
                                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mt-3">
                                                             <div class="form-floating">
                                                                 <div class="form-control visaType-wrapper" id="visaType_wrapper">
-                                                                    <input type="radio" class="visaType" name="visaType" value="visaYes" id="visaYes">
+                                                                    <input type="radio" class="visaType" name="visaType" value="visaYes" id="visaYes" <?= $package['visa_required'] == 1?'checked':'' ?>>
                                                                     <label style="padding-right:15px; padding-left: 5px;" for="visaYes">Yes</label>
-                                                                    <input type="radio" class="visaType" name="visaType" value="visaNo" id="visaNo">
+                                                                    <input type="radio" class="visaType" name="visaType" value="visaNo" id="visaNo" <?= $package['visa_required'] == 0?'checked':'' ?>>
                                                                     <label style="padding-right:15px; padding-left: 5px;" for="visaNo">No</label>
                                                                 </div>
                                                                 <small class="error-message" id="visaType_error"></small>
@@ -414,11 +436,11 @@ $l2_per=$l3_per=50;
                                                                 <div class="borderHighlight px-3 py-2">
                                                                     <label>Drop Price (Optional) <span class="required"></span></label>
                                                                     <div class="form-check form-switch">
-                                                                        <input class="form-check-input" type="checkbox" role="switch" id="dropPriceCheck">
+                                                                        <input class="form-check-input" type="checkbox" role="switch" id="dropPriceCheck" <?= $package['drop_price_status'] == 1?'checked':'' ?>>
                                                                         <label class="form-check-label" for="dropPriceCheck">Enable Drop Price</label>
                                                                     </div>
                                                                     <div class="form-floating my-2">
-                                                                        <input id="dropPrice" class="form-control" type="number" name="dropPrice">
+                                                                        <input id="dropPrice" class="form-control" type="number" name="dropPrice" value="<?= $package['drop_price_amount'] ?>">
                                                                         <label for="dropPrice" class="required">Drop Price Per Person (&#8377;)</label>
                                                                         <small class="error-message" id="dropPrice_error"></small>
                                                                     </div>
@@ -439,28 +461,28 @@ $l2_per=$l3_per=50;
                                                     <div class="row">
                                                         <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                             <div class="form-floating my-3">
-                                                                <input type="text" id="destination" name="destination" placeholder="Destination" class="form-control">
+                                                                <input type="text" id="destination" name="destination" placeholder="Destination" class="form-control" value="<?= $package['destination'] ?>">
                                                                 <label for="destination" class="required">Destination</label>
                                                                 <small class="error-message" id="destination_error"></small>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                             <div class="form-floating my-3">
-                                                                <input type="text" id="travelFrom" name="travelFrom" value="" placeholder="Transfer From" class="form-control">
+                                                                <input type="text" id="travelFrom" name="travelFrom" value="<?= $package['travel_from'] ?>" placeholder="Transfer From" class="form-control">
                                                                 <label for="travelFrom" class="required">Pick Up Point</label>
                                                                 <small class="error-message" id="travelFrom_error"></small>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                             <div class="form-floating my-3">
-                                                                <input type="text" id="travelTo" name="travelTo" value="" placeholder="Transfer To" class="form-control">
+                                                                <input type="text" id="travelTo" name="travelTo" value="<?= $package['travel_to'] ?>" placeholder="Transfer To" class="form-control">
                                                                 <label for="travelTo" class="required">Drop Point</label>
                                                                 <small class="error-message" id="travelTo_error"></small>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                             <div class="form-floating mb-3">
-                                                                <input type="text" id="sightseeingType" name="sightseeingType" value="" placeholder="Sightseeing Type" class="form-control">
+                                                                <input type="text" id="sightseeingType" name="sightseeingType" value="<?= $package['sightseeing_type'] ?>" placeholder="Sightseeing Type" class="form-control">
                                                                 <label for="sightseeingType" class="required">Sightseeing Type</label>
                                                                 <small class="error-message" id="sightseeingType_error"></small>
                                                             </div>
@@ -469,18 +491,28 @@ $l2_per=$l3_per=50;
                                                             <div class="form-floating mb-3">
                                                                 <select id="categoryHotelId" name="categoryHotelId" class="selectdesign form-select">
                                                                     <?php
+                                                                    $selected = $package['category_hotel_id'];
+
                                                                     $cat_data_hotel = $conn->prepare("SELECT * FROM category_hotel");
                                                                     $cat_data_hotel->execute();
-                                                                    // set the resulting array to associative
-                                                                    $cat_data_hotel->setFetchMode(PDO::FETCH_ASSOC);
 
                                                                     if ($cat_data_hotel->rowCount() > 0) {
+
                                                                         echo '<option value="0">--Select Hotel Ratings--</option>';
-                                                                        foreach (($cat_data_hotel->fetchAll()) as $key => $row) {
-                                                                            echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
+
+                                                                        foreach ($cat_data_hotel->fetchAll(PDO::FETCH_ASSOC) as $row) {
+
+                                                                            $isSelected = ($row['id'] == $selected) ? 'selected' : '';
+
+                                                                            echo '<option value="' . $row['id'] . '" ' . $isSelected . '>'
+                                                                                    . htmlspecialchars($row['name']) .
+                                                                                '</option>';
                                                                         }
+
                                                                     } else {
-                                                                        echo '<option value="0"> No Hotels Available </option>';
+
+                                                                        echo '<option value="0">No Hotels Available</option>';
+
                                                                     }
                                                                     ?>
                                                                 </select>
@@ -492,18 +524,28 @@ $l2_per=$l3_per=50;
                                                             <div class="form-floating mb-3 form">
                                                                 <select id="occupancyId" name="occupancyId" class="form-select">
                                                                     <?php
+                                                                    $selected = $package['category_occupancy_id'];
+
                                                                     $cat_data_occupancy = $conn->prepare("SELECT * FROM category_occupancy");
                                                                     $cat_data_occupancy->execute();
-                                                                    // set the resulting array to associative
-                                                                    $cat_data_occupancy->setFetchMode(PDO::FETCH_ASSOC);
 
                                                                     if ($cat_data_occupancy->rowCount() > 0) {
+
                                                                         echo '<option value="0">--Select Occupancy Type--</option>';
-                                                                        foreach (($cat_data_occupancy->fetchAll()) as $key => $row) {
-                                                                            echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
+
+                                                                        foreach ($cat_data_occupancy->fetchAll(PDO::FETCH_ASSOC) as $row) {
+
+                                                                            $isSelected = ($row['id'] == $selected) ? 'selected' : '';
+
+                                                                            echo '<option value="' . $row['id'] . '" ' . $isSelected . '>'
+                                                                                . htmlspecialchars($row['name']) .
+                                                                                '</option>';
                                                                         }
+
                                                                     } else {
-                                                                        echo '<option value="0"> No Occupancy Available </option>';
+
+                                                                        echo '<option value="0">No Occupancy Available</option>';
+
                                                                     }
                                                                     ?>
                                                                 </select>
@@ -516,18 +558,28 @@ $l2_per=$l3_per=50;
                                                             <div class="form-floating mb-3">
                                                                 <select id="categoryMealId" name="categoryMealId" class="form-select">
                                                                     <?php
+                                                                    $selected = $package['category_meal_id'];
+
                                                                     $cat_data_meal = $conn->prepare("SELECT * FROM category_meal");
                                                                     $cat_data_meal->execute();
-                                                                    // set the resulting array to associative
-                                                                    $cat_data_meal->setFetchMode(PDO::FETCH_ASSOC);
 
                                                                     if ($cat_data_meal->rowCount() > 0) {
+
                                                                         echo '<option value="0">--Select Meal Type--</option>';
-                                                                        foreach (($cat_data_meal->fetchAll()) as $key => $row) {
-                                                                            echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
+
+                                                                        foreach ($cat_data_meal->fetchAll(PDO::FETCH_ASSOC) as $row) {
+
+                                                                            $isSelected = ($row['id'] == $selected) ? 'selected' : '';
+
+                                                                            echo '<option value="' . $row['id'] . '" ' . $isSelected . '>'
+                                                                                . htmlspecialchars($row['name']) .
+                                                                                '</option>';
                                                                         }
+
                                                                     } else {
-                                                                        echo '<option value="0"> No Meal Available </option>';
+
+                                                                        echo '<option value="0">No Meal Available</option>';
+
                                                                     }
                                                                     ?>
                                                                 </select>
@@ -539,18 +591,28 @@ $l2_per=$l3_per=50;
                                                             <div class="form-floating mb-3">
                                                                 <select id="vehicleId" name="vehicleId" class="form-select">
                                                                     <?php
+                                                                    $selected = $package['category_vehicle_id'];
+
                                                                     $cat_data_vehicle = $conn->prepare("SELECT * FROM category_vehicle");
                                                                     $cat_data_vehicle->execute();
-                                                                    // set the resulting array to associative
-                                                                    $cat_data_vehicle->setFetchMode(PDO::FETCH_ASSOC);
 
                                                                     if ($cat_data_vehicle->rowCount() > 0) {
+
                                                                         echo '<option value="0">--Select Vehicle Type--</option>';
-                                                                        foreach (($cat_data_vehicle->fetchAll()) as $key => $row) {
-                                                                            echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
+
+                                                                        foreach ($cat_data_vehicle->fetchAll(PDO::FETCH_ASSOC) as $row) {
+
+                                                                            $isSelected = ($row['id'] == $selected) ? 'selected' : '';
+
+                                                                            echo '<option value="' . $row['id'] . '" ' . $isSelected . '>'
+                                                                                . htmlspecialchars($row['name']) .
+                                                                                '</option>';
                                                                         }
+
                                                                     } else {
-                                                                        echo '<option value="0"> No Vehicle Available </option>';
+
+                                                                        echo '<option value="0">No Vehicle Available</option>';
+
                                                                     }
                                                                     ?>
                                                                 </select>
@@ -561,7 +623,7 @@ $l2_per=$l3_per=50;
                                                         </div>
                                                         <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                             <div class="form-floating mb-3">
-                                                                <input type="text" id="languageType" name="languageType" value="" placeholder="Language Type" class="form-control">
+                                                                <input type="text" id="languageType" name="languageType" value="<?= $package['language_type'] ?>" placeholder="Language Type" class="form-control">
                                                                 <label for="languageType" class="required">Language Type</label>
                                                                 <small class="error-message" id="languageType_error"></small>
                                                             </div>
@@ -570,7 +632,24 @@ $l2_per=$l3_per=50;
                                                             <div class="highlights-section p-3 packageKeyWords-wrapper" id="packageKeyWords_wrapper">
                                                                 <label class="highlight-label">Package Keyword</label>
                                                                 <div class="highlight-container" id="packageKeyWords">
-                                                                    
+                                                                    <?php
+                                                                    if (!empty($package['package_keywords'])) {
+
+                                                                        $keywords = json_decode($package['package_keywords'], true);
+
+                                                                        if (is_array($keywords)) {
+                                                                            foreach ($keywords as $keyword) {
+                                                                                ?>
+                                                                                <div class="highlight-tag package-tag"
+                                                                                    data-package-key="<?= htmlspecialchars($keyword) ?>">
+                                                                                    <span class="package-name"><?= htmlspecialchars($keyword) ?></span>
+                                                                                    <span class="remove-btn">&times;</span>
+                                                                                </div>
+                                                                                <?php
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    ?>
                                                                 </div>
                                                                 <div class="add-highlight">
                                                                     <a href="#" id="addPackageKeywordBtn">+ Add Keyword</a>
@@ -597,17 +676,47 @@ $l2_per=$l3_per=50;
                                                                     <a href="#" id="hightlightBtn" class="remarkTitle">+ Add Items</a>
                                                                 </div>
                                                                 <div class="p-3" id="hightlightList">
-                                                                    <div class="remark-item d-flex justify-content-between align-items-start mb-2">
-                                                                        <p class="mb-0 remark-text">Placeholder Text</p>
-                                                                        <div class="d-flex gap-3">
-                                                                            <a href="#" class="edit-remark text-primary">
-                                                                                <i class="fa-solid fa-pencil"></i>
-                                                                            </a>
-                                                                            <a href="#" class="delete-remark text-danger">
-                                                                                <i class="fa-solid fa-trash-can"></i>
-                                                                            </a>
-                                                                        </div>
-                                                                    </div>
+                                                                    <?php
+                                                                    $highlights = json_decode($itineraryDetails['highlights'], true);
+
+                                                                    if (is_array($highlights) && !empty($highlights)) {
+
+                                                                        foreach ($highlights as $highlight) {
+                                                                            ?>
+                                                                            <div class="remark-item d-flex justify-content-between align-items-start mb-2">
+                                                                                <p class="mb-0 remark-text"><?= htmlspecialchars($highlight) ?></p>
+
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-remark text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+
+                                                                                    <a href="#" class="delete-remark text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <?php
+                                                                        }
+
+                                                                    } else {
+                                                                        ?>
+                                                                        <div class="remark-item d-flex justify-content-between align-items-start mb-2">
+                                                                                <p class="mb-0 remark-text">Placeholder Text</p>
+
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-remark text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+
+                                                                                    <a href="#" class="delete-remark text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                        <?php
+                                                                    }
+                                                                    ?>
                                                                 </div>
                                                                 <small class="error-message" id="hightlightList_error"></small>
                                                             </div>
@@ -631,17 +740,45 @@ $l2_per=$l3_per=50;
                                                                     <a href="#" id="addInclusionBtn" class="remarkTitle">+ Add Items</a>
                                                                 </div>
                                                                 <div class="p-3" id="inclusionList">
-                                                                    <div class="inclusion-item d-flex justify-content-between align-items-start mb-2">
-                                                                        <p class="mb-0 inclusion-text">Placeholder Text</p>
-                                                                        <div class="d-flex gap-3">
-                                                                            <a href="#" class="edit-inclusion text-primary">
-                                                                                <i class="fa-solid fa-pencil"></i>
-                                                                            </a>
-                                                                            <a href="#" class="delete-inclusion text-danger">
-                                                                                <i class="fa-solid fa-trash-can"></i>
-                                                                            </a>
+                                                                    <?php
+                                                                    $inclusions = json_decode($itineraryDetails['inclusion'], true);
+
+                                                                    if (is_array($inclusions) && !empty($inclusions)) {
+                                                                        foreach ($inclusions as $inclusion) {
+                                                                            ?>
+                                                                            <div class="inclusion-item d-flex justify-content-between align-items-start mb-2">
+                                                                                <p class="mb-0 inclusion-text"><?= htmlspecialchars($inclusion) ?></p>
+
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-inclusion text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+
+                                                                                    <a href="#" class="delete-inclusion text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <?php
+                                                                        }
+                                                                    } else {
+                                                                        ?>
+                                                                        <div class="inclusion-item d-flex justify-content-between align-items-start mb-2">
+                                                                            <p class="mb-0 inclusion-text">Placeholder Text</p>
+
+                                                                            <div class="d-flex gap-3">
+                                                                                <a href="#" class="edit-inclusion text-primary">
+                                                                                    <i class="fa-solid fa-pencil"></i>
+                                                                                </a>
+
+                                                                                <a href="#" class="delete-inclusion text-danger">
+                                                                                    <i class="fa-solid fa-trash-can"></i>
+                                                                                </a>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
+                                                                        <?php
+                                                                    }
+                                                                    ?>
                                                                 </div>
                                                             </div>
                                                             <small class="error-message" id="inclusionList_error"></small>
@@ -653,17 +790,45 @@ $l2_per=$l3_per=50;
                                                                     <a href="#" id="addExclutionBtn" class="remarkTitle">+ Add Items</a>
                                                                 </div>
                                                                 <div class="p-3" id="exclusionList">
-                                                                    <div class="exclusion-item d-flex justify-content-between align-items-start mb-2">
-                                                                        <p class="mb-0 exclusion-text">Placeholder Text</p>
-                                                                        <div class="d-flex gap-3">
-                                                                            <a href="#" class="edit-exclusion text-primary">
-                                                                                <i class="fa-solid fa-pencil"></i>
-                                                                            </a>
-                                                                            <a href="#" class="delete-exclusion text-danger">
-                                                                                <i class="fa-solid fa-trash-can"></i>
-                                                                            </a>
+                                                                    <?php
+                                                                    $exclusions = json_decode($itineraryDetails['exclusion'], true);
+
+                                                                    if (is_array($exclusions) && !empty($exclusions)) {
+                                                                        foreach ($exclusions as $exclusion) {
+                                                                            ?>
+                                                                            <div class="exclusion-item d-flex justify-content-between align-items-start mb-2">
+                                                                                <p class="mb-0 exclusion-text"><?= htmlspecialchars($exclusion) ?></p>
+
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-exclusion text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+
+                                                                                    <a href="#" class="delete-exclusion text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <?php
+                                                                        }
+                                                                    } else {
+                                                                        ?>
+                                                                        <div class="exclusion-item d-flex justify-content-between align-items-start mb-2">
+                                                                            <p class="mb-0 exclusion-text">Placeholder Text</p>
+
+                                                                            <div class="d-flex gap-3">
+                                                                                <a href="#" class="edit-exclusion text-primary">
+                                                                                    <i class="fa-solid fa-pencil"></i>
+                                                                                </a>
+
+                                                                                <a href="#" class="delete-exclusion text-danger">
+                                                                                    <i class="fa-solid fa-trash-can"></i>
+                                                                                </a>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
+                                                                        <?php
+                                                                    }
+                                                                    ?>
                                                                 </div>
                                                             </div>
                                                             <small class="error-message" id="exclusionList_error"></small>
@@ -675,17 +840,45 @@ $l2_per=$l3_per=50;
                                                                     <a href="#" id="addRemarkBtn" class="remarkTitle">+ Add Items</a>
                                                                 </div>
                                                                 <div class="p-3" id="remarkList">
-                                                                    <div class="remark-item d-flex justify-content-between align-items-start mb-2">
-                                                                        <p class="mb-0 remark-text">Placeholder Text</p>
-                                                                        <div class="d-flex gap-3">
-                                                                            <a href="#" class="edit-remark text-primary">
-                                                                                <i class="fa-solid fa-pencil"></i>
-                                                                            </a>
-                                                                            <a href="#" class="delete-remark text-danger">
-                                                                                <i class="fa-solid fa-trash-can"></i>
-                                                                            </a>
+                                                                    <?php
+                                                                    $remarks = json_decode($itineraryDetails['remark'], true);
+
+                                                                    if (is_array($remarks) && !empty($remarks)) {
+                                                                        foreach ($remarks as $remark) {
+                                                                            ?>
+                                                                            <div class="remark-item d-flex justify-content-between align-items-start mb-2">
+                                                                                <p class="mb-0 remark-text"><?= htmlspecialchars($remark) ?></p>
+
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-remark text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+
+                                                                                    <a href="#" class="delete-remark text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <?php
+                                                                        }
+                                                                    } else {
+                                                                        ?>
+                                                                        <div class="remark-item d-flex justify-content-between align-items-start mb-2">
+                                                                            <p class="mb-0 remark-text">Placeholder Text</p>
+
+                                                                            <div class="d-flex gap-3">
+                                                                                <a href="#" class="edit-remark text-primary">
+                                                                                    <i class="fa-solid fa-pencil"></i>
+                                                                                </a>
+
+                                                                                <a href="#" class="delete-remark text-danger">
+                                                                                    <i class="fa-solid fa-trash-can"></i>
+                                                                                </a>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
+                                                                        <?php
+                                                                    }
+                                                                    ?>
                                                                 </div>
                                                             </div>
                                                             <small class="error-message" id="remarkList_error"></small>
@@ -697,17 +890,45 @@ $l2_per=$l3_per=50;
                                                                     <a href="#" id="addThingsBtn" class="remarkTitle">+ Add Items</a>
                                                                 </div>
                                                                 <div class="p-3" id="thingsList">
-                                                                    <div class="things-item d-flex justify-content-between align-items-start mb-2">
-                                                                        <p class="mb-0 things-text">Placeholder Text</p>
-                                                                        <div class="d-flex gap-3">
-                                                                            <a href="#" class="edit-things text-primary">
-                                                                                <i class="fa-solid fa-pencil"></i>
-                                                                            </a>
-                                                                            <a href="#" class="delete-things text-danger">
-                                                                                <i class="fa-solid fa-trash-can"></i>
-                                                                            </a>
+                                                                    <?php
+                                                                    $travel_infos = json_decode($itineraryDetails['travel_info'], true);
+
+                                                                    if (is_array($travel_infos) && !empty($travel_infos)) {
+                                                                        foreach ($travel_infos as $travel_info) {
+                                                                            ?>
+                                                                            <div class="things-item d-flex justify-content-between align-items-start mb-2">
+                                                                                <p class="mb-0 things-text"><?= htmlspecialchars($travel_info) ?></p>
+
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-things text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+
+                                                                                    <a href="#" class="delete-things text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <?php
+                                                                        }
+                                                                    } else {
+                                                                        ?>
+                                                                        <div class="things-item d-flex justify-content-between align-items-start mb-2">
+                                                                            <p class="mb-0 things-text">Placeholder Text</p>
+
+                                                                            <div class="d-flex gap-3">
+                                                                                <a href="#" class="edit-things text-primary">
+                                                                                    <i class="fa-solid fa-pencil"></i>
+                                                                                </a>
+
+                                                                                <a href="#" class="delete-things text-danger">
+                                                                                    <i class="fa-solid fa-trash-can"></i>
+                                                                                </a>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
+                                                                        <?php
+                                                                    }
+                                                                    ?>
                                                                 </div>
                                                             </div>
                                                             <small class="error-message" id="thingsList_error"></small>
@@ -1440,6 +1661,7 @@ $l2_per=$l3_per=50;
                                                     </div>
                                                     <div class="row">
                                                         <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" >
+                                                            <input type="hidden" value="1" id="editFlag"/>
                                                             <a href="#" id="update_form" class="waves-effect waves-light btn-large" style=" color: white;" >Submit</a>
                                                             <!-- <a href="#" id="update_form" style="display:none"></a> -->
                                                         </div>
@@ -3301,6 +3523,13 @@ $l2_per=$l3_per=50;
                 $(insTotalId).text(`₹ ${formatNumber(totalIns)}`);
                 $(grandTotalId).text(`₹ ${formatNumber(totalComm + totalIns)}`);
             }
+            $(document).ready(function () {
+                getSubCategories(<?= (int)$package['sub_category_id']; ?>);
+            });
+
+            $(document).on('change', '#categoryId', function () {
+                getSubCategories();
+            });
         </script>
     </body>
 </html>
