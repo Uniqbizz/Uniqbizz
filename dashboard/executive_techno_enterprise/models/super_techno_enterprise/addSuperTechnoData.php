@@ -70,7 +70,15 @@
 
     $user_type="35";
     $register_by="1";
-	$status= '2';
+	$action_type = $_POST['action_type'] ?? '';
+
+    if ($action_type == 'draft') {
+        $status = '4';
+    } elseif ($action_type == 'submit') {
+        $status = '2';
+    } else {
+        $status = '0'; // Optional default
+    }
     $age = '';
     $application_id = '';
     // genarate uniq application id 
@@ -340,7 +348,7 @@
 
         $conn->commit();
 
-        echo 1;
+        echo $status;
 
     } catch (Exception $e) {
 

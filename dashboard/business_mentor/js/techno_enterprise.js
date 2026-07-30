@@ -383,7 +383,7 @@ function submitAddForm(actionType) {
                 Swal.fire({
                     icon: 'info',
                     title: 'Draft Saved',
-                    text: 'Franchisee details have been saved as a draft.',
+                    text: 'Franchisee / Techno Enterprise details have been saved as a draft.',
                     confirmButtonColor: '#0dcaf0'
                 }).then(() => {
                     location.href = "techno_enterprise_list.php";
@@ -648,7 +648,7 @@ function submitEditForm(actionType) {
                 Swal.fire({
                     icon: 'info',
                     title: 'Draft Saved',
-                    text: 'Franchisee details have been saved as a draft.',
+                    text: 'Franchisee / Techno Enterprise details have been saved as a draft.',
                     confirmButtonColor: '#0dcaf0'
                 }).then(() => {
                     location.href = "techno_enterprise_list.php";

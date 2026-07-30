@@ -217,7 +217,7 @@
                             </div>
                         </div>
                         <div class="btn" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 35px; border-radius: 50%;">
-                            <a href="add_techno_enterprise.php" style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
+                            <a href="add_institution.php" style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
                                 <i class="fa-solid fa-circle-plus fa-beat-fade fa-3x" style="color: #4b38b3;"></i>
                             </a>
                         </div>
@@ -392,7 +392,7 @@
                             
 
                             return `
-                                <form action="edit_techno_enterprise.php" method="POST" class="m-0">
+                                <form action="edit_institution.php" method="POST" class="m-0">
                                     <input
                                         type="hidden"
                                         name="id"
@@ -598,7 +598,7 @@
                         render: function(data) {
 
                             return `
-                                <form action="edit_techno_enterprise.php" method="POST" class="m-0">
+                                <form action="edit_institution.php" method="POST" class="m-0">
                                     
                                     <input
                                         type="hidden"

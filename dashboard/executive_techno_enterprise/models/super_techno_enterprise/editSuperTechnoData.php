@@ -1,13 +1,13 @@
 <?php
-require "../connect.php";
+include_once(__DIR__ . '/../../../dashboard_user_details.php');
 date_default_timezone_set('Asia/Kolkata');
 
 $current_year = date('Y');
 
 // additional information to check if user is registered or not
-$ref_id = $_POST["ref_id"]; // reference of the user - ETE260003
-$editfor = $_POST["editfor"]; // pending or confirm
-$identifier_id = $_POST["id"]; // SuperTE id value if user is not confirmed - 11 , if confirmed - STE2600011
+$ref_id        = $userId;
+$registrant    = $userFname .' '.$userLname;
+
 
 // Personal Details
 $designation          = $_POST['designation'] ?? '';
@@ -79,26 +79,23 @@ $register_by = "1";
 $fromWhom = "1";
 $operation = "Update";
 $user_type_id = "35";
+$editfor = $action_type = $_POST['actionType'] ?? '';
+
+if ($action_type == 'draft') {
+    $status = '4';
+} elseif ($action_type == 'submit') {
+    $status = '2';
+} else {
+    $status = '0'; // Optional default
+}
 
 $birthYear = !empty($bdate) ? date('Y', strtotime($bdate)) : $current_year;
 $age = $current_year - $birthYear;
 
 try {
+    
 
-    if ($editfor == 'pending') {
-        $stmt = $conn->prepare("SELECT application_id FROM super_techno_enterprise WHERE id = :id");
-        $stmt->execute([':id' => $identifier_id]);
-    } else {
-        $stmt = $conn->prepare("SELECT application_id FROM super_techno_enterprise WHERE super_techno_enterprise_id = :id");
-        $stmt->execute([':id' => $identifier_id]);
-    }
-    $appData = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!$appData) {
-        echo 0;
-        exit;
-    }
-
-    $application_id = $appData['application_id'];
+    $application_id = $_POST['application_id'];
 
     $conn->beginTransaction();
 
@@ -121,7 +118,8 @@ try {
         state=:state,
         city=:city,
         pincode=:pincode,
-        address=:address
+        address=:address,
+        status=:status
         WHERE application_id=:application_id");
 
     $stmt1->execute([
@@ -143,6 +141,7 @@ try {
         ':city'=>$city,
         ':pincode'=>$pincode,
         ':address'=>$address,
+        ':status'=>$status,
         ':application_id'=>$application_id
     ]);
 
@@ -159,14 +158,14 @@ try {
         WHERE application_id=:application_id");
 
     $stmt2->execute([
-        ':current_occupation'=>$current_occupation,
-        ':current_experience'=>$current_experience,
-        ':current_income'=>$current_income,
-        ':managed_team'=>$managed_team,
-        ':team_description'=>$team_description,
-        ':leadership_experience'=>$leadership_experience,
-        ':leadership_experience_other'=>$leadership_experience_other,
-        ':educational_qualification'=>$educational_qualification,
+        ':current_occupation'=>$current_occupation??'',
+        ':current_experience'=>$current_experience??'',
+        ':current_income'=>$current_income??'',
+        ':managed_team'=>$managed_team??'',
+        ':team_description'=>$team_description??'',
+        ':leadership_experience'=>$leadership_experience??'',
+        ':leadership_experience_other'=>$leadership_experience_other??'',
+        ':educational_qualification'=>$educational_qualification??'',
         ':application_id'=>$application_id
     ]);
 
@@ -178,9 +177,9 @@ try {
         WHERE application_id=:application_id");
 
     $stmt3->execute([
-        ':career_objective'=>$career_objective,
-        ':team_expected'=>$team_expected,
-        ':operating_region'=>$operating_region,
+        ':career_objective'=>$career_objective??'',
+        ':team_expected'=>$team_expected??'',
+        ':operating_region'=>$operating_region??'',
         ':application_id'=>$application_id
     ]);
 
@@ -196,11 +195,11 @@ try {
 
     $stmt4->execute([
         ':nominee_name'=>$nominee_name,
-        ':nominee_relation'=>$nominee_relation,
-        ':nominee_contact_cd'=>$nominee_contact_cd,
-        ':nominee_contact_no'=>$nominee_contact_no,
-        ':nominee_date_of_birth'=>$nominee_date_of_birth,
-        ':nominee_address'=>$nominee_address,
+        ':nominee_relation'=>$nominee_relation??'',
+        ':nominee_contact_cd'=>$nominee_contact_cd??'',
+        ':nominee_contact_no'=>$nominee_contact_no??'',
+        ':nominee_date_of_birth'=>$nominee_date_of_birth??'',
+        ':nominee_address'=>$nominee_address??'',
         ':application_id'=>$application_id
     ]);
 
@@ -239,22 +238,20 @@ try {
 
     $stmt6->execute([
         ':profile_pic'=>$profile_pic,
-        ':aadhar_card'=>$aadhar_card,
-        ':pan_card'=>$pan_card,
-        ':cancelled_cheque_bank_passbook'=>$cancelled_cheque_bank_passbook,
-        ':resume_cv'=>$resume_cv,
-        ':address_proof'=>$address_proof,
-        ':professional_profile'=>$professional_profile,
-        ':business_profile'=>$business_profile,
-        ':income_proof'=>$income_proof,
-        ':other_document'=>$other_document,
-        ':nominee_profile' => $nominee_profile,
+        ':aadhar_card'=>$aadhar_card??'',
+        ':pan_card'=>$pan_card??'',
+        ':cancelled_cheque_bank_passbook'=>$cancelled_cheque_bank_passbook??'',
+        ':resume_cv'=>$resume_cv??'',
+        ':address_proof'=>$address_proof??'',
+        ':professional_profile'=>$professional_profile??'',
+        ':business_profile'=>$business_profile??'',
+        ':income_proof'=>$income_proof??'',
+        ':other_document'=>$other_document??'',
+        ':nominee_profile' => $nominee_profile??'',
         ':application_id'=>$application_id
     ]);
 
-    $message = ($editfor == 'pending')
-        ? "Updated Super Techno Enterprise details from pending list"
-        : $identifier_id . " details updated from registered list";
+    $message = "Updated Super Techno Enterprise details from pending list";
 
     $stmt7 = $conn->prepare("INSERT INTO logs
         (title,message,message2,reference_no,register_by,from_whom,operation)
@@ -282,14 +279,15 @@ try {
     }
 
     $conn->commit();
-    echo 1;
+    echo $status;
 
 } catch (Exception $e) {
-
+    
     if ($conn->inTransaction()) {
+        
         $conn->rollBack();
     }
-
+    // echo "Error: " . $e->getMessage();
     echo 0;
 }
 ?>

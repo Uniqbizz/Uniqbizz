@@ -150,14 +150,14 @@
                                     <div class="mb-3">
                                         <label for="lastname" class="form-label fw-bold">Last Name <span class="text-danger fw-bolder">*</span></label>
                                         <input type="text" class="form-control" id="lastname" placeholder="Enter last name" required>
-                                        <small class="error-message" id="firstname_error"></small>
+                                        <small class="error-message" id="lastname_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3 dateBirth">
                                         <label for="dob" class="form-label fw-bold">Date of Birth <span class="text-danger fw-bolder">*</span></label>
                                         <input type="date" class="form-control" id="dob" placeholder="dd-mm-yyyy"onfocus="this.type='date'" onblur="if(!this.value)this.type='text'" required>
-                                        <small class="error-message" id="firstname_error"></small>
+                                        <small class="error-message" id="dob_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
@@ -386,6 +386,7 @@
                                                     <div class="input-block">
                                                         <label class="col-form-label" for="transactionNo">Transaction No.<span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="transactionNo" placeholder="Enter your Transaction No.">
+                                                        <small class="error-message" id="transactionNo_error"></small>
                                                     </div>
                                                 </div>
                                             </div>

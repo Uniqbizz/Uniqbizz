@@ -541,6 +541,20 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control {
     justify-content: center;
     align-items: center;
 }
+.teDeletedBtn {
+    background-color: #ffefd8;
+    color: #870c0c;
+    border: 1px solid #f40909;
+    font-weight: 900;
+    padding: 3px 0px;
+}
+.teDraftBtn {
+    background-color: #d8e8ff;
+    color: #0996f4;
+    border: 1px solid #095bf4;
+    font-weight: 900;
+    padding: 3px 0px;
+}
 .tePendingIcon1 {
     background-color: #35239a;
     color: #fff;

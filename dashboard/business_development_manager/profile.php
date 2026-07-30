@@ -543,7 +543,7 @@
                                 'src',
                                 profile.profile_pic
                                     ? '../../uploading/'+profile.profile_pic
-                                    : '../assets/images/users/avatar-4.jpg'
+                                    : '../../uploading/not_uploaded.png'
                             );
 
                             $('#profileName').text(profile.profile_name || '');
@@ -846,7 +846,7 @@
 
                         const docs = [
                             {
-                                url: data.profile_pic?'../../uploading/'+data.profile_pic:'',
+                                url: data.profile_pic?'../../uploading/'+data.profile_pic:'../../uploading/not_uploaded.png',
                                 status: 'Approved',
                                 preview: 'preview1',
                                 view: 'view1',
@@ -854,7 +854,7 @@
                                 docKey: 'profile_pic'
                             },
                             {
-                                url: data.id_proof?'../../uploading/'+data.id_proof:'',
+                                url: data.id_proof?'../../uploading/'+data.id_proof:'../../uploading/not_uploaded.png',
                                 status: 'Approved',
                                 preview: 'preview2',
                                 view: 'view2',
@@ -862,7 +862,7 @@
                                 docKey: 'aadhar_card'
                             },
                             {
-                                url: data.bank_details?'../../uploading/'+data.bank_details:'',
+                                url: data.bank_details?'../../uploading/'+data.bank_details:'../../uploading/not_uploaded.png',
                                 status: 'Approved',
                                 preview: 'preview4',
                                 view: 'view4',

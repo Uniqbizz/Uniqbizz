@@ -46,6 +46,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="../assets/css/verification.css"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <link rel="stylesheet" href="../assets/css/validation.css" />
     </head>
     <body>
  
@@ -89,6 +90,8 @@
             <!-- Start right Content here -->
             <!-- ============================================================== -->
             <div class="main-content">
+                <div id="testpho"></div>
+                <div id="testemail"></div>
                 <div class="page-content">
                     <div class="container-fluid">
 
@@ -150,6 +153,7 @@
                                                     
                                                 </div>
                                                 <input class="form-control" type="text" id="firstname" value="">
+                                                <small class="error-message" id="firstname_error"></small>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -168,6 +172,7 @@
                                                     
                                                 </div>
                                                 <input class="form-control" type="text" id="lastname" value=" <?php //echo $lastname; ?>">
+                                                <small class="error-message" id="lastname_error"></small>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -186,6 +191,7 @@
                                                     
                                                 </div>
                                                 <input class="form-control" type="text" id="father_spouse_name" value=" <?php //echo $father_spouse_name; ?>">
+                                                <small class="error-message" id="father_spouse_name_error"></small>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -204,6 +210,7 @@
                                                     
                                                 </div>
                                                 <input class="form-control" type="email" id="email" value="<?php //echo $email;?>">
+                                                <small class="error-message" id="email_error"></small>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -222,6 +229,7 @@
                                                     
                                                 </div>
                                                 <input class="form-control" type="date" id="dob" value="<?php //echo $date_of_birth ;?>">
+                                                <small class="error-message" id="dob_error"></small>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-12">
@@ -239,11 +247,12 @@
                                                     </div>
                                                     
                                                 </div>
-                                                <div class="form-control d-flex justify-content-around">
+                                                <div class="form-control d-flex justify-content-around gender-wrapper" id="gender_wrapper">
                                                     <label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender form-check-input" id="test3" value="male" <?php //if ($gender == 'male'){echo ' checked ';} ?>>&nbsp;&nbsp;&nbsp;Male</label>
                                                     <label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender form-check-input" id="test4" value="female" <?php //if ($gender == 'female'){echo ' checked ';} ?>>&nbsp;&nbsp;&nbsp;Female</label>
                                                     <label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender form-check-input" id="test5" value="others" <?php //if ($gender == 'others'){echo ' checked ';} ?>>&nbsp;&nbsp;&nbsp;Other</label>
                                                 </div>
+                                                <small class="error-message" id="gender_error"></small>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-12 mb-3">
@@ -268,6 +277,7 @@
                                                                 } 
                                                             ?>
                                                         </select>
+                                                        <small class="error-message" id="country_cd_error"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-8 col-sm-8 col-9">
@@ -286,6 +296,7 @@
                                                             
                                                         </div>
                                                         <input class="form-control" type="text" id="phone" value=" <?php //echo $contact_no; ?>">
+                                                        <small class="error-message" id="phone_error"></small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -312,6 +323,7 @@
                                                                 } 
                                                             ?>
                                                         </select>
+                                                        <small class="error-message" id="country_cd_alt_error"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-8 col-sm-8 col-9">
@@ -330,6 +342,7 @@
                                                             
                                                         </div>
                                                         <input class="form-control" type="text" id="altPhone" value=" <?php //echo $alternative_contact_no; ?>">
+                                                        <small class="error-message" id="altPhone_error"></small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -348,6 +361,7 @@
                                                     
                                                 </div>
                                                 <input class="form-control" type="text" id="aadharNo" value=" <?php //echo $aadhar_no; ?>">
+                                                <small class="error-message" id="aadharNo_error"></small>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-6">
@@ -366,6 +380,7 @@
                                                     
                                                 </div>
                                                 <input class="form-control" type="text" id="panNo" value=" <?php // echo $pan_no; ?>">
+                                                <small class="error-message" id="panNo_error"></small>
                                             </div>
                                         </div>
                                     </div>
@@ -386,7 +401,6 @@
                                                 
                                             </div>
 											<div class="upload-card" data-title="Profile Photo" data-index="1">
-                                                <input type="hidden" id="img_path1" value="">
 												<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file1">
 												<div class="upload-content">
 													<div class="upload-icon">
@@ -445,6 +459,7 @@
                                                 } 
                                             ?>
                                         </select>
+                                        <small class="error-message" id="country_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
@@ -460,6 +475,7 @@
                                             ?>
                                             <option value="">--Select country first--</option>
                                         </select>
+                                        <small class="error-message" id="mystate_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
@@ -475,18 +491,22 @@
                                             ?>
                                             <option value="">--Select state first--</option>
                                         </select>
+                                        <small class="error-message" id="city_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">  
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">Pincode<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="pin" placeholder="Pincode" value="<?php //echo $pincode; ?>" readonly >
+                                        <small class="error-message" id="pin_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-sm-12">  
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">Address<span class="text-danger">*</span></label>
                                         <textarea class="form-control" type="text" id="address" rows="3"><?php //echo $address ?></textarea>
+                                        
+                                        <small class="error-message" id="address_error"></small>
                                     </div>
                                 </div>
                             </div>
@@ -512,33 +532,38 @@
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">Current Occupation / Business<span class="text-danger">*</span></label>
                                         <input class="form-control" type="text" id="occupation" value=" <?php //echo $current_occupation; ?>">
+                                        <small class="error-message" id="occupation_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">Total Experience<span class="text-danger">*</span></label>
                                         <input class="form-control" type="text" id="experience" value=" <?php //echo $current_experience; ?>">
+                                        <small class="error-message" id="experience_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">Current Annual Income<span class="text-danger">*</span></label>
                                         <input class="form-control" type="text" id="annual_income" value=" <?php //echo $current_income; ?>">
+                                        <small class="error-message" id="annual_income_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="col-form-label">Have You Managed teams Previously <span class="text-danger">*</span></label>
-                                        <div class="form-control d-flex justify-content-around">
+                                        <div class="form-control d-flex justify-content-around gender-wrapper" id="teamManaged_wrapper">
                                             <label class="radio-inline mb-0 ms-3"><input type="radio" name="teamManaged" class="teamManaged" id="teamManagedYes" value="yes" <?php //if ($managed_team == 'yes'){echo ' checked ';} ?> >&nbsp;&nbsp;&nbsp;Yes</label>
                                             <label class="radio-inline mb-0 ms-3"><input type="radio" name="teamManaged" class="teamManaged" id="teamManagedNo" value="no" <?php //if ($managed_team == 'no'){echo ' checked ';} ?> >&nbsp;&nbsp;&nbsp;No</label>
                                         </div>
+                                        <small class="error-message" id="teamManaged_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">If Yes, Team size<span class="text-danger">*</span></label>
                                         <textarea class="form-control" id="teamSize" rows="4" cols="50"> <?php //echo htmlspecialchars($team_description); ?> </textarea>
+                                        <small class="error-message" id="teamSize_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
@@ -549,7 +574,7 @@
 
                                         <div class="row mt-2">
                                             <!-- Left Column -->
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 gender-wrapper" id="leadership_wrapper">
                                                 <div class="mb-2">
                                                     <input type="checkbox" class="leadership" id="lead1" name="leadership[]" value="Sales Leadership" <?php // in_array('Sales Leadership', $selectedLeadership ?? []) ? 'checked' : '' ?>>
                                                     <label for="lead1">Sales Leadership</label>
@@ -582,6 +607,7 @@
                                             </div>
                                             <input type="hidden" name="leadership_json" id="leadership_json">
                                         </div>
+                                        <small class="error-message" id="leadership_error"></small>
                                     </div>
                                 </div>
                             </div>
@@ -607,6 +633,7 @@
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">Educational Qualification<span class="text-danger">*</span></label>
                                         <input class="form-control" type="text" id="qualification" value="<?php // $educational_qualification; ?>">
+                                        <small class="error-message" id="qualification_error"></small>
                                     </div>
                                 </div>
                             </div>
@@ -632,6 +659,7 @@
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">Why You want to become a Chief Techno Enterprise?<span class="text-danger">*</span></label>
                                         <textarea class="form-control" id="career_objective" rows="4" cols="50"> <?php // $career_objective; ?></textarea>
+                                        <small class="error-message" id="career_objective_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
@@ -640,7 +668,7 @@
                                             Expected Team Building Capacity(Within 12 Months) <span class="text-danger">*</span>
                                         </label>
                                         <div class="row mt-2">
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 gender-wrapper" id="teamCap_wrapper">
                                                 <div class="mb-2">
                                                     <input type="radio" id="expected1" name="teamExpected" class="teamExpected" value="5" <?php //if ($team_expected == '5'){echo ' checked ';} ?>>
                                                     <label for="expected1">5 Techno Enterprise</label>
@@ -660,6 +688,7 @@
                                                     <label for="expected4">25+ Techno Enterprise</label>
                                                 </div>
                                             </div>
+                                            <small class="error-message" id="teamCap_error"></small>
                                         </div>
                                     </div>
                                 </div>
@@ -686,6 +715,7 @@
                                             }
                                             ?>
                                         </select>
+                                        <small class="error-message" id="OperatingState_error"></small>
                                     </div>
                                 </div>
                             </div>
@@ -715,6 +745,7 @@
                                                        
                                                 </div>
                                                 <input class="form-control" type="text" id="nomineeName" value="<?php // $nominee_name; ?>" >
+                                                <small class="error-message" id="nomineeName_error"></small>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-6">
@@ -733,6 +764,7 @@
                                                     
                                                 </div>
                                                 <input class="form-control" type="text" id="nomineeRelation" value="<?php // $nominee_relation; ?>" >
+                                                <small class="error-message" id="nomineeRelation_error"></small>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-12 mb-3">
@@ -757,12 +789,13 @@
                                                             }
                                                             ?>
                                                         </select>
+                                                        <small class="error-message" id="countryCdNominee_error"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-8 col-sm-8 col-9">
                                                     <div class="input-block">
                                                         <div class="verify-field">
-                                                            <label class="col-form-label">Nominee Phone Number <span class="text-danger">*</span></label>
+                                                            <label class="col-form-label">Nominee Phone No. <span class="text-danger">*</span></label>
                                                             
                                                             <div class="verify-toggle">
                                                                 <input type="radio" name="verification_status[nominee_phone]" id="nominee_phone_approve" class="approve_reason" value="approved" <?php // isChecked($verificationPayload, 'nominee_phone', 'approved'); ?> >
@@ -775,6 +808,7 @@
                                                             
                                                         </div>
                                                         <input class="form-control" type="number" id="nomineePhone" placeholder="Enter Nominee Phone Number" value="<?php // $nominee_contact_no; ?>" >
+                                                        <small class="error-message" id="nomineePhone_error"></small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -795,6 +829,7 @@
                                                     
                                                 </div>
                                                 <input class="form-control" type="date" id="nomineeDob" value="<?php //echo $nominee_date_of_birth; ?>">
+                                                <small class="error-message" id="nomineeDob_error"></small>
                                             </div>
                                         </div>
                                         <div class="col-md-12 col-sm-6">
@@ -813,6 +848,7 @@
                                                     
                                                 </div>
                                                 <textarea class="form-control" type="text" id="nomineeAddress" rows="3"><?php // $nominee_address; ?></textarea>
+                                                <small class="error-message" id="nomineeAddress_error"></small>
                                             </div>
                                         </div>
                                     </div>
@@ -833,7 +869,6 @@
                                                 
                                             </div>
 											<div class="upload-card" data-title="Nominee Profile Photo" data-index="13">
-                                                <input type="hidden" id="img_path13" value="">
 												<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file13">
 												<div class="upload-content">
 													<div class="upload-icon">
@@ -872,6 +907,7 @@
                                             
                                         </div>
                                         <input class="form-control" type="text" id="accHolderName" value="<?php // $account_holder_name;  ?>" >
+                                        <small class="error-message" id="accHolderName_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
@@ -890,6 +926,7 @@
                                             
                                         </div>
                                         <input class="form-control" type="text" id="bankName" value="<?php // $bank_name;  ?>" >
+                                        <small class="error-message" id="bankName_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
@@ -908,12 +945,14 @@
                                             
                                         </div>
                                         <input class="form-control" type="text" id="accountNumber" value="<?php // $account_number;  ?>" >
+                                        <small class="error-message" id="accountNumber_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label">Confirm Account Number<span class="text-danger">*</span></label>
                                         <input class="form-control" type="text" id="confirmAccountNumber" value="<?php // $account_number;  ?>" >
+                                        <small class="error-message" id="confirmAccountNumber_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
@@ -932,6 +971,7 @@
                                             
                                         </div>
                                         <input class="form-control" type="text" id="ifscCode" value="<?php // $ifsc_code;  ?>" >
+                                        <small class="error-message" id="ifscCode_error"></small>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
@@ -950,6 +990,7 @@
                                             
                                         </div>
                                         <input class="form-control" type="text" id="branchName" value="<?php // $branch_name;  ?>" >
+                                        <small class="error-message" id="branchName_error"></small>
                                     </div>
                                 </div>
                             </div>
@@ -977,7 +1018,6 @@
                                             
                                         </div>
 										<div class="upload-card" data-title="Aadhaar Card" data-index="2">
-                                            <input type="hidden" id="img_path2" value="">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file2">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -1005,7 +1045,6 @@
                                             
                                         </div>
 										<div class="upload-card" data-title="PAN Card" data-index="3">
-                                            <input type="hidden" id="img_path3" value="">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file3">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -1033,7 +1072,6 @@
                                             
                                         </div>
 										<div class="upload-card" data-title="Bank Passbook" data-index="4">
-                                            <input type="hidden" id="img_path4" value="">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file4">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -1061,7 +1099,6 @@
                                             
                                         </div>
 										<div class="upload-card" data-title="Resume / CV" data-index="5">
-                                            <input type="hidden" id="img_path5" value="">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file5">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -1088,7 +1125,6 @@
                                             
                                         </div>
 										<div class="upload-card" data-title="Address Proof" data-index="6">
-                                            <input type="hidden" id="img_path6" value="">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file6">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -1116,7 +1152,6 @@
                                             
                                         </div>
 										<div class="upload-card" data-title="Professional Profile" data-index="7">
-                                            <input type="hidden" id="img_path7" value="">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file7">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -1143,7 +1178,6 @@
                                             
                                         </div>
 										<div class="upload-card" data-title="Business Profile" data-index="8">
-                                            <input type="hidden" id="img_path8" value="">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file8">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -1170,7 +1204,6 @@
                                             
                                         </div>
 										<div class="upload-card" data-title="Income Proof" data-index="9">
-                                            <input type="hidden" id="img_path9" value="">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file9">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -1197,7 +1230,6 @@
                                             
                                         </div>
 										<div class="upload-card" data-title="Other Document" data-index="10">
-                                            <input type="hidden" id="img_path10" value="">
 											<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file10">
 											<div class="upload-content">
 												<div class="upload-icon">
@@ -1224,7 +1256,7 @@
                                     <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftEdit">Save Draft</button>
                                     <button type="submit" class="btn actionBtn submitBtn mb-2" id="editSuperTechnoEnterprise">
                                         <i class="fa-regular fa-paper-plane me-2"></i>
-                                        Submit Techno Enterprise | Franchisee
+                                        Submit Super Techno Enterprise
                                     </button>
                                     <?php
                                         }
@@ -1342,7 +1374,7 @@
                         const file = this.files[0];
 
                         if (!file) return;
-
+                        clearFileError(this.id);
                         const card = this.closest('.upload-card');
                         const title = card.dataset.title;
                         const index = card.dataset.index;
@@ -1364,7 +1396,7 @@
 
                                     preview.innerHTML = `
                                         <img src="${e.target.result}" id="img_path${index}">
-                                        <input type="hidden" id="img_path${index}" value="../../uploading/${filePath}">
+                                        <input type="hidden" id="img_path${index}" value="../../uploading/${file.name}">
                                         <div class="file-title">
                                             ${title}
                                         </div>
@@ -1432,7 +1464,7 @@
 
                     preview.innerHTML = `
                         <img src="../../uploading/${filePath}">
-                        
+                        <input type="hidden" id="img_path${index}" value="../../uploading/${filePath}">
                         <div class="file-title">
                             ${title}
                         </div>
@@ -1455,6 +1487,7 @@
                     preview.innerHTML = `
                         <i class="fa-solid fa-file-pdf"></i>
                         <p class="mt-2 mb-0">${filePath.split('/').pop()}</p>
+                        <input type="hidden" id="img_path${index}" value="../../uploading/${filePath}">
                         <div class="file-title">
                             ${title}
                         </div>
@@ -1588,7 +1621,9 @@
                         $('#nomineeRelation').val(data.nominee_relation)
                         $('#countryCdNominee').val(data.nominee_contact_cd)
                         $('#nomineePhone').val(data.nominee_contact_no)
-                        $('#nomineeDob').val(data.nominee_date_of_birth)
+                        $('#nomineeDob').val(
+                            data.nominee_date_of_birth === '0000-00-00' ? '' : data.nominee_date_of_birth
+                        );
                         $('#nomineeAddress').val(data.nominee_address)
                         $('#accHolderName').val(data.account_holder_name)
                         $('#bankName').val(data.bank_name)

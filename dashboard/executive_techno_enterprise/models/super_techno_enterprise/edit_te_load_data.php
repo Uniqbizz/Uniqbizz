@@ -136,7 +136,7 @@
             $statesLeader = $conn->prepare("SELECT state_name FROM states WHERE id='$operating_region' AND status='1'");
             $statesLeader->execute();
             if ($statesLeader->rowCount() > 0) {
-                $statenameLeader = $statesLeader->fetch()['state_name'];
+                $statenameLeader = $statesLeader->fetch()['state_name'] ?? '';
             }
         }
     }
@@ -236,28 +236,28 @@
             'pan_no' => $row['pan_no'],
 
             // Professional & Educational
-            'current_occupation' => $current_occupation,
-            'current_experience' => $current_experience,
-            'current_income' => $current_income,
-            'managed_team' => $managed_team,
-            'team_description' => $team_description,
-            'leadership_experience' => $selectedLeadership,
-            'leadership_experience_other' => $leadership_experience_other,
-            'educational_qualification' => $educational_qualification,
+            'current_occupation' => $current_occupation ??'',
+            'current_experience' => $current_experience??'',
+            'current_income' => $current_income??'',
+            'managed_team' => $managed_team??'',
+            'team_description' => $team_description??'',
+            'leadership_experience' => $selectedLeadership??'',
+            'leadership_experience_other' => $leadership_experience_other??'',
+            'educational_qualification' => $educational_qualification??'',
 
             // Leadership Assessment
-            'career_objective' => $career_objective,
-            'team_expected' => $team_expected,
-            'operating_region' => $operating_region,
-            'operating_region_name' => $statenameLeader,
+            'career_objective' => $career_objective??'',
+            'team_expected' => $team_expected??'',
+            'operating_region' => $operating_region??'',
+            'operating_region_name' => $statenameLeader??'',
 
             // Nominee
             'nominee_name' => $nominee_name,
-            'nominee_relation' => $nominee_relation,
-            'nominee_contact_cd' => $nominee_contact_cd,
-            'nominee_contact_no' => $nominee_contact_no,
-            'nominee_date_of_birth' => $nominee_date_of_birth,
-            'nominee_address' => $nominee_address,
+            'nominee_relation' => $nominee_relation??'',
+            'nominee_contact_cd' => $nominee_contact_cd??'',
+            'nominee_contact_no' => $nominee_contact_no??'',
+            'nominee_date_of_birth' => $nominee_date_of_birth??'',
+            'nominee_address' => $nominee_address??'',
 
             // Bank
             'account_holder_name' => $account_holder_name,
@@ -268,16 +268,16 @@
 
             // Documents
             'profile_pic' => $profile_pic,
-            'aadhar_card' => $aadhar_card,
-            'pan_card' => $pan_card,
-            'cancelled_cheque_bank_passbook' => $cancelled_cheque_bank_passbook,
-            'resume_cv' => $resume_cv,
-            'address_proof' => $address_proof,
-            'professional_profile' => $professional_profile,
-            'business_profile' => $business_profile,
-            'income_proof' => $income_proof,
-            'other_document' => $other_document,
-            'nominee_profile' => $nominee_profile,
+            'aadhar_card' => $aadhar_card??'',
+            'pan_card' => $pan_card??'',
+            'cancelled_cheque_bank_passbook' => $cancelled_cheque_bank_passbook??'',
+            'resume_cv' => $resume_cv??'',
+            'address_proof' => $address_proof??'',
+            'professional_profile' => $professional_profile??'',
+            'business_profile' => $business_profile??'',
+            'income_proof' => $income_proof??'',
+            'other_document' => $other_document??'',
+            'nominee_profile' => $nominee_profile??'',
 
             //verification
             'payload' => $payload ?? [],
