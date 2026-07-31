@@ -100,97 +100,98 @@ try {
     | Package Insert
     |--------------------------------------------------------------------------
     */
+    if (!empty($mydata['general_info'])) {
+        $sql = "
+            UPDATE package
+            SET
+                category_id            = :category_id,
+                sub_category_id        = :sub_category_id,
+                package_type           = :package_type,
+                category_hotel_id      = :category_hotel_id,
+                category_occupancy_id  = :category_occupancy_id,
+                category_meal_id       = :category_meal_id,
+                name                   = :name,
+                unique_code            = :unique_code,
+                description            = :description,
+                detailed_description   = :detailed_description,
+                package_keywords       = :package_keywords,
+                destination            = :destination,
+                location               = :location,
+                travel_from            = :travel_from,
+                travel_to              = :travel_to,
+                sightseeing_type       = :sightseeing_type,
+                validity               = :validity,
+                tour_days              = :tour_days,
+                cities                 = :cities,
+                best_season            = :best_season,
+                highlight_type         = :highlight_type,
+                drop_price_status      = :drop_price_status,
+                drop_price_amount      = :drop_price_amount,
+                language_type          = :language_type,
+                visa_required          = :visa_required,
+                category_vehicle_id    = :category_vehicle_id
+            WHERE id = :package_id
+        ";
 
-    $sql = "
-        UPDATE package
-        SET
-            category_id            = :category_id,
-            sub_category_id        = :sub_category_id,
-            package_type           = :package_type,
-            category_hotel_id      = :category_hotel_id,
-            category_occupancy_id  = :category_occupancy_id,
-            category_meal_id       = :category_meal_id,
-            name                   = :name,
-            unique_code            = :unique_code,
-            description            = :description,
-            detailed_description   = :detailed_description,
-            package_keywords       = :package_keywords,
-            destination            = :destination,
-            location               = :location,
-            travel_from            = :travel_from,
-            travel_to              = :travel_to,
-            sightseeing_type       = :sightseeing_type,
-            validity               = :validity,
-            tour_days              = :tour_days,
-            cities                 = :cities,
-            best_season            = :best_season,
-            highlight_type         = :highlight_type,
-            drop_price_status      = :drop_price_status,
-            drop_price_amount      = :drop_price_amount,
-            language_type          = :language_type,
-            visa_required          = :visa_required,
-            category_vehicle_id    = :category_vehicle_id
-        WHERE id = :package_id
-    ";
+        $statement = $conn->prepare($sql);
 
-    $statement = $conn->prepare($sql);
+        $statement->execute([
+            ":package_id" => $mydata['package_id'],
 
-    $statement->execute([
-        ":package_id" => $mydata['package_id'],
+            ":category_id" => $mydata['general_info']['categoryId'],
 
-        ":category_id" => $mydata['general_info']['categoryId'],
+            ":sub_category_id" => $mydata['general_info']['subCategoryId'],
 
-        ":sub_category_id" => $mydata['general_info']['subCategoryId'],
+            ":package_type" => $mydata['general_info']['travelTheme'],
 
-        ":package_type" => $mydata['general_info']['travelTheme'],
+            ":category_hotel_id" => $mydata['extra_info']['categoryHotelId'],
 
-        ":category_hotel_id" => $mydata['extra_info']['categoryHotelId'],
+            ":category_occupancy_id" => $mydata['extra_info']['occupancyId'],
 
-        ":category_occupancy_id" => $mydata['extra_info']['occupancyId'],
+            ":category_meal_id" => $mydata['extra_info']['categoryMealId'],
 
-        ":category_meal_id" => $mydata['extra_info']['categoryMealId'],
+            ":name" => $mydata['general_info']['packName'],
 
-        ":name" => $mydata['general_info']['packName'],
+            ":unique_code" => $mydata['general_info']['uniqueCode'],
 
-        ":unique_code" => $mydata['general_info']['uniqueCode'],
+            ":description" => $mydata['general_info']['description'],
 
-        ":description" => $mydata['general_info']['description'],
+            ":detailed_description" => $mydata['general_info']['descriptionDetail'],
 
-        ":detailed_description" => $mydata['general_info']['descriptionDetail'],
+            ":package_keywords" => json_encode($mydata['extra_info']['packageKeywords']),
 
-        ":package_keywords" => json_encode($mydata['extra_info']['packageKeywords']),
+            ":destination" => $mydata['extra_info']['destination'],
 
-        ":destination" => $mydata['extra_info']['destination'],
+            ":location" => $mydata['general_info']['pacLocation'],
 
-        ":location" => $mydata['general_info']['pacLocation'],
+            ":travel_from" => $mydata['extra_info']['travelFrom'],
 
-        ":travel_from" => $mydata['extra_info']['travelFrom'],
+            ":travel_to" => $mydata['extra_info']['travelTo'],
 
-        ":travel_to" => $mydata['extra_info']['travelTo'],
+            ":sightseeing_type" => $mydata['extra_info']['sightseeingType'],
 
-        ":sightseeing_type" => $mydata['extra_info']['sightseeingType'],
+            ":validity" => $mydata['general_info']['pacValidity'],
 
-        ":validity" => $mydata['general_info']['pacValidity'],
+            ":tour_days" => $mydata['general_info']['tourDays'],
 
-        ":tour_days" => $mydata['general_info']['tourDays'],
+            ":cities" => json_encode($mydata['general_info']['cities']),
 
-        ":cities" => json_encode($mydata['general_info']['cities']),
+            ":best_season" => $mydata['general_info']['season'],
 
-        ":best_season" => $mydata['general_info']['season'],
+            ":highlight_type" => $mydata['general_info']['packageType'],
 
-        ":highlight_type" => $mydata['general_info']['packageType'],
+            ":drop_price_status" => $mydata['general_info']['dropPriceCheck'],
 
-        ":drop_price_status" => $mydata['general_info']['dropPriceCheck'],
+            ":drop_price_amount" => $mydata['general_info']['dropPrice'],
 
-        ":drop_price_amount" => $mydata['general_info']['dropPrice'],
+            ":language_type" => $mydata['extra_info']['languageType'],
 
-        ":language_type" => $mydata['extra_info']['languageType'],
+            ":visa_required" => $mydata['general_info']['visaType'],
 
-        ":visa_required" => $mydata['general_info']['visaType'],
+            ":category_vehicle_id" => $mydata['extra_info']['vehicleId']
 
-        ":category_vehicle_id" => $mydata['extra_info']['vehicleId']
-
-    ]);
+        ]);
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -1073,32 +1074,14 @@ try {
         | VIDEOS
         ==========================================================================*/
 
-        /*======================================================================
-        | DELETE REMOVED VIDEOS
-        ======================================================================*/
+        // Delete all existing videos
+        $conn->prepare("
+            DELETE FROM package_pictures
+            WHERE package_id = ?
+            AND type = 'video'
+        ")->execute([$get_id]);
 
-        if (!empty($mydata['media']['deletedVideos'])) {
-
-            $stmt = $conn->prepare("
-                DELETE FROM package_pictures
-                WHERE id=?
-                AND package_id=?
-                AND type='video'
-            ");
-
-            foreach ($mydata['media']['deletedVideos'] as $videoId) {
-
-                $stmt->execute([
-                    $videoId,
-                    $get_id
-                ]);
-            }
-        }
-
-        /*======================================================================
-        | NEW VIDEOS
-        ======================================================================*/
-
+        // Insert all current videos
         if (!empty($mydata['media']['videos'])) {
 
             $stmt = $conn->prepare("
@@ -1116,27 +1099,17 @@ try {
                 )
             ");
 
-
             foreach ($mydata['media']['videos'] as $video) {
 
+                $url = trim($video['url'] ?? '');
 
-                // Skip already saved videos
-                if (!empty($video['existing'])) {
+                if ($url === '') {
                     continue;
                 }
-
-
-                if (empty($video['url'])) {
-                    continue;
-                }
-
 
                 $stmt->execute([
-
-                    ':package_id'=>$get_id,
-
-                    ':image'=>trim($video['url'])
-
+                    ':package_id' => $get_id,
+                    ':image'      => $url
                 ]);
             }
         }

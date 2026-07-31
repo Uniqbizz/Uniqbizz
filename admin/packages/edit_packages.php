@@ -1831,10 +1831,10 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" >
+                                                        <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" id="edit_package">
                                                             <input type="hidden" value="1" id="editFlag"/>
                                                             <input type="hidden" id="package_id" value="<?= $package['id'] ?>">
-                                                            <a href="#" id="edit_package" class="waves-effect waves-light btn-large" style=" color: white;" >Submit</a>
+                                                            <a href="#" class="waves-effect waves-light btn-large" style=" color: white;" >Submit</a>
                                                             <!-- <a href="#" id="update_form" style="display:none"></a> -->
                                                         </div>
                                                     </div>
