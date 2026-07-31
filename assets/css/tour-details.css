@@ -475,6 +475,37 @@ html {
     position: absolute;
     left: 0;
 }
+/* Card Section 3 */
+.packCard {
+    position: relative;
+}
+.cardCreame {
+    width: 100%;
+    display: block;
+    height: 240px;
+    border-radius: 12px;
+}
+.packContent {
+    position: absolute;
+    inset: 0; /* top:0 right:0 bottom:0 left:0 */
+    padding: 24px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+}
+.packContent .row {
+    width: 100%;
+}
+.cardPurple {
+    width: stretch;
+    height: 240px;
+    border-radius: 12px;
+}
+.checkIconGreen {
+    color: #008000;
+    font-weight: 900;
+    font-size: 18px;
+}
 @media (max-width: 1199px) {
     .image-width {
         width: 100%;
@@ -570,5 +601,11 @@ html {
         width:70px;
         height:70px;
         flex:0 0 auto;
+    }
+    .cardCreame {
+        width: 100%;
+        display: block;
+        height: 280px;
+        border-radius: 12px;
     }
 }
