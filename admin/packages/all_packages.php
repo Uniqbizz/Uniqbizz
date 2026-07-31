@@ -108,9 +108,14 @@
                                                                         <div class="dropdown">
                                                                             <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal mdi-24px" style="color: grey;"></i></a>
                                                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                                <a class="dropdown-item" href="edit_packages.php?vkvbvjfgfikix='.$row['id'].'"><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i>Edit</a>
+                                                                                <a class="dropdown-item" href="#" onclick="editPackage('.$row['id'].'); return false;">
+                                                                                    <i class="mdi mdi-pencil font-size-16 text-primary me-1"></i>Edit
+                                                                                </a>
                                                                                 <a class="dropdown-item" href="#" onclick=\'deleteData("' .$row['id']. '")\'><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i>Delete</a>
                                                                             </div>
+                                                                            <form id="editPackageForm" action="edit_packages.php" method="POST" style="display:none;">
+                                                                                <input type="hidden" name="id" id="editPackageId">
+                                                                            </form>
                                                                         </div>
                                                                     </td>
                                                                 </tr>';
@@ -204,6 +209,12 @@
                     }
                 }); 
             }   
+        }
+
+        //for edit page
+        function editPackage(id) {
+            document.getElementById("editPackageId").value = id;
+            document.getElementById("editPackageForm").submit();
         }
     </script>
 </body>

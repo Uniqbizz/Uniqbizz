@@ -1,91 +1,103 @@
 <?php
-session_start();
+    session_start();
 
-if (!isset($_SESSION['username'])) {
-    echo '<script>location.href = "../login.php";</script>';
-}
+    if (!isset($_SESSION['username'])) {
+        echo '<script>location.href = "../login.php";</script>';
+    }
 
-require '../connect.php';
-$date = date('Y');
+    require '../connect.php';
+    $date = date('Y');
 
-//product payout commission
-$data7 = $conn->prepare("SELECT * FROM `product_commission` WHERE status = 1");
-$data7->execute();
-$data7->setFetchMode(PDO::FETCH_ASSOC);
-$product_payout_data = [];
+    //product payout commission
+    $data7 = $conn->prepare("SELECT * FROM `product_commission` WHERE status = 1");
+    $data7->execute();
+    $data7->setFetchMode(PDO::FETCH_ASSOC);
+    $product_payout_data = [];
 
-while ($row = $data7->fetch(PDO::FETCH_ASSOC)) {
-    $product_payout_data[$row['role']] = $row;
-}
+    while ($row = $data7->fetch(PDO::FETCH_ASSOC)) {
+        $product_payout_data[$row['role']] = $row;
+    }
 
-//product payout commission new added on 09 may 2026
-$data8 = $conn->prepare("
-    SELECT *
-    FROM product_commission_te_chain
-    WHERE status = 1
-");
-$data8->execute();
+    //product payout commission new added on 09 may 2026
+    $data8 = $conn->prepare("
+        SELECT *
+        FROM product_commission_te_chain
+        WHERE status = 1
+    ");
+    $data8->execute();
 
-$product_payout_data_new = [];
+    $product_payout_data_new = [];
 
-while ($row = $data8->fetch(PDO::FETCH_ASSOC)) {
-    $product_payout_data_new[$row['role']] = $row;
-}
+    while ($row = $data8->fetch(PDO::FETCH_ASSOC)) {
+        $product_payout_data_new[$row['role']] = $row;
+    }
 
-//product payout commission new added on 12 may 2026
-$data9 = $conn->prepare("
-    SELECT *
-    FROM product_commission_institution
-    WHERE status = 1
-");
-$data9->execute();
+    //product payout commission new added on 12 may 2026
+    $data9 = $conn->prepare("
+        SELECT *
+        FROM product_commission_institution
+        WHERE status = 1
+    ");
+    $data9->execute();
 
-$institutionData = [];  
+    $institutionData = [];  
 
-while ($row = $data9->fetch(PDO::FETCH_ASSOC)) {
-    $institutionData['roles'][$row['role']] = [
-        'overall_percentage' => $row['overall_percentage'],
-        'comm_percentage'    => $row['comm_percentage'],
-        'ins_percentage'     => $row['ins_percentage']
-    ];
-}
-//product payout commission cte cheian
-$data11 = $conn->prepare("SELECT * FROM `product_commission_cte_ins` WHERE status = 1");
-$data11->execute();
+    while ($row = $data9->fetch(PDO::FETCH_ASSOC)) {
+        $institutionData['roles'][$row['role']] = [
+            'overall_percentage' => $row['overall_percentage'],
+            'comm_percentage'    => $row['comm_percentage'],
+            'ins_percentage'     => $row['ins_percentage']
+        ];
+    }
+    //product payout commission cte cheian
+    $data11 = $conn->prepare("SELECT * FROM `product_commission_cte_ins` WHERE status = 1");
+    $data11->execute();
 
-$institutionCteData = [];
+    $institutionCteData = [];
 
-while ($row = $data11->fetch(PDO::FETCH_ASSOC)) {
-    $institutionCteData['roles'][$row['role']] = [
-        'overall_percentage' => $row['overall_percentage'],
-        'comm_percentage'    => $row['comm_percentage'],
-        'ins_percentage'     => $row['ins_percentage']
-    ];
-}
+    while ($row = $data11->fetch(PDO::FETCH_ASSOC)) {
+        $institutionCteData['roles'][$row['role']] = [
+            'overall_percentage' => $row['overall_percentage'],
+            'comm_percentage'    => $row['comm_percentage'],
+            'ins_percentage'     => $row['ins_percentage']
+        ];
+    }
 
-//=====================================
-// Institution Slabs
-//=====================================
+    //=====================================
+    // Institution Slabs
+    //=====================================
 
-$data10 = $conn->prepare("
-    SELECT
-        institution_commission,
-        lower_limit,
-        upper_limit
-    FROM institution_slab
-    WHERE status = 1
-    ORDER BY lower_limit
-");
-$data10->execute();
+    $data10 = $conn->prepare("
+        SELECT
+            institution_commission,
+            lower_limit,
+            upper_limit
+        FROM institution_slab
+        WHERE status = 1
+        ORDER BY lower_limit
+    ");
+    $data10->execute();
 
-$slabs = $data10->fetchAll(PDO::FETCH_ASSOC);
+    $slabs = $data10->fetchAll(PDO::FETCH_ASSOC);
 
-$institutionData['slabs'] = $slabs;
-$institutionCteData['slabs'] = $slabs;
+    $institutionData['slabs'] = $slabs;
+    $institutionCteData['slabs'] = $slabs;
 
-//cutomer commission 
-$l2_per=$l3_per=50;
+    //cutomer commission 
+    $l2_per=$l3_per=50;
+    $stmt = $conn->prepare("
+        SELECT gst
+        FROM gst
+        ORDER BY id DESC
+        LIMIT 1
+    ");
 
+    $stmt->execute();
+
+    $gst = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $gstValue = $gst['gst'] ?? 0;
+    require __DIR__ . '/forms/edit_package_load.php';
 ?>
 
 <!DOCTYPE html>
@@ -93,7 +105,7 @@ $l2_per=$l3_per=50;
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Add Packages</title>
+        <title>Edit Packages</title>
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
         <!-- custom css file -->
@@ -143,7 +155,7 @@ $l2_per=$l3_per=50;
                                     <div class="p-4 d-flex justify-content-between align-items-center border-bottom">
                                         <div>
                                             <h4 id="pageTitle" class="mb-0">
-                                                Add New Package - General Information
+                                                Edit Package - General Information
                                             </h4>
                                             <small id="pageSubTitle" class="text-muted">
                                                 Return to Package Listing
@@ -215,37 +227,44 @@ $l2_per=$l3_per=50;
                                                     <div class="row">
                                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
                                                             <div class="form-floating my-3">
-                                                                <input type="text" class="form-control" id="packName" name="packName" placeholder="Package Name">
+                                                                <input type="text" class="form-control" id="packName" name="packName" placeholder="Package Name" value="<?= $package['name'] ?>">
                                                                 <label for="name" class="required">Package Name</label>
                                                                 <small class="error-message" id="packName_error"></small>
                                                             </div>
                                                         </div>
                                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
                                                             <div class="form-floating my-3">
-                                                                <input type="text" class="form-control" id="uniqueCode" name="uniqueCode" placeholder="Unique Code">
+                                                                <input type="text" class="form-control" id="uniqueCode" name="uniqueCode" placeholder="Unique Code" value="<?= $package['unique_code'] ?>">
                                                                 <label for="unique_code" class="required">Unique Code</label>
                                                                 <small class="error-message" id="uniqueCode_error"></small>
                                                             </div>
                                                         </div>
                                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
                                                             <div class="form-floating my-3">
-                                                                <select class="form-select" id="categoryId" name="categoryId" aria-label="Floating label select example" onchange="getSubCategories()">
-                                                                    <?php
-                                                                    $cat_data = $conn->prepare("SELECT * FROM category where status='1' ");
-                                                                    $cat_data->execute();
-                                                                    // set the resulting array to associative
-                                                                    $cat_data->setFetchMode(PDO::FETCH_ASSOC);
+                                                                <select class="form-select"
+                                                                    id="categoryId"
+                                                                    name="categoryId"
+                                                                    aria-label="Floating label select example"
+                                                                    onchange="getSubCategories()">
 
-                                                                    if ($cat_data->rowCount() > 0) {
-                                                                        echo '<option value="">--Select Category--</option>';
-                                                                        foreach (($cat_data->fetchAll()) as $key => $row) {
-                                                                            echo '<option value="' . $row['id'] . '">' . $row['category_name'] . '</option>';
-                                                                        }
-                                                                    } else {
-                                                                        echo '<option value=""> No Category Avaiable </option>';
+                                                                <option value="">--Select Category--</option>
+
+                                                                <?php
+                                                                $cat_data = $conn->prepare("SELECT * FROM category WHERE status='1'");
+                                                                $cat_data->execute();
+                                                                $categories = $cat_data->fetchAll(PDO::FETCH_ASSOC);
+
+                                                                if (!empty($categories)) {
+                                                                    foreach ($categories as $row) {
+                                                                        $selected = ($row['id'] == $package['category_id']) ? 'selected' : '';
+                                                                        echo '<option value="' . $row['id'] . '" ' . $selected . '>' . $row['category_name'] . '</option>';
                                                                     }
-                                                                    ?>
-                                                                </select>
+                                                                } else {
+                                                                    echo '<option value="">No Category Available</option>';
+                                                                }
+                                                                ?>
+
+                                                            </select>
                                                                 <small class="error-message" id="categoryId_error"></small>
                                                                 <label>Select Category Type <span class="required"></span></label>
                                                             </div>
@@ -265,42 +284,42 @@ $l2_per=$l3_per=50;
                                                                 <label>Travel Theme / Type <span class="required"></span></label>
                                                                 <div class="d-flex gap-4">
                                                                     <div>
-                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option1" autocomplete="off" value="Leisure">
+                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option1" autocomplete="off" value="Leisure" <?= $package['package_type'] === "Leisure"?'checked':'' ?>>
                                                                         <label class="btn fw-bold" for="option1">
                                                                             <i class="fa-solid fa-mountain-city"></i>
                                                                             Leisure
                                                                         </label>
                                                                     </div>
                                                                     <div>
-                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option2" autocomplete="off" value="Adventure">
+                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option2" autocomplete="off" value="Adventure" <?= $package['package_type'] === "Adventure"?'checked':'' ?>>
                                                                         <label class="btn fw-bold" for="option2">
                                                                             <i class="fa-solid fa-mountain-sun"></i>
                                                                             Adventure
                                                                         </label>
                                                                     </div>
                                                                     <div>
-                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option3" autocomplete="off" value="Spiritual">
+                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option3" autocomplete="off" value="Spiritual" <?= $package['package_type'] === "Spiritual"?'checked':'' ?>>
                                                                         <label class="btn fw-bold" for="option3">
                                                                             <i class="fa-solid fa-place-of-worship"></i>
                                                                             Spiritual
                                                                         </label>
                                                                     </div>
                                                                     <div>
-                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option4" autocomplete="off" value="Beach">
+                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option4" autocomplete="off" value="Beach" <?= $package['package_type'] === "Beach"?'checked':'' ?>>
                                                                         <label class="btn fw-bold" for="option4">
                                                                             <i class="fa-solid fa-umbrella-beach"></i>
                                                                             Beach
                                                                         </label>
                                                                     </div>
                                                                     <div>
-                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option5" autocomplete="off" value="Honeymoon">
+                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option5" autocomplete="off" value="Honeymoon" <?= $package['package_type'] === "Honeymoon"?'checked':'' ?>>
                                                                         <label class="btn fw-bold" for="option5">
                                                                             <i class="fa-solid fa-heart"></i>
                                                                             Honeymoon
                                                                         </label>
                                                                     </div>
                                                                     <div>
-                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option6" autocomplete="off" value="Other">
+                                                                        <input type="radio" class="btn-check travelTheme" name="travelTheme" id="option6" autocomplete="off" value="Other" <?= $package['package_type'] === "Other"?'checked':'' ?>>
                                                                         <label class="btn fw-bold" for="option6">
                                                                             <i class="fa-solid fa-crosshairs"></i>
                                                                             Other</label>
@@ -313,28 +332,28 @@ $l2_per=$l3_per=50;
                                                             <div class="row">
                                                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="number" class="form-control" id="tourDays" name="tourDays" placeholder="Unique Code">
+                                                                        <input type="number" class="form-control" id="tourDays" name="tourDays" placeholder="Unique Code" value="<?= $package['tour_days'] ?>">
                                                                         <label for="tourDays" class="required">Tour Days</label>
                                                                         <small class="error-message" id="tourDays_error"></small>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="date" class="form-control" id="pacValidity" name="pacValidity" placeholder="Package Validity">
+                                                                        <input type="date" class="form-control" id="pacValidity" name="pacValidity" placeholder="Package Validity" value="<?= $package['validity']?>">
                                                                         <label for="pacValidity" class="required">Validity Upto</label>
                                                                         <small class="error-message" id="pacValidity_error"></small>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="text" class="form-control" id="season" name="season" placeholder="Unique Code">
+                                                                        <input type="text" class="form-control" id="season" name="season" placeholder="Unique Code" value="<?= $package['best_season'] ?>">
                                                                         <label for="season">Best Season To Visit</label>
                                                                         <small class="error-message" id="season_error"></small>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="text" class="form-control" id="pacLocation" name="pacLocation" placeholder="Unique Code">
+                                                                        <input type="text" class="form-control" id="pacLocation" name="pacLocation" placeholder="Unique Code" value="<?= $package['location'] ?>">
                                                                         <label for="pacLocation" class="required">Location</label>
                                                                         <small class="error-message" id="pacLocation_error"></small>
                                                                     </div>
@@ -345,8 +364,23 @@ $l2_per=$l3_per=50;
                                                     <div class="col-lg-12 mb-3">
                                                         <div class="highlights-section p-3 highlightContainer-wrapper" id="highlightContainer_wrapper">
                                                             <label class="highlight-label required">Cities</label>
-                                                            <div class="highlight-container" id="highlightContainer" >
-                                                                
+                                                            <div class="highlight-container" id="highlightContainer">
+                                                                <?php
+                                                                if (!empty($package['cities'])) {
+                                                                    $cities = json_decode($package['cities'], true);
+
+                                                                    if (is_array($cities)) {
+                                                                        foreach ($cities as $city) {
+                                                                            ?>
+                                                                            <div class="highlight-tag" data-city="<?= htmlspecialchars($city) ?>">
+                                                                                <span class="city-name"><?= htmlspecialchars($city) ?></span>
+                                                                                <span class="remove-btn">&times;</span>
+                                                                            </div>
+                                                                            <?php
+                                                                        }
+                                                                    }
+                                                                }
+                                                                ?>
                                                             </div>
                                                             
                                                             <div class="add-highlight">
@@ -357,14 +391,14 @@ $l2_per=$l3_per=50;
                                                     </div>
                                                     <div class="col-lg-12 col-md-12 col-sm-12">
                                                         <div class="form-floating mb-3">
-                                                            <input id="description" class="form-control" type="text" name="description" placeholder="Description">
+                                                            <input id="description" class="form-control" type="text" name="description" placeholder="Description" value="<?= $package['description'] ?>">
                                                             <label for="description" class="required">Short Description</label>
                                                             <small class="error-message" id="description_error"></small>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-12 col-md-12 col-sm-12">
                                                         <div class="form-floating">
-                                                            <textarea class="form-control" placeholder="Leave a comment here" id="descriptionDetail"></textarea>
+                                                            <textarea class="form-control" placeholder="Leave a comment here" id="descriptionDetail"><?= $package['detailed_description'] ?></textarea>
                                                             <label for="descriptionDetail" class="required">Detailed Description</label>
                                                             <small class="error-message" id="descriptionDetail_error"></small>
                                                         </div>
@@ -375,19 +409,19 @@ $l2_per=$l3_per=50;
                                                             <div class="form-floating">
                                                                 <div class="form-control d-flex justify-content-between packageType-wrapper" id="packageType_wrapper">
                                                                     <div>
-                                                                        <input type="radio" class="packageType" name="packageType" value="Trending" id="trending">
+                                                                        <input type="radio" class="packageType" name="packageType" value="Trending" id="trending" <?= $package['highlight_type'] ==='Trending'?'checked':'' ?>>
                                                                         <label style="padding-right:15px; padding-left: 5px;" for="trending">Trending</label>
                                                                     </div>
                                                                     <div>
-                                                                        <input type="radio" class="packageType" name="packageType" value="Popular" id="popular">
+                                                                        <input type="radio" class="packageType" name="packageType" value="Popular" id="popular" <?= $package['highlight_type'] ==='Popular'?'checked':'' ?>>
                                                                         <label style="padding-right:15px; padding-left: 5px;" for="popular">Popular</label>
                                                                     </div>
                                                                     <div>
-                                                                        <input type="radio" class="packageType" name="packageType" value="Most Selling" id="mostSelling">
+                                                                        <input type="radio" class="packageType" name="packageType" value="Most Selling" id="mostSelling" <?= $package['highlight_type'] ==='Most Selling'?'checked':'' ?>>
                                                                         <label style="padding-right:15px; padding-left: 5px;" for="mostSelling">Most Selling</label>
                                                                     </div>
                                                                     <div>
-                                                                        <input type="radio" class="packageType" name="packageType" value="New Arrival" id="newArrival">
+                                                                        <input type="radio" class="packageType" name="packageType" value="New Arrival" id="newArrival" <?= $package['highlight_type'] ==='New Arrival'?'checked':'' ?>>
                                                                         <label style="padding-right:15px; padding-left: 5px;" for="newArrival">New Arrival</label>
                                                                     </div>
                                                                 </div>
@@ -398,9 +432,9 @@ $l2_per=$l3_per=50;
                                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mt-3">
                                                             <div class="form-floating">
                                                                 <div class="form-control visaType-wrapper" id="visaType_wrapper">
-                                                                    <input type="radio" class="visaType" name="visaType" value="visaYes" id="visaYes">
+                                                                    <input type="radio" class="visaType" name="visaType" value="visaYes" id="visaYes" <?= $package['visa_required'] == 1?'checked':'' ?>>
                                                                     <label style="padding-right:15px; padding-left: 5px;" for="visaYes">Yes</label>
-                                                                    <input type="radio" class="visaType" name="visaType" value="visaNo" id="visaNo">
+                                                                    <input type="radio" class="visaType" name="visaType" value="visaNo" id="visaNo" <?= $package['visa_required'] == 0?'checked':'' ?>>
                                                                     <label style="padding-right:15px; padding-left: 5px;" for="visaNo">No</label>
                                                                 </div>
                                                                 <small class="error-message" id="visaType_error"></small>
@@ -414,11 +448,11 @@ $l2_per=$l3_per=50;
                                                                 <div class="borderHighlight px-3 py-2">
                                                                     <label>Drop Price (Optional) <span class="required"></span></label>
                                                                     <div class="form-check form-switch">
-                                                                        <input class="form-check-input" type="checkbox" role="switch" id="dropPriceCheck">
+                                                                        <input class="form-check-input" type="checkbox" role="switch" id="dropPriceCheck" <?= $package['drop_price_status'] == 1?'checked':'' ?>>
                                                                         <label class="form-check-label" for="dropPriceCheck">Enable Drop Price</label>
                                                                     </div>
                                                                     <div class="form-floating my-2">
-                                                                        <input id="dropPrice" class="form-control" type="number" name="dropPrice">
+                                                                        <input id="dropPrice" class="form-control" type="number" name="dropPrice" value="<?= $package['drop_price_amount'] ?>">
                                                                         <label for="dropPrice" class="required">Drop Price Per Person (&#8377;)</label>
                                                                         <small class="error-message" id="dropPrice_error"></small>
                                                                     </div>
@@ -439,28 +473,28 @@ $l2_per=$l3_per=50;
                                                     <div class="row">
                                                         <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                             <div class="form-floating my-3">
-                                                                <input type="text" id="destination" name="destination" placeholder="Destination" class="form-control">
+                                                                <input type="text" id="destination" name="destination" placeholder="Destination" class="form-control" value="<?= $package['destination'] ?>">
                                                                 <label for="destination" class="required">Destination</label>
                                                                 <small class="error-message" id="destination_error"></small>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                             <div class="form-floating my-3">
-                                                                <input type="text" id="travelFrom" name="travelFrom" value="" placeholder="Transfer From" class="form-control">
+                                                                <input type="text" id="travelFrom" name="travelFrom" value="<?= $package['travel_from'] ?>" placeholder="Transfer From" class="form-control">
                                                                 <label for="travelFrom" class="required">Pick Up Point</label>
                                                                 <small class="error-message" id="travelFrom_error"></small>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                             <div class="form-floating my-3">
-                                                                <input type="text" id="travelTo" name="travelTo" value="" placeholder="Transfer To" class="form-control">
+                                                                <input type="text" id="travelTo" name="travelTo" value="<?= $package['travel_to'] ?>" placeholder="Transfer To" class="form-control">
                                                                 <label for="travelTo" class="required">Drop Point</label>
                                                                 <small class="error-message" id="travelTo_error"></small>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                             <div class="form-floating mb-3">
-                                                                <input type="text" id="sightseeingType" name="sightseeingType" value="" placeholder="Sightseeing Type" class="form-control">
+                                                                <input type="text" id="sightseeingType" name="sightseeingType" value="<?= $package['sightseeing_type'] ?>" placeholder="Sightseeing Type" class="form-control">
                                                                 <label for="sightseeingType" class="required">Sightseeing Type</label>
                                                                 <small class="error-message" id="sightseeingType_error"></small>
                                                             </div>
@@ -469,18 +503,28 @@ $l2_per=$l3_per=50;
                                                             <div class="form-floating mb-3">
                                                                 <select id="categoryHotelId" name="categoryHotelId" class="selectdesign form-select">
                                                                     <?php
+                                                                    $selected = $package['category_hotel_id'];
+
                                                                     $cat_data_hotel = $conn->prepare("SELECT * FROM category_hotel");
                                                                     $cat_data_hotel->execute();
-                                                                    // set the resulting array to associative
-                                                                    $cat_data_hotel->setFetchMode(PDO::FETCH_ASSOC);
 
                                                                     if ($cat_data_hotel->rowCount() > 0) {
+
                                                                         echo '<option value="0">--Select Hotel Ratings--</option>';
-                                                                        foreach (($cat_data_hotel->fetchAll()) as $key => $row) {
-                                                                            echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
+
+                                                                        foreach ($cat_data_hotel->fetchAll(PDO::FETCH_ASSOC) as $row) {
+
+                                                                            $isSelected = ($row['id'] == $selected) ? 'selected' : '';
+
+                                                                            echo '<option value="' . $row['id'] . '" ' . $isSelected . '>'
+                                                                                    . htmlspecialchars($row['name']) .
+                                                                                '</option>';
                                                                         }
+
                                                                     } else {
-                                                                        echo '<option value="0"> No Hotels Available </option>';
+
+                                                                        echo '<option value="0">No Hotels Available</option>';
+
                                                                     }
                                                                     ?>
                                                                 </select>
@@ -492,18 +536,28 @@ $l2_per=$l3_per=50;
                                                             <div class="form-floating mb-3 form">
                                                                 <select id="occupancyId" name="occupancyId" class="form-select">
                                                                     <?php
+                                                                    $selected = $package['category_occupancy_id'];
+
                                                                     $cat_data_occupancy = $conn->prepare("SELECT * FROM category_occupancy");
                                                                     $cat_data_occupancy->execute();
-                                                                    // set the resulting array to associative
-                                                                    $cat_data_occupancy->setFetchMode(PDO::FETCH_ASSOC);
 
                                                                     if ($cat_data_occupancy->rowCount() > 0) {
+
                                                                         echo '<option value="0">--Select Occupancy Type--</option>';
-                                                                        foreach (($cat_data_occupancy->fetchAll()) as $key => $row) {
-                                                                            echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
+
+                                                                        foreach ($cat_data_occupancy->fetchAll(PDO::FETCH_ASSOC) as $row) {
+
+                                                                            $isSelected = ($row['id'] == $selected) ? 'selected' : '';
+
+                                                                            echo '<option value="' . $row['id'] . '" ' . $isSelected . '>'
+                                                                                . htmlspecialchars($row['name']) .
+                                                                                '</option>';
                                                                         }
+
                                                                     } else {
-                                                                        echo '<option value="0"> No Occupancy Available </option>';
+
+                                                                        echo '<option value="0">No Occupancy Available</option>';
+
                                                                     }
                                                                     ?>
                                                                 </select>
@@ -516,18 +570,28 @@ $l2_per=$l3_per=50;
                                                             <div class="form-floating mb-3">
                                                                 <select id="categoryMealId" name="categoryMealId" class="form-select">
                                                                     <?php
+                                                                    $selected = $package['category_meal_id'];
+
                                                                     $cat_data_meal = $conn->prepare("SELECT * FROM category_meal");
                                                                     $cat_data_meal->execute();
-                                                                    // set the resulting array to associative
-                                                                    $cat_data_meal->setFetchMode(PDO::FETCH_ASSOC);
 
                                                                     if ($cat_data_meal->rowCount() > 0) {
+
                                                                         echo '<option value="0">--Select Meal Type--</option>';
-                                                                        foreach (($cat_data_meal->fetchAll()) as $key => $row) {
-                                                                            echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
+
+                                                                        foreach ($cat_data_meal->fetchAll(PDO::FETCH_ASSOC) as $row) {
+
+                                                                            $isSelected = ($row['id'] == $selected) ? 'selected' : '';
+
+                                                                            echo '<option value="' . $row['id'] . '" ' . $isSelected . '>'
+                                                                                . htmlspecialchars($row['name']) .
+                                                                                '</option>';
                                                                         }
+
                                                                     } else {
-                                                                        echo '<option value="0"> No Meal Available </option>';
+
+                                                                        echo '<option value="0">No Meal Available</option>';
+
                                                                     }
                                                                     ?>
                                                                 </select>
@@ -539,18 +603,28 @@ $l2_per=$l3_per=50;
                                                             <div class="form-floating mb-3">
                                                                 <select id="vehicleId" name="vehicleId" class="form-select">
                                                                     <?php
+                                                                    $selected = $package['category_vehicle_id'];
+
                                                                     $cat_data_vehicle = $conn->prepare("SELECT * FROM category_vehicle");
                                                                     $cat_data_vehicle->execute();
-                                                                    // set the resulting array to associative
-                                                                    $cat_data_vehicle->setFetchMode(PDO::FETCH_ASSOC);
 
                                                                     if ($cat_data_vehicle->rowCount() > 0) {
+
                                                                         echo '<option value="0">--Select Vehicle Type--</option>';
-                                                                        foreach (($cat_data_vehicle->fetchAll()) as $key => $row) {
-                                                                            echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
+
+                                                                        foreach ($cat_data_vehicle->fetchAll(PDO::FETCH_ASSOC) as $row) {
+
+                                                                            $isSelected = ($row['id'] == $selected) ? 'selected' : '';
+
+                                                                            echo '<option value="' . $row['id'] . '" ' . $isSelected . '>'
+                                                                                . htmlspecialchars($row['name']) .
+                                                                                '</option>';
                                                                         }
+
                                                                     } else {
-                                                                        echo '<option value="0"> No Vehicle Available </option>';
+
+                                                                        echo '<option value="0">No Vehicle Available</option>';
+
                                                                     }
                                                                     ?>
                                                                 </select>
@@ -561,7 +635,7 @@ $l2_per=$l3_per=50;
                                                         </div>
                                                         <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                             <div class="form-floating mb-3">
-                                                                <input type="text" id="languageType" name="languageType" value="" placeholder="Language Type" class="form-control">
+                                                                <input type="text" id="languageType" name="languageType" value="<?= $package['language_type'] ?>" placeholder="Language Type" class="form-control">
                                                                 <label for="languageType" class="required">Language Type</label>
                                                                 <small class="error-message" id="languageType_error"></small>
                                                             </div>
@@ -570,7 +644,24 @@ $l2_per=$l3_per=50;
                                                             <div class="highlights-section p-3 packageKeyWords-wrapper" id="packageKeyWords_wrapper">
                                                                 <label class="highlight-label">Package Keyword</label>
                                                                 <div class="highlight-container" id="packageKeyWords">
-                                                                    
+                                                                    <?php
+                                                                    if (!empty($package['package_keywords'])) {
+
+                                                                        $keywords = json_decode($package['package_keywords'], true);
+
+                                                                        if (is_array($keywords)) {
+                                                                            foreach ($keywords as $keyword) {
+                                                                                ?>
+                                                                                <div class="highlight-tag package-tag"
+                                                                                    data-package-key="<?= htmlspecialchars($keyword) ?>">
+                                                                                    <span class="package-name"><?= htmlspecialchars($keyword) ?></span>
+                                                                                    <span class="remove-btn">&times;</span>
+                                                                                </div>
+                                                                                <?php
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    ?>
                                                                 </div>
                                                                 <div class="add-highlight">
                                                                     <a href="#" id="addPackageKeywordBtn">+ Add Keyword</a>
@@ -597,17 +688,47 @@ $l2_per=$l3_per=50;
                                                                     <a href="#" id="hightlightBtn" class="remarkTitle">+ Add Items</a>
                                                                 </div>
                                                                 <div class="p-3" id="hightlightList">
-                                                                    <div class="remark-item d-flex justify-content-between align-items-start mb-2">
-                                                                        <p class="mb-0 remark-text">Placeholder Text</p>
-                                                                        <div class="d-flex gap-3">
-                                                                            <a href="#" class="edit-remark text-primary">
-                                                                                <i class="fa-solid fa-pencil"></i>
-                                                                            </a>
-                                                                            <a href="#" class="delete-remark text-danger">
-                                                                                <i class="fa-solid fa-trash-can"></i>
-                                                                            </a>
-                                                                        </div>
-                                                                    </div>
+                                                                    <?php
+                                                                    $highlights = json_decode($itineraryDetails['highlights'], true);
+
+                                                                    if (is_array($highlights) && !empty($highlights)) {
+
+                                                                        foreach ($highlights as $highlight) {
+                                                                            ?>
+                                                                            <div class="remark-item d-flex justify-content-between align-items-start mb-2">
+                                                                                <p class="mb-0 remark-text"><?= htmlspecialchars($highlight) ?></p>
+
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-remark text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+
+                                                                                    <a href="#" class="delete-remark text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <?php
+                                                                        }
+
+                                                                    } else {
+                                                                        ?>
+                                                                        <div class="remark-item d-flex justify-content-between align-items-start mb-2">
+                                                                                <p class="mb-0 remark-text">Placeholder Text</p>
+
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-remark text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+
+                                                                                    <a href="#" class="delete-remark text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                        <?php
+                                                                    }
+                                                                    ?>
                                                                 </div>
                                                                 <small class="error-message" id="hightlightList_error"></small>
                                                             </div>
@@ -620,7 +741,118 @@ $l2_per=$l3_per=50;
                                                             </button>
                                                         </div>
                                                         <small class="error-message" id="days_error"></small> 
-                                                        <div class="input_fields_wrap"></div><!-- Show Added Days -->
+                                                        <div class="input_fields_wrap">
+                                                            <?php if (!empty($packageTripDays)) : ?>
+                                                                <script>
+                                                                    document.addEventListener("DOMContentLoaded", function () {
+
+                                                                        const wrapper = document.querySelector(".input_fields_wrap");
+
+                                                                        wrapper.innerHTML = "";
+
+                                                                        let dayCount = 0;
+                                                                        x = 0;
+
+                                                                        <?php foreach ($packageTripDays as $day) : ?>
+                                                                            dayCount++;
+                                                                            x++;
+
+                                                                            wrapper.insertAdjacentHTML("beforeend", `
+                                                                                <div class="row day-container">
+                                                                                    <div class="col-md-12 col-sm-12 col-12">
+                                                                                        <div class="card rounded-5 box border border-1 px-3 pt-3" draggable="true">
+
+                                                                                            <input type="hidden" class="trip_day_id" value="<?= $day['id']; ?>">
+
+                                                                                            <div class="row">
+                                                                                                <div class="col-md-2 col-sm-3 col-3">
+                                                                                                    <a type="button" class="btn btn-success px-3 dayval">
+                                                                                                        Day: ${dayCount}
+                                                                                                    </a>
+                                                                                                </div>
+
+                                                                                                <div class="col-md-8 col-sm-6 col-6">
+                                                                                                    <div class="input-group mb-3">
+                                                                                                        <span class="input-group-text">Title</span>
+                                                                                                        <input type="text"
+                                                                                                            class="form-control title"
+                                                                                                            placeholder="Title"
+                                                                                                            value="<?= htmlspecialchars($day['title']); ?>">
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="col-md-2 col-sm-3 col-3">
+                                                                                                    <div class="d-flex justify-content-end">
+                                                                                                        <button type="button"
+                                                                                                            class="remove_field btn btn-danger px-3 ms-4">
+                                                                                                            Remove
+                                                                                                        </button>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="row">
+
+                                                                                                <div class="col-md-12">
+                                                                                                    <div class="input-group mb-3">
+                                                                                                        <span class="input-group-text">Description</span>
+                                                                                                        <textarea class="form-control description"><?= htmlspecialchars($day['day_details']); ?></textarea>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                                                                    <div class="input-group mb-3">
+                                                                                                        <span class="input-group-text">Meals Included</span>
+                                                                                                        <input type="text"
+                                                                                                            class="form-control meals"
+                                                                                                            placeholder="Meals"
+                                                                                                            value="<?= htmlspecialchars($day['meal_plan']); ?>">
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                                                                    <div class="input-group mb-3">
+                                                                                                        <span class="input-group-text">Transport</span>
+                                                                                                        <input type="text"
+                                                                                                            class="form-control transport"
+                                                                                                            placeholder="Transport"
+                                                                                                            value="<?= htmlspecialchars($day['day_tansport']); ?>">
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                                                                    <div class="input-group mb-3">
+                                                                                                        <span class="input-group-text">Stay</span>
+                                                                                                        <input type="text"
+                                                                                                            class="form-control transport"
+                                                                                                            placeholder="Stay"
+                                                                                                            value="<?= htmlspecialchars($day['stay']); ?>">
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            `);
+
+                                                                        <?php endforeach; ?>
+
+                                                                        updateDayNumbers();
+                                                                        dayCount = document.querySelectorAll(".day-container").length;
+                                                                        x = dayCount;
+
+                                                                    });
+
+                                                                    function updateDayNumbers() {
+                                                                        document.querySelectorAll(".dayval").forEach((el, index) => {
+                                                                            el.textContent = `Day: ${index + 1}`;
+                                                                        });
+                                                                    }
+                                                                    </script>
+                                                            <?php endif; ?>
+                                                        </div><!-- Show Added Days -->
                                                         <!-- add days -->
                                                     </div>
                                                     <div class="row">
@@ -631,17 +863,45 @@ $l2_per=$l3_per=50;
                                                                     <a href="#" id="addInclusionBtn" class="remarkTitle">+ Add Items</a>
                                                                 </div>
                                                                 <div class="p-3" id="inclusionList">
-                                                                    <div class="inclusion-item d-flex justify-content-between align-items-start mb-2">
-                                                                        <p class="mb-0 inclusion-text">Placeholder Text</p>
-                                                                        <div class="d-flex gap-3">
-                                                                            <a href="#" class="edit-inclusion text-primary">
-                                                                                <i class="fa-solid fa-pencil"></i>
-                                                                            </a>
-                                                                            <a href="#" class="delete-inclusion text-danger">
-                                                                                <i class="fa-solid fa-trash-can"></i>
-                                                                            </a>
+                                                                    <?php
+                                                                    $inclusions = json_decode($itineraryDetails['inclusion'], true);
+
+                                                                    if (is_array($inclusions) && !empty($inclusions)) {
+                                                                        foreach ($inclusions as $inclusion) {
+                                                                            ?>
+                                                                            <div class="inclusion-item d-flex justify-content-between align-items-start mb-2">
+                                                                                <p class="mb-0 inclusion-text"><?= htmlspecialchars($inclusion) ?></p>
+
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-inclusion text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+
+                                                                                    <a href="#" class="delete-inclusion text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <?php
+                                                                        }
+                                                                    } else {
+                                                                        ?>
+                                                                        <div class="inclusion-item d-flex justify-content-between align-items-start mb-2">
+                                                                            <p class="mb-0 inclusion-text">Placeholder Text</p>
+
+                                                                            <div class="d-flex gap-3">
+                                                                                <a href="#" class="edit-inclusion text-primary">
+                                                                                    <i class="fa-solid fa-pencil"></i>
+                                                                                </a>
+
+                                                                                <a href="#" class="delete-inclusion text-danger">
+                                                                                    <i class="fa-solid fa-trash-can"></i>
+                                                                                </a>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
+                                                                        <?php
+                                                                    }
+                                                                    ?>
                                                                 </div>
                                                             </div>
                                                             <small class="error-message" id="inclusionList_error"></small>
@@ -653,17 +913,45 @@ $l2_per=$l3_per=50;
                                                                     <a href="#" id="addExclutionBtn" class="remarkTitle">+ Add Items</a>
                                                                 </div>
                                                                 <div class="p-3" id="exclusionList">
-                                                                    <div class="exclusion-item d-flex justify-content-between align-items-start mb-2">
-                                                                        <p class="mb-0 exclusion-text">Placeholder Text</p>
-                                                                        <div class="d-flex gap-3">
-                                                                            <a href="#" class="edit-exclusion text-primary">
-                                                                                <i class="fa-solid fa-pencil"></i>
-                                                                            </a>
-                                                                            <a href="#" class="delete-exclusion text-danger">
-                                                                                <i class="fa-solid fa-trash-can"></i>
-                                                                            </a>
+                                                                    <?php
+                                                                    $exclusions = json_decode($itineraryDetails['exclusion'], true);
+
+                                                                    if (is_array($exclusions) && !empty($exclusions)) {
+                                                                        foreach ($exclusions as $exclusion) {
+                                                                            ?>
+                                                                            <div class="exclusion-item d-flex justify-content-between align-items-start mb-2">
+                                                                                <p class="mb-0 exclusion-text"><?= htmlspecialchars($exclusion) ?></p>
+
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-exclusion text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+
+                                                                                    <a href="#" class="delete-exclusion text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <?php
+                                                                        }
+                                                                    } else {
+                                                                        ?>
+                                                                        <div class="exclusion-item d-flex justify-content-between align-items-start mb-2">
+                                                                            <p class="mb-0 exclusion-text">Placeholder Text</p>
+
+                                                                            <div class="d-flex gap-3">
+                                                                                <a href="#" class="edit-exclusion text-primary">
+                                                                                    <i class="fa-solid fa-pencil"></i>
+                                                                                </a>
+
+                                                                                <a href="#" class="delete-exclusion text-danger">
+                                                                                    <i class="fa-solid fa-trash-can"></i>
+                                                                                </a>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
+                                                                        <?php
+                                                                    }
+                                                                    ?>
                                                                 </div>
                                                             </div>
                                                             <small class="error-message" id="exclusionList_error"></small>
@@ -675,17 +963,45 @@ $l2_per=$l3_per=50;
                                                                     <a href="#" id="addRemarkBtn" class="remarkTitle">+ Add Items</a>
                                                                 </div>
                                                                 <div class="p-3" id="remarkList">
-                                                                    <div class="remark-item d-flex justify-content-between align-items-start mb-2">
-                                                                        <p class="mb-0 remark-text">Placeholder Text</p>
-                                                                        <div class="d-flex gap-3">
-                                                                            <a href="#" class="edit-remark text-primary">
-                                                                                <i class="fa-solid fa-pencil"></i>
-                                                                            </a>
-                                                                            <a href="#" class="delete-remark text-danger">
-                                                                                <i class="fa-solid fa-trash-can"></i>
-                                                                            </a>
+                                                                    <?php
+                                                                    $remarks = json_decode($itineraryDetails['remark'], true);
+
+                                                                    if (is_array($remarks) && !empty($remarks)) {
+                                                                        foreach ($remarks as $remark) {
+                                                                            ?>
+                                                                            <div class="remark-item d-flex justify-content-between align-items-start mb-2">
+                                                                                <p class="mb-0 remark-text"><?= htmlspecialchars($remark) ?></p>
+
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-remark text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+
+                                                                                    <a href="#" class="delete-remark text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <?php
+                                                                        }
+                                                                    } else {
+                                                                        ?>
+                                                                        <div class="remark-item d-flex justify-content-between align-items-start mb-2">
+                                                                            <p class="mb-0 remark-text">Placeholder Text</p>
+
+                                                                            <div class="d-flex gap-3">
+                                                                                <a href="#" class="edit-remark text-primary">
+                                                                                    <i class="fa-solid fa-pencil"></i>
+                                                                                </a>
+
+                                                                                <a href="#" class="delete-remark text-danger">
+                                                                                    <i class="fa-solid fa-trash-can"></i>
+                                                                                </a>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
+                                                                        <?php
+                                                                    }
+                                                                    ?>
                                                                 </div>
                                                             </div>
                                                             <small class="error-message" id="remarkList_error"></small>
@@ -697,17 +1013,45 @@ $l2_per=$l3_per=50;
                                                                     <a href="#" id="addThingsBtn" class="remarkTitle">+ Add Items</a>
                                                                 </div>
                                                                 <div class="p-3" id="thingsList">
-                                                                    <div class="things-item d-flex justify-content-between align-items-start mb-2">
-                                                                        <p class="mb-0 things-text">Placeholder Text</p>
-                                                                        <div class="d-flex gap-3">
-                                                                            <a href="#" class="edit-things text-primary">
-                                                                                <i class="fa-solid fa-pencil"></i>
-                                                                            </a>
-                                                                            <a href="#" class="delete-things text-danger">
-                                                                                <i class="fa-solid fa-trash-can"></i>
-                                                                            </a>
+                                                                    <?php
+                                                                    $travel_infos = json_decode($itineraryDetails['travel_info'], true);
+
+                                                                    if (is_array($travel_infos) && !empty($travel_infos)) {
+                                                                        foreach ($travel_infos as $travel_info) {
+                                                                            ?>
+                                                                            <div class="things-item d-flex justify-content-between align-items-start mb-2">
+                                                                                <p class="mb-0 things-text"><?= htmlspecialchars($travel_info) ?></p>
+
+                                                                                <div class="d-flex gap-3">
+                                                                                    <a href="#" class="edit-things text-primary">
+                                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                                    </a>
+
+                                                                                    <a href="#" class="delete-things text-danger">
+                                                                                        <i class="fa-solid fa-trash-can"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <?php
+                                                                        }
+                                                                    } else {
+                                                                        ?>
+                                                                        <div class="things-item d-flex justify-content-between align-items-start mb-2">
+                                                                            <p class="mb-0 things-text">Placeholder Text</p>
+
+                                                                            <div class="d-flex gap-3">
+                                                                                <a href="#" class="edit-things text-primary">
+                                                                                    <i class="fa-solid fa-pencil"></i>
+                                                                                </a>
+
+                                                                                <a href="#" class="delete-things text-danger">
+                                                                                    <i class="fa-solid fa-trash-can"></i>
+                                                                                </a>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
+                                                                        <?php
+                                                                    }
+                                                                    ?>
                                                                 </div>
                                                             </div>
                                                             <small class="error-message" id="thingsList_error"></small>
@@ -728,21 +1072,21 @@ $l2_per=$l3_per=50;
                                                             <div class="row">
                                                                 <div class="col-md-4 col-sm-4 mt-3">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="number" id="netPriceAdult" name="net_price_adult" value="" placeholder="NET Price for 1 Adult:" class="form-control">
+                                                                        <input type="number" id="netPriceAdult" name="net_price_adult" value="<?= $packagePricing['net_price_adult'] ?>" placeholder="NET Price for 1 Adult:" class="form-control">
                                                                         <small class="error-message" id="netPriceAdult_error"></small>
                                                                         <label for="netPriceAdult" class="required">Base Price for per Adult:</label>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-4 col-sm-4 mt-3" id="netPriceChildData">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="number" id="netPriceChild" name="netPriceChild" value="" placeholder="NET Price for 1 Child" class="form-control" value='0'>
+                                                                        <input type="number" id="netPriceChild" name="netPriceChild" value="<?= $packagePricing['net_price_child'] ?>" placeholder="NET Price for 1 Child" class="form-control" value='0'>
                                                                         <label for="netPriceChild" class="required">Base Price for per Child:</label>
                                                                         <small class="error-message" id="netPriceChild_error"></small>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-4 col-sm-4 mt-3">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="number" id="extraMatress" name="extraMatress" value="" placeholder="Extra Mattress" class="form-control">
+                                                                        <input type="number" id="extraMatress" name="extraMatress" value="<?= $packagePricing['extra_mattress'] ?>" placeholder="Extra Mattress" class="form-control">
                                                                         <label class="required" for="extraMatress">Extra Mattress</label>
                                                                         <small class="error-message" id="extraMatress_error"></small>
                                                                     </div>
@@ -754,14 +1098,14 @@ $l2_per=$l3_per=50;
                                                             <div class="row">
                                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                     <div class="form-floating my-3">
-                                                                        <input type="number" id="companyMarkup" name="companyMarkup" placeholder="Destination" class="form-control">
+                                                                        <input type="number" id="companyMarkup" name="companyMarkup" placeholder="Destination" class="form-control" value="<?= $packagePricingMarkup['company'] ?>">
                                                                         <label for="companyMarkup" class="required">Company Markup</label>
                                                                         <small class="error-message" id="companyMarkup_error"></small>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                     <div class="form-floating my-3">
-                                                                        <input type="number" id="couponAdjustment" name="couponAdjustment" placeholder="Destination" class="form-control">
+                                                                        <input type="number" id="couponAdjustment" name="couponAdjustment" placeholder="Destination" class="form-control" value="<?= $packagePricing['coupon_adjustment'] ?>">
                                                                         <label for="couponAdjustment" class="required">Default Coupon Adjustment</label>
                                                                         <small class="error-message" id="couponAdjustment_error"></small>
                                                                     </div>
@@ -774,26 +1118,51 @@ $l2_per=$l3_per=50;
                                                                 <div class="row">
                                                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                                                                         <div class="form-check form-switch my-2">
-                                                                            <label class="form-check-label" for="switchCheckGuestUser">Guest User Premium (Without Login)</label>
-                                                                            <input class="form-check-input" type="checkbox" role="switch" id="switchCheckGuestUser">
+                                                                            <label class="form-check-label" for="switchCheckGuestUser">
+                                                                                Guest User Premium (Without Login)
+                                                                            </label>
+                                                                            <input class="form-check-input" type="checkbox" role="switch"
+                                                                                id="switchCheckGuestUser"
+                                                                                <?= (!empty($packagePricing['guest_amount']) || !empty($packagePricing['guest_percentage'])) ? 'checked' : '' ?>>
                                                                         </div>
+
                                                                         <div>
                                                                             <div class="d-flex gap-4">
                                                                                 <div class="form-check align-content-center">
-                                                                                    <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault1">
-                                                                                    <label class="form-check-label" for="radioDefault1"> Add Fixed Amount</label>
-                                                                                    
+                                                                                    <input class="form-check-input" type="radio" name="radioDefault"
+                                                                                        id="radioDefault1"
+                                                                                        <?= !empty($packagePricing['guest_amount']) ? 'checked' : '' ?>>
+                                                                                    <label class="form-check-label" for="radioDefault1">
+                                                                                        Add Fixed Amount
+                                                                                    </label>
                                                                                 </div>
-                                                                                <input type="number" id="guestAmount" name="guestAmount" class="form-control inputWidth">
+
+                                                                                <input type="number"
+                                                                                    id="guestAmount"
+                                                                                    name="guestAmount"
+                                                                                    class="form-control inputWidth"
+                                                                                    value="<?= !empty($packagePricing['guest_amount']) ? $packagePricing['guest_amount'] : '' ?>">
+
                                                                                 <small class="error-message" id="guestAmount_error"></small>
                                                                             </div>
+
                                                                             <div class="d-flex gap-4">
                                                                                 <div class="form-check align-content-center">
-                                                                                    <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault2">
-                                                                                    <label class="form-check-label" for="radioDefault2">Add Percentage</label>
+                                                                                    <input class="form-check-input" type="radio" name="radioDefault"
+                                                                                        id="radioDefault2"
+                                                                                        <?= !empty($packagePricing['guest_percentage']) ? 'checked' : '' ?>>
+                                                                                    <label class="form-check-label" for="radioDefault2">
+                                                                                        Add Percentage
+                                                                                    </label>
                                                                                 </div>
+
                                                                                 <div class="input-group my-3 inputWidth">
-                                                                                    <input type="number" class="form-control" id="guestPercentage" name="guestPercentage">
+                                                                                    <input type="number"
+                                                                                        class="form-control"
+                                                                                        id="guestPercentage"
+                                                                                        name="guestPercentage"
+                                                                                        value="<?= !empty($packagePricing['guest_percentage']) ? $packagePricing['guest_percentage'] : '' ?>">
+
                                                                                     <span class="input-group-text">%</span>
                                                                                     <small class="error-message" id="guestPercentage_error"></small>
                                                                                 </div>
@@ -819,7 +1188,7 @@ $l2_per=$l3_per=50;
                                                             <div class="borderHighlight px-3 pt-3 mb-3 table-responsive">
                                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="number" id="travelConsultant" name="travelConsultant" placeholder="travelConsultant" class="form-control">
+                                                                        <input type="number" id="travelConsultant" name="travelConsultant" placeholder="travelConsultant" class="form-control" value="<?= $packagePricingMarkup['ta_markup'] ?>">
                                                                         <label for="travelConsultant" class="required">Travel Consultant</label>
                                                                         <small class="error-message" id="travelConsultant_error"></small>
                                                                     </div>
@@ -840,10 +1209,10 @@ $l2_per=$l3_per=50;
                                                                         <tr>
                                                                             <td>CTE</td>
                                                                             <td class="text-end" id="cteComPer"><?= $product_payout_data_new['CTE']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="cteComm" data-value="0">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-comm" id="cteComm" data-value="0">&#8377; <?= $packagePricingTeChain['cte_direct_commission'] ?></td>
                                                                             <td class="text-end" id="cteInsPer"><?= $product_payout_data_new['CTE']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="cteIns" data-value="0">&#8377; 0.00</td>
-                                                                            <td class="text-end editable-total" id="cteCommInsTotal">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-ins" id="cteIns" data-value="0">&#8377; <?= $packagePricingTeChain['cte_incentive'] ?></td>
+                                                                            <td class="text-end editable-total" id="cteCommInsTotal">&#8377; <?= $packagePricingTeChain['cte_mark_up_total'] ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -855,10 +1224,10 @@ $l2_per=$l3_per=50;
                                                                         <tr>
                                                                             <td>ETE</td>
                                                                             <td class="text-end" id="eteComPer"><?= $product_payout_data_new['ETE']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="eteComm" data-value="0">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-comm" id="eteComm" data-value="0">&#8377; <?= $packagePricingTeChain['ete_mark_up_total'] ?></td>
                                                                             <td class="text-end" id="eteInsPer"><?= $product_payout_data_new['ETE']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="eteIns" data-value="0">&#8377; 0.00</td>
-                                                                            <td class="text-end editable-total" id="eteCommInsTotal">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-ins" id="eteIns" data-value="0">&#8377; <?= $packagePricingTeChain['ete_mark_up_total'] ?></td>
+                                                                            <td class="text-end editable-total" id="eteCommInsTotal">&#8377; <?= $packagePricingTeChain['ete_mark_up_total'] ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -870,10 +1239,10 @@ $l2_per=$l3_per=50;
                                                                         <tr>
                                                                             <td>STE</td>
                                                                             <td class="text-end" id="steComPer"><?= $product_payout_data_new['STE']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="steComm" data-value="0">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-comm" id="steComm" data-value="0">&#8377; <?= $packagePricingTeChain['ste_mark_up_total'] ?></td>
                                                                             <td class="text-end" id="steInsPer"><?= $product_payout_data_new['STE']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="steIns" data-value="0">&#8377; 0.00</td>
-                                                                            <td class="text-end editable-total" id="steCommInsTotal">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-ins" id="steIns" data-value="0">&#8377; <?= $packagePricingTeChain['ste_mark_up_total'] ?></td>
+                                                                            <td class="text-end editable-total" id="steCommInsTotal">&#8377; <?= $packagePricingTeChain['ste_mark_up_total'] ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -886,10 +1255,10 @@ $l2_per=$l3_per=50;
                                                                         <tr>
                                                                             <td>TE | Franchisee</td>
                                                                             <td class="text-end" id="cTeFComPer"><?= $product_payout_data_new['TE']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="cTeFComm" data-value="0">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-comm" id="cTeFComm" data-value="0">&#8377; <?= $packagePricingTeChain['te_mark_up_total'] ?></td>
                                                                             <td class="text-end" id="cTeFInsPer"><?= $product_payout_data_new['TE']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="cTeFIns" data-value="0">&#8377; 0.00</td>
-                                                                            <td class="text-end editable-total" id="cTeFCommInsTotal">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-ins" id="cTeFIns" data-value="0">&#8377; <?= $packagePricingTeChain['te_mark_up_total'] ?></td>
+                                                                            <td class="text-end editable-total" id="cTeFCommInsTotal">&#8377; <?= $packagePricingTeChain['te_mark_up_total'] ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -905,15 +1274,15 @@ $l2_per=$l3_per=50;
                                                                     <tfoot>
                                                                         <td class="fw-bolder">Total Distribution</td>
                                                                         <td class="text-end fw-bolder"></td>
-                                                                        <td class="text-end fw-bolder" id="cteChainCommTotal">&#8377; 0.00</td>
+                                                                        <td class="text-end fw-bolder" id="cteChainCommTotal">&#8377; <?= $packagePricingTeChain['total_commission_amount'] ?></td>
                                                                         <td class="text-end fw-bolder"></td>
-                                                                        <td class="text-end fw-bolder" id="cteChainInsTotal">&#8377; 0.00</td>
-                                                                        <td class="text-end fw-bolder" id="cteChainCommInsTotal">&#8377; 0.00</td>
+                                                                        <td class="text-end fw-bolder" id="cteChainInsTotal">&#8377; <?= $packagePricingTeChain['total_incentive_amount'] ?></td>
+                                                                        <td class="text-end fw-bolder" id="cteChainCommInsTotal">&#8377; <?= $packagePricingTeChain['total_mark_up'] ?></td>
                                                                     </tfoot>
                                                                 </table>
                                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="number" id="cteSuspence" name="cteSuspence" placeholder="cteSuspence" class="form-control" readonly>
+                                                                        <input type="number" id="cteSuspence" name="cteSuspence" placeholder="cteSuspence" class="form-control" readonly value="<?= $packagePricingTeChain['suspense'] ?>">
                                                                         <label for="cteSuspence" class="required">Suspence</label>
                                                                     </div>
                                                                 </div>
@@ -933,10 +1302,10 @@ $l2_per=$l3_per=50;
                                                                         <tr>
                                                                             <td>BM | SF | MF</td>
                                                                             <td class="text-end" id="teBmComPer"><?= $product_payout_data['BM']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="teBmComm" data-value="0">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-comm" id="teBmComm" data-value="0">&#8377; <?= $packagePricingMarkup['bm_direct_commission'] ?></td>
                                                                             <td class="text-end" id="teBmInsPer"><?= $product_payout_data['BM']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="teBmIns" data-value="0">&#8377; 0.00</td>
-                                                                            <td class="text-end editable-total" id="teBmComInsTotal">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-ins" id="teBmIns" data-value="0">&#8377; <?= $packagePricingMarkup['bm_incentive'] ?></td>
+                                                                            <td class="text-end editable-total" id="teBmComInsTotal">&#8377; <?= $packagePricingMarkup['bm_mark_up_total'] ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -948,10 +1317,10 @@ $l2_per=$l3_per=50;
                                                                         <tr>
                                                                             <td>TE | Franchisee</td>
                                                                             <td class="text-end" id="bmTeComPer"><?= $product_payout_data['TE']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="bmTeComm" data-value="0">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-comm" id="bmTeComm" data-value="0">&#8377; <?= $packagePricingMarkup['ca_direct_commission'] ?></td>
                                                                             <td class="text-end" id="bmTeInsPer"><?= $product_payout_data['TE']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="bmTeIns" data-value="0">&#8377; 0.00</td>
-                                                                            <td class="text-end editable-total" id="bmTeCommInsTotal">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-ins" id="bmTeIns" data-value="0">&#8377; <?= $packagePricingMarkup['ca_incentive'] ?></td>
+                                                                            <td class="text-end editable-total" id="bmTeCommInsTotal">&#8377; <?= $packagePricingMarkup['ca_mark_up_total'] ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -964,15 +1333,15 @@ $l2_per=$l3_per=50;
                                                                     <tfoot>
                                                                         <td class="fw-bolder">Total Distribution</td>
                                                                         <td class="text-end fw-bolder"></td>
-                                                                        <td class="text-end fw-bolder" id="bmTeChainCommTotal">&#8377; 0.00</td>
+                                                                        <td class="text-end fw-bolder" id="bmTeChainCommTotal">&#8377; <?= $packagePricingMarkup['total_commission_amount'] ?></td>
                                                                         <td class="text-end fw-bolder"></td>
-                                                                        <td class="text-end fw-bolder" id="bmTeChainInsTotal">&#8377; 0.00</td>
-                                                                        <td class="text-end fw-bolder" id="bmTeChainCommInsTotal">&#8377; 0.00</td>
+                                                                        <td class="text-end fw-bolder" id="bmTeChainInsTotal">&#8377; <?= $packagePricingMarkup['total_incentive_amount'] ?></td>
+                                                                        <td class="text-end fw-bolder" id="bmTeChainCommInsTotal">&#8377; <?= $packagePricingMarkup['total_mark_up'] ?></td>
                                                                     </tfoot>
                                                                 </table>
                                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="number" id="bmSuspence" name="bmSuspence" placeholder="bmSuspence" class="form-control" readonly>
+                                                                        <input type="number" id="bmSuspence" name="bmSuspence" placeholder="bmSuspence" class="form-control" readonly value="<?= $packagePricingMarkup['suspense'] ?>">
                                                                         <label for="bmSuspence" class="required">Suspence</label>
                                                                     </div>
                                                                 </div>
@@ -1005,10 +1374,10 @@ $l2_per=$l3_per=50;
                                                                         <tr>
                                                                             <td>BM |SF | MF</td>
                                                                             <td class="text-end" id="iBmComPer"><?= $institutionData['roles']['BM']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="iBmComm" data-value="0">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-comm" id="iBmComm" data-value="0">&#8377; <?= $packagePricingInstitution['bm_direct_commission'] ?></td>
                                                                             <td class="text-end" id="iBmInsPer"><?= $institutionData['roles']['BM']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="iBmIns" data-value="0">&#8377; 0.00</td>
-                                                                            <td class="text-end editable-total" id="iBmCommInsTotal">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-ins" id="iBmIns" data-value="0">&#8377; <?= $packagePricingInstitution['bm_incentive'] ?></td>
+                                                                            <td class="text-end editable-total" id="iBmCommInsTotal">&#8377; <?= $packagePricingInstitution['bm_mark_up_total'] ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -1020,10 +1389,10 @@ $l2_per=$l3_per=50;
                                                                         <tr>
                                                                             <td>Institute</td>
                                                                             <td class="text-end">As Per Slab</td>
-                                                                            <td class="text-end editable-comm" id="bmIComm" data-value="0">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-comm" id="bmIComm" data-value="0">&#8377; <?= $packagePricingInstitution['ins_markup'] ?></td>
                                                                             <td class="text-end">NA</td>
                                                                             <td class="text-end" id="bmIIns">NA</td>
-                                                                            <td class="text-end editable-total" id="bmICommInsTotal">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-total" id="bmICommInsTotal">&#8377; <?= $packagePricingInstitution['ins_markup'] ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -1036,15 +1405,15 @@ $l2_per=$l3_per=50;
                                                                     <tfoot>
                                                                         <td class="fw-bolder">Total Distribution</td>
                                                                         <td class="text-end fw-bolder"></td>
-                                                                        <td class="text-end fw-bolder" id="bmIComTotal">&#8377; 0.00</td>
+                                                                        <td class="text-end fw-bolder" id="bmIComTotal">&#8377; <?= $packagePricingInstitution['total_commission_amount'] ?></td>
                                                                         <td class="text-end fw-bolder"></td>
-                                                                        <td class="text-end fw-bolder" id="bmIInsTotal">&#8377; 0.00</td>
-                                                                        <td class="text-end fw-bolder" id="bmIComInsTotal">&#8377; 0.00</td>
+                                                                        <td class="text-end fw-bolder" id="bmIInsTotal">&#8377; <?= $packagePricingInstitution['total_incentive_amount'] ?></td>
+                                                                        <td class="text-end fw-bolder" id="bmIComInsTotal">&#8377; <?= $packagePricingInstitution['total_mark_up'] ?></td>
                                                                     </tfoot>
                                                                 </table>
                                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="number" id="bmISuspence" name="bmISuspence" placeholder="bmISuspence" class="form-control" readonly>
+                                                                        <input type="number" id="bmISuspence" name="bmISuspence" placeholder="bmISuspence" class="form-control" readonly value="<?= $packagePricingInstitution['suspense'] ?>">
                                                                         <label for="bmISuspence" class="required">Suspence</label>
                                                                     </div>
                                                                 </div>
@@ -1064,10 +1433,10 @@ $l2_per=$l3_per=50;
                                                                         <tr>
                                                                             <td>CTE</td>
                                                                             <td class="text-end" id="iCteComPer"><?= $institutionCteData['roles']['CTE']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="iCteComm" data-value="0">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-comm" id="iCteComm" data-value="0">&#8377; <?= $packagePricingTechnoInstitution['cte_direct_commission'] ?></td>
                                                                             <td class="text-end" id="iCteInsPer"><?= $institutionCteData['roles']['CTE']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="iCteIns" data-value="0">&#8377; 0.00</td>
-                                                                            <td class="text-end editable-total" id="iCteCommInsTotal">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-ins" id="iCteIns" data-value="0">&#8377; <?= $packagePricingTechnoInstitution['cte_incentive'] ?></td>
+                                                                            <td class="text-end editable-total" id="iCteCommInsTotal">&#8377; <?= $packagePricingTechnoInstitution['cte_mark_up_total'] ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -1079,10 +1448,10 @@ $l2_per=$l3_per=50;
                                                                         <tr>
                                                                             <td>ETE</td>
                                                                             <td class="text-end" id="iEteComPer"><?= $institutionCteData['roles']['ETE']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="iEteComm" data-value="0">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-comm" id="iEteComm" data-value="0">&#8377; <?= $packagePricingTechnoInstitution['ete_direct_commission'] ?></td>
                                                                             <td class="text-end" id="iEteInsPer"><?= $institutionCteData['roles']['ETE']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="iEteIns" data-value="0">&#8377; 0.00</td>
-                                                                            <td class="text-end editable-total" id="iEteCommInsTotal">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-ins" id="iEteIns" data-value="0">&#8377; <?= $packagePricingTechnoInstitution['ete_incentive'] ?></td>
+                                                                            <td class="text-end editable-total" id="iEteCommInsTotal">&#8377; <?= $packagePricingTechnoInstitution['ete_mark_up_total'] ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -1094,10 +1463,10 @@ $l2_per=$l3_per=50;
                                                                         <tr>
                                                                             <td>Institute</td>
                                                                             <td class="text-end">As Per Slab</td>
-                                                                            <td class="text-end editable-comm" id="cteIComm" data-value="0">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-comm" id="cteIComm" data-value="0">&#8377; <?= $packagePricingTechnoInstitution['ins_markup'] ?></td>
                                                                             <td class="text-end">NA</td>
                                                                             <td class="text-end" id="cteIIns">NA</td>
-                                                                            <td class="text-end editable-total" id="cteICommInsTotal">&#8377; 0.00</td>
+                                                                            <td class="text-end editable-total" id="cteICommInsTotal">&#8377; <?= $packagePricingTechnoInstitution['ins_markup'] ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -1110,35 +1479,35 @@ $l2_per=$l3_per=50;
                                                                     <tfoot>
                                                                         <td class="fw-bolder">Total Distribution</td>
                                                                         <td class="text-end fw-bolder"></td>
-                                                                        <td class="text-end fw-bolder" id="iCteComTotal">&#8377; 0.00</td>
+                                                                        <td class="text-end fw-bolder" id="iCteComTotal">&#8377; <?= $packagePricingTechnoInstitution['total_commission_amount'] ?></td>
                                                                         <td class="text-end fw-bolder"></td>
-                                                                        <td class="text-end fw-bolder" id="iCteInsTotal">&#8377; 0.00</td>
-                                                                        <td class="text-end fw-bolder" id="iCteComInsTotal">&#8377; 0.00</td>
+                                                                        <td class="text-end fw-bolder" id="iCteInsTotal">&#8377; <?= $packagePricingTechnoInstitution['total_incentive_amount'] ?></td>
+                                                                        <td class="text-end fw-bolder" id="iCteComInsTotal">&#8377; <?= $packagePricingTechnoInstitution['total_mark_up'] ?></td>
                                                                     </tfoot>
                                                                 </table>
                                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="number" id="cteISuspence" name="cteISuspence" placeholder="cteISuspence" class="form-control" readonly>
+                                                                        <input type="number" id="cteISuspence" name="cteISuspence" placeholder="cteISuspence" class="form-control" readonly value="<?= $packagePricingTechnoInstitution['suspense'] ?>">
                                                                         <label for="cteISuspence" class="required">Suspence</label>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
                                                                     <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                         <div class="form-floating mb-3">
-                                                                            <input type="number" id="customer1" name="customer1" placeholder="Customer1" class="form-control">
+                                                                            <input type="number" id="customer1" name="customer1" placeholder="Customer1" class="form-control" value="<?= $packagePricingMarkup['prime_customer'] ?>">
                                                                             <label for="customer1" class="required">Customer 1</label>
                                                                             <small class="error-message" id="customer1_error"></small>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                         <div class="form-floating mb-3">
-                                                                            <input type="number" id="customer2" name="customer2" data-per="<?= $l2_per ?>" placeholder="Customer2" class="form-control" readonly>
+                                                                            <input type="number" id="customer2" name="customer2" data-per="<?= $l2_per ?>" placeholder="Customer2" class="form-control" readonly value="<?= $packagePricingMarkup['L1_customer'] ?>">
                                                                             <label for="customer2" class="required">Customer 2</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                         <div class="form-floating mb-3">
-                                                                            <input type="number" id="customer3" name="customer3" data-per="<?= $l3_per ?>" placeholder="Customer3" class="form-control" readonly>
+                                                                            <input type="number" id="customer3" name="customer3" data-per="<?= $l3_per ?>" placeholder="Customer3" class="form-control" readonly value="<?= $packagePricingMarkup['L2_customer'] ?>">
                                                                             <label for="customer3" class="required">Customer 3</label>
                                                                         </div>
                                                                     </div>
@@ -1154,7 +1523,7 @@ $l2_per=$l3_per=50;
                                                                             <div class="align-content-center">
                                                                                 <label for="mrpPerAdult" class="mb-0">Total Price Per Adult</label>
                                                                             </div>
-                                                                            <input type="number" value="" id="mrpPerAdult" class="form-control inputWidth" readOnly>
+                                                                            <input type="number" value="<?= $packagePricing['net_price_adult_with_GST'] ?>" id="mrpPerAdult" class="form-control inputWidth" readOnly>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-12 col-sm-12">
@@ -1162,7 +1531,30 @@ $l2_per=$l3_per=50;
                                                                             <div class="align-content-center">
                                                                                 <label for="mrpPerChild" class="mb-0">Total Price Per Child</label>
                                                                             </div>
-                                                                            <input type="number" value="" id="mrpPerChild" class="form-control inputWidth" readOnly>
+                                                                            <input type="number" value="<?= $packagePricing['net_price_child_with_GST'] ?>" id="mrpPerChild" class="form-control inputWidth" readOnly>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-8 col-sm-12 col-12">
+                                                            <h5 class="mb-3 fw-bolder" id="#">6. Total Pricing with <?= $gstValue ?>% GST</h5>
+                                                            <div class="borderHighlight p-3 mb-3">
+                                                                <div class="row">
+                                                                    <div class="col-md-12 col-sm-12">
+                                                                        <div class="d-flex gap-4 mb-3">
+                                                                            <div class="align-content-center">
+                                                                                <label for="mrpPerAdultWithGst" class="mb-0">Total Price Per Adult</label>
+                                                                            </div>
+                                                                            <input type="number" value="<?= $packagePricing['total_package_price_per_adult'] ?>" id="mrpPerAdultWithGst" class="form-control inputWidth" readOnly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12 col-sm-12">
+                                                                        <div class="d-flex gap-4">
+                                                                            <div class="align-content-center">
+                                                                                <label for="mrpPerChildWithGst" class="mb-0">Total Price Per Child</label>
+                                                                            </div>
+                                                                            <input type="number" value="<?= $packagePricing['total_package_price_per_child'] ?>" id="mrpPerChildWithGst" class="form-control inputWidth" readOnly>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1171,7 +1563,7 @@ $l2_per=$l3_per=50;
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-xl-6 col-lg-8 col-md-8 col-sm-12 col-12">
-                                                            <h4 class="mb-3 fw-bolder">6. Cancellation Policy</h4>
+                                                            <h4 class="mb-3 fw-bolder">7. Cancellation Policy</h4>
                                                             <div class="row borderHighlight mx-0">
                                                                 <div class="col-lg-6 col-md-6 col-sm-12 col-12 py-3">
                                                                     <div class="text-center mb-2">
@@ -1191,27 +1583,27 @@ $l2_per=$l3_per=50;
                                                                     </div>
                                                                     <div class="inputFieldAlignment">
                                                                         <div class="input-group inputWidth">
-                                                                            <input type="number" class="form-control" id="cancellationPercentage1" name="cancellationPercentage1" placeholder="0">
+                                                                            <input type="number" class="form-control" id="cancellationPercentage1" name="cancellationPercentage1" placeholder="0" value="<?= $CancelPolicy['policy_1'] ?>">
                                                                             <span class="input-group-text">%</span>
                                                                             <small class="error-message" id="cancellationPercentage1_error"></small>
                                                                         </div>
                                                                         <div class="input-group inputWidth">
-                                                                            <input type="number" class="form-control" id="cancellationPercentage2" name="cancellationPercentage2" placeholder="0">
+                                                                            <input type="number" class="form-control" id="cancellationPercentage2" name="cancellationPercentage2" placeholder="0" value="<?= $CancelPolicy['policy_2'] ?>">
                                                                             <span class="input-group-text">%</span>
                                                                             <small class="error-message" id="cancellationPercentage2_error"></small>
                                                                         </div>
                                                                         <div class="input-group inputWidth">
-                                                                            <input type="number" class="form-control" id="cancellationPercentage3" name="cancellationPercentage3" placeholder="0">
+                                                                            <input type="number" class="form-control" id="cancellationPercentage3" name="cancellationPercentage3" placeholder="0" value="<?= $CancelPolicy['policy_3'] ?>">
                                                                             <span class="input-group-text">%</span>
                                                                             <small class="error-message" id="cancellationPercentage3_error"></small>
                                                                         </div>
                                                                         <div class="input-group inputWidth">
-                                                                            <input type="number" class="form-control" id="cancellationPercentage4" name="cancellationPercentage4" placeholder="0">
+                                                                            <input type="number" class="form-control" id="cancellationPercentage4" name="cancellationPercentage4" placeholder="0" value="<?= $CancelPolicy['policy_4'] ?>">
                                                                             <span class="input-group-text">%</span>
                                                                             <small class="error-message" id="cancellationPercentage4_error"></small>
                                                                         </div>
                                                                         <div class="input-group inputWidth">
-                                                                            <input type="number" class="form-control" id="cancellationPercentage5" name="cancellationPercentage5" placeholder="0">
+                                                                            <input type="number" class="form-control" id="cancellationPercentage5" name="cancellationPercentage5" placeholder="0" value="<?= $CancelPolicy['policy_5'] ?>">
                                                                             <span class="input-group-text">%</span>
                                                                             <small class="error-message" id="cancellationPercentage5_error"></small>
                                                                         </div>
@@ -1235,13 +1627,13 @@ $l2_per=$l3_per=50;
                                                                 <div class="d-flex justify-content-between mb-2">
                                                                     <label class="form-check-label" for="switchCoupon">Coupon Allowed</label>
                                                                     <div class="form-check form-switch">
-                                                                        <input class="form-check-input" type="checkbox" role="switch" id="switchCoupon">
+                                                                        <input class="form-check-input" type="checkbox" role="switch" id="switchCoupon" <?= $packagePolicy['coupon_allowed'] == 1?'checked':'' ?>>
                                                                     </div>
                                                                 </div>
                                                                 <div class="d-flex justify-content-between">
                                                                     <label class="form-check-label" for="switchCombine">Can Combine With Other Offers</label>
                                                                     <div class="form-check form-switch">
-                                                                        <input class="form-check-input" type="checkbox" role="switch" id="switchCombine">
+                                                                        <input class="form-check-input" type="checkbox" role="switch" id="switchCombine" <?= $packagePolicy['combine_with_other_offers'] == 1?'checked':'' ?>>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1257,7 +1649,7 @@ $l2_per=$l3_per=50;
                                                                                 <label for="mrpPerAdult" class="mb-3">Minimum Advance Payment</label>
                                                                             </div>
                                                                             <div class="input-group mb-3 inputWidth">
-                                                                                <input type="number" class="form-control" id="bookingPercentage" name="bookingPercentage" >
+                                                                                <input type="number" class="form-control" id="bookingPercentage" name="bookingPercentage" value="<?= $packagePolicy['minimum_advance_payment'] ?>" >
                                                                                 <span class="input-group-text">%</span>
                                                                                 <small class="error-message" id="bookingPercentage_error"></small>
                                                                             </div>
@@ -1269,7 +1661,7 @@ $l2_per=$l3_per=50;
                                                                                 <label for="mrpPerChild" class="mb-0">Full Payment Before Travel</label>
                                                                             </div>
                                                                             <div class="input-group inputWidth">
-                                                                                <input type="number" class="form-control" id="bookingDay" name="bookingDay" >
+                                                                                <input type="number" class="form-control" id="bookingDay" name="bookingDay" value="<?= $packagePolicy['full_payment_before_travel'] ?>">
                                                                                 <span class="input-group-text">Days</span>
                                                                                 <small class="error-message" id="bookingDay_error"></small>
                                                                             </div>
@@ -1440,7 +1832,9 @@ $l2_per=$l3_per=50;
                                                     </div>
                                                     <div class="row">
                                                         <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" >
-                                                            <a href="#" id="update_form" class="waves-effect waves-light btn-large" style=" color: white;" >Submit</a>
+                                                            <input type="hidden" value="1" id="editFlag"/>
+                                                            <input type="hidden" id="package_id" value="<?= $package['id'] ?>">
+                                                            <a href="#" id="edit_package" class="waves-effect waves-light btn-large" style=" color: white;" >Submit</a>
                                                             <!-- <a href="#" id="update_form" style="display:none"></a> -->
                                                         </div>
                                                     </div>
@@ -1938,127 +2332,7 @@ $l2_per=$l3_per=50;
         </script>
         <!-- Policy section -->
         <script>
-            // const dropZone = document.getElementById("dropZone");
-            // const fileInput = document.getElementById("fileInput");
-            // const selectedFileText = document.getElementById("selectedFileText");
-            // const addDocumentBtn = document.getElementById("addDocumentBtn");
-
-            // let selectedFile = null;
-
-            // // Open file picker
-            // dropZone.addEventListener("click", () => {
-            //     fileInput.click();
-            // });
-
-            // // File selection
-            // fileInput.addEventListener("change", function () {
-            //     selectedFile = this.files[0];
-
-            //     if(selectedFile){
-            //         selectedFileText.textContent = selectedFile.name;
-            //     }
-            // });
-
-            // // Drag Over
-            // dropZone.addEventListener("dragover", function(e){
-            //     e.preventDefault();
-            //     dropZone.classList.add("dragover");
-            // });
-
-            // // Drag Leave
-            // dropZone.addEventListener("dragleave", function(){
-            //     dropZone.classList.remove("dragover");
-            // });
-
-            // // Drop
-            // dropZone.addEventListener("drop", function(e){
-            //     e.preventDefault();
-
-            //     dropZone.classList.remove("dragover");
-
-            //     selectedFile = e.dataTransfer.files[0];
-
-            //     if(selectedFile){
-            //         selectedFileText.textContent = selectedFile.name;
-            //     }
-            // });
-
-            // // Submit
-            // addDocumentBtn.addEventListener("click", function () {
-            //     $("#noAttachmentRow").remove();
-            //     let title = document.getElementById("documentTitle").value.trim();
-
-            //     if (title === "") {
-            //         alert("Please enter title");
-            //         return;
-            //     }
-
-            //     if (!selectedFile) {
-            //         alert("Please select a file");
-            //         return;
-            //     }
-
-            //     let size = (selectedFile.size / (1024 * 1024)).toFixed(2) + " MB";
-            //     let fileType = selectedFile.name.split('.').pop().toUpperCase();
-
-            //     let today = new Date().toLocaleDateString("en-GB", {
-            //         day: "2-digit",
-            //         month: "short",
-            //         year: "numeric"
-            //     });
-
-            //     // Generate unique row id
-            //     let rowId = Date.now();
-
-            //     let row = `
-            //         <tr id="docRow_${rowId}">
-            //             <td id="docTitle_${rowId}">${title}</td>
-
-            //             <td id="docFileName_${rowId}">
-            //                 <div class="file-info">
-            //                     <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png"
-            //                         class="file-icon">
-            //                     ${selectedFile.name}
-            //                 </div>
-            //             </td>
-
-            //             <td id="docType_${rowId}">${fileType}</td>
-
-            //             <td id="docSize_${rowId}">${size}</td>
-
-            //             <td id="docUploadedOn_${rowId}">${today}</td>
-
-            //             <td id="docAction_${rowId}" class="text-center">
-            //                 <i class="fa-solid fa-download action-btn me-3"></i>
-            //                 <i class="fa-regular fa-trash-can action-btn delete-btn remove-file"></i>
-            //             </td>
-            //         </tr>
-            //     `;
-
-            //     document
-            //         .getElementById("fileTableBody")
-            //         .insertAdjacentHTML("beforeend", row);
-
-            //     // Reset
-            //     document.getElementById("documentTitle").value = "";
-            //     fileInput.value = "";
-            //     selectedFile = null;
-            //     selectedFileText.textContent = "Drag & Drop or Click to Upload";
-            // });
-
-            // // Delete row
-            // $(document).on("click", ".remove-file", function(){
-            //     $(this).closest("tr").remove();
-            //     if ($("#fileTableBody tr").length === 0) {
-            //         $("#fileTableBody").html(`
-            //             <tr id="noAttachmentRow">
-            //                 <td colspan="6" class="text-center text-muted">
-            //                     No Attachment found
-            //                 </td>
-            //             </tr>
-            //         `);
-            //     }
-            // });
+            
             const dropZone = document.getElementById("dropZone");
             const fileInput = document.getElementById("fileInput");
             const selectedFileText = document.getElementById("selectedFileText");
@@ -2066,6 +2340,55 @@ $l2_per=$l3_per=50;
 
             let selectedFile = null;
             let attachments = [];
+            let deletedDocuments = [];
+            <?php if (!empty($packagePolicyDocuments)) { ?>
+                document.addEventListener("DOMContentLoaded", function () {
+
+                    $("#noAttachmentRow").remove();
+
+                    <?php foreach ($packagePolicyDocuments as $doc) { ?>
+
+                        attachments.push({
+                            id: <?= $doc['id'] ?>,
+                            title: <?= json_encode($doc['title']) ?>,
+                            file: null,
+                            file_name: <?= json_encode($doc['file_name']) ?>,
+                            existing: true
+                        });
+
+                        $("#fileTableBody").append(`
+                            <tr id="docRow_<?= $doc['id'] ?>" data-id="<?= $doc['id'] ?>" data-existing="1">
+
+                                <td><?= htmlspecialchars($doc['title'], ENT_QUOTES) ?></td>
+
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="${getFileIcon('<?= $doc['file_name'] ?>')}"
+                                            width="28"
+                                            class="me-2">
+
+                                        <?= htmlspecialchars($doc['file_name'], ENT_QUOTES) ?>
+                                    </div>
+                                </td>
+
+                                <td><?= strtoupper($doc['type']) ?></td>
+
+                                <td><?= $doc['size'] ?></td>
+
+                                <td><?= date('d-M-Y', strtotime($doc['uploaded_on'])) ?></td>
+
+                                <td class="text-center">
+                                    <i class="fa-regular fa-trash-can text-danger remove-file"
+                                    style="cursor:pointer"></i>
+                                </td>
+
+                            </tr>
+                        `);
+
+                    <?php } ?>
+
+                });
+            <?php } ?>
 
             // Return icon based on file extension
             function getFileIcon(fileName) {
@@ -2223,18 +2546,22 @@ $l2_per=$l3_per=50;
             });
 
             // Delete
+            
+
             $(document).on("click", ".remove-file", function () {
 
                 const row = $(this).closest("tr");
-
                 const id = Number(row.data("id"));
+
+                if (row.data("existing") == 1) {
+                    deletedDocuments.push(id);
+                }
 
                 attachments = attachments.filter(file => file.id !== id);
 
                 row.remove();
 
                 if ($("#fileTableBody tr").length === 0) {
-
                     $("#fileTableBody").html(`
                         <tr id="noAttachmentRow">
                             <td colspan="6" class="text-center text-muted">
@@ -2242,9 +2569,7 @@ $l2_per=$l3_per=50;
                             </td>
                         </tr>
                     `);
-
                 }
-
             });
 
             console.log(attachments);
@@ -2252,7 +2577,56 @@ $l2_per=$l3_per=50;
         <!-- Picture & Media Section -->
         <!-- Package Cover Image -->
         <script>
-            
+            // ==========================
+            // Preview
+            // ==========================
+            function previewFile(file) {
+
+                const validTypes = [
+                    "image/jpeg",
+                    "image/jpg",
+                    "image/png",
+                    "image/webp"
+                ];
+
+                if (!validTypes.includes(file.type)) {
+                    alert("Please upload JPG, PNG or WEBP image.");
+                    return;
+                }
+
+                if (file.size > 5 * 1024 * 1024) {
+                    alert("Maximum file size is 5MB.");
+                    return;
+                }
+
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+
+                    // image is active again
+                    coverImageDeleted = false;
+
+                    previewImage
+                        .attr("src", e.target.result)
+                        .removeClass("d-none");
+
+                    deleteBtn.show();
+
+                    fileText.text(file.name);
+
+                    // Relative URL
+                    $("#coverImageUrl").val("uploading/packages/" + file.name);
+
+                    // Base64
+                    $("#coverImageUrl").data("base64", e.target.result);
+
+                };
+
+                reader.readAsDataURL(file);
+
+            }
+            let coverImageDeleted = false;
+            let existingCoverImage = "";
             $(document).ready(function () {
 
                 const dropZone = $("#dragDropZone");
@@ -2311,54 +2685,7 @@ $l2_per=$l3_per=50;
 
                 });
 
-                // ==========================
-                // Preview
-                // ==========================
-                function previewFile(file) {
-
-                    const validTypes = [
-                        "image/jpeg",
-                        "image/jpg",
-                        "image/png",
-                        "image/webp"
-                    ];
-
-                    if (!validTypes.includes(file.type)) {
-                        alert("Please upload JPG, PNG or WEBP image.");
-                        return;
-                    }
-
-                    if (file.size > 5 * 1024 * 1024) {
-                        alert("Maximum file size is 5MB.");
-                        return;
-                    }
-
-                    const reader = new FileReader();
-
-                    reader.onload = function (e) {
-
-                        // image is active again
-                        coverImageDeleted = false;
-
-                        previewImage
-                            .attr("src", e.target.result)
-                            .removeClass("d-none");
-
-                        deleteBtn.show();
-
-                        fileText.text(file.name);
-
-                        // Relative URL
-                        $("#coverImageUrl").val("uploading/packages/" + file.name);
-
-                        // Base64
-                        $("#coverImageUrl").data("base64", e.target.result);
-
-                    };
-
-                    reader.readAsDataURL(file);
-
-                }
+                
 
                 // ==========================
                 // Delete (Hide only)
@@ -2390,277 +2717,196 @@ $l2_per=$l3_per=50;
         </script>
         <!-- Image Gallery  -->
         <script>
-            // const maxImages = 18;
-            // let galleryImages = [];
-            // $(document).ready(function () {
+            // ==========================
+            // Handle Files
+            // ==========================
+            function handleFiles(files) {
 
+                const activeImages = galleryImages.filter(img => !img.deleted).length;
+                const remainingSlots = maxImages - activeImages;
 
-            //     // Click Upload Area
-            //     $(document).on("click", "#imageGalleryZone", function (e) {
+                if (remainingSlots <= 0) {
 
-            //         if ($(e.target).closest(".delete-image").length) {
-            //             return;
-            //         }
+                    $("#galleryMessage")
+                        .removeClass("text-muted text-warning")
+                        .addClass("text-danger")
+                        .text("Maximum limit of 18 images reached.");
 
-            //         const input = document.getElementById("galleryInput");
+                    return;
+                }
 
-            //         if (!input) {
-            //             console.error("galleryInput not found");
-            //             return;
-            //         }
+                Array.from(files)
+                    .slice(0, remainingSlots)
+                    .forEach(function (file) {
 
-            //         try {
-            //             if (typeof input.showPicker === "function") {
-            //                 input.showPicker();
-            //             } else {
-            //                 input.click();
-            //             }
-            //         } catch (err) {
-            //             input.click();
-            //         }
-            //     });
+                        const validTypes = [
+                            "image/jpeg",
+                            "image/png",
+                            "image/webp"
+                        ];
 
-            //     // File Selection
-            //     $(document).on("change", "#galleryInput", function () {
+                        if (!validTypes.includes(file.type))
+                            return;
 
-            //         const files = this.files;
+                        if (file.size > 5 * 1024 * 1024)
+                            return;
 
-            //         if (files && files.length) {
-            //             handleFiles(files);
-            //         }
+                        const reader = new FileReader();
 
-            //         $(this).val("");
-            //     });
+                        reader.onload = function (e) {
 
-            //     // Drag Over
-            //     $(document).on("dragover", "#imageGalleryZone", function (e) {
-            //         e.preventDefault();
-            //         e.stopPropagation();
-            //         $(this).addClass("dragover");
-            //     });
+                            galleryImages.push({
 
-            //     // Drag Leave
-            //     $(document).on("dragleave", "#imageGalleryZone", function (e) {
-            //         e.preventDefault();
-            //         e.stopPropagation();
-            //         $(this).removeClass("dragover");
-            //     });
+                                id: Date.now() + Math.random(),
 
-            //     // Drop Files
-            //     $(document).on("drop", "#imageGalleryZone", function (e) {
+                                src: e.target.result,
 
-            //         e.preventDefault();
-            //         e.stopPropagation();
+                                base64: e.target.result,
 
-            //         $(this).removeClass("dragover");
+                                url: "uploading/packages/" + file.name,
 
-            //         const files = e.originalEvent.dataTransfer.files;
+                                file: file,
 
-            //         if (files && files.length) {
-            //             handleFiles(files);
-            //         }
-            //     });
+                                deleted: false
 
-            //     function handleFiles(files) {
+                            });
 
-            //         const remainingSlots = maxImages - galleryImages.length;
+                            updateHiddenField();
+                            renderGallery();
 
-            //         if (remainingSlots <= 0) {
+                        };
 
-            //             $("#galleryMessage")
-            //                 .removeClass("text-muted text-warning")
-            //                 .addClass("text-danger")
-            //                 .html("Maximum limit of 18 images reached.");
+                        reader.readAsDataURL(file);
 
-            //             return;
-            //         }
+                    });
 
-            //         if (files.length > remainingSlots) {
+            }
 
-            //             $("#galleryMessage")
-            //                 .removeClass("text-muted text-danger")
-            //                 .addClass("text-warning")
-            //                 .html(`Only ${remainingSlots} image(s) can be uploaded.`);
-            //         }
+            // ==========================
+            // Hidden URLs
+            // ==========================
+            function updateHiddenField() {
 
-            //         Array.from(files)
-            //             .slice(0, remainingSlots)
-            //             .forEach(function (file) {
+                $("#galleryImageUrls").val(
 
-            //                 const validTypes = [
-            //                     "image/jpeg",
-            //                     "image/png",
-            //                     "image/webp"
-            //                 ];
+                    JSON.stringify(
 
-            //                 if (!validTypes.includes(file.type)) {
-            //                     return;
-            //                 }
+                        galleryImages
+                            .filter(img => !img.deleted)
+                            .map(img => img.url)
 
-            //                 if (file.size > 5 * 1024 * 1024) {
-            //                     return;
-            //                 }
+                    )
 
-            //                 const reader = new FileReader();
+                );
 
-            //                 reader.onload = function (e) {
+            }
 
-            //                     // galleryImages.push({
-            //                     //     id: Date.now() + Math.random(),
-            //                     //     src: e.target.result,
-            //                     //     url: "uploading/packages/" + file.name,
-            //                     //     file: file
-            //                     // });
-            //                     galleryImages.push({
-            //                         id: Date.now() + Math.random(),
-            //                         src: e.target.result,
-            //                         url: "uploading/packages/" + file.name,
-            //                         file: file,
-            //                         base64: e.target.result,
-            //                         deleted: false
-            //                     });
-            //                     $("#galleryImageUrls").val(
-            //                         JSON.stringify(galleryImages.map(img => img.url))
-            //                     );
-            //                     renderGallery();
-            //                 };
+            // ==========================
+            // Upload Zone Status
+            // ==========================
+            function toggleUploadZone() {
 
-            //                 reader.readAsDataURL(file);
-            //             });
-            //     }
+                const activeImages =
+                    galleryImages.filter(img => !img.deleted).length;
 
-            //     function toggleUploadZone() {
+                if (activeImages >= maxImages) {
 
-            //         if (galleryImages.length >= maxImages) {
+                    $("#imageGalleryZone").hide();
 
-            //             $("#imageGalleryZone").hide();
+                    $("#galleryMessage")
+                        .removeClass("text-warning text-muted")
+                        .addClass("text-danger")
+                        .text("Maximum limit of 18 images reached.");
 
-            //             $("#galleryMessage")
-            //                 .removeClass("text-muted text-warning")
-            //                 .addClass("text-danger")
-            //                 .html("Maximum limit of 18 images reached. Delete an image to upload more.");
+                } else {
 
-            //         } else {
+                    $("#imageGalleryZone").show();
 
-            //             $("#imageGalleryZone").show();
+                    $("#galleryMessage")
+                        .removeClass("text-danger text-warning")
+                        .addClass("text-muted")
+                        .text(activeImages + "/" + maxImages + " images uploaded");
 
-            //             $("#galleryMessage")
-            //                 .removeClass("text-danger text-warning")
-            //                 .addClass("text-muted")
-            //                 .html(`${galleryImages.length}/${maxImages} images uploaded`);
-            //         }
-            //     }
+                }
 
-            //     function renderGallery() {
+            }
 
-            //         let html = '';
-            //         const totalImages = galleryImages.length;
+            // ==========================
+            // Render Gallery
+            // ==========================
+            function renderGallery() {
 
-            //         galleryImages.forEach(function (image) {
+                let html = "";
 
-            //             // let colClass = "col-lg-2 col-md-3 col-sm-4 col-6";
+                // Count only active (not deleted) images for layout
+                const activeImages = galleryImages.filter(img => !img.deleted).length;
 
-            //             // if (totalImages <= 6) {
+                galleryImages.forEach(function (image) {
 
-            //             //     switch (totalImages) {
-            //             //         case 1:
-            //             //             colClass = "col-12";
-            //             //             break;
-            //             //         case 2:
-            //             //             colClass = "col-6";
-            //             //             break;
-            //             //         case 3:
-            //             //             colClass = "col-4";
-            //             //             break;
-            //             //         case 4:
-            //             //             colClass = "col-3";
-            //             //             break;
-            //             //         case 5:
-            //             //             colClass = "custom-col-5";
-            //             //             break;
-            //             //         case 6:
-            //             //             colClass = "col-2";
-            //             //             break;
-            //             //     }
-            //             // }
+                    let colClass = "col-lg-2 col-md-3 col-sm-4 col-6";
 
-            //             // html += `
-            //             //     <div class="${colClass} mb-1">
-            //             //         <div class="gallery-item position-relative">
-            //             //             <img src="${image.src}" class="w-100" alt="Gallery Image">
+                    if (activeImages <= 6) {
 
-            //             //             <button type="button"
-            //             //                     class="gallery-delete delete-image"
-            //             //                     data-id="${image.id}">
-            //             //                 <i class="fa-solid fa-trash-can"></i>
-            //             //             </button>
-            //             //         </div>
-            //             //     </div>
-            //             // `;
-            //             const visibleImages = galleryImages.filter(img => !img.deleted);
-            //             const totalImages = visibleImages.length;
+                        switch (activeImages) {
 
-            //             visibleImages.forEach(function (image) {
+                            case 1:
+                                colClass = "col-12";
+                                break;
 
-            //                 let colClass = "col-lg-2 col-md-3 col-sm-4 col-6";
+                            case 2:
+                                colClass = "col-6";
+                                break;
 
-            //                 if (totalImages <= 6) {
-            //                     switch (totalImages) {
-            //                         case 1: colClass = "col-12"; break;
-            //                         case 2: colClass = "col-6"; break;
-            //                         case 3: colClass = "col-4"; break;
-            //                         case 4: colClass = "col-3"; break;
-            //                         case 5: colClass = "custom-col-5"; break;
-            //                         case 6: colClass = "col-2"; break;
-            //                     }
-            //                 }
+                            case 3:
+                                colClass = "col-4";
+                                break;
 
-            //                 html += `
-            //                     <div class="${colClass} mb-1">
-            //                         <div class="gallery-item position-relative">
-            //                             <img src="${image.src}" class="w-100" alt="Gallery Image">
+                            case 4:
+                                colClass = "col-3";
+                                break;
 
-            //                             <button
-            //                                 type="button"
-            //                                 class="gallery-delete delete-image"
-            //                                 data-id="${image.id}">
-            //                                 <i class="fa-solid fa-trash-can"></i>
-            //                             </button>
-            //                         </div>
-            //                     </div>
-            //                 `;
-            //             });
-            //         });
+                            case 5:
+                                colClass = "custom-col-5";
+                                break;
 
-            //         $("#galleryContainer").html(html);
+                            case 6:
+                                colClass = "col-2";
+                                break;
+                        }
+                    }
 
-            //         toggleUploadZone();
-            //     }
+                    html += `
+                        <div class="${colClass} mb-2 ${image.deleted ? 'd-none' : ''}" data-id="${image.id}">
 
-            //     // Delete Image
-            //     $(document).on("click", ".delete-image", function (e) {
+                            <div class="gallery-item position-relative">
 
-            //         e.preventDefault();
-            //         e.stopPropagation();
+                                <img src="${image.src}" class="w-100" alt="Gallery Image">
 
-            //         const imageId = $(this).data("id");
+                                <button
+                                    type="button"
+                                    class="gallery-delete delete-image"
+                                    data-id="${image.id}"
+                                    ${image.deleted ? 'style="display:none;"' : ''}>
 
-            //         galleryImages = galleryImages.filter(function (image) {
-            //             return image.id !== imageId;
-            //         });
-            //         // Update hidden field
-            //         $("#galleryImageUrls").val(
-            //             JSON.stringify(galleryImages.map(img => img.src))
-            //         );
+                                    <i class="fa-solid fa-trash-can"></i>
 
-            //         renderGallery();
-            //     });
+                                </button>
 
-            //     toggleUploadZone();
+                            </div>
 
-            // });
+                        </div>
+                    `;
+                });
+
+                $("#galleryContainer").html(html);
+
+                toggleUploadZone();
+
+            }
             const maxImages = 18;
-            let galleryImages = [];
+            let existingGalleryImages = [];   // Loaded from DB
+            let galleryImages = [];           // Newly uploaded
+            let deletedGallery = [];          // Existing images deleted
 
             $(document).ready(function () {
 
@@ -2737,192 +2983,7 @@ $l2_per=$l3_per=50;
 
                 });
 
-                // ==========================
-                // Handle Files
-                // ==========================
-                function handleFiles(files) {
-
-                    const activeImages = galleryImages.filter(img => !img.deleted).length;
-                    const remainingSlots = maxImages - activeImages;
-
-                    if (remainingSlots <= 0) {
-
-                        $("#galleryMessage")
-                            .removeClass("text-muted text-warning")
-                            .addClass("text-danger")
-                            .text("Maximum limit of 18 images reached.");
-
-                        return;
-                    }
-
-                    Array.from(files)
-                        .slice(0, remainingSlots)
-                        .forEach(function (file) {
-
-                            const validTypes = [
-                                "image/jpeg",
-                                "image/png",
-                                "image/webp"
-                            ];
-
-                            if (!validTypes.includes(file.type))
-                                return;
-
-                            if (file.size > 5 * 1024 * 1024)
-                                return;
-
-                            const reader = new FileReader();
-
-                            reader.onload = function (e) {
-
-                                galleryImages.push({
-
-                                    id: Date.now() + Math.random(),
-
-                                    src: e.target.result,
-
-                                    base64: e.target.result,
-
-                                    url: "uploading/packages/" + file.name,
-
-                                    file: file,
-
-                                    deleted: false
-
-                                });
-
-                                updateHiddenField();
-                                renderGallery();
-
-                            };
-
-                            reader.readAsDataURL(file);
-
-                        });
-
-                }
-
-                // ==========================
-                // Hidden URLs
-                // ==========================
-                function updateHiddenField() {
-
-                    $("#galleryImageUrls").val(
-
-                        JSON.stringify(
-
-                            galleryImages
-                                .filter(img => !img.deleted)
-                                .map(img => img.url)
-
-                        )
-
-                    );
-
-                }
-
-                // ==========================
-                // Upload Zone Status
-                // ==========================
-                function toggleUploadZone() {
-
-                    const activeImages =
-                        galleryImages.filter(img => !img.deleted).length;
-
-                    if (activeImages >= maxImages) {
-
-                        $("#imageGalleryZone").hide();
-
-                        $("#galleryMessage")
-                            .removeClass("text-warning text-muted")
-                            .addClass("text-danger")
-                            .text("Maximum limit of 18 images reached.");
-
-                    } else {
-
-                        $("#imageGalleryZone").show();
-
-                        $("#galleryMessage")
-                            .removeClass("text-danger text-warning")
-                            .addClass("text-muted")
-                            .text(activeImages + "/" + maxImages + " images uploaded");
-
-                    }
-
-                }
-
-                // ==========================
-                // Render Gallery
-                // ==========================
-                function renderGallery() {
-
-                    let html = "";
-
-                    // Count only active (not deleted) images for layout
-                    const activeImages = galleryImages.filter(img => !img.deleted).length;
-
-                    galleryImages.forEach(function (image) {
-
-                        let colClass = "col-lg-2 col-md-3 col-sm-4 col-6";
-
-                        if (activeImages <= 6) {
-
-                            switch (activeImages) {
-
-                                case 1:
-                                    colClass = "col-12";
-                                    break;
-
-                                case 2:
-                                    colClass = "col-6";
-                                    break;
-
-                                case 3:
-                                    colClass = "col-4";
-                                    break;
-
-                                case 4:
-                                    colClass = "col-3";
-                                    break;
-
-                                case 5:
-                                    colClass = "custom-col-5";
-                                    break;
-
-                                case 6:
-                                    colClass = "col-2";
-                                    break;
-                            }
-                        }
-
-                        html += `
-                            <div class="${colClass} mb-2 ${image.deleted ? 'd-none' : ''}" data-id="${image.id}">
-
-                                <div class="gallery-item position-relative">
-
-                                    <img src="${image.src}" class="w-100" alt="Gallery Image">
-
-                                    <button
-                                        type="button"
-                                        class="gallery-delete delete-image"
-                                        data-id="${image.id}"
-                                        ${image.deleted ? 'style="display:none;"' : ''}>
-
-                                        <i class="fa-solid fa-trash-can"></i>
-
-                                    </button>
-
-                                </div>
-
-                            </div>
-                        `;
-                    });
-
-                    $("#galleryContainer").html(html);
-
-                    toggleUploadZone();
-
-                }
+                
 
                 // ==========================
                 // Delete Preview Only
@@ -2934,14 +2995,23 @@ $l2_per=$l3_per=50;
 
                     const id = $(this).data("id");
 
-                    const image = galleryImages.find(img => img.id == id);
+                    const index = galleryImages.findIndex(img => img.id == id);
 
-                    if (image) {
-                        image.deleted = true;
+                    if (index !== -1) {
+
+                        const image = galleryImages[index];
+
+                        // Existing image from DB
+                        if (image.existing) {
+                            deletedGalleryImages.push(image.id); // DB id
+                        }
+
+                        // Remove from array completely
+                        galleryImages.splice(index, 1);
+
+                        updateHiddenField();
+                        renderGallery();
                     }
-
-                    updateHiddenField();
-                    renderGallery();
 
                 });
 
@@ -2951,6 +3021,62 @@ $l2_per=$l3_per=50;
         </script>
         <!-- Video -->
         <script>
+            function addVideoLink() {
+
+                let videoUrl = $("#videoLinkInput").val().trim();
+
+                if (!videoUrl) {
+                    alert("Please enter a video link");
+                    return;
+                }
+
+                // Optional: Validate YouTube/Vimeo URL
+                const validVideoUrl =
+                    videoUrl.includes("youtube.com") ||
+                    videoUrl.includes("youtu.be") ||
+                    videoUrl.includes("vimeo.com");
+
+                if (!validVideoUrl) {
+                    alert("Please enter a valid YouTube or Vimeo link.");
+                    return;
+                }
+
+                // Prevent duplicates
+                let exists = false;
+
+                $(".video-url").each(function () {
+                    if ($(this).text().trim() === videoUrl) {
+                        exists = true;
+                        return false;
+                    }
+                });
+
+                if (exists) {
+                    alert("This video link already exists.");
+                    return;
+                }
+
+                let videoItem = `
+                    <div class="video-preview-item">
+                        <div class="video-link-content">
+                            <i class="fa-solid fa-play play-video"
+                            data-url="${videoUrl}"
+                            title="Play Video"></i>
+
+                            <span class="video-url">${videoUrl}</span>
+                        </div>
+
+                        <i class="fa-solid fa-trash-can delete-video"
+                        title="Delete"></i>
+                    </div>
+                `;
+
+                $("#videoPreviewList").append(videoItem);
+
+                $(".video-example").hide();
+
+                $("#videoLinkInput").val("").focus();
+            }
             $(document).ready(function () {
 
                 // Hide example if videos already exist
@@ -2958,62 +3084,7 @@ $l2_per=$l3_per=50;
                     $(".video-example").hide();
                 }
 
-                function addVideoLink() {
-
-                    let videoUrl = $("#videoLinkInput").val().trim();
-
-                    if (!videoUrl) {
-                        alert("Please enter a video link");
-                        return;
-                    }
-
-                    // Optional: Validate YouTube/Vimeo URL
-                    const validVideoUrl =
-                        videoUrl.includes("youtube.com") ||
-                        videoUrl.includes("youtu.be") ||
-                        videoUrl.includes("vimeo.com");
-
-                    if (!validVideoUrl) {
-                        alert("Please enter a valid YouTube or Vimeo link.");
-                        return;
-                    }
-
-                    // Prevent duplicates
-                    let exists = false;
-
-                    $(".video-url").each(function () {
-                        if ($(this).text().trim() === videoUrl) {
-                            exists = true;
-                            return false;
-                        }
-                    });
-
-                    if (exists) {
-                        alert("This video link already exists.");
-                        return;
-                    }
-
-                    let videoItem = `
-                        <div class="video-preview-item">
-                            <div class="video-link-content">
-                                <i class="fa-solid fa-play play-video"
-                                data-url="${videoUrl}"
-                                title="Play Video"></i>
-
-                                <span class="video-url">${videoUrl}</span>
-                            </div>
-
-                            <i class="fa-solid fa-trash-can delete-video"
-                            title="Delete"></i>
-                        </div>
-                    `;
-
-                    $("#videoPreviewList").append(videoItem);
-
-                    $(".video-example").hide();
-
-                    $("#videoLinkInput").val("").focus();
-                }
+                
 
                 // Button Click
                 $("#addVideoBtn").on("click", function () {
@@ -3042,6 +3113,63 @@ $l2_per=$l3_per=50;
                         $(".video-example").show();
                     }
                 });
+
+            });
+        </script>
+        <!-- preload picture and media section  -->
+        <script>
+            let deletedGalleryImages = [];
+            $(document).ready(function () {
+
+                <?php foreach($packagePictures as $picture): ?>
+
+                    <?php if($picture['type'] == 'cover_image'): ?>
+
+                        // Cover Image
+                        $("#packageCoverImage").attr("src", "../../<?= $picture['image'] ?>").removeClass("d-none");
+                        $("#coverImageUrl").val("<?= $picture['image'] ?>");
+                        $("#deleteImageBtn").show();
+
+                    <?php elseif($picture['type'] == 'gallery_image'): ?>
+
+                        // Existing Gallery Image
+                        galleryImages.push({
+                            id: <?= $picture['id'] ?>,          // DB id
+                            src: "../../<?= $picture['image'] ?>",
+                            url: "<?= $picture['image'] ?>",
+                            file: null,
+                            deleted: false,
+                            existing: true
+                        });
+
+                    <?php elseif($picture['type'] == 'video'): ?>
+
+                        // Existing Video
+                        $("#videoPreviewList").append(`
+                            <div class="video-preview-item">
+                                <div class="video-link-content">
+                                    <i class="fa-solid fa-play play-video"
+                                        data-url="../../<?= $picture['image'] ?>"
+                                        title="Play Video"></i>
+
+                                    <span class="video-url"><?= $picture['image'] ?></span>
+                                </div>
+
+                                <i class="fa-solid fa-trash-can delete-video"
+                                    title="Delete"></i>
+                            </div>
+                        `);
+
+                        $(".video-example").hide();
+
+                    <?php endif; ?>
+
+                <?php endforeach; ?>
+
+                // Refresh gallery using your existing function
+                if (typeof renderGallery === "function") {
+                    renderGallery();
+                }
 
             });
         </script>
@@ -3301,6 +3429,13 @@ $l2_per=$l3_per=50;
                 $(insTotalId).text(`₹ ${formatNumber(totalIns)}`);
                 $(grandTotalId).text(`₹ ${formatNumber(totalComm + totalIns)}`);
             }
+            $(document).ready(function () {
+                getSubCategories(<?= (int)$package['sub_category_id']; ?>);
+            });
+
+            $(document).on('change', '#categoryId', function () {
+                getSubCategories();
+            });
         </script>
     </body>
 </html>
