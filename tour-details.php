@@ -44,6 +44,10 @@ $hotel_cat_id = $package['category_hotel_id'];
 $meal_cat_id = $package['category_meal_id'];
 $validity = $package['validity'] ?? 0;
 
+$tour_days_total = $package['tour_days'] ?? 0;
+$tour_days = $tour_days_total - 1;
+$tour_nights = $tour_days_total - 2;
+
 // itinery 
 $data2 = $conn->prepare("SELECT * FROM package_itinerary_details WHERE package_id = $id");
 $data2->execute();
@@ -403,7 +407,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                             </div>
                                             <div class="fontSize1">
                                                 <p class="fw-bolder">Duration</p>
-                                                <p class="text-muted">5 Nights / 6 Days</p>
+                                                <p class="text-muted"><?= $tour_nights ?> Nights / <?= $tour_days ?> Days</p>
                                             </div>
                                         </div>
                                     </div>
@@ -414,7 +418,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                             </div>
                                             <div class="fontSize1">
                                                 <p class="fw-bolder">Best Time</p>
-                                                <p class="text-muted">Oct - May</p>
+                                                <p class="text-muted"><?= htmlspecialchars($best_season ?? '', ENT_QUOTES, 'UTF-8') ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -425,7 +429,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                             </div>
                                             <div class="fontSize1">
                                                 <p class="fw-bolder">Visa</p>
-                                                <p class="text-muted">Not Required</p>
+                                                <p class="text-muted"><?= $package['visa_required'] === '1' ? 'Visa Required' : 'Not Required' ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -436,18 +440,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                             </div>
                                             <div class="fontSize1">
                                                 <p class="fw-bolder">Meal Plan</p>
-                                                <p class="text-muted">Breakfast & Dinner</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-6 mb-3">
-                                        <div class="d-flex gap-2">
-                                            <div class="iconColor align-content-center">
-                                                <i class="ri-landscape-line"></i>
-                                            </div>
-                                            <div class="fontSize1">
-                                                <p class="fw-bolder">Tour Type</p>
-                                                <p class="text-muted">Group Tour</p>
+                                                <p class="text-muted"><?= $meal_cat['name'] ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -457,8 +450,19 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                                 <i class="ri-car-line"></i>
                                             </div>
                                             <div class="fontSize1">
-                                                <p class="fw-bolder">Pickup/Drop</p>
-                                                <p class="text-muted">Port Blair Airport</p>
+                                                <p class="fw-bolder">Pickup</p>
+                                                <p class="text-muted"><?= $package['travel_from'] ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-6 mb-3">
+                                        <div class="d-flex gap-2">
+                                            <div class="iconColor align-content-center">
+                                                <i class="ri-car-line"></i>
+                                            </div>
+                                            <div class="fontSize1">
+                                                <p class="fw-bolder">Drop</p>
+                                                <p class="text-muted"><?= $package['travel_to'] ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -536,8 +540,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                             <div class="card cardBackgroundColor rounded-3 p-3">
                                                 <h5 class="fw-bolder">Overview</h5>
                                                 <p class="text-muted fw-bold fontSize2 mt-2">
-                                                    Experience the best of Thailand with pristine beaches, vibrant nightlife, iconic temples, thrilling water
-                                                    activities and world-class shopping. A perfect holiday for families, couples and groups.
+                                                    <?= $package['detailed_description'] ?>
                                                 </p>
                                                 <div class="packageCode mt-2">
                                                     <div class="d-flex gap-2">
@@ -546,7 +549,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                                         </div>
                                                         <div class="fontSize1">
                                                             <p class="fw-bolder">Package Code</p>
-                                                            <p class="text-muted">TH-EX-001</p>
+                                                            <p class="text-muted"><?= $package['unique_code'] ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
