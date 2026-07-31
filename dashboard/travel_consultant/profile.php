@@ -207,7 +207,7 @@
                                             <table class="table">
                                                 <tbody>
                                                     <tr>
-                                                        <th class="text-muted fontSize1 pe-0">Frist Name</th>
+                                                        <th class="text-muted fontSize1 pe-0">First Name</th>
                                                         <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoFname"></td>
                                                     </tr>
                                                     <tr>
@@ -617,7 +617,7 @@
                                 'src',
                                 profile.profile_pic
                                     ? '../../uploading/'+profile.profile_pic
-                                    : '../assets/images/users/avatar-4.jpg'
+                                    : '../../uploading/not_uploaded.png'
                             );
 
                             $('#profileName').text(profile.profile_name || '');
@@ -923,7 +923,7 @@
 
                         const docs = [
                             {
-                                url: data.profile_pic?'../../uploading/'+data.profile_pic:'',
+                                url: data.profile_pic?'../../uploading/'+data.profile_pic:'../../uploading/not_uploaded.png',
                                 status: 'Approved',
                                 preview: 'preview1',
                                 view: 'view1',
@@ -931,7 +931,7 @@
                                 docKey: 'profile_pic'
                             },
                             {
-                                url: data.aadhar_card?'../../uploading/'+data.aadhar_card:'',
+                                url: data.aadhar_card?'../../uploading/'+data.aadhar_card:'../../uploading/not_uploaded.png',
                                 status: 'Approved',
                                 preview: 'preview2',
                                 view: 'view2',
@@ -939,7 +939,7 @@
                                 docKey: 'aadhar_card'
                             },
                             {
-                                url: data.pan_card?'../../uploading/'+data.pan_card:'',
+                                url: data.pan_card?'../../uploading/'+data.pan_card:'../../uploading/not_uploaded.png',
                                 status: 'Approved',
                                 preview: 'preview3',
                                 view: 'view3',
@@ -947,7 +947,7 @@
                                 docKey: 'pan_card'
                             },
                             {
-                                url: data.passbook?'../../uploading/'+data.passbook:'',
+                                url: data.passbook?'../../uploading/'+data.passbook:'../../uploading/not_uploaded.png',
                                 status: 'Approved',
                                 preview: 'preview4',
                                 view: 'view4',
@@ -955,7 +955,7 @@
                                 docKey: 'passbook'
                             },
                             {
-                                url: data.voting_card?'../../uploading/'+data.voting_card:'',
+                                url: data.voting_card?'../../uploading/'+data.voting_card:'../../uploading/not_uploaded.png',
                                 status: 'Approved',
                                 preview: 'preview5',
                                 view: 'view5',
@@ -963,7 +963,7 @@
                                 docKey: 'voting_card'
                             },
                             {
-                                url: data.payment_proof?'../../uploading/'+data.payment_proof:'',
+                                url: data.payment_proof?'../../uploading/'+data.payment_proof:'../../uploading/not_uploaded.png',
                                 status: 'Approved',
                                 preview: 'preview6',
                                 view: 'view6',

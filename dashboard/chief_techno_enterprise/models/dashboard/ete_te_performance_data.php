@@ -51,11 +51,7 @@
                 SELECT
                     ca.institution_id AS te_id,
 
-                    CONCAT(
-                        COALESCE(ca.firstname,''),
-                        ' ',
-                        COALESCE(ca.lastname,'')
-                    ) AS te_name,
+                    ca.name AS te_name,
 
                     COUNT(DISTINCT ta.institution_branch_manager_id) AS tc_count,
 

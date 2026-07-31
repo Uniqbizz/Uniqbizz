@@ -207,7 +207,7 @@
                                             <table class="table">
                                                 <tbody>
                                                     <tr>
-                                                        <th class="text-muted fontSize1 pe-0">Frist Name</th>
+                                                        <th class="text-muted fontSize1 pe-0">First Name</th>
                                                         <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoFname"></td>
                                                     </tr>
                                                     <tr>
@@ -962,7 +962,7 @@
                                 'src',
                                 profile.profile_pic
                                     ? '../../uploading/'+profile.profile_pic
-                                    : '../assets/images/users/avatar-4.jpg'
+                                    : '../../uploading/not_uploaded.png'
                             );
 
                             $('#profileName').text(profile.profile_name || '');
@@ -1266,7 +1266,7 @@
 
                         const docs = [
                             {
-                                url: data.profile_pic?'../../uploading/'+data.profile_pic:'',
+                                url: data.profile_pic?'../../uploading/'+data.profile_pic:'../../uploading/not_uploaded.png',
                                 status: verification.profile_pic,
                                 preview: 'preview1',
                                 view: 'view1',
@@ -1274,7 +1274,7 @@
                                 docKey: 'profile_pic'
                             },
                             {
-                                url: data.aadhar_card?'../../uploading/'+data.aadhar_card:'',
+                                url: data.aadhar_card?'../../uploading/'+data.aadhar_card:'../../uploading/not_uploaded.png',
                                 status: verification.aadhar_card,
                                 preview: 'preview2',
                                 view: 'view2',
@@ -1282,7 +1282,7 @@
                                 docKey: 'aadhar_card'
                             },
                             {
-                                url: data.pan_card?'../../uploading/'+data.pan_card:'',
+                                url: data.pan_card?'../../uploading/'+data.pan_card:'../../uploading/not_uploaded.png',
                                 status: verification.pan_card,
                                 preview: 'preview3',
                                 view: 'view3',
@@ -1290,7 +1290,7 @@
                                 docKey: 'pan_card'
                             },
                             {
-                                url: data.cancelled_cheque_bank_passbook?'../../uploading/'+data.cancelled_cheque_bank_passbook:'',
+                                url: data.cancelled_cheque_bank_passbook?'../../uploading/'+data.cancelled_cheque_bank_passbook:'../../uploading/not_uploaded.png',
                                 status: verification.bank_passbook,
                                 preview: 'preview4',
                                 view: 'view4',
@@ -1298,7 +1298,7 @@
                                 docKey: 'cancelled_cheque_bank_passbook'
                             },
                             {
-                                url: data.resume_cv?'../../uploading/'+data.resume_cv:'',
+                                url: data.resume_cv?'../../uploading/'+data.resume_cv:'../../uploading/not_uploaded.png',
                                 status: verification.resume_cv,
                                 preview: 'preview5',
                                 view: 'view5',
@@ -1306,7 +1306,7 @@
                                 docKey: 'resume_cv'
                             },
                             {
-                                url: data.address_proof?'../../uploading/'+data.address_proof:'',
+                                url: data.address_proof?'../../uploading/'+data.address_proof:'../../uploading/not_uploaded.png',
                                 status: verification.address_proof,
                                 preview: 'preview6',
                                 view: 'view6',
@@ -1314,7 +1314,7 @@
                                 docKey: 'address_proof'
                             },
                             {
-                                url: data.professional_profile?'../../uploading/'+data.professional_profile:'',
+                                url: data.professional_profile?'../../uploading/'+data.professional_profile:'../../uploading/not_uploaded.png',
                                 status: verification.professional_profile,
                                 preview: 'preview7',
                                 view: 'view7',
@@ -1322,7 +1322,7 @@
                                 docKey: 'professional_profile'
                             },
                             {
-                                url: data.business_profile?'../../uploading/'+data.business_profile:'',
+                                url: data.business_profile?'../../uploading/'+data.business_profile:'../../uploading/not_uploaded.png',
                                 status: verification.business_profile,
                                 preview: 'preview8',
                                 view: 'view8',
@@ -1330,7 +1330,7 @@
                                 docKey: 'business_profile'
                             },
                             {
-                                url: data.income_proof?'../../uploading/'+data.income_proof:'',
+                                url: data.income_proof?'../../uploading/'+data.income_proof:'../../uploading/not_uploaded.png',
                                 status: verification.income_proof,
                                 preview: 'preview9',
                                 view: 'view9',
@@ -1338,7 +1338,7 @@
                                 docKey: 'income_proof'
                             },
                             {
-                                url: data.other_document?'../../uploading/'+data.other_document:'',
+                                url: data.other_document?'../../uploading/'+data.other_document:'../../uploading/not_uploaded.png',
                                 status: verification.other_document,
                                 preview: 'preview10',
                                 view: 'view10',
@@ -1346,7 +1346,7 @@
                                 docKey: 'other_document'
                             },
                             {
-                                url: data.nominee_profile?'../../uploading/'+data.nominee_profile:'',
+                                url: data.nominee_profile?'../../uploading/'+data.nominee_profile:'../../uploading/not_uploaded.png',
                                 status: verification.nominee_profile,
                                 preview: 'preview11',
                                 view: 'view11',

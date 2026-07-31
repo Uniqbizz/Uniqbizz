@@ -53,7 +53,7 @@
 
         $sqlF = $conn->prepare("
             SELECT
-                CONCAT(i.firstname,' ',i.lastname) AS name,
+                CONCAT(i.name) AS name,
                 i.register_date AS activity_date
             FROM institution i
             INNER JOIN executive_techno_enterprise ete

@@ -18,8 +18,8 @@
             </div>
             <ul class="navbar-nav" id="navbar-nav" >
                 <li class="menu-title"><span data-key="t-menu">Menu</span></li>
-                <li class="nav-item <?php echo ($current_page == 'techno_dashboard.php') ? 'active' : ''; ?>">
-                    <a class="nav-link menu-link" href="techno_dashboard.php">
+                <li class="nav-item <?php echo ($current_page == 'franchisee_dashboard.php') ? 'active' : ''; ?>">
+                    <a class="nav-link menu-link" href="franchisee_dashboard.php">
                         <i class="fa-regular fa-house d-flex"></i><span>Dashboards</span>
                     </a>
                 </li>

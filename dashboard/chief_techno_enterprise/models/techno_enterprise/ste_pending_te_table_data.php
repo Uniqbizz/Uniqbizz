@@ -41,8 +41,8 @@
 
             SELECT
                 sf.id,
-                sf.firstname,
-                sf.lastname,
+                sf.name AS firstname,
+                '' AS lastname,
                 sf.contact_no,
                 sf.email,
                 sf.added_on AS register_date,

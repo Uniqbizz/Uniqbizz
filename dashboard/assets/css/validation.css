@@ -3,6 +3,14 @@
     border: 1px solid #d80b20!important;
     box-shadow: 0 0 0 .15rem rgba(220,53,69,.15);
 }
+/* .team-managed-wrapper.error {
+    border: 1px solid #dc3545 !important;
+    box-shadow: 0 0 0 .15rem rgba(220,53,69,.25);
+}
+
+.team-managed-wrapper:focus-within {
+    box-shadow: 0 0 0 .15rem rgba(220,53,69,.25);
+} */
 .gender-wrapper.error {
     border: 1px solid #dc3545 !important;
     box-shadow: 0 0 0 .15rem rgba(220,53,69,.25);

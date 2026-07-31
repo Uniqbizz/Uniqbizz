@@ -1,173 +1,125 @@
-var payoutData1 = '';
+//for current and future dates only
+document.getElementById("pacValidity").min = new Date().toISOString().split("T")[0];
+//to accept only alpha numerics 
+function allowedCharset(inputId) {
+    const input = document.getElementById(inputId);
+
+    if (!input) return;
+
+    input.addEventListener("keypress", function (e) {
+        const char = String.fromCharCode(e.which || e.keyCode);
+		//only alphabets and spaces
+        if (!/^[a-zA-Z\s]$/.test(char)) {
+            e.preventDefault();
+        }
+		//only alphabets, numbers and spaces
+		// if (!/^[a-zA-Z0-9\s]$/.test(char)) {
+		// 	e.preventDefault();
+		// }
+
+		// Only alphabets, numbers, spaces, hyphen (-) and underscore (_)
+		// if (!/^[a-zA-Z0-9\s_-]$/.test(char)) {
+		// 	e.preventDefault();
+		// }
+    });
+
+    input.addEventListener("input", function () {
+        this.value = this.value.replace(/[^a-zA-Z\s]/g, "");
+    });
+}
+//pacLocation
+allowedCharset("pacLocation");
+//language_type
+allowedCharset("language_type");
 
 $.ajax({
-    url: 'forms/payout_data.php', // fixed file name
-    type: 'GET',            // GET is fine since we’re not sending sensitive data
-    dataType: 'json',       // expecting JSON from PHP
-    success: function(response) {
-        payoutData1 = response;
-        // console.log('Payout Data1:', payoutData1);
+    url: "forms/get_institution_slab.php",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+
+        let html = "";
+
+        if (response.length > 0) {
+
+            response.forEach(function (row) {
+
+                html += `
+                    <tr>
+                        <td>${Number(row.lower_limit).toLocaleString("en-IN")} - ${Number(row.upper_limit).toLocaleString("en-IN")}</td>
+                        <td class="text-start">${Number(row.institution_commission).toLocaleString("en-IN")}</td>
+                    </tr>
+                `;
+
+            });
+
+        } else {
+
+            html = `
+                <tr>
+                    <td colspan="2" class="text-center text-muted">
+                        No records found
+                    </td>
+                </tr>
+            `;
+
+        }
+
+        $("#commissionTableBody").html(html);
+
     },
-    error: function(xhr, status, error) {
-        console.error('AJAX Error:', error);
+    error: function (xhr, status, error) {
+        console.error(error);
     }
 });
 
+let gst = 0;
 
+$.ajax({
+    url: "forms/gst_percentage.php",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+        gst = parseFloat(response.gst) || 0;
+        // console.log(gst);
+    },
+    error: function (xhr, status, error) {
+        console.error(error);
+    }
+});
 // fetch sub category
-function getSubCategories() {
-	document.getElementById("sub_category_id").style.display = "block";
-	document.getElementById("sub_category_data").style.display = "none";
 
-	var cat_id = document.getElementById('category_id').value;
-	// console.log('categoruy selected = ' +cat_id);
+function getSubCategories(selected = '') {
 
-	$.ajax({
-		type: 'POST',
-		url: 'forms/get_sub_categories.php',
-		data: 'cat_id=' + cat_id,
-		success: function (e) {
-			// console.log(e);
-			$('#sub_category_id').html(e);
-		},
-		error: function (err) {
-			console.log(err);
-		},
-	});
+    document.getElementById("subCategoryId").style.display = "block";
+    document.getElementById("subCategoryData").style.display = "none";
 
-	getSubCategory();
-}
+    var cat_id = $('#categoryId').val();
 
-
-var club_class_display = document.getElementById('club_class_display');
-var stag_id = document.getElementById('stag_id');
-var couple_id = document.getElementById('couple_id');
-var family_id = document.getElementById('family_id');
-
-var stag_id_field = document.getElementById('stag_id_field');
-var couple_id_field = document.getElementById('couple_id_field');
-var family_id_field = document.getElementById('family_id_field');
-
-// get extra club data
-function getSubCategory() {
-	packageTypeValue = '';			// set package type null
-	$('input:radio[name=package_type]').val(['']);
-
-	getClubData();
-}
-function getClubData() {
-	var cat_id = document.getElementById('category_id').value;
-	var selected_cat_id = document.getElementById("selected_cat_id");
-	if (cat_id) { } else {
-		cat_id = selected_cat_id.value;
-	}
-	var sub_cat_id = document.getElementById('sub_category_id').value;
-	var selected_sub_cat_id = document.getElementById("sub_category_data");
-	if (sub_cat_id) { } else {
-		sub_cat_id = selected_sub_cat_id.value;
-	}
-	// console.log(cat_id+ ' cat_id ,sub_cat_id '+sub_cat_id);
-
-	// club
-	if (cat_id == 1 && sub_cat_id == 1) {
-		//  International
-		club_class_display.style.display = "block";
-		couple_id_field.style.display = "inline";
-		family_id_field.style.display = "inline";
-		stag_id_field.style.display = "none";
-	} else if (cat_id == 2 && sub_cat_id == 4) {
-		//  Domestic
-		club_class_display.style.display = "block";
-		couple_id_field.style.display = "inline";
-		family_id_field.style.display = "inline";
-		stag_id_field.style.display = "none";
-
-		// Individual
-	} else if (cat_id == 1 && sub_cat_id == 2) {
-		//  International
-		club_class_display.style.display = "none";
-		$("#club_id").val('0');
-		stag_id_field.style.display = "inline";
-		couple_id_field.style.display = "none";
-		family_id_field.style.display = "inline";
-	} else if (cat_id == 2 && sub_cat_id == 5) {
-		//  Domestic
-		club_class_display.style.display = "none";
-		$("#club_id").val('0');
-		stag_id_field.style.display = "inline";
-		couple_id_field.style.display = "none";
-		family_id_field.style.display = "inline";
-
-		// Group
-	} else if (cat_id == 1 && sub_cat_id == 3) {
-		//  Domestic & club
-		club_class_display.style.display = "none";
-		$("#club_id").val('0');
-		stag_id_field.style.display = "inline";
-		couple_id_field.style.display = "inline";
-		family_id_field.style.display = "none";
-	} else if (cat_id == 2 && sub_cat_id == 8) {
-		//  Domestic & club
-		club_class_display.style.display = "none";
-		$("#club_id").val('0');
-		stag_id_field.style.display = "inline";
-		couple_id_field.style.display = "inline";
-		family_id_field.style.display = "none";
-	} else {
-		club_class_display.style.display = "none";
-		$("#club_id").val('0');
-		stag_id_field.style.display = "inline";
-		couple_id_field.style.display = "inline";
-		family_id_field.style.display = "inline";
-	}
-}
-
-
-//  validate data
-var isValid_a1 = false, isValid_a2 = false;
-var isValid_b1 = false, isValid_b2 = false, isValid_b3 = false;
-var isValid_c1 = false, isValid_c2 = false, isValid_c3 = false, isValid_c4 = false, isValid_c5 = false, isValid_c6 = false;
-var isValid_d1 = false, isValid_d2 = false;
-var regexExp = /[^a-zA-Z0-9 ]/;		// letters, number, space
-var regexExp_alphanumeric = /[^a-zA-Z0-9]/;		// letters, number
-var regexExp_numeric = /[^0-9]/;			// number
-var total_mark_up=0;
-let mark_up_title = newmark_up_title = coupon_title = newcoupon_title = insmark_up_title = inscoupon_title = 0;
-function getMarkupValues() {
-
-    let text = $('#mark_up_title').text();
-    let text2 = $('#new_mark_up_title').text();
-    let text3 = $('#cup_title').text();
-    let text4 = $('#newcup_title').text();
-	let text5 = $('#ins_mark_up_title').text();
-	let text6 = $('#inscup_title').text();
-
-    mark_up_title = parseFloat(text.match(/[\d.]+/)?.[0]) || 0;
-    newmark_up_title = parseFloat(text2.match(/[\d.]+/)?.[0]) || 0;
-    coupon_title = parseFloat(text3.match(/[\d.]+/)?.[0]) || 0;
-    newcoupon_title = parseFloat(text4.match(/[\d.]+/)?.[0]) || 0;
-    insmark_up_title = parseFloat(text3.match(/[\d.]+/)?.[0]) || 0;
-    inscoupon_title = parseFloat(text4.match(/[\d.]+/)?.[0]) || 0;
-
-	//equate the old markup with new on change
-	insmark_up_title = newmark_up_title = mark_up_title 
-
-    console.log({
-        mark_up_title,
-        newmark_up_title,
-		insmark_up_title,
-        coupon_title,
-        newcoupon_title,
-		inscoupon_title
+    $.ajax({
+        type: 'POST',
+        url: 'forms/get_sub_categories.php',
+        data: {
+            cat_id: cat_id,
+            selected: selected
+        },
+        success: function (e) {
+            $('#subCategoryId').html(e);
+        },
+        error: function (err) {
+            console.log(err);
+        }
     });
 }
 
 
-// observe text changes in spans/divs/labels
 const observer = new MutationObserver(function (mutations) {
-    getMarkupValues();
+    mutations.forEach(function (mutation) {
+        console.log("Changed:", mutation.target.textContent);
+        
+        // Your logic here
+    });
 });
-
 
 // target elements
 [
@@ -190,122 +142,6 @@ const observer = new MutationObserver(function (mutations) {
     }
 });
 
-
-// initial load
-getMarkupValues();
-
-// form 1
-$('#name').on('keyup', function () {
-	var nameID = document.getElementById("name");
-	isValid_a1 = validateInput(
-		regexExp,
-		nameID,
-		"Please enter valid Name !!"
-	);
-	// if (isValid_a1) {
-	// check if the name does exist
-	// validateIdenticalRecord('name', nameID, "Package Name is already been used !!");
-	// }
-});
-$('#unique_code').on('keyup', function () {
-	var codeID = document.getElementById("unique_code");
-
-	isValid_a2 = validateInput(
-		regexExp_alphanumeric,
-		codeID,
-		"Special characters are not allowed !!"
-	);
-	if (isValid_a2) {
-		// check if the code does exist
-		validateIdenticalRecord('unique_code', codeID, "This Code is already been used !!");
-	}
-});
-
-
-// form 2
-// 	$('#location').on('keyup', function(){
-// 		isValid_b1 = validateInput(
-// 						regexExp, 
-// 						document.getElementById("location"), 
-// 						"Special characters are not allowed !!"
-// 					);
-// 	});
-$('#travel_from').on('keyup', function () {
-	isValid_b2 = validateInput(
-		regexExp,
-		document.getElementById("travel_from"),
-		"Special characters are not allowed !!"
-	);
-});
-$('#travel_to').on('keyup', function () {
-	isValid_b3 = validateInput(
-		regexExp,
-		document.getElementById("travel_to"),
-		"Special characters are not allowed !!"
-	);
-});
-
-// form 4
-$('#netPriceAdult').on('keyup', function () {
-	isValid_c1 = validateInput(
-		regexExp_numeric,
-		document.getElementById("netPriceAdult"),
-		"Invalid Price for Adult!! "
-	);
-});
-$('#netPriceChild').on('keyup', function () {
-	isValid_c2 = validateInput(
-		regexExp_numeric,
-		document.getElementById("netPriceChild"),
-		"Invalid Price for Child !! "
-	);
-});
-$('#nGst').on('keyup', function () {
-	isValid_c3 = validateInput(
-		regexExp_numeric,
-		document.getElementById("nGst"),
-		"Invalid value for Net GST !! "
-	);
-});
-$('#mpGst').on('keyup', function () {
-	isValid_c4 = validateInput(
-		regexExp_numeric,
-		document.getElementById("markup"),
-		"Invalid Markup Price!! "
-	);
-});
-$('#mpGst').on('keyup', function () {
-	isValid_c5 = validateInput(
-		regexExp_numeric,
-		document.getElementById("markup_loading_price"),
-		"Invalid Markup Loading Price !! "
-	);
-});
-$('#mpGst').on('keyup', function () {
-	isValid_c6 = validateInput(
-		regexExp_numeric,
-		document.getElementById("mpGst"),
-		"Invalid value for Makup GST !! "
-	);
-});
-
-
-var packageTypeValue = '';
-function packageTypeOnClick(data) {
-	packageTypeValue = data.value;
-	if (packageTypeValue == "couple") {
-		document.getElementById("netPriceChildData").style.display = "none";
-		document.getElementById("totalNetPriceChildData").style.display = "none";
-		document.getElementById("net_gst_title").innerText = "Net GST (%) for Adult :";
-		document.getElementById('netPriceChild').value = 0;
-		getNetPrice();
-	} else {
-		document.getElementById("netPriceChildData").style.display = "block";
-		document.getElementById("totalNetPriceChildData").style.display = "block";
-		document.getElementById("net_gst_title").innerText = "Net GST (%) for Adult & Child :";
-	}
-}
-
 // add days function
 var wrapper = $(".input_fields_wrap"); 		// Fields wrapper
 var add_button = $(".add_field_button"); 	// Add button
@@ -317,25 +153,28 @@ $(document).ready(function () {
 	$(add_button).click(function (e) {
 		e.preventDefault();
 		dayCount += 1;
-
+		//icon section removed on 29-07-2026 by SV
+		// <div class="col-md-2 col-sm-2 col-12 mb-2">
+		// 					<div class="upload-card icon-upload-card" data-title="Icons" data-index="${dayCount}">
+		// 						<input type="hidden" id="img_path${dayCount}" value="">
+    	// 						<input type="hidden" id="img_base64${dayCount}" value="">
+								
+		// 						<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file${dayCount}">
+		// 						<div class="upload-content">
+		// 							<div class="upload-icon">
+		// 								<i class="fa-solid fa-user"></i>
+		// 							</div>
+		// 							<h6>Add Icons</h6>
+		// 							<p>Click to upload<br>or drag and drop</p>
+		// 							<small>(JPG, PNG, PDF)</small>
+		// 						</div>
+		// 					</div>
+ 		// 				</div>
 		if (x < max_fields) {
 			x++;
 			$(wrapper).append(`<div class="row day-container">
-						<div class="col-md-2 col-sm-2 col-12 mb-2">
-							<div class="upload-card icon-upload-card" data-title="Icons" data-index="1">
-								<input type="hidden" id="img_path1" value="">
-								<input type="file" class="file-input" accept="image/*,.pdf" id="upload_file1">
-								<div class="upload-content">
-									<div class="upload-icon">
-										<i class="fa-solid fa-user"></i>
-									</div>
-									<h6>Add Icons</h6>
-									<p>Click to upload<br>or drag and drop</p>
-									<small>(JPG, PNG, PDF)</small>
-								</div>
-							</div>
- 						</div>
-						<div class="col-md-10 col-sm-10 col-12">
+						
+						<div class="col-md-12 col-sm-12 col-12">
 							<div class="card rounded-5 box border border-1 px-3 pt-3" draggable="true">
 								<div class="row">
 									<div class="col-md-2 col-sm-3 col-3">
@@ -400,712 +239,572 @@ $(document).ready(function () {
 		});
 	}
 });
+$(document).on('input change', '.title, .description, .meals, .transport', function() {
+    $(this).removeClass('border-danger');
+    $(this).closest('.input-group').next('.error-message').remove();
+});
 
-// All functions
-function generalformHide(d) {
-	packageFormGeneralTitle.style.display = d;
-	packageFormGeneral.style.display = d;
-}
-function extraformHide(d) {
-	packageFormExtraTitle.style.display = d;
-	packageFormExtra.style.display = d;
-}
-function itineraryformHide(d) {
-	packageFormItineraryTitle.style.display = d;
-	packageFormItinerary.style.display = d;
-}
-function pricingformHide(d) {
-	packageFormPricingTitle.style.display = d;
-
-	packageFormPricing.style.display = d;
-}
-function pictureformHide(d) {
-	packageFormPictureTitle.style.display = d;
-	packageFormPicture.style.display = d;
-}
-// form peginations
-function showGeneralForm(e) {
-	e.preventDefault();
-	generalformHide("block");
-	extraformHide("none");
-	general_page.style.display = "none";
-	view_page.style.display = "block";
-}
-function generalFormNext(e) {
-	e.preventDefault();
-
-	var category_id = $("#category_id").val();
-	var sub_category_id = $("#sub_category_id").val();
-	var selected_sub_cat_id = document.getElementById("sub_category_data");
-	if (sub_category_id) { } else {
-		sub_category_id = selected_sub_cat_id.value;
-	}
-	var club_id = $("#club_id").val();
-	var name = $("#name").val();
-	var unique_code = $("#unique_code").val();
-	let pac_validity = $('#pac_validity').val();
-	let tour_days = $('#tour_days').val();
-	var description = $("#description").val();
-
-	if (category_id == "" || sub_category_id == "" || name == "" || unique_code == "" || description == "" || pac_validity == "" || tour_days == "") {
-		if (category_id == "") {
-			alert("Please Select Category !");
-		} else if (sub_category_id == "") {
-			alert("Please Select Sub-categoy !");
-		} else if (name == "") {
-			alert("Please Enter name !");
-		} else if (unique_code == "") {
-			alert("Please Enter Unique Code !");
-		} else if (pac_validity == "") {
-			alert("Please Select the Package Validity !");
-		} else if (tour_days == "") {
-			alert("Please Enter Tours No of Days !");
-		} else if (description == "") {
-			alert("Description cannot be empty !");
-		}
-	} else if (sub_category_id == 1 && club_id == "0") {
-		alert("Please Select Club-categoy !");
-	} else if (sub_category_id == 4 && club_id == "0") {
-		alert("Please Select Club-categoy !");
-	} else if (packageTypeValue == "") {
-		alert("Please Select Package Type !");
-	} else if (isValid_a1 == false) {
-		alert("Please enter valid Name !");
-	} else if (isValid_a2 == false) {
-		alert("Please enter valid Unique Code !");
-	} else {
-		// console.log('General Form Clicked');
-		generalformHide("none");
-		extraformHide("block");
-		itineraryformHide("none");
-		view_page.style.display = "none";
-		general_page.style.display = "block";
-		extraInfo_page.style.display = "none";
-	}
-}
-function extraFormNext(e) {
-	e.preventDefault();
-
-	var destination = $("#destination").val();
-	var location = $("#location").val();
-	var travel_from = $("#travel_from").val();
-	var travel_to = $("#travel_to").val();
-	var sightseeing_type = $("#sightseeing_type").val();
-	if (destination == "" || location == "" || travel_from == "" || travel_to == "" || sightseeing_type == "") {
-		if (destination == "") {
-			alert("Please enter Destination !");
-		} else if (location == "") {
-			alert("Please Enter Location !");
-		} else if (travel_from == "") {
-			alert("Please Enter starting point of travelling !");
-		} else if (travel_to == "") {
-			alert("Please Enter Travelling To !");
-		} else if (sightseeing_type == "") {
-			alert("Sightseeing cannot be empty !");
-		}
-		// } else if( isValid_b1 == false ) {
-		// 	alert("Please enter valid Location Type !");
-	} else if (isValid_b2 == false) {
-		alert("Please enter valid Data !");
-	} else if (isValid_b3 == false) {
-		alert("Please enter valid Data !");
-	} else {
-		// console.log('Extra Form Clicked');
-		extraformHide("none");
-		itineraryformHide("block");
-		pricingformHide("none");
-		extraInfo_page.style.display = "block";
-		general_page.style.display = "none";
-		itinerary_page.style.display = "none";
-	}
-}
-function itineraryFormNext(e) {
-	e.preventDefault();
-
-	var inclusion = $("#inclusion").val();
-	var exclusion = $("#exclusion").val();
-
-	if (inclusion == "" || exclusion == "") {
-		if (inclusion == "") {
-			alert("Please enter inclusion !");
-		} else if (exclusion == "") {
-			alert("Please Enter exclusion !");
-		}
-	} else {
-		// console.log('Itinerary Form Clicked');
-		itineraryformHide("none");
-		pricingformHide("block");
-		pictureformHide("none");
-		extraInfo_page.style.display = "none";
-		itinerary_page.style.display = "block";
-		pricing_page.style.display = "none";
-	}
-}
-function pricingFormNext(e) {
-	e.preventDefault();
-	
-	var netPriceAdult = $("#netPriceAdult").val();
-	var netPriceChild = $("#netPriceChild").val();
-	var nGst = $("#nGst").val();
-	var ta = $("#mp_ca_ta").val();
-	var company = $('#mp_company').val();
-	var cus = $('#mp_customer').val();
-	var L1_customer_share=$('#l1_cust_comm').val();
-	//new markup variables dded on 09 may 2026 by SV
-	var newta = $("#new_mp_ca_ta").val();
-	var newcus = $('#mp_customer').val();
-	var newL1_customer_share=$('#new_l1_cust_comm').val();
-	// ins markup validation add on 12-05-2026 by SV
-	var ins_mp_ca_ta = $("#ins_mp_ca_ta").val();
-	var inscus = $('#ins_mp_customer').val();
-	var insL1_customer_share=$('#ins_l1_cust_comm').val();
-	//--------------
-	var policy_1 = $('#can_per_1').val(), policy_2 = $('#can_per_2').val(), policy_3 = $('#can_per_3').val();
-	var add_adult_p=$('#add_adult_price').val();
-	//commented on 25 jan 2025 by sv
-	// var markup = $("#markup").val();
-	// var mpGst = $("#mpGst").val();
-	// var markup_loading_price = $("#markup_loading_price").val();
-	if (netPriceAdult == "" || netPriceChild == "" || nGst == "" || ta == "" 
-		|| company == "" || L1_customer_share=="" || policy_1 == '' || policy_2 == '' || policy_3 == ''
-		|| netPriceAdult == 0 || netPriceChild == 0 || nGst == 0 || ta == 0 || company == 0 
-		|| add_adult_p == '' || add_adult_p == 0 || newta == "" || newta == 0 || newL1_customer_share == "" || newL1_customer_share == 0
-		|| ins_mp_ca_ta == "" || ins_mp_ca_ta == 0 || insL1_customer_share == "" || insL1_customer_share == 0) {
-			
-		if (netPriceAdult == 0) {
-			alert("Please enter Net Price Per Adult !");
-		} else if ((netPriceChild == "" || netPriceChild == 0) && (packageTypeValue == "stag" || packageTypeValue == "family")) {
-			alert("Please enter Net Price Per Child !");
-		} else if (nGst == "" || nGst == 0) {
-			alert("Please Enter GST for Net Price !");
-		}
-		else if (ta == "" || ta == 0) {
-			alert("Please enter Travel Agent value !");
-		}
-		else if (company == "" || company == 0) {
-			alert("Please enter Company value !");
-		} else if (L1_customer_share=="" || L1_customer_share==0) {
-			alert("Please enter L1 Customer value !");
-		} else if (add_adult_p == "" || add_adult_p == 0) {
-			alert("Please enter Additional Adult Price !");
-		} else if (policy_1 == '' || policy_2 == '' || policy_3 == '') {
-			alert("Please fill all cancellation fields");
-		}
-		//new chief techno markup validation add on 09 may 2026 by SV
-		else if (newta == "" || newta == 0) {
-			alert("Please enter chief techno Travel Agent value !");
-		}else if (newL1_customer_share=="" || newL1_customer_share==0) {
-			alert("Please enter chief techno L1 Customer value !");
-		}
-		//new institution markup validation add on 09 may 2026 by SV
-		else if (ins_mp_ca_ta == "" || ins_mp_ca_ta == 0) {
-			alert("Please enter Instituion value !");
-		}else if (insL1_customer_share=="" || insL1_customer_share==0) {
-			alert("Please enter Instituion L1 Customer value !");
-		}
-	} else if (isValid_c1 == false) {
-		alert("Please enter valid Price for Adult ! ");
-	} else if ((isValid_c2 == false) && (packageTypeValue == "stag" || packageTypeValue == "family")) {
-		alert("Please enter valid Price for Child !");
-	} else if (isValid_c3 == false) {
-		alert("Please enter valid Value for Net GST !");
-	}
-
-	else {
-		console.log('Pricing Form Completed');
-		pricingformHide("none");
-		pictureformHide("block");
-
-
-		pricing_page.style.display = "block";
-		itinerary_page.style.display = "none";
-	}
-}
-
-
-
-var netPriceAdult = 0, netPriceChild = 0, netGst, totalNetPriceAdult, totalNetPriceChild, markUpPrice, loadingPrice, markupGst, markupPrice_LoadingPrice;
-var netPriceAdultWithGST = 0, GSTofNetPriceAdult = 0, netPriceChildWithGST = 0, GSTofNetPriceChild = 0;
-var netTotal, markupTotal, GSTofNetTotal, GSTofMarkUpTotal, finalPriceWithGST = 0, finalNetPriceWithGST = 0, finalMarkupPriceWithGST = 0, Product_PriceTotal, GST_PriceTotal, ca_mark_up = 0, ca_mark_up_comm = 0, ca_mark_up_ins = 0, bm_mark_up = 0, bm_mark_up_comm = 0, bm_mark_up_ins = 0, bdm_mark_up = 0, bdm_mark_up_comm = 0, bdm_mark_up_ins = 0, bcm_mark_up = 0, bcm_mark_up_comm = 0
-	, bcm_mark_up_ins = 0
-
+// Clear errors when adding/removing days
+$(document).on('click', '.add_field_button, .remove_field', function() {
+    $('.error-message').remove();
+    $('.border-danger').removeClass('border-danger');
+    $("#days_error").text("");
+});
 //for keeping 2 decimals without rounding added on 25-Jan-2025 by SV
 function truncateToTwoDecimals(num) {
-    let decimal = num % 1;
 
-    // if only 1 decimal place or whole number
-    if (Number(decimal.toFixed(1)) === decimal) {
-        return Math.round(num);
+    return Math.trunc(num * 100) / 100;
+}
+//suspence and final price calculation
+const recalculateFields = [
+    "#customer1",
+    "#customer2",
+    "#customer3",
+    "#netPriceAdult",
+    "#netPriceChild",
+    "#companyMarkup",
+    "#couponAdjustment",
+	"#travelConsultant"
+];
+
+$(document).on("input change", recalculateFields.join(","), function () {
+    calculateEverything();
+});
+
+let previousValues = {};
+
+$(document).on("input change", recalculateFields.join(","), function () {
+
+    const id = this.id;
+    const value = $(this).val();
+
+    if (previousValues[id] === value) {
+        return;
     }
 
-    // keep only 1 decimal place and round it
-    return Math.round(num * 10) / 10;
+    previousValues[id] = value;
+
+    calculateEverything();
+});
+
+function calculateEverything() {
+
+    calculatePackagePrice(payoutData);
+
+    calculatePackagePriceNew(payoutDataNew);
+
+    calculatePackagePriceIns(payoutDataInsBm);
+
+    calculatePackagePriceInsCte(payoutDataInsCte);
+
+    calculateFinalValues();
 }
 
-//all cal fuction by SV
-function calculatePackagePrice(payoutData) {
-    // console.log("calculatePackagePrice called");
-	getMarkupValues();
-    // --------------------------
-    // 1️⃣ Prepare Inputs
-    // --------------------------
-    let netPriceAdult = parseInt(document.getElementById('netPriceAdult').value, 10) || 0;
-    let netPriceChild = parseInt(document.getElementById('netPriceChild').value, 10) || 0;
-    let netGst = parseFloat(document.getElementById('nGst').value) || 0;
-	let text = document.getElementById('mark_up_title').textContent;
-	//added on 11-05-2026 by SV -- coupon amount on change logic
-	coupon_title = $("#coupon_total").val();
-		
-	$('#cup_title').html('Coupon (Total: ' + coupon_title + ')');
-	// Extract first number (integer or decimal)
-	mark_up_title = parseFloat(text.match(/[\d.]+/)?.[0]) || 0;
+//get all the values and calculate suspence and then diter mine the final price of adult and child
+function calculateFinalValues() {
 
-    let ta_mark_up = parseFloat(document.getElementById("mp_ca_ta").value) || 0;
-    let company_share = parseFloat(document.getElementById("mp_company").value) || 0;
-    // let customer_share = parseFloat(document.getElementById("mp_customer").value) || 0;
-	let l1_cust_comm=truncateToTwoDecimals(parseFloat($('#l1_cust_comm').val())||0);
-	let l2_cust_comm=l1_cust_comm * 0.5;
+    let apValue = parseFloat($("#netPriceAdult").val()) || 0;   // Adult
+    let cpValue = parseFloat($("#netPriceChild").val()) || 0;   // Child
+    let cmValue = parseFloat($("#companyMarkup").val()) || 0;
+    let cAdjValue = parseFloat($("#couponAdjustment").val()) || 0;
+
+    function getAmount(selector) {
+		return parseFloat(
+			$(selector)
+				.text()
+				.replace(/,/g, "")
+				.replace(/[^\d.-]/g, "")
+		) || 0;
+	}
+
+	let cteChainTotalValue = getAmount("#cteChainCommInsTotal");
+	let bmTeChainTotalValue = getAmount("#bmTeChainCommInsTotal");
+	let bmIComInsTotal = getAmount("#bmIComInsTotal");
+	let iCteComInsTotal = getAmount("#iCteComInsTotal");
+
+    let tcValue = parseFloat($("#travelConsultant").val()) || 0;
+
+    let customer1 = parseFloat($("#customer1").val()) || 0;
+    let customer2 = parseFloat($("#customer2").val()) || 0;
+    let customer3 = parseFloat($("#customer3").val()) || 0;
+
+    // Common amount
+    let adultCommon =
+        apValue +
+        cmValue +
+        cAdjValue +
+        customer1 +
+        customer2 +
+        customer3;
+    let childCommon =
+        cpValue +
+        cmValue +
+        cAdjValue +
+        customer1 +
+        customer2 +
+        customer3;
+
+    // Four possible totals
+    let adultTotal1 = adultCommon + tcValue + cteChainTotalValue;
+    let adultTotal2 = adultCommon + tcValue + bmTeChainTotalValue;
+    let adultTotal3 = adultCommon + bmIComInsTotal;
+    let adultTotal4 = adultCommon + iCteComInsTotal;
+
+    let childTotal1 = childCommon + tcValue + cteChainTotalValue;
+    let childTotal2 = childCommon + tcValue + bmTeChainTotalValue;
+    let childTotal3 = childCommon + bmIComInsTotal;
+    let childTotal4 = childCommon + iCteComInsTotal;
+	// console.log("adultTotal1:"+adultTotal1);
+	// console.log("adultTotal2:"+adultTotal2);
+	// console.log("adultTotal3:"+adultTotal3);
+	// console.log("adultTotal4:"+adultTotal4);
 	
-	let l3_cust_comm=l2_cust_comm * 0.5;
-	
-    let customer_share =(l1_cust_comm+l2_cust_comm+l3_cust_comm) ;
+    // Find the maximum
+    let adultMaxTotal = Math.max(adultTotal1, adultTotal2, adultTotal3, adultTotal4);
+    let childMaxTotal = Math.max(childTotal1, childTotal2, childTotal3, childTotal4);
+	let mrpPerAdultGst = adultMaxTotal + (adultMaxTotal * (gst / 100));
+	let mrpPerChildGst = childMaxTotal + (childMaxTotal * (gst / 100));
 
-    // --------------------------
-    // 2️⃣ GST Calculations
-    // --------------------------
-    let GSTofNetPriceAdult = netPriceAdult * netGst / 100;
-    let GSTofNetPriceChild = netPriceChild * netGst / 100;
+    // Set MRP
+    $("#mrpPerAdult").val(truncateToTwoDecimals(adultMaxTotal));
+    $("#mrpPerChild").val(truncateToTwoDecimals(childMaxTotal));
 
-    let netPriceAdultWithGST = netPriceAdult + GSTofNetPriceAdult;
-    let netPriceChildWithGST = netPriceChild + GSTofNetPriceChild;
+    // Set MRP with GST
+    $("#mrpPerAdultWithGst").val(truncateToTwoDecimals(mrpPerAdultGst));
+    $("#mrpPerChildWithGst").val(truncateToTwoDecimals(mrpPerChildGst));
 
-    // Assign back to fields
-    document.getElementById('totalNetPriceAdult').value = truncateToTwoDecimals(netPriceAdultWithGST);
-    document.getElementById('totalNetPriceChild').value = truncateToTwoDecimals(netPriceChildWithGST);
+    // Suspense values
+    $("#cteSuspence").val((truncateToTwoDecimals(adultMaxTotal - adultTotal1)));
+    $("#bmSuspence").val((truncateToTwoDecimals(adultMaxTotal - adultTotal2)));
+    $("#bmISuspence").val((truncateToTwoDecimals(adultMaxTotal - adultTotal3)));
+    $("#cteISuspence").val((truncateToTwoDecimals(adultMaxTotal - adultTotal4)));
 
-    // --------------------------
-    // 3️⃣ Role-wise Markup Calculation (from payoutData)
-    // --------------------------
-    const roleMap = {};
-    payoutData.forEach(entry => {
-        roleMap[entry.role] = entry;
-    });
-
-    // TE
-    let ca_ovr_per = roleMap['TE']?.overall_percentage || 0;
-    let ca_com_per = roleMap['TE']?.comm_percentage || 0;
-    let ca_ins_per = roleMap['TE']?.ins_percentage || 0;
-
-    // BM
-    let bm_ovr_per = roleMap['BM']?.overall_percentage || 0;
-    let bm_com_per = roleMap['BM']?.comm_percentage || 0;
-    let bm_ins_per = roleMap['BM']?.ins_percentage || 0;
-
-    // BDM
-    let bdm_ovr_per = roleMap['BDM']?.overall_percentage || 0;
-    let bdm_com_per = roleMap['BDM']?.comm_percentage || 0;
-    let bdm_ins_per = roleMap['BDM']?.ins_percentage || 0;
-
-    // BCM
-    let bcm_ovr_per = roleMap['BCM']?.overall_percentage || 0;
-    let bcm_com_per = roleMap['BCM']?.comm_percentage || 0;
-    let bcm_ins_per = roleMap['BCM']?.ins_percentage || 0;
-
-    // --------------------------
-    // 4️⃣ Commission Distribution
-    // --------------------------
-    let ca_mark_up_comm = (ta_mark_up * (ca_ovr_per / 100)) * (ca_com_per / 100);
-    let ca_mark_up_ins = (ta_mark_up * (ca_ovr_per / 100)) * (ca_ins_per / 100);
-    let ca_mark_up = ca_mark_up_comm + ca_mark_up_ins;
-
-    let bm_mark_up_comm = (ca_mark_up_comm * (bm_ovr_per / 100)) * (bm_com_per / 100);
-    let bm_mark_up_ins = (ca_mark_up_comm * (bm_ovr_per / 100)) * (bm_ins_per / 100);
-    let bm_mark_up = bm_mark_up_comm + bm_mark_up_ins;
-
-    let bdm_mark_up_comm = (bm_mark_up_comm * (bdm_ovr_per / 100)) * (bdm_com_per / 100);
-    let bdm_mark_up_ins = (bm_mark_up_comm * (bdm_ovr_per / 100)) * (bdm_ins_per / 100);
-    let bdm_mark_up = bdm_mark_up_comm + bdm_mark_up_ins;
-
-    let bcm_mark_up_comm = (bdm_mark_up_comm * (bcm_ovr_per / 100)) * (bcm_com_per / 100);
-    let bcm_mark_up_ins = (bdm_mark_up_comm * (bcm_ovr_per / 100)) * (bcm_ins_per / 100);
-    let bcm_mark_up = bcm_mark_up_comm + bcm_mark_up_ins;
-
-    // Round to 2 decimals
-    ca_mark_up = truncateToTwoDecimals(ca_mark_up);
-    bm_mark_up = truncateToTwoDecimals(bm_mark_up);
-    bdm_mark_up = truncateToTwoDecimals(bdm_mark_up);
-    bcm_mark_up = truncateToTwoDecimals(bcm_mark_up);
-
-    // --------------------------
-    // 5️⃣ Totals
-    // --------------------------
-    total_mark_up = truncateToTwoDecimals(
-        parseFloat(ca_mark_up) +
-        parseFloat(bm_mark_up) +
-        parseFloat(ta_mark_up) +
-        parseFloat(customer_share) +
-        parseFloat(company_share)+
-		parseFloat(coupon_title)
-    );
-
-    total_adult_price = truncateToTwoDecimals(
-        netPriceAdultWithGST + parseFloat(ca_mark_up) + parseFloat(bm_mark_up) +
-        parseFloat(ta_mark_up) + parseFloat(customer_share) + parseFloat(company_share)
-    );
-
-    total_child_price = truncateToTwoDecimals(
-        netPriceChildWithGST + parseFloat(ca_mark_up) + parseFloat(bm_mark_up) +
-        parseFloat(ta_mark_up) + parseFloat(customer_share) + parseFloat(company_share)
-    );
-
-    // --------------------------
-    // 6️⃣ Update UI
-    // --------------------------
-    document.getElementById("mrp_per_adult").value = total_adult_price;
-    document.getElementById("mrp_per_child").value = total_child_price;
-
-    $('#mark_up_title').html('Mark-Up Price Distribution (Total: ' + total_mark_up + ')');
-    $('#bcm_div label[for="bcm_div"]').html('Business Channel Manager (Total: ' + bcm_mark_up + ')');
-    $('#bdm_div label[for="bdm_div"]').html('Business Development Manager (Total: ' + bdm_mark_up + ')');
-    $('#bm_div label[for="bm_div"]').html('Business Consultant/Mentor (Total: ' + bm_mark_up + ')');
-    $('#ca_div label[for="ca_div"]').html('Techno Enterprise (Total: ' + ca_mark_up + ')');
-
-    $('#mp_bcm_comm').val(bcm_mark_up_comm);
-    $('#mp_bcm_ins').val(bcm_mark_up_ins);
-    $('#mp_bdm_comm').val(bdm_mark_up_comm);
-    $('#mp_bdm_ins').val(bdm_mark_up_ins);
-    $('#mp_bm_comm').val(bm_mark_up_comm);
-    $('#mp_bm_ins').val(bm_mark_up_ins);
-    $('#mp_ca_comm').val(ca_mark_up_comm);
-    $('#mp_ca_ins').val(ca_mark_up_ins);
-    $('#mp_customer').val(customer_share);
-    $('#l2_cust_comm').val(l2_cust_comm);
-    $('#l3_cust_comm').val(l3_cust_comm);
-
-    // --------------------------
-    // 7️⃣ Debug Data
-    // --------------------------
-    // console.log([
-    //     { label: "TA Mark Up", value: ta_mark_up },
-    //     { label: "Company Share", value: company_share },
-    //     { label: "Customer Share", value: customer_share },
-    //     { label: "CA Mark Up", value: ca_mark_up },
-    //     { label: "BM Mark Up", value: bm_mark_up },
-    //     { label: "BDM Mark Up", value: bdm_mark_up },
-    //     { label: "BCM Mark Up", value: bcm_mark_up },
-    //     { label: "Total Mark Up", value: total_mark_up }
-    // ]);
-
-    return {
-        total_mark_up,
-        total_adult_price,
-        total_child_price,
-        ca_mark_up,
-        bm_mark_up,
-        bdm_mark_up,
-        bcm_mark_up
-    };
+    // 
+    // return {
+    //     total1,
+    //     total2,
+    //     total3,
+    //     total4,
+    //     maxTotal
+    // };
 }
+//customer commission
+$(document).on("input", "#customer1", function () {
+
+    let customer1 = parseFloat($(this).val()) || 0;
+
+    // Customer 2
+    let per2 = parseFloat($("#customer2").data("per")) || 0;
+    let customer2 = customer1 * (per2 / 100);
+    $("#customer2").val(customer2.toFixed(2));
+
+    // Customer 3 (based on Customer 2)
+    let per3 = parseFloat($("#customer3").data("per")) || 0;
+    let customer3 = customer2 * (per3 / 100);
+    $("#customer3").val(customer3.toFixed(2));
+
+});
+
 //new cheif techno calulation funtion for new markup structure
+document.getElementById('travelConsultant').addEventListener('input', function () {
+	calculatePackagePriceNew(payoutDataNew);
+	calculatePackagePrice(payoutData);
+});
+//calculate Institution base of adult price
+document.getElementById('netPriceAdult').addEventListener('input', function () {
+	calculatePackagePriceIns(payoutDataInsBm);
+	calculatePackagePriceInsCte(payoutDataInsCte);
+});
+//cte->ete->ste->te
 function calculatePackagePriceNew(payoutData) {
-    // console.log("calculatePackagePriceNew called");
-	getMarkupValues();
-    // --------------------------
-    // 1️⃣ Prepare Inputs
-    // --------------------------
-    let netPriceAdult = parseInt(document.getElementById('netPriceAdult').value, 10) || 0;
-    let netPriceChild = parseInt(document.getElementById('netPriceChild').value, 10) || 0;
-    let netGst = parseFloat(document.getElementById('nGst').value) || 0;
-	//prev markup total
-	let text = document.getElementById('mark_up_title').textContent;
-	//coupon on change added on 11-05-2026 by SV
-	newcoupon_title = $("#newcoupon_total").val();
-	$('#newcup_title').html('Coupon (Total: ' + newcoupon_title + ')');
-	// Extract first number (integer or decimal)
-	mark_up_title = parseFloat(text.match(/[\d.]+/)?.[0]) || 0;
 
-    let newta_mark_up = parseFloat($("#new_mp_ca_ta").val()) || 0;
-    let company_share = parseFloat($("#new_mp_company").val()) || 0;
-    // let customer_share = parseFloat(document.getElementById("mp_customer").value) || 0;
-	let l1_cust_comm=truncateToTwoDecimals(parseFloat($('#new_l1_cust_comm').val())) || 0;
-	let l2_cust_comm=l1_cust_comm * 0.5;
-	
-    let customer_share =(l1_cust_comm+l2_cust_comm) ;
+    let tcValue = parseFloat($("#travelConsultant").val()) || 0;
 
-    // --------------------------
-    // 2️⃣ GST Calculations
-    // --------------------------
-    let GSTofNetPriceAdult = netPriceAdult * netGst / 100;
-    let GSTofNetPriceChild = netPriceChild * netGst / 100;
+    //=========================
+    // Percentages
+    //=========================
 
-    let netPriceAdultWithGST = netPriceAdult + GSTofNetPriceAdult;
-    let netPriceChildWithGST = netPriceChild + GSTofNetPriceChild;
+    const teComPer  = parseFloat(payoutData.TE.comm_percentage)  || 0;
+    const teInsPer  = parseFloat(payoutData.TE.ins_percentage)   || 0;
 
-    // Assign back to fields
-    document.getElementById('totalNetPriceAdult').value = truncateToTwoDecimals(netPriceAdultWithGST);
-    document.getElementById('totalNetPriceChild').value = truncateToTwoDecimals(netPriceChildWithGST);
+    const steComPer = parseFloat(payoutData.STE.comm_percentage) || 0;
+    const steInsPer = parseFloat(payoutData.STE.ins_percentage)  || 0;
 
-    // --------------------------
-    // 3️⃣ Role-wise Markup Calculation (from payoutData)
-    // --------------------------
-    const roleMap = {};
-    payoutData.forEach(entry => {
-        roleMap[entry.role] = entry;
-    });
+    const eteComPer = parseFloat(payoutData.ETE.comm_percentage) || 0;
+    const eteInsPer = parseFloat(payoutData.ETE.ins_percentage)  || 0;
 
+    const cteComPer = parseFloat(payoutData.CTE.comm_percentage) || 0;
+    const cteInsPer = parseFloat(payoutData.CTE.ins_percentage)  || 0;
+
+
+    //=========================
     // TE
-    let ca_ovr_per = roleMap['TE']?.overall_percentage || 0;
-    let ca_com_per = roleMap['TE']?.comm_percentage || 0;
-    let ca_ins_per = roleMap['TE']?.ins_percentage || 0;
+    //=========================
 
-    // ETE
-    let ete_ovr_per = roleMap['ETE']?.overall_percentage || 0;
-    let ete_com_per = roleMap['ETE']?.comm_percentage || 0;
-    let ete_ins_per = roleMap['ETE']?.ins_percentage || 0;
+    let teComm = truncateToTwoDecimals(tcValue * teComPer / 100);
+    let teIns  = truncateToTwoDecimals(tcValue * teInsPer / 100);
 
+    //=========================
     // STE
-    let ste_ovr_per = roleMap['STE']?.overall_percentage || 0;
-    let ste_com_per = roleMap['STE']?.comm_percentage || 0;
-    let ste_ins_per = roleMap['STE']?.ins_percentage || 0;
+    //=========================
 
+    let steComm = truncateToTwoDecimals(teComm * steComPer / 100);
+    let steIns  = truncateToTwoDecimals(teComm * steInsPer / 100);
+
+    //=========================
+    // ETE
+    //=========================
+
+    let eteComm = truncateToTwoDecimals(steComm * eteComPer / 100);
+    let eteIns  = truncateToTwoDecimals(steComm * eteInsPer / 100);
+
+    //=========================
     // CTE
-    let cte_ovr_per = roleMap['CTE']?.overall_percentage || 0;
-    let cte_com_per = roleMap['CTE']?.comm_percentage || 0;
-    let cte_ins_per = roleMap['CTE']?.ins_percentage || 0;
+    //=========================
 
-    // --------------------------
-    // 4️⃣ Commission Distribution
-    // --------------------------
-    let ca_mark_up_comm = (newta_mark_up * (ca_ovr_per / 100)) * (ca_com_per / 100);
-    let ca_mark_up_ins = (newta_mark_up * (ca_ovr_per / 100)) * (ca_ins_per / 100);
-    let ca_mark_up = ca_mark_up_comm + ca_mark_up_ins;
+    let cteComm = truncateToTwoDecimals(eteComm * cteComPer / 100);
+    let cteIns  = truncateToTwoDecimals(eteComm * cteInsPer / 100);
 
-    let ete_mark_up_comm = (ca_mark_up_comm * (ete_ovr_per / 100)) * (ete_com_per / 100);
-    let ete_mark_up_ins = (ca_mark_up_comm * (ete_ovr_per / 100)) * (ete_ins_per / 100);
-    // let ete_mark_up = ete_mark_up_comm + ete_mark_up_ins;
-    let ete_mark_up = ca_mark_up_comm * (ete_ovr_per / 100);
 
-    let ste_mark_up_comm = truncateToTwoDecimals((ete_mark_up_comm * (ste_ovr_per / 100)) * (ste_com_per / 100));
-    let ste_mark_up_ins = truncateToTwoDecimals((ete_mark_up_comm * (ste_ovr_per / 100)) * (ste_ins_per / 100));
-    // let ste_mark_up = ste_mark_up_comm + ste_mark_up_ins;
-    let ste_mark_up = truncateToTwoDecimals(ete_mark_up_comm * (ste_ovr_per / 100));
 
-    let cte_mark_up_comm = truncateToTwoDecimals((ste_mark_up_comm * (cte_ovr_per / 100)) * (cte_com_per / 100));
-    let cte_mark_up_ins = truncateToTwoDecimals((ste_mark_up_comm * (cte_ovr_per / 100)) * (cte_ins_per / 100));
-    // let cte_mark_up = cte_mark_up_comm + cte_mark_up_ins;
-    let cte_mark_up = truncateToTwoDecimals(ste_mark_up_comm * (cte_ovr_per / 100));
+    //=========================
+    // Update Table
+    //=========================
 
-    // Round to 2 decimals
-    ca_mark_up = truncateToTwoDecimals(ca_mark_up);
-    ete_mark_up = truncateToTwoDecimals(ete_mark_up);
-    // ste_mark_up = truncateToTwoDecimals(ste_mark_up);
-    // cte_mark_up = truncateToTwoDecimals(cte_mark_up);
-
- 
-
-	//---------------------------
-	//  Calulate compony value prev marup total -(tc+cutomer+te+ete+ste+cte+coupon) -- coupon is not defined as of now
-	//---------------------------
-	// console.log('markup title:'+mark_up_title);
-	
-	company_share =truncateToTwoDecimals(mark_up_title-(
-		parseFloat(cte_mark_up) +
-        parseFloat(ste_mark_up) +
-        parseFloat(ete_mark_up) +
-		parseFloat(ca_mark_up) +
-        parseFloat(newta_mark_up) +
-        parseFloat(customer_share)+
-		parseFloat(newcoupon_title))) 
-   	// --------------------------
-    // 5️⃣ Totals
-    // --------------------------
-    newtotal_mark_up = truncateToTwoDecimals(
-        parseFloat(cte_mark_up) +
-        parseFloat(ste_mark_up) +
-        parseFloat(ete_mark_up) +
-        parseFloat(ca_mark_up) +
-        parseFloat(newta_mark_up) +
-        parseFloat(customer_share) +
-        parseFloat(company_share)+
-		parseFloat(newcoupon_title)
+    updateRole(
+        "#cTeFComm",
+        "#cTeFIns",
+        "#cTeFCommInsTotal",
+        teComm,
+        teIns
     );
 
-    // --------------------------
-    // 6️⃣ Update UI
-    // --------------------------
+    updateRole(
+        "#steComm",
+        "#steIns",
+        "#steCommInsTotal",
+        steComm,
+        steIns
+    );
+
+    updateRole(
+        "#eteComm",
+        "#eteIns",
+        "#eteCommInsTotal",
+        eteComm,
+        eteIns
+    );
+
+    updateRole(
+        "#cteComm",
+        "#cteIns",
+        "#cteCommInsTotal",
+        cteComm,
+        cteIns
+    );
+
+
+    //=========================
+    // Footer Totals
+    //=========================
+
+    const totalComm =
+        teComm +
+        steComm +
+        eteComm +
+        cteComm;
+
+    const totalIns =
+        teIns +
+        steIns +
+        eteIns +
+        cteIns;
+
+    $("#cteChainCommTotal")
+        .text("₹ " + formatNumber(totalComm));
+
+    $("#cteChainInsTotal")
+        .text("₹ " + formatNumber(totalIns));
+
+    $("#cteChainCommInsTotal")
+        .text("₹ " + formatNumber(totalComm + totalIns));
+
+}
+//bm/mf/sf->te/f
+function calculatePackagePrice(payoutData) {
+    let tcValue = parseFloat($("#travelConsultant").val()) || 0;
+
+    //=========================
+    // Percentages
+    //=========================
+
+    const teComPer  = parseFloat(payoutData.TE.comm_percentage)  || 0;
+    const teInsPer  = parseFloat(payoutData.TE.ins_percentage)   || 0;
+
+    const bmComPer = parseFloat(payoutData.BM.comm_percentage) || 0;
+    const bmInsPer = parseFloat(payoutData.BM.ins_percentage)  || 0;
+
+    //=========================
+    // TE
+    //=========================
+
+    let teComm = truncateToTwoDecimals(tcValue * teComPer / 100);
+    let teIns  = truncateToTwoDecimals(tcValue * teInsPer / 100);
+
+    //=========================
+    // BM/MF/SF
+    //=========================
+
+    let bmComm = truncateToTwoDecimals(teComm * bmComPer / 100);
+    let bmIns  = truncateToTwoDecimals(teComm * bmInsPer / 100);
+
+    //=========================
+    // Update Table
+    //=========================
+
+    updateRole(
+        "#bmTeComm",
+        "#bmTeIns",
+        "#bmTeCommInsTotal",
+        teComm,
+        teIns
+    );
+
+    updateRole(
+        "#teBmComm",
+        "#teBmIns",
+        "#teBmComInsTotal",
+        bmComm,
+        bmIns
+    );
+
+    //=========================
+    // Footer Totals
+    //=========================
+
+    const totalComm =
+        teComm +
+        bmComm ;
+
+    const totalIns =
+        teIns +
+        bmIns ;
+
+    $("#bmTeChainCommTotal")
+        .text("₹ " + formatNumber(totalComm));
+
+    $("#bmTeChainInsTotal")
+        .text("₹ " + formatNumber(totalIns));
+
+    $("#bmTeChainCommInsTotal")
+        .text("₹ " + formatNumber(totalComm + totalIns));
+}
+//bm/mf/sf->I
+function calculatePackagePriceIns(payoutData) {
+    let apValue = parseFloat($("#netPriceAdult").val()) || 0;
+
+    //=========================
+    // Percentages
+    //=========================
+
+    const bmComPer = parseFloat(payoutData.roles.BM.comm_percentage) || 0;
+    const bmInsPer = parseFloat(payoutData.roles.BM.ins_percentage)  || 0;
+
+    //=========================
+    // I
+    //=========================
+	let teComm = 0;
+
+	for (const slab of payoutData.slabs) {
+
+		if (
+			apValue >= Number(slab.lower_limit) &&
+			apValue <= Number(slab.upper_limit)
+		) {
+			teComm = Number(slab.institution_commission);
+			break; // Stop once the matching slab is found
+		}
+
+	}
+
     
-    document.getElementById("new_mp_company").value = company_share;
-	newmark_up_title=newtotal_mark_up;
-    $('#new_mark_up_title').html('Chief Techno Mark-Up Price Distribution (Total: ' + newtotal_mark_up + ')');
-    $('#cte_div label[for="cte_div"]').html('Chief Techno Enterprise (Total: ' + cte_mark_up + ')');
-    $('#ste_div label[for="ste_div"]').html('Super Techno Enterprise (Total: ' + ste_mark_up + ')');
-    $('#ete_div label[for="ete_div"]').html('Executive Techno Enterprise (Total: ' + ete_mark_up + ')');
-    $('#new_ca_div label[for="new_ca_div"]').html('Techno Enterprise (Total: ' + ca_mark_up + ')');
 
-    $('#mp_cte_comm').val(cte_mark_up_comm); 
-    $('#mp_cte_ins').val(cte_mark_up_ins);
-    $('#mp_ste_comm').val(ste_mark_up_comm); 
-    $('#mp_ste_ins').val(ste_mark_up_ins);
-    $('#mp_ete_comm').val(ete_mark_up_comm); 
-    $('#mp_ete_ins').val(ete_mark_up_ins);
-    $('#new_mp_ca_comm').val(ca_mark_up_comm); 
-    $('#new_mp_ca_ins').val(ca_mark_up_ins);
-    $('#new_mp_customer').val(customer_share);
-    $('#new_l2_cust_comm').val(l2_cust_comm);
+    //=========================
+    // BM/MF/SF
+    //=========================
 
-	//commission + incentive
-	$('#ete_total').val(ete_mark_up);
-	$('#ste_total').val(ste_mark_up);
-	$('#cte_total').val(cte_mark_up);
+    let bmComm = truncateToTwoDecimals(teComm * bmComPer / 100);
+    let bmIns  = truncateToTwoDecimals(teComm * bmInsPer / 100);
 
+    //=========================
+    // Update Table
+    //=========================
 
-    // --------------------------
-    // 7️⃣ Debug Data
-    // --------------------------
-    // console.log([
-    //     { label: "New TA Mark Up", value: newta_mark_up },
-    //     { label: "Company Share", value: company_share },
-    //     { label: "Customer Share", value: customer_share },
-    //     { label: "TE Mark Up", value: ca_mark_up },
-    //     { label: "ETE Mark Up", value: ete_mark_up },
-    //     { label: "STE Mark Up", value: ste_mark_up },
-    //     { label: "CTE Mark Up", value: cte_mark_up },
-    //     { label: "New Total Mark Up", value: newtotal_mark_up }
-    // ]);
+    updateRole(
+        "#bmIComm",
+        "#bmIIns",
+        "#bmICommInsTotal",
+        teComm,
+        "NA"
+    );
 
-    return {
-        newtotal_mark_up,
-        ca_mark_up,
-        ete_mark_up,
-    	ste_mark_up,
-        cte_mark_up
-    };
+    updateRole(
+        "#iBmComm",
+        "#iBmIns",
+        "#iBmCommInsTotal",
+        bmComm,
+        bmIns
+    );
+
+    //=========================
+    // Footer Totals
+    //=========================
+
+    const totalComm =
+        teComm +
+        bmComm ;
+
+    const totalIns =
+        bmIns ;
+
+    $("#bmIComTotal")
+        .text("₹ " + formatNumber(totalComm));
+
+    $("#bmIInsTotal")
+        .text("₹ " + formatNumber(totalIns));
+
+    $("#bmIComInsTotal")
+        .text("₹ " + formatNumber(totalComm + totalIns));
+}
+//CTE->ETE->I
+function calculatePackagePriceInsCte(payoutData) {
+	
+    let apValue = parseFloat($("#netPriceAdult").val()) || 0;
+
+    //=========================
+    // Percentages
+    //=========================
+	// console.log(payoutData);
+	
+    const cteComPer = parseFloat(payoutData.roles.CTE.comm_percentage) || 0;
+    const cteInsPer = parseFloat(payoutData.roles.CTE.ins_percentage)  || 0;
+    const eteComPer = parseFloat(payoutData.roles.ETE.comm_percentage) || 0;
+    const eteInsPer = parseFloat(payoutData.roles.ETE.ins_percentage)  || 0;
+
+    //=========================
+    // I
+    //=========================
+	let teComm = 0;
+
+	for (const slab of payoutData.slabs) {
+
+		if (
+			apValue >= Number(slab.lower_limit) &&
+			apValue <= Number(slab.upper_limit)
+		) {
+			teComm = Number(slab.institution_commission);
+			break; // Stop once the matching slab is found
+		}
+
+	}
+
+    
+
+    //=========================
+    // ETE/CTE
+    //=========================
+
+    let eteComm = truncateToTwoDecimals(teComm * eteComPer / 100);
+    let eteIns  = truncateToTwoDecimals(teComm * eteInsPer / 100);
+    let cteComm = truncateToTwoDecimals(eteComm * cteComPer / 100);
+    let cteIns  = truncateToTwoDecimals(eteComm * cteInsPer / 100);
+
+    //=========================
+    // Update Table
+    //=========================
+
+    updateRole(
+        "#cteIComm",
+        "#cteIIns",
+        "#cteICommInsTotal",
+        teComm,
+        "NA"
+    );
+    updateRole(
+        "#iCteComm",
+        "#iCteIns",
+        "#iCteCommInsTotal",
+        cteComm,
+        cteIns
+    );
+
+    updateRole(
+        "#iEteComm",
+        "#iEteIns",
+        "#iEteCommInsTotal",
+        eteComm,
+        eteIns
+    );
+
+    //=========================
+    // Footer Totals
+    //=========================
+
+    const totalComm =
+        teComm +
+        eteComm + 
+        cteComm ;
+
+    const totalIns =
+        eteIns +
+        cteIns ;
+
+    $("#iCteComTotal")
+        .text("₹ " + formatNumber(totalComm));
+
+    $("#iCteInsTotal")
+        .text("₹ " + formatNumber(totalIns));
+
+    $("#iCteComInsTotal")
+        .text("₹ " + formatNumber(totalComm + totalIns));
+	
 }
 
-//new institution calulation funtion for new markup structure
-function calculatePackagePriceIns(payoutData) {
-    // console.log("calculatePackagePriceNew called");
-	getMarkupValues();
-    // --------------------------
-    // 1️⃣ Prepare Inputs
-    // --------------------------
-    let netPriceAdult = parseInt(document.getElementById('netPriceAdult').value, 10) || 0;
-    let netPriceChild = parseInt(document.getElementById('netPriceChild').value, 10) || 0;
-    let netGst = parseFloat(document.getElementById('nGst').value) || 0;
-	
-	//prev markup total
-	let text = document.getElementById('mark_up_title').textContent;
-	mark_up_title = parseFloat(text.match(/[\d.]+/)?.[0]) || 0;
+//reuable table field update 
+function updateRole(commId, insId, totalId, comm, ins) {
 
-	//coupon on change added on 11-05-2026 by SV
-	inscoupon_title = $("#inscoupon_total").val();
-	$('#inscup_title').html('Coupon (Total: ' + inscoupon_title + ')');
-	// Extract first number (integer or decimal)
+    comm = (comm === "NA" || comm == null || isNaN(comm)) ? 0 : Number(comm);
+    ins  = (ins === "NA" || ins == null || isNaN(ins)) ? 0 : Number(ins);
 
-    let ins_mark_up = parseFloat($("#ins_mp_ca_ta").val()) || 0;
-    let company_share = parseFloat($("#ins_mp_company").val()) || 0;
-    // let customer_share = parseFloat(document.getElementById("mp_customer").value) || 0;
-	let l1_cust_comm=truncateToTwoDecimals(parseFloat($('#ins_l1_cust_comm').val())) || 0;
-	let l2_cust_comm=l1_cust_comm * 0.5;
-	
-    let customer_share =(l1_cust_comm+l2_cust_comm) ;
+    updateCell($(commId), comm);
+    updateCell($(insId), ins);
 
-    // --------------------------
-    // 2️⃣ GST Calculations
-    // --------------------------
-    let GSTofNetPriceAdult = netPriceAdult * netGst / 100;
-    let GSTofNetPriceChild = netPriceChild * netGst / 100;
+    $(totalId).html("₹ " + formatNumber(comm + ins));
+}
 
-    let netPriceAdultWithGST = netPriceAdult + GSTofNetPriceAdult;
-    let netPriceChildWithGST = netPriceChild + GSTofNetPriceChild;
+function updateCell(cell, value) {
 
-    // Assign back to fields
-    document.getElementById('totalNetPriceAdult').value = truncateToTwoDecimals(netPriceAdultWithGST);
-    document.getElementById('totalNetPriceChild').value = truncateToTwoDecimals(netPriceChildWithGST);
+    value = parseFloat(value) || 0;
 
-    // --------------------------
-    // 3️⃣ Role-wise Markup Calculation (from payoutData)
-    // --------------------------
-    const roleMap = {};
-    payoutData.forEach(entry => {
-        roleMap[entry.role] = entry;
+    // If user manually edited this cell,
+    // don't overwrite its HTML.
+    if (cell.data("edited")) {
+        return;
+    }
+
+    cell.data("value", value);
+    cell.attr("data-value", value);
+
+    cell.html(`₹ ${formatNumber(value)}`);
+}
+function formatNumber(value) {
+
+    return Number(value).toLocaleString("en-IN", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
     });
 
-    // TE
-    let bm_ovr_per = roleMap['BM']?.overall_percentage || 0;
-    let bm_com_per = roleMap['BM']?.comm_percentage || 0;
-    let bm_ins_per = roleMap['BM']?.ins_percentage || 0;
-
-    // --------------------------
-    // 4️⃣ Commission Distribution
-    // --------------------------
-
-    let bm_mark_up_comm = truncateToTwoDecimals((ins_mark_up * (bm_ovr_per / 100)) * (bm_com_per / 100));
-    let bm_mark_up_ins = truncateToTwoDecimals((ins_mark_up * (bm_ovr_per / 100)) * (bm_ins_per / 100));
-    // let bm_mark_up = bm_mark_up_comm + bm_mark_up_ins;
-    let bm_mark_up = truncateToTwoDecimals(ins_mark_up * (bm_ovr_per / 100)); 
-
-	//---------------------------
-	//  Calulate compony value prev marup total -(tc+cutomer+te+ete+ste+cte+coupon) -- coupon is not defined as of now
-	//---------------------------
-	// console.log('markup title:'+mark_up_title);
-	
-	company_share =truncateToTwoDecimals(mark_up_title-(
-		parseFloat(bm_mark_up) +
-        parseFloat(ins_mark_up) +
-        parseFloat(customer_share)+
-		parseFloat(inscoupon_title))) 
-   	// --------------------------
-    // 5️⃣ Totals
-    // --------------------------
-    instotal_mark_up = truncateToTwoDecimals(
-        parseFloat(bm_mark_up) +
-        parseFloat(ins_mark_up) +
-        parseFloat(customer_share) +
-        parseFloat(company_share)+
-		parseFloat(inscoupon_title)
-    );
-
-    // --------------------------
-    // 6️⃣ Update UI
-    // --------------------------
-    
-    document.getElementById("ins_mp_company").value = company_share;
-	insmark_up_title=instotal_mark_up;
-    $('#ins_mark_up_title').html('Institution Mark-Up Price Distribution (Total: ' + instotal_mark_up + ')');
-    $('#bm_mf_sf_div label[for="bm_mf_sf_div"]').html('BM | MF | SF (Total: ' + bm_mark_up + ')');
-
-    $('#ins_bm_mf_sf_comm').val(bm_mark_up_comm); 
-    $('#ins_bm_mf_sf_ins').val(bm_mark_up_ins);
-    $('#ins_mp_customer').val(customer_share);
-    $('#ins_l2_cust_comm').val(l2_cust_comm);
-
-	//commission + incentive
-	$('#bm_mf_sf_total').val(bm_mark_up);
-
-
-    // --------------------------
-    // 7️⃣ Debug Data
-    // --------------------------
-    // console.log([
-    //     { label: "New TA Mark Up", value: newta_mark_up },
-    //     { label: "Company Share", value: company_share },
-    //     { label: "Customer Share", value: customer_share },
-    //     { label: "TE Mark Up", value: ca_mark_up },
-    //     { label: "ETE Mark Up", value: ete_mark_up },
-    //     { label: "STE Mark Up", value: ste_mark_up },
-    //     { label: "CTE Mark Up", value: cte_mark_up },
-    //     { label: "New Total Mark Up", value: newtotal_mark_up }
-    // ]);
-
-    return {
-        instotal_mark_up,
-        bm_mark_up
-    };
 }
-
-
-
 
 // Multiple images preview in browser
 var input_image, images = [], j = 0;
@@ -1134,625 +833,1483 @@ $(function () {
 		imagesPreview(this, 'div.gallery');
 	});
 });
+//show section
+function showSection(target) {
 
-//  submit form changed on 25 jan 2025 by sv
-function submit_form_data(e) {
+	// Hide all sections
+	sections.forEach(function (section) {
+		$(section).hide();
+	});
+
+	// Show selected section
+	$(target).show();
+
+	// Update active step
+	$(".step-link").removeClass("active");
+	$(".roundedCircle").removeClass("active");
+
+	$('.step-link[href="' + target + '"]').addClass("active");
+	$('.step-link[href="' + target + '"] .roundedCircle').addClass("active");
+
+	// Update page title
+	$("#pageTitle").text(pageData[target].title);
+
+	// Update return text
+	$("#pageSubTitle").text(pageData[target].backText);
+
+	// Update back button target
+	$("#dynamicBackBtn").attr("data-target", pageData[target].backLink);
+}
+//validation common functions
+function showFileError(fileId, message) {
+
+    const input = $("#" + fileId);
+
+    input.closest(".upload-card").addClass("error");
+
+    $("#" + fileId + "_error").text(message);
+
+    input.trigger("click"); // Opens file selector
+}
+function clearFileError(fileId) {
+
+    $("#" + fileId)
+        .closest(".upload-card")
+        .removeClass("error");
+}
+function validateDayFields() {
+    let isValid = true;
+    let errorMessages = [];
+    let firstErrorDay = null;
+    
+    // Clear previous error styles
+    $('.field-error-indicator').remove();
+    $('.border-danger').removeClass('border-danger');
+    $('.input-group-text-danger').removeClass('input-group-text-danger');
+    
+    $(".day-container").each(function(index) {
+        const dayNumber = index + 1;
+        const title = $(this).find(".title").val().trim();
+        const description = $(this).find(".description").val().trim();
+        const meals = $(this).find(".meals").val().trim();
+        const transport = $(this).find(".transport").eq(0).val().trim();
+        const stay = $(this).find(".transport").eq(1).val().trim();
+        // Check if icon is uploaded
+        // const fileInput = $(this).find('.file-input');
+        // const iconUploaded = fileInput.val() !== '';
+        // const hiddenIconPath = $(this).find('#img_path'+index).val();
+        // const hasIcon = iconUploaded || (hiddenIconPath && hiddenIconPath !== '');
+        let dayHasError = false;
+        
+        // Validate Title
+        if (!title) {
+            $(this).find(".title").addClass('border-danger');
+            // Add error message after the input group
+            const titleInputGroup = $(this).find(".title").closest('.input-group');
+            if (!titleInputGroup.next('.error-message').length) {
+                titleInputGroup.after(`<div class="error-message text-danger small mt-1">Title is required</div>`);
+            }
+            dayHasError = true;
+        }
+        
+        // Validate Description
+        if (!description) {
+            $(this).find(".description").addClass('border-danger');
+            const descInputGroup = $(this).find(".description").closest('.input-group');
+            if (!descInputGroup.next('.error-message').length) {
+                descInputGroup.after(`<div class="error-message text-danger small mt-1">Description is required</div>`);
+            }
+            dayHasError = true;
+        }
+        
+        // Validate Meals
+        if (!meals) {
+            $(this).find(".meals").addClass('border-danger');
+            const mealsInputGroup = $(this).find(".meals").closest('.input-group');
+            if (!mealsInputGroup.next('.error-message').length) {
+                mealsInputGroup.after(`<div class="error-message text-danger small mt-1">Meals are required</div>`);
+            }
+            dayHasError = true;
+        }
+        
+        // Validate Transport
+        if (!transport) {
+            $(this).find(".transport").eq(0).addClass('border-danger');
+            const transportInputGroup = $(this).find(".transport").eq(0).closest('.input-group');
+            if (!transportInputGroup.next('.error-message').length) {
+                transportInputGroup.after(`<div class="error-message text-danger small mt-1">Transport is required</div>`);
+            }
+            dayHasError = true;
+        }
+        
+        // Validate Stay
+        if (!stay) {
+            $(this).find(".transport").eq(1).addClass('border-danger');
+            const stayInputGroup = $(this).find(".transport").eq(1).closest('.input-group');
+            if (!stayInputGroup.next('.error-message').length) {
+                stayInputGroup.after(`<div class="error-message text-danger small mt-1">Stay is required</div>`);
+            }
+            dayHasError = true;
+        }
+		 // Validate Icon
+        // if (!hasIcon) {
+		// 	const uploadCard = $(this).find('.upload-card');
+		// 	uploadCard.addClass('border-danger upload-card-error');
+			
+		// 	// Add error message below the upload card
+		// 	const uploadContent = uploadCard.find('.upload-content');
+		// 	if (!uploadCard.find('.icon-error-message').length) {
+		// 		uploadCard.append(`<div class="icon-error-message text-danger small mt-1 px-2">Icon is required</div>`);
+		// 	}
+		//     dayHasError = true;
+        // }
+        
+        if (dayHasError) {
+            isValid = false;
+            if (!firstErrorDay) {
+                firstErrorDay = dayNumber;
+            }
+            errorMessages.push(`Day ${dayNumber}: All fields are required`);
+        }
+    });
+    
+    return { isValid, errorMessages, firstErrorDay };
+}
+function showError(fieldId, message) {
+
+    $("#" + fieldId)
+        .addClass("is-invalid")
+        .focus();
+
+    $("#" + fieldId + "_error").text(message);
+}
+
+function clearError(fieldId) {
+
+    $("#" + fieldId)
+        .removeClass("is-invalid");
+
+    $("#" + fieldId + "_error").text("");
+}
+
+function clearAllErrors() {
+
+    $(".form-control, .form-select").removeClass("is-invalid");
+    $(".error-message").text("");
+}
+function showTravelThemeError(message){
+
+    $("#travelTheme_wrapper")
+        .addClass("error")
+        .attr("tabindex","-1")
+        .focus();
+
+    $("#travelTheme_error").text(message);
+}
+
+function clearTravelThemeError(){
+
+    $("#travelTheme_wrapper").removeClass("error");
+
+    $("#travelTheme_error").text("");
+}
+
+$(".travelTheme").on("change",function(){
+
+    clearTravelThemeError();
+
+});
+//cities
+function showHighlightContainerError(message){
+
+    $("#highlightContainer_wrapper")
+        .addClass("error")
+        .attr("tabindex","-1")
+        .focus();
+
+    $("#highlightContainer_error").text(message);
+}
+
+function clearHighlightContainerError(){
+
+    $("#highlightContainer_wrapper").removeClass("error");
+
+    $("#highlightContainer_error").text("");
+}
+function showCouponRuleError(message) {
+
+    $("#couponRule_wrapper")
+        .addClass("error")
+        .attr("tabindex", "-1")
+        .focus();
+
+    $("#couponRule_error").text(message);
+}
+function clearCouponRuleError() {
+    $("#couponRule_wrapper").removeClass("error");
+    $("#couponRule_error").text("");
+}
+function showOtherPolicyError(message) {
+
+    $("#otherPolicy_wrapper")
+        .addClass("error")
+        .attr("tabindex", "-1")
+        .focus();
+
+    $("#otherPolicy_error").text(message);
+}
+
+function clearOtherPolicyError() {
+
+    $("#otherPolicy_wrapper").removeClass("error");
+    $("#otherPolicy_error").text("");
+
+}
+$(".highlight-tag").on("change",function(){
+
+    clearHighlightContainerError();
+
+});
+//package type
+function showPackageTypeError(message){
+
+    $("#packageType_wrapper")
+        .addClass("error")
+        .attr("tabindex","-1")
+        .focus();
+
+    $("#packageType_error").text(message);
+}
+
+function clearPackageTypeError(){
+
+    $("#packageType_wrapper").removeClass("error");
+
+    $("#packageType_error").text("");
+}
+
+$(".packageType").on("change",function(){
+
+    clearPackageTypeError();
+
+});
+//visa type
+function showVisaTypeError(message){
+
+    $("#visaType_wrapper")
+        .addClass("error")
+        .attr("tabindex","-1")
+        .focus();
+
+    $("#visaType_error").text(message);
+}
+
+function clearVisaTypeError(){
+
+    $("#visaType_wrapper").removeClass("error");
+
+    $("#visaType_error").text("");
+}
+
+$(".visaType").on("change",function(){
+
+    clearVisaTypeError();
+
+});
+//package keywords
+function showPackageKeyWordsError(message){
+
+    $("#packageKeyWords_wrapper")
+        .addClass("error")
+        .attr("tabindex","-1")
+        .focus();
+
+    $("#packageKeyWords_error").text(message);
+}
+
+function clearPackageKeyWordsError(){
+
+    $("#packageKeyWords_wrapper").removeClass("error");
+
+    $("#packageKeyWords_error").text("");
+}
+// Error handling functions for lists
+function showListError(listId, message) {
+    // Remove any existing error message
+    $(`#${listId} .list-error`).remove();
+    
+    // Add error message after the list
+    $(`#${listId}`).after(`<div class="list-error text-danger mt-1">${message}</div>`);
+    
+    // Add error class to the list container
+    $(`#${listId}`).addClass('border border-danger');
+}
+
+function clearListError(listId) {
+    // Remove error message
+    $(`#${listId} .list-error`).remove();
+    
+    // Remove error class
+    $(`#${listId}`).removeClass('border border-danger');
+}
+$(".packageKeyWords").on("change",function(){
+
+    clearPackageKeyWordsError();
+
+});
+//------------------------------------
+
+
+const sections = [
+	"#package_form_general",
+	"#package_form_extra",
+	"#package_form_itinerary",
+	"#package_form_pricing",
+	"#package_form_policy",
+	"#package_form_picture"
+];
+
+const isEdit = $("#editFlag").length && $("#editFlag").val() == "1";
+const actionText = isEdit ? "Edit Package" : "Add New Package";
+
+const pageData = {
+	"#package_form_general": {
+		title: `${actionText} - General Information`,
+		backText: "Return to Package Listing",
+		backLink: "all_packages.php"
+	},
+	"#package_form_extra": {
+		title: `${actionText} - Extra Information`,
+		backText: "Return to General Information",
+		backLink: "#package_form_general"
+	},
+	"#package_form_itinerary": {
+		title: `${actionText} - Itinerary & Inclusions`,
+		backText: "Return to Extra Information",
+		backLink: "#package_form_extra"
+	},
+	"#package_form_pricing": {
+		title: `${actionText} - Pricing`,
+		backText: "Return to Itinerary & Inclusions",
+		backLink: "#package_form_itinerary"
+	},
+	"#package_form_policy": {
+		title: `${actionText} - Policy`,
+		backText: "Return to Pricing",
+		backLink: "#package_form_pricing"
+	},
+	"#package_form_picture": {
+		title: `${actionText} - Pictures & Media`,
+		backText: "Return to Policy",
+		backLink: "#package_form_policy"
+	}
+};
+
+// function showSection(target) {
+
+// 	// Hide all sections
+// 	sections.forEach(function (section) {
+// 		$(section).hide();
+// 	});
+
+// 	// Show selected section
+// 	$(target).show();
+
+// 	// Update active step
+// 	$(".step-link").removeClass("active");
+// 	$(".roundedCircle").removeClass("active");
+
+// 	$('.step-link[href="' + target + '"]').addClass("active");
+// 	$('.step-link[href="' + target + '"] .roundedCircle').addClass("active");
+
+// 	// Update page title
+// 	$("#pageTitle").text(pageData[target].title);
+
+// 	// Update return text
+// 	$("#pageSubTitle").text(pageData[target].backText);
+
+// 	// Update back button target
+// 	$("#dynamicBackBtn").attr("data-target", pageData[target].backLink);
+// }
+
+// Initial load
+showSection("#package_form_general");
+
+// Stepper navigation click
+$(".step-link").on("click", function (e) {
 	e.preventDefault();
 
-	var image_data = $("#gallery-photo-add").val();
-	if (image_data == "") {
-		alert("Pictures cannot be Empty !");
+	let target = $(this).attr("href");
+	showSection(target);
+});
+
+// Back button click
+$("#dynamicBackBtn").on("click", function (e) {
+	e.preventDefault();
+
+	let target = $(this).attr("data-target");
+
+	if (target === "all_packages.php") {
+		window.location.href = target;
+		return;
+	}
+
+	showSection(target);
+});
+
+let payLoadData={};
+//general information next
+$('#package_form_general_nextBtn').on('click',function (e){
+	e.preventDefault();
+	clearAllErrors();
+    clearTravelThemeError();
+    clearHighlightContainerError();
+    clearPackageTypeError();
+    clearVisaTypeError();
+	let packName=$('#packName').val();
+	let uniqueCode=$('#uniqueCode').val();
+	let categoryId=$('#categoryId').val();
+	let subCategoryId=$('#subCategoryId').val();
+	let travelTheme = $('input[name="travelTheme"]:checked').val();
+	let tourDays=$('#tourDays').val();
+	let pacValidity=$('#pacValidity').val();
+	let season=$('#season').val();
+	let pacLocation=$('#pacLocation').val();
+	let cities = [...document.querySelectorAll(".highlight-tag")].map(tag => tag.dataset.city);
+	let description=$('#description').val();
+	let descriptionDetail=$('#descriptionDetail').val();
+	let packageType = $('input[name="packageType"]:checked').val();
+	let visaType = $('input[name="visaType"]:checked')?1:0;
+	let dropPriceCheck = $('#dropPriceCheck').is(':checked') ? 1 : 0;
+	let dropPrice=$('#dropPrice').val();
+	const isEdit = $("#editFlag").length && $("#editFlag").val() == "1";
+
+	//validation
+	// Package Name
+    if (packName === "") {
+        showError("packName", "Please enter Package Name.");
+        return false;
+    }
+
+    // Unique Code
+    if (uniqueCode === "") {
+        showError("uniqueCode", "Please enter Unique Code.");
+        return false;
+    }
+	if (isEdit) {
+		continueValidation();
 	} else {
-		var category_id = parseInt($('#category_id').val());
-		var sub_category_id = parseInt($('#sub_category_id').val());
-		var club_id = parseInt($('#club_id').val());
-		// var package_type = packageType;
-		var category_hotel_id = parseInt($('#category_hotel_id').val());
-		var category_meal_id = parseInt($('#category_meal_id').val());
-		var name = $('#name').val();
-		var unique_code = $('#unique_code').val();
-		var pac_validity = $('#pac_validity').val();
-		var tour_days = $('#tour_days').val();
-		var description = $('#description').val();
-		var destination = $('#destination').val();
-		var location = $('#location').val();
-		var travel_from = $('#travel_from').val();
-		var travel_to = $('#travel_to').val();
-		var sightseeing_type = $('#sightseeing_type').val();
-		var package_keywords = $('#package_keywords').val();
-		var bcm_mark_up_comm = parseFloat($('#mp_bcm_comm').val());
-		var bcm_mark_up_ins = parseFloat($('#mp_bcm_ins').val());
-		var bdm_mark_up_comm = parseFloat($('#mp_bdm_comm').val());
-		var bdm_mark_up_ins = parseFloat($('#mp_bdm_ins').val());
-		var bm_mark_up_comm = parseFloat($('#mp_bm_comm').val());
-		var bm_mark_up_ins = parseFloat($('#mp_bm_ins').val());
-		var ca_mark_up_comm = parseFloat($('#mp_ca_comm').val());
-		var ca_mark_up_ins = parseFloat($('#mp_ca_ins').val());
-		var te_mark_up_comm = parseFloat($('#new_mp_ca_comm').val());
-		var te_mark_up_ins = parseFloat($('#new_mp_ca_ins').val());
-		var cte_mark_up_comm = parseFloat($('#mp_cte_comm').val());
-		var cte_mark_up_ins = parseFloat($('#mp_cte_ins').val());
-		var ste_mark_up_comm = parseFloat($('#mp_ste_comm').val());
-		var ste_mark_up_ins = parseFloat($('#mp_ste_ins').val());
-		var ete_mark_up_comm = parseFloat($('#mp_ete_comm').val());
-		var ete_mark_up_ins = parseFloat($('#mp_ete_ins').val());
-		var newca_mark_up_comm = parseFloat($('#new_mp_ca_comm').val());
-		var newca_mark_up_ins = parseFloat($('#new_mp_ca_ins').val());
-		var ins_bm_mf_sf_comm = parseFloat($('#ins_bm_mf_sf_comm').val());
-		var ins_bm_mf_sf_ins = parseFloat($('#ins_bm_mf_sf_ins').val());
-		var ins_mp_company = parseFloat($('#ins_mp_company').val());
-		var ins_mp_ca_ta = parseFloat($('#ins_mp_ca_ta').val());
-		var ins_mp_customer = parseFloat($('#ins_mp_customer').val());
-		var ins_l1_cust_comm = parseFloat($('#ins_l1_cust_comm').val());
-		var ins_l2_cust_comm = parseFloat($('#ins_l2_cust_comm').val());
-		var inclusion, exclusion, remark;
-		var temp_inclusion = $('#inclusion').val();
-		if (temp_inclusion) {
-			inclusion = $('#inclusion').val();
-		} else {
-			inclusion = '';
-		}
-		var temp_exclusion = $('#exclusion').val();
-		if (temp_exclusion) {
-			exclusion = $('#exclusion').val();
-		} else {
-			exclusion = '';
-		}
-		var temp_remark = $('#remark').val();
-		if (temp_remark) {
-			remark = $('#remark').val();
-		} else {
-			remark = '';
-		}
-		var net_price_adult = $('#netPriceAdult').val(); // new
-		var net_price_child = $('#netPriceChild').val(); // new
-		var net_gst = $('#nGst').val();
-		var net_price_adult_with_GST = $('#totalNetPriceAdult').val(); // new
-		var net_price_child_with_GST = $('#totalNetPriceChild').val(); // new
-		var total_package_price_per_adult = $('#mrp_per_adult').val();
-		var total_package_price_per_child = $('#mrp_per_child').val().trim() || '0'
-		// mark_up distribution
-		var ta_mark_up = parseFloat($("#mp_ca_ta").val());
-		var company_share = parseFloat($("#mp_company").val());
-		var customer_share = parseFloat($("#mp_customer").val());
-		var newta_mark_up = parseFloat($("#new_mp_ca_ta").val());
-		var newcompany_share = parseFloat($("#new_mp_company").val());
-		var newcustomer_share = parseFloat($("#new_mp_customer").val());
-		
-		// CA calculation
-		var ca_mark_up = ca_mark_up_ins + ca_mark_up_comm;
-		// BM calculation
-		var bm_mark_up = bm_mark_up_ins + bm_mark_up_comm;
-		// BDM calculation
-		var bdm_mark_up = bdm_mark_up_ins + bdm_mark_up_comm;
-		// BCM calculation
-		var bcm_mark_up = bcm_mark_up_ins + bcm_mark_up_comm;
-
-		// New TE calculation
-		var te_mark_up = te_mark_up_ins + te_mark_up_comm;
-		// ETE calculation
-		var ete_mark_up = ete_mark_up_ins + ete_mark_up_comm;
-		// STE calculation
-		var ste_mark_up = ste_mark_up_ins + ste_mark_up_comm;
-		// CTE calculation
-		var cte_mark_up = cte_mark_up_ins + cte_mark_up_comm;
-		//institution markup
-		// BM | MF | SF calculation
-		var ins_bm_mf_sf_total = ins_bm_mf_sf_comm + ins_bm_mf_sf_ins;
-		//var details_of_day = document.getElementsByName('days[]');
-		//addition adult price
-		var add_adult_price=$('#add_adult_price').val();
-		var L1_customer_share = $('#l1_cust_comm').val();
-        var L2_customer_share = $('#l2_cust_comm').val();
-		var newL1_customer_share = $('#new_l1_cust_comm').val();
-        var newL2_customer_share = $('#new_l2_cust_comm').val();
-        var L3_customer_share = $('#l3_cust_comm').val();
-		//cancel policy
-		var policy_1 = $('#can_per_1').val();
-		var policy_2 = $('#can_per_2').val();
-		var policy_3 = $('#can_per_3').val();
-		var allTripDaysData = [];
-
-		$(".day-container").each(function () {
-			var dayData = {
-				title: $(this).find(".title").val(),
-				description: $(this).find(".description").val(),
-				meals: $(this).find(".meals").val(),
-				transport: $(this).find(".transport").val(),
-			};
-			allTripDaysData.push(dayData);
-		});
-
-		var formdata = {
-			category_id: category_id,
-			category_hotel_id: category_hotel_id,
-			category_meal_id: category_meal_id,
-			club_id: club_id,
-			sub_category_id: sub_category_id,
-			package_type: packageTypeValue,
-			name: name,
-			unique_code: unique_code,
-			pac_validity: pac_validity,
-			tour_days: tour_days,
-			description: description,
-			destination: destination,
-			location: location,
-			travel_from: travel_from,
-			travel_to: travel_to,
-			package_keywords: package_keywords,
-			sightseeing_type: sightseeing_type,
-			occupancies: [],
-			vehicles: [],
-			inclusion: inclusion,
-			exclusion: exclusion,
-			remark: remark,
-			net_price_adult: net_price_adult,
-			net_price_child: net_price_child,
-			net_gst: net_gst,
-			net_price_adult_with_GST: net_price_adult_with_GST,
-			net_price_child_with_GST: net_price_child_with_GST,
-			ta_mark_up: ta_mark_up,
-			ca_mark_up: ca_mark_up,
-			ca_mark_up_comm: ca_mark_up_comm,
-			ca_mark_up_ins: ca_mark_up_ins,
-			bm_mark_up: bm_mark_up,
-			bm_mark_up_comm: bm_mark_up_comm,
-			bm_mark_up_ins: bm_mark_up_ins,
-			bdm_mark_up: bdm_mark_up,
-			bdm_mark_up_comm: bdm_mark_up_comm,
-			bdm_mark_up_ins: bdm_mark_up_ins,
-			bcm_mark_up: bcm_mark_up,
-			bcm_mark_up_comm: bcm_mark_up_comm,
-			bcm_mark_up_ins: bcm_mark_up_ins,
-			coupon_amt:coupon_title,
-			newta_mark_up: newta_mark_up,
-			te_mark_up: te_mark_up,
-			te_mark_up_comm: te_mark_up_comm,
-			te_mark_up_ins: te_mark_up_ins,
-			ete_mark_up: ete_mark_up,
-			ete_mark_up_comm: ete_mark_up_comm,
-			ete_mark_up_ins: ete_mark_up_ins,
-			ste_mark_up: ste_mark_up,
-			ste_mark_up_comm: ste_mark_up_comm,
-			ste_mark_up_ins: ste_mark_up_ins,
-			cte_mark_up: cte_mark_up,
-			cte_mark_up_comm: cte_mark_up_comm,
-			cte_mark_up_ins: cte_mark_up_ins,
-			newcoupon_amt:newcoupon_title,
-			ins_bm_mf_sf_comm:ins_bm_mf_sf_comm,
-			ins_bm_mf_sf_ins:ins_bm_mf_sf_ins,
-			ins_bm_mf_sf_total:ins_bm_mf_sf_total,
-			ins_l1_cust_comm:ins_l1_cust_comm,
-			ins_l2_cust_comm:ins_l2_cust_comm,
-			ins_mp_ca_ta:ins_mp_ca_ta,
-			ins_mp_company:ins_mp_company,
-			ins_mp_customer:ins_mp_customer,
-			inscoupon_title:inscoupon_title,
-			insmark_up_title:insmark_up_title,
-			total_package_price_per_adult: total_package_price_per_adult,
-			total_package_price_per_child: total_package_price_per_child,
-			company_share: company_share,
-			customer_share: customer_share,
-			newcompany_share: newcompany_share,
-			newcustomer_share: newcustomer_share,
-			L1_customer_share: L1_customer_share,
-			L2_customer_share: L2_customer_share,
-			newL1_customer_share: newL1_customer_share,
-			newL2_customer_share: newL2_customer_share,
-			L3_customer_share: L3_customer_share,
-			total_mark_up:mark_up_title,
-			newtotal_mark_up:newmark_up_title,
-			add_adult_price:add_adult_price,
-			policy_1: policy_1,
-			policy_2: policy_2,
-			policy_3: policy_3,
-			images: [],
-			details_of_day: allTripDaysData
-		};
-
-
-		images.forEach(function (image, i) {
-			formdata.images.push({
-				'name': image.name
-			});
-		});
-		occupancies.forEach(function (data, i) {
-			formdata.occupancies.push({
-				'id': data.id
-			});
-		});
-		vehicles.forEach(function (data, i) {
-			formdata.vehicles.push({
-				'id': data.id
-			});
-		});
-
-		// console.log(formdata);
-
-		let data = JSON.stringify(formdata);
-		console.log(data);
-		showLoader(true);       // loader start
 		$.ajax({
+			url: "forms/unique_code_vefication.php",
 			type: "POST",
-			url: 'forms/create.php',
-			data: data,
-			headers: {
-				"Content-Type": "application/json",
-				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-			},
+			data: { uniqueCode },
+			dataType: "json",
 			success: function (res) {
-				//	console.log(res);
-				if (res.toString() == "success") {
-					// console.log('Record Created');
-					alert("Create successfully");
-					window.location = "../packages/all_packages.php";
-				} else {
-					console.log('Failed to create data ');
+
+				if (res.exists) {
+					showError("uniqueCode", "Unique Code already exists.");
+					return false;
 				}
-			},
-			complete: function () {
-				showLoader(false);   // loader end 
-			},
-			error: function (err) {
-				console.log(err);
+				// Continue with the remaining validations
+				continueValidation();
+
 			}
 		});
 	}
-}
+	function continueValidation(){
+		// Category
+			if (categoryId === "" || categoryId == null) {
+				showError("categoryId", "Please select Category.");
+				return false;
+			}
 
-// update form chaged on 25 jan 2025 by sv
-function update_form_data(e) {
-	e.preventDefault();
-	// console.log("update data");
+			// Sub Category
+			if (subCategoryId === "" || subCategoryId == null) {
+				showError("subCategoryId", "Please select Sub Category.");
+				return false;
+			}
 
+			// Travel Theme
+			if (!travelTheme) {
+				showTravelThemeError("Please select a Travel Theme.");
+				return false;
+			}
 
-	//new data 25 jav 2025 SV
-	var package_id = parseInt($('#package_id').val());
-	var category_id = parseInt($('#category_id').val());
-	var sub_category_id = parseInt($('#sub_category_id').val());
-	var temp_sub_cat = parseInt($('#sub_category_data').val());
-	if (temp_sub_cat) {
-		sub_category_id = parseInt($('#sub_category_data').val());
-	} else {
-		sub_category_id = parseInt($('#sub_category_id').val());
+			// Tour Days
+			if (tourDays === "") {
+				showError("tourDays", "Please enter Tour Days.");
+				return false;
+			}
+
+			// Package Validity
+			if (pacValidity === "") {
+				showError("pacValidity", "Please select Package Validity.");
+				return false;
+			}
+
+			// Package Location
+			if (pacLocation === "") {
+				showError("pacLocation", "Please enter Package Location.");
+				return false;
+			}
+
+			// Cities
+			if (cities.length === 0) {
+				showHighlightContainerError("Please add at least one City.");
+				return false;
+			}
+
+			// Description
+			if (description === "") {
+				showError("description", "Please enter Short Description.");
+				return false;
+			}
+
+			// Detailed Description
+			if (descriptionDetail === "") {
+				showError("descriptionDetail", "Please enter Detailed Description.");
+				return false;
+			}
+
+			// Package Type
+			if (!packageType) {
+				showPackageTypeError("Please select Package Type.");
+				return false;
+			}
+
+			// Visa Type
+			if (!visaType) {
+				showVisaTypeError("Please select Visa Type.");
+				return false;
+			}
+
+			// Drop Price
+			if (dropPrice === "") {
+				showError("dropPrice", "Please select a Drop Price.");
+				return false;
+			}
 	}
-	var club_id = parseInt($('#club_id').val());
-	var club_id = parseInt($('#club_id').val());
-	// var package_type = packageType;
-	var category_hotel_id = parseInt($('#category_hotel_id').val());
-	var category_meal_id = parseInt($('#category_meal_id').val());
-	var name = $('#name').val();
-	var unique_code = $('#unique_code').val();
-	var description = $('#description').val();
-	var pac_validity = $('#pac_validity').val();
-	var tour_days = $('#tour_days').val();
-	var destination = $('#destination').val();
-	var location = $('#location').val();
-	var travel_from = $('#travel_from').val();
-	var travel_to = $('#travel_to').val();
-	var sightseeing_type = $('#sightseeing_type').val();
-	var package_keywords = $('#package_keywords').val();
-	var bcm_mark_up_comm = parseFloat($('#mp_bcm_comm').val());
-	var bcm_mark_up_ins = parseFloat($('#mp_bcm_ins').val());
-	var bdm_mark_up_comm = parseFloat($('#mp_bdm_comm').val());
-	var bdm_mark_up_ins = parseFloat($('#mp_bdm_ins').val());
-	var bm_mark_up_comm = parseFloat($('#mp_bm_comm').val());
-	var bm_mark_up_ins = parseFloat($('#mp_bm_ins').val());
-	var ca_mark_up_comm = parseFloat($('#mp_ca_comm').val());
-	var ca_mark_up_ins = parseFloat($('#mp_ca_ins').val());
-	var te_mark_up_comm = parseFloat($('#new_mp_ca_comm').val());
-	var te_mark_up_ins = parseFloat($('#new_mp_ca_ins').val());
-	var cte_mark_up_comm = parseFloat($('#mp_cte_comm').val());
-	var cte_mark_up_ins = parseFloat($('#mp_cte_ins').val());
-	var ste_mark_up_comm = parseFloat($('#mp_ste_comm').val());
-	var ste_mark_up_ins = parseFloat($('#mp_ste_ins').val());
-	var ete_mark_up_comm = parseFloat($('#mp_ete_comm').val());
-	var ete_mark_up_ins = parseFloat($('#mp_ete_ins').val());
-	var newca_mark_up_comm = parseFloat($('#new_mp_ca_comm').val());
-	var newca_mark_up_ins = parseFloat($('#new_mp_ca_ins').val());
-	var ins_bm_mf_sf_comm = parseFloat($('#ins_bm_mf_sf_comm').val());
-	var ins_bm_mf_sf_ins = parseFloat($('#ins_bm_mf_sf_ins').val());
-	var ins_mp_company = parseFloat($('#ins_mp_company').val());
-	var ins_mp_ca_ta = parseFloat($('#ins_mp_ca_ta').val());
-	var ins_mp_customer = parseFloat($('#ins_mp_customer').val());
-	var ins_l1_cust_comm = parseFloat($('#ins_l1_cust_comm').val());
-	var ins_l2_cust_comm = parseFloat($('#ins_l2_cust_comm').val());
-	var inclusion, exclusion, remark;
-	var temp_inclusion = $('#inclusion').val();
-	if (temp_inclusion) {
-		inclusion = $('#inclusion').val();
-	} else {
-		inclusion = '';
-	}
-	var temp_exclusion = $('#exclusion').val();
-	if (temp_exclusion) {
-		exclusion = $('#exclusion').val();
-	} else {
-		exclusion = '';
-	}
-	var temp_remark = $('#remark').val();
-	if (temp_remark) {
-		remark = $('#remark').val();
-	} else {
-		remark = '';
-	}
-	var net_price_adult = $('#netPriceAdult').val(); // new
-	var net_price_child = $('#netPriceChild').val(); // new
-	var net_gst = $('#nGst').val();
-	var net_price_adult_with_GST = $('#totalNetPriceAdult').val(); // new
-	var net_price_child_with_GST = $('#totalNetPriceChild').val(); // new
-	var total_package_price_per_adult = $('#mrp_per_adult').val();
-	var total_package_price_per_child = $('#mrp_per_child').val().trim() || '0';
-	// mark_up distribution
-	var ta_mark_up = parseFloat($("#mp_ca_ta").val());
-	var company_share = parseFloat($("#mp_company").val());
-	var customer_share = parseFloat($("#mp_customer").val());
-	var newta_mark_up = parseFloat($("#new_mp_ca_ta").val());
-	var newcompany_share = parseFloat($("#new_mp_company").val());
-	var newcustomer_share = parseFloat($("#new_mp_customer").val());
-	// CA calculation
-	var ca_mark_up = ca_mark_up_ins + ca_mark_up_comm;
-	// BM calculation
-	var bm_mark_up = bm_mark_up_ins + bm_mark_up_comm;
-	// BDM calculation
-	var bdm_mark_up = bdm_mark_up_ins + bdm_mark_up_comm;
-	// BCM calculation
-	var bcm_mark_up = bcm_mark_up_ins + bcm_mark_up_comm;
 
-	// New TE calculation
-	var te_mark_up = te_mark_up_ins + te_mark_up_comm;
-	// ETE calculation
-	var ete_mark_up = ete_mark_up_ins + ete_mark_up_comm;
-	// STE calculation
-	var ste_mark_up = ste_mark_up_ins + ste_mark_up_comm;
-	// CTE calculation
-	var cte_mark_up = cte_mark_up_ins + cte_mark_up_comm;
-
-	//institution markup
-	// BM | MF | SF calculation
-	var ins_bm_mf_sf_total = ins_bm_mf_sf_comm + ins_bm_mf_sf_ins;
-	//var details_of_day = document.getElementsByName('days[]');
-	//addition adult price
-	var add_adult_price=$('#add_adult_price').val();
-	var L1_customer_share = $('#l1_cust_comm').val();
-    var L2_customer_share = $('#l2_cust_comm').val();
-	var newL1_customer_share = $('#new_l1_cust_comm').val();
-	var newL2_customer_share = $('#new_l2_cust_comm').val();
-    var L3_customer_share = $('#l3_cust_comm').val();
-	//cancel policy
-	var policy_1 = $('#can_per_1').val();
-	var policy_2 = $('#can_per_2').val();
-	var policy_3 = $('#can_per_3').val();
-	var allTripDaysData = [];
-
-	$(".day-container").each(function () {
-		var dayData = {
-			title: $(this).find(".title").val(),
-			description: $(this).find(".description").val(),
-			meals: $(this).find(".meals").val(),
-			transport: $(this).find(".transport").val(),
-		};
-		allTripDaysData.push(dayData);
-	});
-
-
-	// new data 25 Jan 2025 by sv
-
-	var formdata = {
-		package_id: package_id,
-		category_id: category_id,
-		category_hotel_id: category_hotel_id,
-		category_meal_id: category_meal_id,
-		club_id: club_id,
-		sub_category_id: sub_category_id,
-		package_type: packageTypeValue,
-		name: name,
-		unique_code: unique_code,
-		description: description,
-		pac_validity: pac_validity,
-		tour_days: tour_days,
-		destination: destination,
-		location: location,
-		travel_from: travel_from,
-		travel_to: travel_to,
-		package_keywords: package_keywords,
-		sightseeing_type: sightseeing_type,
-		occupancies: [],
-		vehicles: [],
-		inclusion: inclusion,
-		exclusion: exclusion,
-		remark: remark,
-		net_price_adult: net_price_adult,
-		net_price_child: net_price_child,
-		net_gst: net_gst,
-		net_price_adult_with_GST: net_price_adult_with_GST,
-		net_price_child_with_GST: net_price_child_with_GST,
-		ta_mark_up: ta_mark_up,
-		ca_mark_up: ca_mark_up,
-		ca_mark_up_comm: ca_mark_up_comm,
-		ca_mark_up_ins: ca_mark_up_ins,
-		bm_mark_up: bm_mark_up,
-		bm_mark_up_comm: bm_mark_up_comm,
-		bm_mark_up_ins: bm_mark_up_ins,
-		bdm_mark_up: bdm_mark_up,
-		bdm_mark_up_comm: bdm_mark_up_comm,
-		bdm_mark_up_ins: bdm_mark_up_ins,
-		bcm_mark_up: bcm_mark_up,
-		bcm_mark_up_comm: bcm_mark_up_comm,
-		bcm_mark_up_ins: bcm_mark_up_ins,
-		coupon_amt:coupon_title,
-		newta_mark_up: newta_mark_up,
-		te_mark_up: te_mark_up,
-		te_mark_up_comm: te_mark_up_comm,
-		te_mark_up_ins: te_mark_up_ins,
-		ete_mark_up: ete_mark_up,
-		ete_mark_up_comm: ete_mark_up_comm,
-		ete_mark_up_ins: ete_mark_up_ins,
-		ste_mark_up: ste_mark_up,
-		ste_mark_up_comm: ste_mark_up_comm,
-		ste_mark_up_ins: ste_mark_up_ins,
-		cte_mark_up: cte_mark_up,
-		cte_mark_up_comm: cte_mark_up_comm,
-		cte_mark_up_ins: cte_mark_up_ins,
-		newcoupon_amt:newcoupon_title,
-		ins_bm_mf_sf_comm:ins_bm_mf_sf_comm,
-		ins_bm_mf_sf_ins:ins_bm_mf_sf_ins,
-		ins_bm_mf_sf_total:ins_bm_mf_sf_total,
-		ins_l1_cust_comm:ins_l1_cust_comm,
-		ins_l2_cust_comm:ins_l2_cust_comm,
-		ins_mp_ca_ta:ins_mp_ca_ta,
-		ins_mp_company:ins_mp_company,
-		ins_mp_customer:ins_mp_customer,
-		inscoupon_title:inscoupon_title,
-		insmark_up_title:insmark_up_title,
-		total_package_price_per_adult: total_package_price_per_adult,
-		total_package_price_per_child: total_package_price_per_child,
-		company_share: company_share,
-		customer_share: customer_share,
-		newcompany_share: newcompany_share,
-		newcustomer_share: newcustomer_share,
-		L1_customer_share: L1_customer_share,
-		L2_customer_share: L2_customer_share,
-		newL1_customer_share: newL1_customer_share,
-		newL2_customer_share: newL2_customer_share,
-		L3_customer_share: L3_customer_share,
-		total_mark_up:mark_up_title,
-		newtotal_mark_up:newmark_up_title,
-		add_adult_price:add_adult_price,
-		policy_1: policy_1,
-		policy_2: policy_2,
-		policy_3: policy_3,
-		images: [],
-		details_of_day: allTripDaysData
+    
+	payLoadData.general_info = {
+		packName,
+		uniqueCode,
+		categoryId,
+		subCategoryId,
+		travelTheme,
+		tourDays,
+		pacValidity,
+		season,
+		pacLocation,
+		cities,
+		description,
+		descriptionDetail,
+		packageType,
+		visaType,
+		dropPriceCheck,
+		dropPrice
 	};
 
+	showSection("#package_form_extra");
 
-	images.forEach(function (image, i) {
-		formdata.images.push({
-			'name': image.name
+});
+//Extra Informtion
+$('#package_form_extra_nextBtn').on('click', function (e) {
+
+    e.preventDefault();
+
+    clearAllErrors();
+    clearPackageKeyWordsError();
+
+    let destination = $('#destination').val().trim();
+    let travelFrom = $('#travelFrom').val().trim();
+    let travelTo = $('#travelTo').val().trim();
+    let sightseeingType = $('#sightseeingType').val().trim();
+    let categoryHotelId = $('#categoryHotelId').val();
+    let occupancyId = $('#occupancyId').val();
+    let categoryMealId = $('#categoryMealId').val();
+    let vehicleId = $('#vehicleId').val();
+    let languageType = $('#languageType').val().trim();
+    let packageKeywords = [...document.querySelectorAll(".package-tag")]
+        .map(tag => tag.dataset.packageKey);
+
+    // Validation
+    if (destination === "") {
+        showError("destination", "Please enter Destination.");
+        return false;
+    }
+
+    if (travelFrom === "") {
+        showError("travelFrom", "Please enter Pick Up Point.");
+        return false;
+    }
+
+    if (travelTo === "") {
+        showError("travelTo", "Please enter Drop Point.");
+        return false;
+    }
+
+    if (sightseeingType === "") {
+        showError("sightseeingType", "Please enter Sightseeing Type.");
+        return false;
+    }
+
+    if (categoryHotelId === "" || categoryHotelId == 0) {
+        showError("categoryHotelId", "Please select Hotel Category.");
+        return false;
+    }
+
+    if (occupancyId === "" || occupancyId == 0) {
+        showError("occupancyId", "Please select Occupancy Category.");
+        return false;
+    }
+
+    if (categoryMealId === "" || categoryMealId == 0) {
+        showError("categoryMealId", "Please select Meal Category.");
+        return false;
+    }
+
+    if (vehicleId === "" || vehicleId == 0) {
+        showError("vehicleId", "Please select Vehicle Category.");
+        return false;
+    }
+
+    if (languageType === "") {
+        showError("languageType", "Please enter Language Type.");
+        return false;
+    }
+
+    if (packageKeywords.length === 0) {
+        showPackageKeyWordsError("Please add at least one Package Keyword.");
+        return false;
+    }
+
+    // Save data
+    payLoadData.extra_info = {
+        destination,
+        travelFrom,
+        travelTo,
+        sightseeingType,
+        categoryHotelId,
+        occupancyId,
+        categoryMealId,
+        vehicleId,
+        languageType,
+        packageKeywords
+    };
+
+    showSection("#package_form_itinerary");
+});
+//itenerary & inclusion
+$('#package_form_itinerary_nxtBtn').on('click', function (e) {
+
+    e.preventDefault();
+
+    clearListError("hightlightList");
+    clearListError("inclusionList");
+    clearListError("exclusionList");
+    clearListError("remarkList");
+    clearListError("thingsList");
+
+    // Highlights
+    const highlightList = $("#hightlightList");
+
+	if (
+		highlightList.find(".remark-item").length === 0 ||
+		highlightList.text().trim().includes("Placeholder Text")
+	) {
+        showListError("hightlightList", "Please add at least one Highlight.");
+        return false;
+    }
+
+    // Days validation
+    const dayContainers = $(".input_fields_wrap .day-container");
+    if (dayContainers.length === 0) {
+        $("#days_error").text("Please add at least one Day.");
+        return false;
+    } else {
+        $("#days_error").text("");
+    }
+
+    // Validate all day fields
+    const dayValidation = validateDayFields();
+    if (!dayValidation.isValid) {
+        // Show SweetAlert with all errors
+        let errorMessage = 'Please fill all required fields in each day:\n\n';
+        dayValidation.errorMessages.forEach((msg, index) => {
+            errorMessage += `${index + 1}. ${msg}\n`;
+        });
+        
+        Swal.fire({
+            icon: 'error',
+            title: 'Incomplete Day Fields',
+            html: errorMessage.replace(/\n/g, '<br>'),
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK',
+            width: '500px'
+        });
+        
+        // Scroll to first error
+        if (dayValidation.firstErrorDay) {
+            const targetDay = $(`.day-container:eq(${dayValidation.firstErrorDay - 1})`);
+            if (targetDay.length) {
+                $('html, body').animate({
+                    scrollTop: targetDay.offset().top - 100
+                }, 500);
+            }
+        }
+        
+        return false;
+    }
+
+    // Inclusions
+	const inclusionList = $("#inclusionList");
+
+	if (
+		inclusionList.find(".inclusion-item").length === 0 ||
+		inclusionList.text().trim().includes("Placeholder Text")
+	)
+    {
+        showListError("inclusionList", "Please add at least one Inclusion.");
+        return false;
+    }
+
+    // Exclusions
+	const exclusionList = $("#exclusionList");
+
+	if (
+		exclusionList.find(".exclusion-item").length === 0 ||
+		exclusionList.text().trim().includes("Placeholder Text")
+	)
+    {
+        showListError("exclusionList", "Please add at least one Exclusion.");
+        return false;
+    }
+
+    // Remarks
+	const remarkList = $("#remarkList");
+
+	if (
+		remarkList.find(".remark-item").length === 0 ||
+		remarkList.text().trim().includes("Placeholder Text")
+	)
+    {
+        showListError("remarkList", "Please add at least one Remark.");
+        return false;
+    }
+
+    // Things to Know
+	const thingsList = $("#thingsList");
+
+	if (
+		thingsList.find(".things-item").length === 0 ||
+		thingsList.text().trim().includes("Placeholder Text")
+	)
+    {
+        showListError("thingsList", "Please add at least one Thing to Know.");
+        return false;
+    }
+
+    // Save data with day details
+    const dayData = [];
+    $(".day-container").each(function() {
+		const index = $(this).find(".upload-card").data("index");
+        const dayObj = {
+            day: $(this).find(".dayval").text().trim(),
+            title: $(this).find(".title").val().trim(),
+            description: $(this).find(".description").val().trim(),
+            meals: $(this).find(".meals").val().trim(),
+            transport: $(this).find(".transport").eq(0).val().trim(),
+            stay: $(this).find(".transport").eq(1).val().trim()
+            // icon: index !== undefined ? $("#img_path" + index).val().trim() : "",
+        	// iconBase64: index !== undefined ? $("#img_base64" + index).val().trim() : ""
+        };
+        dayData.push(dayObj);
+    });
+
+    payLoadData.itinerary = {
+        highlights: $("#hightlightList .remark-text").map(function () {
+            return $(this).text().trim();
+        }).get(),
+
+        inclusions: $("#inclusionList .inclusion-text").map(function () {
+            return $(this).text().trim();
+        }).get(),
+
+        exclusions: $("#exclusionList .exclusion-text").map(function () {
+            return $(this).text().trim();
+        }).get(),
+
+        remarks: $("#remarkList .remark-text").map(function () {
+            return $(this).text().trim();
+        }).get(),
+
+        thingsToKnow: $("#thingsList .things-text").map(function () {
+            return $(this).text().trim();
+        }).get(),
+        
+        days: dayData // Add the days data
+    };
+
+    // console.log(payLoadData);
+
+    showSection("#package_form_pricing");
+});
+//pricing
+$('#package_form_pricing_nextBtn').on('click', function (e) {
+
+    e.preventDefault();
+
+    clearAllErrors();
+
+    let netPriceAdult = $('#netPriceAdult').val().trim();
+    let netPriceChild = $('#netPriceChild').val().trim();
+    let extraMatress = $('#extraMatress').val().trim();
+    let companyMarkup = $('#companyMarkup').val().trim();
+    let couponAdjustment = $('#couponAdjustment').val().trim();
+    let guestAmount = $("#guestAmount").prop("disabled")
+    ? ""
+    : $("#guestAmount").val().trim();
+
+	let guestPercentage = $("#guestPercentage").prop("disabled")
+    ? ""
+    : $("#guestPercentage").val().trim();
+	let travelConsultant= $("#travelConsultant").val().trim();
+	let cteComm= $("#cteComm").text().replace(/₹/g, "").trim();
+	let cteIns= $("#cteIns").text().replace(/₹/g, "").trim();
+	let cteCommInsTotal= $("#cteCommInsTotal").text().replace(/₹/g, "").trim();
+	let eteComm= $("#eteComm").text().replace(/₹/g, "").trim();
+	let eteIns= $("#eteIns").text().replace(/₹/g, "").trim();
+	let eteCommInsTotal= $("#eteCommInsTotal").text().replace(/₹/g, "").trim();
+	let steComm= $("#steComm").text().replace(/₹/g, "").trim();
+	let steIns= $("#steIns").text().replace(/₹/g, "").trim();
+	let steCommInsTotal= $("#steCommInsTotal").text().replace(/₹/g, "").trim();
+	let cTeFComm= $("#cTeFComm").text().replace(/₹/g, "").trim();
+	let cTeFIns= $("#cTeFIns").text().replace(/₹/g, "").trim();
+	let cTeFCommInsTotal= $("#cTeFCommInsTotal").text().replace(/₹/g, "").trim();
+	let cteChainCommTotal= $("#cteChainCommTotal").text().replace(/₹/g, "").trim();
+	let cteChainInsTotal= $("#cteChainInsTotal").text().replace(/₹/g, "").trim();
+	let cteChainCommInsTotal= $("#cteChainCommInsTotal").text().replace(/₹/g, "").trim();
+	let cteSuspence= $("#cteSuspence").val().trim();
+	let teBmComm= $("#teBmComm").text().replace(/₹/g, "").trim();
+	let teBmIns= $("#teBmIns").text().replace(/₹/g, "").trim();
+	let teBmComInsTotal= $("#teBmComInsTotal").text().replace(/₹/g, "").trim();
+	let bmTeComm= $("#bmTeComm").text().replace(/₹/g, "").trim();
+	let bmTeIns= $("#bmTeIns").text().replace(/₹/g, "").trim();
+	let bmTeCommInsTotal= $("#bmTeCommInsTotal").text().replace(/₹/g, "").trim();
+	let bmTeChainCommTotal= $("#bmTeChainCommTotal").text().replace(/₹/g, "").trim();
+	let bmTeChainInsTotal= $("#bmTeChainInsTotal").text().replace(/₹/g, "").trim();
+	let bmTeChainCommInsTotal= $("#bmTeChainCommInsTotal").text().replace(/₹/g, "").trim();
+	let bmSuspence= $("#bmSuspence").val().trim();
+	let iBmComm= $("#iBmComm").text().replace(/₹/g, "").trim();
+	let iBmIns= $("#iBmIns").text().replace(/₹/g, "").trim();
+	let bmIComm= $("#bmIComm").text().replace(/₹/g, "").trim();
+	let bmICommInsTotal= $("#bmICommInsTotal").text().replace(/₹/g, "").trim();
+	let iBmCommInsTotal= $("#iBmCommInsTotal").text().replace(/₹/g, "").trim();
+	let bmIComTotal= $("#bmIComTotal").text().replace(/₹/g, "").trim();
+	let bmIInsTotal= $("#bmIInsTotal").text().replace(/₹/g, "").trim();
+	let bmIComInsTotal= $("#bmIComInsTotal").text().replace(/₹/g, "").trim();
+	let bmISuspence= $("#bmISuspence").val().trim();
+	let iCteComm= $("#iCteComm").text().replace(/₹/g, "").trim();
+	let iCteIns= $("#iCteIns").text().replace(/₹/g, "").trim();
+	let iCteCommInsTotal= $("#iCteCommInsTotal").text().replace(/₹/g, "").trim();
+	let iEteComm= $("#iEteComm").text().replace(/₹/g, "").trim();
+	let iEteIns= $("#iEteIns").text().replace(/₹/g, "").trim();
+	let iEteCommInsTotal= $("#iEteCommInsTotal").text().replace(/₹/g, "").trim();
+	let cteIComm= $("#cteIComm").text().replace(/₹/g, "").trim();
+	let cteICommInsTotal= $("#cteICommInsTotal").text().replace(/₹/g, "").trim();
+	let iCteComTotal= $("#iCteComTotal").text().replace(/₹/g, "").trim();
+	let iCteInsTotal= $("#iCteInsTotal").text().replace(/₹/g, "").trim();
+	let iCteComInsTotal= $("#iCteComInsTotal").text().replace(/₹/g, "").trim();
+	let cteISuspence= $("#cteISuspence").val().trim();
+	let customer1= $("#customer1").val().trim();
+	let customer2= $("#customer2").val().trim();
+	let customer3= $("#customer3").val().trim();
+	let totalCustomerShare=customer1+customer2+customer3;
+	let mrpPerAdult= $("#mrpPerAdult").val().trim();
+	let mrpPerChild= $("#mrpPerChild").val().trim();
+	let mrpPerAdultGst = mrpPerAdult + (mrpPerAdult * (gst / 100));
+	let mrpPerChildGst = mrpPerChild + (mrpPerChild * (gst / 100));
+	let cancellationPercentage1= $("#cancellationPercentage1").val().trim();
+	let cancellationPercentage2= $("#cancellationPercentage2").val().trim();
+	let cancellationPercentage3= $("#cancellationPercentage3").val().trim();
+	let cancellationPercentage4= $("#cancellationPercentage4").val().trim();
+	let cancellationPercentage5= $("#cancellationPercentage5").val().trim();
+	
+    // Validation
+    if (netPriceAdult === "") {
+        showError("netPriceAdult", "Please enter Base Price for per Adult.");
+        return false;
+    }
+
+    if (netPriceChild === "") {
+        showError("netPriceChild", "Please enter Base Price for per Child.");
+        return false;
+    }
+    if (extraMatress === "") {
+        showError("extraMatress", "Please enter Extra Matress.");
+        return false;
+    }
+
+    if (companyMarkup === "") {
+        showError("companyMarkup", "Please enter Company Markup.");
+        return false;
+    }
+
+    if (couponAdjustment === "") {
+        showError("couponAdjustment", "Please enter Default Coupon Adjustment.");
+        return false;
+    }
+	if ($("#switchCheckGuestUser").is(":checked")) {
+
+		// Check if any option is selected
+		if (!$("#radioDefault1").is(":checked") && !$("#radioDefault2").is(":checked")) {
+			showError("guestAmount", "Please select either Fixed Amount or Percentage.");
+			return false;
+		}
+
+		// Fixed Amount validation
+		if ($("#radioDefault1").is(":checked")) {
+			
+
+			if (guestAmount === "") {
+				showError("guestAmount", "Please enter Fixed Amount.");
+				return false;
+			}
+		}
+
+		// Percentage validation
+		if ($("#radioDefault2").is(":checked")) {
+			
+
+			if (guestPercentage === "") {
+				showError("guestPercentage", "Please enter Percentage.");
+				return false;
+			}
+
+			if (isNaN(guestPercentage) || Number(guestPercentage) < 0 || Number(guestPercentage) > 100) {
+				showError("guestPercentage", "Percentage must be between 0 and 100.");
+				return false;
+			}
+		}
+	}
+	if (travelConsultant === "") {
+        showError("travelConsultant", "Please enter Travel Consultant.");
+        return false;
+    }
+	for (let i = 1; i <= 5; i++) {
+		let value = $(`#cancellationPercentage${i}`).val().trim();
+
+		if (value === "") {
+			showError(`cancellationPercentage${i}`, "Please enter Cancellation Percentage.");
+			return false;
+		}
+	}
+    
+
+    // Save data
+    payLoadData.pricing = {
+		netPriceAdult,
+		netPriceChild,
+		extraMatress,
+		companyMarkup,
+		couponAdjustment,
+
+		guestUser: $("#switchCheckGuestUser").is(":checked") ? 1 : 0,
+		guestPricingType: $("#radioDefault1").is(":checked")
+			? "fixed"
+			: $("#radioDefault2").is(":checked")
+				? "percentage"
+				: "",
+
+		guestAmount,
+		guestPercentage,
+
+		travelConsultant,
+
+		cteComm,
+		cteIns,
+		cteCommInsTotal,
+
+		eteComm,
+		eteIns,
+		eteCommInsTotal,
+
+		steComm,
+		steIns,
+		steCommInsTotal,
+
+		cTeFComm,
+		cTeFIns,
+		cTeFCommInsTotal,
+
+		cteChainCommTotal,
+		cteChainInsTotal,
+		cteChainCommInsTotal,
+		cteSuspence,
+
+		teBmComm,
+		teBmIns,
+		teBmComInsTotal,
+
+		bmTeComm,
+		bmTeIns,
+		bmTeCommInsTotal,
+
+		bmTeChainCommTotal,
+		bmTeChainInsTotal,
+		bmTeChainCommInsTotal,
+		bmSuspence,
+
+		iBmComm,
+		iBmIns,
+		iBmCommInsTotal,
+
+		bmIComm,
+		bmICommInsTotal,
+		bmIComTotal,
+		bmIInsTotal,
+		bmIComInsTotal,
+		bmISuspence,
+
+		iCteComm,
+		iCteIns,
+		iCteCommInsTotal,
+
+		iEteComm,
+		iEteIns,
+		iEteCommInsTotal,
+
+		cteIComm,
+		cteICommInsTotal,
+
+		iCteComTotal,
+		iCteInsTotal,
+		iCteComInsTotal,
+		cteISuspence,
+
+		customer1,
+		customer2,
+		customer3,
+		totalCustomerShare,
+
+		mrpPerAdult,
+		mrpPerChild,
+		mrpPerAdultGst,
+		mrpPerChildGst,
+
+		cancellationPercentage1,
+		cancellationPercentage2,
+		cancellationPercentage3,
+		cancellationPercentage4,
+		cancellationPercentage5
+	};
+
+    showSection("#package_form_policy");
+});
+//policy
+$('#package_form_policy_nextBtn').on('click', function (e) {
+
+    e.preventDefault();
+
+    clearAllErrors();
+    clearCouponRuleError();
+    clearOtherPolicyError();
+
+    let switchCoupon = $('#switchCoupon').is(':checked') ? 1 : 0;
+    let switchCombine = $('#switchCombine').is(':checked') ? 1 : 0;
+    let bookingPercentage = $('#bookingPercentage').val().trim();
+    let bookingDay = $('#bookingDay').val().trim();
+
+    let tableData = [];
+
+    // Coupon Rule Validation
+    if (!switchCoupon && !switchCombine) {
+        showCouponRuleError("Please enable at least one coupon rule.");
+        return;
+    }
+
+    // Booking Validation
+    if (bookingPercentage === "") {
+        showError("bookingPercentage", "Please enter Minimum Advance Payment.");
+        return;
+    }
+
+    if (bookingDay === "") {
+        showError("bookingDay", "Please enter Full Payment Before Travel.");
+        return;
+    }
+
+    // Document Validation
+    if (attachments.length === 0) {
+        showOtherPolicyError("Please add at least one document.");
+        return;
+    }
+
+    // Build document metadata
+    attachments.forEach(function(item){
+
+		if (item.existing) {
+
+			tableData.push({
+				id: item.id,
+				title: item.title,
+				fileName: item.file_name,
+				existing: true
+			});
+
+		} else {
+
+			tableData.push({
+				id: item.id,
+				title: item.title,
+				fileName: item.file.name,
+				type: item.file.name.split(".").pop().toUpperCase(),
+				size: (item.file.size / (1024 * 1024)).toFixed(2) + " MB",
+				uploadedOn: new Date().toLocaleDateString("en-GB"),
+				existing: false
+			});
+
+		}
+
+	});
+
+    // Save in payload
+    payLoadData.policy = {
+		couponRule: {
+			couponAllowed: switchCoupon,
+			combineWithOffers: switchCombine
+		},
+		booking: {
+			bookingPercentage,
+			bookingDay
+		},
+		documents: tableData,
+		deletedDocuments: deletedDocuments
+	};
+
+    let formData = new FormData();
+
+	formData.append("payload", JSON.stringify(payLoadData));
+
+	attachments.forEach(item => {
+		if (!item.existing && item.file) {
+			formData.append("documents[]", item.file);
+		}
+	});
+
+	window.packageFormData = formData;
+
+    // Store globally if you want to submit later
+    window.packageFormData = formData;
+
+    console.log(payLoadData);
+    console.log(formData);
+
+    showSection("#package_form_picture");
+
+});
+//  submit form changed on 25 jan 2025 by sv
+$("#update_form").on('click',function (e) {
+	e.preventDefault();
+
+	// Cover Image
+	const coverImage = {
+		name: $("#coverImageUrl").data("base64") || "",
+		url: $("#coverImageUrl").val().trim()
+	};
+
+	// Gallery Images
+	const gallery = galleryImages.map(img => ({
+		name: img.src,   // Base64 for PHP
+		url: img.url     // uploading/packages/filename.jpg
+	}));
+
+	// Videos
+	let videos = [];
+
+	$("#videoPreviewList .video-preview-item").each(function () {
+		videos.push({
+			url: $(this).find(".video-url").text().trim()
 		});
 	});
-	occupancies.forEach(function (data, i) {
-		formdata.occupancies.push({
-			'id': data.id
-		});
-	});
-	vehicles.forEach(function (data, i) {
-		formdata.vehicles.push({
-			'id': data.id
-		});
+
+	let formData = window.packageFormData;
+
+	payLoadData.media = {
+		coverImage,
+		gallery,
+		videos
+	};
+
+	// Update the payload
+	formData.set("payload", JSON.stringify(payLoadData));
+	console.log(payLoadData);
+	
+	Swal.fire({
+		title: "Creating Package...",
+		text: "Please wait while we save your package.",
+		allowOutsideClick: false,
+		allowEscapeKey: false,
+		didOpen: () => {
+			Swal.showLoading();
+		}
 	});
 
-	console.log(formdata);
-
-	let data = JSON.stringify(formdata);
-	//console.log(data);
-	showLoader(true);       // loader start 
 	$.ajax({
 		type: "POST",
-		url: 'forms/update.php',
-		data: data,
+		url: "forms/add_pacakage.php",
+		data: formData,
+		processData: false,   // IMPORTANT
+    	contentType: false,   // IMPORTANT
+		dataType: "json",
 		headers: {
-			"Content-Type": "application/json",
-			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			"X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
 		},
-		success: function (res) {
-			console.log(res);
-			if (res.toString() == "success") {
-				//console.log(res);
 
-				//console.log('Record Updated');
-				alert("Updated successfully");
-				window.location = "../packages/all_packages.php";
-			} else {
-				console.log('Failed to update data ');
-			}
-		},
-		complete: function () {
-			showLoader(false);   // loader end 
-		},
-		error: function (err) {
-			console.log(err);
-		}
-	});
-}
-
-
-
-
-
-
-
-var loader = document.getElementById("loading-loader");
-var page_body = document.getElementById("page_body");
-
-function showLoader(value) {
-	if (value) {
-		page_body.classList.add('parent_disable');
-		loader.style.display = "block";
-	} else {
-		page_body.classList.remove('parent_disable')
-		loader.style.display = "none";
-		window.scrollTo(0, document.body.scrollHeight);
-	}
-}
-
-// validate function
-function validateInput(regex, elementID, errorMessage) {
-	if (regex.test(elementID.value)) {
-		showErrorMessage(errorMessage, elementID);
-		return false;
-	} else {
-		hideErrorMessage(elementID);
-		return true;
-	}
-}
-
-function showErrorMessage(errorMessage, elementID) {
-	showBottomSnackBar(errorMessage);
-	elementID.classList.add('invalid_input');
-}
-function hideErrorMessage(elementID) {
-	elementID.classList.remove('invalid_input');
-}
-
-function validateIdenticalRecord(type, elementID, errorMessage) {
-	$.ajax({
-		type: "POST",
-		url: 'forms/validate_records.php',
-		data: 'type=' + type + '&value=' + elementID.value,
 		success: function (res) {
 
-			if (res.toString() == 'success') {
-				showErrorMessage(errorMessage, elementID);
-				isValid_a2 = false;
+			Swal.close();
+
+			if (res.status) {//true flase
+
+				Swal.fire({
+					icon: "success",
+					title: "Success!",
+					text: "Package created successfully.",//res.message || 
+					confirmButtonText: "OK"
+				}).then(() => {
+					window.location.href = "../packages/all_packages.php";
+				});
+
 			} else {
-				hideErrorMessage(elementID);
-				isValid_a2 = true;
+
+				Swal.fire({
+					icon: "error",
+					title: "Failed!",
+					text: "Unable to create package."
+				});
+
 			}
 		},
-		error: function (err) {
-			console.log(err);
-		}
+
+		error: function (xhr) {
+
+			Swal.close();
+
+			let message = "Something went wrong. Please try again.";
+
+			if (xhr.responseJSON && xhr.responseJSON.message) {
+				message = xhr.responseJSON.message;
+			}
+
+			Swal.fire({
+				icon: "error",
+				title: "Error",
+				text: message
+			});
+
+			console.error(xhr);
+		},
 	});
-}
+});
 
-// disable next button
-function showNextFormButton(isValid, showButton) {
-	if (isValid == true) {
-		showButton.classList.remove('disable_clickablea_area');
-	} else {
-		showButton.classList.add('disable_clickablea_area');
-	}
-}
+// update form chaged on 31 july 2026 by sv
+$("#edit_package").on("click", function (e) {
 
-// snack bar
-function showBottomSnackBar(textString) {
-	var x = document.getElementById("bottom-snackbar");
-	x.style.display = "block";
-	x.innerText = textString;
+    e.preventDefault();
 
-	setTimeout(function () {
-		x.style.display = "none";
-	}, 4000);
-}
+    /*=====================================================
+        CREATE FORM DATA
+    =====================================================*/
+    let formData = new FormData();
+
+    /*=====================================================
+        ADD DOCUMENT FILES
+    =====================================================*/
+    $("#documentInput")[0]?.files &&
+    Array.from($("#documentInput")[0].files).forEach(file => {
+        formData.append("documents[]", file);
+    });
+
+    /*=====================================================
+        ADD GALLERY FILES
+        (only if you're uploading gallery files separately)
+    =====================================================*/
+    $("#galleryInput")[0]?.files &&
+    Array.from($("#galleryInput")[0].files).forEach(file => {
+        formData.append("galleryImages[]", file);
+    });
+
+    /*=====================================================
+        COVER IMAGE
+    =====================================================*/
+    const coverImage = {
+
+        deleted: coverImageDeleted,
+
+        existing: !coverImageDeleted && !$("#coverImageUrl").data("base64"),
+
+        name: $("#coverImageUrl").data("base64") || "",
+
+        url: $("#coverImageUrl").val().trim()
+
+    };
+
+    /*=====================================================
+        GALLERY
+    =====================================================*/
+    const gallery = galleryImages.map(img => ({
+
+        id: img.existing ? img.id : null,
+
+        existing: img.existing || false,
+
+        deleted: img.deleted || false,
+
+        name: img.base64 || "",
+
+        url: img.url
+
+    }));
+
+    /*=====================================================
+        DELETED GALLERY
+    =====================================================*/
+    const deletedGallery = deletedGalleryImages;
+
+    /*=====================================================
+        VIDEOS
+    =====================================================*/
+    const videos = [];
+
+    $("#videoPreviewList .video-preview-item").each(function () {
+
+        videos.push({
+
+            url: $(this).find(".video-url").text().trim()
+
+        });
+
+    });
+
+    /*=====================================================
+        PAYLOAD
+    =====================================================*/
+    payLoadData.media = {
+
+        coverImage,
+
+        gallery,
+
+        deletedGallery,
+
+        videos
+
+    };
+
+    payLoadData.package_id = $("#package_id").val();
+
+    formData.append("payload", JSON.stringify(payLoadData));
+
+    /*=====================================================
+        LOADER
+    =====================================================*/
+    Swal.fire({
+
+        title: "Updating Package...",
+
+        text: "Please wait.",
+
+        allowOutsideClick: false,
+
+        allowEscapeKey: false,
+
+        didOpen: () => {
+
+            Swal.showLoading();
+
+        }
+
+    });
+
+    /*=====================================================
+        AJAX
+    =====================================================*/
+    $.ajax({
+
+        type: "POST",
+
+        url: "forms/edit_package.php",
+
+        data: formData,
+
+        processData: false,
+
+        contentType: false,
+
+        cache: false,
+
+        dataType: "json",
+
+        success: function (res) {
+
+            Swal.close();
+
+            console.log(res);
+
+            if (res.status) {
+
+                Swal.fire({
+
+                    icon: "success",
+
+                    title: "Success!",
+
+                    text: res.message || "Package updated successfully.",
+
+                    confirmButtonColor: "#3085d6"
+
+                }).then(function () {
+
+                    window.location.href = "../packages/all_packages.php";
+
+                });
+
+            } else {
+
+                Swal.fire({
+
+                    icon: "error",
+
+                    title: "Update Failed",
+
+                    text: res.message || "Something went wrong."
+
+                });
+
+            }
+
+        },
+
+        error: function (xhr) {
+
+            Swal.close();
+
+            console.log(xhr.responseText);
+
+            Swal.fire({
+
+                icon: "error",
+
+                title: "Server Error",
+
+                text: "An unexpected error occurred."
+
+            });
+
+        }
+
+    });
+
+});

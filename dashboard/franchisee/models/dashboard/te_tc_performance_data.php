@@ -51,7 +51,7 @@
 
                 COALESCE(SUM(tc.commision_tc),0) AS tc_earning
 
-            FROM ca_travel_agency ca
+            FROM ca_travelagency ca
 
             LEFT JOIN ca_customer cu
                 ON cu.ta_reference_no = ca.ca_travelagency_id

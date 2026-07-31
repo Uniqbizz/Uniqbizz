@@ -39,7 +39,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        
+        <link rel="stylesheet" href="../assets/css/validation.css" />
     </head>
 
     <body>
@@ -83,7 +83,7 @@
             <div class="main-content">
 
                 <div id="testpho"></div>
-                <div id="testemails"></div>
+                <div id="testemail"></div>
 
                 <div class="page-content">
                     <div class="container-fluid">
