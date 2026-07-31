@@ -85,6 +85,18 @@ $institutionCteData['slabs'] = $slabs;
 
 //cutomer commission 
 $l2_per=$l3_per=50;
+$stmt = $conn->prepare("
+    SELECT gst
+    FROM gst
+    ORDER BY id DESC
+    LIMIT 1
+");
+
+$stmt->execute();
+
+$gst = $stmt->fetch(PDO::FETCH_ASSOC);
+
+$gstValue = $gst['gst'] ?? 0;
 
 ?>
 
@@ -1168,10 +1180,33 @@ $l2_per=$l3_per=50;
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="col-lg-6 col-md-8 col-sm-12 col-12">
+                                                            <h5 class="mb-3 fw-bolder" id="#">6. Total Pricing with <?= $gstValue ?>% GST</h5>
+                                                            <div class="borderHighlight p-3 mb-3">
+                                                                <div class="row">
+                                                                    <div class="col-md-12 col-sm-12">
+                                                                        <div class="d-flex gap-4 mb-3">
+                                                                            <div class="align-content-center">
+                                                                                <label for="mrpPerAdultWithGst" class="mb-0">Total Price Per Adult</label>
+                                                                            </div>
+                                                                            <input type="number" value="" id="mrpPerAdultWithGst" class="form-control inputWidth" readOnly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12 col-sm-12">
+                                                                        <div class="d-flex gap-4">
+                                                                            <div class="align-content-center">
+                                                                                <label for="mrpPerChildWithGst" class="mb-0">Total Price Per Child</label>
+                                                                            </div>
+                                                                            <input type="number" value="" id="mrpPerChildWithGst" class="form-control inputWidth" readOnly>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-xl-6 col-lg-8 col-md-8 col-sm-12 col-12">
-                                                            <h4 class="mb-3 fw-bolder">6. Cancellation Policy</h4>
+                                                            <h4 class="mb-3 fw-bolder">7. Cancellation Policy</h4>
                                                             <div class="row borderHighlight mx-0">
                                                                 <div class="col-lg-6 col-md-6 col-sm-12 col-12 py-3">
                                                                     <div class="text-center mb-2">
@@ -1938,127 +1973,7 @@ $l2_per=$l3_per=50;
         </script>
         <!-- Policy section -->
         <script>
-            // const dropZone = document.getElementById("dropZone");
-            // const fileInput = document.getElementById("fileInput");
-            // const selectedFileText = document.getElementById("selectedFileText");
-            // const addDocumentBtn = document.getElementById("addDocumentBtn");
-
-            // let selectedFile = null;
-
-            // // Open file picker
-            // dropZone.addEventListener("click", () => {
-            //     fileInput.click();
-            // });
-
-            // // File selection
-            // fileInput.addEventListener("change", function () {
-            //     selectedFile = this.files[0];
-
-            //     if(selectedFile){
-            //         selectedFileText.textContent = selectedFile.name;
-            //     }
-            // });
-
-            // // Drag Over
-            // dropZone.addEventListener("dragover", function(e){
-            //     e.preventDefault();
-            //     dropZone.classList.add("dragover");
-            // });
-
-            // // Drag Leave
-            // dropZone.addEventListener("dragleave", function(){
-            //     dropZone.classList.remove("dragover");
-            // });
-
-            // // Drop
-            // dropZone.addEventListener("drop", function(e){
-            //     e.preventDefault();
-
-            //     dropZone.classList.remove("dragover");
-
-            //     selectedFile = e.dataTransfer.files[0];
-
-            //     if(selectedFile){
-            //         selectedFileText.textContent = selectedFile.name;
-            //     }
-            // });
-
-            // // Submit
-            // addDocumentBtn.addEventListener("click", function () {
-            //     $("#noAttachmentRow").remove();
-            //     let title = document.getElementById("documentTitle").value.trim();
-
-            //     if (title === "") {
-            //         alert("Please enter title");
-            //         return;
-            //     }
-
-            //     if (!selectedFile) {
-            //         alert("Please select a file");
-            //         return;
-            //     }
-
-            //     let size = (selectedFile.size / (1024 * 1024)).toFixed(2) + " MB";
-            //     let fileType = selectedFile.name.split('.').pop().toUpperCase();
-
-            //     let today = new Date().toLocaleDateString("en-GB", {
-            //         day: "2-digit",
-            //         month: "short",
-            //         year: "numeric"
-            //     });
-
-            //     // Generate unique row id
-            //     let rowId = Date.now();
-
-            //     let row = `
-            //         <tr id="docRow_${rowId}">
-            //             <td id="docTitle_${rowId}">${title}</td>
-
-            //             <td id="docFileName_${rowId}">
-            //                 <div class="file-info">
-            //                     <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png"
-            //                         class="file-icon">
-            //                     ${selectedFile.name}
-            //                 </div>
-            //             </td>
-
-            //             <td id="docType_${rowId}">${fileType}</td>
-
-            //             <td id="docSize_${rowId}">${size}</td>
-
-            //             <td id="docUploadedOn_${rowId}">${today}</td>
-
-            //             <td id="docAction_${rowId}" class="text-center">
-            //                 <i class="fa-solid fa-download action-btn me-3"></i>
-            //                 <i class="fa-regular fa-trash-can action-btn delete-btn remove-file"></i>
-            //             </td>
-            //         </tr>
-            //     `;
-
-            //     document
-            //         .getElementById("fileTableBody")
-            //         .insertAdjacentHTML("beforeend", row);
-
-            //     // Reset
-            //     document.getElementById("documentTitle").value = "";
-            //     fileInput.value = "";
-            //     selectedFile = null;
-            //     selectedFileText.textContent = "Drag & Drop or Click to Upload";
-            // });
-
-            // // Delete row
-            // $(document).on("click", ".remove-file", function(){
-            //     $(this).closest("tr").remove();
-            //     if ($("#fileTableBody tr").length === 0) {
-            //         $("#fileTableBody").html(`
-            //             <tr id="noAttachmentRow">
-            //                 <td colspan="6" class="text-center text-muted">
-            //                     No Attachment found
-            //                 </td>
-            //             </tr>
-            //         `);
-            //     }
-            // });
+            
             const dropZone = document.getElementById("dropZone");
             const fileInput = document.getElementById("fileInput");
             const selectedFileText = document.getElementById("selectedFileText");
@@ -2066,7 +1981,7 @@ $l2_per=$l3_per=50;
 
             let selectedFile = null;
             let attachments = [];
-
+            let deletedDocuments = [];
             // Return icon based on file extension
             function getFileIcon(fileName) {
                 const ext = fileName.split(".").pop().toLowerCase();
@@ -2252,7 +2167,8 @@ $l2_per=$l3_per=50;
         <!-- Picture & Media Section -->
         <!-- Package Cover Image -->
         <script>
-            
+            let coverImageDeleted = false;
+            let existingCoverImage = "";
             $(document).ready(function () {
 
                 const dropZone = $("#dragDropZone");

@@ -362,10 +362,16 @@ function calculateFinalValues() {
     // Find the maximum
     let adultMaxTotal = Math.max(adultTotal1, adultTotal2, adultTotal3, adultTotal4);
     let childMaxTotal = Math.max(childTotal1, childTotal2, childTotal3, childTotal4);
+	let mrpPerAdultGst = adultMaxTotal + (adultMaxTotal * (gst / 100));
+	let mrpPerChildGst = childMaxTotal + (childMaxTotal * (gst / 100));
 
     // Set MRP
     $("#mrpPerAdult").val(truncateToTwoDecimals(adultMaxTotal));
     $("#mrpPerChild").val(truncateToTwoDecimals(childMaxTotal));
+
+    // Set MRP with GST
+    $("#mrpPerAdultWithGst").val(truncateToTwoDecimals(mrpPerAdultGst));
+    $("#mrpPerChildWithGst").val(truncateToTwoDecimals(mrpPerChildGst));
 
     // Suspense values
     $("#cteSuspence").val((truncateToTwoDecimals(adultMaxTotal - adultTotal1)));
@@ -1669,52 +1675,52 @@ $('#package_form_pricing_nextBtn').on('click', function (e) {
     ? ""
     : $("#guestPercentage").val().trim();
 	let travelConsultant= $("#travelConsultant").val().trim();
-	let cteComm= $("#cteComm").text().replace("&#8377;", "").trim();
-	let cteIns= $("#cteIns").text().replace("&#8377;", "").trim();
-	let cteCommInsTotal= $("#cteCommInsTotal").text().replace("&#8377;", "").trim();
-	let eteComm= $("#eteComm").text().replace("&#8377;", "").trim();
-	let eteIns= $("#eteIns").text().replace("&#8377;", "").trim();
-	let eteCommInsTotal= $("#eteCommInsTotal").text().replace("&#8377;", "").trim();
-	let steComm= $("#steComm").text().replace("&#8377;", "").trim();
-	let steIns= $("#steIns").text().replace("&#8377;", "").trim();
-	let steCommInsTotal= $("#steCommInsTotal").text().replace("&#8377;", "").trim();
-	let cTeFComm= $("#cTeFComm").text().replace("&#8377;", "").trim();
-	let cTeFIns= $("#cTeFIns").text().replace("&#8377;", "").trim();
-	let cTeFCommInsTotal= $("#cTeFCommInsTotal").text().replace("&#8377;", "").trim();
-	let cteChainCommTotal= $("#cteChainCommTotal").text().replace("&#8377;", "").trim();
-	let cteChainInsTotal= $("#cteChainInsTotal").text().replace("&#8377;", "").trim();
-	let cteChainCommInsTotal= $("#cteChainCommInsTotal").text().replace("&#8377;", "").trim();
+	let cteComm= $("#cteComm").text().replace(/₹/g, "").trim();
+	let cteIns= $("#cteIns").text().replace(/₹/g, "").trim();
+	let cteCommInsTotal= $("#cteCommInsTotal").text().replace(/₹/g, "").trim();
+	let eteComm= $("#eteComm").text().replace(/₹/g, "").trim();
+	let eteIns= $("#eteIns").text().replace(/₹/g, "").trim();
+	let eteCommInsTotal= $("#eteCommInsTotal").text().replace(/₹/g, "").trim();
+	let steComm= $("#steComm").text().replace(/₹/g, "").trim();
+	let steIns= $("#steIns").text().replace(/₹/g, "").trim();
+	let steCommInsTotal= $("#steCommInsTotal").text().replace(/₹/g, "").trim();
+	let cTeFComm= $("#cTeFComm").text().replace(/₹/g, "").trim();
+	let cTeFIns= $("#cTeFIns").text().replace(/₹/g, "").trim();
+	let cTeFCommInsTotal= $("#cTeFCommInsTotal").text().replace(/₹/g, "").trim();
+	let cteChainCommTotal= $("#cteChainCommTotal").text().replace(/₹/g, "").trim();
+	let cteChainInsTotal= $("#cteChainInsTotal").text().replace(/₹/g, "").trim();
+	let cteChainCommInsTotal= $("#cteChainCommInsTotal").text().replace(/₹/g, "").trim();
 	let cteSuspence= $("#cteSuspence").val().trim();
-	let teBmComm= $("#teBmComm").text().replace("&#8377;", "").trim();
-	let teBmIns= $("#teBmIns").text().replace("&#8377;", "").trim();
-	let teBmComInsTotal= $("#teBmComInsTotal").text().replace("&#8377;", "").trim();
-	let bmTeComm= $("#bmTeComm").text().replace("&#8377;", "").trim();
-	let bmTeIns= $("#bmTeIns").text().replace("&#8377;", "").trim();
-	let bmTeCommInsTotal= $("#bmTeCommInsTotal").text().replace("&#8377;", "").trim();
-	let bmTeChainCommTotal= $("#bmTeChainCommTotal").text().replace("&#8377;", "").trim();
-	let bmTeChainInsTotal= $("#bmTeChainInsTotal").text().replace("&#8377;", "").trim();
-	let bmTeChainCommInsTotal= $("#bmTeChainCommInsTotal").text().replace("&#8377;", "").trim();
+	let teBmComm= $("#teBmComm").text().replace(/₹/g, "").trim();
+	let teBmIns= $("#teBmIns").text().replace(/₹/g, "").trim();
+	let teBmComInsTotal= $("#teBmComInsTotal").text().replace(/₹/g, "").trim();
+	let bmTeComm= $("#bmTeComm").text().replace(/₹/g, "").trim();
+	let bmTeIns= $("#bmTeIns").text().replace(/₹/g, "").trim();
+	let bmTeCommInsTotal= $("#bmTeCommInsTotal").text().replace(/₹/g, "").trim();
+	let bmTeChainCommTotal= $("#bmTeChainCommTotal").text().replace(/₹/g, "").trim();
+	let bmTeChainInsTotal= $("#bmTeChainInsTotal").text().replace(/₹/g, "").trim();
+	let bmTeChainCommInsTotal= $("#bmTeChainCommInsTotal").text().replace(/₹/g, "").trim();
 	let bmSuspence= $("#bmSuspence").val().trim();
-	let iBmComm= $("#iBmComm").text().replace("&#8377;", "").trim();
-	let iBmIns= $("#iBmIns").text().replace("&#8377;", "").trim();
-	let bmIComm= $("#bmIComm").text().replace("&#8377;", "").trim();
-	let bmICommInsTotal= $("#bmICommInsTotal").text().replace("&#8377;", "").trim();
-	let iBmCommInsTotal= $("#iBmCommInsTotal").text().replace("&#8377;", "").trim();
-	let bmIComTotal= $("#bmIComTotal").text().replace("&#8377;", "").trim();
-	let bmIInsTotal= $("#bmIInsTotal").text().replace("&#8377;", "").trim();
-	let bmIComInsTotal= $("#bmIComInsTotal").text().replace("&#8377;", "").trim();
+	let iBmComm= $("#iBmComm").text().replace(/₹/g, "").trim();
+	let iBmIns= $("#iBmIns").text().replace(/₹/g, "").trim();
+	let bmIComm= $("#bmIComm").text().replace(/₹/g, "").trim();
+	let bmICommInsTotal= $("#bmICommInsTotal").text().replace(/₹/g, "").trim();
+	let iBmCommInsTotal= $("#iBmCommInsTotal").text().replace(/₹/g, "").trim();
+	let bmIComTotal= $("#bmIComTotal").text().replace(/₹/g, "").trim();
+	let bmIInsTotal= $("#bmIInsTotal").text().replace(/₹/g, "").trim();
+	let bmIComInsTotal= $("#bmIComInsTotal").text().replace(/₹/g, "").trim();
 	let bmISuspence= $("#bmISuspence").val().trim();
-	let iCteComm= $("#iCteComm").text().replace("&#8377;", "").trim();
-	let iCteIns= $("#iCteIns").text().replace("&#8377;", "").trim();
-	let iCteCommInsTotal= $("#iCteCommInsTotal").text().replace("&#8377;", "").trim();
-	let iEteComm= $("#iEteComm").text().replace("&#8377;", "").trim();
-	let iEteIns= $("#iEteIns").text().replace("&#8377;", "").trim();
-	let iEteCommInsTotal= $("#iEteCommInsTotal").text().replace("&#8377;", "").trim();
-	let cteIComm= $("#cteIComm").text().replace("&#8377;", "").trim();
-	let cteICommInsTotal= $("#cteICommInsTotal").text().replace("&#8377;", "").trim();
-	let iCteComTotal= $("#iCteComTotal").text().replace("&#8377;", "").trim();
-	let iCteInsTotal= $("#iCteInsTotal").text().replace("&#8377;", "").trim();
-	let iCteComInsTotal= $("#iCteComInsTotal").text().replace("&#8377;", "").trim();
+	let iCteComm= $("#iCteComm").text().replace(/₹/g, "").trim();
+	let iCteIns= $("#iCteIns").text().replace(/₹/g, "").trim();
+	let iCteCommInsTotal= $("#iCteCommInsTotal").text().replace(/₹/g, "").trim();
+	let iEteComm= $("#iEteComm").text().replace(/₹/g, "").trim();
+	let iEteIns= $("#iEteIns").text().replace(/₹/g, "").trim();
+	let iEteCommInsTotal= $("#iEteCommInsTotal").text().replace(/₹/g, "").trim();
+	let cteIComm= $("#cteIComm").text().replace(/₹/g, "").trim();
+	let cteICommInsTotal= $("#cteICommInsTotal").text().replace(/₹/g, "").trim();
+	let iCteComTotal= $("#iCteComTotal").text().replace(/₹/g, "").trim();
+	let iCteInsTotal= $("#iCteInsTotal").text().replace(/₹/g, "").trim();
+	let iCteComInsTotal= $("#iCteComInsTotal").text().replace(/₹/g, "").trim();
 	let cteISuspence= $("#cteISuspence").val().trim();
 	let customer1= $("#customer1").val().trim();
 	let customer2= $("#customer2").val().trim();
@@ -1943,36 +1949,53 @@ $('#package_form_policy_nextBtn').on('click', function (e) {
     // Build document metadata
     attachments.forEach(function(item){
 
-        tableData.push({
-            id: item.id,
-            title: item.title,
-            fileName: item.file.name,
-            type: item.file.name.split(".").pop().toUpperCase(),
-            size: (item.file.size / (1024 * 1024)).toFixed(2) + " MB",
-            uploadedOn: new Date().toLocaleDateString("en-GB")
-        });
+		if (item.existing) {
 
-    });
+			tableData.push({
+				id: item.id,
+				title: item.title,
+				fileName: item.file_name,
+				existing: true
+			});
+
+		} else {
+
+			tableData.push({
+				id: item.id,
+				title: item.title,
+				fileName: item.file.name,
+				type: item.file.name.split(".").pop().toUpperCase(),
+				size: (item.file.size / (1024 * 1024)).toFixed(2) + " MB",
+				uploadedOn: new Date().toLocaleDateString("en-GB"),
+				existing: false
+			});
+
+		}
+
+	});
 
     // Save in payload
     payLoadData.policy = {
-        couponRule: {
-            couponAllowed: switchCoupon,
-            combineWithOffers: switchCombine
-        },
-        booking: {
-            bookingPercentage,
-            bookingDay
-        },
-        documents: tableData
-    };
+		couponRule: {
+			couponAllowed: switchCoupon,
+			combineWithOffers: switchCombine
+		},
+		booking: {
+			bookingPercentage,
+			bookingDay
+		},
+		documents: tableData,
+		deletedDocuments: deletedDocuments
+	};
 
     let formData = new FormData();
 
 	formData.append("payload", JSON.stringify(payLoadData));
 
 	attachments.forEach(item => {
-		formData.append("documents[]", item.file);
+		if (!item.existing && item.file) {
+			formData.append("documents[]", item.file);
+		}
 	});
 
 	window.packageFormData = formData;
@@ -2091,279 +2114,202 @@ $("#update_form").on('click',function (e) {
 	});
 });
 
-// update form chaged on 25 jan 2025 by sv
-function update_form_data(e) {
-	e.preventDefault();
-	// console.log("update data");
+// update form chaged on 31 july 2026 by sv
+$("#edit_package").on("click", function (e) {
 
+    e.preventDefault();
 
-	//new data 25 jav 2025 SV
-	var package_id = parseInt($('#package_id').val());
-	var category_id = parseInt($('#category_id').val());
-	var sub_category_id = parseInt($('#sub_category_id').val());
-	var temp_sub_cat = parseInt($('#sub_category_data').val());
-	if (temp_sub_cat) {
-		sub_category_id = parseInt($('#sub_category_data').val());
-	} else {
-		sub_category_id = parseInt($('#sub_category_id').val());
-	}
-	var club_id = parseInt($('#club_id').val());
-	var club_id = parseInt($('#club_id').val());
-	// var package_type = packageType;
-	var category_hotel_id = parseInt($('#category_hotel_id').val());
-	var category_meal_id = parseInt($('#category_meal_id').val());
-	var name = $('#name').val();
-	var unique_code = $('#unique_code').val();
-	var description = $('#description').val();
-	var pac_validity = $('#pac_validity').val();
-	var tour_days = $('#tour_days').val();
-	var destination = $('#destination').val();
-	var location = $('#location').val();
-	var travel_from = $('#travel_from').val();
-	var travel_to = $('#travel_to').val();
-	var sightseeing_type = $('#sightseeing_type').val();
-	var package_keywords = $('#package_keywords').val();
-	var bcm_mark_up_comm = parseFloat($('#mp_bcm_comm').val());
-	var bcm_mark_up_ins = parseFloat($('#mp_bcm_ins').val());
-	var bdm_mark_up_comm = parseFloat($('#mp_bdm_comm').val());
-	var bdm_mark_up_ins = parseFloat($('#mp_bdm_ins').val());
-	var bm_mark_up_comm = parseFloat($('#mp_bm_comm').val());
-	var bm_mark_up_ins = parseFloat($('#mp_bm_ins').val());
-	var ca_mark_up_comm = parseFloat($('#mp_ca_comm').val());
-	var ca_mark_up_ins = parseFloat($('#mp_ca_ins').val());
-	var te_mark_up_comm = parseFloat($('#new_mp_ca_comm').val());
-	var te_mark_up_ins = parseFloat($('#new_mp_ca_ins').val());
-	var cte_mark_up_comm = parseFloat($('#mp_cte_comm').val());
-	var cte_mark_up_ins = parseFloat($('#mp_cte_ins').val());
-	var ste_mark_up_comm = parseFloat($('#mp_ste_comm').val());
-	var ste_mark_up_ins = parseFloat($('#mp_ste_ins').val());
-	var ete_mark_up_comm = parseFloat($('#mp_ete_comm').val());
-	var ete_mark_up_ins = parseFloat($('#mp_ete_ins').val());
-	var newca_mark_up_comm = parseFloat($('#new_mp_ca_comm').val());
-	var newca_mark_up_ins = parseFloat($('#new_mp_ca_ins').val());
-	var ins_bm_mf_sf_comm = parseFloat($('#ins_bm_mf_sf_comm').val());
-	var ins_bm_mf_sf_ins = parseFloat($('#ins_bm_mf_sf_ins').val());
-	var ins_mp_company = parseFloat($('#ins_mp_company').val());
-	var ins_mp_ca_ta = parseFloat($('#ins_mp_ca_ta').val());
-	var ins_mp_customer = parseFloat($('#ins_mp_customer').val());
-	var ins_l1_cust_comm = parseFloat($('#ins_l1_cust_comm').val());
-	var ins_l2_cust_comm = parseFloat($('#ins_l2_cust_comm').val());
-	var inclusion, exclusion, remark;
-	var temp_inclusion = $('#inclusion').val();
-	if (temp_inclusion) {
-		inclusion = $('#inclusion').val();
-	} else {
-		inclusion = '';
-	}
-	var temp_exclusion = $('#exclusion').val();
-	if (temp_exclusion) {
-		exclusion = $('#exclusion').val();
-	} else {
-		exclusion = '';
-	}
-	var temp_remark = $('#remark').val();
-	if (temp_remark) {
-		remark = $('#remark').val();
-	} else {
-		remark = '';
-	}
-	var net_price_adult = $('#netPriceAdult').val(); // new
-	var net_price_child = $('#netPriceChild').val(); // new
-	var net_gst = $('#nGst').val();
-	var net_price_adult_with_GST = $('#totalNetPriceAdult').val(); // new
-	var net_price_child_with_GST = $('#totalNetPriceChild').val(); // new
-	var total_package_price_per_adult = $('#mrpPerAdult').val();
-	var total_package_price_per_child = $('#mrpPerChild').val().trim() || '0';
-	// mark_up distribution
-	var ta_mark_up = parseFloat($("#mp_ca_ta").val());
-	var company_share = parseFloat($("#mp_company").val());
-	var customer_share = parseFloat($("#mp_customer").val());
-	var newta_mark_up = parseFloat($("#new_mp_ca_ta").val());
-	var newcompany_share = parseFloat($("#new_mp_company").val());
-	var newcustomer_share = parseFloat($("#new_mp_customer").val());
-	// CA calculation
-	var ca_mark_up = ca_mark_up_ins + ca_mark_up_comm;
-	// BM calculation
-	var bm_mark_up = bm_mark_up_ins + bm_mark_up_comm;
-	// BDM calculation
-	var bdm_mark_up = bdm_mark_up_ins + bdm_mark_up_comm;
-	// BCM calculation
-	var bcm_mark_up = bcm_mark_up_ins + bcm_mark_up_comm;
+    /*=====================================================
+        CREATE FORM DATA
+    =====================================================*/
+    let formData = new FormData();
 
-	// New TE calculation
-	var te_mark_up = te_mark_up_ins + te_mark_up_comm;
-	// ETE calculation
-	var ete_mark_up = ete_mark_up_ins + ete_mark_up_comm;
-	// STE calculation
-	var ste_mark_up = ste_mark_up_ins + ste_mark_up_comm;
-	// CTE calculation
-	var cte_mark_up = cte_mark_up_ins + cte_mark_up_comm;
+    /*=====================================================
+        ADD DOCUMENT FILES
+    =====================================================*/
+    $("#documentInput")[0]?.files &&
+    Array.from($("#documentInput")[0].files).forEach(file => {
+        formData.append("documents[]", file);
+    });
 
-	//institution markup
-	// BM | MF | SF calculation
-	var ins_bm_mf_sf_total = ins_bm_mf_sf_comm + ins_bm_mf_sf_ins;
-	//var details_of_day = document.getElementsByName('days[]');
-	//addition adult price
-	var add_adult_price=$('#add_adult_price').val();
-	var L1_customer_share = $('#l1_cust_comm').val();
-    var L2_customer_share = $('#l2_cust_comm').val();
-	var newL1_customer_share = $('#new_l1_cust_comm').val();
-	var newL2_customer_share = $('#new_l2_cust_comm').val();
-    var L3_customer_share = $('#l3_cust_comm').val();
-	//cancel policy
-	var policy_1 = $('#can_per_1').val();
-	var policy_2 = $('#can_per_2').val();
-	var policy_3 = $('#can_per_3').val();
-	var allTripDaysData = [];
+    /*=====================================================
+        ADD GALLERY FILES
+        (only if you're uploading gallery files separately)
+    =====================================================*/
+    $("#galleryInput")[0]?.files &&
+    Array.from($("#galleryInput")[0].files).forEach(file => {
+        formData.append("galleryImages[]", file);
+    });
 
-	$(".day-container").each(function () {
-		var dayData = {
-			title: $(this).find(".title").val(),
-			description: $(this).find(".description").val(),
-			meals: $(this).find(".meals").val(),
-			transport: $(this).find(".transport").val(),
-		};
-		allTripDaysData.push(dayData);
-	});
+    /*=====================================================
+        COVER IMAGE
+    =====================================================*/
+    const coverImage = {
 
+        deleted: coverImageDeleted,
 
-	// new data 25 Jan 2025 by sv
+        existing: !coverImageDeleted && !$("#coverImageUrl").data("base64"),
 
-	var formdata = {
-		package_id: package_id,
-		category_id: category_id,
-		category_hotel_id: category_hotel_id,
-		category_meal_id: category_meal_id,
-		club_id: club_id,
-		sub_category_id: sub_category_id,
-		package_type: packageTypeValue,
-		name: name,
-		unique_code: unique_code,
-		description: description,
-		pac_validity: pac_validity,
-		tour_days: tour_days,
-		destination: destination,
-		location: location,
-		travel_from: travel_from,
-		travel_to: travel_to,
-		package_keywords: package_keywords,
-		sightseeing_type: sightseeing_type,
-		occupancies: [],
-		vehicles: [],
-		inclusion: inclusion,
-		exclusion: exclusion,
-		remark: remark,
-		net_price_adult: net_price_adult,
-		net_price_child: net_price_child,
-		net_gst: net_gst,
-		net_price_adult_with_GST: net_price_adult_with_GST,
-		net_price_child_with_GST: net_price_child_with_GST,
-		ta_mark_up: ta_mark_up,
-		ca_mark_up: ca_mark_up,
-		ca_mark_up_comm: ca_mark_up_comm,
-		ca_mark_up_ins: ca_mark_up_ins,
-		bm_mark_up: bm_mark_up,
-		bm_mark_up_comm: bm_mark_up_comm,
-		bm_mark_up_ins: bm_mark_up_ins,
-		bdm_mark_up: bdm_mark_up,
-		bdm_mark_up_comm: bdm_mark_up_comm,
-		bdm_mark_up_ins: bdm_mark_up_ins,
-		bcm_mark_up: bcm_mark_up,
-		bcm_mark_up_comm: bcm_mark_up_comm,
-		bcm_mark_up_ins: bcm_mark_up_ins,
-		coupon_amt:coupon_title,
-		newta_mark_up: newta_mark_up,
-		te_mark_up: te_mark_up,
-		te_mark_up_comm: te_mark_up_comm,
-		te_mark_up_ins: te_mark_up_ins,
-		ete_mark_up: ete_mark_up,
-		ete_mark_up_comm: ete_mark_up_comm,
-		ete_mark_up_ins: ete_mark_up_ins,
-		ste_mark_up: ste_mark_up,
-		ste_mark_up_comm: ste_mark_up_comm,
-		ste_mark_up_ins: ste_mark_up_ins,
-		cte_mark_up: cte_mark_up,
-		cte_mark_up_comm: cte_mark_up_comm,
-		cte_mark_up_ins: cte_mark_up_ins,
-		newcoupon_amt:newcoupon_title,
-		ins_bm_mf_sf_comm:ins_bm_mf_sf_comm,
-		ins_bm_mf_sf_ins:ins_bm_mf_sf_ins,
-		ins_bm_mf_sf_total:ins_bm_mf_sf_total,
-		ins_l1_cust_comm:ins_l1_cust_comm,
-		ins_l2_cust_comm:ins_l2_cust_comm,
-		ins_mp_ca_ta:ins_mp_ca_ta,
-		ins_mp_company:ins_mp_company,
-		ins_mp_customer:ins_mp_customer,
-		inscoupon_title:inscoupon_title,
-		insmark_up_title:insmark_up_title,
-		total_package_price_per_adult: total_package_price_per_adult,
-		total_package_price_per_child: total_package_price_per_child,
-		company_share: company_share,
-		customer_share: customer_share,
-		newcompany_share: newcompany_share,
-		newcustomer_share: newcustomer_share,
-		L1_customer_share: L1_customer_share,
-		L2_customer_share: L2_customer_share,
-		newL1_customer_share: newL1_customer_share,
-		newL2_customer_share: newL2_customer_share,
-		L3_customer_share: L3_customer_share,
-		total_mark_up:mark_up_title,
-		newtotal_mark_up:newmark_up_title,
-		add_adult_price:add_adult_price,
-		policy_1: policy_1,
-		policy_2: policy_2,
-		policy_3: policy_3,
-		images: [],
-		details_of_day: allTripDaysData
-	};
+        name: $("#coverImageUrl").data("base64") || "",
 
+        url: $("#coverImageUrl").val().trim()
 
-	images.forEach(function (image, i) {
-		formdata.images.push({
-			'name': image.name
-		});
-	});
-	occupancies.forEach(function (data, i) {
-		formdata.occupancies.push({
-			'id': data.id
-		});
-	});
-	vehicles.forEach(function (data, i) {
-		formdata.vehicles.push({
-			'id': data.id
-		});
-	});
+    };
 
-	console.log(formdata);
+    /*=====================================================
+        GALLERY
+    =====================================================*/
+    const gallery = galleryImages.map(img => ({
 
-	let data = JSON.stringify(formdata);
-	//console.log(data);
-	showLoader(true);       // loader start 
-	$.ajax({
-		type: "POST",
-		url: 'forms/update.php',
-		data: data,
-		headers: {
-			"Content-Type": "application/json",
-			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-		},
-		success: function (res) {
-			console.log(res);
-			if (res.toString() == "success") {
-				//console.log(res);
+        id: img.existing ? img.id : null,
 
-				//console.log('Record Updated');
-				alert("Updated successfully");
-				window.location = "../packages/all_packages.php";
-			} else {
-				console.log('Failed to update data ');
-			}
-		},
-		complete: function () {
-			showLoader(false);   // loader end 
-		},
-		error: function (err) {
-			console.log(err);
-		}
-	});
-}
+        existing: img.existing || false,
+
+        deleted: img.deleted || false,
+
+        name: img.base64 || "",
+
+        url: img.url
+
+    }));
+
+    /*=====================================================
+        DELETED GALLERY
+    =====================================================*/
+    const deletedGallery = deletedGalleryImages;
+
+    /*=====================================================
+        VIDEOS
+    =====================================================*/
+    const videos = [];
+
+    $("#videoPreviewList .video-preview-item").each(function () {
+
+        videos.push({
+
+            url: $(this).find(".video-url").text().trim()
+
+        });
+
+    });
+
+    /*=====================================================
+        PAYLOAD
+    =====================================================*/
+    payLoadData.media = {
+
+        coverImage,
+
+        gallery,
+
+        deletedGallery,
+
+        videos
+
+    };
+
+    payLoadData.package_id = $("#package_id").val();
+
+    formData.append("payload", JSON.stringify(payLoadData));
+
+    /*=====================================================
+        LOADER
+    =====================================================*/
+    Swal.fire({
+
+        title: "Updating Package...",
+
+        text: "Please wait.",
+
+        allowOutsideClick: false,
+
+        allowEscapeKey: false,
+
+        didOpen: () => {
+
+            Swal.showLoading();
+
+        }
+
+    });
+
+    /*=====================================================
+        AJAX
+    =====================================================*/
+    $.ajax({
+
+        type: "POST",
+
+        url: "forms/edit_package.php",
+
+        data: formData,
+
+        processData: false,
+
+        contentType: false,
+
+        cache: false,
+
+        dataType: "json",
+
+        success: function (res) {
+
+            Swal.close();
+
+            console.log(res);
+
+            if (res.status) {
+
+                Swal.fire({
+
+                    icon: "success",
+
+                    title: "Success!",
+
+                    text: res.message || "Package updated successfully.",
+
+                    confirmButtonColor: "#3085d6"
+
+                }).then(function () {
+
+                    window.location.href = "../packages/all_packages.php";
+
+                });
+
+            } else {
+
+                Swal.fire({
+
+                    icon: "error",
+
+                    title: "Update Failed",
+
+                    text: res.message || "Something went wrong."
+
+                });
+
+            }
+
+        },
+
+        error: function (xhr) {
+
+            Swal.close();
+
+            console.log(xhr.responseText);
+
+            Swal.fire({
+
+                icon: "error",
+
+                title: "Server Error",
+
+                text: "An unexpected error occurred."
+
+            });
+
+        }
+
+    });
+
+});

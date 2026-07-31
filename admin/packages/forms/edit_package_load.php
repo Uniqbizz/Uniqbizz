@@ -84,6 +84,14 @@ $packagePricingTechnoInstitution = $stmt->fetch(PDO::FETCH_ASSOC);
 
 /*
 |--------------------------------------------------------------------------
+| Package Cancel Policy
+|--------------------------------------------------------------------------
+*/
+$stmt = $conn->prepare("SELECT * FROM cancel_policy WHERE package_id = :package_id");
+$stmt->execute([':package_id' => $packageId]);
+$CancelPolicy = $stmt->fetch(PDO::FETCH_ASSOC);
+/*
+|--------------------------------------------------------------------------
 | Package Policy
 |--------------------------------------------------------------------------
 */
