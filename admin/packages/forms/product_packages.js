@@ -1974,10 +1974,10 @@ function validatePolicy() {
     }
 
     // Document Validation
-    if (attachments.length === 0) {
-        showOtherPolicyError("Please add at least one document.");
-        return false;
-    }
+    // if (attachments.length === 0) {
+    //     showOtherPolicyError("Please add at least one document.");
+    //     return false;
+    // }
 
     // Build document metadata
     attachments.forEach(function(item) {
