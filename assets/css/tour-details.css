@@ -572,6 +572,12 @@ html {
 .next-btn {
     right: -20px;
 }
+@media (min-width: 1399px) {
+    .blueCardBtn {
+        width: 125px;
+        height: 105px;
+    }
+}
 @media (max-width: 1199px) {
     .image-width {
         width: 100%;
