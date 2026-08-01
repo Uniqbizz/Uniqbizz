@@ -876,7 +876,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card rounded-3 greenCard p-3 mb-3">
+                                        <div class="card rounded-3 greenCard p-3">
                                             <div class="d-flex gap-3 mb-2">
                                                 <div class="greenIcon">
                                                     <i class="ri-calendar-check-line"></i>
@@ -909,6 +909,109 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                 </div>
                             </div>
                             <!-- Card Section End 2 -->
+                            <!-- Card Section Start 3 -->
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-3">
+                                    <div class="packCard">
+                                        <img src="assets/images/tourDetails/creameImg.png" alt="" class="cardCreame">
+                                        <div class="packContent">
+                                            <div class="row p-3">
+                                                <h5 class="fw-bolder text-black mb-2">What to Pack</h5>
+                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                                    <div class="d-flex gap-2">
+                                                        <i class="ri-check-fill checkIconGreen"></i>
+                                                        <p class="fw-bolder">Comfortable clothing</p>
+                                                    </div>
+                                                    <div class="d-flex gap-2">
+                                                        <i class="ri-check-fill checkIconGreen"></i>
+                                                        <p class="fw-bolder">Walking Shoes</p>
+                                                    </div>
+                                                    <div class="d-flex gap-2">
+                                                        <i class="ri-check-fill checkIconGreen"></i>
+                                                        <p class="fw-bolder">Sunscreen & Cap</p>
+                                                    </div>
+                                                    <div class="d-flex gap-2">
+                                                        <i class="ri-check-fill checkIconGreen"></i>
+                                                        <p class="fw-bolder">Sunglasses</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                                    <div class="d-flex gap-2">
+                                                        <i class="ri-check-fill checkIconGreen"></i>
+                                                        <p class="fw-bolder">Sunglasses</p>
+                                                    </div>
+                                                    <div class="d-flex gap-2">
+                                                        <i class="ri-check-fill checkIconGreen"></i>
+                                                        <p class="fw-bolder">Personal Medicines</p>
+                                                    </div>
+                                                    <div class="d-flex gap-2">
+                                                        <i class="ri-check-fill checkIconGreen"></i>
+                                                        <p class="fw-bolder">Camera</p>
+                                                    </div>
+                                                    <div class="d-flex gap-2">
+                                                        <i class="ri-check-fill checkIconGreen"></i>
+                                                        <p class="fw-bolder">Light jacket / Shawl</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-3">
+                                    <div class="packCard">
+                                        <img src="assets/images/tourDetails/purpleImg.png" alt="" class="cardPurple">
+                                        <div class="packContent">
+                                            <div class="row p-3">
+                                                <h5 class="fw-bolder text-black mb-2">Advance Preparation</h5>
+                                                <div class="col-xl-12">
+                                                    <div class="d-flex gap-2">
+                                                        <i class="ri-check-fill checkIconGreen"></i>
+                                                        <p class="fw-bolder">Carry a valid ID proof</p>
+                                                    </div>
+                                                    <div class="d-flex gap-2">
+                                                        <i class="ri-check-fill checkIconGreen"></i>
+                                                        <p class="fw-bolder">Keep a copy of travel tickets</p>
+                                                    </div>
+                                                    <div class="d-flex gap-2">
+                                                        <i class="ri-check-fill checkIconGreen"></i>
+                                                        <p class="fw-bolder">Check weather before travel</p>
+                                                    </div>
+                                                    <div class="d-flex gap-2">
+                                                        <i class="ri-check-fill checkIconGreen"></i>
+                                                        <p class="fw-bolder">Carry cash for local shopping</p>
+                                                    </div>
+                                                    <div class="d-flex gap-2">
+                                                        <i class="ri-check-fill checkIconGreen"></i>
+                                                        <p class="fw-bolder">Stay hydrated</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Card Section End 3 -->
+                            <!-- Card Section Start 4 -->
+                            <section class="similar-packages mb-3">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="fw-bold mb-0">Similar Packages</h5>
+                                    <a href="tour-list.php" class="text-decoration-none fw-semibold">
+                                        View All Packages
+                                    </a>
+                                </div>
+                                <div class="position-relative">
+                                    <button class="slider-btn prev-btn">
+                                        <i class="ri-arrow-left-s-line"></i>
+                                    </button>
+                                    <div class="package-slider">
+                                        <div class="package-track" id="packageTrack"></div>
+                                    </div>
+                                    <button class="slider-btn next-btn">
+                                        <i class="ri-arrow-right-s-line"></i>
+                                    </button>
+                                </div>
+                            </section>
+                            <!-- Card Section End 4 -->
                         </div>
                     </div>
                 </div>
@@ -2743,7 +2846,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                             .addClass("pricing-bottom")
                             .css({
                                 top: absoluteTop + "px",
-                                width: "100%",
+                                width: "96%",
                                 left: ""
                             });
                     }
@@ -2838,7 +2941,140 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
 
             });
         </script>
-        <!-- New Design /7/26 -->
+        <script>
+            const packages = [
+                {
+                    title: "Phuket Getaway",
+                    duration: "4 Nights / 5 Days",
+                    price: "22,999",
+                    image: "assets/images/package/package-11.jpg",
+                    link: "#"
+                },
+                {
+                    title: "Bali Bliss",
+                    duration: "5 Nights / 6 Days",
+                    price: "28,999",
+                    image: "assets/images/package/package-2.png",
+                    link: "#"
+                },
+                {
+                    title: "Singapore Explorer",
+                    duration: "4 Nights / 5 Days",
+                    price: "39,999",
+                    image: "assets/images/package/package-3.png",
+                    link: "#"
+                },
+                {
+                    title: "Dubai Dazzle",
+                    duration: "5 Nights / 6 Days",
+                    price: "42,999",
+                    image: "assets/images/package/package-4.png",
+                    link: "#"
+                },
+                {
+                    title: "Thailand Escape",
+                    duration: "5 Nights / 6 Days",
+                    price: "24,999",
+                    image: "assets/images/package/package-5.jpg",
+                    link: "#"
+                },
+                {
+                    title: "Maldives Luxury",
+                    duration: "4 Nights / 5 Days",
+                    price: "55,999",
+                    image: "assets/images/package/package-6.jpg",
+                    link: "#"
+                },
+                {
+                    title: "Vietnam Discovery",
+                    duration: "6 Nights / 7 Days",
+                    price: "34,999",
+                    image: "assets/images/package/package-7.jpg",
+                    link: "#"
+                },
+                {
+                    title: "Japan Highlights",
+                    duration: "7 Nights / 8 Days",
+                    price: "89,999",
+                    image: "assets/images/package/package-8.jpg",
+                    link: "#"
+                },
+                {
+                    title: "Europe Delight",
+                    duration: "8 Nights / 9 Days",
+                    price: "1,19,999",
+                    image: "assets/images/package/package-9.jpg",
+                    link: "#"
+                },
+                {
+                    title: "Swiss Adventure",
+                    duration: "6 Nights / 7 Days",
+                    price: "99,999",
+                    image: "assets/images/package/package-10.jpg",
+                    link: "#"
+                }
+            ];
+
+            const track = document.getElementById("packageTrack");
+
+            packages.forEach(pkg => {
+                track.innerHTML += `
+                    <div class="package-item">
+                        <a href="${pkg.link}" class="text-decoration-none">
+                            <div class="package-card">
+                                <img src="${pkg.image}" alt="${pkg.title}">
+                                <div class="package-body">
+                                    <h5>${pkg.title}</h5>
+                                    <p>${pkg.duration}</p>
+                                    <div class="package-price">
+                                        ₹${pkg.price} <span>/ Person</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                `;
+            });
+            let currentIndex = 0;
+
+            function getVisibleCards() {
+                if (window.innerWidth < 576) return 1;
+                if (window.innerWidth < 992) return 2;
+                return 4;
+            }
+
+            function moveSlider() {
+                const card = document.querySelector(".package-item");
+
+                if (!card) return;
+
+                const gap = parseInt(getComputedStyle(track).gap) || 20;
+
+                const cardWidth = card.offsetWidth + gap;
+
+                track.style.transform =
+                    `translateX(-${currentIndex * cardWidth}px)`;
+            }
+
+            document.querySelector(".next-btn").addEventListener("click", () => {
+                const visibleCards = getVisibleCards();
+
+                if (currentIndex < packages.length - visibleCards) {
+                    currentIndex++;
+                    moveSlider();
+                }
+            });
+
+            document.querySelector(".prev-btn").addEventListener("click", () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    moveSlider();
+                }
+            });
+
+            window.addEventListener("resize", moveSlider);
+        </script>
+        <!-- New Design 1/8/26 -->
 
         <!-- share option js 30-07-2026 -->
         <script>
