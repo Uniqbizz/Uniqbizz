@@ -518,69 +518,111 @@ try {
         ]);
 
         // cte->ete->i
-        $sql = "
-            UPDATE package_pricing_markup_techno_institution
-            SET
-                company                 = :company,
-                customer                = :customer,
-                ins_markup              = :ins_markup,
-                ete_mark_up_total       = :ete_mark_up_total,
-                ete_direct_commission   = :ete_direct_commission,
-                ete_incentive           = :ete_incentive,
-                cte_mark_up_total       = :cte_mark_up_total,
-                cte_direct_commission   = :cte_direct_commission,
-                cte_incentive           = :cte_incentive,
-                prime_customer          = :prime_customer,
-                L1_customer             = :L1_customer,
-                L2_customer             = :L2_customer,
-                total_mark_up           = :total_mark_up,
-                total_commission_amount = :total_commission_amount,
-                total_incentive_amount  = :total_incentive_amount,
-                coupon_amount           = :coupon_amount,
-                suspense                = :suspense
-            WHERE package_id = :package_id
-        ";
+        // Check if record exists
+        $checkStmt = $conn->prepare("
+            SELECT COUNT(*)
+            FROM package_pricing_markup_techno_institution
+            WHERE package_id = ?
+        ");
+        $checkStmt->execute([$get_id]);
+
+        $exists = $checkStmt->fetchColumn() > 0;
+
+        if ($exists) {
+
+            // UPDATE
+            $sql = "
+                UPDATE package_pricing_markup_techno_institution
+                SET
+                    company                 = :company,
+                    customer                = :customer,
+                    ins_markup              = :ins_markup,
+                    ete_mark_up_total       = :ete_mark_up_total,
+                    ete_direct_commission   = :ete_direct_commission,
+                    ete_incentive           = :ete_incentive,
+                    cte_mark_up_total       = :cte_mark_up_total,
+                    cte_direct_commission   = :cte_direct_commission,
+                    cte_incentive           = :cte_incentive,
+                    prime_customer          = :prime_customer,
+                    L1_customer             = :L1_customer,
+                    L2_customer             = :L2_customer,
+                    total_mark_up           = :total_mark_up,
+                    total_commission_amount = :total_commission_amount,
+                    total_incentive_amount  = :total_incentive_amount,
+                    coupon_amount           = :coupon_amount,
+                    suspense                = :suspense
+                WHERE package_id = :package_id
+            ";
+
+        } else {
+
+            // INSERT
+            $sql = "
+                INSERT INTO package_pricing_markup_techno_institution (
+                    package_id,
+                    company,
+                    customer,
+                    ins_markup,
+                    ete_mark_up_total,
+                    ete_direct_commission,
+                    ete_incentive,
+                    cte_mark_up_total,
+                    cte_direct_commission,
+                    cte_incentive,
+                    prime_customer,
+                    L1_customer,
+                    L2_customer,
+                    total_mark_up,
+                    total_commission_amount,
+                    total_incentive_amount,
+                    coupon_amount,
+                    suspense
+                ) VALUES (
+                    :package_id,
+                    :company,
+                    :customer,
+                    :ins_markup,
+                    :ete_mark_up_total,
+                    :ete_direct_commission,
+                    :ete_incentive,
+                    :cte_mark_up_total,
+                    :cte_direct_commission,
+                    :cte_incentive,
+                    :prime_customer,
+                    :L1_customer,
+                    :L2_customer,
+                    :total_mark_up,
+                    :total_commission_amount,
+                    :total_incentive_amount,
+                    :coupon_amount,
+                    :suspense
+                )
+            ";
+
+        }
 
         $stmt = $conn->prepare($sql);
 
         $stmt->execute([
-
             ':package_id' => $get_id,
 
             ':company' => amount($mydata['pricing']['companyMarkup']),
-
             ':customer' => amount($mydata['pricing']['totalCustomerShare']),
-
             ':ins_markup' => amount($mydata['pricing']['cteIComm']),
-
             ':ete_mark_up_total' => amount($mydata['pricing']['iEteCommInsTotal']),
-
             ':ete_direct_commission' => amount($mydata['pricing']['iEteComm']),
-
             ':ete_incentive' => amount($mydata['pricing']['iEteIns']),
-
             ':cte_mark_up_total' => amount($mydata['pricing']['iCteCommInsTotal']),
-
             ':cte_direct_commission' => amount($mydata['pricing']['iCteComm']),
-
             ':cte_incentive' => amount($mydata['pricing']['iCteIns']),
-
             ':prime_customer' => amount($mydata['pricing']['customer1']),
-
             ':L1_customer' => amount($mydata['pricing']['customer2']),
-
             ':L2_customer' => amount($mydata['pricing']['customer3']),
-
             ':total_mark_up' => amount($mydata['pricing']['iCteComInsTotal']),
-
             ':total_commission_amount' => amount($mydata['pricing']['iCteComTotal']),
-
             ':total_incentive_amount' => amount($mydata['pricing']['iCteInsTotal']),
-
             ':coupon_amount' => amount($mydata['pricing']['couponAdjustment']),
-
             ':suspense' => amount($mydata['pricing']['cteISuspence'])
-
         ]);
         // bm/mf/sf->i
         $sql = "
@@ -687,15 +729,49 @@ try {
 
     if (!empty($mydata['policy'])) {
 
-        $sql = "
-            UPDATE package_policy
-            SET
-                coupon_allowed            = :coupon_allowed,
-                combine_with_other_offers = :combine_with_other_offers,
-                minimum_advance_payment   = :minimum_advance_payment,
-                full_payment_before_travel = :full_payment_before_travel
-            WHERE package_id = :package_id
-        ";
+        // Check if record exists
+        $checkStmt = $conn->prepare("
+            SELECT COUNT(*)
+            FROM package_policy
+            WHERE package_id = ?
+        ");
+        $checkStmt->execute([$get_id]);
+
+        $exists = $checkStmt->fetchColumn() > 0;
+
+        if ($exists) {
+
+            // UPDATE
+            $sql = "
+                UPDATE package_policy
+                SET
+                    coupon_allowed             = :coupon_allowed,
+                    combine_with_other_offers  = :combine_with_other_offers,
+                    minimum_advance_payment    = :minimum_advance_payment,
+                    full_payment_before_travel = :full_payment_before_travel
+                WHERE package_id = :package_id
+            ";
+
+        } else {
+
+            // INSERT
+            $sql = "
+                INSERT INTO package_policy (
+                    package_id,
+                    coupon_allowed,
+                    combine_with_other_offers,
+                    minimum_advance_payment,
+                    full_payment_before_travel
+                ) VALUES (
+                    :package_id,
+                    :coupon_allowed,
+                    :combine_with_other_offers,
+                    :minimum_advance_payment,
+                    :full_payment_before_travel
+                )
+            ";
+
+        }
 
         $stmt = $conn->prepare($sql);
 
