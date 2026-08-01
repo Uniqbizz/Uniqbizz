@@ -1474,8 +1474,8 @@ $gstValue = $gst['gst'] ?? 0;
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" >
-                                                            <a href="#" id="update_form" class="waves-effect waves-light btn-large" style=" color: white;" >Submit</a>
+                                                        <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" id="update_form">
+                                                            <a href="#"  class="waves-effect waves-light btn-large" style=" color: white;" >Submit</a>
                                                             <!-- <a href="#" id="update_form" style="display:none"></a> -->
                                                         </div>
                                                     </div>

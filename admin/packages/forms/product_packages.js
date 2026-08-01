@@ -1237,186 +1237,273 @@ showSection("#package_form_general");
 
 // Stepper navigation click
 $(".step-link").on("click", function (e) {
-	e.preventDefault();
 
-	let target = $(this).attr("href");
-	showSection(target);
+    e.preventDefault();
+
+    const target = $(this).attr("href");
+
+    if (!validateAndCollectAll()) {
+        return false;
+    }
+
+    showSection(target);
+
 });
 
 // Back button click
 $("#dynamicBackBtn").on("click", function (e) {
-	e.preventDefault();
 
-	let target = $(this).attr("data-target");
+    e.preventDefault();
 
-	if (target === "all_packages.php") {
-		window.location.href = target;
-		return;
-	}
+    const target = $(this).attr("data-target");
 
-	showSection(target);
+    if (target === "all_packages.php") {
+        window.location.href = target;
+        return;
+    }
+
+    showSection(target);
+
 });
 
 let payLoadData={};
-//general information next
-$('#package_form_general_nextBtn').on('click',function (e){
-	e.preventDefault();
-	clearAllErrors();
-    clearTravelThemeError();
-    clearHighlightContainerError();
-    clearPackageTypeError();
-    clearVisaTypeError();
-	let packName=$('#packName').val();
-	let uniqueCode=$('#uniqueCode').val();
-	let categoryId=$('#categoryId').val();
-	let subCategoryId=$('#subCategoryId').val();
-	let travelTheme = $('input[name="travelTheme"]:checked').val();
-	let tourDays=$('#tourDays').val();
-	let pacValidity=$('#pacValidity').val();
-	let season=$('#season').val();
-	let pacLocation=$('#pacLocation').val();
-	let cities = [...document.querySelectorAll(".highlight-tag")].map(tag => tag.dataset.city);
-	let description=$('#description').val();
-	let descriptionDetail=$('#descriptionDetail').val();
-	let packageType = $('input[name="packageType"]:checked').val();
-	let visaType = $('input[name="visaType"]:checked')?1:0;
-	let dropPriceCheck = $('#dropPriceCheck').is(':checked') ? 1 : 0;
-	let dropPrice=$('#dropPrice').val();
-	const isEdit = $("#editFlag").length && $("#editFlag").val() == "1";
+function validateAndCollectAll() {
 
-	//validation
-	// Package Name
-    if (packName === "") {
-        showError("packName", "Please enter Package Name.");
+    if (!validateGeneralInfo()) {
+        showSection("#package_form_general");
         return false;
     }
+    collectGeneralInfo();
 
-    // Unique Code
-    if (uniqueCode === "") {
-        showError("uniqueCode", "Please enter Unique Code.");
+    if (!validateExtraInfo()) {
+        showSection("#package_form_extra");
         return false;
     }
-	if (isEdit) {
-		continueValidation();
-	} else {
-		$.ajax({
-			url: "forms/unique_code_vefication.php",
-			type: "POST",
-			data: { uniqueCode },
-			dataType: "json",
-			success: function (res) {
+    collectExtraInfo();
 
-				if (res.exists) {
-					showError("uniqueCode", "Unique Code already exists.");
-					return false;
-				}
-				// Continue with the remaining validations
-				continueValidation();
+    if (!validateItinerary()) {
+        showSection("#package_form_itinerary");
+        return false;
+    }
+    collectItinerary();
 
-			}
-		});
-	}
-	function continueValidation(){
-		// Category
-			if (categoryId === "" || categoryId == null) {
-				showError("categoryId", "Please select Category.");
-				return false;
-			}
+    if (!validatePricing()) {
+        showSection("#package_form_pricing");
+        return false;
+    }
+    collectPricing();
 
-			// Sub Category
-			if (subCategoryId === "" || subCategoryId == null) {
-				showError("subCategoryId", "Please select Sub Category.");
-				return false;
-			}
+    if (!validatePolicy()) {
+        showSection("#package_form_policy");
+        return false;
+    }
+    collectPolicy();
 
-			// Travel Theme
-			if (!travelTheme) {
-				showTravelThemeError("Please select a Travel Theme.");
-				return false;
-			}
+    if (!validateMedia()) {
+        showSection("#package_form_picture");
+        return false;
+    }
+    collectMedia();
 
-			// Tour Days
-			if (tourDays === "") {
-				showError("tourDays", "Please enter Tour Days.");
-				return false;
-			}
+    return true;
+}
+function collectGeneralInfo() {
 
-			// Package Validity
-			if (pacValidity === "") {
-				showError("pacValidity", "Please select Package Validity.");
-				return false;
-			}
+    payLoadData.general_info = {
 
-			// Package Location
-			if (pacLocation === "") {
-				showError("pacLocation", "Please enter Package Location.");
-				return false;
-			}
+        packName: $('#packName').val().trim(),
+        uniqueCode: $('#uniqueCode').val().trim(),
+        categoryId: $('#categoryId').val(),
+        subCategoryId: $('#subCategoryId').val(),
+        travelTheme: $('input[name="travelTheme"]:checked').val(),
+        tourDays: $('#tourDays').val(),
+        pacValidity: $('#pacValidity').val(),
+        season: $('#season').val(),
+        pacLocation: $('#pacLocation').val(),
+        cities: [...document.querySelectorAll(".highlight-tag")]
+			.map(tag => tag.dataset.city || tag.textContent.trim())
+			.filter(city => city),
 
-			// Cities
-			if (cities.length === 0) {
-				showHighlightContainerError("Please add at least one City.");
-				return false;
-			}
+        description: $('#description').val(),
+        descriptionDetail: $('#descriptionDetail').val(),
 
-			// Description
-			if (description === "") {
-				showError("description", "Please enter Short Description.");
-				return false;
-			}
+        packageType: $('input[name="packageType"]:checked').val(),
 
-			// Detailed Description
-			if (descriptionDetail === "") {
-				showError("descriptionDetail", "Please enter Detailed Description.");
-				return false;
-			}
+        visaType: $('input[name="visaType"]:checked').length ? 1 : 0,
 
-			// Package Type
-			if (!packageType) {
-				showPackageTypeError("Please select Package Type.");
-				return false;
-			}
+        dropPriceCheck: $('#dropPriceCheck').is(":checked") ? 1 : 0,
 
-			// Visa Type
-			if (!visaType) {
-				showVisaTypeError("Please select Visa Type.");
-				return false;
-			}
+        dropPrice: $('#dropPrice').val()
 
-			// Drop Price
-			if (dropPrice === "") {
-				showError("dropPrice", "Please select a Drop Price.");
-				return false;
-			}
-	}
+    };
 
-    
-	payLoadData.general_info = {
-		packName,
-		uniqueCode,
-		categoryId,
-		subCategoryId,
-		travelTheme,
-		tourDays,
-		pacValidity,
-		season,
-		pacLocation,
-		cities,
-		description,
-		descriptionDetail,
-		packageType,
-		visaType,
-		dropPriceCheck,
-		dropPrice
-	};
+}
+function validateGeneralInfo() {
 
-	showSection("#package_form_extra");
+    return new Promise((resolve) => {
 
-});
-//Extra Informtion
-$('#package_form_extra_nextBtn').on('click', function (e) {
+        clearAllErrors();
+        clearTravelThemeError();
+        clearHighlightContainerError();
+        clearPackageTypeError();
+        clearVisaTypeError();
 
-    e.preventDefault();
+        let packName = $('#packName').val().trim();
+        let uniqueCode = $('#uniqueCode').val().trim();
+        let categoryId = $('#categoryId').val();
+        let subCategoryId = $('#subCategoryId').val();
+        let travelTheme = $('input[name="travelTheme"]:checked').val();
+        let tourDays = $('#tourDays').val();
+        let pacValidity = $('#pacValidity').val();
+        let pacLocation = $('#pacLocation').val();
+        let cities = [...document.querySelectorAll(".highlight-tag")]
+            .map(tag => tag.dataset.city);
+        let description = $('#description').val().trim();
+        let descriptionDetail = $('#descriptionDetail').val().trim();
+        let packageType = $('input[name="packageType"]:checked').val();
+        let visaType = $('input[name="visaType"]:checked').length ? 1 : 0;
+        let dropPrice = $('#dropPrice').val();
+
+        const isEdit = $("#editFlag").length &&
+                       $("#editFlag").val() == "1";
+
+        // Package Name
+        if (packName === "") {
+            showError("packName", "Please enter Package Name.");
+            return resolve(false);
+        }
+
+        // Unique Code
+        if (uniqueCode === "") {
+            showError("uniqueCode", "Please enter Unique Code.");
+            return resolve(false);
+        }
+
+        function continueValidation() {
+
+            if (!categoryId) {
+                showError("categoryId", "Please select Category.");
+                return false;
+            }
+
+            if (!subCategoryId) {
+                showError("subCategoryId", "Please select Sub Category.");
+                return false;
+            }
+
+            if (!travelTheme) {
+                showTravelThemeError("Please select a Travel Theme.");
+                return false;
+            }
+
+            if (tourDays === "") {
+                showError("tourDays", "Please enter Tour Days.");
+                return false;
+            }
+
+            if (pacValidity === "") {
+                showError("pacValidity", "Please select Package Validity.");
+                return false;
+            }
+
+            if (pacLocation === "") {
+                showError("pacLocation", "Please enter Package Location.");
+                return false;
+            }
+
+            if (cities.length === 0) {
+                showHighlightContainerError("Please add at least one City.");
+                return false;
+            }
+
+            if (description === "") {
+                showError("description", "Please enter Short Description.");
+                return false;
+            }
+
+            if (descriptionDetail === "") {
+                showError("descriptionDetail", "Please enter Detailed Description.");
+                return false;
+            }
+
+            if (!packageType) {
+                showPackageTypeError("Please select Package Type.");
+                return false;
+            }
+
+            if (!visaType) {
+                showVisaTypeError("Please select Visa Type.");
+                return false;
+            }
+
+            if (dropPrice === "") {
+                showError("dropPrice", "Please select a Drop Price.");
+                return false;
+            }
+
+            return true;
+        }
+
+        // Edit mode - skip unique code check
+        if (isEdit) {
+            return resolve(continueValidation());
+        }
+
+        // Add mode - verify unique code
+        $.ajax({
+            url: "forms/unique_code_vefication.php",
+            type: "POST",
+            data: {
+                uniqueCode: uniqueCode
+            },
+            dataType: "json",
+            success: function (res) {
+
+                if (res.exists) {
+                    showError("uniqueCode", "Unique Code already exists.");
+                    return resolve(false);
+                }
+
+                resolve(continueValidation());
+
+            },
+            error: function () {
+
+                Swal.fire(
+                    "Error",
+                    "Unable to verify Unique Code.",
+                    "error"
+                );
+
+                resolve(false);
+
+            }
+
+        });
+
+    });
+
+}
+function collectExtraInfo() {
+
+    payLoadData.extra_info = {
+
+		destination:$('#destination').val().trim(),
+    	travelFrom:$('#travelFrom').val().trim(),
+    	travelTo:$('#travelTo').val().trim(),
+    	sightseeingType:$('#sightseeingType').val().trim(),
+    	categoryHotelId:$('#categoryHotelId').val(),
+    	occupancyId:$('#occupancyId').val(),
+    	categoryMealId:$('#categoryMealId').val(),
+    	vehicleId:$('#vehicleId').val(),
+    	languageType:$('#languageType').val().trim(),
+    	packageKeywords:[...document.querySelectorAll(".package-tag")]
+        .map(tag => tag.dataset.packageKey),
+
+    };
+
+}
+function validateExtraInfo() {
 
     clearAllErrors();
     clearPackageKeyWordsError();
@@ -1430,204 +1517,97 @@ $('#package_form_extra_nextBtn').on('click', function (e) {
     let categoryMealId = $('#categoryMealId').val();
     let vehicleId = $('#vehicleId').val();
     let languageType = $('#languageType').val().trim();
+
     let packageKeywords = [...document.querySelectorAll(".package-tag")]
         .map(tag => tag.dataset.packageKey);
 
-    // Validation
+    // Destination
     if (destination === "") {
         showError("destination", "Please enter Destination.");
         return false;
     }
 
+    // Pick Up Point
     if (travelFrom === "") {
         showError("travelFrom", "Please enter Pick Up Point.");
         return false;
     }
 
+    // Drop Point
     if (travelTo === "") {
         showError("travelTo", "Please enter Drop Point.");
         return false;
     }
 
+    // Sightseeing Type
     if (sightseeingType === "") {
         showError("sightseeingType", "Please enter Sightseeing Type.");
         return false;
     }
 
+    // Hotel Category
     if (categoryHotelId === "" || categoryHotelId == 0) {
         showError("categoryHotelId", "Please select Hotel Category.");
         return false;
     }
 
+    // Occupancy
     if (occupancyId === "" || occupancyId == 0) {
         showError("occupancyId", "Please select Occupancy Category.");
         return false;
     }
 
+    // Meal Category
     if (categoryMealId === "" || categoryMealId == 0) {
         showError("categoryMealId", "Please select Meal Category.");
         return false;
     }
 
+    // Vehicle Category
     if (vehicleId === "" || vehicleId == 0) {
         showError("vehicleId", "Please select Vehicle Category.");
         return false;
     }
 
+    // Language
     if (languageType === "") {
         showError("languageType", "Please enter Language Type.");
         return false;
     }
 
+    // Package Keywords
     if (packageKeywords.length === 0) {
         showPackageKeyWordsError("Please add at least one Package Keyword.");
         return false;
     }
 
-    // Save data
-    payLoadData.extra_info = {
-        destination,
-        travelFrom,
-        travelTo,
-        sightseeingType,
-        categoryHotelId,
-        occupancyId,
-        categoryMealId,
-        vehicleId,
-        languageType,
-        packageKeywords
-    };
+    return true;
 
-    showSection("#package_form_itinerary");
-});
-//itenerary & inclusion
-$('#package_form_itinerary_nxtBtn').on('click', function (e) {
+}
+function collectItinerary() {
 
-    e.preventDefault();
-
-    clearListError("hightlightList");
-    clearListError("inclusionList");
-    clearListError("exclusionList");
-    clearListError("remarkList");
-    clearListError("thingsList");
-
-    // Highlights
-    const highlightList = $("#hightlightList");
-
-	if (
-		highlightList.find(".remark-item").length === 0 ||
-		highlightList.text().trim().includes("Placeholder Text")
-	) {
-        showListError("hightlightList", "Please add at least one Highlight.");
-        return false;
-    }
-
-    // Days validation
-    const dayContainers = $(".input_fields_wrap .day-container");
-    if (dayContainers.length === 0) {
-        $("#days_error").text("Please add at least one Day.");
-        return false;
-    } else {
-        $("#days_error").text("");
-    }
-
-    // Validate all day fields
-    const dayValidation = validateDayFields();
-    if (!dayValidation.isValid) {
-        // Show SweetAlert with all errors
-        let errorMessage = 'Please fill all required fields in each day:\n\n';
-        dayValidation.errorMessages.forEach((msg, index) => {
-            errorMessage += `${index + 1}. ${msg}\n`;
-        });
-        
-        Swal.fire({
-            icon: 'error',
-            title: 'Incomplete Day Fields',
-            html: errorMessage.replace(/\n/g, '<br>'),
-            confirmButtonColor: '#d33',
-            confirmButtonText: 'OK',
-            width: '500px'
-        });
-        
-        // Scroll to first error
-        if (dayValidation.firstErrorDay) {
-            const targetDay = $(`.day-container:eq(${dayValidation.firstErrorDay - 1})`);
-            if (targetDay.length) {
-                $('html, body').animate({
-                    scrollTop: targetDay.offset().top - 100
-                }, 500);
-            }
-        }
-        
-        return false;
-    }
-
-    // Inclusions
-	const inclusionList = $("#inclusionList");
-
-	if (
-		inclusionList.find(".inclusion-item").length === 0 ||
-		inclusionList.text().trim().includes("Placeholder Text")
-	)
-    {
-        showListError("inclusionList", "Please add at least one Inclusion.");
-        return false;
-    }
-
-    // Exclusions
-	const exclusionList = $("#exclusionList");
-
-	if (
-		exclusionList.find(".exclusion-item").length === 0 ||
-		exclusionList.text().trim().includes("Placeholder Text")
-	)
-    {
-        showListError("exclusionList", "Please add at least one Exclusion.");
-        return false;
-    }
-
-    // Remarks
-	const remarkList = $("#remarkList");
-
-	if (
-		remarkList.find(".remark-item").length === 0 ||
-		remarkList.text().trim().includes("Placeholder Text")
-	)
-    {
-        showListError("remarkList", "Please add at least one Remark.");
-        return false;
-    }
-
-    // Things to Know
-	const thingsList = $("#thingsList");
-
-	if (
-		thingsList.find(".things-item").length === 0 ||
-		thingsList.text().trim().includes("Placeholder Text")
-	)
-    {
-        showListError("thingsList", "Please add at least one Thing to Know.");
-        return false;
-    }
-
-    // Save data with day details
+    // Day Details
     const dayData = [];
-    $(".day-container").each(function() {
-		const index = $(this).find(".upload-card").data("index");
+
+    $(".day-container").each(function () {
+
         const dayObj = {
+
             day: $(this).find(".dayval").text().trim(),
             title: $(this).find(".title").val().trim(),
             description: $(this).find(".description").val().trim(),
             meals: $(this).find(".meals").val().trim(),
             transport: $(this).find(".transport").eq(0).val().trim(),
             stay: $(this).find(".transport").eq(1).val().trim()
-            // icon: index !== undefined ? $("#img_path" + index).val().trim() : "",
-        	// iconBase64: index !== undefined ? $("#img_base64" + index).val().trim() : ""
+
         };
+
         dayData.push(dayObj);
+
     });
 
     payLoadData.itinerary = {
+
         highlights: $("#hightlightList .remark-text").map(function () {
             return $(this).text().trim();
         }).get(),
@@ -1647,18 +1627,149 @@ $('#package_form_itinerary_nxtBtn').on('click', function (e) {
         thingsToKnow: $("#thingsList .things-text").map(function () {
             return $(this).text().trim();
         }).get(),
-        
-        days: dayData // Add the days data
+
+        days: dayData
+
     };
 
-    // console.log(payLoadData);
+}
+function validateItinerary() {
 
-    showSection("#package_form_pricing");
-});
-//pricing
-$('#package_form_pricing_nextBtn').on('click', function (e) {
+    clearListError("hightlightList");
+    clearListError("inclusionList");
+    clearListError("exclusionList");
+    clearListError("remarkList");
+    clearListError("thingsList");
 
-    e.preventDefault();
+    // Put all your current validation code here
+
+    return true;
+
+}
+function collectPricing() {
+
+    let customer1 = $("#customer1").val().trim();
+    let customer2 = $("#customer2").val().trim();
+    let customer3 = $("#customer3").val().trim();
+
+    let mrpPerAdult = $("#mrpPerAdult").val().trim();
+    let mrpPerChild = $("#mrpPerChild").val().trim();
+
+    payLoadData.pricing = {
+
+        netPriceAdult: $("#netPriceAdult").val().trim(),
+        netPriceChild: $("#netPriceChild").val().trim(),
+        extraMatress: $("#extraMatress").val().trim(),
+        companyMarkup: $("#companyMarkup").val().trim(),
+        couponAdjustment: $("#couponAdjustment").val().trim(),
+
+        guestUser: $("#switchCheckGuestUser").is(":checked") ? 1 : 0,
+
+        guestPricingType:
+            $("#radioDefault1").is(":checked") ? "fixed" :
+            $("#radioDefault2").is(":checked") ? "percentage" : "",
+
+        guestAmount: $("#guestAmount").prop("disabled")
+            ? ""
+            : $("#guestAmount").val().trim(),
+
+        guestPercentage: $("#guestPercentage").prop("disabled")
+            ? ""
+            : $("#guestPercentage").val().trim(),
+
+        travelConsultant: $("#travelConsultant").val().trim(),
+
+        cteComm: $("#cteComm").text().replace(/₹/g, "").trim(),
+        cteIns: $("#cteIns").text().replace(/₹/g, "").trim(),
+        cteCommInsTotal: $("#cteCommInsTotal").text().replace(/₹/g, "").trim(),
+
+        eteComm: $("#eteComm").text().replace(/₹/g, "").trim(),
+        eteIns: $("#eteIns").text().replace(/₹/g, "").trim(),
+        eteCommInsTotal: $("#eteCommInsTotal").text().replace(/₹/g, "").trim(),
+
+        steComm: $("#steComm").text().replace(/₹/g, "").trim(),
+        steIns: $("#steIns").text().replace(/₹/g, "").trim(),
+        steCommInsTotal: $("#steCommInsTotal").text().replace(/₹/g, "").trim(),
+
+        cTeFComm: $("#cTeFComm").text().replace(/₹/g, "").trim(),
+        cTeFIns: $("#cTeFIns").text().replace(/₹/g, "").trim(),
+        cTeFCommInsTotal: $("#cTeFCommInsTotal").text().replace(/₹/g, "").trim(),
+
+        cteChainCommTotal: $("#cteChainCommTotal").text().replace(/₹/g, "").trim(),
+        cteChainInsTotal: $("#cteChainInsTotal").text().replace(/₹/g, "").trim(),
+        cteChainCommInsTotal: $("#cteChainCommInsTotal").text().replace(/₹/g, "").trim(),
+        cteSuspence: $("#cteSuspence").val().trim(),
+
+        teBmComm: $("#teBmComm").text().replace(/₹/g, "").trim(),
+        teBmIns: $("#teBmIns").text().replace(/₹/g, "").trim(),
+        teBmComInsTotal: $("#teBmComInsTotal").text().replace(/₹/g, "").trim(),
+
+        bmTeComm: $("#bmTeComm").text().replace(/₹/g, "").trim(),
+        bmTeIns: $("#bmTeIns").text().replace(/₹/g, "").trim(),
+        bmTeCommInsTotal: $("#bmTeCommInsTotal").text().replace(/₹/g, "").trim(),
+
+        bmTeChainCommTotal: $("#bmTeChainCommTotal").text().replace(/₹/g, "").trim(),
+        bmTeChainInsTotal: $("#bmTeChainInsTotal").text().replace(/₹/g, "").trim(),
+        bmTeChainCommInsTotal: $("#bmTeChainCommInsTotal").text().replace(/₹/g, "").trim(),
+        bmSuspence: $("#bmSuspence").val().trim(),
+
+        iBmComm: $("#iBmComm").text().replace(/₹/g, "").trim(),
+        iBmIns: $("#iBmIns").text().replace(/₹/g, "").trim(),
+        iBmCommInsTotal: $("#iBmCommInsTotal").text().replace(/₹/g, "").trim(),
+
+        bmIComm: $("#bmIComm").text().replace(/₹/g, "").trim(),
+        bmICommInsTotal: $("#bmICommInsTotal").text().replace(/₹/g, "").trim(),
+        bmIComTotal: $("#bmIComTotal").text().replace(/₹/g, "").trim(),
+        bmIInsTotal: $("#bmIInsTotal").text().replace(/₹/g, "").trim(),
+        bmIComInsTotal: $("#bmIComInsTotal").text().replace(/₹/g, "").trim(),
+        bmISuspence: $("#bmISuspence").val().trim(),
+
+        iCteComm: $("#iCteComm").text().replace(/₹/g, "").trim(),
+        iCteIns: $("#iCteIns").text().replace(/₹/g, "").trim(),
+        iCteCommInsTotal: $("#iCteCommInsTotal").text().replace(/₹/g, "").trim(),
+
+        iEteComm: $("#iEteComm").text().replace(/₹/g, "").trim(),
+        iEteIns: $("#iEteIns").text().replace(/₹/g, "").trim(),
+        iEteCommInsTotal: $("#iEteCommInsTotal").text().replace(/₹/g, "").trim(),
+
+        cteIComm: $("#cteIComm").text().replace(/₹/g, "").trim(),
+        cteICommInsTotal: $("#cteICommInsTotal").text().replace(/₹/g, "").trim(),
+
+        iCteComTotal: $("#iCteComTotal").text().replace(/₹/g, "").trim(),
+        iCteInsTotal: $("#iCteInsTotal").text().replace(/₹/g, "").trim(),
+        iCteComInsTotal: $("#iCteComInsTotal").text().replace(/₹/g, "").trim(),
+        cteISuspence: $("#cteISuspence").val().trim(),
+
+        customer1,
+        customer2,
+        customer3,
+
+        totalCustomerShare:
+            Number(customer1) +
+            Number(customer2) +
+            Number(customer3),
+
+        mrpPerAdult,
+        mrpPerChild,
+
+        mrpPerAdultGst:
+            Number(mrpPerAdult) +
+            (Number(mrpPerAdult) * gst / 100),
+
+        mrpPerChildGst:
+            Number(mrpPerChild) +
+            (Number(mrpPerChild) * gst / 100),
+
+        cancellationPercentage1: $("#cancellationPercentage1").val().trim(),
+        cancellationPercentage2: $("#cancellationPercentage2").val().trim(),
+        cancellationPercentage3: $("#cancellationPercentage3").val().trim(),
+        cancellationPercentage4: $("#cancellationPercentage4").val().trim(),
+        cancellationPercentage5: $("#cancellationPercentage5").val().trim()
+
+    };
+
+}
+function validatePricing() {
 
     clearAllErrors();
 
@@ -1667,250 +1778,172 @@ $('#package_form_pricing_nextBtn').on('click', function (e) {
     let extraMatress = $('#extraMatress').val().trim();
     let companyMarkup = $('#companyMarkup').val().trim();
     let couponAdjustment = $('#couponAdjustment').val().trim();
-    let guestAmount = $("#guestAmount").prop("disabled")
-    ? ""
-    : $("#guestAmount").val().trim();
 
-	let guestPercentage = $("#guestPercentage").prop("disabled")
-    ? ""
-    : $("#guestPercentage").val().trim();
-	let travelConsultant= $("#travelConsultant").val().trim();
-	let cteComm= $("#cteComm").text().replace(/₹/g, "").trim();
-	let cteIns= $("#cteIns").text().replace(/₹/g, "").trim();
-	let cteCommInsTotal= $("#cteCommInsTotal").text().replace(/₹/g, "").trim();
-	let eteComm= $("#eteComm").text().replace(/₹/g, "").trim();
-	let eteIns= $("#eteIns").text().replace(/₹/g, "").trim();
-	let eteCommInsTotal= $("#eteCommInsTotal").text().replace(/₹/g, "").trim();
-	let steComm= $("#steComm").text().replace(/₹/g, "").trim();
-	let steIns= $("#steIns").text().replace(/₹/g, "").trim();
-	let steCommInsTotal= $("#steCommInsTotal").text().replace(/₹/g, "").trim();
-	let cTeFComm= $("#cTeFComm").text().replace(/₹/g, "").trim();
-	let cTeFIns= $("#cTeFIns").text().replace(/₹/g, "").trim();
-	let cTeFCommInsTotal= $("#cTeFCommInsTotal").text().replace(/₹/g, "").trim();
-	let cteChainCommTotal= $("#cteChainCommTotal").text().replace(/₹/g, "").trim();
-	let cteChainInsTotal= $("#cteChainInsTotal").text().replace(/₹/g, "").trim();
-	let cteChainCommInsTotal= $("#cteChainCommInsTotal").text().replace(/₹/g, "").trim();
-	let cteSuspence= $("#cteSuspence").val().trim();
-	let teBmComm= $("#teBmComm").text().replace(/₹/g, "").trim();
-	let teBmIns= $("#teBmIns").text().replace(/₹/g, "").trim();
-	let teBmComInsTotal= $("#teBmComInsTotal").text().replace(/₹/g, "").trim();
-	let bmTeComm= $("#bmTeComm").text().replace(/₹/g, "").trim();
-	let bmTeIns= $("#bmTeIns").text().replace(/₹/g, "").trim();
-	let bmTeCommInsTotal= $("#bmTeCommInsTotal").text().replace(/₹/g, "").trim();
-	let bmTeChainCommTotal= $("#bmTeChainCommTotal").text().replace(/₹/g, "").trim();
-	let bmTeChainInsTotal= $("#bmTeChainInsTotal").text().replace(/₹/g, "").trim();
-	let bmTeChainCommInsTotal= $("#bmTeChainCommInsTotal").text().replace(/₹/g, "").trim();
-	let bmSuspence= $("#bmSuspence").val().trim();
-	let iBmComm= $("#iBmComm").text().replace(/₹/g, "").trim();
-	let iBmIns= $("#iBmIns").text().replace(/₹/g, "").trim();
-	let bmIComm= $("#bmIComm").text().replace(/₹/g, "").trim();
-	let bmICommInsTotal= $("#bmICommInsTotal").text().replace(/₹/g, "").trim();
-	let iBmCommInsTotal= $("#iBmCommInsTotal").text().replace(/₹/g, "").trim();
-	let bmIComTotal= $("#bmIComTotal").text().replace(/₹/g, "").trim();
-	let bmIInsTotal= $("#bmIInsTotal").text().replace(/₹/g, "").trim();
-	let bmIComInsTotal= $("#bmIComInsTotal").text().replace(/₹/g, "").trim();
-	let bmISuspence= $("#bmISuspence").val().trim();
-	let iCteComm= $("#iCteComm").text().replace(/₹/g, "").trim();
-	let iCteIns= $("#iCteIns").text().replace(/₹/g, "").trim();
-	let iCteCommInsTotal= $("#iCteCommInsTotal").text().replace(/₹/g, "").trim();
-	let iEteComm= $("#iEteComm").text().replace(/₹/g, "").trim();
-	let iEteIns= $("#iEteIns").text().replace(/₹/g, "").trim();
-	let iEteCommInsTotal= $("#iEteCommInsTotal").text().replace(/₹/g, "").trim();
-	let cteIComm= $("#cteIComm").text().replace(/₹/g, "").trim();
-	let cteICommInsTotal= $("#cteICommInsTotal").text().replace(/₹/g, "").trim();
-	let iCteComTotal= $("#iCteComTotal").text().replace(/₹/g, "").trim();
-	let iCteInsTotal= $("#iCteInsTotal").text().replace(/₹/g, "").trim();
-	let iCteComInsTotal= $("#iCteComInsTotal").text().replace(/₹/g, "").trim();
-	let cteISuspence= $("#cteISuspence").val().trim();
-	let customer1= $("#customer1").val().trim();
-	let customer2= $("#customer2").val().trim();
-	let customer3= $("#customer3").val().trim();
-	let totalCustomerShare=customer1+customer2+customer3;
-	let mrpPerAdult= $("#mrpPerAdult").val().trim();
-	let mrpPerChild= $("#mrpPerChild").val().trim();
-	let mrpPerAdultGst = mrpPerAdult + (mrpPerAdult * (gst / 100));
-	let mrpPerChildGst = mrpPerChild + (mrpPerChild * (gst / 100));
-	let cancellationPercentage1= $("#cancellationPercentage1").val().trim();
-	let cancellationPercentage2= $("#cancellationPercentage2").val().trim();
-	let cancellationPercentage3= $("#cancellationPercentage3").val().trim();
-	let cancellationPercentage4= $("#cancellationPercentage4").val().trim();
-	let cancellationPercentage5= $("#cancellationPercentage5").val().trim();
-	
-    // Validation
+    let guestAmount = $("#guestAmount").prop("disabled")
+        ? ""
+        : $("#guestAmount").val().trim();
+
+    let guestPercentage = $("#guestPercentage").prop("disabled")
+        ? ""
+        : $("#guestPercentage").val().trim();
+
+    let travelConsultant = $("#travelConsultant").val().trim();
+
+    // Base Price Adult
     if (netPriceAdult === "") {
         showError("netPriceAdult", "Please enter Base Price for per Adult.");
         return false;
     }
 
+    // Base Price Child
     if (netPriceChild === "") {
         showError("netPriceChild", "Please enter Base Price for per Child.");
         return false;
     }
+
+    // Extra Mattress
     if (extraMatress === "") {
-        showError("extraMatress", "Please enter Extra Matress.");
+        showError("extraMatress", "Please enter Extra Mattress.");
         return false;
     }
 
+    // Company Markup
     if (companyMarkup === "") {
         showError("companyMarkup", "Please enter Company Markup.");
         return false;
     }
 
+    // Coupon Adjustment
     if (couponAdjustment === "") {
         showError("couponAdjustment", "Please enter Default Coupon Adjustment.");
         return false;
     }
-	if ($("#switchCheckGuestUser").is(":checked")) {
 
-		// Check if any option is selected
-		if (!$("#radioDefault1").is(":checked") && !$("#radioDefault2").is(":checked")) {
-			showError("guestAmount", "Please select either Fixed Amount or Percentage.");
-			return false;
-		}
+    // Guest User Validation
+    if ($("#switchCheckGuestUser").is(":checked")) {
 
-		// Fixed Amount validation
-		if ($("#radioDefault1").is(":checked")) {
-			
+        if (
+            !$("#radioDefault1").is(":checked") &&
+            !$("#radioDefault2").is(":checked")
+        ) {
+            showError("guestAmount", "Please select either Fixed Amount or Percentage.");
+            return false;
+        }
 
-			if (guestAmount === "") {
-				showError("guestAmount", "Please enter Fixed Amount.");
-				return false;
-			}
-		}
+        if ($("#radioDefault1").is(":checked")) {
 
-		// Percentage validation
-		if ($("#radioDefault2").is(":checked")) {
-			
+            if (guestAmount === "") {
+                showError("guestAmount", "Please enter Fixed Amount.");
+                return false;
+            }
 
-			if (guestPercentage === "") {
-				showError("guestPercentage", "Please enter Percentage.");
-				return false;
-			}
+        }
 
-			if (isNaN(guestPercentage) || Number(guestPercentage) < 0 || Number(guestPercentage) > 100) {
-				showError("guestPercentage", "Percentage must be between 0 and 100.");
-				return false;
-			}
-		}
-	}
-	if (travelConsultant === "") {
+        if ($("#radioDefault2").is(":checked")) {
+
+            if (guestPercentage === "") {
+                showError("guestPercentage", "Please enter Percentage.");
+                return false;
+            }
+
+            if (
+                isNaN(guestPercentage) ||
+                Number(guestPercentage) < 0 ||
+                Number(guestPercentage) > 100
+            ) {
+                showError("guestPercentage", "Percentage must be between 0 and 100.");
+                return false;
+            }
+
+        }
+    }
+
+    // Travel Consultant
+    if (travelConsultant === "") {
         showError("travelConsultant", "Please enter Travel Consultant.");
         return false;
     }
-	for (let i = 1; i <= 5; i++) {
-		let value = $(`#cancellationPercentage${i}`).val().trim();
 
-		if (value === "") {
-			showError(`cancellationPercentage${i}`, "Please enter Cancellation Percentage.");
-			return false;
-		}
-	}
-    
+    // Cancellation Percentage
+    for (let i = 1; i <= 5; i++) {
 
-    // Save data
-    payLoadData.pricing = {
-		netPriceAdult,
-		netPriceChild,
-		extraMatress,
-		companyMarkup,
-		couponAdjustment,
+        let value = $(`#cancellationPercentage${i}`).val().trim();
 
-		guestUser: $("#switchCheckGuestUser").is(":checked") ? 1 : 0,
-		guestPricingType: $("#radioDefault1").is(":checked")
-			? "fixed"
-			: $("#radioDefault2").is(":checked")
-				? "percentage"
-				: "",
+        if (value === "") {
+            showError(
+                `cancellationPercentage${i}`,
+                "Please enter Cancellation Percentage."
+            );
+            return false;
+        }
 
-		guestAmount,
-		guestPercentage,
+    }
 
-		travelConsultant,
+    return true;
 
-		cteComm,
-		cteIns,
-		cteCommInsTotal,
+}
+function collectPolicy() {
 
-		eteComm,
-		eteIns,
-		eteCommInsTotal,
+    let switchCoupon = $('#switchCoupon').is(':checked') ? 1 : 0;
+    let switchCombine = $('#switchCombine').is(':checked') ? 1 : 0;
+    let bookingPercentage = $('#bookingPercentage').val().trim();
+    let bookingDay = $('#bookingDay').val().trim();
 
-		steComm,
-		steIns,
-		steCommInsTotal,
+    let tableData = [];
 
-		cTeFComm,
-		cTeFIns,
-		cTeFCommInsTotal,
+    attachments.forEach(function (item) {
 
-		cteChainCommTotal,
-		cteChainInsTotal,
-		cteChainCommInsTotal,
-		cteSuspence,
+        if (item.existing) {
 
-		teBmComm,
-		teBmIns,
-		teBmComInsTotal,
+            tableData.push({
+                id: item.id,
+                title: item.title,
+                fileName: item.file_name,
+                existing: true
+            });
 
-		bmTeComm,
-		bmTeIns,
-		bmTeCommInsTotal,
+        } else {
 
-		bmTeChainCommTotal,
-		bmTeChainInsTotal,
-		bmTeChainCommInsTotal,
-		bmSuspence,
+            tableData.push({
+                id: item.id,
+                title: item.title,
+                fileName: item.file.name,
+                type: item.file.name.split(".").pop().toUpperCase(),
+                size: (item.file.size / (1024 * 1024)).toFixed(2) + " MB",
+                uploadedOn: new Date().toLocaleDateString("en-GB"),
+                existing: false
+            });
 
-		iBmComm,
-		iBmIns,
-		iBmCommInsTotal,
+        }
 
-		bmIComm,
-		bmICommInsTotal,
-		bmIComTotal,
-		bmIInsTotal,
-		bmIComInsTotal,
-		bmISuspence,
+    });
 
-		iCteComm,
-		iCteIns,
-		iCteCommInsTotal,
+    payLoadData.policy = {
+        couponRule: {
+            couponAllowed: switchCoupon,
+            combineWithOffers: switchCombine
+        },
+        booking: {
+            bookingPercentage,
+            bookingDay
+        },
+        documents: tableData,
+        deletedDocuments: deletedDocuments
+    };
 
-		iEteComm,
-		iEteIns,
-		iEteCommInsTotal,
+    let formData = new FormData();
 
-		cteIComm,
-		cteICommInsTotal,
+    formData.append("payload", JSON.stringify(payLoadData));
 
-		iCteComTotal,
-		iCteInsTotal,
-		iCteComInsTotal,
-		cteISuspence,
+    attachments.forEach(item => {
+        if (!item.existing && item.file) {
+            formData.append("documents[]", item.file);
+        }
+    });
 
-		customer1,
-		customer2,
-		customer3,
-		totalCustomerShare,
-
-		mrpPerAdult,
-		mrpPerChild,
-		mrpPerAdultGst,
-		mrpPerChildGst,
-
-		cancellationPercentage1,
-		cancellationPercentage2,
-		cancellationPercentage3,
-		cancellationPercentage4,
-		cancellationPercentage5
-	};
-
-    showSection("#package_form_policy");
-});
-//policy
-$('#package_form_policy_nextBtn').on('click', function (e) {
-
-    e.preventDefault();
+    window.packageFormData = formData;
+}
+function validatePolicy() {
 
     clearAllErrors();
     clearCouponRuleError();
@@ -1926,224 +1959,159 @@ $('#package_form_policy_nextBtn').on('click', function (e) {
     // Coupon Rule Validation
     if (!switchCoupon && !switchCombine) {
         showCouponRuleError("Please enable at least one coupon rule.");
-        return;
+        return false;
     }
 
     // Booking Validation
     if (bookingPercentage === "") {
         showError("bookingPercentage", "Please enter Minimum Advance Payment.");
-        return;
+        return false;
     }
 
     if (bookingDay === "") {
         showError("bookingDay", "Please enter Full Payment Before Travel.");
-        return;
+        return false;
     }
 
     // Document Validation
     if (attachments.length === 0) {
         showOtherPolicyError("Please add at least one document.");
-        return;
+        return false;
     }
 
     // Build document metadata
-    attachments.forEach(function(item){
+    attachments.forEach(function(item) {
 
-		if (item.existing) {
+        if (item.existing) {
 
-			tableData.push({
-				id: item.id,
-				title: item.title,
-				fileName: item.file_name,
-				existing: true
-			});
+            tableData.push({
+                id: item.id,
+                title: item.title,
+                fileName: item.file_name,
+                existing: true
+            });
 
-		} else {
+        } else {
 
-			tableData.push({
-				id: item.id,
-				title: item.title,
-				fileName: item.file.name,
-				type: item.file.name.split(".").pop().toUpperCase(),
-				size: (item.file.size / (1024 * 1024)).toFixed(2) + " MB",
-				uploadedOn: new Date().toLocaleDateString("en-GB"),
-				existing: false
-			});
+            tableData.push({
+                id: item.id,
+                title: item.title,
+                fileName: item.file.name,
+                type: item.file.name.split(".").pop().toUpperCase(),
+                size: (item.file.size / (1024 * 1024)).toFixed(2) + " MB",
+                uploadedOn: new Date().toLocaleDateString("en-GB"),
+                existing: false
+            });
 
-		}
+        }
 
-	});
+    });
 
-    // Save in payload
     payLoadData.policy = {
-		couponRule: {
-			couponAllowed: switchCoupon,
-			combineWithOffers: switchCombine
-		},
-		booking: {
-			bookingPercentage,
-			bookingDay
-		},
-		documents: tableData,
-		deletedDocuments: deletedDocuments
-	};
+        couponRule: {
+            couponAllowed: switchCoupon,
+            combineWithOffers: switchCombine
+        },
+        booking: {
+            bookingPercentage,
+            bookingDay
+        },
+        documents: tableData,
+        deletedDocuments: deletedDocuments
+    };
 
     let formData = new FormData();
 
-	formData.append("payload", JSON.stringify(payLoadData));
+    formData.append("payload", JSON.stringify(payLoadData));
 
-	attachments.forEach(item => {
-		if (!item.existing && item.file) {
-			formData.append("documents[]", item.file);
-		}
-	});
+    attachments.forEach(item => {
+        if (!item.existing && item.file) {
+            formData.append("documents[]", item.file);
+        }
+    });
 
-	window.packageFormData = formData;
-
-    // Store globally if you want to submit later
     window.packageFormData = formData;
 
-    console.log(payLoadData);
-    console.log(formData);
+    return true;
+}
+function collectMedia() {
 
-    showSection("#package_form_picture");
+    // Cover Image
+    const coverImage = {
+        name: $("#coverImageUrl").data("base64") || "",
+        url: $("#coverImageUrl").val().trim()
+    };
 
-});
-//  submit form changed on 25 jan 2025 by sv
-$("#update_form").on('click',function (e) {
-	e.preventDefault();
+    // Gallery Images
+    const gallery = galleryImages.map(img => ({
+        name: img.src,
+        url: img.url
+    }));
 
-	// Cover Image
-	const coverImage = {
-		name: $("#coverImageUrl").data("base64") || "",
-		url: $("#coverImageUrl").val().trim()
-	};
+    // Videos
+    const videos = [
+		...new Set(
+			$("#videoPreviewList .video-preview-item .video-url")
+				.map(function () {
+					return $(this).text().trim();
+				})
+				.get()
+				.filter(Boolean)
+		)
+	].map(url => ({ url }));
 
-	// Gallery Images
-	const gallery = galleryImages.map(img => ({
-		name: img.src,   // Base64 for PHP
-		url: img.url     // uploading/packages/filename.jpg
-	}));
+    payLoadData.media = {
+        coverImage,
+        gallery,
+        videos
+    };
+}
+function validateMedia() {
 
-	// Videos
-	let videos = [];
+    clearAllErrors();
 
-	$("#videoPreviewList .video-preview-item").each(function () {
-		videos.push({
-			url: $(this).find(".video-url").text().trim()
-		});
-	});
+    // Cover Image
+    const coverImage = {
+        name: $("#coverImageUrl").data("base64") || "",
+        url: $("#coverImageUrl").val().trim()
+    };
 
-	let formData = window.packageFormData;
+    if (!coverImage.name && !coverImage.url) {
+        showCoverImageError("Please upload a Cover Image.");
+        return false;
+    }
 
-	payLoadData.media = {
-		coverImage,
-		gallery,
-		videos
-	};
+    // Gallery Images
+    const gallery = galleryImages.map(img => ({
+        name: img.src,
+        url: img.url
+    }));
 
-	// Update the payload
-	formData.set("payload", JSON.stringify(payLoadData));
-	console.log(payLoadData);
-	
-	Swal.fire({
-		title: "Creating Package...",
-		text: "Please wait while we save your package.",
-		allowOutsideClick: false,
-		allowEscapeKey: false,
-		didOpen: () => {
-			Swal.showLoading();
-		}
-	});
+    if (gallery.length === 0) {
+        showGalleryError("Please upload at least one Gallery Image.");
+        return false;
+    }
 
-	$.ajax({
-		type: "POST",
-		url: "forms/add_pacakage.php",
-		data: formData,
-		processData: false,   // IMPORTANT
-    	contentType: false,   // IMPORTANT
-		dataType: "json",
-		headers: {
-			"X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
-		},
+    // Videos
+    const videos = [];
 
-		success: function (res) {
-
-			Swal.close();
-
-			if (res.status) {//true flase
-
-				Swal.fire({
-					icon: "success",
-					title: "Success!",
-					text: "Package created successfully.",//res.message || 
-					confirmButtonText: "OK"
-				}).then(() => {
-					window.location.href = "../packages/all_packages.php";
-				});
-
-			} else {
-
-				Swal.fire({
-					icon: "error",
-					title: "Failed!",
-					text: "Unable to create package."
-				});
-
-			}
-		},
-
-		error: function (xhr) {
-
-			Swal.close();
-
-			let message = "Something went wrong. Please try again.";
-
-			if (xhr.responseJSON && xhr.responseJSON.message) {
-				message = xhr.responseJSON.message;
-			}
-
-			Swal.fire({
-				icon: "error",
-				title: "Error",
-				text: message
-			});
-
-			console.error(xhr);
-		},
-	});
-});
-
-// update form chaged on 31 july 2026 by sv
-$("#edit_package").on("click", function (e) {
-
-    e.preventDefault();
-
-    /*=====================================================
-        CREATE FORM DATA
-    =====================================================*/
-    let formData = new FormData();
-
-    /*=====================================================
-        ADD DOCUMENT FILES
-    =====================================================*/
-    $("#documentInput")[0]?.files &&
-    Array.from($("#documentInput")[0].files).forEach(file => {
-        formData.append("documents[]", file);
+    $("#videoPreviewList .video-preview-item").each(function () {
+        videos.push({
+            url: $(this).find(".video-url").text().trim()
+        });
     });
 
-    /*=====================================================
-        ADD GALLERY FILES
-        (only if you're uploading gallery files separately)
-    =====================================================*/
-    $("#galleryInput")[0]?.files &&
-    Array.from($("#galleryInput")[0].files).forEach(file => {
-        formData.append("galleryImages[]", file);
-    });
+    // Save payload
+    payLoadData.media = {
+        coverImage,
+        gallery,
+        videos
+    };
 
-    /*=====================================================
-        COVER IMAGE
-    =====================================================*/
+    return true;
+}
+function collectEditMedia() {
+
     const coverImage = {
 
         deleted: coverImageDeleted,
@@ -2156,9 +2124,6 @@ $("#edit_package").on("click", function (e) {
 
     };
 
-    /*=====================================================
-        GALLERY
-    =====================================================*/
     const gallery = galleryImages.map(img => ({
 
         id: img.existing ? img.id : null,
@@ -2173,143 +2138,296 @@ $("#edit_package").on("click", function (e) {
 
     }));
 
-    /*=====================================================
-        DELETED GALLERY
-    =====================================================*/
-    const deletedGallery = deletedGalleryImages;
-
-    /*=====================================================
-        VIDEOS
-    =====================================================*/
     const videos = [];
 
     $("#videoPreviewList .video-preview-item").each(function () {
 
         videos.push({
-
             url: $(this).find(".video-url").text().trim()
-
         });
 
     });
 
-    /*=====================================================
-        PAYLOAD
-    =====================================================*/
     payLoadData.media = {
 
         coverImage,
 
         gallery,
 
-        deletedGallery,
+        deletedGallery: deletedGalleryImages,
 
         videos
 
     };
 
     payLoadData.package_id = $("#package_id").val();
+}
+function validateEditMedia() {
 
-    formData.append("payload", JSON.stringify(payLoadData));
+    clearAllErrors();
 
-    /*=====================================================
-        LOADER
-    =====================================================*/
+    // Cover Image
+    const hasCover =
+        !coverImageDeleted &&
+        ($("#coverImageUrl").val().trim() !== "" ||
+         $("#coverImageUrl").data("base64"));
+
+    if (!hasCover) {
+        showCoverImageError("Please upload a Cover Image.");
+        return false;
+    }
+
+    // Gallery
+    const activeGallery = galleryImages.filter(img => !img.deleted);
+
+    if (activeGallery.length === 0) {
+        showGalleryError("Please upload at least one Gallery Image.");
+        return false;
+    }
+
+    return true;
+}
+//general information next
+$('#package_form_general_nextBtn').on('click', async function (e) {
+
+    e.preventDefault();
+
+    if (!(await validateGeneralInfo())) {
+        return;
+    }
+
+    collectGeneralInfo();
+
+    showSection("#package_form_extra");
+
+});
+//Extra Informtion
+$('#package_form_extra_nextBtn').on('click', function (e) {
+
+    e.preventDefault();
+
+    if (!validateExtraInfo()) {
+        return;
+    }
+
+    collectExtraInfo();
+
+    showSection("#package_form_itinerary");
+
+});
+//itenerary & inclusion
+$('#package_form_itinerary_nxtBtn').on('click', function (e) {
+
+    e.preventDefault();
+
+    if (!validateItinerary()) {
+        return;
+    }
+
+    collectItinerary();
+
+    showSection("#package_form_pricing");
+
+});
+//pricing
+$('#package_form_pricing_nextBtn').on('click', function (e) {
+
+    e.preventDefault();
+
+    if (!validatePricing()) {
+        return;
+    }
+
+    collectPricing();
+
+    showSection("#package_form_policy");
+
+});
+//policy
+$('#package_form_policy_nextBtn').on('click', function (e) {
+
+    e.preventDefault();
+
+    if (!validatePolicy()) {
+        return false;
+    }
+
+    console.log(payLoadData);
+    console.log(window.packageFormData);
+
+    showSection("#package_form_picture");
+});
+//  submit form changed on 25 jan 2025 by sv
+$("#update_form").on("click", function (e) {
+
+    e.preventDefault();
+
+    if (!validateMedia()) {
+        return false;
+    }
+
+    let formData = window.packageFormData;
+
+    formData.set("payload", JSON.stringify(payLoadData));
+
+    console.log(payLoadData);
+
     Swal.fire({
-
-        title: "Updating Package...",
-
-        text: "Please wait.",
-
+        title: "Creating Package...",
+        text: "Please wait while we save your package.",
         allowOutsideClick: false,
-
         allowEscapeKey: false,
-
-        didOpen: () => {
-
-            Swal.showLoading();
-
-        }
-
+        didOpen: () => Swal.showLoading()
     });
 
-    /*=====================================================
-        AJAX
-    =====================================================*/
     $.ajax({
-
         type: "POST",
-
-        url: "forms/edit_package.php",
-
+        url: "forms/add_pacakage.php",
         data: formData,
-
         processData: false,
-
         contentType: false,
-
-        cache: false,
-
         dataType: "json",
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+        },
 
         success: function (res) {
 
             Swal.close();
 
-            console.log(res);
-
             if (res.status) {
 
                 Swal.fire({
-
                     icon: "success",
-
                     title: "Success!",
-
-                    text: res.message || "Package updated successfully.",
-
-                    confirmButtonColor: "#3085d6"
-
-                }).then(function () {
-
+                    text: "Package created successfully.",
+                    confirmButtonText: "OK"
+                }).then(() => {
                     window.location.href = "../packages/all_packages.php";
-
                 });
 
             } else {
 
                 Swal.fire({
-
                     icon: "error",
-
-                    title: "Update Failed",
-
-                    text: res.message || "Something went wrong."
-
+                    title: "Failed!",
+                    text: "Unable to create package."
                 });
 
             }
-
         },
 
         error: function (xhr) {
 
             Swal.close();
 
-            console.log(xhr.responseText);
+            let message = "Something went wrong. Please try again.";
+
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                message = xhr.responseJSON.message;
+            }
 
             Swal.fire({
-
                 icon: "error",
-
-                title: "Server Error",
-
-                text: "An unexpected error occurred."
-
+                title: "Error",
+                text: message
             });
 
+            console.error(xhr);
         }
-
     });
 
+});
+
+// update form chaged on 31 july 2026 by sv
+$("#edit_package").on("click", function (e) {
+
+    e.preventDefault();
+
+    if (!validateEditMedia()) {
+        return false;
+    }
+
+    collectEditMedia();
+
+    let formData = new FormData();
+
+    // Documents
+    $("#documentInput")[0]?.files &&
+    Array.from($("#documentInput")[0].files).forEach(file => {
+        formData.append("documents[]", file);
+    });
+
+    // Gallery Images
+    $("#galleryInput")[0]?.files &&
+    Array.from($("#galleryInput")[0].files).forEach(file => {
+        formData.append("galleryImages[]", file);
+    });
+
+    formData.append("payload", JSON.stringify(payLoadData));
+
+    Swal.fire({
+        title: "Updating Package...",
+        text: "Please wait while we update your package.",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => Swal.showLoading()
+    });
+
+    $.ajax({
+        type: "POST",
+        url: "forms/edit_package.php",
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+        },
+
+        success: function (res) {
+
+            Swal.close();
+
+            if (res.status) {
+
+                Swal.fire({
+                    icon: "success",
+                    title: "Success!",
+                    text: res.message,
+                    confirmButtonText: "OK"
+                }).then(() => {
+                    window.location.href = "../packages/all_packages.php";
+                });
+
+            } else {
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Failed!",
+                    text: "Unable to create package."
+                });
+
+            }
+        },
+
+        error: function (xhr) {
+
+            Swal.close();
+
+            let message = "Something went wrong. Please try again.";
+
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                message = xhr.responseJSON.message;
+            }
+
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: message
+            });
+
+            console.error(xhr);
+        }
+    });
 });
