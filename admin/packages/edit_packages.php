@@ -866,7 +866,12 @@
                                                                     <?php
                                                                     $inclusions = json_decode($itineraryDetails['inclusion'], true);
 
-                                                                    if (is_array($inclusions) && !empty($inclusions)) {
+                                                                    // If it's not valid JSON, split by "."
+                                                                    if (!is_array($inclusions)) {
+                                                                        $inclusions = array_filter(array_map('trim', explode('.', $itineraryDetails['inclusion'])));
+                                                                    }
+
+                                                                    if (!empty($inclusions)) {
                                                                         foreach ($inclusions as $inclusion) {
                                                                             ?>
                                                                             <div class="inclusion-item d-flex justify-content-between align-items-start mb-2">
@@ -916,7 +921,12 @@
                                                                     <?php
                                                                     $exclusions = json_decode($itineraryDetails['exclusion'], true);
 
-                                                                    if (is_array($exclusions) && !empty($exclusions)) {
+                                                                    // If it's not valid JSON, split by "."
+                                                                    if (!is_array($exclusions)) {
+                                                                        $exclusions = array_filter(array_map('trim', explode('.', $itineraryDetails['exclusion'])));
+                                                                    }
+
+                                                                    if (!empty($exclusions)) {
                                                                         foreach ($exclusions as $exclusion) {
                                                                             ?>
                                                                             <div class="exclusion-item d-flex justify-content-between align-items-start mb-2">
@@ -966,7 +976,12 @@
                                                                     <?php
                                                                     $remarks = json_decode($itineraryDetails['remark'], true);
 
-                                                                    if (is_array($remarks) && !empty($remarks)) {
+                                                                    // If it's not valid JSON, split by "."
+                                                                    if (!is_array($remarks)) {
+                                                                        $remarks = array_filter(array_map('trim', explode('.', $itineraryDetails['remark'])));
+                                                                    }
+
+                                                                    if (!empty($remarks)) {
                                                                         foreach ($remarks as $remark) {
                                                                             ?>
                                                                             <div class="remark-item d-flex justify-content-between align-items-start mb-2">
@@ -1433,10 +1448,10 @@
                                                                         <tr>
                                                                             <td>CTE</td>
                                                                             <td class="text-end" id="iCteComPer"><?= $institutionCteData['roles']['CTE']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="iCteComm" data-value="0">&#8377; <?= $packagePricingTechnoInstitution['cte_direct_commission'] ?></td>
+                                                                            <td class="text-end editable-comm" id="iCteComm" data-value="0">&#8377; <?= $packagePricingTechnoInstitution['cte_direct_commission'] ?? 0.00 ?></td>
                                                                             <td class="text-end" id="iCteInsPer"><?= $institutionCteData['roles']['CTE']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="iCteIns" data-value="0">&#8377; <?= $packagePricingTechnoInstitution['cte_incentive'] ?></td>
-                                                                            <td class="text-end editable-total" id="iCteCommInsTotal">&#8377; <?= $packagePricingTechnoInstitution['cte_mark_up_total'] ?></td>
+                                                                            <td class="text-end editable-ins" id="iCteIns" data-value="0">&#8377; <?= $packagePricingTechnoInstitution['cte_incentive'] ?? 0.00 ?></td>
+                                                                            <td class="text-end editable-total" id="iCteCommInsTotal">&#8377; <?= $packagePricingTechnoInstitution['cte_mark_up_total'] ?? 0.00 ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -1448,10 +1463,10 @@
                                                                         <tr>
                                                                             <td>ETE</td>
                                                                             <td class="text-end" id="iEteComPer"><?= $institutionCteData['roles']['ETE']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="iEteComm" data-value="0">&#8377; <?= $packagePricingTechnoInstitution['ete_direct_commission'] ?></td>
+                                                                            <td class="text-end editable-comm" id="iEteComm" data-value="0">&#8377; <?= $packagePricingTechnoInstitution['ete_direct_commission'] ?? 0.00 ?></td>
                                                                             <td class="text-end" id="iEteInsPer"><?= $institutionCteData['roles']['ETE']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="iEteIns" data-value="0">&#8377; <?= $packagePricingTechnoInstitution['ete_incentive'] ?></td>
-                                                                            <td class="text-end editable-total" id="iEteCommInsTotal">&#8377; <?= $packagePricingTechnoInstitution['ete_mark_up_total'] ?></td>
+                                                                            <td class="text-end editable-ins" id="iEteIns" data-value="0">&#8377; <?= $packagePricingTechnoInstitution['ete_incentive'] ?? 0.00 ?></td>
+                                                                            <td class="text-end editable-total" id="iEteCommInsTotal">&#8377; <?= $packagePricingTechnoInstitution['ete_mark_up_total'] ?? 0.00 ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -1463,10 +1478,10 @@
                                                                         <tr>
                                                                             <td>Institute</td>
                                                                             <td class="text-end">As Per Slab</td>
-                                                                            <td class="text-end editable-comm" id="cteIComm" data-value="0">&#8377; <?= $packagePricingTechnoInstitution['ins_markup'] ?></td>
+                                                                            <td class="text-end editable-comm" id="cteIComm" data-value="0">&#8377; <?= $packagePricingTechnoInstitution['ins_markup'] ?? 0.00 ?></td>
                                                                             <td class="text-end">NA</td>
                                                                             <td class="text-end" id="cteIIns">NA</td>
-                                                                            <td class="text-end editable-total" id="cteICommInsTotal">&#8377; <?= $packagePricingTechnoInstitution['ins_markup'] ?></td>
+                                                                            <td class="text-end editable-total" id="cteICommInsTotal">&#8377; <?= $packagePricingTechnoInstitution['ins_markup'] ?? 0.00 ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -1479,15 +1494,15 @@
                                                                     <tfoot>
                                                                         <td class="fw-bolder">Total Distribution</td>
                                                                         <td class="text-end fw-bolder"></td>
-                                                                        <td class="text-end fw-bolder" id="iCteComTotal">&#8377; <?= $packagePricingTechnoInstitution['total_commission_amount'] ?></td>
+                                                                        <td class="text-end fw-bolder" id="iCteComTotal">&#8377; <?= $packagePricingTechnoInstitution['total_commission_amount'] ?? 0.00 ?></td>
                                                                         <td class="text-end fw-bolder"></td>
-                                                                        <td class="text-end fw-bolder" id="iCteInsTotal">&#8377; <?= $packagePricingTechnoInstitution['total_incentive_amount'] ?></td>
-                                                                        <td class="text-end fw-bolder" id="iCteComInsTotal">&#8377; <?= $packagePricingTechnoInstitution['total_mark_up'] ?></td>
+                                                                        <td class="text-end fw-bolder" id="iCteInsTotal">&#8377; <?= $packagePricingTechnoInstitution['total_incentive_amount'] ?? 0.00 ?></td>
+                                                                        <td class="text-end fw-bolder" id="iCteComInsTotal">&#8377; <?= $packagePricingTechnoInstitution['total_mark_up'] ?? 0.00 ?></td>
                                                                     </tfoot>
                                                                 </table>
                                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="number" id="cteISuspence" name="cteISuspence" placeholder="cteISuspence" class="form-control" readonly value="<?= $packagePricingTechnoInstitution['suspense'] ?>">
+                                                                        <input type="number" id="cteISuspence" name="cteISuspence" placeholder="cteISuspence" class="form-control" readonly value="<?= $packagePricingTechnoInstitution['suspense']?? 0.00 ?>">
                                                                         <label for="cteISuspence" class="required">Suspence</label>
                                                                     </div>
                                                                 </div>
@@ -1627,13 +1642,14 @@
                                                                 <div class="d-flex justify-content-between mb-2">
                                                                     <label class="form-check-label" for="switchCoupon">Coupon Allowed</label>
                                                                     <div class="form-check form-switch">
-                                                                        <input class="form-check-input" type="checkbox" role="switch" id="switchCoupon" <?= $packagePolicy['coupon_allowed'] == 1?'checked':'' ?>>
+                                                                        <input class="form-check-input" type="checkbox" role="switch" id="switchCoupon" <?= ($packagePolicy['coupon_allowed'] ?? '') ? 'checked' : '' ?>>
                                                                     </div>
                                                                 </div>
                                                                 <div class="d-flex justify-content-between">
                                                                     <label class="form-check-label" for="switchCombine">Can Combine With Other Offers</label>
                                                                     <div class="form-check form-switch">
-                                                                        <input class="form-check-input" type="checkbox" role="switch" id="switchCombine" <?= $packagePolicy['combine_with_other_offers'] == 1?'checked':'' ?>>
+                                                                        <input class="form-check-input" type="checkbox" role="switch" id="switchCombine"
+                                                                        <?= ($packagePolicy['combine_with_other_offers'] ?? '') ? 'checked' : '' ?>>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1649,7 +1665,7 @@
                                                                                 <label for="mrpPerAdult" class="mb-3">Minimum Advance Payment</label>
                                                                             </div>
                                                                             <div class="input-group mb-3 inputWidth">
-                                                                                <input type="number" class="form-control" id="bookingPercentage" name="bookingPercentage" value="<?= $packagePolicy['minimum_advance_payment'] ?>" >
+                                                                                <input type="number" class="form-control" id="bookingPercentage" name="bookingPercentage" value="<?= htmlspecialchars($packagePolicy['minimum_advance_payment'] ?? '') ?>" >
                                                                                 <span class="input-group-text">%</span>
                                                                                 <small class="error-message" id="bookingPercentage_error"></small>
                                                                             </div>
@@ -1661,7 +1677,7 @@
                                                                                 <label for="mrpPerChild" class="mb-0">Full Payment Before Travel</label>
                                                                             </div>
                                                                             <div class="input-group inputWidth">
-                                                                                <input type="number" class="form-control" id="bookingDay" name="bookingDay" value="<?= $packagePolicy['full_payment_before_travel'] ?>">
+                                                                                <input type="number" class="form-control" id="bookingDay" name="bookingDay" value="<?= htmlspecialchars($packagePolicy['full_payment_before_travel'] ?? '') ?>">
                                                                                 <span class="input-group-text">Days</span>
                                                                                 <small class="error-message" id="bookingDay_error"></small>
                                                                             </div>
@@ -2627,13 +2643,13 @@
             }
             let coverImageDeleted = false;
             let existingCoverImage = "";
+            const dropZone1 = $("#dragDropZone");
+            const fileInput1 = $("#imageUpload");
+            const previewImage = $("#packageCoverImage");
+            const deleteBtn = $("#deleteImageBtn");
+            const fileText = $("#selectedFileText");
             $(document).ready(function () {
 
-                const dropZone = $("#dragDropZone");
-                const fileInput = $("#imageUpload");
-                const previewImage = $("#packageCoverImage");
-                const deleteBtn = $("#deleteImageBtn");
-                const fileText = $("#selectedFileText");
 
                 // track delete status
                 let coverImageDeleted = false;
@@ -2641,14 +2657,14 @@
                 // ==========================
                 // Click Upload
                 // ==========================
-                dropZone.on("click", function () {
-                    fileInput.trigger("click");
+                dropZone1.on("click", function () {
+                    fileInput1.trigger("click");
                 });
 
                 // ==========================
                 // Select Image
                 // ==========================
-                fileInput.on("change", function () {
+                fileInput1.on("change", function () {
 
                     if (this.files.length) {
                         previewFile(this.files[0]);
@@ -2659,19 +2675,19 @@
                 // ==========================
                 // Drag Over
                 // ==========================
-                dropZone.on("dragover", function (e) {
+                dropZone1.on("dragover", function (e) {
                     e.preventDefault();
                     $(this).addClass("dragover");
                 });
 
-                dropZone.on("dragleave", function () {
+                dropZone1.on("dragleave", function () {
                     $(this).removeClass("dragover");
                 });
 
                 // ==========================
                 // Drop Image
                 // ==========================
-                dropZone.on("drop", function (e) {
+                dropZone1.on("drop", function (e) {
 
                     e.preventDefault();
                     $(this).removeClass("dragover");
@@ -2679,7 +2695,7 @@
                     const files = e.originalEvent.dataTransfer.files;
 
                     if (files.length) {
-                        fileInput[0].files = files;
+                        fileInput1[0].files = files;
                         previewFile(files[0]);
                     }
 
