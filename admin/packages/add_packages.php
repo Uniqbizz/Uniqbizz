@@ -1586,8 +1586,8 @@ $gstValue = $gst['gst'] ?? 0;
                             return "Please enter a City Name.";
                         }
 
-                        if (!/^[a-zA-Z0-9\s_-]+$/.test(value)) {
-                            return "Only alphabets, numbers, spaces, hyphens (-), and underscores (_) are allowed.";
+                        if (!/^[a-zA-Z0-9\s.,'"():;\/&+\-_@#!%?\r\n]*$/.test(value)) {
+                            return "Only letters, numbers, spaces, and common punctuation (. , ' \" ( ) : ; / & + - _ @ # ! % ?) are allowed.";
                         }
                     }
                 }).then((result) => {
@@ -1626,8 +1626,8 @@ $gstValue = $gst['gst'] ?? 0;
                             return "Please enter a Package Keyword.";
                         }
 
-                        if (!/^[a-zA-Z0-9\s_-]+$/.test(value)) {
-                            return "Only alphabets, numbers, spaces, hyphens (-), and underscores (_) are allowed.";
+                        if (!/^[a-zA-Z0-9\s.,'"():;\/&+\-_@#!%?\r\n]*$/.test(value)) {
+                            return "Only letters, numbers, spaces, and common punctuation (. , ' \" ( ) : ; / & + - _ @ # ! % ?) are allowed.";
                         }
                     }
                 }).then((result) => {
@@ -1720,8 +1720,8 @@ $gstValue = $gst['gst'] ?? 0;
                                 return `Please enter ${label}.`;
                             }
 
-                            if (!/^[a-zA-Z0-9\s_-]+$/.test(value)) {
-                                return "Only alphabets, numbers, spaces, hyphens (-), and underscores (_) are allowed.";
+                            if (!/^[a-zA-Z0-9\s.,'"():;\/&+\-_@#!%?\r\n]*$/.test(value)) {
+                                return "Only letters, numbers, spaces, and common punctuation (. , ' \" ( ) : ; / & + - _ @ # ! % ?) are allowed.";
                             }
                         }
                     }).then((result) => {
@@ -1857,8 +1857,8 @@ $gstValue = $gst['gst'] ?? 0;
                                     return "Please enter a value.";
                                 }
 
-                                if (!/^[a-zA-Z0-9\s_-]+$/.test(value)) {
-                                    return "Only alphabets, numbers, spaces, hyphens (-), and underscores (_) are allowed.";
+                                if (!/^[a-zA-Z0-9\s.,'"():;\/&+\-_@#!%?\r\n]*$/.test(value)) {
+                                    return "Only letters, numbers, spaces, and common punctuation (. , ' \" ( ) : ; / & + - _ @ # ! % ?) are allowed.";
                                 }
                             }
                         }).then((result) => {
