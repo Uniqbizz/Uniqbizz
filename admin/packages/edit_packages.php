@@ -1556,7 +1556,7 @@
                                                             <h5 class="mb-3 fw-bolder" id="#">6. Total Pricing with <?= $gstValue ?>% GST</h5>
                                                             <div class="borderHighlight p-3 mb-3">
                                                                 <div class="row">
-                                                                    <div class="col-md-12 col-sm-12">
+                                                                    <div class="col-md-9 col-sm-9">
                                                                         <div class="d-flex gap-4 mb-3">
                                                                             <div class="align-content-center">
                                                                                 <label for="mrpPerAdultWithGst" class="mb-0">Total Price Per Adult</label>
@@ -1564,7 +1564,13 @@
                                                                             <input type="number" value="<?= $packagePricing['total_package_price_per_adult'] ?>" id="mrpPerAdultWithGst" class="form-control inputWidth" readOnly>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-md-12 col-sm-12">
+                                                                    <div class="col-md-3 col-sm-12 px-4">
+                                                                        <div class="pt-2">
+                                                                            <span>CGST <?= $gstValue * 0.5 ?>%</span>
+                                                                            <span>SGST <?= $gstValue * 0.5 ?>%</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-9 col-sm-9">
                                                                         <div class="d-flex gap-4">
                                                                             <div class="align-content-center">
                                                                                 <label for="mrpPerChildWithGst" class="mb-0">Total Price Per Child</label>
@@ -1572,9 +1578,11 @@
                                                                             <input type="number" value="<?= $packagePricing['total_package_price_per_child'] ?>" id="mrpPerChildWithGst" class="form-control inputWidth" readOnly>
                                                                         </div>
                                                                     </div>
+                                                                    
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-xl-6 col-lg-8 col-md-8 col-sm-12 col-12">
