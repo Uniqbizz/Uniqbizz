@@ -9,9 +9,9 @@ function allowedCharset(inputId) {
     input.addEventListener("keypress", function (e) {
         const char = String.fromCharCode(e.which || e.keyCode);
 		//only alphabets and spaces
-        if (!/^[a-zA-Z\s]$/.test(char)) {
-            e.preventDefault();
-        }
+        // if (!/^[a-zA-Z\s]$/.test(char)) {
+        //     e.preventDefault();
+        // }
 		//only alphabets, numbers and spaces
 		// if (!/^[a-zA-Z0-9\s]$/.test(char)) {
 		// 	e.preventDefault();
@@ -21,6 +21,10 @@ function allowedCharset(inputId) {
 		// if (!/^[a-zA-Z0-9\s_-]$/.test(char)) {
 		// 	e.preventDefault();
 		// }
+		// Allow letters, numbers, spaces ,common sentence punctuation and new line
+		if (!/^[a-zA-Z0-9\s.,'"():;\/&+\-_@#!%?\r\n]$/.test(char)) {
+			e.preventDefault();
+		}
     });
 
     input.addEventListener("input", function () {
