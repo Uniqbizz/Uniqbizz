@@ -53,6 +53,7 @@ html {
     height: 205px;
     border-radius: 10px;
     object-fit: fill;
+    width: stretch;
 }
 .desktop-gallery{
     display:block;
@@ -475,6 +476,108 @@ html {
     position: absolute;
     left: 0;
 }
+/* Card Section 3 */
+.packCard {
+    position: relative;
+}
+.cardCreame {
+    width: 100%;
+    display: block;
+    height: 240px;
+    border-radius: 12px;
+}
+.packContent {
+    position: absolute;
+    inset: 0; /* top:0 right:0 bottom:0 left:0 */
+    padding: 24px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+}
+.packContent .row {
+    width: 100%;
+}
+.cardPurple {
+    width: stretch;
+    height: 240px;
+    border-radius: 12px;
+}
+.checkIconGreen {
+    color: #008000;
+    font-weight: 900;
+    font-size: 18px;
+}
+/* Card Section 4 */
+.package-slider {
+    overflow: hidden;
+    width: 100%;
+}
+.package-track {
+    display: flex;
+    gap: 20px;
+    transition: transform .4s ease;
+}
+.package-item {
+    flex: 0 0 calc(25% - 15px);
+}
+.package-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,.08);
+    height: 100%;
+}
+.package-card img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+}
+.package-body {
+    padding: 15px;
+}
+.package-body h5 {
+    color: #222;
+    font-size: 18px;
+    font-weight: 700;
+}
+.package-body p {
+    color: #8c8c8c;
+    margin-bottom: 8px;
+}
+.package-price {
+    color: #2962ff;
+    font-size: 24px;
+    font-weight: 700;
+}
+.package-price span {
+    font-size: 14px;
+    color: #666;
+}
+.slider-btn {
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,.15);
+    z-index: 2;
+    cursor: pointer;
+}
+.prev-btn {
+    left: -20px;
+}
+.next-btn {
+    right: -20px;
+}
+@media (min-width: 1399px) {
+    .blueCardBtn {
+        width: 125px;
+        height: 105px;
+    }
+}
 @media (max-width: 1199px) {
     .image-width {
         width: 100%;
@@ -510,11 +613,13 @@ html {
         top: auto !important;
         width: auto !important;
     }
-
     .pricingSection.pricing-fixed {
         position: static !important;
         top: auto !important;
         width: auto !important;
+    }
+    .package-item {
+        flex: 0 0 calc(50% - 10px);
     }
 }
 @media (max-width: 767px) {
@@ -528,17 +633,14 @@ html {
         -ms-overflow-style: none;
         padding-bottom: 5px;
     }
-
     .borderColor1 .nav::-webkit-scrollbar {
         display: none;
     }
-
     .navItem {
         flex: 0 0 auto;
         min-width: 90px;
         text-align: center;
     }
-
     .navItem .nav-link {
         white-space: nowrap;
     }
@@ -565,10 +667,39 @@ html {
         padding-right:15px;
         overflow-x:auto;
     }
-
     .thumbnail{
         width:70px;
         height:70px;
         flex:0 0 auto;
+    }
+    .cardCreame {
+        width: 100%;
+        display: block;
+        height: 280px;
+        border-radius: 12px;
+    }
+    .package-slider {
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .package-slider::-webkit-scrollbar {
+        display: none;
+    }
+
+    .package-track {
+        transform: none !important;
+        gap: 15px;
+    }
+
+    .package-item {
+        flex: 0 0 85%;
+        scroll-snap-align: start;
+    }
+
+    .slider-btn {
+        display: none;
     }
 }
