@@ -2825,7 +2825,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                             .addClass("pricing-bottom")
                             .css({
                                 top: absoluteTop + "px",
-                                width: "100%",
+                                width: "96%",
                                 left: ""
                             });
                     }
