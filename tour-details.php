@@ -44,6 +44,10 @@ $hotel_cat_id = $package['category_hotel_id'];
 $meal_cat_id = $package['category_meal_id'];
 $validity = $package['validity'] ?? 0;
 
+$tour_days_total = $package['tour_days'] ?? 0;
+$tour_days = $tour_days_total - 1;
+$tour_nights = $tour_days_total - 2;
+
 // itinery 
 $data2 = $conn->prepare("SELECT * FROM package_itinerary_details WHERE package_id = $id");
 $data2->execute();
@@ -128,6 +132,33 @@ if($user_type_id_value == '11'){
     $ta_markup_price_val = 0;
 }
 
+//share model start 30-07-2026
+
+$title = "Bizzmirth Holidays Pvt Ltd";
+$description = "Get latest and best deal on holiday packages";
+$siteName = "Holiday Packages";
+
+/*
+|--------------------------------------------------------------------------
+| Replace this with your thumbnail image URL
+|--------------------------------------------------------------------------
+|
+| Recommended size: 1200x630 px
+| Must be publicly accessible.
+|
+*/
+$image = "https://ca.uniqbizz.com/admin/assets/images/fav.png";
+
+$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
+    ? "https"
+    : "http")
+    . "://"
+    . $_SERVER['HTTP_HOST']
+    . $_SERVER['REQUEST_URI'];
+
+//share model end
+
+
 ?>
 
 <!DOCTYPE html>
@@ -168,21 +199,23 @@ if($user_type_id_value == '11'){
             content="travel, trip booking,tour, hotel, tour guide, tourism, blog, flight, travel agency, tourism agency, accommodation, tour website">
         <meta name="author" content="inittheme">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <!-- added code for share model start 30-07-2026-->
+        <meta name="description" content="<?php echo htmlspecialchars($description); ?>">
+        <!-- Open Graph -->
         <meta property="og:type" content="website">
-        <meta property="og:title" content="Multipurpose travel and tour booking">
-        <meta property="og:site_name" content="Mirthcon">
-        <meta property="og:url" content="https://inittheme.com">
-        <meta property="og:image" content="https://inittheme.com/images/selfie.jpg">
-        <meta property="og:description" content="Multipurpose travel and tour booking, multipurpose template">
-        <meta name="twitter:title" content="Multipurpose travel and tour booking">
-        <meta name="twitter:description" content="Multipurpose travel and tour booking, multipurpose template">
-        <meta name="twitter:image" content="https://twitter.com/inittheme/photo">
-        <meta name="twitter:card" content="summary">
-        <!-- Google site verification -->
-        <meta name="google-site-verification" content="...">
-        <meta name="facebook-domain-verification" content="...">
-        <meta name="csrf-token" content="...">
-        <meta name="currency" content="$">
+        <meta property="og:title" content="<?php echo htmlspecialchars($title); ?>">
+        <meta property="og:description" content="<?php echo htmlspecialchars($description); ?>">
+        <meta property="og:url" content="<?php echo htmlspecialchars($url); ?>">
+        <meta property="og:image" content="<?php echo htmlspecialchars($image); ?>">
+        <meta property="og:site_name" content="<?php echo htmlspecialchars($siteName); ?>">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="<?php echo htmlspecialchars($title); ?>">
+        <meta name="twitter:description" content="<?php echo htmlspecialchars($description); ?>">
+        <meta name="twitter:image" content="<?php echo htmlspecialchars($image); ?>">
+        <!-- added code for share model  end-->
+
         <!-- Title -->
         <title>Bizzmirth Holidays Pvt Ltd</title>
         <link rel="icon" type="image/x-icon" sizes="20x20" href="assets/images/icon/fav.png">
@@ -196,6 +229,8 @@ if($user_type_id_value == '11'){
         <link rel="stylesheet" type="text/css" href="assets/css/main-style.css">
         <!-- Tour Details CSS 18/7/2026 -->
         <link rel="stylesheet" type="text/css" href="assets/css/tour-details.css">
+        <!-- share model css file 30-07-2026 -->
+        <link rel="stylesheet" type="text/css" href="assets/css/tour_details_share.css">
         <!-- RTL CSS::When Need RTL Uncomments File -->
         <!-- <link rel="stylesheet" type="text/css" href="assets/css/rtl.css"> -->
         <!-- Swiper -->
@@ -256,7 +291,7 @@ if($user_type_id_value == '11'){
                                 <div class="title-section">
                                     <h3 class="fw-bolder" id="pack_name"><?php echo $package['name'] ?></h3>
                                     <div class="d-flex gap-4">
-                                        <div class="share-icon">
+                                        <div class="share-icon openShare" onclick="openShare()">
                                             <i class="ri-share-line"></i>
                                         </div>
                                         <div class="wishlist-icon">
@@ -372,7 +407,7 @@ if($user_type_id_value == '11'){
                                             </div>
                                             <div class="fontSize1">
                                                 <p class="fw-bolder">Duration</p>
-                                                <p class="text-muted">5 Nights / 6 Days</p>
+                                                <p class="text-muted"><?= $tour_nights ?> Nights / <?= $tour_days ?> Days</p>
                                             </div>
                                         </div>
                                     </div>
@@ -383,7 +418,7 @@ if($user_type_id_value == '11'){
                                             </div>
                                             <div class="fontSize1">
                                                 <p class="fw-bolder">Best Time</p>
-                                                <p class="text-muted">Oct - May</p>
+                                                <p class="text-muted"><?= htmlspecialchars($best_season ?? '', ENT_QUOTES, 'UTF-8') ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -394,7 +429,7 @@ if($user_type_id_value == '11'){
                                             </div>
                                             <div class="fontSize1">
                                                 <p class="fw-bolder">Visa</p>
-                                                <p class="text-muted">Not Required</p>
+                                                <p class="text-muted"><?= $package['visa_required'] === '1' ? 'Visa Required' : 'Not Required' ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -405,18 +440,7 @@ if($user_type_id_value == '11'){
                                             </div>
                                             <div class="fontSize1">
                                                 <p class="fw-bolder">Meal Plan</p>
-                                                <p class="text-muted">Breakfast & Dinner</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-6 mb-3">
-                                        <div class="d-flex gap-2">
-                                            <div class="iconColor align-content-center">
-                                                <i class="ri-landscape-line"></i>
-                                            </div>
-                                            <div class="fontSize1">
-                                                <p class="fw-bolder">Tour Type</p>
-                                                <p class="text-muted">Group Tour</p>
+                                                <p class="text-muted"><?= $meal_cat['name'] ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -426,8 +450,19 @@ if($user_type_id_value == '11'){
                                                 <i class="ri-car-line"></i>
                                             </div>
                                             <div class="fontSize1">
-                                                <p class="fw-bolder">Pickup/Drop</p>
-                                                <p class="text-muted">Port Blair Airport</p>
+                                                <p class="fw-bolder">Pickup</p>
+                                                <p class="text-muted"><?= $package['travel_from'] ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-6 mb-3">
+                                        <div class="d-flex gap-2">
+                                            <div class="iconColor align-content-center">
+                                                <i class="ri-car-line"></i>
+                                            </div>
+                                            <div class="fontSize1">
+                                                <p class="fw-bolder">Drop</p>
+                                                <p class="text-muted"><?= $package['travel_to'] ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -505,8 +540,7 @@ if($user_type_id_value == '11'){
                                             <div class="card cardBackgroundColor rounded-3 p-3">
                                                 <h5 class="fw-bolder">Overview</h5>
                                                 <p class="text-muted fw-bold fontSize2 mt-2">
-                                                    Experience the best of Thailand with pristine beaches, vibrant nightlife, iconic temples, thrilling water
-                                                    activities and world-class shopping. A perfect holiday for families, couples and groups.
+                                                    <?= $package['detailed_description'] ?>
                                                 </p>
                                                 <div class="packageCode mt-2">
                                                     <div class="d-flex gap-2">
@@ -515,7 +549,7 @@ if($user_type_id_value == '11'){
                                                         </div>
                                                         <div class="fontSize1">
                                                             <p class="fw-bolder">Package Code</p>
-                                                            <p class="text-muted">TH-EX-001</p>
+                                                            <p class="text-muted"><?= $package['unique_code'] ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -881,6 +915,58 @@ if($user_type_id_value == '11'){
             </section>
             <!--/ End-of Destination -->
         </main>
+        
+        <!-- share model 30-07-2026 start-->
+        <div class="overlay" id="shareModal">
+            <div class="shareBox">
+                <div class="header">
+                    <h2>Share this page</h2>
+                    <div class="close" onclick="closeShare()">
+                        ×
+                    </div>
+                </div>
+                <div class="icons">
+
+                    <a class="social" target="_blank"  href="https://wa.me/?text=<?php echo urlencode("🎬 ".$title."\n\n".$description."\n\n".$url); ?>">
+                        <div class="circle whatsapp">☎</div>
+                        <span>WhatsApp</span>
+                    </a>
+
+                    <a class="social" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode($url); ?>">
+                        <div class="circle facebook">f</div>
+                        <span>Facebook</span>
+                    </a>
+
+                    <a class="social" target="_blank" href="https://twitter.com/intent/tweet?text=<?php echo urlencode($title); ?>&url=<?php echo urlencode($url); ?>">
+                        <div class="circle x">𝕏</div>
+                        <span>X</span>
+                    </a>
+
+                    <a class="social" target="_blank" href="https://t.me/share/url?url=<?php echo urlencode($url); ?>&text=<?php echo urlencode($title."\n".$description); ?>">
+                        <div class="circle telegram">✈</div>
+                        <span>Telegram</span>
+                    </a>
+
+                    <a class="social" href="mailto:?subject=<?php echo urlencode($title); ?>&body=<?php echo urlencode($description."\n\n".$url); ?>">
+                        <div class="circle email">✉</div>
+                        <span>Email</span>
+                    </a>
+
+                </div>
+                <div class="line"></div>
+                    <div class="linkArea">
+                        <input id="shareLink" readonly value="<?php echo htmlspecialchars($url); ?>">
+                        <button class="copy" onclick="copyLink()">
+                            Copy
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="toast">
+            ✓ Link copied
+        </div>
+        <!-- share model 30-07-2026 end-->
 
         <!-- Footer S t a r t -->
         <?php include_once "footer.php" ?>
@@ -2753,6 +2839,63 @@ if($user_type_id_value == '11'){
             });
         </script>
         <!-- New Design /7/26 -->
+
+        <!-- share option js 30-07-2026 -->
+        <script>
+
+            const modal = document.getElementById("shareModal");
+            const link = document.getElementById("shareLink");
+            const toast = document.getElementById("toast");
+
+            let timer;
+
+            function openShare(){
+                modal.style.display="flex";
+                setTimeout(()=>{
+                    link.focus();
+                    link.select();
+                },200);
+            }
+
+            function closeShare(){
+                modal.style.display="none";
+                toast.classList.remove("show");
+            }
+
+            function copyLink(){
+                navigator.clipboard.writeText(link.value)
+                .then(()=>{
+                    showToast();
+                })
+
+                .catch(()=>{
+                    link.select();
+                    document.execCommand("copy");
+                    showToast();
+                });
+            }
+
+            function showToast(){
+                toast.classList.add("show");
+                clearTimeout(timer);
+                timer = setTimeout(()=>{
+                    toast.classList.remove("show");
+                },2500);
+            }
+
+            window.onclick = function(e){
+                if(e.target===modal){
+                    closeShare();
+                }
+            }
+
+            document.addEventListener("keydown", function(e){
+                if(e.key==="Escape"){
+                    closeShare();
+                }
+            });
+
+        </script>
     </body>
 
 </html>
