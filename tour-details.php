@@ -564,18 +564,6 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                                     </div>
                                                     <p class="text-muted fontSize3 align-content-center">Exclusive merchandise available at each show</p>
                                                 </div>
-                                                <div class="d-flex gap-3 mt-2">
-                                                    <div class="highlightIcon">
-                                                        <i class="ri-arrow-right-up-box-line"></i>
-                                                    </div>
-                                                    <p class="text-muted fontSize3 align-content-center">VIP Packages with meet-and-greet options</p>
-                                                </div>
-                                                <div class="d-flex gap-3 mt-2">
-                                                    <div class="highlightIcon">
-                                                        <i class="ri-arrow-right-up-box-line"></i>
-                                                    </div>
-                                                    <p class="text-muted fontSize3 align-content-center">Special acoustic set in select cities</p>
-                                                </div>
                                             </div>
                                         </div>
                                         <div id="itinerary" class="section-block">
@@ -640,7 +628,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
 
                                                                                     <div class="gap-1 d-flex">
                                                                                         <h6 class="fw-bold">Stay:&nbsp;</h6>
-                                                                                        <p class="text-muted fontSize3"><?= $day['day_tansport']; ?></p>
+                                                                                        <p class="text-muted fontSize3"><?= $day['stay']; ?></p>
                                                                                     </div>
                                                                                 </div>
 
