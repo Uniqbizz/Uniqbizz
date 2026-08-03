@@ -336,7 +336,7 @@
                         
                         <!-- card section 4 -->
                         <div class="row">
-                            <div class="col-lg-5 col-md-6 col-sm-12 col-12">
+                            <!-- <div class="col-lg-5 col-md-6 col-sm-12 col-12">
                                 <div class="card rounded-4 p-4 border border-1 h-80 shadow-sm">
                                     <h4 class="d-flex justify-content-between align-items-center mb-0 textColor fw-bolder">
                                         Upcoming Trips
@@ -347,6 +347,7 @@
                                         <div class="mx-auto mb-4 d-flex align-items-center justify-content-center" style="width:120px;height:120px;background:#eef6ff;border-radius:50%;">
                                             <i class="fa-solid fa-plane-departure text-primary" style="font-size:55px;"></i>
                                         </div>
+                                        <div>
                                             <h5 class="fw-bold text-dark">No Upcoming Trips</h5>
                                             <p class="text-muted mb-4">
                                                 Your next adventure is waiting.
@@ -356,6 +357,195 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div> -->
+                            <div class="col-lg-5 col-md-6 col-sm-12 col-12 mb-4">
+                                <div class="card rounded-4 p-3 border border-1 h-100">
+
+                                    <h4 class="d-flex justify-content-between mb-0 textColor fw-bolder">
+                                        Upcoming Trips
+                                        <a href="order_history.php" class="fs-6">View All</a>
+                                    </h4>
+
+                                    <hr>
+
+                                    <?php if (!empty($upcomingTrips)) { ?>
+
+                                        <?php foreach ($upcomingTrips as $index => $trip) {
+
+                                            $image = !empty($trip['package_image'])
+                                                ? "../../" . $trip['package_image']
+                                                : "assets/images/no-image.png";
+
+                                            // Date Objects
+                                            $startDateObj = new DateTime($trip['date']);
+                                            $endDateObj = clone $startDateObj;
+                                            $endDateObj->modify('+' . ($trip['tour_days'] - 1) . ' days');
+
+                                            // Dates for comparison
+                                            $startDate = $startDateObj->format('Y-m-d');
+                                            $endDate = $endDateObj->format('Y-m-d');
+
+                                            // Dates for display
+                                            $displayStartDate = $startDateObj->format('d M Y');
+                                            $displayEndDate = $endDateObj->format('d M Y');
+
+                                            // Trip Duration
+                                            $days = (int)$trip['tour_days'];
+                                            $nights = max($days - 1, 0);
+
+                                            // Trip Status
+                                            if ($trip['status'] == 2) {
+
+                                                $tripStatus = "Cancelled";
+
+                                            } elseif ($trip['status'] == 3) {
+
+                                                $tripStatus = "Refunded";
+
+                                            } elseif ($trip['confirm_status'] == 0) {
+
+                                                $tripStatus = "Pending";
+
+                                            } elseif ($today < $startDate) {
+
+                                                $tripStatus = "Confirmed";
+
+                                            } elseif ($today >= $startDate && $today <= $endDate) {
+
+                                                $tripStatus = "Traveling";
+
+                                            } else {
+
+                                                $tripStatus = "Completed";
+
+                                            }
+
+                                            // Badge Class
+                                            switch ($tripStatus) {
+
+                                                case "Confirmed":
+                                                    $badgeClass = "confirmBtn";
+                                                    break;
+
+                                                case "Traveling":
+                                                    $badgeClass = "confirmBtn travelingBtn";
+                                                    break;
+
+                                                case "Pending":
+                                                    $badgeClass = "confirmBtn pendingBtn";
+                                                    break;
+
+                                                case "Completed":
+                                                    $badgeClass = "confirmBtn completedBtn";
+                                                    break;
+
+                                                case "Cancelled":
+                                                    $badgeClass = "confirmBtn cancelledBtn";
+                                                    break;
+
+                                                case "Refunded":
+                                                    $badgeClass = "confirmBtn refundedBtn";
+                                                    break;
+
+                                                default:
+                                                    $badgeClass = "confirmBtn upcomingBtn";
+                                            }
+
+                                        ?>
+
+                                            <div class="d-flex gap-3 mb-3">
+
+                                                <div>
+                                                    <img src="<?= $image ?>"
+                                                        class="tripsImage"
+                                                        alt="<?= htmlspecialchars($trip['package_name']) ?>">
+                                                </div>
+
+                                                <div class="tripDetails flex-grow-1">
+
+                                                    <h6 class="text-dark fw-bolder">
+                                                        <?= htmlspecialchars($trip['package_name']) ?>
+                                                    </h6>
+
+                                                    <p class="text-muted fs-6 mb-2">
+                                                        <?= $displayStartDate ?> - <?= $displayEndDate ?><br>
+                                                        <?= $nights ?>N / <?= $days ?>D
+                                                    </p>
+
+                                                    <a href="javascript:void(0)">
+                                                        <div class="<?= $badgeClass ?> p-1 mb-3">
+                                                            <p class="fs-6 mb-0 fw-bolder">
+                                                                <?= $tripStatus ?>
+                                                            </p>
+                                                        </div>
+                                                    </a>
+
+                                                    <div class="d-flex justify-content-between gap-2 exploreBtns">
+
+                                                        <a href="<?= $home_url ?>tour-details.php?pacId=<?= $trip['package_id'] ?>">
+                                                            <div class="exploreBtn p-2 border border-primary border-2 mb-2">
+                                                                <p class="fs-6 mb-0 fw-bolder">
+                                                                    View Itinerary
+                                                                </p>
+                                                            </div>
+                                                        </a>
+
+                                                        <?php if ($trip['payment_completed'] == 0 && in_array($tripStatus, ['Confirmed', 'Pending'])) { ?>
+
+                                                            <a href="payment.php?booking=<?= $trip['id'] ?>">
+                                                                <div class="exploreBtn p-2 border border-primary border-2 mb-2">
+                                                                    <p class="fs-6 mb-0 fw-bolder">
+                                                                        Make Payment
+                                                                    </p>
+                                                                </div>
+                                                            </a>
+
+                                                        <?php } ?>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <?php if ($index < count($upcomingTrips) - 1) { ?>
+                                                <hr class="mt-0">
+                                            <?php } ?>
+
+                                        <?php } ?>
+
+                                    <?php } else { ?>
+
+                                        <div class="text-center py-5">
+
+                                            <div class="mx-auto mb-4 d-flex align-items-center justify-content-center"
+                                                style="width:120px;height:120px;background:#eef6ff;border-radius:50%;">
+
+                                                <i class="fa-solid fa-plane-departure text-primary"
+                                                    style="font-size:55px;"></i>
+
+                                            </div>
+
+                                            <h5 class="fw-bold text-dark">
+                                                No Upcoming Trips
+                                            </h5>
+
+                                            <p class="text-muted mb-4">
+                                                Your next adventure is waiting.
+                                                Browse our travel packages and start planning today.
+                                            </p>
+
+                                            <a href="<?= $home_url ?>tour-list.php"
+                                                class="btn btn-primary rounded-pill px-4">
+                                                Explore Packages
+                                            </a>
+
+                                        </div>
+
+                                    <?php } ?>
+
+                                </div>
+                            </div>
                             <div class="col-lg-7 col-md-6 col-sm-12 col-12">
                                 <div class="card rounded-4 p-3 border border-1">
                                     <h4 class="d-flex justify-content-between mb-0 textColor fw-bolder">Book Your Next Trip

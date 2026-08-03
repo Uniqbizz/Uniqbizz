@@ -100,7 +100,7 @@
                                                         <?php
                                                             require '../connect.php';
                                                             
-                                                            $stmt = $conn->prepare("SELECT * FROM login WHERE (user_type_id ='10' || user_type_id ='11' || user_type_id ='16' || user_type_id ='24' || user_type_id ='25' || user_type_id ='26' || user_type_id ='27' || user_type_id ='28' || user_type_id ='29' || user_type_id ='30' || user_type_id ='31' || user_type_id ='32')|| user_type_id ='33' || user_type_id ='34' || user_type_id ='35' || user_type_id ='36'  AND status='1'");
+                                                            $stmt = $conn->prepare("SELECT * FROM login WHERE (user_type_id ='10' || user_type_id ='11' || user_type_id ='16' || user_type_id ='24' || user_type_id ='25' || user_type_id ='26' || user_type_id ='27' || user_type_id ='28' || user_type_id ='29' || user_type_id ='30' || user_type_id ='31' || user_type_id ='32'|| user_type_id ='33' || user_type_id ='34' || user_type_id ='35' || user_type_id ='36')  AND status='1'");
                                                             $stmt->execute();
                                                             $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                                             $firstname='';
@@ -156,7 +156,7 @@
                                                                     }
                                                                     //I
                                                                     else if ( $userType == 32 ) {
-                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM institution where institution_id='".$userId."' AND status='1' ");
+                                                                        $users = $conn->prepare("SELECT name FROM institution where institution_id='".$userId."' AND status='1' ");
                                                                     }
                                                                     //IBR
                                                                     else if ( $userType == 33 ) {
@@ -170,7 +170,7 @@
                                                                     $users->setFetchMode(PDO::FETCH_ASSOC);
                                                                     if($users->rowCount()>0){
                                                                         $user = $users->fetch();
-                                                                        if($userType == 24 || $userType == 25 || $userType == 27 || $userType == 31){
+                                                                        if($userType == 24 || $userType == 25 || $userType == 27 || $userType == 31 || $userType == 32){
                                                                             $firstname = $user['name'] ;
                                                                             $lastneam =  '';
                                                                         } else{
