@@ -558,7 +558,7 @@
         <script src="../assets/js/app.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!-- file upload code js file -->
-        <!-- <script src="../../uploading/uploadTechnoAdmin.js"></script> -->
+        <script src="../../uploading/uploadTechnoAdmin.js"></script>
 
         <script>
             var mybutton = document.getElementById("back-to-top");

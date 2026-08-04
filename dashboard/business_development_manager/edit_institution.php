@@ -1,11 +1,5 @@
 <?php
-    session_start();
-
-    if(!isset($_SESSION['username'])){
-        echo '<script>location.href = "../login.php";</script>';
-    }
-
-    require '../connect.php';
+    include_once(__DIR__ . '/../dashboard_user_details.php');
     //current full date
     $today = date('Y-m-d');
 
@@ -18,15 +12,9 @@
     // Format the result as a human-readable date
     $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years before today
 
-    $id = $_GET['vkvbvjfgfikix']; //institution ID
-    $user_id = $_GET['fyfyfregby']; //registered by 1 = admin, 34 = ETE, 26 = BM, 28 = MF, 30 = SF
-    $reference_no = $_GET['nohbref']; //institution's Reference user ID
-    $country_id = $_GET['ncy']; //country id
-    $state_id = $_GET['mst']; //state id
-    $city_id = $_GET['hct']; //country id
-    $user_type=$_GET['usertype']; //user Type "in"
-    $editfor = $_GET['editfor']; // user status "pending" , "registered"
-    $reference_id = '';
+    $id = $_POST['id']; //institution ID
+    $status = $_POST['status']; //registered by 1 = admin, 34 = ETE, 26 = BM, 28 = MF, 30 = SF
+    $edittype = $_POST['edittype']; //edit type
 
     $stmt = $conn->prepare("SELECT * FROM `institution` where institution_id='" . $id . "' OR id = '" . $id . "'");
     $stmt->execute();
@@ -43,9 +31,9 @@
             $institution_pan=$row['institution_pan'];
             $email = $row['email'];
             $contact_no = $row['contact_no'];
-            $country = $row['country'];
-            $state = $row['state'];
-            $city = $row['city'];
+            $country_id = $row['country'];
+            $state_id = $row['state'];
+            $city_id = $row['city'];
             $pincode = $row['pincode'];
             $address = $row['address'];
             $account_name = $row['account_name'];
@@ -93,7 +81,7 @@
             }
 
             //get country
-            $countries = $conn->prepare("SELECT country_name FROM countries where id='" . $country . "' and status='1' ");
+            $countries = $conn->prepare("SELECT country_name FROM countries where id='" . $country_id . "' and status='1' ");
             $countries->execute();
             $countries->setFetchMode(PDO::FETCH_ASSOC);
             if ($countries->rowCount() > 0) {
@@ -102,7 +90,7 @@
             }
 
             //get state
-            $states = $conn->prepare("SELECT state_name FROM states where id='" . $state . "' and status='1' ");
+            $states = $conn->prepare("SELECT state_name FROM states where id='" . $state_id . "' and status='1' ");
             $states->execute();
             $states->setFetchMode(PDO::FETCH_ASSOC);
             if ($states->rowCount() > 0) {
@@ -110,7 +98,7 @@
                 $statename = $state['state_name'];
             }
             //get city
-            $cities = $conn->prepare("SELECT city_name FROM cities where id='" . $city . "' and status='1' ");
+            $cities = $conn->prepare("SELECT city_name FROM cities where id='" . $city_id . "' and status='1' ");
             $cities->execute();
             $cities->setFetchMode(PDO::FETCH_ASSOC);
             if ($cities->rowCount() > 0) {
@@ -198,14 +186,16 @@
         <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
         <!-- Loading Screen and Images size css  -->
         <link href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
-        <!-- App js -->
-        <!-- <script src="../assets/js/plugin.js"></script> -->
-
-        <!-- Plugins css -->
-        <!-- <link href="../assets/libs/dropzone/dropzone.css" rel="stylesheet" type="text/css" /> -->
+        <!-- custom Css-->
+        <link href="../assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <!-- custom Css developer-->
+        <link rel="stylesheet" href="../assets/css/custom.css" />
         <!-- Form CSS -->
         <link href="../assets/css/form.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="../assets/css/business_development_manager.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <link rel="stylesheet" href="../assets/css/validation.css" />
     </head>
     <body data-sidebar="dark">
         <div id="testemails"></div>
@@ -214,10 +204,35 @@
         <div id="layout-wrapper">
             <?php 
                 // top header logo, hamberger menu, fullscreen icon, profile
-                include_once '../header.php';
+                include_once 'business_development_manager_header.php';
+            ?>
+            <!-- removeNotificationModal -->
+            <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="NotificationModalbtn-close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mt-2 text-center">
+                                <lord-icon src="../../../../cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
+                                <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                                    <h4>Are you sure ?</h4>
+                                    <p class="text-muted mx-4 mb-0">Are you sure you want to remove this Notification ?</p>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                                <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn w-sm btn-danger" id="delete-notification">Yes, Delete It!</button>
+                            </div>
+                        </div>
 
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            <?php
                 // sidebar navigation menu 
-                include_once '../sidebar.php';
+                include_once 'business_development_manager_sidebar.php'; 
             ?>
             <!-- ============================================================== -->
             <!-- Start right Content here -->
@@ -229,13 +244,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Add Institution </h4>
-                                    <!-- <div class="page-title-right">
-                                        <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="view_institution.php">Institution</a></li>
-                                            <li class="breadcrumb-item active">Add Institution</li>
-                                        </ol>
-                                    </div> -->
+                                    <h4 class="mb-sm-0">Edit Institution </h4>
                                 </div>
                             </div>
                         </div>
@@ -263,30 +272,6 @@
                                     <p class="fw-bolder addTENum">01</p>
                                     <h4 class="fw-bolder text-dark align-content-center">Personal Information</h4>
                                 </div>
-                                <!-- <div class="col-md-4 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <label class="col-form-label" for="designation"> Designation<span class="text-danger">*</span></label>
-                                        <select id="designation" class="form-select">
-                                            <option value="">--Select Designation--</option>
-                                            <option value="executive_techno_enterprise">Executive Techno Enterprise</option>
-                                            <option value="business_mentor">Business Mentor</option>
-                                            <option value="master_franchisee">Master Franchisee</option>
-                                            <option value="sponsor_franchisee">Sponsor Franchisee</option>
-                                        </select>
-                                    </div>
-                                </div> -->
-                                <div class="form-group col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <label class="col-form-label">User ID & Name<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" readonly value="<?= $reference_no; ?>">
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-block mb-3">
-                                        <label class="col-form-label" for="reference_name"> Referance Name <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" readonly value="<?= $reference_no_fname.' '.$reference_no_lname; ?>">
-                                    </div>    
-                                </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="name">Institution Name<span class="text-danger">*</span></label>
@@ -305,22 +290,22 @@
                                         <div class="form-control">
                                             <div class="row">
                                                 <div class="col-lg-4 col-4 col-sm-6 col-12">
-                                                    <label class="radio-inline mb-0 ms-3" for="test3"><input type="radio" id="test3" class="form-check-input instituteType me-3" name="instituteType" value="bank" <?= ($types_of_institution == "Bank") ? 'checked' : ''; ?> disabled>Bank</label>
+                                                    <label class="radio-inline mb-0 ms-3" for="test3"><input type="radio" id="test3" class="form-check-input instituteType me-3" name="instituteType" value="bank" <?= ($types_of_institution == "bank") ? 'checked disabled' : ''; ?> >Bank</label>
                                                 </div>
                                                 <div class="col-lg-4 col-4 col-sm-6 col-12">
-                                                    <label class="radio-inline mb-0 ms-3" for="test4"><input type="radio" id="test4" class="form-check-input instituteType me-3" name="instituteType" value="nbfc" <?= ($types_of_institution == "nbfc") ? 'checked' : ''; ?> disabled>NBFC</label>
+                                                    <label class="radio-inline mb-0 ms-3" for="test4"><input type="radio" id="test4" class="form-check-input instituteType me-3" name="instituteType" value="nbfc" <?= ($types_of_institution == "nbfc") ? 'checked disabled' : ''; ?> >NBFC</label>
                                                 </div>
                                                 <div class="col-lg-4 col-4 col-sm-6 col-12">
-                                                    <label class="radio-inline mb-0 ms-3" for="test5"><input type="radio" id="test5" class="form-check-input instituteType me-3" name="instituteType" value="corperative_bank" <?= ($types_of_institution == "corperative_bank") ? 'checked' : ''; ?> disabled>Corperative Bank</label>
+                                                    <label class="radio-inline mb-0 ms-3" for="test5"><input type="radio" id="test5" class="form-check-input instituteType me-3" name="instituteType" value="corperative_bank" <?= ($types_of_institution == "corperative_bank") ? 'checked disabled' : ''; ?> >Corperative Bank</label>
                                                 </div>
                                                 <div class="col-lg-4 col-4 col-sm-6 col-12">
-                                                    <label class="radio-inline mb-0 ms-3" for="test6"><input type="radio" id="test6" class="form-check-input instituteType me-3" name="instituteType" value="society" <?= ($types_of_institution == "society") ? 'checked' : ''; ?> disabled>Society</label>
+                                                    <label class="radio-inline mb-0 ms-3" for="test6"><input type="radio" id="test6" class="form-check-input instituteType me-3" name="instituteType" value="society" <?= ($types_of_institution == "society") ? 'checked disabled' : ''; ?> >Society</label>
                                                 </div>
                                                 <div class="col-lg-4 col-4 col-sm-6 col-12">
-                                                    <label class="radio-inline mb-0 ms-3" for="test7"><input type="radio" id="test7" class="form-check-input instituteType me-3" name="instituteType" value="trust" <?= ($types_of_institution == "trust") ? 'checked' : ''; ?> disabled>Trust</label>
+                                                    <label class="radio-inline mb-0 ms-3" for="test7"><input type="radio" id="test7" class="form-check-input instituteType me-3" name="instituteType" value="trust" <?= ($types_of_institution == "trust") ? 'checked disabled' : ''; ?> >Trust</label>
                                                 </div>
                                                 <div class="col-lg-4 col-4 col-sm-6 col-12">
-                                                    <label class="radio-inline mb-0 ms-3" for="test8"><input type="radio" id="test8" class="form-check-input instituteType me-3" name="instituteType" value="other" <?= (!empty($types_of_institution) && !in_array(strtolower($types_of_institution), ['bank', 'nbfc', 'corperative_bank', 'society', 'trust'])) ? 'checked' : ''; ?> disabled>Others</label>
+                                                    <label class="radio-inline mb-0 ms-3" for="test8"><input type="radio" id="test8" class="form-check-input instituteType me-3" name="instituteType" value="other" <?= (!empty($types_of_institution) && !in_array(strtolower($types_of_institution), ['bank', 'nbfc', 'corperative_bank', 'society', 'trust'])) ? 'checked disabled' : ''; ?> >Others</label>
                                                 </div>
                                             </div>
                                             <input type="text" name="instituteTypeOther" id="instituteTypeOther" class="form-control mt-2" value="<?= $types_of_institution ?>" <?= (!empty($types_of_institution) && !in_array(strtolower($types_of_institution), ['bank', 'nbfc', 'corperative_bank', 'society', 'trust'])) ? 'style="display:block;"' : 'style="display:none;"' ; ?> readonly>
@@ -330,7 +315,11 @@
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="incorporationDate">Incorporation Date<span class="text-danger">*</span></label>
-                                        <input type="date" class="form-control" id="incorporationDate" placeholder="Enter Incorporation Date" value="<?= $incorporation_date; ?>">
+                                        <input type="date"
+                                            class="form-control"
+                                            id="incorporationDate"
+                                            placeholder="Enter Incorporation Date"
+                                            value="<?= (!empty($incorporation_date) && $incorporation_date != '0000-00-00') ? htmlspecialchars($incorporation_date) : '' ?>">
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12 mb-3">
@@ -344,14 +333,20 @@
                                                 ?>
                                                 <label class="col-form-label" for="country_cd">Code:</label>
                                                 <select class="form-control" id="country_cd">
-                                                    <?php 
-                                                        if($stmt->rowCount()>0){
-                                                            foreach (($stmt->fetchAll()) as $key => $row) {  
-                                                                echo '<option value="'.$row['country_code'].'">+'.$row['country_code'].' ('.$row['sortname'].')</option>'; 
-                                                            } 
-                                                        }else{ 
-                                                            echo '<option value="">Country not available</option>'; 
-                                                        } 
+                                                    <?php
+                                                        if ($stmt->rowCount() > 0) {
+                                                            foreach ($stmt->fetchAll() as $row) {
+
+                                                                $countryCode = $row['country_code'] ?? '';
+                                                                $sortName    = $row['sortname'] ?? 'N/A';
+
+                                                                echo '<option value="' . htmlspecialchars($countryCode) . '">'
+                                                                    . ($countryCode !== '' ? '+' . htmlspecialchars($countryCode) : 'N/A')
+                                                                    . ' (' . htmlspecialchars($sortName) . ')</option>';
+                                                            }
+                                                        } else {
+                                                            echo '<option value="">Country not available</option>';
+                                                        }
                                                     ?>
                                                 </select>
                                             </div> 
@@ -387,14 +382,15 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
+                                        
                                         <?php
                                             $stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
                                             $stmt->execute();                                         
                                             $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                         ?>
-                                        <label class="col-form-label" for="country">Country<span class="text-danger">*</span></label>
-                                        <select class="form-select" id="country">
-                                            <option value="<?php echo $country_id; ?>"><?php echo $countryname . ' (Already Selected)'; ?></option>
+                                        <label for="country" class="form-label fw-bold">Country <span class="text-danger fw-bolder">*</span></label>
+                                        <select class="form-select" id="country" aria-label="Floating label select example" required>
+                                            <option value="" selected >Select country </option>
                                             <?php 
                                                 if($stmt->rowCount()>0){
                                                     foreach (($stmt->fetchAll()) as $key => $row) {  
@@ -411,7 +407,7 @@
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="mystate">State<span class="text-danger">*</span></label>
                                         <select class="form-select" id="mystate" aria-label="Floating label select example">
-                                            <option value="<?php echo $state_id; ?>"><?php echo $statename . ' (Already Selected)'; ?></option>
+                                            
                                             <option value="">--Select country first--</option>
                                         </select>
                                     </div>
@@ -420,7 +416,7 @@
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="city">City<span class="text-danger">*</span></label>
                                         <select class="form-select" id="city" aria-label="Floating label select example">
-                                            <option value="<?php echo $city_id; ?>"><?php echo $city_name . ' (Already Selected)'; ?></option>
+                                            
                                             <option value="">--Select state first--</option>
                                         </select>
                                     </div>
@@ -449,25 +445,25 @@
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="accountName">Account Name<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="accountName" placeholder="Enter your Account Name" value="<?php echo $account_name; ?>" readonly>
+                                        <input type="text" class="form-control" id="accountName" placeholder="Enter your Account Name" value="<?php echo $account_name; ?>" >
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="accountNumber">Account Number<span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" id="accountNumber" placeholder="Enter your Account Number" value="<?php echo $account_number; ?>" readonly>
+                                        <input type="number" class="form-control" id="accountNumber" placeholder="Enter your Account Number" value="<?php echo $account_number; ?>" >
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="ifscCode">IFSC Code<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="ifscCode" placeholder="Enter your IFSC Code" value="<?php echo $ifsc_code; ?>" readonly>
+                                        <input type="text" class="form-control" id="ifscCode" placeholder="Enter your IFSC Code" value="<?php echo $ifsc_code; ?>" >
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="branchName">Bank & Branch Name<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="branchName" placeholder="Enter your Bank & Branch Name" value="<?php echo $bank_and_branch_name; ?>" readonly>
+                                        <input type="text" class="form-control" id="branchName" placeholder="Enter your Bank & Branch Name" value="<?php echo $bank_and_branch_name; ?>" >
                                     </div>
                                 </div>
                             </div>
@@ -482,7 +478,7 @@
                                 <div class="col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="activationPlan">Activation Plan<span class="text-danger">*</span></label>
-                                        <select id="activationPlan" class="form-select" disabled> 
+                                        <select id="activationPlan" class="form-select" > 
                                             <option value="<?php echo $amount; ?>"><?php echo $amount; ?></option>
                                             <option value="">--Select Activation Plan--</option> 
                                             <option value="FOC">FOC</option> 
@@ -496,9 +492,9 @@
                                 <div class="col-md-6 col-sm-6 " id="paymentMode">
                                     <label class="fw-bold col-form-label">Payment Mode: <span class="text-danger">*</span></label>
                                     <div class="form-control radioBtn d-flex justify-content-around" >
-                                        <label class="mb-0" for="cashPayment"><input type="radio" id="cashPayment" class="form-check-input payment me-3" name="payment" value="cash" <?php if ($payment_mode == "cash") { echo 'checked'; } ?> disabled >Cash</label>
-                                        <label class="mb-0" for="chequePayment"><input type="radio" id="chequePayment"  class="form-check-input payment me-3" name="payment" value="cheque" <?php if ($payment_mode == "cheque") { echo 'checked'; } ?> disabled >Cheque</label>
-                                        <label class="mb-0" for="onlinePayment"><input type="radio" id="onlinePayment"  class="form-check-input payment me-3" name="payment" value="online" <?php if ($payment_mode == "online") { echo 'checked'; } ?> disabled >UPI/NEFT</label>
+                                        <label class="mb-0" for="cashPayment"><input type="radio" id="cashPayment" class="form-check-input payment me-3" name="payment" value="cash" <?php if ($payment_mode == "cash") { echo 'checked disabled'; } ?>  >Cash</label>
+                                        <label class="mb-0" for="chequePayment"><input type="radio" id="chequePayment"  class="form-check-input payment me-3" name="payment" value="cheque" <?php if ($payment_mode == "cheque") { echo 'checked disabled'; } ?>  >Cheque</label>
+                                        <label class="mb-0" for="onlinePayment"><input type="radio" id="onlinePayment"  class="form-check-input payment me-3" name="payment" value="online" <?php if ($payment_mode == "online") { echo 'checked disabled'; } ?>  >UPI/NEFT</label>
                                     </div>
                                 </div>
                                 <div class="pb-3">
@@ -740,7 +736,7 @@
                             <div class="col-lg-12">
                                 <div class="d-flex justify-content-end gap-4 submitBtnBackground">
                                     <button type="button" class="btn actionBtn cancelBtn mb-2">Cancel</button>
-                                    <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftAdd">Save Draft</button>
+                                    <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftEdit">Save Draft</button>
                                     <button type="submit" class="btn actionBtn submitBtn mb-2" id="editInstitution">
                                         <i class="fa-regular fa-paper-plane me-2"></i>
                                         Submit Institution
@@ -769,14 +765,17 @@
         <!--end back-to-top-->
 
         <!-- JAVASCRIPT -->
+        <!-- JAVASCRIPT -->
         <script src="../assets/libs/jquery/jquery.min.js"></script>
         <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="../assets/libs/metismenu/metisMenu.min.js"></script>
         <script src="../assets/libs/simplebar/simplebar.min.js"></script>
         <script src="../assets/libs/node-waves/waves.min.js"></script>
+        <script src="../assets/libs/feather-icons/feather.min.js"></script>
+        <script src="../assets/libs/node-waves/waves.min.js"></script>
 
         <!-- add data to database js file -->
-        <script type="text/javascript" src="institution.js"></script>
+        <script type="text/javascript" src="js/institution.js"></script>
 
         <!-- apexcharts -->
         <!-- <script src="../assets/libs/apexcharts/apexcharts.min.js"></script> -->
@@ -786,6 +785,7 @@
 
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <!-- file upload code js file -->
         <script src="../../uploading/uploadTechnoAdmin.js"></script>
@@ -807,107 +807,10 @@
         </script>
         <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
         <script>
-            $(document).ready(function() {
-                var paymentMode = $(".payment:checked").val();
-                if (paymentMode == "cheque") {
-                    $("#chequeOpt").removeClass("d-none");
-                    $("#onlineOpt").addClass("d-none");
-                } else if (paymentMode == "online") {
-                    $("#onlineOpt").removeClass("d-none");
-                    $("#chequeOpt").addClass("d-none");
-                } else {
-                    $("#chequeOpt").addClass("d-none");
-                    $("#onlineOpt").addClass("d-none");
-                }
-            });
-            //select Designation
-            $('#designation').on('change', function() {
-                var designation = $('#designation').val();
-                // console.log(designation);
-                $.ajax({
-                    type:'POST',
-                    url:'../agents/get_user_Franchisee.php',
-                    data: "designation="+designation,
-                    success:function (e) {
-                        console.log(e);
-                        $('#user_id_name').html(e); 
-                    },
-                    error: function(err){
-                        console.log(err);
-                    },
-                });
-            });
-
-            // fetch User based on selected designation
-            $('#user_id_name').on('change', function(){
-                var user_id_name = $(this).val();
-                var designation = $('#designation').val();
-                $.ajax({
-                    type:'POST',
-                    url:'../agents/getUsers.php',
-                    data: 'user_id_name=' + user_id_name + '&designation=' + designation ,
-                    success:function(response){
-                    // console.log(response);
-                        $('#reference_name').val(response); 
-                    }
-                }); 
-               
-            }); 
-
-            $('#country').on('change', function(){
-                var countryID = $(this).val();
-                if(countryID){
-                    $.ajax({
-                        type:'POST',
-                        url:'../address/countrydata.php',
-                        data:'country_id='+countryID,
-                        success:function(htmll){
-                            $('#mystate').html(htmll); 
-                            $('#city').html('<option value="">Select state first</option>'); 
-                        }
-                    }); 
-                }else{
-                    $('#mystate').html('<option value="">Select country first</option>');
-                    $('#city').html('<option value="">Select state first</option>');
-                    $('#pin').val('');   
-                }
-            });
-                
-            $('#mystate').on('change', function(){
-                // alert();
-                var stateID = $(this).val();
-                if(stateID){
-                    $.ajax({
-                        type:'POST',
-                        url:'../address/countrydata.php',
-                        data:'state_id='+stateID,
-                        success:function(html){
-                            $('#city').html(html);
-                        }
-                    }); 
-                }else{
-                    $('#city').html('<option value="">Select state first</option>');
-                    $('#pin').val('');   
-                }
-            });
-
-            $('#city').on('change', function(){
-                var cityID = $(this).val();
-                if(cityID){
-                    $.ajax({
-                        type:'POST',
-                        url:'../address/pincode.php',
-                        data:'city_id='+cityID,
-                        success:function(response){
-                            // $('#pin').html(response);
-                            $('#pin').val(response); 
-                        }
-                    }); 
-                }else{
-                    $('#city').html('<option value="">Select state first</option>');
-                    $('#pin').val('');
-                }
-            });
+             
+            var selectedState = "<?= $state_id ?? '' ?>";
+            var selectedCity = "<?= $city_id ?? '' ?>";
+            var selectedCountry = "<?= $country_id ?? '' ?>";
 
             //Activation Plan
             $('#activationPlan').on('change', function() {
@@ -1115,6 +1018,137 @@
 
                 bindUploadEvents();
 
+                var paymentMode = $(".payment:checked").val();
+                if (paymentMode == "cheque") {
+                    $("#chequeOpt").removeClass("d-none");
+                    $("#onlineOpt").addClass("d-none");
+                } else if (paymentMode == "online") {
+                    $("#onlineOpt").removeClass("d-none");
+                    $("#chequeOpt").addClass("d-none");
+                } else {
+                    $("#chequeOpt").addClass("d-none");
+                    $("#onlineOpt").addClass("d-none");
+                }
+                selectedCountry = "<?= $country_id ?>";
+                selectedState   = "<?= $state_id ?>";
+                selectedCity    = "<?= $city_id ?>";
+
+                
+                // Address Information
+                $('#country').on('change', function () {
+
+                    var countryID = $(this).val();
+
+                    if (countryID) {
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '../address/countrydata.php',
+                            data: {
+                                country_id: countryID
+                            },
+                            success: function (html) {
+
+                                $('#mystate').html(html);
+
+                                if (selectedState != '') {
+
+                                    $('#mystate option').each(function () {
+
+                                        if ($(this).val() == selectedState) {
+                                            $(this).prop('selected', true);
+                                        }
+
+                                    });
+
+                                    $('#mystate').trigger('change');
+                                }
+
+                            }
+                        });
+
+                    } else {
+
+                        $('#mystate').html('<option value="">Select country first</option>');
+                        $('#city').html('<option value="">Select state first</option>');
+                        $('#pin').val('');
+                    }
+                });
+                    
+                $('#mystate').on('change', function () {
+
+                    var stateID = $(this).val();
+
+                    if (stateID) {
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '../address/countrydata.php',
+                            data: {
+                                state_id: stateID
+                            },
+                            success: function (html) {
+
+                                $('#city').html(html);
+
+                                if (selectedCity != '') {
+
+                                    $('#city option').each(function () {
+
+                                        if ($(this).val() == selectedCity) {
+                                            $(this).prop('selected', true);
+                                        }
+
+                                    });
+
+                                    $('#city').trigger('change');
+                                }
+
+                            }
+                        });
+
+                    } else {
+
+                        $('#city').html('<option value="">Select state first</option>');
+                        $('#pin').val('');
+                    }
+                });
+
+                $('#city').on('change', function () {
+
+                    var cityID = $(this).val();
+
+                    if (cityID) {
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '../address/pincode.php',
+                            data: {
+                                city_id: cityID
+                            },
+                            success: function (response) {
+
+                                response = $.trim(response);
+
+                                $('#pin').val(response || '');
+
+                            },
+                            error: function () {
+
+                                $('#pin').val('');
+
+                            }
+                        });
+
+                    } else {
+
+                        $('#pin').val('');
+
+                    }
+                });
+                $('#country').val(selectedCountry).trigger('change');
+                $('#pin').val(<?= json_encode($pincode) ?>);
+                
             });
 
         </script>
