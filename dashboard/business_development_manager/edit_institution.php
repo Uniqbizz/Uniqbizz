@@ -736,11 +736,13 @@
                             <div class="col-lg-12">
                                 <div class="d-flex justify-content-end gap-4 submitBtnBackground">
                                     <button type="button" class="btn actionBtn cancelBtn mb-2">Cancel</button>
+                                    <?php if($status == 4){ ?>
                                     <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftEdit">Save Draft</button>
                                     <button type="submit" class="btn actionBtn submitBtn mb-2" id="editInstitution">
                                         <i class="fa-regular fa-paper-plane me-2"></i>
                                         Submit Institution
                                     </button>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>
@@ -1150,7 +1152,30 @@
                 $('#pin').val(<?= json_encode($pincode) ?>);
                 
             });
+            $(".cancelBtn").on("click", function () {
 
+				Swal.fire({
+					title: "Are you sure?",
+					text: "You will be redirected to list page.",
+					icon: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#d63030",
+					cancelButtonColor: "#1b721bf2",
+					confirmButtonText: "Yes, Cancel",
+					cancelButtonText: "Continue Editing",
+					reverseButtons: true,
+					focusCancel: true
+				}).then((result) => {
+
+					if (result.isConfirmed) {
+
+						window.location.href = "institution_list.php";
+
+					}
+
+				});
+
+			});
         </script>
     </body>
 </html>
