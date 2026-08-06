@@ -149,10 +149,11 @@ function submitAddForm(actionType) {
 
     // Institution Types 
     var type_of_institution = $(".instituteType:checked").val(); //radio button values
+    var institution_type_value;
     if(type_of_institution == "other"){
-        var institution_type_value = $("#instituteTypeOther").val().trim(); // when selected "other" option on radio button take text box value
+        institution_type_value = $("#instituteTypeOther").val().trim(); // when selected "other" option on radio button take text box value
     }else{
-        var institution_type_value = $(".instituteType:checked").val(); // if "other" option not selected take radio button value
+        institution_type_value = $(".instituteType:checked").val(); // if "other" option not selected take radio button value
     }
 
     var email = $("#email").val().trim();
@@ -326,7 +327,6 @@ function submitAddForm(actionType) {
     }
     var dataObj = {
         action_type: actionType, // draft or submit
-        designation: designation,
         name: name,
         email: email,
         number_branch: number_branch,
@@ -366,14 +366,23 @@ function submitAddForm(actionType) {
     console.log(dataObj);
 
     $("#addInstitution").attr("disabled", "disabled");
-    // console.log(dataString);
-    $("#loading-overlay").show(); //loading screen
+        // console.log(dataString);
+    Swal.fire({
+        title: 'Please wait...',
+        text: 'Saving Institution Details...',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
     $.ajax({
         type: "POST",
-        url: "add_institution_data.php",
+        url: "models/institution/add_institution_data.php",
         data: dataObj,
         cache: false,
         success: function (data) {
+            Swal.close();
             console.log(data);
             if (data == 1) {
                 $("#loading-overlay").hide(); // Hide loading screen
@@ -385,7 +394,7 @@ function submitAddForm(actionType) {
                     confirmButtonText: 'OK'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = "view_institution.php";
+                        window.location.href = "institution_list.php";
                     }
                 });
 
@@ -434,10 +443,11 @@ function submitEditForm(actionType) {
 
     // Institution Types 
     var type_of_institution = $(".instituteType:checked").val(); //radio button values
+    var institution_type_value;
     if(type_of_institution == "other"){
-        var institution_type_value = $("#instituteTypeOther").val().trim(); // when selected "other" option on radio button take text box value
+        institution_type_value = $("#instituteTypeOther").val().trim(); // when selected "other" option on radio button take text box value
     }else{
-        var institution_type_value = $(".instituteType:checked").val(); // if "other" option not selected take radio button value
+        institution_type_value = $(".instituteType:checked").val(); // if "other" option not selected take radio button value
     }
 
     var email = $("#email").val().trim();
@@ -487,78 +497,132 @@ function submitEditForm(actionType) {
     var address_proof = getFilePath("#img_path6");
 
     var testE = $("#testemail").val(); // Email Validation Only one email address should be present in one user table
-
+    clearAllErrors();
     // ======================
     // VALIDATION ONLY FOR SUBMIT
     // ======================
     if (actionType === 'submit') {
         
         if (name.length < 3) {
-            alert("Enter proper name");
+            showError("name","Enter proper name");
             return;
         }
         else if (phone.length !== 10) {
-            alert("Enter valid mobile number");
+            showError("phone","Enter valid mobile number");
+            return;
+        }
+        else if (!phoneReg.test(phone)) {
+            showError("Enter Valid Mobile Number");
             return;
         }
         else if (email === "") {
-            alert("Enter email address");
+            showError("email","Enter email address");
             return;
         }
         else if (!emailReg.test(email)) {
-            alert("Enter valid email address");
-            return;
-        }
-        else if (country === "") {
-            alert("Select Country");
-            return;
-        }
-        else if (mystate === "") {
-            alert("Select State");
-            return;
-        }
-        else if (city === "") {
-            alert("Select City");
-            return;
-        }
-        else if (address === "") {
-            alert("Enter Address");
-            return;
-        }
-        else if (accountName === "") {
-            alert("Enter account holder name");
-            return;
-        }
-        else if (accountNumber === "") {
-            alert("Enter account number");
-            return;
-        }
-        else if (ifscCode === "") {
-            alert("Enter IFSC code");
-            return;
-        } 
-        else if (!phoneReg.test(phone)) {
-            alert("Enter Valid Mobile Number");
+            showError("email","Enter valid email address");
             return;
         }
         else if (testE == "1") {
-            alert("Email already exists");
+            showError("email","Email already exists");
             return;
         }
-        else if (!phoneReg.test(phone)) {
-            alert("Contact Number Must be 10 Digit");
+        else if (country === "") {
+            showError("country","Select Country");
             return;
         }
+        else if (mystate === "") {
+            showError("mystate","Select State");
+            return;
+        }
+        else if (city === "") {
+            showError("city","Select City");
+            return;
+        }
+        else if (address === "") {
+            showError("address","Enter Address");
+            return;
+        }
+        else if (accountName === "") {
+            showError("accountName","Enter account holder name");
+            return;
+        }
+        else if (accountNumber === "") {
+            showError("accountNumber","Enter account number");
+            return;
+        }
+        else if (ifscCode === "") {
+            showError("ifscCode","Enter IFSC code");
+            return;
+        } 
+        
+        if (activation_plan === "") {
+            showError("activationPlan","Please Select Activation Plan");
+            return;
+        }
+
+        if (activation_plan !== "FOC") {
+            if (!paymentMode) {
+                showPaymentError("Please Select Payment Mode");
+                return;
+            }
+
+            if (paymentMode === "cheque") {
+                if(!chequeNo) {
+                    showError("chequeNo","Please Enter Cheque Number");
+                    return;
+                }
+                if(!chequeDate) {
+                    showError("chequeDate","Please Enter Cheque Date");
+                    return;
+                }
+                if(!bankName) {
+                    showError("bankName","Please Enter Bank Name");
+                    return;
+                }
+            }
+
+            if (paymentMode === "online") {
+                if(!transactionNo) {
+                    showError("transactionNo","Please Enter Transaction Number");
+                    return;
+                }
+            }
+
+            if (!payment_proof) {
+                showFileError("Please Upload Payment Proof");
+                return;
+            }
+        }
+    } 
+    if (name.length < 3) {
+        showError("name","Enter proper name");
+        return;
+    }
+    else if (phone.length !== 10) {
+        showError("phone","Enter valid mobile number");
+        return;
+    }
+    else if (!phoneReg.test(phone)) {
+        showError("Enter Valid Mobile Number");
+        return;
+    }
+    else if (email === "") {
+        showError("email","Enter email address");
+        return;
+    }
+    else if (!emailReg.test(email)) {
+        showError("email","Enter valid email address");
+        return;
+    }
+    else if (testE == "1") {
+        showError("email","Email already exists");
+        return;
     } 
 
     var dataObj = {
         action_type: actionType, // draft or submit
-        // designation: designation,
-        // user_id_name: user_id_name,
-        // reference_name: reference_name,
-        editfor: editfor,
-        id: id,
-        ref_id: ref_id,
+        id:id,
         name: name,
         email: email,
         number_branch: number_branch,
@@ -599,23 +663,69 @@ function submitEditForm(actionType) {
 
     $("#editInstitution").attr("disabled", "disabled");
     // console.log(dataString);
-    $("#loading-overlay").show(); //loading screen
+    Swal.fire({
+        title: 'Please wait...',
+        text: 'Updating Institution Details...',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
     $.ajax({
         type: "POST",
-        url: "edit_institution_data.php",
+        url: "models/institution/edit_institution_data.php",
         data: dataObj,
         cache: false,
+        beforeSend: function () {
+            Swal.fire({
+                title: "Please wait...",
+                text: "Updating Institution",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+        },
         success: function (data) {
-            console.log(data);
+
+            Swal.close();
+
             if (data == 1) {
-                $("#loading-overlay").hide(); //loading screen
-                alert("Added Successfuly");
-                location.href = "view_institution.php";
+
+                Swal.fire({
+                    icon: "success",
+                    title: "Success!",
+                    text: "Institution updated successfully.",
+                    confirmButtonColor: "#3085d6"
+                }).then(() => {
+                    window.location.href = "institution_list.php";
+                });
+
             } else {
-                $("#loading-overlay").hide(); //loading screen
-                alert("Failed");
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Update Failed",
+                    text: "Unable to update the institution. Please try again.",
+                    confirmButtonColor: "#d33"
+                });
+
             }
         },
+        error: function () {
+
+            Swal.close();
+
+            Swal.fire({
+                icon: "error",
+                title: "Server Error",
+                text: "Something went wrong. Please try again later.",
+                confirmButtonColor: "#d33"
+            });
+
+        }
     });
     
 };

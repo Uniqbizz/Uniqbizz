@@ -32,8 +32,8 @@
             (
                 SELECT
                     sf.institution_id AS teuser_id,
-                    sf.firstname,
-                    sf.lastname,
+                    sf.name AS firstname,
+                    '' AS lastname,
                     sf.contact_no,
                     sf.email,
                     sf.register_date,
@@ -61,8 +61,8 @@
             (
                 SELECT
                     sf.institution_id AS teuser_id,
-                    sf.firstname,
-                    sf.lastname,
+                    sf.name AS firstname,
+                    '' AS lastname,
                     sf.contact_no,
                     sf.email,
                     sf.register_date,

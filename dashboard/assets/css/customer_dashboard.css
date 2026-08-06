@@ -705,12 +705,66 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control {
     display: flex;
     justify-content: center;
 }
+
 .confirmBtn:hover {
     background-color: #38b34f;
     color:#fff;
     border-radius: 10px;
     display: flex;
     justify-content: center;
+}
+.pendingBtn{
+    color:#ffbe0b !important;
+    border: 2px solid #ffbe0b !important;
+}
+.pendingBtn:hover {
+    color:#fff !important;
+    background-color: #ffbe0b !important;
+}
+/* Traveling - Primary */
+.travelingBtn{
+    color:#0d6efd !important;
+    border:2px solid #0d6efd !important;
+}
+.travelingBtn:hover{
+    color:#fff !important;
+    background-color:#0d6efd !important;
+}
+/* Cancelled - Danger */
+.cancelledBtn{
+    color:#dc3545 !important;
+    border:2px solid #dc3545 !important;
+}
+.cancelledBtn:hover{
+    color:#fff !important;
+    background-color:#dc3545 !important;
+}
+/* Refunded - Secondary */
+.refundedBtn{
+    color:#6c757d !important;
+    border:2px solid #6c757d !important;
+}
+.refundedBtn:hover{
+    color:#fff !important;
+    background-color:#6c757d !important;
+}
+/* Upcoming - Info */
+.upcomingBtn{
+    color:#0dcaf0 !important;
+    border:2px solid #0dcaf0 !important;
+}
+.upcomingBtn:hover{
+    color:#fff !important;
+    background-color:#0dcaf0 !important;
+}
+/* Completed */
+.completedBtn{
+    color:#6f42c1 !important;
+    border:2px solid #6f42c1 !important;
+}
+.completedBtn:hover{
+    color:#fff !important;
+    background-color:#6f42c1 !important;
 }
 .tripsImage {
     width: 160px !important;

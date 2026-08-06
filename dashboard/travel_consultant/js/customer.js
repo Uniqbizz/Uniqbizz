@@ -1228,7 +1228,7 @@ async function loadPin(cityID) {
 
 }
 async function initializeCustomer() {
-
+    var id = $('#id').val();
     const res = await ajaxPromise({
 
         url: "ajax/customer/edit_cu_load_data.php",
