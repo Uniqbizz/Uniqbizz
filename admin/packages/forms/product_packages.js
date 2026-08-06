@@ -1342,7 +1342,7 @@ function collectGeneralInfo() {
         dropPrice: $('#dropPrice').val()
 
     };
-    console.log(payLoadData.general_info);
+    // console.log(payLoadData.general_info);
     
 
 }
@@ -1891,19 +1891,28 @@ function validatePricing() {
 
 }
 function collectPolicy() {
-
+    console.log(window.attachments);
     let switchCoupon = $('#switchCoupon').is(':checked') ? 1 : 0;
     let switchCombine = $('#switchCombine').is(':checked') ? 1 : 0;
     let bookingPercentage = $('#bookingPercentage').val().trim();
     let bookingDay = $('#bookingDay').val().trim();
 
-    let tableData = [];
+    let existingDocuments = [];
+    let newDocuments = [];
+
+    // Reuse existing FormData if available
+    let formData = window.packageFormData || new FormData();
+
+    // Remove previously added documents if collectPolicy() can be called multiple times
+    if (typeof formData.delete === "function") {
+        formData.delete("documents[]");
+    }
 
     attachments.forEach(function (item) {
 
         if (item.existing) {
 
-            tableData.push({
+            existingDocuments.push({
                 id: item.id,
                 title: item.title,
                 fileName: item.file_name,
@@ -1912,7 +1921,7 @@ function collectPolicy() {
 
         } else {
 
-            tableData.push({
+            newDocuments.push({
                 id: item.id,
                 title: item.title,
                 fileName: item.file.name,
@@ -1922,8 +1931,8 @@ function collectPolicy() {
                 existing: false
             });
 
+            formData.append("documents[]", item.file);
         }
-
     });
 
     payLoadData.policy = {
@@ -1935,21 +1944,22 @@ function collectPolicy() {
             bookingPercentage,
             bookingDay
         },
-        documents: tableData,
-        deletedDocuments: deletedDocuments
+        existingDocuments,
+        documents: newDocuments,
+        deletedDocuments
     };
 
-    let formData = new FormData();
-
-    formData.append("payload", JSON.stringify(payLoadData));
-
-    attachments.forEach(item => {
-        if (!item.existing && item.file) {
-            formData.append("documents[]", item.file);
-        }
-    });
+    formData.set("payload", JSON.stringify(payLoadData));
 
     window.packageFormData = formData;
+    console.log("collectPolicy called");
+    console.log("Attachments:", attachments);
+
+    window.attachments.forEach((item, index) => {
+        console.log("Item", index, item);
+        console.log("File:", item.file);
+    });
+    
 }
 function validatePolicy() {
 
@@ -1988,7 +1998,7 @@ function validatePolicy() {
     // }
 
     // Build document metadata
-    attachments.forEach(function(item) {
+    window.attachments.forEach(function(item) {
 
         if (item.existing) {
 
@@ -2032,7 +2042,7 @@ function validatePolicy() {
 
     formData.append("payload", JSON.stringify(payLoadData));
 
-    attachments.forEach(item => {
+    window.attachments.forEach(item => {
         if (!item.existing && item.file) {
             formData.append("documents[]", item.file);
         }
@@ -2269,8 +2279,9 @@ $('#package_form_policy_nextBtn').on('click', function (e) {
 $("#update_form").on("click", function (e) {
 
     e.preventDefault();
-
-    if (!validateMedia()) {
+    
+    
+    if (!validateAndCollectAll()) {
         return false;
     }
 
@@ -2278,7 +2289,7 @@ $("#update_form").on("click", function (e) {
 
     formData.set("payload", JSON.stringify(payLoadData));
 
-    console.log(payLoadData);
+    // console.log(payLoadData);
 
     Swal.fire({
         title: "Creating Package...",
@@ -2361,9 +2372,15 @@ $("#edit_package").on("click", function (e) {
     let formData = new FormData();
 
     // Documents
-    $("#documentInput")[0]?.files &&
-    Array.from($("#documentInput")[0].files).forEach(file => {
-        formData.append("documents[]", file);
+    // Policy Documents
+    window.attachments.forEach(item => {
+
+        if (!item.existing && item.file) {
+
+            formData.append("documents[]", item.file);
+
+        }
+
     });
 
     // Gallery Images

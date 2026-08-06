@@ -34,6 +34,27 @@ $id = $_GET['pacId']; //package_id '156'
 $userId = $_SESSION['user_id']??'0';
 
 require 'connect.php';
+function parseFaqTxt($filePath)
+{
+    if (!file_exists($filePath)) {
+        return [];
+    }
+
+    $content = file_get_contents($filePath);
+
+    preg_match_all('/Q:\s*(.*?)\s*A:\s*(.*?)(?=\n\s*Q:|$)/is', $content, $matches, PREG_SET_ORDER);
+
+    $faqs = [];
+
+    foreach ($matches as $match) {
+        $faqs[] = [
+            'question' => trim($match[1]),
+            'answer'   => trim($match[2])
+        ];
+    }
+
+    return $faqs;
+}
 // package
 $stmt = $conn->prepare("SELECT * FROM package WHERE id = $id");
 $stmt->execute();
@@ -131,7 +152,14 @@ if($user_type_id_value == '11'){
 }else {
     $ta_markup_price_val = 0;
 }
-
+$stmtPolicy = $conn->prepare("
+    SELECT title, file_name
+    FROM package_policy_document
+    WHERE package_id = ?
+    ORDER BY id ASC
+");
+$stmtPolicy->execute([$id]);
+$policies = $stmtPolicy->fetchAll(PDO::FETCH_ASSOC);
 //share model start 30-07-2026
 
 $title = "Bizzmirth Holidays Pvt Ltd";
@@ -418,7 +446,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                             </div>
                                             <div class="fontSize1">
                                                 <p class="fw-bolder">Best Time</p>
-                                                <p class="text-muted"><?= htmlspecialchars($best_season ?? '', ENT_QUOTES, 'UTF-8') ?></p>
+                                                <p class="text-muted"><?= htmlspecialchars($package['best_season'] ?? '', ENT_QUOTES, 'UTF-8') ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -555,15 +583,36 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                                 </div>
                                             </div>
                                         </div>
+                                        <?php
+                                        $highlights = json_decode($itinery['highlights'], true);
+                                        ?>
+
                                         <div id="highlights" class="section-block">
                                             <div class="card cardBackgroundColor rounded-3 p-3">
                                                 <h5 class="fw-bolder">Highlights</h5>
-                                                <div class="d-flex gap-3 mt-2">
-                                                    <div class="highlightIcon">
-                                                        <i class="ri-arrow-right-up-box-line"></i>
+
+                                                <?php if (!empty($highlights)): ?>
+                                                    <?php foreach ($highlights as $highlight): ?>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="highlightIcon" style="background-color: #b2e0b1;">
+                                                                <i class="ri-arrow-right-up-box-line text-success"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center mb-0">
+                                                                <?= htmlspecialchars($highlight) ?>
+                                                            </p>
+                                                        </div>
+                                                    <?php endforeach; ?>
+                                                <?php else: ?>
+                                                    <div class="d-flex gap-3 mt-2">
+                                                        <div class="highlightIcon" style="background-color: #b2e0b1;">
+                                                            <i class="ri-arrow-right-up-box-line text-success"></i>
+                                                        </div>
+                                                        <p class="text-muted fontSize3 align-content-center mb-0">
+                                                            No highlights available.
+                                                        </p>
                                                     </div>
-                                                    <p class="text-muted fontSize3 align-content-center">Exclusive merchandise available at each show</p>
-                                                </div>
+                                                <?php endif; ?>
+
                                             </div>
                                         </div>
                                         <div id="itinerary" class="section-block">
@@ -646,115 +695,84 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                             </div>
                                         </div>
                                         <div id="inclusion" class="section-block">
+                                            
+                                            <?php
+                                            $inclusions = json_decode($itinery['inclusion'], true);
+                                            $exclusions = json_decode($itinery['exclusion'], true);
+                                            ?>
+
                                             <div class="card cardBackgroundColor rounded-3 p-3">
                                                 <h5 class="fw-bolder">Inclusion & Exclusion</h5>
+
                                                 <div class="row">
+
+                                                    <!-- Inclusions -->
                                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="checkIcon">
-                                                                <i class="ri-checkbox-circle-fill"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center">Exclusive Merchandise</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="checkIcon">
-                                                                <i class="ri-checkbox-circle-fill"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center">Early Venue Access</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="checkIcon">
-                                                                <i class="ri-checkbox-circle-fill"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center">Acoustic Performance</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="checkIcon">
-                                                                <i class="ri-checkbox-circle-fill"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center">Tour Program</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="checkIcon">
-                                                                <i class="ri-checkbox-circle-fill"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center">Transportation (if applicable)</p>
-                                                        </div>
+                                                        <?php if (!empty($inclusions)): ?>
+                                                            <?php foreach ($inclusions as $inclusion): ?>
+                                                                <div class="d-flex gap-3 mt-2">
+                                                                    <div class="checkIcon">
+                                                                        <i class="ri-checkbox-circle-fill text-success"></i>
+                                                                    </div>
+                                                                    <p class="text-muted fontSize3 align-content-center mb-0">
+                                                                        <?= htmlspecialchars($inclusion) ?>
+                                                                    </p>
+                                                                </div>
+                                                            <?php endforeach; ?>
+                                                        <?php else: ?>
+                                                            <p class="text-muted mt-2 mb-0">No inclusions available.</p>
+                                                        <?php endif; ?>
                                                     </div>
+
+                                                    <!-- Exclusions -->
                                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="closeIcon">
-                                                                <i class="ri-close-circle-fill"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center">Travel Expenses</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="closeIcon">
-                                                                <i class="ri-close-circle-fill"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center">Accommodation</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="closeIcon">
-                                                                <i class="ri-close-circle-fill"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center">Food and Beverage</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="closeIcon">
-                                                                <i class="ri-close-circle-fill"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center">Parking Fees</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="closeIcon">
-                                                                <i class="ri-close-circle-fill"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center">Personal Expenses</p>
-                                                        </div>
+                                                        <?php if (!empty($exclusions)): ?>
+                                                            <?php foreach ($exclusions as $exclusion): ?>
+                                                                <div class="d-flex gap-3 mt-2">
+                                                                    <div class="closeIcon">
+                                                                        <i class="ri-close-circle-fill text-danger"></i>
+                                                                    </div>
+                                                                    <p class="text-muted fontSize3 align-content-center mb-0">
+                                                                        <?= htmlspecialchars($exclusion) ?>
+                                                                    </p>
+                                                                </div>
+                                                            <?php endforeach; ?>
+                                                        <?php else: ?>
+                                                            <p class="text-muted mt-2 mb-0">No exclusions available.</p>
+                                                        <?php endif; ?>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
                                         <div id="policies" class="section-block">
                                             <div class="card cardBackgroundColor rounded-3 p-3">
                                                 <h5 class="fw-bolder mb-3">Policies</h5>
-                                                <div class="policyItem">
-                                                    <div class="d-flex align-items-center gap-3">
-                                                        <div class="highlightIcon">
-                                                            <i class="ri-file-pdf-line"></i>
+
+                                                <?php if (!empty($policies)): ?>
+                                                    <?php foreach ($policies as $policy): ?>
+                                                        <div class="policyItem">
+                                                            <div class="d-flex align-items-center gap-3">
+                                                                <div class="highlightIcon" style="background-color: #b2e0b1;">
+                                                                    <i class="ri-file-pdf-line text-success"></i>
+                                                                </div>
+                                                                <p class="mb-0"><?= htmlspecialchars($policy['title']) ?></p>
+                                                            </div>
+
+                                                            <a href="uploading/package_policy_attachments/<?= urlencode($policy['file_name']) ?>"
+                                                            download
+                                                            class="downloadBtn">
+                                                                <i class="ri-download-line"></i>
+                                                            </a>
                                                         </div>
-                                                        <p class="mb-0">Package Brochure</p>
-                                                    </div>
-                                                    <a href="uploads/package-brochure.pdf" download class="downloadBtn">
-                                                        <i class="ri-download-line"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="policyItem">
-                                                    <div class="d-flex align-items-center gap-3">
-                                                        <div class="highlightIcon">
-                                                            <i class="ri-file-pdf-line"></i>
-                                                        </div>
-                                                        <p class="mb-0">Detailed Itinerary</p>
-                                                    </div>
-                                                    <a href="uploads/detailed-itinerary.pdf" download class="downloadBtn">
-                                                        <i class="ri-download-line"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="policyItem">
-                                                    <div class="d-flex align-items-center gap-3">
-                                                        <div class="highlightIcon">
-                                                            <i class="ri-file-pdf-line"></i>
-                                                        </div>
-                                                        <p class="mb-0">Terms & Conditions</p>
-                                                    </div>
-                                                    <a href="uploads/terms-conditions.pdf" download class="downloadBtn">
-                                                        <i class="ri-download-line"></i>
-                                                    </a>
-                                                </div>
+                                                    <?php endforeach; ?>
+                                                <?php else: ?>
+                                                    <p class="text-muted mb-0">No policy documents available.</p>
+                                                <?php endif; ?>
+
                                             </div>
                                         </div>
-                                        <div id="faqs" class="section-block">
+                                        <!-- <div id="faqs" class="section-block">
                                             <div class="card cardBackgroundColor rounded-3 p-3 pb-0">
                                                 <h5 class="fw-bolder">Frequently Asked Questions</h5>
                                                 <div class="faq-wrapper mt-2">
@@ -792,6 +810,77 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                                             <p>Pet policy goes here.</p>
                                                         </div>
                                                     </div>
+
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <div id="faqs" class="section-block">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 pb-0">
+                                                <h5 class="fw-bolder">Frequently Asked Questions</h5>
+
+                                                <div class="faq-wrapper mt-2">
+
+                                                    <?php
+                                                    // Get FAQ document
+                                                    $stmt = $conn->prepare("
+                                                        SELECT file_name
+                                                        FROM package_policy_document
+                                                        WHERE package_id = ?
+                                                        AND LOWER(title) = 'faq'
+                                                        LIMIT 1
+                                                    ");
+                                                    $stmt->execute([$id]);
+                                                    $faqDoc = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                                                    $faqs = [];
+
+                                                    if ($faqDoc) {
+
+                                                        // Parse your Word document here and return:
+                                                        // [
+                                                        //     ['question'=>'...', 'answer'=>'...'],
+                                                        //     ['question'=>'...', 'answer'=>'...']
+                                                        // ]
+                                                        $faqs = parseFaqTxt(
+                                                            "uploading/package_policy_attachments/" . $faqDoc['file_name']
+                                                        );
+                                                    }
+                                                    ?>
+
+                                                    <?php if (!empty($faqs)): ?>
+
+                                                        <?php foreach ($faqs as $index => $faq): ?>
+
+                                                            <div class="faq-item <?= $index == 0 ? 'active' : '' ?>"
+                                                                <?= $index >= 3 ? 'style="display:none;"' : '' ?>>
+
+                                                                <div class="faq-header">
+                                                                    <h5><?= htmlspecialchars($faq['question']) ?></h5>
+
+                                                                    <i class="<?= $index == 0 ? 'ri-eye-line' : 'ri-eye-off-line' ?> faq-icon"></i>
+                                                                </div>
+
+                                                                <div class="faq-body">
+                                                                    <p><?= nl2br(htmlspecialchars($faq['answer'])) ?></p>
+                                                                </div>
+
+                                                            </div>
+
+                                                        <?php endforeach; ?>
+
+                                                        <?php if (count($faqs) > 3): ?>
+                                                            <div class="text-center mt-3 mb-3">
+                                                                <button id="viewMoreFaq" class="btn btn-outline-primary">
+                                                                    View More
+                                                                </button>
+                                                            </div>
+                                                        <?php endif; ?>
+
+                                                    <?php else: ?>
+
+                                                        <p class="text-muted">No FAQs available.</p>
+
+                                                    <?php endif; ?>
 
                                                 </div>
                                             </div>
@@ -3119,6 +3208,35 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                 }
             });
 
+            let visibleFaqs = 3;
+
+            $("#viewMoreFaq").on("click", function () {
+
+                let hiddenFaqs = $(".faq-item").filter(function () {
+                    return $(this).css("display") === "none";
+                });
+
+                if (hiddenFaqs.length > 0) {
+
+                    hiddenFaqs.slideDown();
+
+                    $(this).text("View Less");
+
+                } else {
+
+                    $(".faq-item").each(function(index) {
+
+                        if (index >= 3) {
+                            $(this).slideUp();
+                        }
+
+                    });
+
+                    $(this).text("View More");
+
+                }
+
+            });
         </script>
     </body>
 

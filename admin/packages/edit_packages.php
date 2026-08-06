@@ -2374,8 +2374,8 @@
             const addDocumentBtn = document.getElementById("addDocumentBtn");
 
             let selectedFile = null;
-            let attachments = [];
-            let deletedDocuments = [];
+            window.attachments = window.attachments || [];
+            window.deletedDocuments = window.deletedDocuments || [];
             <?php if (!empty($packagePolicyDocuments)) { ?>
                 document.addEventListener("DOMContentLoaded", function () {
 
@@ -2383,7 +2383,7 @@
 
                     <?php foreach ($packagePolicyDocuments as $doc) { ?>
 
-                        attachments.push({
+                        window.attachments.push({
                             id: <?= $doc['id'] ?>,
                             title: <?= json_encode($doc['title']) ?>,
                             file: null,
@@ -2535,7 +2535,7 @@
                 });
 
                 // Save actual file object
-                attachments.push({
+                window.attachments.push({
                     id: rowId,
                     title: title,
                     file: selectedFile
@@ -2592,7 +2592,7 @@
                     deletedDocuments.push(id);
                 }
 
-                attachments = attachments.filter(file => file.id !== id);
+                window.attachments = window.attachments.filter(file => file.id !== id);
 
                 row.remove();
 
