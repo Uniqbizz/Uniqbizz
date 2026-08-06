@@ -354,9 +354,9 @@ try {
 
             ':coupon_adjustment'             => $mydata['pricing']['couponAdjustment'],
 
-            ':guest_amount'                  => $mydata['pricing']['guestAmount'],
+            ':guest_amount'                  => $mydata['pricing']['guestAmount']??0.00,
 
-            ':guest_percentage'              => $mydata['pricing']['guestPercentage']
+            ':guest_percentage'              => $mydata['pricing']['guestPercentage']??0
 
         ]);
 

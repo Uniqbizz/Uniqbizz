@@ -1324,9 +1324,11 @@ function collectGeneralInfo() {
         pacValidity: $('#pacValidity').val(),
         season: $('#season').val(),
         pacLocation: $('#pacLocation').val(),
-        cities: [...document.querySelectorAll(".highlight-tag")]
-			.map(tag => tag.dataset.city || tag.textContent.trim())
-			.filter(city => city),
+        cities: [...new Set(
+            [...document.querySelectorAll(".highlight-tag")]
+                .map(tag => tag.dataset.city?.trim())
+                .filter(Boolean)
+        )],
 
         description: $('#description').val(),
         descriptionDetail: $('#descriptionDetail').val(),
@@ -1340,6 +1342,8 @@ function collectGeneralInfo() {
         dropPrice: $('#dropPrice').val()
 
     };
+    console.log(payLoadData.general_info);
+    
 
 }
 function validateGeneralInfo() {
