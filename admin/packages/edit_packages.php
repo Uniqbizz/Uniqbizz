@@ -368,7 +368,7 @@
                                                                 <?php
                                                                 if (!empty($package['cities'])) {
                                                                     $cities = json_decode($package['cities'], true);
-
+                                                                    // print_r($cities);
                                                                     if (is_array($cities)) {
                                                                         foreach ($cities as $city) {
                                                                             ?>
@@ -1224,10 +1224,10 @@
                                                                         <tr>
                                                                             <td>CTE</td>
                                                                             <td class="text-end" id="cteComPer"><?= $product_payout_data_new['CTE']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="cteComm" data-value="0">&#8377; <?= $packagePricingTeChain['cte_direct_commission'] ?></td>
+                                                                            <td class="text-end editable-comm" id="cteComm" data-value="0">&#8377; <?= $packagePricingTeChain['cte_direct_commission']??0.00 ?></td>
                                                                             <td class="text-end" id="cteInsPer"><?= $product_payout_data_new['CTE']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="cteIns" data-value="0">&#8377; <?= $packagePricingTeChain['cte_incentive'] ?></td>
-                                                                            <td class="text-end editable-total" id="cteCommInsTotal">&#8377; <?= $packagePricingTeChain['cte_mark_up_total'] ?></td>
+                                                                            <td class="text-end editable-ins" id="cteIns" data-value="0">&#8377; <?= $packagePricingTeChain['cte_incentive']??0.00 ?></td>
+                                                                            <td class="text-end editable-total" id="cteCommInsTotal">&#8377; <?= $packagePricingTeChain['cte_mark_up_total']??0.00 ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -1239,10 +1239,10 @@
                                                                         <tr>
                                                                             <td>ETE</td>
                                                                             <td class="text-end" id="eteComPer"><?= $product_payout_data_new['ETE']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="eteComm" data-value="0">&#8377; <?= $packagePricingTeChain['ete_mark_up_total'] ?></td>
+                                                                            <td class="text-end editable-comm" id="eteComm" data-value="0">&#8377; <?= $packagePricingTeChain['ete_mark_up_total']??0.00 ?></td>
                                                                             <td class="text-end" id="eteInsPer"><?= $product_payout_data_new['ETE']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="eteIns" data-value="0">&#8377; <?= $packagePricingTeChain['ete_mark_up_total'] ?></td>
-                                                                            <td class="text-end editable-total" id="eteCommInsTotal">&#8377; <?= $packagePricingTeChain['ete_mark_up_total'] ?></td>
+                                                                            <td class="text-end editable-ins" id="eteIns" data-value="0">&#8377; <?= $packagePricingTeChain['ete_mark_up_total']??0.00 ?></td>
+                                                                            <td class="text-end editable-total" id="eteCommInsTotal">&#8377; <?= $packagePricingTeChain['ete_mark_up_total']??0.00 ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -1254,10 +1254,10 @@
                                                                         <tr>
                                                                             <td>STE</td>
                                                                             <td class="text-end" id="steComPer"><?= $product_payout_data_new['STE']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="steComm" data-value="0">&#8377; <?= $packagePricingTeChain['ste_mark_up_total'] ?></td>
+                                                                            <td class="text-end editable-comm" id="steComm" data-value="0">&#8377; <?= $packagePricingTeChain['ste_mark_up_total']??0.00 ?></td>
                                                                             <td class="text-end" id="steInsPer"><?= $product_payout_data_new['STE']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="steIns" data-value="0">&#8377; <?= $packagePricingTeChain['ste_mark_up_total'] ?></td>
-                                                                            <td class="text-end editable-total" id="steCommInsTotal">&#8377; <?= $packagePricingTeChain['ste_mark_up_total'] ?></td>
+                                                                            <td class="text-end editable-ins" id="steIns" data-value="0">&#8377; <?= $packagePricingTeChain['ste_mark_up_total']??0.00 ?></td>
+                                                                            <td class="text-end editable-total" id="steCommInsTotal">&#8377; <?= $packagePricingTeChain['ste_mark_up_total']??0.00 ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -1270,10 +1270,10 @@
                                                                         <tr>
                                                                             <td>TE | Franchisee</td>
                                                                             <td class="text-end" id="cTeFComPer"><?= $product_payout_data_new['TE']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="cTeFComm" data-value="0">&#8377; <?= $packagePricingTeChain['te_mark_up_total'] ?></td>
+                                                                            <td class="text-end editable-comm" id="cTeFComm" data-value="0">&#8377; <?= $packagePricingTeChain['te_mark_up_total']??0.00 ?></td>
                                                                             <td class="text-end" id="cTeFInsPer"><?= $product_payout_data_new['TE']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="cTeFIns" data-value="0">&#8377; <?= $packagePricingTeChain['te_mark_up_total'] ?></td>
-                                                                            <td class="text-end editable-total" id="cTeFCommInsTotal">&#8377; <?= $packagePricingTeChain['te_mark_up_total'] ?></td>
+                                                                            <td class="text-end editable-ins" id="cTeFIns" data-value="0">&#8377; <?= $packagePricingTeChain['te_mark_up_total']??0.00 ?></td>
+                                                                            <td class="text-end editable-total" id="cTeFCommInsTotal">&#8377; <?= $packagePricingTeChain['te_mark_up_total']??0.00 ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -1289,15 +1289,15 @@
                                                                     <tfoot>
                                                                         <td class="fw-bolder">Total Distribution</td>
                                                                         <td class="text-end fw-bolder"></td>
-                                                                        <td class="text-end fw-bolder" id="cteChainCommTotal">&#8377; <?= $packagePricingTeChain['total_commission_amount'] ?></td>
+                                                                        <td class="text-end fw-bolder" id="cteChainCommTotal">&#8377; <?= $packagePricingTeChain['total_commission_amount']??0.00 ?></td>
                                                                         <td class="text-end fw-bolder"></td>
-                                                                        <td class="text-end fw-bolder" id="cteChainInsTotal">&#8377; <?= $packagePricingTeChain['total_incentive_amount'] ?></td>
-                                                                        <td class="text-end fw-bolder" id="cteChainCommInsTotal">&#8377; <?= $packagePricingTeChain['total_mark_up'] ?></td>
+                                                                        <td class="text-end fw-bolder" id="cteChainInsTotal">&#8377; <?= $packagePricingTeChain['total_incentive_amount']??0.00 ?></td>
+                                                                        <td class="text-end fw-bolder" id="cteChainCommInsTotal">&#8377; <?= $packagePricingTeChain['total_mark_up']??0.00 ?></td>
                                                                     </tfoot>
                                                                 </table>
                                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="number" id="cteSuspence" name="cteSuspence" placeholder="cteSuspence" class="form-control" readonly value="<?= $packagePricingTeChain['suspense'] ?>">
+                                                                        <input type="number" id="cteSuspence" name="cteSuspence" placeholder="cteSuspence" class="form-control" readonly value="<?= $packagePricingTeChain['suspense']??0.00 ?>">
                                                                         <label for="cteSuspence" class="required">Suspence</label>
                                                                     </div>
                                                                 </div>
@@ -1317,10 +1317,10 @@
                                                                         <tr>
                                                                             <td>BM | SF | MF</td>
                                                                             <td class="text-end" id="teBmComPer"><?= $product_payout_data['BM']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="teBmComm" data-value="0">&#8377; <?= $packagePricingMarkup['bm_direct_commission'] ?></td>
+                                                                            <td class="text-end editable-comm" id="teBmComm" data-value="0">&#8377; <?= $packagePricingMarkup['bm_direct_commission']??0.00 ?></td>
                                                                             <td class="text-end" id="teBmInsPer"><?= $product_payout_data['BM']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="teBmIns" data-value="0">&#8377; <?= $packagePricingMarkup['bm_incentive'] ?></td>
-                                                                            <td class="text-end editable-total" id="teBmComInsTotal">&#8377; <?= $packagePricingMarkup['bm_mark_up_total'] ?></td>
+                                                                            <td class="text-end editable-ins" id="teBmIns" data-value="0">&#8377; <?= $packagePricingMarkup['bm_incentive']??0.00 ?></td>
+                                                                            <td class="text-end editable-total" id="teBmComInsTotal">&#8377; <?= $packagePricingMarkup['bm_mark_up_total']??0.00 ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -1332,10 +1332,10 @@
                                                                         <tr>
                                                                             <td>TE | Franchisee</td>
                                                                             <td class="text-end" id="bmTeComPer"><?= $product_payout_data['TE']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="bmTeComm" data-value="0">&#8377; <?= $packagePricingMarkup['ca_direct_commission'] ?></td>
+                                                                            <td class="text-end editable-comm" id="bmTeComm" data-value="0">&#8377; <?= $packagePricingMarkup['ca_direct_commission']??0.00 ?></td>
                                                                             <td class="text-end" id="bmTeInsPer"><?= $product_payout_data['TE']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="bmTeIns" data-value="0">&#8377; <?= $packagePricingMarkup['ca_incentive'] ?></td>
-                                                                            <td class="text-end editable-total" id="bmTeCommInsTotal">&#8377; <?= $packagePricingMarkup['ca_mark_up_total'] ?></td>
+                                                                            <td class="text-end editable-ins" id="bmTeIns" data-value="0">&#8377; <?= $packagePricingMarkup['ca_incentive']??0.00 ?></td>
+                                                                            <td class="text-end editable-total" id="bmTeCommInsTotal">&#8377; <?= $packagePricingMarkup['ca_mark_up_total']??0.00 ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -1348,15 +1348,15 @@
                                                                     <tfoot>
                                                                         <td class="fw-bolder">Total Distribution</td>
                                                                         <td class="text-end fw-bolder"></td>
-                                                                        <td class="text-end fw-bolder" id="bmTeChainCommTotal">&#8377; <?= $packagePricingMarkup['total_commission_amount'] ?></td>
+                                                                        <td class="text-end fw-bolder" id="bmTeChainCommTotal">&#8377; <?= $packagePricingMarkup['total_commission_amount']??0.00 ?></td>
                                                                         <td class="text-end fw-bolder"></td>
-                                                                        <td class="text-end fw-bolder" id="bmTeChainInsTotal">&#8377; <?= $packagePricingMarkup['total_incentive_amount'] ?></td>
-                                                                        <td class="text-end fw-bolder" id="bmTeChainCommInsTotal">&#8377; <?= $packagePricingMarkup['total_mark_up'] ?></td>
+                                                                        <td class="text-end fw-bolder" id="bmTeChainInsTotal">&#8377; <?= $packagePricingMarkup['total_incentive_amount']??0.00 ?></td>
+                                                                        <td class="text-end fw-bolder" id="bmTeChainCommInsTotal">&#8377; <?= $packagePricingMarkup['total_mark_up']??0.00 ?></td>
                                                                     </tfoot>
                                                                 </table>
                                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="number" id="bmSuspence" name="bmSuspence" placeholder="bmSuspence" class="form-control" readonly value="<?= $packagePricingMarkup['suspense'] ?>">
+                                                                        <input type="number" id="bmSuspence" name="bmSuspence" placeholder="bmSuspence" class="form-control" readonly value="<?= $packagePricingMarkup['suspense']??0.00 ?>">
                                                                         <label for="bmSuspence" class="required">Suspence</label>
                                                                     </div>
                                                                 </div>
@@ -1389,10 +1389,10 @@
                                                                         <tr>
                                                                             <td>BM |SF | MF</td>
                                                                             <td class="text-end" id="iBmComPer"><?= $institutionData['roles']['BM']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="iBmComm" data-value="0">&#8377; <?= $packagePricingInstitution['bm_direct_commission'] ?></td>
+                                                                            <td class="text-end editable-comm" id="iBmComm" data-value="0">&#8377; <?= $packagePricingInstitution['bm_direct_commission']??0.00 ?></td>
                                                                             <td class="text-end" id="iBmInsPer"><?= $institutionData['roles']['BM']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="iBmIns" data-value="0">&#8377; <?= $packagePricingInstitution['bm_incentive'] ?></td>
-                                                                            <td class="text-end editable-total" id="iBmCommInsTotal">&#8377; <?= $packagePricingInstitution['bm_mark_up_total'] ?></td>
+                                                                            <td class="text-end editable-ins" id="iBmIns" data-value="0">&#8377; <?= $packagePricingInstitution['bm_incentive']??0.00 ?></td>
+                                                                            <td class="text-end editable-total" id="iBmCommInsTotal">&#8377; <?= $packagePricingInstitution['bm_mark_up_total']??0.00 ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -1404,10 +1404,10 @@
                                                                         <tr>
                                                                             <td>Institute</td>
                                                                             <td class="text-end">As Per Slab</td>
-                                                                            <td class="text-end editable-comm" id="bmIComm" data-value="0">&#8377; <?= $packagePricingInstitution['ins_markup'] ?></td>
+                                                                            <td class="text-end editable-comm" id="bmIComm" data-value="0">&#8377; <?= $packagePricingInstitution['ins_markup']??0.00 ?></td>
                                                                             <td class="text-end">NA</td>
                                                                             <td class="text-end" id="bmIIns">NA</td>
-                                                                            <td class="text-end editable-total" id="bmICommInsTotal">&#8377; <?= $packagePricingInstitution['ins_markup'] ?></td>
+                                                                            <td class="text-end editable-total" id="bmICommInsTotal">&#8377; <?= $packagePricingInstitution['ins_markup']??0.00 ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
                                                                                     <a href="#" class="edit-price-distribution text-primary">
@@ -1420,15 +1420,15 @@
                                                                     <tfoot>
                                                                         <td class="fw-bolder">Total Distribution</td>
                                                                         <td class="text-end fw-bolder"></td>
-                                                                        <td class="text-end fw-bolder" id="bmIComTotal">&#8377; <?= $packagePricingInstitution['total_commission_amount'] ?></td>
+                                                                        <td class="text-end fw-bolder" id="bmIComTotal">&#8377; <?= $packagePricingInstitution['total_commission_amount']??0.00 ?></td>
                                                                         <td class="text-end fw-bolder"></td>
-                                                                        <td class="text-end fw-bolder" id="bmIInsTotal">&#8377; <?= $packagePricingInstitution['total_incentive_amount'] ?></td>
-                                                                        <td class="text-end fw-bolder" id="bmIComInsTotal">&#8377; <?= $packagePricingInstitution['total_mark_up'] ?></td>
+                                                                        <td class="text-end fw-bolder" id="bmIInsTotal">&#8377; <?= $packagePricingInstitution['total_incentive_amount']??0.00 ?></td>
+                                                                        <td class="text-end fw-bolder" id="bmIComInsTotal">&#8377; <?= $packagePricingInstitution['total_mark_up']??0.00 ?></td>
                                                                     </tfoot>
                                                                 </table>
                                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                                     <div class="form-floating mb-3">
-                                                                        <input type="number" id="bmISuspence" name="bmISuspence" placeholder="bmISuspence" class="form-control" readonly value="<?= $packagePricingInstitution['suspense'] ?>">
+                                                                        <input type="number" id="bmISuspence" name="bmISuspence" placeholder="bmISuspence" class="form-control" readonly value="<?= $packagePricingInstitution['suspense']??0.00 ?>">
                                                                         <label for="bmISuspence" class="required">Suspence</label>
                                                                     </div>
                                                                 </div>
@@ -1606,27 +1606,27 @@
                                                                     </div>
                                                                     <div class="inputFieldAlignment">
                                                                         <div class="input-group inputWidth">
-                                                                            <input type="number" class="form-control" id="cancellationPercentage1" name="cancellationPercentage1" placeholder="0" value="<?= $CancelPolicy['policy_1'] ?>">
+                                                                            <input type="number" class="form-control" id="cancellationPercentage1" name="cancellationPercentage1" placeholder="0" value="<?= $CancelPolicy['policy_1']??0 ?>">
                                                                             <span class="input-group-text">%</span>
                                                                             <small class="error-message" id="cancellationPercentage1_error"></small>
                                                                         </div>
                                                                         <div class="input-group inputWidth">
-                                                                            <input type="number" class="form-control" id="cancellationPercentage2" name="cancellationPercentage2" placeholder="0" value="<?= $CancelPolicy['policy_2'] ?>">
+                                                                            <input type="number" class="form-control" id="cancellationPercentage2" name="cancellationPercentage2" placeholder="0" value="<?= $CancelPolicy['policy_2']??0 ?>">
                                                                             <span class="input-group-text">%</span>
                                                                             <small class="error-message" id="cancellationPercentage2_error"></small>
                                                                         </div>
                                                                         <div class="input-group inputWidth">
-                                                                            <input type="number" class="form-control" id="cancellationPercentage3" name="cancellationPercentage3" placeholder="0" value="<?= $CancelPolicy['policy_3'] ?>">
+                                                                            <input type="number" class="form-control" id="cancellationPercentage3" name="cancellationPercentage3" placeholder="0" value="<?= $CancelPolicy['policy_3']??0 ?>">
                                                                             <span class="input-group-text">%</span>
                                                                             <small class="error-message" id="cancellationPercentage3_error"></small>
                                                                         </div>
                                                                         <div class="input-group inputWidth">
-                                                                            <input type="number" class="form-control" id="cancellationPercentage4" name="cancellationPercentage4" placeholder="0" value="<?= $CancelPolicy['policy_4'] ?>">
+                                                                            <input type="number" class="form-control" id="cancellationPercentage4" name="cancellationPercentage4" placeholder="0" value="<?= $CancelPolicy['policy_4']??0 ?>">
                                                                             <span class="input-group-text">%</span>
                                                                             <small class="error-message" id="cancellationPercentage4_error"></small>
                                                                         </div>
                                                                         <div class="input-group inputWidth">
-                                                                            <input type="number" class="form-control" id="cancellationPercentage5" name="cancellationPercentage5" placeholder="0" value="<?= $CancelPolicy['policy_5'] ?>">
+                                                                            <input type="number" class="form-control" id="cancellationPercentage5" name="cancellationPercentage5" placeholder="0" value="<?= $CancelPolicy['policy_5']??0 ?>">
                                                                             <span class="input-group-text">%</span>
                                                                             <small class="error-message" id="cancellationPercentage5_error"></small>
                                                                         </div>
@@ -1977,9 +1977,20 @@
                     if (result.isConfirmed) {
                         let city = result.value.trim();
 
+                        const exists = [...document.querySelectorAll(".highlight-tag")]
+                            .some(tag => (tag.dataset.city || "").trim().toLowerCase() === city.toLowerCase());
+
+                        if (exists) {
+                            Swal.fire({
+                                icon: "warning",
+                                title: "City already added"
+                            });
+                            return;
+                        }
+
                         let tag = document.createElement("div");
                         tag.className = "highlight-tag";
-                        tag.dataset.city = city; // Store city name
+                        tag.dataset.city = city;
 
                         tag.innerHTML = `
                             <span class="city-name">${city}</span>
@@ -2363,8 +2374,8 @@
             const addDocumentBtn = document.getElementById("addDocumentBtn");
 
             let selectedFile = null;
-            let attachments = [];
-            let deletedDocuments = [];
+            window.attachments = window.attachments || [];
+            window.deletedDocuments = window.deletedDocuments || [];
             <?php if (!empty($packagePolicyDocuments)) { ?>
                 document.addEventListener("DOMContentLoaded", function () {
 
@@ -2372,7 +2383,7 @@
 
                     <?php foreach ($packagePolicyDocuments as $doc) { ?>
 
-                        attachments.push({
+                        window.attachments.push({
                             id: <?= $doc['id'] ?>,
                             title: <?= json_encode($doc['title']) ?>,
                             file: null,
@@ -2524,7 +2535,7 @@
                 });
 
                 // Save actual file object
-                attachments.push({
+                window.attachments.push({
                     id: rowId,
                     title: title,
                     file: selectedFile
@@ -2581,7 +2592,7 @@
                     deletedDocuments.push(id);
                 }
 
-                attachments = attachments.filter(file => file.id !== id);
+                window.attachments = window.attachments.filter(file => file.id !== id);
 
                 row.remove();
 

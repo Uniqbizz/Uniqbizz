@@ -354,9 +354,9 @@ try {
 
             ':coupon_adjustment'             => $mydata['pricing']['couponAdjustment'],
 
-            ':guest_amount'                  => $mydata['pricing']['guestAmount'],
+            ':guest_amount'                  => $mydata['pricing']['guestAmount']??0.00,
 
-            ':guest_percentage'              => $mydata['pricing']['guestPercentage']
+            ':guest_percentage'              => $mydata['pricing']['guestPercentage']??0
 
         ]);
 
@@ -838,7 +838,7 @@ try {
     | Package Policy Documents
     |--------------------------------------------------------------------------
     */
-
+    
     if (
         isset($_FILES['documents']) &&
         !empty($_FILES['documents']['name'][0]) &&

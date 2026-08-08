@@ -34,6 +34,27 @@ $id = $_GET['pacId']; //package_id '156'
 $userId = $_SESSION['user_id']??'0';
 
 require 'connect.php';
+function parseFaqTxt($filePath)
+{
+    if (!file_exists($filePath)) {
+        return [];
+    }
+
+    $content = file_get_contents($filePath);
+
+    preg_match_all('/Q:\s*(.*?)\s*A:\s*(.*?)(?=\n\s*Q:|$)/is', $content, $matches, PREG_SET_ORDER);
+
+    $faqs = [];
+
+    foreach ($matches as $match) {
+        $faqs[] = [
+            'question' => trim($match[1]),
+            'answer'   => trim($match[2])
+        ];
+    }
+
+    return $faqs;
+}
 // package
 $stmt = $conn->prepare("SELECT * FROM package WHERE id = $id");
 $stmt->execute();
@@ -43,6 +64,9 @@ $sub_cat_id = $package['sub_category_id'];
 $hotel_cat_id = $package['category_hotel_id'];
 $meal_cat_id = $package['category_meal_id'];
 $validity = $package['validity'] ?? 0;
+$package_keywords = $package['package_keywords'] ?? '';
+$location  = $package['location'] ?? '';
+$destination = $package['destination'] ?? '';
 
 $tour_days_total = $package['tour_days'] ?? 0;
 $tour_days = $tour_days_total - 1;
@@ -131,7 +155,14 @@ if($user_type_id_value == '11'){
 }else {
     $ta_markup_price_val = 0;
 }
-
+$stmtPolicy = $conn->prepare("
+    SELECT title, file_name
+    FROM package_policy_document
+    WHERE package_id = ?
+    ORDER BY id ASC
+");
+$stmtPolicy->execute([$id]);
+$policies = $stmtPolicy->fetchAll(PDO::FETCH_ASSOC);
 //share model start 30-07-2026
 
 $title = "Bizzmirth Holidays Pvt Ltd";
@@ -157,7 +188,77 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
     . $_SERVER['REQUEST_URI'];
 
 //share model end
+//package similar list
+    // Get latest 12 packages
+    $sqlPack = $conn->prepare("
+        SELECT *
+        FROM package
+        WHERE status = 1
+        AND id != ?
+        AND (
+                package_keywords LIKE ?
+                OR destination LIKE ?
+                OR location LIKE ?
+            )
+        ORDER BY id DESC
+        LIMIT 10
+    ");
 
+    $sqlPack->execute([
+        $id,
+        "%$package_keywords%",
+        "%$destination%",
+        "%$location%"
+    ]);
+    
+    $packages = $sqlPack->fetchAll(PDO::FETCH_ASSOC);
+    
+    $package_array = [];
+    
+    foreach ($packages as $package) {
+    
+        // Get package price
+        $sqlPackPrice = $conn->prepare("
+            SELECT total_package_price_per_adult
+            FROM package_pricing
+            WHERE package_id = ?
+            ORDER BY id DESC
+            LIMIT 1
+        ");
+    
+        $sqlPackPrice->execute([$package['id']]);
+    
+        $packagePrice = $sqlPackPrice->fetch(PDO::FETCH_ASSOC);
+    
+        // Get first package image
+        $sqlPackImage = $conn->prepare("
+            SELECT image
+            FROM package_pictures
+            WHERE package_id = ?
+            ORDER BY id ASC
+            LIMIT 1
+        ");
+    
+        $sqlPackImage->execute([$package['id']]);
+    
+        $packageImage = $sqlPackImage->fetch(PDO::FETCH_ASSOC);
+    
+        // Calculate duration
+        $days = (int)$package['tour_days'];
+        $nights = $days - 1;
+    
+        $package_duration = $nights . "N / " . $days . "D";
+    
+        // Store in multidimensional array
+        $package_array[] = [
+            "packid"    => $package['id'],
+            "title"     => $package['name'],
+            "duration"  => $package_duration,
+            "price"     => $packagePrice['total_package_price_per_adult'] ?? 0,
+            "image"     => $packageImage['image'] ?? '',
+            "link"      => "package-details.php?id=" . $package['id']
+        ];
+    }
 
 ?>
 
@@ -418,7 +519,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                             </div>
                                             <div class="fontSize1">
                                                 <p class="fw-bolder">Best Time</p>
-                                                <p class="text-muted"><?= htmlspecialchars($best_season ?? '', ENT_QUOTES, 'UTF-8') ?></p>
+                                                <p class="text-muted"><?= htmlspecialchars($package['best_season'] ?? '', ENT_QUOTES, 'UTF-8') ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -555,15 +656,36 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                                 </div>
                                             </div>
                                         </div>
+                                        <?php
+                                        $highlights = json_decode($itinery['highlights'], true);
+                                        ?>
+
                                         <div id="highlights" class="section-block">
                                             <div class="card cardBackgroundColor rounded-3 p-3">
                                                 <h5 class="fw-bolder">Highlights</h5>
-                                                <div class="d-flex gap-3 mt-2">
-                                                    <div class="highlightIcon">
-                                                        <i class="ri-arrow-right-up-box-line"></i>
+
+                                                <?php if (!empty($highlights)): ?>
+                                                    <?php foreach ($highlights as $highlight): ?>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="highlightIcon" style="background-color: #b2e0b1;">
+                                                                <i class="ri-arrow-right-up-box-line text-success"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center mb-0">
+                                                                <?= htmlspecialchars($highlight) ?>
+                                                            </p>
+                                                        </div>
+                                                    <?php endforeach; ?>
+                                                <?php else: ?>
+                                                    <div class="d-flex gap-3 mt-2">
+                                                        <div class="highlightIcon" style="background-color: #b2e0b1;">
+                                                            <i class="ri-arrow-right-up-box-line text-success"></i>
+                                                        </div>
+                                                        <p class="text-muted fontSize3 align-content-center mb-0">
+                                                            No highlights available.
+                                                        </p>
                                                     </div>
-                                                    <p class="text-muted fontSize3 align-content-center">Exclusive merchandise available at each show</p>
-                                                </div>
+                                                <?php endif; ?>
+
                                             </div>
                                         </div>
                                         <div id="itinerary" class="section-block">
@@ -646,115 +768,84 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                             </div>
                                         </div>
                                         <div id="inclusion" class="section-block">
+                                            
+                                            <?php
+                                            $inclusions = json_decode($itinery['inclusion'], true);
+                                            $exclusions = json_decode($itinery['exclusion'], true);
+                                            ?>
+
                                             <div class="card cardBackgroundColor rounded-3 p-3">
                                                 <h5 class="fw-bolder">Inclusion & Exclusion</h5>
+
                                                 <div class="row">
+
+                                                    <!-- Inclusions -->
                                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="checkIcon">
-                                                                <i class="ri-checkbox-circle-fill"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center">Exclusive Merchandise</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="checkIcon">
-                                                                <i class="ri-checkbox-circle-fill"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center">Early Venue Access</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="checkIcon">
-                                                                <i class="ri-checkbox-circle-fill"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center">Acoustic Performance</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="checkIcon">
-                                                                <i class="ri-checkbox-circle-fill"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center">Tour Program</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="checkIcon">
-                                                                <i class="ri-checkbox-circle-fill"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center">Transportation (if applicable)</p>
-                                                        </div>
+                                                        <?php if (!empty($inclusions)): ?>
+                                                            <?php foreach ($inclusions as $inclusion): ?>
+                                                                <div class="d-flex gap-3 mt-2">
+                                                                    <div class="checkIcon">
+                                                                        <i class="ri-checkbox-circle-fill text-success"></i>
+                                                                    </div>
+                                                                    <p class="text-muted fontSize3 align-content-center mb-0">
+                                                                        <?= htmlspecialchars($inclusion) ?>
+                                                                    </p>
+                                                                </div>
+                                                            <?php endforeach; ?>
+                                                        <?php else: ?>
+                                                            <p class="text-muted mt-2 mb-0">No inclusions available.</p>
+                                                        <?php endif; ?>
                                                     </div>
+
+                                                    <!-- Exclusions -->
                                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="closeIcon">
-                                                                <i class="ri-close-circle-fill"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center">Travel Expenses</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="closeIcon">
-                                                                <i class="ri-close-circle-fill"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center">Accommodation</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="closeIcon">
-                                                                <i class="ri-close-circle-fill"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center">Food and Beverage</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="closeIcon">
-                                                                <i class="ri-close-circle-fill"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center">Parking Fees</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="closeIcon">
-                                                                <i class="ri-close-circle-fill"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center">Personal Expenses</p>
-                                                        </div>
+                                                        <?php if (!empty($exclusions)): ?>
+                                                            <?php foreach ($exclusions as $exclusion): ?>
+                                                                <div class="d-flex gap-3 mt-2">
+                                                                    <div class="closeIcon">
+                                                                        <i class="ri-close-circle-fill text-danger"></i>
+                                                                    </div>
+                                                                    <p class="text-muted fontSize3 align-content-center mb-0">
+                                                                        <?= htmlspecialchars($exclusion) ?>
+                                                                    </p>
+                                                                </div>
+                                                            <?php endforeach; ?>
+                                                        <?php else: ?>
+                                                            <p class="text-muted mt-2 mb-0">No exclusions available.</p>
+                                                        <?php endif; ?>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
                                         <div id="policies" class="section-block">
                                             <div class="card cardBackgroundColor rounded-3 p-3">
                                                 <h5 class="fw-bolder mb-3">Policies</h5>
-                                                <div class="policyItem">
-                                                    <div class="d-flex align-items-center gap-3">
-                                                        <div class="highlightIcon">
-                                                            <i class="ri-file-pdf-line"></i>
+
+                                                <?php if (!empty($policies)): ?>
+                                                    <?php foreach ($policies as $policy): ?>
+                                                        <div class="policyItem">
+                                                            <div class="d-flex align-items-center gap-3">
+                                                                <div class="highlightIcon" style="background-color: #b2e0b1;">
+                                                                    <i class="ri-file-pdf-line text-success"></i>
+                                                                </div>
+                                                                <p class="mb-0"><?= htmlspecialchars($policy['title']) ?></p>
+                                                            </div>
+
+                                                            <a href="uploading/package_policy_attachments/<?= urlencode($policy['file_name']) ?>"
+                                                            download
+                                                            class="downloadBtn">
+                                                                <i class="ri-download-line"></i>
+                                                            </a>
                                                         </div>
-                                                        <p class="mb-0">Package Brochure</p>
-                                                    </div>
-                                                    <a href="uploads/package-brochure.pdf" download class="downloadBtn">
-                                                        <i class="ri-download-line"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="policyItem">
-                                                    <div class="d-flex align-items-center gap-3">
-                                                        <div class="highlightIcon">
-                                                            <i class="ri-file-pdf-line"></i>
-                                                        </div>
-                                                        <p class="mb-0">Detailed Itinerary</p>
-                                                    </div>
-                                                    <a href="uploads/detailed-itinerary.pdf" download class="downloadBtn">
-                                                        <i class="ri-download-line"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="policyItem">
-                                                    <div class="d-flex align-items-center gap-3">
-                                                        <div class="highlightIcon">
-                                                            <i class="ri-file-pdf-line"></i>
-                                                        </div>
-                                                        <p class="mb-0">Terms & Conditions</p>
-                                                    </div>
-                                                    <a href="uploads/terms-conditions.pdf" download class="downloadBtn">
-                                                        <i class="ri-download-line"></i>
-                                                    </a>
-                                                </div>
+                                                    <?php endforeach; ?>
+                                                <?php else: ?>
+                                                    <p class="text-muted mb-0">No policy documents available.</p>
+                                                <?php endif; ?>
+
                                             </div>
                                         </div>
-                                        <div id="faqs" class="section-block">
+                                        <!-- <div id="faqs" class="section-block">
                                             <div class="card cardBackgroundColor rounded-3 p-3 pb-0">
                                                 <h5 class="fw-bolder">Frequently Asked Questions</h5>
                                                 <div class="faq-wrapper mt-2">
@@ -792,6 +883,77 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                                             <p>Pet policy goes here.</p>
                                                         </div>
                                                     </div>
+
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <div id="faqs" class="section-block">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 pb-0">
+                                                <h5 class="fw-bolder">Frequently Asked Questions</h5>
+
+                                                <div class="faq-wrapper mt-2">
+
+                                                    <?php
+                                                    // Get FAQ document
+                                                    $stmt = $conn->prepare("
+                                                        SELECT file_name
+                                                        FROM package_policy_document
+                                                        WHERE package_id = ?
+                                                        AND LOWER(title) = 'faq'
+                                                        LIMIT 1
+                                                    ");
+                                                    $stmt->execute([$id]);
+                                                    $faqDoc = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                                                    $faqs = [];
+
+                                                    if ($faqDoc) {
+
+                                                        // Parse your Word document here and return:
+                                                        // [
+                                                        //     ['question'=>'...', 'answer'=>'...'],
+                                                        //     ['question'=>'...', 'answer'=>'...']
+                                                        // ]
+                                                        $faqs = parseFaqTxt(
+                                                            "uploading/package_policy_attachments/" . $faqDoc['file_name']
+                                                        );
+                                                    }
+                                                    ?>
+
+                                                    <?php if (!empty($faqs)): ?>
+
+                                                        <?php foreach ($faqs as $index => $faq): ?>
+
+                                                            <div class="faq-item <?= $index == 0 ? 'active' : '' ?>"
+                                                                <?= $index >= 3 ? 'style="display:none;"' : '' ?>>
+
+                                                                <div class="faq-header">
+                                                                    <h5><?= htmlspecialchars($faq['question']) ?></h5>
+
+                                                                    <i class="<?= $index == 0 ? 'ri-eye-line' : 'ri-eye-off-line' ?> faq-icon"></i>
+                                                                </div>
+
+                                                                <div class="faq-body">
+                                                                    <p><?= nl2br(htmlspecialchars($faq['answer'])) ?></p>
+                                                                </div>
+
+                                                            </div>
+
+                                                        <?php endforeach; ?>
+
+                                                        <?php if (count($faqs) > 3): ?>
+                                                            <div class="text-center mt-3 mb-3">
+                                                                <button id="viewMoreFaq" class="btn btn-outline-primary">
+                                                                    View More
+                                                                </button>
+                                                            </div>
+                                                        <?php endif; ?>
+
+                                                    <?php else: ?>
+
+                                                        <p class="text-muted">No FAQs available.</p>
+
+                                                    <?php endif; ?>
 
                                                 </div>
                                             </div>
@@ -2248,207 +2410,6 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                 }
             });
 
-            // function product_package_payout() {
-            //     return new Promise((resolve, reject) => {
-            //         var packageID = $('#package_id').val();
-            //         var userID = $('#user_id').val();
-            //         var cuID = $('#cust_id').val();
-            //         var no_of_adult = $('#b_no_adult').val();
-            //         var no_of_child = $('#b_no_child').val();
-            //         var ta_markup = ta_markup_price ?? 0;
-            //         var book_id = $('#book_id').val();
-            //         var tour_start_date = $('#b_date').val();
-            //         // console.log(packageID + ' ' + userID + ' ' + cuID +' '+ no_of_adult + ' ' + ta_markup+ ' '+book_id+' '+tour_start_date);
-            //         dataString = {
-            //             packageID: packageID,
-            //             userID: userID,
-            //             cuID: cuID,
-            //             no_of_adult: no_of_adult,
-            //             no_of_child: no_of_child,
-            //             ta_markup: ta_markup,
-            //             book_id: book_id,
-            //             tour_start_date: tour_start_date,
-            //         };
-            //         let data = JSON.stringify(dataString);
-            //         console.log(data);
-            //         $.ajax({
-            //             type: "POST",
-            //             url: "assets/submit/product_package_payout.php",
-            //             data: data,
-            //             headers: {
-            //                 "Content-Type": "application/json",
-            //                 "X-CSRF-TOKEN": $('meta[name="csrf-token').attr('content')
-            //             },
-            //             success: function(res) {
-            //                 // console.log(res);
-            //                 if (res == '1') {
-            //                     alert("SUCCESS");
-            //                     console.log(res);
-            //                     // setTimeout(() => {
-            //                     //     location.reload();
-            //                     // }, 2000);
-            //                     resolve(res); // Resolve the promise on success
-            //                 } else {
-            //                     alert("UNSUCCESS");
-            //                     console.log(res);
-            //                     // setTimeout(() => {
-            //                     //     location.reload();
-            //                     // }, 2000);
-            //                     resolve(res); // Resolve with unsuccessful result
-            //                 }
-            //             },
-            //             error: function(err) {
-            //                 console.log(err);
-            //                 reject(err); // Reject the promise on error
-            //             }
-            //         });
-            //     });
-            // }
-
-            // function getTourData() {
-            //     return new Promise((resolve, reject) => {
-            //         var cust_id = $("#cust_id").val();
-            //         var package_id = $("#package_id").val();
-            //         var name = $("#b_name").val();
-            //         var email = $("#b_email").val();
-            //         var phone = $("#b_phn_no").val();
-            //         var date = $("#b_date").val();
-            //         // will generate current time stamp payment id 
-            //         var payment_id = makepayid(25)
-            //         var paid_amount = $('#amountInput').val()
-            //         var selectedValue = $("input[name='inlineRadioOptions']:checked").val();
-            //         var paytype
-            //         //coupon details
-            //         var selectedOption = $('#coupon_select option:selected');
-            //         var couponDiscount = selectedOption.data('discount') || 0;
-            //         var couponCode = $('#coupon_select').val();
-            //         //payouts part
-            //         var packageID = $('#package_id').val();
-            //         var userID = $('#user_id').val();
-            //         var cuID = $('#cust_id').val();
-            //         var no_of_adult = $('#b_no_adult').val();
-            //         var no_of_child = $('#b_no_child').val();
-            //         var ta_markup = ta_markup_price ?? 0;
-            //         //var book_id = $('#book_id').val();
-            //         var tour_start_date = $('#b_date').val();
-            //         var discounted_price = $('#get_total_offer_price').text();
-
-            //         if (selectedValue == 'option1') {
-            //             pay_type = 1 //full payment
-            //         } //if part payment is seleted
-            //         else if (selectedValue == 'option2') {
-            //             pay_type = $("#payTypeSelect").val(); // 2 for 2 parts and 3 for 2 parts
-            //         }
-            //         if (partRadio.checked && (payTypeSelect.value === "" || payTypeSelect.value === "--Select the Pay Type")) {
-            //             alert("Please select a valid payment type.");
-            //             event.preventDefault(); // Prevent form submission
-            //             return false;
-            //         } else {
-            //             // get payers details for travel agent
-            //             if (user_type == 11) {
-            //                 payee_id = user_cust_id;
-            //                 payee_name = $("#payee_name").val();
-            //                 payee_email = $("#payee_email").val();
-            //                 payee_contact = $("#payee_contact").val();
-            //             }
-            //             var formdata = {
-            //                 user_cust_id: user_cust_id,
-            //                 cust_id: cust_id,
-            //                 package_id: package_id,
-            //                 name: name,
-            //                 email: email,
-            //                 phone: phone,
-            //                 date: date,
-            //                 adults: no_adult,
-            //                 child: no_child,
-            //                 infants: total_infants,
-            //                 total_price: package_price.innerText,
-            //                 ta_markup: ta_markup_price,
-            //                 members: [],
-            //                 payee_name: payee_name,
-            //                 payee_id: payee_id,
-            //                 payment_id: payment_id,
-            //                 paid_amount: paid_amount,
-            //                 pay_type: pay_type,
-            //                 couponCode: couponCode,
-            //                 couponDiscount: couponDiscount,
-            //                 packageID: packageID,
-            //                 userID: userID,
-            //                 cuID: cuID,
-            //                 no_of_adult: no_of_adult,
-            //                 no_of_child: no_of_child,
-            //                 ta_markup: ta_markup,
-            //                 tour_start_date: tour_start_date,
-            //                 discounted_price: discounted_price,
-            //             };
-            //             names.forEach(function(name, i) {
-            //                 formdata.members.push({
-            //                     'name': name,
-            //                     'age': ages[i],
-            //                     'gender': genders[i]
-            //                 });
-            //             });
-            //             console.log("formdata");
-            //             console.log(formdata);
-            //             //resolve(formdata)
-            //             // Book Package
-            //             let data = JSON.stringify(formdata);
-            //             $.ajax({
-            //                 type: "POST",
-            //                 url: "assets/submit/book-tickets.php",
-            //                 data: data,
-            //                 headers: {
-            //                     "Content-Type": "application/json",
-            //                     "X-CSRF-TOKEN": $('meta[name="csrf-token').attr('content')
-            //                 },
-            //                 success: function(res) {
-
-            //                     //$('#book_id').val(res.bookid);
-            //                     if (res == 1) {
-            //                         console.log("success payment");
-            //                         hideTourMemberForm();
-            //                         // empty fields
-            //                         // $("#b_name").val('');
-            //                         // $("#b_email").val('');
-            //                         // $("#b_phn_no").val('');
-            //                         // $("#b_date").val('');
-            //                         // $("#b_no_adult").val('');
-            //                         // $("#b_no_child").val('');
-            //                         // $("#b_no_infants").val('');
-
-            //                         // names.forEach(function(data, i) {
-            //                         //     data.value = "";
-            //                         // });
-            //                         // ages.forEach(function(data, i) {
-            //                         //     data.value = "";
-            //                         // });
-            //                         // genders.forEach(function(data, i) {
-            //                         //     data.value = "male";
-            //                         // });
-
-            //                         alert('Booking is successful')
-            //                         resolve(res); // Resolve the promise on success
-            //                         // location.reload();
-            //                         //make new snackbar
-            //                         // showBottomSnackBar("Success !! Order placed for Booking ");
-            //                         // setTimeout(function() {
-            //                         //     location.reload();
-            //                         // }, 4000);
-            //                     } else {
-            //                         alert("failed to book");
-            //                         resolve(res); // Resolve with unsuccessful result
-            //                     }
-            //                 },
-            //                 error: function(err) {
-            //                     console.log(err);
-            //                     reject(err); // Reject the promise on error
-            //                 }
-            //             });
-            //         }
-            //         //console.log('paytype:' + paytype);
-            //     });
-            // }
-
             // generate order id
 
             function makeid(length) {
@@ -2930,79 +2891,84 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
             });
         </script>
         <script>
-            const packages = [
-                {
-                    title: "Phuket Getaway",
-                    duration: "4 Nights / 5 Days",
-                    price: "22,999",
-                    image: "assets/images/package/package-11.jpg",
-                    link: "#"
-                },
-                {
-                    title: "Bali Bliss",
-                    duration: "5 Nights / 6 Days",
-                    price: "28,999",
-                    image: "assets/images/package/package-2.png",
-                    link: "#"
-                },
-                {
-                    title: "Singapore Explorer",
-                    duration: "4 Nights / 5 Days",
-                    price: "39,999",
-                    image: "assets/images/package/package-3.png",
-                    link: "#"
-                },
-                {
-                    title: "Dubai Dazzle",
-                    duration: "5 Nights / 6 Days",
-                    price: "42,999",
-                    image: "assets/images/package/package-4.png",
-                    link: "#"
-                },
-                {
-                    title: "Thailand Escape",
-                    duration: "5 Nights / 6 Days",
-                    price: "24,999",
-                    image: "assets/images/package/package-5.jpg",
-                    link: "#"
-                },
-                {
-                    title: "Maldives Luxury",
-                    duration: "4 Nights / 5 Days",
-                    price: "55,999",
-                    image: "assets/images/package/package-6.jpg",
-                    link: "#"
-                },
-                {
-                    title: "Vietnam Discovery",
-                    duration: "6 Nights / 7 Days",
-                    price: "34,999",
-                    image: "assets/images/package/package-7.jpg",
-                    link: "#"
-                },
-                {
-                    title: "Japan Highlights",
-                    duration: "7 Nights / 8 Days",
-                    price: "89,999",
-                    image: "assets/images/package/package-8.jpg",
-                    link: "#"
-                },
-                {
-                    title: "Europe Delight",
-                    duration: "8 Nights / 9 Days",
-                    price: "1,19,999",
-                    image: "assets/images/package/package-9.jpg",
-                    link: "#"
-                },
-                {
-                    title: "Swiss Adventure",
-                    duration: "6 Nights / 7 Days",
-                    price: "99,999",
-                    image: "assets/images/package/package-10.jpg",
-                    link: "#"
-                }
-            ];
-
+            // const packages = [
+            //     {
+            //         title: "Phuket Getaway",
+            //         duration: "4 Nights / 5 Days",
+            //         price: "22,999",
+            //         image: "assets/images/package/package-11.jpg",
+            //         link: "#"
+            //     },
+            //     {
+            //         title: "Bali Bliss",
+            //         duration: "5 Nights / 6 Days",
+            //         price: "28,999",
+            //         image: "assets/images/package/package-2.png",
+            //         link: "#"
+            //     },
+            //     {
+            //         title: "Singapore Explorer",
+            //         duration: "4 Nights / 5 Days",
+            //         price: "39,999",
+            //         image: "assets/images/package/package-3.png",
+            //         link: "#"
+            //     },
+            //     {
+            //         title: "Dubai Dazzle",
+            //         duration: "5 Nights / 6 Days",
+            //         price: "42,999",
+            //         image: "assets/images/package/package-4.png",
+            //         link: "#"
+            //     },
+            //     {
+            //         title: "Thailand Escape",
+            //         duration: "5 Nights / 6 Days",
+            //         price: "24,999",
+            //         image: "assets/images/package/package-5.jpg",
+            //         link: "#"
+            //     },
+            //     {
+            //         title: "Maldives Luxury",
+            //         duration: "4 Nights / 5 Days",
+            //         price: "55,999",
+            //         image: "assets/images/package/package-6.jpg",
+            //         link: "#"
+            //     },
+            //     {
+            //         title: "Vietnam Discovery",
+            //         duration: "6 Nights / 7 Days",
+            //         price: "34,999",
+            //         image: "assets/images/package/package-7.jpg",
+            //         link: "#"
+            //     },
+            //     {
+            //         title: "Japan Highlights",
+            //         duration: "7 Nights / 8 Days",
+            //         price: "89,999",
+            //         image: "assets/images/package/package-8.jpg",
+            //         link: "#"
+            //     },
+            //     {
+            //         title: "Europe Delight",
+            //         duration: "8 Nights / 9 Days",
+            //         price: "1,19,999",
+            //         image: "assets/images/package/package-9.jpg",
+            //         link: "#"
+            //     },
+            //     {
+            //         title: "Swiss Adventure",
+            //         duration: "6 Nights / 7 Days",
+            //         price: "99,999",
+            //         image: "assets/images/package/package-10.jpg",
+            //         link: "#"
+            //     }
+            // ];
+            const packages = <?= json_encode(
+                $package_array,
+                JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+            ) ?>;
+            // console.log(packages);
+            
             const track = document.getElementById("packageTrack");
 
             packages.forEach(pkg => {
@@ -3023,44 +2989,117 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                     </div>
                 `;
             });
+
+
             let currentIndex = 0;
 
+
             function getVisibleCards() {
-                if (window.innerWidth < 576) return 1;
-                if (window.innerWidth < 992) return 2;
+
+                if (window.innerWidth < 576) {
+                    return 1;
+                }
+
+                if (window.innerWidth < 992) {
+                    return 2;
+                }
+
                 return 4;
             }
 
+
             function moveSlider() {
-                const card = document.querySelector(".package-item");
+
+                const card = track.querySelector(".package-item");
 
                 if (!card) return;
 
-                const gap = parseInt(getComputedStyle(track).gap) || 20;
+                const gap = parseInt(
+                    getComputedStyle(track).gap
+                ) || 20;
 
                 const cardWidth = card.offsetWidth + gap;
+
+                const visibleCards = getVisibleCards();
+
+                const maxIndex = Math.max(
+                    0,
+                    packages.length - visibleCards
+                );
+
+                // Prevent going beyond the last card
+                currentIndex = Math.min(
+                    currentIndex,
+                    maxIndex
+                );
 
                 track.style.transform =
                     `translateX(-${currentIndex * cardWidth}px)`;
             }
 
-            document.querySelector(".next-btn").addEventListener("click", () => {
+
+            // NEXT
+            document.querySelector(".next-btn").addEventListener("click", function () {
+                // console.log('clicked next');
+                
                 const visibleCards = getVisibleCards();
 
-                if (currentIndex < packages.length - visibleCards) {
+                const maxIndex = Math.max(
+                    0,
+                    packages.length - visibleCards
+                );
+
+                if (currentIndex < maxIndex) {
+
                     currentIndex++;
+
                     moveSlider();
                 }
             });
 
-            document.querySelector(".prev-btn").addEventListener("click", () => {
+
+            // PREVIOUS
+            document.querySelector(".prev-btn").addEventListener("click", function () {
+                // console.log('clicked prev');
                 if (currentIndex > 0) {
+
                     currentIndex--;
+
                     moveSlider();
                 }
             });
 
-            window.addEventListener("resize", moveSlider);
+
+            // Resize
+            window.addEventListener("resize", function () {
+
+                updateSliderControls();
+
+            });
+            function updateSliderControls() {
+
+                const visibleCards = getVisibleCards();
+
+                const prevBtn = document.querySelector(".prev-btn");
+                const nextBtn = document.querySelector(".next-btn");
+
+                if (packages.length <= visibleCards) {
+
+                    prevBtn.style.display = "none";
+                    nextBtn.style.display = "none";
+
+                    // Reset slider position
+                    currentIndex = 0;
+                    track.style.transform = "translateX(0)";
+
+                } else {
+
+                    prevBtn.style.display = "flex";
+                    nextBtn.style.display = "flex";
+
+                    moveSlider();
+                }
+            }
         </script>
         <!-- New Design 1/8/26 -->
 
@@ -3119,6 +3158,35 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                 }
             });
 
+            let visibleFaqs = 3;
+
+            $("#viewMoreFaq").on("click", function () {
+
+                let hiddenFaqs = $(".faq-item").filter(function () {
+                    return $(this).css("display") === "none";
+                });
+
+                if (hiddenFaqs.length > 0) {
+
+                    hiddenFaqs.slideDown();
+
+                    $(this).text("View Less");
+
+                } else {
+
+                    $(".faq-item").each(function(index) {
+
+                        if (index >= 3) {
+                            $(this).slideUp();
+                        }
+
+                    });
+
+                    $(this).text("View More");
+
+                }
+
+            });
         </script>
     </body>
 
