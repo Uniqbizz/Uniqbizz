@@ -5,14 +5,13 @@
     $current_year = date('Y'); 
 
     $action_type = $_POST['action_type'];
-    $designation = $_POST['designation'];
     $reference_id = $userId;
     $reference_name = $userFname .' '.$userLname;
     $name = $_POST['name'];
     $email = $_POST['email'];
     $number_branch = $_POST['number_branch'];
     // $type_of_institution = $_POST['type_of_institution'];
-    $institution_type_value = $_POST['institution_type_value'];
+    $institution_type_value = $_POST['institution_type_value'] ??'';
     $incorporation_date = $_POST['incorporation_date'];
     $country_code = $_POST['country_code'];
     $phone = $_POST['phone'];
@@ -66,7 +65,8 @@
     $message2="Added new Institution by admin";
     $fromWhom="1";
     $operation="Add";
-
+    $comm_per=0;
+    $ins_per=0;
     //commission and incentive 
     //amount = 0/FOC
     if ($amount == 'FOC') {

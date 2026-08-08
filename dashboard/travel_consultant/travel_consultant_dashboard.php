@@ -1131,7 +1131,12 @@
                                             </td>
 
                                             <td>
-                                                <a href="edit_customer.php?id=${row.ca_customer_id}">
+                                                <form id="viewCustomerForm${row.ca_customer_id}" action="edit_customer.php" method="POST" style="display:none;">
+                                                    <input type="hidden" name="id" value="${row.ca_customer_id}">
+                                                    <input type="hidden" name="status" value="${row.status}">
+                                                </form>
+
+                                                <a href="javascript:void(0);" onclick="document.getElementById('viewCustomerForm${row.ca_customer_id}').submit();">
                                                     <p class="fw-bolder teViewBtn text-center mb-0">
                                                         <i class="fa-solid fa-eye me-2 mt-1"></i>View
                                                     </p>

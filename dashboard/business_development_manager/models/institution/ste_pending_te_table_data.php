@@ -10,8 +10,8 @@
         
             SELECT
                 i.id,
-                i.firstname,
-                i.lastname,
+                i.name AS firstname,
+                '' AS lastname,
                 i.contact_no,
                 i.email,
                 i.added_on,
@@ -38,8 +38,8 @@
 
             SELECT
                 i.id,
-                i.firstname,
-                i.lastname,
+                i.name AS firstname,
+                '' AS lastname,
                 i.contact_no,
                 i.email,
                 i.added_on,

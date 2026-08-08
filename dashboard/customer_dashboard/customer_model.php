@@ -306,6 +306,68 @@
     // ACCESS VALUE
     $totalReferralAmount =
         $refTotal['total_referral_earning'];
-       
+
+    //upcoming trips
+    $today = date('Y-m-d');
+    $limit = 3;
+    
+    $sql = "SELECT
+                b.id,
+                b.order_id,
+                b.package_id,
+                b.date,
+                b.confirm_status,
+                b.status,
+                p.name AS package_name,
+                p.tour_days,
+                (
+                    SELECT image
+                    FROM package_pictures
+                    WHERE package_id = b.package_id
+                    LIMIT 1
+                ) AS package_image,
+                CASE
+                WHEN o.pay_type = 1 THEN
+                    o.status =1
+
+                WHEN o.pay_type = 2 THEN
+                    CASE
+                        WHEN o.part_pay_1_status = 1
+                         AND o.part_pay_2_status = 2
+                         AND o.status = 2
+                        THEN 1
+                        ELSE 0
+                    END
+
+                WHEN o.pay_type = 3 THEN
+                    CASE
+                        WHEN o.part_pay_1_status = 1
+                         AND o.part_pay_2_status = 1
+                         AND o.part_pay_3_status = 1
+                         AND o.status = 1
+                        THEN 1
+                        ELSE 0
+                    END
+
+                ELSE 0
+            END AS payment_completed
+            FROM bookings b
+            LEFT JOIN package p
+                ON p.id = b.package_id
+            LEFT JOIN booking_direct_bill o 
+                ON o.bookings_id = b.id
+            WHERE
+                b.customer_id = :userId
+                AND DATE(b.date) >= :today
+            ORDER BY b.date ASC
+            LIMIT :limit";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(':userId', $userId);
+    $stmt->bindValue(':today', $today);
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $upcomingTrips = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
 ?>

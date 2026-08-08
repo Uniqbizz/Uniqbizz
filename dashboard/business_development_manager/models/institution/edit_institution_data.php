@@ -4,27 +4,30 @@
 
 	$current_year = date('Y');
 
-	$refid = $_POST["ref_id"];
+	$refid = $userId;
 	$id = $_POST["id"];
-	$editfor = $_POST["editfor"];
+	$action_type = $_POST['action_type'];
+	$identifier_id = $id;
 
-	if ($editfor == 'pending') {
-		$identifier_id = $id;
-		$identifier_name = 'id=';
-		$message = "Updated Institution details from " . $editfor . " list";
-		$message2 = "Updated Institution details from " . $editfor . " list";
-	} else if ($editfor == 'registered') {
-		$identifier_id = $id;
-		$identifier_name = 'institution_id=';
-		$message = $identifier_id . " Details has been updated from " . $editfor . " list";
-		$message2 = $identifier_id . " Details has been updated from " . $editfor . " list";
+	$identifier_name = preg_match('/^(TE|F|I)/i', $id)
+		? 'institution_id='
+		: 'id=';
+	$status=0;
+	if ($action_type === 'draft') {
+		$status=4;
+		$message = "Institution details have been saved as draft.";
+	} else {
+		$status=2;
+		$message = $identifier_id . " details have been updated.";
 	}
 
-	$action_type = $_POST['action_type'];
+	$message2 = $message;
+
+	
     $name = $_POST['name'];
     $email = $_POST['email'];
     $number_branch = $_POST['number_branch'];
-    $institution_type_value = $_POST['institution_type_value'];
+    $institution_type_value = $_POST['institution_type_value']??'';
     $incorporation_date = $_POST['incorporation_date'];
     $country_code = $_POST['country_code'];
     $phone = $_POST['phone'];
@@ -43,7 +46,7 @@
 
     $amount = $_POST['amount'];
     $payment_proof = $_POST['payment_proof'];
-    $paymentMode = $_POST['paymentMode'];
+    $paymentMode = $_POST['paymentMode']??'';
 
     $chequeNo = $_POST['chequeNo'];
     $chequeDate = $_POST['chequeDate'];
@@ -62,8 +65,8 @@
 
 	$title = "Institution";
 
-	$fromWhom = "1";
-	$register_by = "1";
+	$fromWhom = $userId;
+	$register_by = $userId;
 	$operation = "Update";
 
 	$sql1 = "UPDATE `institution` SET
@@ -101,7 +104,8 @@
             `address_proof` = :address_proof,
             `board_resolution` = :board_resolution,
             `bank_passbook` = :bank_passbook,
-            `payment_proof` = :payment_proof
+            `payment_proof` = :payment_proof,
+			`status` =:status
         WHERE $identifier_name:identifier_id";
 	$stmt = $conn->prepare($sql1);
 	$result =  $stmt->execute(array(
@@ -140,6 +144,7 @@
 		':board_resolution' => $board_resolution,
 		':bank_passbook' => $bank_passbook,
 		':payment_proof' => $payment_proof,
+		':status' =>$status,
 		':identifier_id' => $identifier_id
 	));
 
