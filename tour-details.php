@@ -64,6 +64,9 @@ $sub_cat_id = $package['sub_category_id'];
 $hotel_cat_id = $package['category_hotel_id'];
 $meal_cat_id = $package['category_meal_id'];
 $validity = $package['validity'] ?? 0;
+$package_keywords = $package['package_keywords'] ?? '';
+$location  = $package['location'] ?? '';
+$destination = $package['destination'] ?? '';
 
 $tour_days_total = $package['tour_days'] ?? 0;
 $tour_days = $tour_days_total - 1;
@@ -185,7 +188,77 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
     . $_SERVER['REQUEST_URI'];
 
 //share model end
+//package similar list
+    // Get latest 12 packages
+    $sqlPack = $conn->prepare("
+        SELECT *
+        FROM package
+        WHERE status = 1
+        AND id != ?
+        AND (
+                package_keywords LIKE ?
+                OR destination LIKE ?
+                OR location LIKE ?
+            )
+        ORDER BY id DESC
+        LIMIT 10
+    ");
 
+    $sqlPack->execute([
+        $id,
+        "%$package_keywords%",
+        "%$destination%",
+        "%$location%"
+    ]);
+    
+    $packages = $sqlPack->fetchAll(PDO::FETCH_ASSOC);
+    
+    $package_array = [];
+    
+    foreach ($packages as $package) {
+    
+        // Get package price
+        $sqlPackPrice = $conn->prepare("
+            SELECT total_package_price_per_adult
+            FROM package_pricing
+            WHERE package_id = ?
+            ORDER BY id DESC
+            LIMIT 1
+        ");
+    
+        $sqlPackPrice->execute([$package['id']]);
+    
+        $packagePrice = $sqlPackPrice->fetch(PDO::FETCH_ASSOC);
+    
+        // Get first package image
+        $sqlPackImage = $conn->prepare("
+            SELECT image
+            FROM package_pictures
+            WHERE package_id = ?
+            ORDER BY id ASC
+            LIMIT 1
+        ");
+    
+        $sqlPackImage->execute([$package['id']]);
+    
+        $packageImage = $sqlPackImage->fetch(PDO::FETCH_ASSOC);
+    
+        // Calculate duration
+        $days = (int)$package['tour_days'];
+        $nights = $days - 1;
+    
+        $package_duration = $nights . "N / " . $days . "D";
+    
+        // Store in multidimensional array
+        $package_array[] = [
+            "packid"    => $package['id'],
+            "title"     => $package['name'],
+            "duration"  => $package_duration,
+            "price"     => $packagePrice['total_package_price_per_adult'] ?? 0,
+            "image"     => $packageImage['image'] ?? '',
+            "link"      => "package-details.php?id=" . $package['id']
+        ];
+    }
 
 ?>
 
@@ -2337,207 +2410,6 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                 }
             });
 
-            // function product_package_payout() {
-            //     return new Promise((resolve, reject) => {
-            //         var packageID = $('#package_id').val();
-            //         var userID = $('#user_id').val();
-            //         var cuID = $('#cust_id').val();
-            //         var no_of_adult = $('#b_no_adult').val();
-            //         var no_of_child = $('#b_no_child').val();
-            //         var ta_markup = ta_markup_price ?? 0;
-            //         var book_id = $('#book_id').val();
-            //         var tour_start_date = $('#b_date').val();
-            //         // console.log(packageID + ' ' + userID + ' ' + cuID +' '+ no_of_adult + ' ' + ta_markup+ ' '+book_id+' '+tour_start_date);
-            //         dataString = {
-            //             packageID: packageID,
-            //             userID: userID,
-            //             cuID: cuID,
-            //             no_of_adult: no_of_adult,
-            //             no_of_child: no_of_child,
-            //             ta_markup: ta_markup,
-            //             book_id: book_id,
-            //             tour_start_date: tour_start_date,
-            //         };
-            //         let data = JSON.stringify(dataString);
-            //         console.log(data);
-            //         $.ajax({
-            //             type: "POST",
-            //             url: "assets/submit/product_package_payout.php",
-            //             data: data,
-            //             headers: {
-            //                 "Content-Type": "application/json",
-            //                 "X-CSRF-TOKEN": $('meta[name="csrf-token').attr('content')
-            //             },
-            //             success: function(res) {
-            //                 // console.log(res);
-            //                 if (res == '1') {
-            //                     alert("SUCCESS");
-            //                     console.log(res);
-            //                     // setTimeout(() => {
-            //                     //     location.reload();
-            //                     // }, 2000);
-            //                     resolve(res); // Resolve the promise on success
-            //                 } else {
-            //                     alert("UNSUCCESS");
-            //                     console.log(res);
-            //                     // setTimeout(() => {
-            //                     //     location.reload();
-            //                     // }, 2000);
-            //                     resolve(res); // Resolve with unsuccessful result
-            //                 }
-            //             },
-            //             error: function(err) {
-            //                 console.log(err);
-            //                 reject(err); // Reject the promise on error
-            //             }
-            //         });
-            //     });
-            // }
-
-            // function getTourData() {
-            //     return new Promise((resolve, reject) => {
-            //         var cust_id = $("#cust_id").val();
-            //         var package_id = $("#package_id").val();
-            //         var name = $("#b_name").val();
-            //         var email = $("#b_email").val();
-            //         var phone = $("#b_phn_no").val();
-            //         var date = $("#b_date").val();
-            //         // will generate current time stamp payment id 
-            //         var payment_id = makepayid(25)
-            //         var paid_amount = $('#amountInput').val()
-            //         var selectedValue = $("input[name='inlineRadioOptions']:checked").val();
-            //         var paytype
-            //         //coupon details
-            //         var selectedOption = $('#coupon_select option:selected');
-            //         var couponDiscount = selectedOption.data('discount') || 0;
-            //         var couponCode = $('#coupon_select').val();
-            //         //payouts part
-            //         var packageID = $('#package_id').val();
-            //         var userID = $('#user_id').val();
-            //         var cuID = $('#cust_id').val();
-            //         var no_of_adult = $('#b_no_adult').val();
-            //         var no_of_child = $('#b_no_child').val();
-            //         var ta_markup = ta_markup_price ?? 0;
-            //         //var book_id = $('#book_id').val();
-            //         var tour_start_date = $('#b_date').val();
-            //         var discounted_price = $('#get_total_offer_price').text();
-
-            //         if (selectedValue == 'option1') {
-            //             pay_type = 1 //full payment
-            //         } //if part payment is seleted
-            //         else if (selectedValue == 'option2') {
-            //             pay_type = $("#payTypeSelect").val(); // 2 for 2 parts and 3 for 2 parts
-            //         }
-            //         if (partRadio.checked && (payTypeSelect.value === "" || payTypeSelect.value === "--Select the Pay Type")) {
-            //             alert("Please select a valid payment type.");
-            //             event.preventDefault(); // Prevent form submission
-            //             return false;
-            //         } else {
-            //             // get payers details for travel agent
-            //             if (user_type == 11) {
-            //                 payee_id = user_cust_id;
-            //                 payee_name = $("#payee_name").val();
-            //                 payee_email = $("#payee_email").val();
-            //                 payee_contact = $("#payee_contact").val();
-            //             }
-            //             var formdata = {
-            //                 user_cust_id: user_cust_id,
-            //                 cust_id: cust_id,
-            //                 package_id: package_id,
-            //                 name: name,
-            //                 email: email,
-            //                 phone: phone,
-            //                 date: date,
-            //                 adults: no_adult,
-            //                 child: no_child,
-            //                 infants: total_infants,
-            //                 total_price: package_price.innerText,
-            //                 ta_markup: ta_markup_price,
-            //                 members: [],
-            //                 payee_name: payee_name,
-            //                 payee_id: payee_id,
-            //                 payment_id: payment_id,
-            //                 paid_amount: paid_amount,
-            //                 pay_type: pay_type,
-            //                 couponCode: couponCode,
-            //                 couponDiscount: couponDiscount,
-            //                 packageID: packageID,
-            //                 userID: userID,
-            //                 cuID: cuID,
-            //                 no_of_adult: no_of_adult,
-            //                 no_of_child: no_of_child,
-            //                 ta_markup: ta_markup,
-            //                 tour_start_date: tour_start_date,
-            //                 discounted_price: discounted_price,
-            //             };
-            //             names.forEach(function(name, i) {
-            //                 formdata.members.push({
-            //                     'name': name,
-            //                     'age': ages[i],
-            //                     'gender': genders[i]
-            //                 });
-            //             });
-            //             console.log("formdata");
-            //             console.log(formdata);
-            //             //resolve(formdata)
-            //             // Book Package
-            //             let data = JSON.stringify(formdata);
-            //             $.ajax({
-            //                 type: "POST",
-            //                 url: "assets/submit/book-tickets.php",
-            //                 data: data,
-            //                 headers: {
-            //                     "Content-Type": "application/json",
-            //                     "X-CSRF-TOKEN": $('meta[name="csrf-token').attr('content')
-            //                 },
-            //                 success: function(res) {
-
-            //                     //$('#book_id').val(res.bookid);
-            //                     if (res == 1) {
-            //                         console.log("success payment");
-            //                         hideTourMemberForm();
-            //                         // empty fields
-            //                         // $("#b_name").val('');
-            //                         // $("#b_email").val('');
-            //                         // $("#b_phn_no").val('');
-            //                         // $("#b_date").val('');
-            //                         // $("#b_no_adult").val('');
-            //                         // $("#b_no_child").val('');
-            //                         // $("#b_no_infants").val('');
-
-            //                         // names.forEach(function(data, i) {
-            //                         //     data.value = "";
-            //                         // });
-            //                         // ages.forEach(function(data, i) {
-            //                         //     data.value = "";
-            //                         // });
-            //                         // genders.forEach(function(data, i) {
-            //                         //     data.value = "male";
-            //                         // });
-
-            //                         alert('Booking is successful')
-            //                         resolve(res); // Resolve the promise on success
-            //                         // location.reload();
-            //                         //make new snackbar
-            //                         // showBottomSnackBar("Success !! Order placed for Booking ");
-            //                         // setTimeout(function() {
-            //                         //     location.reload();
-            //                         // }, 4000);
-            //                     } else {
-            //                         alert("failed to book");
-            //                         resolve(res); // Resolve with unsuccessful result
-            //                     }
-            //                 },
-            //                 error: function(err) {
-            //                     console.log(err);
-            //                     reject(err); // Reject the promise on error
-            //                 }
-            //             });
-            //         }
-            //         //console.log('paytype:' + paytype);
-            //     });
-            // }
-
             // generate order id
 
             function makeid(length) {
@@ -3019,79 +2891,84 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
             });
         </script>
         <script>
-            const packages = [
-                {
-                    title: "Phuket Getaway",
-                    duration: "4 Nights / 5 Days",
-                    price: "22,999",
-                    image: "assets/images/package/package-11.jpg",
-                    link: "#"
-                },
-                {
-                    title: "Bali Bliss",
-                    duration: "5 Nights / 6 Days",
-                    price: "28,999",
-                    image: "assets/images/package/package-2.png",
-                    link: "#"
-                },
-                {
-                    title: "Singapore Explorer",
-                    duration: "4 Nights / 5 Days",
-                    price: "39,999",
-                    image: "assets/images/package/package-3.png",
-                    link: "#"
-                },
-                {
-                    title: "Dubai Dazzle",
-                    duration: "5 Nights / 6 Days",
-                    price: "42,999",
-                    image: "assets/images/package/package-4.png",
-                    link: "#"
-                },
-                {
-                    title: "Thailand Escape",
-                    duration: "5 Nights / 6 Days",
-                    price: "24,999",
-                    image: "assets/images/package/package-5.jpg",
-                    link: "#"
-                },
-                {
-                    title: "Maldives Luxury",
-                    duration: "4 Nights / 5 Days",
-                    price: "55,999",
-                    image: "assets/images/package/package-6.jpg",
-                    link: "#"
-                },
-                {
-                    title: "Vietnam Discovery",
-                    duration: "6 Nights / 7 Days",
-                    price: "34,999",
-                    image: "assets/images/package/package-7.jpg",
-                    link: "#"
-                },
-                {
-                    title: "Japan Highlights",
-                    duration: "7 Nights / 8 Days",
-                    price: "89,999",
-                    image: "assets/images/package/package-8.jpg",
-                    link: "#"
-                },
-                {
-                    title: "Europe Delight",
-                    duration: "8 Nights / 9 Days",
-                    price: "1,19,999",
-                    image: "assets/images/package/package-9.jpg",
-                    link: "#"
-                },
-                {
-                    title: "Swiss Adventure",
-                    duration: "6 Nights / 7 Days",
-                    price: "99,999",
-                    image: "assets/images/package/package-10.jpg",
-                    link: "#"
-                }
-            ];
-
+            // const packages = [
+            //     {
+            //         title: "Phuket Getaway",
+            //         duration: "4 Nights / 5 Days",
+            //         price: "22,999",
+            //         image: "assets/images/package/package-11.jpg",
+            //         link: "#"
+            //     },
+            //     {
+            //         title: "Bali Bliss",
+            //         duration: "5 Nights / 6 Days",
+            //         price: "28,999",
+            //         image: "assets/images/package/package-2.png",
+            //         link: "#"
+            //     },
+            //     {
+            //         title: "Singapore Explorer",
+            //         duration: "4 Nights / 5 Days",
+            //         price: "39,999",
+            //         image: "assets/images/package/package-3.png",
+            //         link: "#"
+            //     },
+            //     {
+            //         title: "Dubai Dazzle",
+            //         duration: "5 Nights / 6 Days",
+            //         price: "42,999",
+            //         image: "assets/images/package/package-4.png",
+            //         link: "#"
+            //     },
+            //     {
+            //         title: "Thailand Escape",
+            //         duration: "5 Nights / 6 Days",
+            //         price: "24,999",
+            //         image: "assets/images/package/package-5.jpg",
+            //         link: "#"
+            //     },
+            //     {
+            //         title: "Maldives Luxury",
+            //         duration: "4 Nights / 5 Days",
+            //         price: "55,999",
+            //         image: "assets/images/package/package-6.jpg",
+            //         link: "#"
+            //     },
+            //     {
+            //         title: "Vietnam Discovery",
+            //         duration: "6 Nights / 7 Days",
+            //         price: "34,999",
+            //         image: "assets/images/package/package-7.jpg",
+            //         link: "#"
+            //     },
+            //     {
+            //         title: "Japan Highlights",
+            //         duration: "7 Nights / 8 Days",
+            //         price: "89,999",
+            //         image: "assets/images/package/package-8.jpg",
+            //         link: "#"
+            //     },
+            //     {
+            //         title: "Europe Delight",
+            //         duration: "8 Nights / 9 Days",
+            //         price: "1,19,999",
+            //         image: "assets/images/package/package-9.jpg",
+            //         link: "#"
+            //     },
+            //     {
+            //         title: "Swiss Adventure",
+            //         duration: "6 Nights / 7 Days",
+            //         price: "99,999",
+            //         image: "assets/images/package/package-10.jpg",
+            //         link: "#"
+            //     }
+            // ];
+            const packages = <?= json_encode(
+                $package_array,
+                JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+            ) ?>;
+            // console.log(packages);
+            
             const track = document.getElementById("packageTrack");
 
             packages.forEach(pkg => {
@@ -3112,44 +2989,117 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                     </div>
                 `;
             });
+
+
             let currentIndex = 0;
 
+
             function getVisibleCards() {
-                if (window.innerWidth < 576) return 1;
-                if (window.innerWidth < 992) return 2;
+
+                if (window.innerWidth < 576) {
+                    return 1;
+                }
+
+                if (window.innerWidth < 992) {
+                    return 2;
+                }
+
                 return 4;
             }
 
+
             function moveSlider() {
-                const card = document.querySelector(".package-item");
+
+                const card = track.querySelector(".package-item");
 
                 if (!card) return;
 
-                const gap = parseInt(getComputedStyle(track).gap) || 20;
+                const gap = parseInt(
+                    getComputedStyle(track).gap
+                ) || 20;
 
                 const cardWidth = card.offsetWidth + gap;
+
+                const visibleCards = getVisibleCards();
+
+                const maxIndex = Math.max(
+                    0,
+                    packages.length - visibleCards
+                );
+
+                // Prevent going beyond the last card
+                currentIndex = Math.min(
+                    currentIndex,
+                    maxIndex
+                );
 
                 track.style.transform =
                     `translateX(-${currentIndex * cardWidth}px)`;
             }
 
-            document.querySelector(".next-btn").addEventListener("click", () => {
+
+            // NEXT
+            document.querySelector(".next-btn").addEventListener("click", function () {
+                // console.log('clicked next');
+                
                 const visibleCards = getVisibleCards();
 
-                if (currentIndex < packages.length - visibleCards) {
+                const maxIndex = Math.max(
+                    0,
+                    packages.length - visibleCards
+                );
+
+                if (currentIndex < maxIndex) {
+
                     currentIndex++;
+
                     moveSlider();
                 }
             });
 
-            document.querySelector(".prev-btn").addEventListener("click", () => {
+
+            // PREVIOUS
+            document.querySelector(".prev-btn").addEventListener("click", function () {
+                // console.log('clicked prev');
                 if (currentIndex > 0) {
+
                     currentIndex--;
+
                     moveSlider();
                 }
             });
 
-            window.addEventListener("resize", moveSlider);
+
+            // Resize
+            window.addEventListener("resize", function () {
+
+                updateSliderControls();
+
+            });
+            function updateSliderControls() {
+
+                const visibleCards = getVisibleCards();
+
+                const prevBtn = document.querySelector(".prev-btn");
+                const nextBtn = document.querySelector(".next-btn");
+
+                if (packages.length <= visibleCards) {
+
+                    prevBtn.style.display = "none";
+                    nextBtn.style.display = "none";
+
+                    // Reset slider position
+                    currentIndex = 0;
+                    track.style.transform = "translateX(0)";
+
+                } else {
+
+                    prevBtn.style.display = "flex";
+                    nextBtn.style.display = "flex";
+
+                    moveSlider();
+                }
+            }
         </script>
         <!-- New Design 1/8/26 -->
 
