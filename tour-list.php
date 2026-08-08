@@ -1247,7 +1247,7 @@ $destinations = $stmtDestination->fetchAll(PDO::FETCH_ASSOC);
                 viewType = 1;
                 // console.log('test1');
                 // fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration,selectedDestination,tourType,viewType);
-                applyFilters();
+                applyFilters(viewType);
             });
 
             $("#grid_column").on("click", function () {
@@ -1256,7 +1256,7 @@ $destinations = $stmtDestination->fetchAll(PDO::FETCH_ASSOC);
                 viewType = 2;
                 console.log('test2');
                 // fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration,selectedDestination,tourType,viewType);
-                applyFilters();
+                applyFilters(viewType);
             });
 
             $(document).ready(function() {
@@ -1405,7 +1405,7 @@ $destinations = $stmtDestination->fetchAll(PDO::FETCH_ASSOC);
                 }
             } 
             
-            function applyFilters() {
+            function applyFilters(viewType=1) {
 
                 getCurrentFilters();
 

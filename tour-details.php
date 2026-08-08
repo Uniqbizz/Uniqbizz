@@ -127,6 +127,20 @@ $data11->bindParam(':id', $id, PDO::PARAM_INT);
 $data11->execute();
 $vehicle_type = $data11->rowCount() > 0 ? $data11->fetchAll(PDO::FETCH_ASSOC) : []; // Corrected variable name
 
+// Fetch vehicle types for a given package_id
+$data11 = $conn->prepare("
+    SELECT *
+    FROM package_pricing
+    WHERE package_id = :id
+    ORDER BY id DESC
+    LIMIT 1
+");
+
+$data11->bindParam(':id', $id, PDO::PARAM_INT);
+$data11->execute();
+
+$pricing = $data11->fetch(PDO::FETCH_ASSOC) ?: [];
+
 // Fetch all vehicle categories
 $data12 = $conn->prepare("SELECT id, name FROM `category_vehicle`");
 $data12->execute();
@@ -161,6 +175,7 @@ $stmtPolicy = $conn->prepare("
     WHERE package_id = ?
     ORDER BY id ASC
 ");
+
 $stmtPolicy->execute([$id]);
 $policies = $stmtPolicy->fetchAll(PDO::FETCH_ASSOC);
 //share model start 30-07-2026
@@ -189,77 +204,110 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
 
 //share model end
 //package similar list
-    // Get latest 12 packages
-    $sqlPack = $conn->prepare("
-        SELECT *
-        FROM package
-        WHERE status = 1
-        AND id != ?
-        AND (
-                package_keywords LIKE ?
-                OR destination LIKE ?
-                OR location LIKE ?
-            )
+// Get latest 10 packages
+$sqlPack = $conn->prepare("
+    SELECT *
+    FROM package
+    WHERE status = 1
+    AND id != ?
+    AND (
+            package_keywords LIKE ?
+            OR destination LIKE ?
+            OR location LIKE ?
+        )
+    ORDER BY id DESC
+    LIMIT 10
+");
+
+$sqlPack->execute([
+    $id,
+    "%$package_keywords%",
+    "%$destination%",
+    "%$location%"
+]);
+
+$packages = $sqlPack->fetchAll(PDO::FETCH_ASSOC);
+
+$package_array = [];
+
+foreach ($packages as $package) {
+
+    // Get package price
+    $sqlPackPrice = $conn->prepare("
+        SELECT total_package_price_per_adult
+        FROM package_pricing
+        WHERE package_id = ?
         ORDER BY id DESC
-        LIMIT 10
+        LIMIT 1
     ");
 
-    $sqlPack->execute([
-        $id,
-        "%$package_keywords%",
-        "%$destination%",
-        "%$location%"
-    ]);
-    
-    $packages = $sqlPack->fetchAll(PDO::FETCH_ASSOC);
-    
-    $package_array = [];
-    
-    foreach ($packages as $package) {
-    
-        // Get package price
-        $sqlPackPrice = $conn->prepare("
-            SELECT total_package_price_per_adult
-            FROM package_pricing
-            WHERE package_id = ?
-            ORDER BY id DESC
-            LIMIT 1
-        ");
-    
-        $sqlPackPrice->execute([$package['id']]);
-    
-        $packagePrice = $sqlPackPrice->fetch(PDO::FETCH_ASSOC);
-    
-        // Get first package image
-        $sqlPackImage = $conn->prepare("
-            SELECT image
-            FROM package_pictures
-            WHERE package_id = ?
-            ORDER BY id ASC
-            LIMIT 1
-        ");
-    
-        $sqlPackImage->execute([$package['id']]);
-    
-        $packageImage = $sqlPackImage->fetch(PDO::FETCH_ASSOC);
-    
-        // Calculate duration
-        $days = (int)$package['tour_days'];
-        $nights = $days - 1;
-    
-        $package_duration = $nights . "N / " . $days . "D";
-    
-        // Store in multidimensional array
-        $package_array[] = [
-            "packid"    => $package['id'],
-            "title"     => $package['name'],
-            "duration"  => $package_duration,
-            "price"     => $packagePrice['total_package_price_per_adult'] ?? 0,
-            "image"     => $packageImage['image'] ?? '',
-            "link"      => "package-details.php?id=" . $package['id']
-        ];
-    }
+    $sqlPackPrice->execute([$package['id']]);
 
+    $packagePrice = $sqlPackPrice->fetch(PDO::FETCH_ASSOC);
+
+    // Get first package image
+    $sqlPackImage = $conn->prepare("
+        SELECT image
+        FROM package_pictures
+        WHERE package_id = ?
+        ORDER BY id ASC
+        LIMIT 1
+    ");
+
+    $sqlPackImage->execute([$package['id']]);
+
+    $packageImage = $sqlPackImage->fetch(PDO::FETCH_ASSOC);
+
+    // Calculate duration
+    $days = (int)$package['tour_days'];
+    $nights = $days - 1;
+
+    $package_duration = $nights . "N / " . $days . "D";
+
+    // Store in multidimensional array
+    $package_array[] = [
+        "packid"    => $package['id'],
+        "title"     => $package['name'],
+        "duration"  => $package_duration,
+        "price"     => $packagePrice['total_package_price_per_adult'] ?? 0,
+        "image"     => $packageImage['image'] ?? '',
+        "link"      => "tour-details.php?pacId=" . $package['id']
+    ];
+}
+//guest princinglogic
+$userType = $_SESSION['user_type_id_value'] ?? null;
+
+$showGuestPrice = !empty($userType)
+    && !in_array((int)$userType, [1, 17, 15]);
+
+$adultPrice = (float)$pricing['total_package_price_per_adult'];
+$childPrice = (float)$pricing['total_package_price_per_child'];
+
+$adultDisplayPrice = $adultPrice;
+$childDisplayPrice = $childPrice;
+
+if ($showGuestPrice) {
+
+    if (!empty($pricing['guest_amount'])) {
+
+        $guestAmount = (float)$pricing['guest_amount'];
+
+        // Remove guest fixed amount
+        $adultDisplayPrice = $adultPrice - $guestAmount;
+        $childDisplayPrice = $childPrice - $guestAmount;
+
+    } elseif (!empty($pricing['guest_percentage'])) {
+
+        $percentage = (float)$pricing['guest_percentage'];
+
+        // Remove guest percentage
+        $adultDisplayPrice =
+            $adultPrice / (1 + ($percentage / 100));
+
+        $childDisplayPrice =
+            $childPrice / (1 + ($percentage / 100));
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -362,29 +410,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                 <div class="tour-details-area">
                     
                     <!-- Details Banner Slider -->
-                    <!-- <div class="tour-details-banner">
-                        <div class="swiper tourSwiper-active">
-                            <div class="swiper-wrapper">
-                                <?php
-                                // require 'connect.php';
-                                // $data = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = $id");
-                                // $data->execute();
-                                // $data->setFetchMode(PDO::FETCH_ASSOC);
-                                // if ($data->rowCount() > 0) {
-                                //     $counterimage = 0;
-                                //     foreach (($data->fetchAll()) as $key_1 => $image) {
-                                //         echo '<div class="swiper-slide">
-                                //                 <img src="' . $image['image'] . '" alt="BizzMirth" style="width: 710px !important; height: 400px !important;">
-                                //             </div>';
-                                //     }
-                                // }
-                                ?>
-
-                            </div>
-                            <div class="swiper-button-next"><i class="ri-arrow-right-s-line"></i></div>
-                            <div class="swiper-button-prev"><i class="ri-arrow-left-s-line"></i></div>
-                        </div>
-                    </div> -->
+                    
                     <!-- / Slider-->
                     <div class="tour-details-container">
                         <div class="container">
@@ -822,71 +848,46 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                             <div class="card cardBackgroundColor rounded-3 p-3">
                                                 <h5 class="fw-bolder mb-3">Policies</h5>
 
-                                                <?php if (!empty($policies)): ?>
-                                                    <?php foreach ($policies as $policy): ?>
-                                                        <div class="policyItem">
-                                                            <div class="d-flex align-items-center gap-3">
-                                                                <div class="highlightIcon" style="background-color: #b2e0b1;">
-                                                                    <i class="ri-file-pdf-line text-success"></i>
-                                                                </div>
-                                                                <p class="mb-0"><?= htmlspecialchars($policy['title']) ?></p>
+                                                <?php
+                                                $hasPolicies = false;
+                                                ?>
+
+                                                <?php foreach ($policies as $policy): ?>
+
+                                                    <?php if (strcasecmp(trim($policy['title']), 'FAQ') === 0): ?>
+                                                        <?php continue; ?>
+                                                    <?php endif; ?>
+
+                                                    <?php $hasPolicies = true; ?>
+
+                                                    <div class="policyItem">
+                                                        <div class="d-flex align-items-center gap-3">
+                                                            <div class="highlightIcon" style="background-color: #b2e0b1;">
+                                                                <i class="ri-file-pdf-line text-success"></i>
                                                             </div>
 
-                                                            <a href="uploading/package_policy_attachments/<?= urlencode($policy['file_name']) ?>"
-                                                            download
-                                                            class="downloadBtn">
-                                                                <i class="ri-download-line"></i>
-                                                            </a>
+                                                            <p class="mb-0">
+                                                                <?= htmlspecialchars($policy['title']) ?>
+                                                            </p>
                                                         </div>
-                                                    <?php endforeach; ?>
-                                                <?php else: ?>
-                                                    <p class="text-muted mb-0">No policy documents available.</p>
+
+                                                        <a href="uploading/package_policy_attachments/<?= urlencode($policy['file_name']) ?>"
+                                                        download
+                                                        class="downloadBtn">
+                                                            <i class="ri-download-line"></i>
+                                                        </a>
+                                                    </div>
+
+                                                <?php endforeach; ?>
+
+                                                <?php if (!$hasPolicies): ?>
+                                                    <p class="text-muted mb-0">
+                                                        No policy documents available.
+                                                    </p>
                                                 <?php endif; ?>
 
                                             </div>
                                         </div>
-                                        <!-- <div id="faqs" class="section-block">
-                                            <div class="card cardBackgroundColor rounded-3 p-3 pb-0">
-                                                <h5 class="fw-bolder">Frequently Asked Questions</h5>
-                                                <div class="faq-wrapper mt-2">
-                                                    <div class="faq-item active">
-                                                        <div class="faq-header">
-                                                            <h5>Does offer free cancellation for a full refund?</h5>
-                                                            <i class="ri-eye-line faq-icon"></i>
-                                                        </div>
-                                                        <div class="faq-body">
-                                                            <p>
-                                                                Does have fully refundable room rates available to book on our site.
-                                                                If you've booked a fully refundable room rate, this can be cancelled
-                                                                up to a few days before check-in depending on the property's
-                                                                cancellation policy. Just make sure to check this property's cancellation 
-                                                                policy for the exact terms and conditions.
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="faq-item">
-                                                        <div class="faq-header">
-                                                            <h5>Is there a pool?</h5>
-                                                            <i class="ri-eye-off-line faq-icon"></i>
-                                                        </div>
-
-                                                        <div class="faq-body">
-                                                            <p>Pool information goes here.</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="faq-item">
-                                                        <div class="faq-header">
-                                                            <h5>Are pets allowed?</h5>
-                                                            <i class="ri-eye-off-line faq-icon"></i>
-                                                        </div>
-                                                        <div class="faq-body">
-                                                            <p>Pet policy goes here.</p>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div> -->
                                         <div id="faqs" class="section-block">
                                             <div class="card cardBackgroundColor rounded-3 p-3 pb-0">
                                                 <h5 class="fw-bolder">Frequently Asked Questions</h5>
@@ -910,10 +911,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                                     if ($faqDoc) {
 
                                                         // Parse your Word document here and return:
-                                                        // [
-                                                        //     ['question'=>'...', 'answer'=>'...'],
-                                                        //     ['question'=>'...', 'answer'=>'...']
-                                                        // ]
+                                                        
                                                         $faqs = parseFaqTxt(
                                                             "uploading/package_policy_attachments/" . $faqDoc['file_name']
                                                         );
@@ -968,23 +966,92 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                                 <h5 class="text-white fw-bolder mb-2"><?= $package['name'] ?></h5>
                                                 <p class="text-white mb-2">Starting From</p>
                                                 <div class="row">
-                                                    <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-6">
+                                                    <!-- <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-6">
                                                         <div class="border-end">
-                                                            <h4 class="fw-bold text-white">&#8377; 22,900</h4>
+                                                            <h4 class="fw-bold text-white">
+                                                                &#8377;
+                                                                0
+                                                            </h4>
                                                             <p class="text-white">Adult / Person</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-6">
                                                         <div class="">
-                                                            <h4 class="fw-bold text-white">&#8377; 18,900</h4>
+                                                            <h4 class="fw-bold text-white">&#8377; 0</h4>
                                                             <p class="text-white">Child (5-12 yrs)</p>
                                                         </div>
+                                                    </div> -->
+                                                    <!-- ADULT -->
+                                                    <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-6">
+
+                                                        <div class="position-relative">
+
+                                                            <?php if ($showGuestPrice && $adultDisplayPrice < $adultPrice): ?>
+
+                                                                <div class="text-white text-decoration-line-through"
+                                                                    style="font-size: 16px; opacity: .8;">
+
+                                                                    &#8377; <?= number_format($adultPrice, 2) ?>
+
+                                                                </div>
+
+                                                            <?php endif; ?>
+
+                                                            <h5 class="fw-bold text-white mb-0">
+                                                                &#8377; <?= number_format($adultDisplayPrice, 2) ?>
+                                                            </h5>
+
+                                                            <p class="text-white">
+                                                                Adult / Person
+                                                            </p>
+
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <!-- CHILD -->
+                                                    <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-6">
+
+                                                        <div class="position-relative">
+
+                                                            <?php if ($showGuestPrice && $childDisplayPrice < $childPrice): ?>
+
+                                                                <div class="text-white text-decoration-line-through"
+                                                                    style="font-size: 16px; opacity: .8;">
+
+                                                                    &#8377; <?= number_format($childPrice, 2) ?>
+
+                                                                </div>
+
+                                                            <?php endif; ?>
+
+                                                            <h5 class="fw-bold text-white mb-0">
+                                                                &#8377; <?= number_format($childDisplayPrice, 2) ?>
+                                                            </h5>
+
+                                                            <p class="text-white">
+                                                                Child (5-12 yrs)
+                                                            </p>
+
+                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="p-3">
                                                 <div class="durationCard p-2 mb-3">
-                                                    <p class="text-muted fw-bolder">Duration: <span class="text-black fw-bolder fs-5">4 Nights / 5 Days</span></p>
+                                                    <?php
+                                                    $days = (int)$package['tour_days'];
+                                                    $nights = max(0, $days - 1);
+                                                    ?>
+
+                                                    <p class="text-muted fw-bolder">
+                                                        Duration:
+                                                        <span class="text-black fw-bolder fs-5">
+                                                            <?= $nights ?> Nights / <?= $days ?> Days
+                                                        </span>
+                                                    </p>
                                                 </div>
                                                 <button class="request-btn mb-3">
                                                     <i class="ri-image-line me-2"></i>
@@ -996,7 +1063,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                                 </button>  
                                                 <div class="contactNum d-flex justify-content-center gap-2">
                                                     <i class="ri-phone-line"></i>
-                                                    <p class="textBlue fw-bolder pb-0">+919677355555</p>    
+                                                    <p class="textBlue fw-bolder pb-0" href="tel:8010892265" id="callBtn" style="cursor: pointer;">+91 8010892265</p>    
                                                 </div> 
                                             </div>
                                         </div>
@@ -1244,7 +1311,30 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
         <script type="text/javascript" src="logout/logout.js"></script>
 
         <script>
+            document.addEventListener("DOMContentLoaded", function () {
 
+                const callBtn = document.getElementById("callBtn");
+
+                if (callBtn) {
+                    callBtn.addEventListener("click", function(e) {
+
+                        let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+                        if (!isMobile) {
+                            e.preventDefault();
+
+                            alert("📞 Calling works only on mobile devices.\nPlease dial 8010892265 from your phone.");
+                            location.reload();
+
+                            // Optional clipboard copy (safe fallback)
+                            if (navigator.clipboard) {
+                                navigator.clipboard.writeText("8010892265");
+                            }
+                        }
+                    });
+                }
+
+            });
             function checkCustomerCoupons(cust_id) {
                 if (cust_id) {
                     $.ajax({
@@ -3068,7 +3158,8 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                     moveSlider();
                 }
             });
-
+            // Initial check
+            updateSliderControls();
 
             // Resize
             window.addEventListener("resize", function () {
