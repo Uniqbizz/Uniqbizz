@@ -124,8 +124,8 @@
                     ta.status,
                     ta.user_type,
                     ca.institution_id AS reference_id,
-                    ca.firstname AS ref_firstname,
-                    ca.lastname AS ref_lastname
+                    ca.name AS ref_firstname,
+                    '' AS ref_lastname
 
                 FROM institution_branch_manager ta
 
@@ -149,15 +149,15 @@
                     ta.status,
                     ta.user_type,
                     ca.institution_id AS reference_id,
-                    ca.firstname AS ref_firstname,
-                    ca.lastname AS ref_lastname
+                    ca.name AS ref_firstname,
+                    '' AS ref_lastname
 
                 FROM institution_branch_manager ta
 
                 INNER JOIN institution ca
                     ON ta.reference_no = ca.institution_id
                 INNER JOIN business_mentor bm
-                    ON ca.reference_no = ca.business_mentor_id
+                    ON ca.reference_no = bm.business_mentor_id
 
                 WHERE bm.reference_no = :user_id
                 AND ta.status IN (0,2,4)

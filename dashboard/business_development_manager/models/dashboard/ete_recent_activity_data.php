@@ -104,7 +104,7 @@
 
         $sqlF = $conn->prepare("
             SELECT
-                CONCAT(firstname, ' ', lastname) AS name,
+                name,
                 register_date AS activity_date
             FROM institution
             WHERE reference_no = :user_id
@@ -113,7 +113,7 @@
             UNION ALL
 
             SELECT
-                CONCAT(i.firstname, ' ', i.lastname) AS name,
+                i.name,
                 i.register_date AS activity_date
             FROM institution i
             INNER JOIN business_mentor bm
