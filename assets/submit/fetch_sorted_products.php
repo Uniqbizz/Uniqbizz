@@ -1,126 +1,326 @@
 <?php
-    require '../../connect.php';
 
-    $user_id = $_POST['userid'];
-    $user_type = $_POST['usertype'];
-    $min_price = floatval($_POST['minPrice']);
-    $max_price = floatval($_POST['maxPrice']);
-    $min_duration = intval($_POST['minDuration']);
-    $max_duration = intval($_POST['maxDuration']);
-    $sort = $_POST['sort'];
-    $ratings = $_POST['ratings']; // Array of selected ratings
-    $tour_type = $_POST['tourType']??[0]; // Array of selected tour_type
-    $destination = trim($_POST['destination'] ?? 'All Locations');
-    $viewType = trim($_POST['viewType'] ?? '1');
-    // destination text
+require '../../connect.php';
 
-    $ratingsStr = implode(",", $ratings);
-    $tour_typeStr = implode(",", $tour_type);
-    //pagination logic
-    $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
-    $limit = 12; // number of packages per page
-    $offset = ($page - 1) * $limit;
-    //pagination logic 
+$user_id       = $_POST['userid'] ?? 0;
+$user_type     = $_POST['usertype'] ?? '';
+$min_price     = floatval($_POST['minPrice'] ?? 0);
+$max_price     = floatval($_POST['maxPrice'] ?? 999999999);
+$min_duration  = intval($_POST['minDuration'] ?? 1);
+$max_duration  = intval($_POST['maxDuration'] ?? 999);
+$sort          = trim($_POST['sort'] ?? '');
+$ratings       = $_POST['ratings'] ?? [];
+$theme       = $_POST['theme'] ?? [];
+$tour_type     = $_POST['tourType'] ?? [];
+$destination   = trim($_POST['destination'] ?? 'All Locations');
+$viewType      = trim($_POST['viewType'] ?? '1');
 
-    // Base SELECT
-    $select = "
-        SELECT 
-            p.id,
-            p.created_date,
-            p.name,
-            p.description,
-            p.location,
-            p.location,
-            p.tour_days,
-            t.total_package_price_per_adult,
-            t.price_up_per_adult,
-            t.markup_total,
-            c_h.name AS hotel_category";
 
-    if ($sort === 'popular') {
-        $select .= ",
-            p.tour_days,
-            COUNT(b.package_id) AS booking_count";
-    }
+// ============================================================
+// NORMALIZE ARRAYS
+// ============================================================
 
-    // FROM and JOINs
-    $from = "
-        FROM package p
-        JOIN package_pricing t ON p.id = t.package_id
-        JOIN category c ON p.category_id = c.id and c.status=1
-        JOIN category_hotel c_h ON p.category_hotel_id = c_h.id";
+if (!is_array($ratings)) {
+    $ratings = [$ratings];
+}
+if (!is_array($theme)) {
+    $theme = [$theme];
+}
 
-    if ($sort === 'popular') {
-        $from .= " LEFT JOIN bookings b ON b.package_id = p.id";
-    }
+$theme = array_filter(
+    array_map('trim', $theme),
+    fn($value) => $value !== ''
+);
 
-    // WHERE filters
-    $where = "
-        WHERE p.status = '1'
-        AND t.total_package_price_per_adult BETWEEN {$min_price} AND {$max_price}";
+if (!is_array($tour_type)) {
+    $tour_type = [$tour_type];
+}
 
-    if ($sort === 'popular') {
-        $where .= " AND (p.tour_days - 1) BETWEEN {$min_duration} AND {$max_duration}";
-    }
+$ratings   = array_map('intval', $ratings);
+// Theme values are strings
+$tour_type = array_map('intval', $tour_type);
 
-    // ✅ Ratings filter
-    if (!empty($ratingsStr)) {
-        $where .= " AND FIND_IN_SET(c_h.id, '{$ratingsStr}') > 0";
-    }
-    // tour type filter
-    if (!empty($tour_typeStr) && in_array($tour_typeStr,['1','2'])) {
-        $where .= " AND FIND_IN_SET(c.id, '{$tour_typeStr}') > 0";
-    }else if(!empty($tour_typeStr) && in_array($tour_typeStr,['0'])){
-        $where .= " AND FIND_IN_SET(c.id, '{1,2}') > 0";
-    }
 
-    // ✅ Destination filter (optional)
-    if (!empty($destination) && $destination !='All Locations') {
-        $where .= " AND p.location LIKE '%{$destination}%'";
-    }
+// ============================================================
+// PAGINATION
+// ============================================================
 
-    // GROUP BY
-    $groupBy = "
-        GROUP BY 
-            p.id, p.name, p.description, p.location, p.location,
-            t.total_package_price_per_adult,t.price_up_per_adult, t.markup_total, c_h.name";
+$page = isset($_POST['page']) ? max(1, intval($_POST['page'])) : 1;
 
-    if ($sort === 'popular') {
-        $groupBy .= ", p.tour_days";
-    }
+$limit  = 12;
+$offset = ($page - 1) * $limit;
 
-    // ORDER BY
-    switch ($sort) {
-        case 'low':
-            $orderBy = "ORDER BY t.total_package_price_per_adult ASC";
-            break;
-        case 'high':
-            $orderBy = "ORDER BY t.total_package_price_per_adult DESC";
-            break;
-        case 'new':
-            $orderBy = "ORDER BY p.created_date ASC";
-            break;
-        case 'popular':
-        default:
-            $orderBy = "ORDER BY booking_count DESC, p.id";
-            break;
-    }
 
-    // ✅ Final Query
-    // withouth pagination
-    // $orderByQuery = $select . " " . $from . " " . $where . " " . $groupBy . " " . $orderBy;
-    // without pagination
-    // pagination logic
-    $orderByQuery = $select . " " . $from . " " . $where . " " . $groupBy . " " . $orderBy . " LIMIT {$limit} OFFSET {$offset}";
-    // Count total records for pagination
-    $countQuery = "SELECT COUNT(DISTINCT p.id) AS total " . $from . " " . $where;
-    $countStmt = $conn->prepare($countQuery);
-    $countStmt->execute();
-    $totalRecords = $countStmt->fetchColumn();
-    $totalPages = ceil($totalRecords / $limit);
+// ============================================================
+// BASE SELECT
+// ============================================================
 
-    // pagination logic
-    //print_r($orderByQuery);
+$select = "
+    SELECT
+        p.id,
+        p.created_date,
+        p.name,
+        p.description,
+        p.location,
+        p.tour_days,
+        p.highlight_type,
+        p.package_type,
+        t.total_package_price_per_adult,
+        t.price_up_per_adult,
+        t.markup_total,
+
+        c_h.name AS hotel_category
+";
+
+
+// ============================================================
+// FROM / JOIN
+// ============================================================
+
+$from = "
+    FROM package p
+
+    JOIN package_pricing t
+        ON p.id = t.package_id
+
+    JOIN category c
+        ON p.category_id = c.id
+        AND c.status = 1
+
+    JOIN category_hotel c_h
+        ON p.category_hotel_id = c_h.id
+";
+
+
+// ============================================================
+// POPULAR JOIN
+// ============================================================
+
+if ($sort === 'Popular') {
+
+    $select .= ",
+        COUNT(b.package_id) AS booking_count
+    ";
+
+    $from .= "
+        LEFT JOIN bookings b
+            ON b.package_id = p.id
+    ";
+}
+
+
+// ============================================================
+// WHERE
+// ============================================================
+
+$where = "
+    WHERE p.status = '1'
+
+    AND t.total_package_price_per_adult
+        BETWEEN {$min_price} AND {$max_price}
+";
+
+
+// ============================================================
+// POPULAR DURATION FILTER
+// ============================================================
+
+if ($sort === 'Popular') {
+
+    $where .= "
+        AND (p.tour_days - 1)
+        BETWEEN {$min_duration} AND {$max_duration}
+    ";
+}
+
+
+// ============================================================
+// RATING FILTER
+// ============================================================
+
+if (!empty($ratings)) {
+
+    $ratingsStr = implode(',', $ratings);
+
+    $where .= "
+        AND FIND_IN_SET(c_h.id, '{$ratingsStr}') > 0
+    ";
+}
+
+// ============================================================
+// TOUR TYPE FILTER
+// 0 = ALL
+// ============================================================
+
+if (!empty($tour_type) && !in_array(0, $tour_type, true)) {
+
+    $tourTypeStr = implode(',', $tour_type);
+
+    $where .= "
+        AND FIND_IN_SET(c.id, '{$tourTypeStr}') > 0
+    ";
+}
+
+
+// ============================================================
+// DESTINATION FILTER
+// ============================================================
+
+if (
+    !empty($destination) &&
+    $destination !== 'All Locations'
+) {
+
+    $destinationEscaped = $conn->quote('%' . trim($destination) . '%');
+
+    $where .= "
+        AND (
+            LOWER(p.location) LIKE LOWER($destinationEscaped)
+            OR LOWER(p.name) LIKE LOWER($destinationEscaped)
+            OR LOWER(p.destination) LIKE LOWER($destinationEscaped)
+        )
+    ";
+}
+// ============================================================
+// THEME FILTER
+// ============================================================
+
+if (!empty($theme)) {
+
+    $themeValues = array_map(function ($value) use ($conn) {
+        return $conn->quote(trim($value));
+    }, $theme);
+
+    $themeStr = implode(',', $themeValues);
+
+    $where .= "
+        AND (
+            p.package_type IN ($themeStr)
+            OR NULLIF(TRIM(p.package_type), '') IS NULL
+            OR p.package_type NOT IN ($themeStr)
+        )
+    ";
+}
+
+// ============================================================
+// GROUP BY
+// ============================================================
+
+$groupBy = "
+    GROUP BY
+        p.id,
+        p.created_date,
+        p.name,
+        p.description,
+        p.location,
+        p.tour_days,
+        p.highlight_type,
+        t.total_package_price_per_adult,
+        t.price_up_per_adult,
+        t.markup_total,
+        c_h.name
+";
+
+
+// ============================================================
+// ORDER BY
+// ============================================================
+
+switch ($sort) {
+
+    // Lowest price
+    case 'low':
+
+        $orderBy = "
+            ORDER BY
+                t.total_package_price_per_adult ASC
+        ";
+
+        break;
+
+
+    // Highest price
+    case 'high':
+
+        $orderBy = "
+            ORDER BY
+                t.total_package_price_per_adult DESC
+        ";
+
+        break;
+
+
+    // Newest packages
+    case 'new':
+
+        $orderBy = "
+            ORDER BY
+                p.created_date DESC
+        ";
+
+        break;
+
+
+    // Popular
+    // Sort according to highlight_type value
+    case 'Popular':
+
+        $orderBy = "
+            ORDER BY
+                p.highlight_type ASC
+        ";
+
+        break;
+
+
+    // Default
+    default:
+
+        $orderBy = "
+            ORDER BY
+                p.created_date DESC
+        ";
+
+        break;
+}
+
+
+// ============================================================
+// FINAL QUERY
+// ============================================================
+
+$orderByQuery = "
+    {$select}
+    {$from}
+    {$where}
+    {$groupBy}
+    {$orderBy}
+    LIMIT {$limit}
+    OFFSET {$offset}
+";
+
+
+// ============================================================
+// COUNT QUERY
+// ============================================================
+
+$countQuery = "
+    SELECT COUNT(DISTINCT p.id) AS total
+    {$from}
+    {$where}
+";
+
+$countStmt = $conn->prepare($countQuery);
+
+$countStmt->execute();
+
+$totalRecords = (int) $countStmt->fetchColumn();
+
+$totalPages = $totalRecords > 0
+    ? ceil($totalRecords / $limit)
+    : 0;
+
+
 ?>
 
 <div class="all-tour-list <?=$viewType == 1?'':'d-none'?> " id="all-tour-list">
@@ -144,6 +344,8 @@
 
             $stmt = $conn->prepare($orderByQuery);
             $stmt->execute();
+            // print_r($stmt);
+            // exit;
             $stmt->SetFetchMode(PDO::FETCH_ASSOC);
             if ($stmt->rowCount() > 0) {
                 foreach (($stmt->fetchAll()) as $key => $row) {
@@ -179,8 +381,42 @@
                                 <a href="#" onclick='viewPackage("<?= $row["id"] ?>")'>
                                     <img src="<?=$value['image'] ?>" alt="BizzMirth">
                                 </a>
-                                <div class="badge-color">
-                                    <p class="trending">Trending</p>
+                                <?php
+
+                                    $packageType = trim((string)($row['highlight_type'] ?? ''));
+
+                                    switch ($packageType) {
+
+                                        case 'Trending':
+                                            $badgeText = 'Trending';
+                                            $badgeClass = 'badge-trending';
+                                            break;
+
+                                        case 'Best Seller':
+                                            $badgeText = 'Best Seller';
+                                            $badgeClass = 'badge-bestseller';
+                                            break;
+
+                                        case 'New Arrival':
+                                            $badgeText = 'New Arrival';
+                                            $badgeClass = 'badge-new-arrival';
+                                            break;
+
+                                        case '':
+                                            $badgeText = 'Popular';
+                                            $badgeClass = 'badge-popular';
+                                            break;
+
+                                        default:
+                                            $badgeText = 'Popular';
+                                            $badgeClass = 'badge-popular';
+                                            break;
+                                    }
+
+                                ?>
+
+                                <div class="badge-color <?= $badgeClass ?>">
+                                    <p><?= htmlspecialchars($badgeText) ?></p>
                                 </div>
                             </div>
                             <div class="package-content">

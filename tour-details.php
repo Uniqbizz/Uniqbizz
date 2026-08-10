@@ -1133,43 +1133,55 @@ if ($showGuestPrice) {
                                         <img src="assets/images/tourDetails/creameImg.png" alt="" class="cardCreame">
                                         <div class="packContent">
                                             <div class="row p-3">
+
                                                 <h5 class="fw-bolder text-black mb-2">What to Pack</h5>
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                                    <div class="d-flex gap-2">
+
+                                                <?php
+                                                $remarkData = $itinery['remark'] ?? '';
+
+                                                $remarks = json_decode($remarkData, true);
+
+                                                if (!is_array($remarks)) {
+                                                    $remarks = preg_split(
+                                                        '/\s*\.\s*/',
+                                                        trim($remarkData, " ."),
+                                                        -1,
+                                                        PREG_SPLIT_NO_EMPTY
+                                                    );
+                                                }
+
+                                                if (!empty($remarks) && is_array($remarks)):
+
+                                                    foreach ($remarks as $remark):
+                                                        $remark = trim($remark);
+
+                                                        if ($remark === '') {
+                                                            continue;
+                                                        }
+                                                ?>
+
+                                                        <div class="d-flex gap-2 align-items-start mb-2">
+                                                            <i class="ri-check-fill checkIconGreen"></i>
+                                                            <p class="fw-bolder mb-0">
+                                                                <?= htmlspecialchars($remark) ?>
+                                                            </p>
+                                                        </div>
+
+                                                <?php
+                                                    endforeach;
+
+                                                else:
+                                                ?>
+
+                                                    <div class="d-flex gap-2 align-items-start">
                                                         <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Comfortable clothing</p>
+                                                        <p class="fw-bolder mb-0">
+                                                            No Details available
+                                                        </p>
                                                     </div>
-                                                    <div class="d-flex gap-2">
-                                                        <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Walking Shoes</p>
-                                                    </div>
-                                                    <div class="d-flex gap-2">
-                                                        <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Sunscreen & Cap</p>
-                                                    </div>
-                                                    <div class="d-flex gap-2">
-                                                        <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Sunglasses</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                                    <div class="d-flex gap-2">
-                                                        <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Sunglasses</p>
-                                                    </div>
-                                                    <div class="d-flex gap-2">
-                                                        <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Personal Medicines</p>
-                                                    </div>
-                                                    <div class="d-flex gap-2">
-                                                        <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Camera</p>
-                                                    </div>
-                                                    <div class="d-flex gap-2">
-                                                        <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Light jacket / Shawl</p>
-                                                    </div>
-                                                </div>
+
+                                                <?php endif; ?>
+
                                             </div>
                                         </div>
                                     </div>
@@ -1179,29 +1191,52 @@ if ($showGuestPrice) {
                                         <img src="assets/images/tourDetails/purpleImg.png" alt="" class="cardPurple">
                                         <div class="packContent">
                                             <div class="row p-3">
+
                                                 <h5 class="fw-bolder text-black mb-2">Advance Preparation</h5>
+
                                                 <div class="col-xl-12">
-                                                    <div class="d-flex gap-2">
-                                                        <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Carry a valid ID proof</p>
-                                                    </div>
-                                                    <div class="d-flex gap-2">
-                                                        <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Keep a copy of travel tickets</p>
-                                                    </div>
-                                                    <div class="d-flex gap-2">
-                                                        <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Check weather before travel</p>
-                                                    </div>
-                                                    <div class="d-flex gap-2">
-                                                        <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Carry cash for local shopping</p>
-                                                    </div>
-                                                    <div class="d-flex gap-2">
-                                                        <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Stay hydrated</p>
-                                                    </div>
+
+                                                    <?php
+                                                    $travelInfo = $itinery['travel_info'] ?? '';
+                                                    $thingsToKnow = json_decode($itinery['travel_info'] ?? '[]', true);
+                                                    if (!is_array($thingsToKnow)) {
+                                                        $thingsToKnow = preg_split(
+                                                            '/\s*\.\s*/',
+                                                            trim($travelInfo, " ."),
+                                                            -1,
+                                                            PREG_SPLIT_NO_EMPTY
+                                                        );
+                                                    }
+                                                    if (!empty($thingsToKnow) && is_array($thingsToKnow)):
+
+                                                        foreach ($thingsToKnow as $thing):
+                                                            $thing = trim($thing);
+
+                                                            if ($thing === '') {
+                                                                continue;
+                                                            }
+                                                    ?>
+
+                                                            <div class="d-flex gap-2">
+                                                                <i class="ri-check-fill checkIconGreen"></i>
+                                                                <p class="fw-bolder"><?= htmlspecialchars($thing) ?></p>
+                                                            </div>
+
+                                                    <?php
+                                                        endforeach;
+
+                                                    else:
+                                                    ?>
+
+                                                        <div class="d-flex gap-2">
+                                                            <i class="ri-check-fill checkIconGreen"></i>
+                                                            <p class="fw-bolder">No Details available</p>
+                                                        </div>
+
+                                                    <?php endif; ?>
+
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -3061,36 +3096,52 @@ if ($showGuestPrice) {
             
             const track = document.getElementById("packageTrack");
 
-            packages.forEach(pkg => {
-                track.innerHTML += `
-                    <div class="package-item">
+            if (packages && packages.length > 0) {
 
-                        <a href="javascript:void(0);"
-                        class="text-decoration-none"
-                        onclick="window.location.href='tour-details.php?pacId=${pkg.packid}'">
+                packages.forEach(pkg => {
+                    track.innerHTML += `
+                        <div class="package-item">
 
-                            <div class="package-card">
+                            <a href="javascript:void(0);"
+                            class="text-decoration-none"
+                            onclick="window.location.href='tour-details.php?pacId=${pkg.packid}'">
 
-                                <img src="${pkg.image}" alt="${pkg.title}">
+                                <div class="package-card">
 
-                                <div class="package-body">
-                                    <h5>${pkg.title}</h5>
+                                    <img src="${pkg.image}" alt="${pkg.title}">
 
-                                    <p>${pkg.duration}</p>
+                                    <div class="package-body">
+                                        <h5>${pkg.title}</h5>
 
-                                    <div class="package-price">
-                                        ₹${pkg.price}
-                                        <span>/ Person</span>
+                                        <p>${pkg.duration}</p>
+
+                                        <div class="package-price">
+                                            ₹${pkg.price}
+                                            <span>/ Person</span>
+                                        </div>
                                     </div>
+
                                 </div>
 
-                            </div>
+                            </a>
 
-                        </a>
+                        </div>
+                    `;
+                });
 
+            } else {
+
+                track.innerHTML = `
+                    <div class="package-placeholder text-center w-100 py-5">
+                        <i class="ri-suitcase-line" style="font-size:40px;"></i>
+                        <h5 class="mt-3">No similar packages available</h5>
+                        <p class="text-muted mb-0">
+                            There are currently no similar packages available.
+                        </p>
                     </div>
                 `;
-            });
+
+            }
 
 
             let currentIndex = 0;
@@ -3197,8 +3248,8 @@ if ($showGuestPrice) {
 
                 } else {
 
-                    prevBtn.style.display = "flex";
-                    nextBtn.style.display = "flex";
+                    // prevBtn.style.display = "flex";
+                    // nextBtn.style.display = "flex";
 
                     moveSlider();
                 }

@@ -26,6 +26,15 @@ $stmtDestination->execute();
 $destinations = $stmtDestination->fetchAll(PDO::FETCH_ASSOC);
 // $page =  1;
 // $totalPages =10;
+//get the hotel types 
+$data7 = $conn->prepare("SELECT * FROM category_hotel");
+$data7->execute();
+
+if ($data7->rowCount() > 0) {
+    $categoryHotels = $data7->fetchAll(PDO::FETCH_ASSOC);
+} else {
+    $categoryHotels = [];
+}
 ?>
 <!DOCTYPE html>
 <html lang="zxx" dir="lrt">
@@ -113,6 +122,38 @@ $destinations = $stmtDestination->fetchAll(PDO::FETCH_ASSOC);
                 left: -44px;
             }
             .trending{
+                color: #fff;
+                font-size: 13px;
+                font-weight: bolder;
+            }
+
+            /* Package Type 1 */
+            .badge-trending p {
+                background-color: #e03d42;
+                color: #fff;
+                font-size: 13px;
+                font-weight: bolder;
+            }
+
+            /* Package Type 2 */
+            .badge-bestseller p {
+                background-color: #ffb400;
+                color: #fff;
+                font-size: 13px;
+                font-weight: bolder;
+            }
+
+            /* Package Type 3 */
+            .badge-featured p {
+                background-color: #198754;
+                color: #fff;
+                font-size: 13px;
+                font-weight: bolder;
+            }
+
+            /* Default */
+            .badge-popular p {
+                background-color: #6f42c1;
                 color: #fff;
                 font-size: 13px;
                 font-weight: bolder;
@@ -401,7 +442,104 @@ $destinations = $stmtDestination->fetchAll(PDO::FETCH_ASSOC);
                 font-size: 14px;
             }
 
+            .theme-checkbox {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 12px;
+            }
 
+            .theme-checkbox input[type="checkbox"] {
+                width: 15px;
+                height: 15px;
+                margin: 0;
+                flex-shrink: 0;
+                cursor: pointer;
+            }
+
+            .theme-checkbox > div {
+                display: flex;
+                align-items: center;
+            }
+
+            .theme-checkbox span {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 15px;
+                color: #444;
+                line-height: 1;
+                cursor: pointer;
+            }
+
+            .theme-checkbox span i {
+                font-size: 14px;
+                color: #FFB400;
+            }
+            .theme-section {
+                padding-top: 15px;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -ms-flex-wrap: wrap;
+                    flex-wrap: wrap;
+                gap: 4px;
+            }
+            .theme-section .theme-checkbox {
+                position: relative;
+                float: left;
+                border: 1px solid var(--tertiary-border);
+                -webkit-box-sizing: border-box;
+                        box-sizing: border-box;
+                border-radius: 4px;
+                background-color: #ffffff;
+                -webkit-transition: background-color 0.5s ease;
+                transition: background-color 0.5s ease;
+            }
+            .theme-section .theme-checkbox span {
+                padding: 4px 10px;
+                font-size: 14px;
+                font-weight: 500;
+                line-height: 1.4;
+                color: var(--primary-paragraph);
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-align: center;
+                    -ms-flex-align: center;
+                        align-items: center;
+                gap: 6px;
+            }
+            .theme-section .theme-checkbox div {
+                width: 100%;
+                height: 100%;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-pack: center;
+                    -ms-flex-pack: center;
+                        justify-content: center;
+                -webkit-box-align: center;
+                    -ms-flex-align: center;
+                        align-items: center;
+                line-height: 25px;
+            }
+            .theme-section .theme-checkbox input {
+                position: absolute;
+                top: 0;
+                left: 0;
+                opacity: 0;
+                cursor: pointer;
+                width: 100%;
+                height: 100%;
+            }
+            .theme-section .theme-checkbox input[type=checkbox]:checked + div {
+                background-color: var(--primary-color);
+                border-radius: 4px;
+            }
+            .theme-section .theme-checkbox input[type=checkbox]:checked + div span {
+                color: var(--white);
+            }
             /* ==========================================
             MOBILE
             ========================================== */
@@ -665,49 +803,207 @@ $destinations = $stmtDestination->fetchAll(PDO::FETCH_ASSOC);
                                     <h4 class="title">Hotel Category</h4>
                                 </div>
                                 <div class="ratting-section">
-                                    <div class="ratting-checkbox">
-                                        <input type="checkbox" id="3" checked>
+
+                                    <?php foreach ($categoryHotels as $categoryHotel): ?>
+
+                                        <?php
+                                        $id = (int) $categoryHotel['id'];
+                                        $name = trim($categoryHotel['name']);
+
+                                        // Check if this is a star category
+                                        $isStar = preg_match('/^[1-5]\s*Star$/i', $name);
+
+                                        // Get number for star category
+                                        $starNumber = $isStar ? (int) filter_var($name, FILTER_SANITIZE_NUMBER_INT) : null;
+                                        ?>
+
+                                        <div class="ratting-checkbox">
+
+                                            <input
+                                                type="checkbox"
+                                                id="<?= $id ?>"
+                                                name="hotel_category[]"
+                                                value="<?= $id ?>"
+                                                checked
+                                            >
+
+                                            <div>
+                                                <span>
+
+                                                    <?php if ($isStar): ?>
+
+                                                        <!-- Star Icon -->
+                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                            width="14"
+                                                            height="13"
+                                                            viewBox="0 0 14 13"
+                                                            fill="none">
+
+                                                            <path
+                                                                d="M6.09749 0.891366C6.45972 0.132244 7.54028 0.132244 7.90251 0.891366L9.07038 3.33882C9.21616 3.64433 9.5066 3.85534 9.84221 3.89958L12.5308 4.25399C13.3647 4.36391 13.6986 5.39158 13.0885 5.97067L11.1218 7.83768C10.8763 8.07073 10.7653 8.41217 10.827 8.74502L11.3207 11.4115C11.4739 12.2386 10.5997 12.8737 9.86041 12.4725L7.47702 11.1789C7.1795 11.0174 6.8205 11.0174 6.52298 11.1789L4.13959 12.4725C3.40033 12.8737 2.52614 12.2386 2.67929 11.4115L3.17304 8.74502C3.23467 8.41217 3.12373 8.07073 2.87823 7.83768L0.911452 5.97067C0.301421 5.39158 0.635332 4.36391 1.46924 4.25399L4.15779 3.89958C4.4934 3.85534 4.78384 3.64433 4.92962 3.33882L6.09749 0.891366Z"
+                                                                fill="#FFB400" />
+
+                                                        </svg>
+
+                                                        <?= $starNumber ?>
+
+                                                    <?php elseif (strtolower($name) === 'villa'): ?>
+
+                                                        <!-- Villa Icon -->
+                                                        <i class="ri-home-4-line"
+                                                            style="font-size:14px; color:#FFB400;"></i>
+
+                                                        Villa
+
+                                                    <?php elseif (strtolower($name) === 'apartment'): ?>
+
+                                                        <!-- Apartment Icon -->
+                                                        <i class="ri-building-2-line"
+                                                            style="font-size:14px; color:#FFB400;"></i>
+
+                                                        Apartment
+
+                                                    <?php else: ?>
+
+                                                        <!-- Fallback -->
+                                                        <?= htmlspecialchars($name) ?>
+
+                                                    <?php endif; ?>
+
+                                                </span>
+                                            </div>
+
+                                        </div>
+
+                                    <?php endforeach; ?>
+
+                                </div>
+
+                                <div class="heading">
+
+                                    <h4 class="title">Travel Theme / Type </h4>
+                                </div>
+                                <div class="theme-section">
+                                    <!-- Leisure -->
+                                    <div class="theme-checkbox">
+                                        <input
+                                            type="checkbox"
+                                            id="Leisure"
+                                            name="travelTheme[]"
+                                            value="Leisure"
+                                            checked
+                                        >
+
                                         <div>
                                             <span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="13"
-                                                    viewBox="0 0 14 13" fill="none">
-                                                    <path
-                                                        d="M6.09749 0.891366C6.45972 0.132244 7.54028 0.132244 7.90251 0.891366L9.07038 3.33882C9.21616 3.64433 9.5066 3.85534 9.84221 3.89958L12.5308 4.25399C13.3647 4.36391 13.6986 5.39158 13.0885 5.97067L11.1218 7.83768C10.8763 8.07073 10.7653 8.41217 10.827 8.74502L11.3207 11.4115C11.4739 12.2386 10.5997 12.8737 9.86041 12.4725L7.47702 11.1789C7.1795 11.0174 6.8205 11.0174 6.52298 11.1789L4.13959 12.4725C3.40033 12.8737 2.52614 12.2386 2.67929 11.4115L3.17304 8.74502C3.23467 8.41217 3.12373 8.07073 2.87823 7.83768L0.911452 5.97067C0.301421 5.39158 0.635332 4.36391 1.46924 4.25399L4.15779 3.89958C4.4934 3.85534 4.78384 3.64433 4.92962 3.33882L6.09749 0.891366Z"
-                                                        fill="#FFB400" />
-                                                </svg>
-                                                3
+                                                <i class="fa-solid fa-mountain-city"
+                                                style="font-size:14px; color:#FFB400;"></i>
+                                                Leisure
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="ratting-checkbox">
-                                        <input type="checkbox" id="4" checked>
+
+
+                                    <!-- Adventure -->
+                                    <div class="theme-checkbox">
+                                        <input
+                                            type="checkbox"
+                                            id="Adventure"
+                                            name="travelTheme[]"
+                                            value="Adventure"
+                                            checked
+                                        >
+
                                         <div>
                                             <span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="13"
-                                                    viewBox="0 0 14 13" fill="none">
-                                                    <path
-                                                        d="M6.09749 0.891366C6.45972 0.132244 7.54028 0.132244 7.90251 0.891366L9.07038 3.33882C9.21616 3.64433 9.5066 3.85534 9.84221 3.89958L12.5308 4.25399C13.3647 4.36391 13.6986 5.39158 13.0885 5.97067L11.1218 7.83768C10.8763 8.07073 10.7653 8.41217 10.827 8.74502L11.3207 11.4115C11.4739 12.2386 10.5997 12.8737 9.86041 12.4725L7.47702 11.1789C7.1795 11.0174 6.8205 11.0174 6.52298 11.1789L4.13959 12.4725C3.40033 12.8737 2.52614 12.2386 2.67929 11.4115L3.17304 8.74502C3.23467 8.41217 3.12373 8.07073 2.87823 7.83768L0.911452 5.97067C0.301421 5.39158 0.635332 4.36391 1.46924 4.25399L4.15779 3.89958C4.4934 3.85534 4.78384 3.64433 4.92962 3.33882L6.09749 0.891366Z"
-                                                        fill="#FFB400" />
-                                                </svg>
-                                                4
+                                                <i class="fa-solid fa-mountain-sun"
+                                                style="font-size:14px; color:#FFB400;"></i>
+                                                Adventure
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="ratting-checkbox">
-                                        <input type="checkbox" id="5" checked>
+
+
+                                    <!-- Spiritual -->
+                                    <div class="theme-checkbox">
+                                        <input
+                                            type="checkbox"
+                                            id="Spiritual"
+                                            name="travelTheme[]"
+                                            value="Spiritual"
+                                            checked
+                                        >
+
                                         <div>
                                             <span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="13"
-                                                    viewBox="0 0 14 13" fill="none">
-                                                    <path
-                                                        d="M6.09749 0.891366C6.45972 0.132244 7.54028 0.132244 7.90251 0.891366L9.07038 3.33882C9.21616 3.64433 9.5066 3.85534 9.84221 3.89958L12.5308 4.25399C13.3647 4.36391 13.6986 5.39158 13.0885 5.97067L11.1218 7.83768C10.8763 8.07073 10.7653 8.41217 10.827 8.74502L11.3207 11.4115C11.4739 12.2386 10.5997 12.8737 9.86041 12.4725L7.47702 11.1789C7.1795 11.0174 6.8205 11.0174 6.52298 11.1789L4.13959 12.4725C3.40033 12.8737 2.52614 12.2386 2.67929 11.4115L3.17304 8.74502C3.23467 8.41217 3.12373 8.07073 2.87823 7.83768L0.911452 5.97067C0.301421 5.39158 0.635332 4.36391 1.46924 4.25399L4.15779 3.89958C4.4934 3.85534 4.78384 3.64433 4.92962 3.33882L6.09749 0.891366Z"
-                                                        fill="#FFB400" />
-                                                </svg>
-                                                5
+                                                <i class="fa-solid fa-place-of-worship"
+                                                style="font-size:14px; color:#FFB400;"></i>
+                                                Spiritual
+                                            </span>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Beach -->
+                                    <div class="theme-checkbox">
+                                        <input
+                                            type="checkbox"
+                                            id="Beach"
+                                            name="travelTheme[]"
+                                            value="Beach"
+                                            checked
+                                        >
+
+                                        <div>
+                                            <span>
+                                                <i class="fa-solid fa-umbrella-beach"
+                                                style="font-size:14px; color:#FFB400;"></i>
+                                                Beach
+                                            </span>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Honeymoon -->
+                                    <div class="theme-checkbox">
+                                        <input
+                                            type="checkbox"
+                                            id="Honeymoon"
+                                            name="travelTheme[]"
+                                            value="Honeymoon"
+                                            checked
+                                        >
+
+                                        <div>
+                                            <span>
+                                                <i class="fa-solid fa-heart"
+                                                style="font-size:14px; color:#FFB400;"></i>
+                                                Honeymoon
+                                            </span>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Other -->
+                                    <div class="theme-checkbox">
+                                        <input
+                                            type="checkbox"
+                                            id="Other"
+                                            name="travelTheme[]"
+                                            value="Other"
+                                            checked
+                                        >
+
+                                        <div>
+                                            <span>
+                                                <i class="fa-solid fa-crosshairs"
+                                                style="font-size:14px; color:#FFB400;"></i>
+                                                Other
                                             </span>
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <div class="mt-4">
                                     <button id="clearAll" class="btn btn-outline-secondary btn-sm">Clear</button>
                                 </div>
@@ -786,7 +1082,10 @@ $destinations = $stmtDestination->fetchAll(PDO::FETCH_ASSOC);
                                     </div>
                                     <div class="sorting-dropdown ">
                                         <select class="select2 sort-options">
-                                            <option value="popular"> Sort by Popular</option>
+                                            <option value="Popular"> Sort by Popular</option>
+                                            <option value="Trending"> Sort by Trending</option>
+                                            <option value="Most Selling"> Sort by Most Selling</option>
+                                            <option value="New Arrival"> Sort by New Arrival</option>
                                             <option value="low">Price low to high</option>
                                             <option value="high">Price high to low</option>
                                             <option value="new">Sort by Newset</option>
@@ -817,14 +1116,22 @@ $destinations = $stmtDestination->fetchAll(PDO::FETCH_ASSOC);
                                             }
                                         }
 
-                                        $stmt = $conn->prepare(" SELECT p.id,p.created_date, p.name,p.description, p.destination, p.location, p.tour_days, t.net_price_adult_with_GST, t.markup_total, COUNT(b.package_id) AS booking_count FROM package p JOIN package_pricing t ON p.id = t.package_id JOIN category c ON p.category_id = c.id LEFT JOIN bookings b ON b.package_id = p.id WHERE p.status = '1' GROUP BY p.id, p.description, p.destination, p.location, t.net_price_adult_with_GST, t.markup_total ORDER BY booking_count DESC, p.id  ");
+                                        $stmt = $conn->prepare(" SELECT p.id,p.created_date, p.name,p.description, p.destination, p.location, p.tour_days, 
+                                                                t.net_price_adult_with_GST, t.markup_total, COUNT(b.package_id) AS booking_count,p.highlight_type
+                                                                FROM package p JOIN package_pricing t ON p.id = t.package_id 
+                                                                JOIN category c ON p.category_id = c.id 
+                                                                LEFT JOIN bookings b ON b.package_id = p.id 
+                                                                WHERE p.status = '1' 
+                                                                GROUP BY p.id, p.description, p.destination, p.location, t.net_price_adult_with_GST, t.markup_total 
+                                                                ORDER BY booking_count DESC, p.id  ");
                                         $stmt->execute();
                                         $stmt->SetFetchMode(PDO::FETCH_ASSOC);
                                         if ($stmt->rowCount() > 0) {
                                             foreach (($stmt->fetchAll()) as $key => $row) {
                                                 // $name = $row['name'].''.$row['unique_code'];
                                                 // echo $srno.' '.$name.'</br>';
-
+                                                $badgeText = 'Popular';
+                                                $badgeClass = 'badge-popular';
                                                 // get images
                                                 $data = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = '" . $row['id'] . "' LIMIT 1");
                                                 $data->execute();
@@ -849,6 +1156,37 @@ $destinations = $stmtDestination->fetchAll(PDO::FETCH_ASSOC);
                                                     $total_price = $total_base_price;
                                                 }
 
+                                                $packageType = trim((string)($row['highlight_type'] ?? ''));
+                                                
+                                                switch ($packageType) {
+
+                                                    case 'Trending':
+                                                        $badgeText = 'Trending';
+                                                        $badgeClass = 'badge-trending';
+                                                        break;
+
+                                                    case 'Best Seller':
+                                                        $badgeText = 'Best Seller';
+                                                        $badgeClass = 'badge-bestseller';
+                                                        break;
+
+                                                    case 'New Arrival':
+                                                        $badgeText = 'New Arrival';
+                                                        $badgeClass = 'badge-new-arrival';
+                                                        break;
+
+                                                    case '':
+                                                        $badgeText = 'Popular';
+                                                        $badgeClass = 'badge-popular';
+                                                        break;
+
+                                                    default:
+                                                        $badgeText = 'Popular';
+                                                        $badgeClass = 'badge-popular';
+                                                        break;
+                                                }
+
+                                
                                                 echo '
                                                     <div class="col-xl-4 col-lg-4 col-sm-6">
                                                         <div class="package-card">
@@ -856,8 +1194,8 @@ $destinations = $stmtDestination->fetchAll(PDO::FETCH_ASSOC);
                                                                 <a href="#" onclick=\'viewPackage("' . $row['id'] . '")\'>
                                                                     <img src="' . $value['image'] . '" alt="BizzMirth">
                                                                 </a>
-                                                                <div class="badge-color">
-                                                                    <p class="trending">Trending</p>
+                                                                <div class="badge-color '.$badgeClass.'">
+                                                                    <p>'.htmlspecialchars($badgeText).'</p>
                                                                 </div>
                                                             </div>
                                                             <div class="package-content">
@@ -1071,6 +1409,7 @@ $destinations = $stmtDestination->fetchAll(PDO::FETCH_ASSOC);
             let listBtnVal = document.getElementById("all-tour-list");
             let gridBtnVal = document.getElementById("all-tour-grid");
             let viewType = 0;
+            let theme=getSelectedTheme();
             let page = 1 ;
             const listView = $("#all-tour-list");
             const gridView = $("#all-tour-grid");
@@ -1089,9 +1428,23 @@ $destinations = $stmtDestination->fetchAll(PDO::FETCH_ASSOC);
             //extract selected ratings
             function getSelectedRatings() {
                 let selected = [];
+
                 $(".ratting-section input[type='checkbox']:checked").each(function() {
                     selected.push($(this).attr("id"));
                 });
+                console.log(selected);
+                
+                return selected;
+            }
+            //extract selected ratings
+            function getSelectedTheme() {
+                let selected = [];
+
+                $(".theme-section input[type='checkbox']:checked").each(function() {
+                    selected.push($(this).val());
+                });
+                console.log(selected);
+                
                 return selected;
             }
             
@@ -1104,6 +1457,7 @@ $destinations = $stmtDestination->fetchAll(PDO::FETCH_ASSOC);
 
             function fetchSortedProducts(page,sortValue, minPrice, maxPrice, minDuration, maxDuration, destination, tourType,viewType) {
                 let ratings = getSelectedRatings();
+                let theme = getSelectedTheme();
 
                 $.ajax({
                     url: "assets/submit/fetch_sorted_products.php",
@@ -1120,7 +1474,8 @@ $destinations = $stmtDestination->fetchAll(PDO::FETCH_ASSOC);
                         ratings: ratings,
                         destination: destination,
                         tourType: tourType,
-                        viewType: viewType
+                        viewType: viewType,
+                        theme:theme
                     },
                     success: function(response) {
                         $("#all-tour-container").html(''); // ✅ clear old content to avoid duplicate IDs
@@ -1214,6 +1569,31 @@ $destinations = $stmtDestination->fetchAll(PDO::FETCH_ASSOC);
 
             // Run AJAX on rating checkbox change
             $(".ratting-section input[type='checkbox']").on("change", function() {
+                // priceRange = $("#amount").val();
+                // prices = extractPrices(priceRange);
+                // sortValue = $(".sort-options").val();
+
+                // minDuration = $("#slider-range-duration").slider("values", 0);
+                // maxDuration = $("#slider-range-duration").slider("values", 1);
+
+                
+                // tourType = getTourType();
+                // listBtnVal = document.getElementById("all-tour-list");
+                // gridBtnVal = document.getElementById("all-tour-grid");
+                // viewType = 0;
+
+                // if (!listBtnVal.classList.contains('d-none')) {
+                //     viewType = 1; // list view
+                // } else if (!gridBtnVal.classList.contains('d-none')) {
+                //     viewType = 2; // grid view
+                // }
+                // fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDestination,tourType,viewType);
+                page = 1;
+
+                applyFilters();
+            });
+            // Run AJAX on rating checkbox change
+            $(".theme-section input[type='checkbox']").on("change", function() {
                 // priceRange = $("#amount").val();
                 // prices = extractPrices(priceRange);
                 // sortValue = $(".sort-options").val();
@@ -1492,19 +1872,43 @@ $destinations = $stmtDestination->fetchAll(PDO::FETCH_ASSOC);
                     let matchCount = 0;
 
 
+                    // options.forEach(function (option) {
+
+                    //     const destination = option
+                    //         .dataset.value
+                    //         .toLowerCase();
+
+                    //     if (
+                    //         searchValue === "" ||
+                    //         destination.includes(searchValue)
+                    //     ) {
+
+                    //         option.style.display = "flex";
+
+                    //         matchCount++;
+
+                    //     } else {
+
+                    //         option.style.display = "none";
+
+                    //     }
+
+                    // });
                     options.forEach(function (option) {
 
-                        const destination = option
-                            .dataset.value
-                            .toLowerCase();
+                        const destination = (option.dataset.value || "").toLowerCase();
+
+                        const name = (
+                            option.querySelector(".destination-option-text strong")?.textContent || ""
+                        ).trim().toLowerCase();
 
                         if (
                             searchValue === "" ||
-                            destination.includes(searchValue)
+                            destination.includes(searchValue) ||
+                            name.includes(searchValue)
                         ) {
 
                             option.style.display = "flex";
-
                             matchCount++;
 
                         } else {
