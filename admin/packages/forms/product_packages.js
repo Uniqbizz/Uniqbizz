@@ -2269,7 +2269,7 @@ $('#package_form_policy_nextBtn').on('click', function (e) {
     if (!validatePolicy()) {
         return false;
     }
-
+    collectPolicy();
     console.log(payLoadData);
     console.log(window.packageFormData);
 
@@ -2285,7 +2285,19 @@ $("#update_form").on("click", function (e) {
         return false;
     }
 
-    let formData = window.packageFormData;
+    let formData = new FormData();
+
+    // Documents
+    // Policy Documents
+    window.attachments.forEach(item => {
+
+        if (!item.existing && item.file) {
+
+            formData.append("documents[]", item.file);
+
+        }
+
+    });
 
     formData.set("payload", JSON.stringify(payLoadData));
 

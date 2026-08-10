@@ -25,7 +25,11 @@ $user_id = $_SESSION['user_id'] ?? null;
 //     echo "Welcome, Guest!";
 // }
 
-$id = $_GET['pacId']; //package_id '156'
+$id = isset($_GET['pacId']) ? (int)$_GET['pacId'] : 0;
+
+if ($id <= 0) {
+    die("Invalid package ID");
+}
 
 // echo $userFname = $_SESSION['username2']; //first name of user 'Ryam'.
 // echo $userLname = $_SESSION['lname']; //last name of user 'Cardoso'.
@@ -230,9 +234,8 @@ $packages = $sqlPack->fetchAll(PDO::FETCH_ASSOC);
 
 $package_array = [];
 
-foreach ($packages as $package) {
+foreach ($packages as $similarPackage) {
 
-    // Get package price
     $sqlPackPrice = $conn->prepare("
         SELECT total_package_price_per_adult
         FROM package_pricing
@@ -241,11 +244,10 @@ foreach ($packages as $package) {
         LIMIT 1
     ");
 
-    $sqlPackPrice->execute([$package['id']]);
+    $sqlPackPrice->execute([$similarPackage['id']]);
 
     $packagePrice = $sqlPackPrice->fetch(PDO::FETCH_ASSOC);
 
-    // Get first package image
     $sqlPackImage = $conn->prepare("
         SELECT image
         FROM package_pictures
@@ -254,24 +256,22 @@ foreach ($packages as $package) {
         LIMIT 1
     ");
 
-    $sqlPackImage->execute([$package['id']]);
+    $sqlPackImage->execute([$similarPackage['id']]);
 
     $packageImage = $sqlPackImage->fetch(PDO::FETCH_ASSOC);
 
-    // Calculate duration
-    $days = (int)$package['tour_days'];
-    $nights = $days - 1;
+    $days = (int)$similarPackage['tour_days'];
+    $nights = max(0, $days - 1);
 
     $package_duration = $nights . "N / " . $days . "D";
 
-    // Store in multidimensional array
     $package_array[] = [
-        "packid"    => $package['id'],
-        "title"     => $package['name'],
-        "duration"  => $package_duration,
-        "price"     => $packagePrice['total_package_price_per_adult'] ?? 0,
-        "image"     => $packageImage['image'] ?? '',
-        "link"      => "tour-details.php?pacId=" . $package['id']
+        "packid"   => $similarPackage['id'],
+        "title"    => $similarPackage['name'],
+        "duration" => $package_duration,
+        "price"    => $packagePrice['total_package_price_per_adult'] ?? 0,
+        "image"    => $packageImage['image'] ?? '',
+        "link"     => "tour-details.php?pacId=" . $similarPackage['id']
     ];
 }
 //guest princinglogic
@@ -1073,7 +1073,7 @@ if ($showGuestPrice) {
                                                     <div class="goldBtn">
                                                         <i class="ri-download-2-line"></i>
                                                     </div>
-                                                    Download Ininery
+                                                    Download Itinerary
                                                 </div>
                                             </div>
                                             <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3">
@@ -1081,7 +1081,7 @@ if ($showGuestPrice) {
                                                     <div class="goldBtn">
                                                         <i class="ri-mail-line"></i>
                                                     </div>
-                                                    Email Ininery
+                                                    Email Itinerary
                                                 </div>
                                             </div>
                                             <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3">
@@ -1089,7 +1089,7 @@ if ($showGuestPrice) {
                                                     <div class="goldBtn">
                                                         <i class="ri-send-plane-line"></i>
                                                     </div>
-                                                    Send Ininery
+                                                    Send Itinerary
                                                 </div>
                                             </div>
                                         </div>
@@ -3064,18 +3064,30 @@ if ($showGuestPrice) {
             packages.forEach(pkg => {
                 track.innerHTML += `
                     <div class="package-item">
-                        <a href="${pkg.link}" class="text-decoration-none">
+
+                        <a href="javascript:void(0);"
+                        class="text-decoration-none"
+                        onclick="window.location.href='tour-details.php?pacId=${pkg.packid}'">
+
                             <div class="package-card">
+
                                 <img src="${pkg.image}" alt="${pkg.title}">
+
                                 <div class="package-body">
                                     <h5>${pkg.title}</h5>
+
                                     <p>${pkg.duration}</p>
+
                                     <div class="package-price">
-                                        ₹${pkg.price} <span>/ Person</span>
+                                        ₹${pkg.price}
+                                        <span>/ Person</span>
                                     </div>
                                 </div>
+
                             </div>
+
                         </a>
+
                     </div>
                 `;
             });

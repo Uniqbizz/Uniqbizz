@@ -1986,8 +1986,8 @@ $gstValue = $gst['gst'] ?? 0;
             const addDocumentBtn = document.getElementById("addDocumentBtn");
 
             let selectedFile = null;
-            let attachments = [];
-            let deletedDocuments = [];
+            window.attachments = window.attachments || [];
+            window.deletedDocuments = window.deletedDocuments || [];
             // Return icon based on file extension
             function getFileIcon(fileName) {
                 const ext = fileName.split(".").pop().toLowerCase();
