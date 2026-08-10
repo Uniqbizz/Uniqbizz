@@ -79,7 +79,7 @@
                             </div>
                             <div class="greetingCard">
                                 <p class="fw-bold text-dark gap-3 fs-4">Welcome Back,<span class="" id="userName"></span>! &#128075;</p>
-                                <h1 class="fw-bold text-dark gap-3">Sponsor Franchisee</h1>
+                                <h1 class="fw-bold text-dark gap-3">Master Franchisee</h1>
                                 <p class="text-dark fs-4 mb-0">You're building something great.</p>
                                 <p class="text-dark fs-4">Here's your business overview.</p>
                             </div>
