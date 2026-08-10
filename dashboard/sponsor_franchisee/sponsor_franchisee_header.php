@@ -15,7 +15,7 @@
                 <!-- LOGO -->
                 <div class="navbar-brand-box ms-5" class="rounded-4">
                     <!-- Light Logo-->
-                    <a href="index.php" class="logo logo-light">
+                    <a href="sponsor_franchisee_dashboard.php" class="logo logo-light">
                         <span class="logo-sm">
                             <img src="../assets/images/fav.png" alt="" height="25">
                         </span>
@@ -26,7 +26,7 @@
                 </div>
                 <!-- logo for mobile view  -->
                 <div class="com_logo">
-                    <a href="index.php" class="logo logo-light">
+                    <a href="sponsor_franchisee_dashboard.php" class="logo logo-light">
                         <span class="logo-sm">
                             <img src="../assets/images/bizz_logo.png" alt="" height="50">
                         </span>
