@@ -148,18 +148,20 @@ switch ($user_type) {
     case '25': // BDM
         $bms = fetchReferrals($conn, 'business_mentor', 'reference_no', $userId);
         $tes = fetchReferrals($conn, 'corporate_agency', 'reference_no', $userId);
-
-        if (empty($bms) && empty($tes)) {
+        $fs = fetchReferrals($conn, 'sub_franchisee', 'reference_no', $userId);
+        
+        if (empty($bms) && empty($tes) && empty($fs)) {
             noReferralsFoundMessage();
         } else {
             foreach ($bms as $bm) {
                 $teReferrals = fetchReferrals($conn, 'corporate_agency', 'reference_no', $bm['business_mentor_id']);
+                $fReferrals = fetchReferrals($conn, 'sub_franchisee', 'reference_no', $bm['business_mentor_id']);
                 $directTCs = fetchReferrals($conn, 'ca_travelagency', 'reference_no', $bm['business_mentor_id']);
                 $bmCount = count($teReferrals) + count($directTCs);
 
                 renderAccordionItemFull("BM", $bm, 'business_mentor_id', $bmCount);
 
-                if (empty($teReferrals) && empty($directTCs)) {
+                if (empty($teReferrals) && empty($directTCs) && empty($fReferrals)) {
                     noReferralsFoundMessage();
                 } else {
                     foreach ($teReferrals as $te) {
@@ -167,6 +169,26 @@ switch ($user_type) {
                         renderAccordionItemFull("TE", $te, 'corporate_agency_id', $teCount);
 
                         $tcs = fetchReferrals($conn, 'ca_travelagency', 'reference_no', $te['corporate_agency_id']);
+                        if (empty($tcs)) {
+                            noReferralsFoundMessage();
+                        } else {
+                            foreach ($tcs as $tc) {
+                                $tcId = $tc['ca_travelagency_id'];
+                                $tcCount = fetchReferralCount($conn, 'ca_customer', 'reference_no', $tcId) +
+                                           fetchReferralCount($conn, 'ca_customer', 'ta_reference_no', $tcId);
+                                renderAccordionItemFull("TC", $tc, 'ca_travelagency_id', $tcCount);
+                                renderCustomerReferrals($conn, $tcId, 4);
+                                echo "</div>";
+                            }
+                        }
+                        echo "</div>";
+                    }
+                    
+                    foreach ($fReferrals as $f) {
+                        $fCount = fetchReferralCount($conn, 'ca_travelagency', 'reference_no', $f['sub_franchisee_id']);
+                        renderAccordionItemFull("F", $f, 'sub_franchisee_id', $fCount);
+
+                        $tcs = fetchReferrals($conn, 'ca_travelagency', 'reference_no', $f['sub_franchisee_id']);
                         if (empty($tcs)) {
                             noReferralsFoundMessage();
                         } else {
@@ -213,6 +235,27 @@ switch ($user_type) {
                 }
                 echo "</div>";
             }
+            
+            foreach ($fs as $f) {
+                $fCount = fetchReferralCount($conn, 'ca_travelagency', 'reference_no', $f['sub_franchisee_id']);
+                renderAccordionItemFull("F", $f, 'sub_franchisee_id', $fCount);
+
+                $tcs = fetchReferrals($conn, 'ca_travelagency', 'reference_no', $f['sub_franchisee_id']);
+                if (empty($tcs)) {
+                    noReferralsFoundMessage();
+                } else {
+                    foreach ($tcs as $tc) {
+                        $tcId = $tc['ca_travelagency_id'];
+                        $tcCount = fetchReferralCount($conn, 'ca_customer', 'reference_no', $tcId) +
+                                   fetchReferralCount($conn, 'ca_customer', 'ta_reference_no', $tcId);
+                        renderAccordionItemFull("TC", $tc, 'ca_travelagency_id', $tcCount);
+                        renderCustomerReferrals($conn, $tcId, 3);
+                        echo "</div>";
+                    }
+                }
+                echo "</div>";
+            }
+            
         }
         break;
 
