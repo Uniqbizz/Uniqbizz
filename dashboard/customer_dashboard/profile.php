@@ -77,913 +77,986 @@
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
 
-<head>
+    <head>
+        <meta charset="utf-8" />
+        <title>Dashboard | Uniqbizz</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+        <meta content="Themesbrand" name="author" />
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="../assets/images/fav.png">
 
-    <meta charset="utf-8" />
-    <title>Dashboard | Uniqbizz</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
-    <meta content="Themesbrand" name="author" />
-    <!-- App favicon -->
-    <link rel="shortcut icon" href="../assets/images/fav.png">
+        <!-- jsvectormap css -->
+        <link href="../assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
 
-    <!-- jsvectormap css -->
-    <link href="../assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
+        <!--Swiper slider css-->
+        <link href="../assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
 
-    <!--Swiper slider css-->
-    <link href="../assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
-
-    <!-- Layout config Js -->
-    <script src="../assets/js/layout.js"></script>
-    <!-- Bootstrap Css -->
-    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <!-- Icons Css -->
-    <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-    <!-- App Css-->
-    <link href="../assets/css/app.min.css" rel="stylesheet" type="text/css" />
-    <!-- custom Css-->
-    <link href="../assets/css/custom.min.css" rel="stylesheet" type="text/css" />
-    <!-- custom Css developer-->
-    <link rel="stylesheet" href="../assets/css/custom.css" />
-    <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css" />
-    
-    <!-- Customer Dashboard CSS -->
-    <link rel="stylesheet" href="../assets/css/customer_dashboard.css" />
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    
-    <style>
-        .upload-documents {
-            display: flex !important;
-            justify-content: space-between !important;
-        }
-
-        .top-space {
-            margin-top: 60px;
-        }
-
-        @media (max-width: 768px) {
+        <!-- Layout config Js -->
+        <script src="../assets/js/layout.js"></script>
+        <!-- Bootstrap Css -->
+        <link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- Icons Css -->
+        <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <!-- custom Css-->
+        <link href="../assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <!-- App Css-->
+        <link href="../assets/css/app.min.css" rel="stylesheet" type="text/css" />
+        <!-- custom Css developer-->
+        <link rel="stylesheet" href="../assets/css/custom.css" />
+        <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css" />
+        
+        <!-- Customer Dashboard CSS -->
+        <link rel="stylesheet" href="../assets/css/customer_dashboard.css" />
+        <!-- FontAwesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        
+        <style>
             .upload-documents {
-                width: 100%;
-                display: block !important;
-            }
-        }
-
-        @media (min-width: 1400px) {
-            .upload-documents {
-                display: block !important;
-                margin-top: 135px;
+                display: flex !important;
+                justify-content: space-between !important;
             }
 
-            .column {
-                margin-top: -530px;
+            .top-space {
+                margin-top: 60px;
             }
-        }
-    </style>
 
-</head>
+            @media (max-width: 768px) {
+                .upload-documents {
+                    width: 100%;
+                    display: block !important;
+                }
+            }
 
-<body>
-    <!-- Begin page -->
-    <div id="layout-wrapper">
+            @media (min-width: 1400px) {
+                .upload-documents {
+                    display: block !important;
+                    margin-top: 135px;
+                }
 
-        <?php 
-            include_once(__DIR__ . '/customer_header.php');
-        ?>
+                .column {
+                    margin-top: -530px;
+                }
+            }
+        </style>
 
-        <!-- removeNotificationModal -->
-        <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="NotificationModalbtn-close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mt-2 text-center">
-                            <lord-icon src="../../../../cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
-                            <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
-                                <h4>Are you sure ?</h4>
-                                <p class="text-muted mx-4 mb-0">Are you sure you want to remove this Notification ?</p>
+    </head>
+    <body>
+        <!-- Begin page -->
+        <div id="layout-wrapper">
+
+            <?php 
+                include_once(__DIR__ . '/customer_header.php');
+            ?>
+
+            <!-- removeNotificationModal -->
+            <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="NotificationModalbtn-close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mt-2 text-center">
+                                <lord-icon src="../../../../cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
+                                <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                                    <h4>Are you sure ?</h4>
+                                    <p class="text-muted mx-4 mb-0">Are you sure you want to remove this Notification ?</p>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                                <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn w-sm btn-danger" id="delete-notification">Yes, Delete It!</button>
                             </div>
                         </div>
-                        <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
-                            <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn w-sm btn-danger" id="delete-notification">Yes, Delete It!</button>
-                        </div>
-                    </div>
 
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-        <!-- ========== App Menu ========== -->
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            <!-- ========== App Menu ========== -->
 
-        <?php 
-           include_once(__DIR__ . '/customer_sidebar.php');
-        ?>
+            <?php 
+            include_once(__DIR__ . '/customer_sidebar.php');
+            ?>
 
-        <!-- ============================================================== -->
-        <!-- Start right Content here -->
-        <!-- ============================================================== -->
-        <div class="main-content">
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+            <div class="main-content">
 
-            <div class="page-content">
-                <div class="container-fluid ">
-                    <form>
-                        <div class="row">
-                            <div class="col-xxl-3 ">
-                                <div class="card z-1">
-                                    <div class="card-body p-4">
-                                        <div class="text-center">
-                                            <div class="profile-user position-relative d-inline-block mx-auto mb-4">
-                                                <!-- Preview image -->
-                                                <img id="img_pre1" src="<?php echo "../../uploading/" . $profile_pic; ?>" class="rounded-circle avatar-xl img-thumbnail user-profile-image shadow" alt="user-profile-image">
+                <div class="page-content">
+                    <div class="container-fluid ">
+                        <form>
+                            <div class="row">
+                                <div class="col-xxl-3 ">
+                                    <div class="card z-1">
+                                        <div class="card-body p-4">
+                                            <div class="text-center">
+                                                <div class="profile-user position-relative d-inline-block mx-auto mb-4">
+                                                    <!-- Preview image -->
+                                                    <img id="img_pre1" src="<?php echo "../../uploading/" . $profile_pic; ?>" class="rounded-circle avatar-xl img-thumbnail user-profile-image shadow" alt="user-profile-image">
 
-                                                <div class="avatar-xs p-0 rounded-circle profile-photo-edit position-absolute bottom-0 end-0">
-                                                    <!-- File input: ID must be profile_pic to match your JS -->
-                                                    <input id="pupload_file1" type="file" class="d-none profile-img-file-input" disabled>
+                                                    <div class="avatar-xs p-0 rounded-circle profile-photo-edit position-absolute bottom-0 end-0">
+                                                        <!-- File input: ID must be profile_pic to match your JS -->
+                                                        <input id="pupload_file1" type="file" class="d-none profile-img-file-input" disabled>
 
-                                                    <!-- Hidden input for filename after upload -->
-                                                    <input id="img_path1" type="hidden" value="<?= $profile_pic ?>">
+                                                        <!-- Hidden input for filename after upload -->
+                                                        <input id="img_path1" type="hidden" value="<?= $profile_pic ?>">
 
-                                                    <!-- Label triggers file input -->
-                                                    <label for="pupload_file1" class="avatar-xs rounded-circle bg-light text-body shadow d-flex align-items-center justify-content-center" style="cursor: pointer; width: 32px; height: 32px;">
-                                                        <i class="ri-camera-fill"></i>
-                                                    </label>
+                                                        <!-- Label triggers file input -->
+                                                        <label for="pupload_file1" class="avatar-xs rounded-circle bg-light text-body shadow d-flex align-items-center justify-content-center" style="cursor: pointer; width: 32px; height: 32px;">
+                                                            <i class="ri-camera-fill"></i>
+                                                        </label>
+                                                    </div>
                                                 </div>
+                                                <h5 class="fs-16 mb-1"><?php echo $fname . ' ' . $middle . ($middle ? ' ' : '') . $lname; ?></h5>
+                                                <p class="text-muted mb-0 fs-16 ">Profile Pic</p>
                                             </div>
-                                            <h5 class="fs-16 mb-1"><?php echo $fname . ' ' . $middle . ($middle ? ' ' : '') . $lname; ?></h5>
-                                            <p class="text-muted mb-0 fs-16 ">Profile Pic</p>
                                         </div>
                                     </div>
+                                    <!--end card-->
+                                    <!-- Upload-Document -->
+
+                                    <!-- End-Upload-Document -->
+                                    
                                 </div>
-                                <!--end card-->
-                                <!-- Upload-Document -->
-
-                                <!-- End-Upload-Document -->
-                                
-                            </div>
-                            <!--end col-->
-                            <div class="col-xxl-9">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
-                                            <li class="nav-item">
-                                                <a class="nav-link menu-link profile-link active" data-bs-toggle="tab" href="#personalDetails" role="tab">
-                                                    <i class="fas fa-home"></i>
-                                                    <span>Personal Details</span> 
-                                                </a>
-                                            </li>
-                                            <?php
-                                                if($userType == '10'){
-                                            ?>
-
-                                            <li class="nav-item">
-                                                <a class="nav-link menu-link profile-link" data-bs-toggle="tab" href="#coupons" role="tab">
-                                                    <i class="far fa-user"></i>
-                                                    <span>Coupons</span> 
-                                                </a>
-                                            </li>
-                                            <?php
-                                                }
-                                            ?>
-                                            <li class="nav-item">
-                                                <a class="nav-link menu-link profile-link" data-bs-toggle="tab" href="#changePassword" role="tab">
-                                                    <i class="far fa-user"></i>
-                                                    <span>Change Password</span> 
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="card-body p-4">
-                                        <div class="tab-content">
-                                            <div class="tab-pane active" id="personalDetails" role="tabpanel">
-                                                <div class="row mt-4">
-                                                    <?php  if($userType == '10'){ ?>
-                                                    <div class="col-lg-12">
-                                                        <?php 
-                                                            if($value['comp_chek'] == '1'){
-                                                        ?>
-                                                            <div class="alert alert-secondary" role="alert">
-                                                                Complimentary Membership
-                                                            </div>
-                                                        <?php 
-                                                            } 
-                                                        ?>
-                                                    </div>
-                                                    <?php  } ?>
-                                                    <div class="col-lg-6">
-                                                        <div class="mb-4 form-floating">
-                                                            <input type="hidden" id="user_type" value="<?php echo $userType; ?>">
-                                                            <input type="hidden" id="user_id" value="<?php echo $userId; ?>">
-                                                            <input type="text" class="form-control" id="firstname" placeholder="Enter your firstname" value="<?php echo $fname; ?>">
-                                                            <label for="firstnameInput" class="form-label">First Name</label>
-                                                        </div>
-                                                    </div>
-                                                    <!--end col-->
-                                                    <div class="col-lg-6">
-                                                        <div class="mb-4 form-floating">
-                                                            <input type="text" class="form-control" id="lastname" placeholder="Enter your lastname" value="<?php echo $lname; ?> ">
-                                                            <label for="lastnameInput" class="form-label">Last Name</label>
-                                                        </div>
-                                                    </div>
-                                                    <!--end col-->
-                                                   
-                                                    <div class="col-lg-6">
-                                                        <div class="mb-4 form-floating">
-                                                            <input type="text" class="form-control" id="phone" placeholder="Enter your phone number" value="<?php echo $phone_no ?> ">
-                                                            <label for="phonenumberInput" class="form-label">Phone Number</label>
-                                                        </div>
-                                                    </div>
-                                                    <!--end col-->
-                                                    <div class="col-lg-6">
-                                                        <div class="mb-4 form-floating">
-                                                            <input type="email" class="form-control" id="email" placeholder="Enter your email" value="<?php echo $value['email']; ?> ">
-                                                            <label for="emailInput" class="form-label">Email Address</label>
-                                                        </div>
-                                                    </div>
-                                                    <!--end col-->
-                                                    <div class="col-lg-6" style="padding-left: 20px;">
-                                                        <h5 class="mt-2 pe-3">Gender</h5>
-                                                        <label class="radio-inline mb-0" for="radios1"><input class="radio form-check-input" type="radio" name="gender" value="male" <?php echo $value['gender'] == 'male' ? 'checked' : ''; ?>> Male</label>
-                                                        <label class="radio-inline mb-0" for="radios1"><input class="radio form-check-input" type="radio" name="gender" value="female" <?php echo $value['gender'] == 'female' ? 'checked' : ''; ?>> Female</label>
-                                                        <label class="radio-inline mb-0" for="radios1"><input class="radio form-check-input" type="radio" name="gender" value="others" <?php echo $value['gender'] == 'others' ? 'checked' : ''; ?>> Others</label>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="mb-4 form-floating">
-                                                            <input type="date" class="form-control" id="bdate" placeholder="Enter your D.O.B" value="<?php echo $value['date_of_birth']; ?>">
-                                                            <label for="dateInput" class="form-label">Date of Birth</label>
-                                                        </div>
-                                                    </div>
-                                                    <!--end col-->
-                                                    <div class="col-lg-6 mb-4 <?= $userType == '25' || $userType == '24' ? 'd-none' : '' ?>">
-                                                        <div class="form-floating">
-                                                            
-                                                            <select class="form-select" id="country" aria-label="Floating label select example">
-                                                                <option value="<?= $country ?>" selected><?php echo $countryname; ?></option>
-                                                            </select>
-                                                            <label for="country">Country</label>
-                                                        </div>
-                                                    </div>
-                                                    <!--end col-->
-                                                    <div class="col-lg-6 mb-4 <?= $userType == '25' || $userType == '24' ? 'd-none' : '' ?>">
-                                                        <div class="form-floating">
-                                                            <select class="form-select" id="mystate" aria-label="Floating label select example">
-                                                                <option value="<?= $state ?>"><?php echo $statename; ?></option>
-                                                            </select>
-                                                            <label for="mystate">State</label>
-                                                        </div>
-                                                    </div>
-                                                    <!--end col-->
-                                                    <div class="col-lg-6 mb-4 <?= $userType == '25' || $userType == '24' ? 'd-none' : '' ?>">
-                                                        <div class="form-floating">
-                                                            <select class="form-select" id="city" aria-label="Floating label select example">
-                                                                <option value="<?= $city ?>"><?php echo $cityname; ?></option>
-                                                            </select>
-                                                            <label for="city">City</label>
-                                                        </div>
-                                                    </div>
-                                                    <!--end col-->
-                                                    <div class="col-lg-6 <?= $userType == '25' || $userType == '24' ? 'd-none' : '' ?>">
-                                                        <div class="mb-4 form-floating">
-                                                            <input type="text" class="form-control" minlength="5" maxlength="6" id="zipcode" placeholder="Enter zipcode" value="<?php echo $pincode ?>">
-                                                            <label for="zipcodeInput" class="form-label">Zip Code</label>
-                                                        </div>
-                                                    </div>
-                                                    <!--end col-->
-                                                    <div class="col-lg-12">
-                                                        <div class="mb-4 pb-2">
-                                                            <label for="address" class="form-label">Full Address</label>
-                                                            <input type="text" class="form-control" id="address" placeholder="Enter your Address" value="<?php echo $value['address']; ?>">
-                                                        </div>
-                                                    </div>
-                                                    <!--end col-->
-                                                    
-                                                </div>
-                                                <!--end row-->
-
-                                            </div>
-                                            <div class="tab-pane" id="coupons" role="tabpanel">
-                                                <div class="row">
-                                                    <div>
-                                                        <?php
-                                                            $sql='SELECT * FROM cu_coupons WHERE user_id=:fid';
-                                                            $stmt = $conn->prepare($sql);
-                                                            $stmt->execute([':fid' => $userId]);
-                                                            $coupons = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                                            //print_r($coupons);
-                                                            if(count($coupons) > 0){   
-                                                        ?>
-                                                        <div class="pt-1 pb-2">
-                                                            <h5>Available Coupons</h5>
-                                                        </div>
-                                                        <?php }else{?>
-                                                        <div class="pt-1 pb-2">
-                                                            <h5>No Coupons Available </h5>
-                                                        </div>
-                                                        
-                                                        <?php }?>
-                                                    </div>
-                                                </div>
+                                <!--end col-->
+                                <div class="col-xxl-9">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
+                                                <li class="nav-item">
+                                                    <a class="nav-link menu-link profile-link active" data-bs-toggle="tab" href="#personalDetails" role="tab">
+                                                        <i class="fas fa-home"></i>
+                                                        <span>Personal Details</span> 
+                                                    </a>
+                                                </li>
                                                 <?php
-                                                    $sql='SELECT * FROM cu_coupons WHERE user_id=:fid';
-                                                    $stmt = $conn->prepare($sql);
-                                                    $stmt->execute([':fid' => $userId]);
-                                                    $coupons = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                                    //print_r($coupons);
-                                                    if(count($coupons) == 0){   
+                                                    if($userType == '10'){
                                                 ?>
-                                                
+
+                                                <li class="nav-item">
+                                                    <a class="nav-link menu-link profile-link" data-bs-toggle="tab" href="#coupons" role="tab">
+                                                        <i class="far fa-user"></i>
+                                                        <span>Coupons</span> 
+                                                    </a>
+                                                </li>
                                                 <?php
                                                     }
                                                 ?>
-                                                <div class="table-responsive">
-                                                    <table class="table table-bordered table-hover align-middle mb-0" id="couponsTable">
-                                                        <thead class="table-light">
-                                                            <tr>
-                                                                <th>Coupon Code</th>
-                                                                <th>Coupon</th>
-                                                                <th>Coupon Amt</th>
-                                                                <th>Date</th>
-                                                                <th>Expiry Date</th>
-                                                                <th>Status</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <?php foreach ($coupons as $coupon): ?>
-                                                            <?php
-                                                                $createdDate = new DateTime($coupon['created_date']);
-                                                                $expiryDate = new DateTime($coupon['expiry_date']);
-                                                                $now = new DateTime();
+                                                <li class="nav-item">
+                                                    <a class="nav-link menu-link profile-link" data-bs-toggle="tab" href="#changePassword" role="tab">
+                                                        <i class="far fa-user"></i>
+                                                        <span>Change Password</span> 
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="card-body p-4">
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="personalDetails" role="tabpanel">
+                                                    <div class="row mt-4">
+                                                        <?php  if($userType == '10'){ ?>
+                                                        <div class="col-lg-12">
+                                                            <?php 
+                                                                if($value['comp_chek'] == '1'){
                                                             ?>
-                                                            <tr>
-                                                                <td><?= htmlspecialchars($coupon['code']) ?></td>
-                                                                <td>
-                                                                    <?php if ($customer_type === 'Premium Select Lite' && $coupon['bonus_check'] == 1): ?>
-                                                                        <label style="color: #28a745; font-weight: 600; font-size: 14px; display:inline-block; margin-bottom:4px;">
-                                                                            Bonus Coupon
-                                                                        </label><br>
-                                                                        <?= htmlspecialchars($customer_type) ?>
-                                                                    <?php else: ?>
-                                                                        <?= htmlspecialchars($customer_type) ?>
-                                                                    <?php endif; ?>
-                                                                </td>
+                                                                <div class="alert alert-secondary" role="alert">
+                                                                    Complimentary Membership
+                                                                </div>
+                                                            <?php 
+                                                                } 
+                                                            ?>
+                                                        </div>
+                                                        <?php  } ?>
+                                                        <div class="col-lg-6">
+                                                            <div class="mb-4 form-floating">
+                                                                <input type="hidden" id="user_type" value="<?php echo $userType; ?>">
+                                                                <input type="hidden" id="user_id" value="<?php echo $userId; ?>">
+                                                                <input type="text" class="form-control" id="firstname" placeholder="Enter your firstname" value="<?php echo $fname; ?>">
+                                                                <label for="firstnameInput" class="form-label">First Name</label>
+                                                            </div>
+                                                        </div>
+                                                        <!--end col-->
+                                                        <div class="col-lg-6">
+                                                            <div class="mb-4 form-floating">
+                                                                <input type="text" class="form-control" id="lastname" placeholder="Enter your lastname" value="<?php echo $lname; ?> ">
+                                                                <label for="lastnameInput" class="form-label">Last Name</label>
+                                                            </div>
+                                                        </div>
+                                                        <!--end col-->
+                                                    
+                                                        <div class="col-lg-6">
+                                                            <div class="mb-4 form-floating">
+                                                                <input type="text" class="form-control" id="phone" placeholder="Enter your phone number" value="<?php echo $phone_no ?> ">
+                                                                <label for="phonenumberInput" class="form-label">Phone Number</label>
+                                                            </div>
+                                                        </div>
+                                                        <!--end col-->
+                                                        <div class="col-lg-6">
+                                                            <div class="mb-4 form-floating">
+                                                                <input type="email" class="form-control" id="email" placeholder="Enter your email" value="<?php echo $value['email']; ?> ">
+                                                                <label for="emailInput" class="form-label">Email Address</label>
+                                                            </div>
+                                                        </div>
+                                                        <!--end col-->
+                                                        <div class="col-lg-6" style="padding-left: 20px;">
+                                                            <h5 class="mt-2 pe-3">Gender</h5>
+                                                            <label class="radio-inline mb-0" for="radios1"><input class="radio form-check-input" type="radio" name="gender" value="male" <?php echo $value['gender'] == 'male' ? 'checked' : ''; ?>> Male</label>
+                                                            <label class="radio-inline mb-0" for="radios1"><input class="radio form-check-input" type="radio" name="gender" value="female" <?php echo $value['gender'] == 'female' ? 'checked' : ''; ?>> Female</label>
+                                                            <label class="radio-inline mb-0" for="radios1"><input class="radio form-check-input" type="radio" name="gender" value="others" <?php echo $value['gender'] == 'others' ? 'checked' : ''; ?>> Others</label>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="mb-4 form-floating">
+                                                                <input type="date" class="form-control" id="bdate" placeholder="Enter your D.O.B" value="<?php echo $value['date_of_birth']; ?>">
+                                                                <label for="dateInput" class="form-label">Date of Birth</label>
+                                                            </div>
+                                                        </div>
+                                                        <!--end col-->
+                                                        <div class="col-lg-6 mb-4 <?= $userType == '25' || $userType == '24' ? 'd-none' : '' ?>">
+                                                            <div class="form-floating">
+                                                                
+                                                                <select class="form-select" id="country" aria-label="Floating label select example">
+                                                                    <option value="<?= $country ?>" selected><?php echo $countryname; ?></option>
+                                                                </select>
+                                                                <label for="country">Country</label>
+                                                            </div>
+                                                        </div>
+                                                        <!--end col-->
+                                                        <div class="col-lg-6 mb-4 <?= $userType == '25' || $userType == '24' ? 'd-none' : '' ?>">
+                                                            <div class="form-floating">
+                                                                <select class="form-select" id="mystate" aria-label="Floating label select example">
+                                                                    <option value="<?= $state ?>"><?php echo $statename; ?></option>
+                                                                </select>
+                                                                <label for="mystate">State</label>
+                                                            </div>
+                                                        </div>
+                                                        <!--end col-->
+                                                        <div class="col-lg-6 mb-4 <?= $userType == '25' || $userType == '24' ? 'd-none' : '' ?>">
+                                                            <div class="form-floating">
+                                                                <select class="form-select" id="city" aria-label="Floating label select example">
+                                                                    <option value="<?= $city ?>"><?php echo $cityname; ?></option>
+                                                                </select>
+                                                                <label for="city">City</label>
+                                                            </div>
+                                                        </div>
+                                                        <!--end col-->
+                                                        <div class="col-lg-6 <?= $userType == '25' || $userType == '24' ? 'd-none' : '' ?>">
+                                                            <div class="mb-4 form-floating">
+                                                                <input type="text" class="form-control" minlength="5" maxlength="6" id="zipcode" placeholder="Enter zipcode" value="<?php echo $pincode ?>">
+                                                                <label for="zipcodeInput" class="form-label">Zip Code</label>
+                                                            </div>
+                                                        </div>
+                                                        <!--end col-->
+                                                        <div class="col-lg-12">
+                                                            <div class="mb-4 pb-2">
+                                                                <label for="address" class="form-label">Full Address</label>
+                                                                <input type="text" class="form-control" id="address" placeholder="Enter your Address" value="<?php echo $value['address']; ?>">
+                                                            </div>
+                                                        </div>
+                                                        <!--end col-->
+                                                        
+                                                    </div>
+                                                    <!--end row-->
 
-                                                                <td>&#8377;<?= $coupon['coupon_amt']?></td>
-                                                                <td><?= date('d-m-Y', strtotime($coupon['created_date'])) ?></td>
-                                                                <td><?= date('d-m-Y', strtotime($coupon['expiry_date'])) ?></td>
-                                                                <td>
-                                                                    <?php
-                                                                    if ($coupon['usage_status'] == 1) {
-                                                                        echo '<span class="badge bg-danger">Used</span> on ' . date('d-m-Y', strtotime($coupon['used_date']));
-                                                                    } elseif  ($now > $expiryDate) {
-                                                                        echo '<span class="badge bg-secondary">Expired</span> on ' . $expiryDate->format('d-m-Y');
-                                                                    } else {
-                                                                        echo '<span class="badge bg-success">Unused</span>';
-                                                                    }
-                                                                    ?>
-                                                                </td>
-                                                            </tr>
-                                                        <?php endforeach; ?>
+                                                </div>
+                                                <div class="tab-pane" id="coupons" role="tabpanel">
+                                                    <div class="row">
+                                                        <div>
+                                                            <?php
+                                                                $sql='SELECT * FROM cu_coupons WHERE user_id=:fid';
+                                                                $stmt = $conn->prepare($sql);
+                                                                $stmt->execute([':fid' => $userId]);
+                                                                $coupons = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                                                //print_r($coupons);
+                                                                if(count($coupons) > 0){   
+                                                            ?>
+                                                            <div class="pt-1 pb-2">
+                                                                <h5>Available Coupons</h5>
+                                                            </div>
+                                                            <?php }else{?>
+                                                            <div class="pt-1 pb-2">
+                                                                <h5>No Coupons Available </h5>
+                                                            </div>
                                                             
-                                                        </tbody>
-                                                    </table>
+                                                            <?php }?>
+                                                        </div>
+                                                    </div>
+                                                    <?php
+                                                        $sql='SELECT * FROM cu_coupons WHERE user_id=:fid';
+                                                        $stmt = $conn->prepare($sql);
+                                                        $stmt->execute([':fid' => $userId]);
+                                                        $coupons = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                                        //print_r($coupons);
+                                                        if(count($coupons) == 0){   
+                                                    ?>
+                                                    
+                                                    <?php
+                                                        }
+                                                    ?>
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered table-hover align-middle mb-0" id="couponsTable">
+                                                            <thead class="table-light">
+                                                                <tr>
+                                                                    <th>Coupon Code</th>
+                                                                    <th>Coupon</th>
+                                                                    <th>Coupon Amt</th>
+                                                                    <th>Date</th>
+                                                                    <th>Expiry Date</th>
+                                                                    <th>Status</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <?php foreach ($coupons as $coupon): ?>
+                                                                <?php
+                                                                    $createdDate = new DateTime($coupon['created_date']);
+                                                                    $expiryDate = new DateTime($coupon['expiry_date']);
+                                                                    $now = new DateTime();
+                                                                ?>
+                                                                <tr>
+                                                                    <td><?= htmlspecialchars($coupon['code']) ?></td>
+                                                                    <td>
+                                                                        <?php if ($customer_type === 'Premium Select Lite' && $coupon['bonus_check'] == 1): ?>
+                                                                            <label style="color: #28a745; font-weight: 600; font-size: 14px; display:inline-block; margin-bottom:4px;">
+                                                                                Bonus Coupon
+                                                                            </label><br>
+                                                                            <?= htmlspecialchars($customer_type) ?>
+                                                                        <?php else: ?>
+                                                                            <?= htmlspecialchars($customer_type) ?>
+                                                                        <?php endif; ?>
+                                                                    </td>
+
+                                                                    <td>&#8377;<?= $coupon['coupon_amt']?></td>
+                                                                    <td><?= date('d-m-Y', strtotime($coupon['created_date'])) ?></td>
+                                                                    <td><?= date('d-m-Y', strtotime($coupon['expiry_date'])) ?></td>
+                                                                    <td>
+                                                                        <?php
+                                                                        if ($coupon['usage_status'] == 1) {
+                                                                            echo '<span class="badge bg-danger">Used</span> on ' . date('d-m-Y', strtotime($coupon['used_date']));
+                                                                        } elseif  ($now > $expiryDate) {
+                                                                            echo '<span class="badge bg-secondary">Expired</span> on ' . $expiryDate->format('d-m-Y');
+                                                                        } else {
+                                                                            echo '<span class="badge bg-success">Unused</span>';
+                                                                        }
+                                                                        ?>
+                                                                    </td>
+                                                                </tr>
+                                                            <?php endforeach; ?>
+                                                                
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="tab-pane" id="changePassword" role="tabpanel">
-                                                <div class="row d-flex justify-content-center">
-                                                    <!-- Current Password -->
-                                                    <div class="col-lg-8 col-md-8 col-sm-12 col-12">
-                                                        <div class="input-group my-3">
-                                                            <input type="hidden" id="user_type" value="<?php echo $userType; ?>">
-                                                            <input type="hidden" id="user_id" value="<?php echo $userId; ?>">
-                                                            <input type="password" class="form-control" id="currentPassword" placeholder="Enter Current Password" aria-label="Enter Current Password" aria-describedby="basic-addon2">
-                                                            <span class="input-group-text" id="basic-addon2">
-                                                                <button type="button" class="border-0"
-                                                                    onclick="togglePassword('currentPassword', this)" title="Show Password">
-                                                                    <i class="fas fa-eye"></i>
-                                                                </button>
-                                                            </span>
+                                                <div class="tab-pane" id="changePassword" role="tabpanel">
+                                                    <div class="row d-flex justify-content-center">
+                                                        <!-- Current Password -->
+                                                        <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+                                                            <div class="input-group my-3">
+                                                                <input type="hidden" id="user_type" value="<?php echo $userType; ?>">
+                                                                <input type="hidden" id="user_id" value="<?php echo $userId; ?>">
+                                                                <input type="password" class="form-control" id="currentPassword" placeholder="Enter Current Password" aria-label="Enter Current Password" aria-describedby="basic-addon2">
+                                                                <span class="input-group-text" id="basic-addon2">
+                                                                    <button type="button" class="border-0"
+                                                                        onclick="togglePassword('currentPassword', this)" title="Show Password">
+                                                                        <i class="fas fa-eye"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                    <!-- New Password -->
-                                                    <div class="col-lg-8 col-md-8 col-sm-12 col-12">
-                                                        <div class="input-group">
-                                                            <input type="password" class="form-control" id="newPassword" placeholder="Enter New Password" aria-label="Enter New Password" aria-describedby="basic-addon2">
-                                                            <span class="input-group-text" id="basic-addon2">
-                                                                <button type="button" class="border-0"
-                                                                    onclick="togglePassword('newPassword', this)" title="Show Password">
-                                                                    <i class="fas fa-eye"></i>
-                                                                </button>
-                                                            </span>
+                                                        <!-- New Password -->
+                                                        <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+                                                            <div class="input-group">
+                                                                <input type="password" class="form-control" id="newPassword" placeholder="Enter New Password" aria-label="Enter New Password" aria-describedby="basic-addon2">
+                                                                <span class="input-group-text" id="basic-addon2">
+                                                                    <button type="button" class="border-0"
+                                                                        onclick="togglePassword('newPassword', this)" title="Show Password">
+                                                                        <i class="fas fa-eye"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                            <!-- Password Requirements -->
+                                                            <div id="passwordFeedback" class="form-text my-2">
+                                                                <ul class="list-unstyled mb-0">
+                                                                    <li id="lengthCheck">❌ <span style="color: red;">At least 8 characters</span></li>
+                                                                    <li id="letterCheck">❌ <span style="color: red;">At least one letter (a-z, A-Z)</span></li>
+                                                                    <li id="numberCheck">❌ <span style="color: red;">At least one number (0-9)</span></li>
+                                                                    <li id="symbolCheck">❌ <span style="color: red;">At least one symbol (!@#$%^&*)</span></li>
+                                                                </ul>
+                                                            </div>
                                                         </div>
-                                                        <!-- Password Requirements -->
-                                                        <div id="passwordFeedback" class="form-text my-2">
-                                                            <ul class="list-unstyled mb-0">
-                                                                <li id="lengthCheck">❌ <span style="color: red;">At least 8 characters</span></li>
-                                                                <li id="letterCheck">❌ <span style="color: red;">At least one letter (a-z, A-Z)</span></li>
-                                                                <li id="numberCheck">❌ <span style="color: red;">At least one number (0-9)</span></li>
-                                                                <li id="symbolCheck">❌ <span style="color: red;">At least one symbol (!@#$%^&*)</span></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
 
-                                                    <!-- Confirm Password -->
-                                                    <div class="col-lg-8 col-md-8 col-sm-12 col-12">
-                                                        <div class="input-group mb-3">
-                                                            <input type="password" class="form-control" id="confirmPassword" placeholder="Enter Confirm Password" aria-label="Enter Confirm Password" aria-describedby="basic-addon2">
-                                                            <span class="input-group-text" id="basic-addon2">
-                                                                <button type="button" class="border-0"
-                                                                    onclick="togglePassword('confirmPassword', this)" title="Show Password">
-                                                                    <i class="fas fa-eye"></i>
-                                                                </button>
-                                                            </span>
+                                                        <!-- Confirm Password -->
+                                                        <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+                                                            <div class="input-group mb-3">
+                                                                <input type="password" class="form-control" id="confirmPassword" placeholder="Enter Confirm Password" aria-label="Enter Confirm Password" aria-describedby="basic-addon2">
+                                                                <span class="input-group-text" id="basic-addon2">
+                                                                    <button type="button" class="border-0"
+                                                                        onclick="togglePassword('confirmPassword', this)" title="Show Password">
+                                                                        <i class="fas fa-eye"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                    <!-- Save Button -->
-                                                    <div class="col-lg-8 col-md-8 col-sm-12 col-12">
-                                                        <div class="hstack gap-2 justify-content-end mb-2">
-                                                            <button id="edit_password" type="submit" class="btn btn-primary">Save Changes</button>
+                                                        <!-- Save Button -->
+                                                        <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+                                                            <div class="hstack gap-2 justify-content-end mb-2">
+                                                                <button id="edit_password" type="submit" class="btn btn-primary">Save Changes</button>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div> <!-- end row -->
+                                                    </div> <!-- end row -->
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <!--end col-->
                             </div>
-                            <!--end col-->
-                        </div>
-                        <!--end row-->
+                            <!--end row-->
 
-                        <div class="row">
-                            <div class="col-xxl-3 column">
-                                <div class="upload-documents" <?= $userType == '25' || $userType == '24' ? 'style="margin-top: 154px;"' : '' ?>>
-                                    <!-- Pan Card -->
-                                    <?php if ($userType != '25' && $userType != '24') { ?>
-                                    <div class="card">
-                                        <div class="card-body p-5">
-                                            <div class="text-center">
-                                                <div class="profile-user position-relative d-inline-block mx-auto mb-4">
-                                                    <?php if ($pan_card) {
-                                                        echo '<img id="img_pre3" src="../../uploading/' . $pan_card . '" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-pan-card">';
-                                                    } else {
-                                                        echo '<img id="img_pre3" src="../../uploading/not_uploaded.png" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-pan-card">';
-                                                    } ?>
-                                                    <div class="avatar-xs p-0 profile-photo-edit">
-                                                        <input id="pupload_file3" type="file" class="profile-img-file-input" disabled>
-                                                        <input id="img_path3" type="hidden" value="<?= $pan_card ?>">
-                                                        <label for="pupload_file3" class="profile-photo-edit avatar-xs">
-                                                            <span class="avatar-title bg-light text-body shadow">
-                                                                <i class="ri-camera-fill"></i>
-                                                            </span>
-                                                        </label>
+                            <div class="row">
+                                <div class="col-xxl-3 column">
+                                    <div class="upload-documents" <?= $userType == '25' || $userType == '24' ? 'style="margin-top: 154px;"' : '' ?>>
+                                        <!-- Pan Card -->
+                                        <?php if ($userType != '25' && $userType != '24') { ?>
+                                        <div class="card">
+                                            <div class="card-body p-5">
+                                                <div class="text-center">
+                                                    <div class="profile-user position-relative d-inline-block mx-auto mb-4">
+                                                        <?php if ($pan_card) {
+                                                            echo '<img id="img_pre3" src="../../uploading/' . $pan_card . '" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-pan-card">';
+                                                        } else {
+                                                            echo '<img id="img_pre3" src="../../uploading/not_uploaded.png" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-pan-card">';
+                                                        } ?>
+                                                        <div class="avatar-xs p-0 profile-photo-edit">
+                                                            <input id="pupload_file3" type="file" class="profile-img-file-input" disabled>
+                                                            <input id="img_path3" type="hidden" value="<?= $pan_card ?>">
+                                                            <label for="pupload_file3" class="profile-photo-edit avatar-xs">
+                                                                <span class="avatar-title bg-light text-body shadow">
+                                                                    <i class="ri-camera-fill"></i>
+                                                                </span>
+                                                            </label>
+                                                        </div>
                                                     </div>
+                                                    <h5 class="fs-16 mb-1">Pan Card</h5>
                                                 </div>
-                                                <h5 class="fs-16 mb-1">Pan Card</h5>
                                             </div>
                                         </div>
-                                    </div>
-                                    <?php } ?>
+                                        <?php } ?>
 
-                                    <!-- Bank Passbook -->
-                                    <?php
-                                        if ($userType == '25' && $userType == '24'){
-                                    ?>
-                                    <div class="card">
-                                        <div class="card-body p-4">
-                                            <div class="text-center">
-                                                <div class="profile-user position-relative d-inline-block mx-auto mb-4">
-                                                    
-                                                    <?php if ($bank_passbook) {
-                                                        echo '<img id="pimg_pre3" src="../../uploading/' . $bank_passbook . '" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-bank-passbook">';
-                                                    } else {
-                                                        echo '<img id="pimg_pre3" src="../../uploading/not_uploaded.png" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-bank-passbook">';
-                                                    } ?>
-                                                    
-                                                    <div class="avatar-xs p-0 profile-photo-edit">
-                                                        <input id="pbank_passbook" type="file" class="profile-img-file-input" disabled>
-                                                        <input id="pimg_path3" type="hidden" value="<?= $bank_passbook ?>">
-                                                        <label for="pbank_passbook" class="profile-photo-edit avatar-xs">
-                                                            <span class="avatar-title bg-light text-body shadow">
-                                                                <i class="ri-camera-fill"></i>
-                                                            </span>
-                                                        </label>
+                                        <!-- Bank Passbook -->
+                                        <?php
+                                            if ($userType == '25' && $userType == '24'){
+                                        ?>
+                                        <div class="card">
+                                            <div class="card-body p-4">
+                                                <div class="text-center">
+                                                    <div class="profile-user position-relative d-inline-block mx-auto mb-4">
+                                                        
+                                                        <?php if ($bank_passbook) {
+                                                            echo '<img id="pimg_pre3" src="../../uploading/' . $bank_passbook . '" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-bank-passbook">';
+                                                        } else {
+                                                            echo '<img id="pimg_pre3" src="../../uploading/not_uploaded.png" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-bank-passbook">';
+                                                        } ?>
+                                                        
+                                                        <div class="avatar-xs p-0 profile-photo-edit">
+                                                            <input id="pbank_passbook" type="file" class="profile-img-file-input" disabled>
+                                                            <input id="pimg_path3" type="hidden" value="<?= $bank_passbook ?>">
+                                                            <label for="pbank_passbook" class="profile-photo-edit avatar-xs">
+                                                                <span class="avatar-title bg-light text-body shadow">
+                                                                    <i class="ri-camera-fill"></i>
+                                                                </span>
+                                                            </label>
+                                                        </div>
                                                     </div>
+                                                    <h5 class="fs-16 mb-1">Pass Book</h5>
                                                 </div>
-                                                <h5 class="fs-16 mb-1">Pass Book</h5>
                                             </div>
                                         </div>
-                                    </div>
-                                    <?php 
-                                        } else{
-                                    ?>
-                                    <div class="card">
-                                        <div class="card-body p-4">
-                                            <div class="text-center">
-                                                <div class="profile-user position-relative d-inline-block mx-auto mb-4">
+                                        <?php 
+                                            } else{
+                                        ?>
+                                        <div class="card">
+                                            <div class="card-body p-4">
+                                                <div class="text-center">
+                                                    <div class="profile-user position-relative d-inline-block mx-auto mb-4">
+                                                        
+                                                        <?php if ($bank_passbook) {
+                                                            echo '<img id="img_pre4" src="../../uploading/' . $bank_passbook . '" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-bank-passbook">';
+                                                        } else {
+                                                            echo '<img id="img_pre4" src="../../uploading/not_uploaded.png" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-bank-passbook">';
+                                                        } ?>
                                                     
-                                                    <?php if ($bank_passbook) {
-                                                        echo '<img id="img_pre4" src="../../uploading/' . $bank_passbook . '" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-bank-passbook">';
-                                                    } else {
-                                                        echo '<img id="img_pre4" src="../../uploading/not_uploaded.png" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-bank-passbook">';
-                                                    } ?>
-                                                   
-                                                    <div class="avatar-xs p-0 profile-photo-edit">
-                                                        <input id="pupload_file4" type="file" class="profile-img-file-input" disabled>
-                                                        <input id="img_path4" type="hidden" value="<?= $bank_passbook ?>">
-                                                        <label for="pupload_file4" class="profile-photo-edit avatar-xs">
-                                                            <span class="avatar-title bg-light text-body shadow">
-                                                                <i class="ri-camera-fill"></i>
-                                                            </span>
-                                                        </label>
+                                                        <div class="avatar-xs p-0 profile-photo-edit">
+                                                            <input id="pupload_file4" type="file" class="profile-img-file-input" disabled>
+                                                            <input id="img_path4" type="hidden" value="<?= $bank_passbook ?>">
+                                                            <label for="pupload_file4" class="profile-photo-edit avatar-xs">
+                                                                <span class="avatar-title bg-light text-body shadow">
+                                                                    <i class="ri-camera-fill"></i>
+                                                                </span>
+                                                            </label>
+                                                        </div>
                                                     </div>
+                                                    <h5 class="fs-16 mb-1">Pass Book</h5>
                                                 </div>
-                                                <h5 class="fs-16 mb-1">Pass Book</h5>
                                             </div>
                                         </div>
-                                    </div>
-                                    <?php 
-                                        }
-                                    ?>
-                                    <!-- Aadhar Card -->
-                                    <?php if ($userType != '25' && $userType != '24') { ?>
-                                    <div class="card">
-                                        <div class="card-body p-4">
-                                            <div class="text-center">
-                                                <div class="profile-user position-relative d-inline-block mx-auto mb-4">
-                                                    
-                                                    <?php if ($aadhar_card) {
-                                                        echo '<img id="aimg_pre2" src="../../uploading/' . $aadhar_card . '" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-aadhar">';
-                                                    } else {
-                                                        echo '<img id="aimg_pre2" src="../../uploading/not_uploaded.png" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-aadhar">';
-                                                    } ?>
-                                                    
-                                                    <div class="avatar-xs p-0 profile-photo-edit">
-                                                        <input id="pupload_file2" type="file" class="profile-img-file-input" disabled>
-                                                        <input id="aimg_path2" type="hidden" value="<?= $aadhar_card ?>">
-                                                        <label for="pupload_file2" class="profile-photo-edit avatar-xs">
-                                                            <span class="avatar-title bg-light text-body shadow">
-                                                                <i class="ri-camera-fill"></i>
-                                                            </span>
-                                                        </label>
+                                        <?php 
+                                            }
+                                        ?>
+                                        <!-- Aadhar Card -->
+                                        <?php if ($userType != '25' && $userType != '24') { ?>
+                                        <div class="card">
+                                            <div class="card-body p-4">
+                                                <div class="text-center">
+                                                    <div class="profile-user position-relative d-inline-block mx-auto mb-4">
+                                                        
+                                                        <?php if ($aadhar_card) {
+                                                            echo '<img id="aimg_pre2" src="../../uploading/' . $aadhar_card . '" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-aadhar">';
+                                                        } else {
+                                                            echo '<img id="aimg_pre2" src="../../uploading/not_uploaded.png" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-aadhar">';
+                                                        } ?>
+                                                        
+                                                        <div class="avatar-xs p-0 profile-photo-edit">
+                                                            <input id="pupload_file2" type="file" class="profile-img-file-input" disabled>
+                                                            <input id="aimg_path2" type="hidden" value="<?= $aadhar_card ?>">
+                                                            <label for="pupload_file2" class="profile-photo-edit avatar-xs">
+                                                                <span class="avatar-title bg-light text-body shadow">
+                                                                    <i class="ri-camera-fill"></i>
+                                                                </span>
+                                                            </label>
+                                                        </div>
                                                     </div>
+                                                    <h5 class="fs-16 mb-1">Aadhar Card</h5>
                                                 </div>
-                                                <h5 class="fs-16 mb-1">Aadhar Card</h5>
                                             </div>
                                         </div>
-                                    </div>
-                                    <?php } ?>
+                                        <?php } ?>
 
-                                    <!-- Voting Card -->
-                                    <?php if ($userType != '25' && $userType != '24') { ?>
-                                    <div class="card">
-                                        <div class="card-body p-4">
-                                            <div class="text-center">
-                                                <div class="profile-user position-relative d-inline-block mx-auto mb-4">
-                                                    
-                                                    <?php if ($voting_card) {
-                                                        echo '<img id="img_pre5" src="../../uploading/' . $voting_card . '" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-voting-card">';
-                                                    } else {
-                                                        echo '<img id="img_pre5" src="../../uploading/not_uploaded.png" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-voting-card">';
-                                                    } ?>
-                                                    
-                                                    <div class="avatar-xs p-0 profile-photo-edit">
-                                                        <input id="pupload_file5" type="file" class="profile-img-file-input" disabled>
-                                                        <input id="img_path5" type="hidden" value="<?= $voting_card ?>">
-                                                        <label for="pupload_file5" class="profile-photo-edit avatar-xs">
-                                                            <span class="avatar-title bg-light text-body shadow">
-                                                                <i class="ri-camera-fill"></i>
-                                                            </span>
-                                                        </label>
+                                        <!-- Voting Card -->
+                                        <?php if ($userType != '25' && $userType != '24') { ?>
+                                        <div class="card">
+                                            <div class="card-body p-4">
+                                                <div class="text-center">
+                                                    <div class="profile-user position-relative d-inline-block mx-auto mb-4">
+                                                        
+                                                        <?php if ($voting_card) {
+                                                            echo '<img id="img_pre5" src="../../uploading/' . $voting_card . '" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-voting-card">';
+                                                        } else {
+                                                            echo '<img id="img_pre5" src="../../uploading/not_uploaded.png" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-voting-card">';
+                                                        } ?>
+                                                        
+                                                        <div class="avatar-xs p-0 profile-photo-edit">
+                                                            <input id="pupload_file5" type="file" class="profile-img-file-input" disabled>
+                                                            <input id="img_path5" type="hidden" value="<?= $voting_card ?>">
+                                                            <label for="pupload_file5" class="profile-photo-edit avatar-xs">
+                                                                <span class="avatar-title bg-light text-body shadow">
+                                                                    <i class="ri-camera-fill"></i>
+                                                                </span>
+                                                            </label>
+                                                        </div>
                                                     </div>
+                                                    <h5 class="fs-16 mb-1">Voting Card</h5>
                                                 </div>
-                                                <h5 class="fs-16 mb-1">Voting Card</h5>
                                             </div>
                                         </div>
-                                    </div>
-                                    <?php } ?>
+                                        <?php } ?>
 
-                                    <!-- ID Proof -->
-                                    <?php if ($userType == '25' || $userType == '24') { ?>
-                                    <div class="card">
-                                        <div class="card-body p-4">
-                                            <div class="text-center">
-                                                <div class="profile-user position-relative d-inline-block mx-auto mb-4">
-                                                    
-                                                    <?php if ($id_proof) {
-                                                        echo '<img id="pimg_pre2" src="../../uploading/' . $id_proof . '" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-id-proof">';
-                                                    } else {
-                                                        echo '<img id="pimg_pre2" src="../../uploading/not_uploaded.png" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-id-proof">';
-                                                    } ?>
-                                                    
-                                                    <div class="avatar-xs p-0 profile-photo-edit">
-                                                        <input id="pid_proof" type="file" class="profile-img-file-input" disabled>
-                                                        <input id="pimg_path2" type="hidden" value="<?= $id_proof ?>">
-                                                        <label for="pid_proof" class="profile-photo-edit avatar-xs">
-                                                            <span class="avatar-title bg-light text-body shadow">
-                                                                <i class="ri-camera-fill"></i>
-                                                            </span>
-                                                        </label>
+                                        <!-- ID Proof -->
+                                        <?php if ($userType == '25' || $userType == '24') { ?>
+                                        <div class="card">
+                                            <div class="card-body p-4">
+                                                <div class="text-center">
+                                                    <div class="profile-user position-relative d-inline-block mx-auto mb-4">
+                                                        
+                                                        <?php if ($id_proof) {
+                                                            echo '<img id="pimg_pre2" src="../../uploading/' . $id_proof . '" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-id-proof">';
+                                                        } else {
+                                                            echo '<img id="pimg_pre2" src="../../uploading/not_uploaded.png" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-id-proof">';
+                                                        } ?>
+                                                        
+                                                        <div class="avatar-xs p-0 profile-photo-edit">
+                                                            <input id="pid_proof" type="file" class="profile-img-file-input" disabled>
+                                                            <input id="pimg_path2" type="hidden" value="<?= $id_proof ?>">
+                                                            <label for="pid_proof" class="profile-photo-edit avatar-xs">
+                                                                <span class="avatar-title bg-light text-body shadow">
+                                                                    <i class="ri-camera-fill"></i>
+                                                                </span>
+                                                            </label>
+                                                        </div>
                                                     </div>
+                                                    <h5 class="fs-16 mb-1">Id Proof</h5>
                                                 </div>
-                                                <h5 class="fs-16 mb-1">Id Proof</h5>
                                             </div>
                                         </div>
+                                        <?php } ?>
                                     </div>
-                                    <?php } ?>
                                 </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
 
-                </div>
-                <!-- container-fluid -->
-            </div><!-- End Page-content -->
+                    </div>
+                    <!-- container-fluid -->
+                </div><!-- End Page-content -->
 
-            <?php 
-                include_once(__DIR__ . '/customer_footer.php');
-            ?>
+                <?php 
+                    include_once(__DIR__ . '/customer_footer.php');
+                ?>
+            </div>
+            <!-- end main content-->
+
         </div>
-        <!-- end main content-->
+        <!-- END layout-wrapper -->
 
-    </div>
-    <!-- END layout-wrapper -->
+        <!--start back-to-top-->
+        <button onclick="topFunction()" class="scrollToTop scroll-btn show btn" id="back-to-top">
+            <i class="ri-arrow-up-line"></i>
+        </button>
+        <!--end back-to-top-->
+        <?php include (__DIR__ .'/../contact_modal.php') ?>
+        <!-- Theme Settings -->
 
-    <!--start back-to-top-->
-    <button onclick="topFunction()" class="scrollToTop scroll-btn show btn" id="back-to-top">
-        <i class="ri-arrow-up-line"></i>
-    </button>
-    <!--end back-to-top-->
-    <?php include (__DIR__ .'/../contact_modal.php') ?>
-    <!-- Theme Settings -->
+        <!-- JAVASCRIPT -->
+        <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="../assets/libs/node-waves/waves.min.js"></script>
+        <script src="../assets/libs/feather-icons/feather.min.js"></script>
+        <script src="../assets/js/jquery/jquery-3.7.1.min.js"></script>
+        <?php 
+            if ($userType == 10 && $customer_type== 'Neo Select') {
+        ?>
+        <!-- Vector map-->
+        <script src="../assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+        <script src="../assets/libs/jsvectormap/maps/world-merc.js"></script>
 
-    <!-- JAVASCRIPT -->
-    <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/libs/simplebar/simplebar.min.js"></script>
-    <script src="../assets/libs/node-waves/waves.min.js"></script>
-    <script src="../assets/libs/feather-icons/feather.min.js"></script>
-    <script src="../assets/js/jquery/jquery-3.7.1.min.js"></script>
-    <?php 
-        if ($userType == 10 && $customer_type== 'Neo Select') {
-    ?>
-    <!-- Vector map-->
-    <script src="../assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
-    <script src="../assets/libs/jsvectormap/maps/world-merc.js"></script>
-
-    <!--Swiper slider js-->
-    <script src="../assets/libs/swiper/swiper-bundle.min.js"></script>
-    <?php
-        }
-    ?>                                                                        
-    <!-- App js -->
-    <script src="../assets/js/app.js"></script>
-    <!-- file upload code js file -->
-    <script src="../../uploading/upload.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <script>
-      
-       $('#edit_profile').on('click', function (event) {
-            event.preventDefault();
-
-            // Create a FormData object
-            var formData = new FormData();
-
-            // Append input values
-            formData.append('user_type', $('#user_type').val());
-            formData.append('user_id', $('#user_id').val());
-            formData.append('firstname', $('#firstname').val());
-            formData.append('lastname', $('#lastname').val());
-            formData.append('nominee_name', $('#nominee_name').val());
-            formData.append('nominee_relation', $('#nominee_relation').val());
-            formData.append('phone', $('#phone').val());
-            formData.append('email', $('#email').val());
-            formData.append('gender', $('input[name="gender"]:checked').val());
-            formData.append('bdate', $('#bdate').val());
-            formData.append('country', $('#country').val());
-            formData.append('mystate', $('#mystate').val());
-            formData.append('city', $('#city').val());
-            formData.append('zipcode', $('#zipcode').val());
-            formData.append('address', $('#address').val());
-
-            // Append files only if selected
-            formData.append('pan_card', $('#img_path3').val());
-            formData.append('voting_card', $('#img_path5').val());
-            formData.append('profile_pic', $('#img_path1').val());
-            formData.append('bank_passbook', $('#pimg_path3').val() || $('#img_path4').val());
-            formData.append('aadhar_card', $('#aimg_path2').val());
-            formData.append('id_proof', $('#pimg_path2').val());
-
-            // AJAX call with multipart/form-data
-            $.ajax({
-                url: 'updatedata/edit_profile_data.php',
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    if (response == '1') {
-                        alert('Edit Successful');
-                        location.reload();
-                    } else {
-                        alert('Edit Error!!');
-                    }
-                },
-                error: function (xhr, status, error) {
-                    alert('AJAX Error: ' + error);
-                }
-            });
-        });
-
-        //handle file uploads
-
-    </script>
-    <script>
-        // Toggle password visibility (default: visible, type="text")
-        function togglePassword(fieldId, btn) {
-            const input = document.getElementById(fieldId);
-            const icon = btn.querySelector('i');
-            const isVisible = input.type === "text";
-
-            input.type = isVisible ? "password" : "text";
-            icon.classList.toggle('fa-eye', isVisible);
-            icon.classList.toggle('fa-eye-slash', !isVisible);
-            btn.title = isVisible ? "Show Password" : "Hide Password";
-        }
-
-        // Password validation
-        function validatePasswordDetails(password) {
-            return {
-                lengthCheck: password.length >= 8,
-                letterCheck: /[A-Za-z]/.test(password),
-                numberCheck: /\d/.test(password),
-                symbolCheck: /[^A-Za-z0-9]/.test(password),
-            };
-        }
-
-        function updatePasswordFeedback(checks) {
-            updateFeedbackItem('lengthCheck', checks.lengthCheck, 'At least 8 characters');
-            updateFeedbackItem('letterCheck', checks.letterCheck, 'At least one letter (a-z, A-Z)');
-            updateFeedbackItem('numberCheck', checks.numberCheck, 'At least one number (0–9)');
-            updateFeedbackItem('symbolCheck', checks.symbolCheck, 'At least one symbol (!@#$%^&*)');
-        }
-
-        function updateFeedbackItem(id, passed, message) {
-            const el = document.getElementById(id);
-            el.innerHTML = passed
-                ? '✔️ <span style="color:green;">' + message + '</span>'
-                : '❌ <span style="color:red;">' + message + '</span>';
-        }
-
-        document.getElementById('newPassword').addEventListener('input', function () {
-            const password = this.value;
-            const checks = validatePasswordDetails(password);
-            updatePasswordFeedback(checks);
-        });
-
-        $('#edit_password').on('click', function (event) {
-            event.preventDefault();
-
-            const currentPassword = $('#currentPassword').val().trim();
-            const newPassword = $('#newPassword').val().trim();
-            const confirmPassword = $('#confirmPassword').val().trim();
-            const user_type = $('#user_type').val().trim();
-            const user_id = $('#user_id').val().trim();
-
-            const checks = validatePasswordDetails(newPassword);
-            const allPassed = Object.values(checks).every(Boolean);
-
-            if (!allPassed) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Invalid Password',
-                    text: 'Password must be at least 8 characters long and include a letter, a number, and a symbol.',
-                    confirmButtonText: 'OK'
-                });
-                return;
+        <!--Swiper slider js-->
+        <script src="../assets/libs/swiper/swiper-bundle.min.js"></script>
+        <?php
             }
+        ?>                                                                        
+        <!-- App js -->
+        <script src="../assets/js/app.js"></script>
+        <!-- file upload code js file -->
+        <script src="../../uploading/upload.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-            if (newPassword !== confirmPassword) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Password Mismatch',
-                    text: 'New Password and Confirm Password do not match.',
-                    confirmButtonText: 'OK'
-                });
-                return;
-            }
+        <script>
+        
+        $('#edit_profile').on('click', function (event) {
+                event.preventDefault();
 
-            const formData = new FormData();
-            formData.append('currentPassword', currentPassword);
-            formData.append('newPassword', newPassword);
-            formData.append('confirmPassword', confirmPassword);
-            formData.append('user_type', user_type);
-            formData.append('user_id', user_id);
+                // Create a FormData object
+                var formData = new FormData();
 
-            $.ajax({
-                url: 'updatedata/reset_password_data.php',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    if (response === "success") {
-                        Swal.fire({
-                            icon: "success",
-                            title: "Success",
-                            text: "Password changed successfully."
-                        });
-                    } else if (response === "mismatch") {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Incorrect Password",
-                            text: "Current password is incorrect."
-                        });
-                    } else if (response === "same_password") {
-                        Swal.fire({
-                            icon: "warning",
-                            title: "Same Password",
-                            text: "New password cannot be the same as your current password."
-                        });
-                    } else if (response === "confirm_mismatch") {
-                        Swal.fire({
-                            icon: "warning",
-                            title: "Password Mismatch",
-                            text: "New password and confirm password do not match."
-                        });
-                    } else if (response === "invalid") {
-                        Swal.fire({
-                            icon: "warning",
-                            title: "Invalid Password",
-                            text: "Password must be at least 8 characters and contain a letter, a number, and a special character."
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Error",
-                            text: "Something went wrong."
-                        });
-                    }
-                },
-                error: function (xhr, status, error) {
-                    alert(' AJAX Error: ' + error);
-                }
-            });
-        });
+                // Append input values
+                formData.append('user_type', $('#user_type').val());
+                formData.append('user_id', $('#user_id').val());
+                formData.append('firstname', $('#firstname').val());
+                formData.append('lastname', $('#lastname').val());
+                formData.append('nominee_name', $('#nominee_name').val());
+                formData.append('nominee_relation', $('#nominee_relation').val());
+                formData.append('phone', $('#phone').val());
+                formData.append('email', $('#email').val());
+                formData.append('gender', $('input[name="gender"]:checked').val());
+                formData.append('bdate', $('#bdate').val());
+                formData.append('country', $('#country').val());
+                formData.append('mystate', $('#mystate').val());
+                formData.append('city', $('#city').val());
+                formData.append('zipcode', $('#zipcode').val());
+                formData.append('address', $('#address').val());
 
-    </script>
-    <!-- dialer logic scripts -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
+                // Append files only if selected
+                formData.append('pan_card', $('#img_path3').val());
+                formData.append('voting_card', $('#img_path5').val());
+                formData.append('profile_pic', $('#img_path1').val());
+                formData.append('bank_passbook', $('#pimg_path3').val() || $('#img_path4').val());
+                formData.append('aadhar_card', $('#aimg_path2').val());
+                formData.append('id_proof', $('#pimg_path2').val());
 
-            const callBtn = document.getElementById("callBtn");
-
-            if (callBtn) {
-                callBtn.addEventListener("click", function(e) {
-
-                    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-                    if (!isMobile) {
-                        e.preventDefault();
-
-                        alert("📞 Calling works only on mobile devices.\nPlease dial 8010892265 from your phone.");
-                        location.reload();
-
-                        // Optional clipboard copy (safe fallback)
-                        if (navigator.clipboard) {
-                            navigator.clipboard.writeText("8010892265");
+                // AJAX call with multipart/form-data
+                $.ajax({
+                    url: 'updatedata/edit_profile_data.php',
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        if (response == '1') {
+                            alert('Edit Successful');
+                            location.reload();
+                        } else {
+                            alert('Edit Error!!');
                         }
+                    },
+                    error: function (xhr, status, error) {
+                        alert('AJAX Error: ' + error);
                     }
                 });
+            });
+
+            //handle file uploads
+
+        </script>
+        <script>
+            // Toggle password visibility (default: visible, type="text")
+            function togglePassword(fieldId, btn) {
+                const input = document.getElementById(fieldId);
+                const icon = btn.querySelector('i');
+                const isVisible = input.type === "text";
+
+                input.type = isVisible ? "password" : "text";
+                icon.classList.toggle('fa-eye', isVisible);
+                icon.classList.toggle('fa-eye-slash', !isVisible);
+                btn.title = isVisible ? "Show Password" : "Hide Password";
             }
 
-        });
-    </script>
-
-    <script>
-        var modal = document.getElementById('staticBackdrop');
-
-        // Store the element that opened the modal
-        let lastFocusedElement;
-
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('[data-bs-toggle="modal"]')) {
-                lastFocusedElement = e.target;
+            // Password validation
+            function validatePasswordDetails(password) {
+                return {
+                    lengthCheck: password.length >= 8,
+                    letterCheck: /[A-Za-z]/.test(password),
+                    numberCheck: /\d/.test(password),
+                    symbolCheck: /[^A-Za-z0-9]/.test(password),
+                };
             }
-        });
 
-        modal.addEventListener('hidden.bs.modal', function () {
-            if (lastFocusedElement) {
-                lastFocusedElement.focus();
-            } else {
-                document.body.focus();
+            function updatePasswordFeedback(checks) {
+                updateFeedbackItem('lengthCheck', checks.lengthCheck, 'At least 8 characters');
+                updateFeedbackItem('letterCheck', checks.letterCheck, 'At least one letter (a-z, A-Z)');
+                updateFeedbackItem('numberCheck', checks.numberCheck, 'At least one number (0–9)');
+                updateFeedbackItem('symbolCheck', checks.symbolCheck, 'At least one symbol (!@#$%^&*)');
             }
-        });
-    </script>
-    <!-- end dialer logic scripts -->
-</body>
 
+            function updateFeedbackItem(id, passed, message) {
+                const el = document.getElementById(id);
+                el.innerHTML = passed
+                    ? '✔️ <span style="color:green;">' + message + '</span>'
+                    : '❌ <span style="color:red;">' + message + '</span>';
+            }
+
+            document.getElementById('newPassword').addEventListener('input', function () {
+                const password = this.value;
+                const checks = validatePasswordDetails(password);
+                updatePasswordFeedback(checks);
+            });
+
+            $('#edit_password').on('click', function (event) {
+                event.preventDefault();
+
+                const currentPassword = $('#currentPassword').val().trim();
+                const newPassword = $('#newPassword').val().trim();
+                const confirmPassword = $('#confirmPassword').val().trim();
+                const user_type = $('#user_type').val().trim();
+                const user_id = $('#user_id').val().trim();
+
+                const checks = validatePasswordDetails(newPassword);
+                const allPassed = Object.values(checks).every(Boolean);
+
+                if (!allPassed) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Invalid Password',
+                        text: 'Password must be at least 8 characters long and include a letter, a number, and a symbol.',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+
+                if (newPassword !== confirmPassword) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Password Mismatch',
+                        text: 'New Password and Confirm Password do not match.',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append('currentPassword', currentPassword);
+                formData.append('newPassword', newPassword);
+                formData.append('confirmPassword', confirmPassword);
+                formData.append('user_type', user_type);
+                formData.append('user_id', user_id);
+
+                $.ajax({
+                    url: 'updatedata/reset_password_data.php',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        if (response === "success") {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Success",
+                                text: "Password changed successfully."
+                            });
+                        } else if (response === "mismatch") {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Incorrect Password",
+                                text: "Current password is incorrect."
+                            });
+                        } else if (response === "same_password") {
+                            Swal.fire({
+                                icon: "warning",
+                                title: "Same Password",
+                                text: "New password cannot be the same as your current password."
+                            });
+                        } else if (response === "confirm_mismatch") {
+                            Swal.fire({
+                                icon: "warning",
+                                title: "Password Mismatch",
+                                text: "New password and confirm password do not match."
+                            });
+                        } else if (response === "invalid") {
+                            Swal.fire({
+                                icon: "warning",
+                                title: "Invalid Password",
+                                text: "Password must be at least 8 characters and contain a letter, a number, and a special character."
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                text: "Something went wrong."
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert(' AJAX Error: ' + error);
+                    }
+                });
+            });
+
+        </script>
+        <!-- dialer logic scripts -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const callBtn = document.getElementById("callBtn");
+
+                if (callBtn) {
+                    callBtn.addEventListener("click", function(e) {
+
+                        let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+                        if (!isMobile) {
+                            e.preventDefault();
+
+                            alert("📞 Calling works only on mobile devices.\nPlease dial 8010892265 from your phone.");
+                            location.reload();
+
+                            // Optional clipboard copy (safe fallback)
+                            if (navigator.clipboard) {
+                                navigator.clipboard.writeText("8010892265");
+                            }
+                        }
+                    });
+                }
+
+            });
+        </script>
+
+        <script>
+            var modal = document.getElementById('staticBackdrop');
+
+            // Store the element that opened the modal
+            let lastFocusedElement;
+
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('[data-bs-toggle="modal"]')) {
+                    lastFocusedElement = e.target;
+                }
+            });
+
+            modal.addEventListener('hidden.bs.modal', function () {
+                if (lastFocusedElement) {
+                    lastFocusedElement.focus();
+                } else {
+                    document.body.focus();
+                }
+            });
+        </script>
+        <!-- end dialer logic scripts -->
+        <!-- Sidebar Start -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const sidebar = document.querySelector(".navbar-menu");
+                const hamburger = document.getElementById("topnav-hamburger-icon");
+                const hamburgerIcon = document.querySelector(".hamburger-icon");
+                const overlay = document.querySelector(".vertical-overlay");
+
+                if (window.innerWidth > 1024) {
+                    sidebar.classList.remove("sidebar-hidden");
+                }
+
+                hamburger.addEventListener("click", function () {
+
+                    if (window.innerWidth <= 1024) {
+
+                        /* BELOW 767 - YOUR ORIGINAL WORKING LOGIC */
+                        if (window.innerWidth <= 767) {
+
+                            sidebar.classList.toggle("sidebar-mobile-show");
+                            hamburgerIcon.classList.toggle("open");
+
+                            if (overlay) {
+                                overlay.classList.toggle("active");
+                            }
+                        }
+
+                        /* 768px TO 1024px */
+                        else {
+
+                            if (!sidebar.classList.contains("sidebar-mobile-show")) {
+
+                                sidebar.classList.add("sidebar-mobile-show");
+
+                                if (overlay) {
+                                    overlay.classList.add("active");
+                                }
+
+                                /* SHOW 3 LINES */
+                                hamburgerIcon.classList.add("open");
+
+                            } else {
+
+                                sidebar.classList.remove("sidebar-mobile-show");
+
+                                if (overlay) {
+                                    overlay.classList.remove("active");
+                                }
+
+                                /* SHOW ARROW */
+                                hamburgerIcon.classList.remove("open");
+                            }
+                        }
+
+                    } else {
+
+                        /* DESKTOP */
+                        sidebar.classList.toggle("sidebar-hidden");
+                    }
+                });
+
+                if (overlay) {
+
+                    overlay.addEventListener("click", function () {
+
+                        sidebar.classList.remove("sidebar-mobile-show");
+                        overlay.classList.remove("active");
+                        hamburgerIcon.classList.remove("open");
+
+                    });
+                }
+
+            });
+        </script>
+        <!-- Sidebar End -->
+    </body>
 </html>

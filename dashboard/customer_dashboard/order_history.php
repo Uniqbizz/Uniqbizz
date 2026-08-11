@@ -18,1515 +18,1016 @@
 <!DOCTYPE html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order History</title>
-    <!-- App favicon -->
-    <link rel="shortcut icon" href="../assets/images/fav.png">
-    <!-- custom css file -->
-    <!-- <link href="../assets/css/styles.css" rel="stylesheet" type="text/css" /> -->
-    <!-- jsvectormap css -->
-    <link href="../assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Order History</title>
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="../assets/images/fav.png">
+        <!-- custom css file -->
+        <!-- <link href="../assets/css/styles.css" rel="stylesheet" type="text/css" /> -->
+        <!-- jsvectormap css -->
+        <link href="../assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
 
-    <!--Swiper slider css-->
-    <link href="../assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+        <!--Swiper slider css-->
+        <link href="../assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
 
-    <!-- DataTables -->
-    <link href="../assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-    <!-- Responsive datatable examples -->
-    <link href="../assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />  
+        <!-- DataTables -->
+        <link href="../assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <!-- Responsive datatable examples -->
+        <link href="../assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />  
 
-    <!-- Layout config Js -->
-    <script src="../assets/js/layout.js"></script>
-    <!-- Bootstrap Css -->
-    <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
-    <!-- Icons Css -->
-    <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-    <!-- App Css-->
-    <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
-    <!-- custom Css-->
-    <link href="../assets/css/custom.min.css" rel="stylesheet" type="text/css" />
-    <!-- custom Css developer-->
-    <link rel="stylesheet" href="../assets/css/custom.css" />
-    <!-- font-awesome -->
-        <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css" />
-    <!-- Css-->
-    <link href="../assets/css/loadingScreen.css" id="app-style" rel="stylesheet" type="text/css" />
-    <!-- App js -->
-    <!-- <script src="../assets/js/plugin.js"></script> -->
-    <!-- DataTables -->
-    
-    <!-- Font Awesome Icons -->
-    <!-- Date Range Picker CSS End -->
+        <!-- Layout config Js -->
+        <script src="../assets/js/layout.js"></script>
+        <!-- Bootstrap Css -->
+        <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <!-- Icons Css -->
+        <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <!-- custom Css-->
+        <link href="../assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <!-- App Css-->
+        <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+        <!-- custom Css developer-->
+        <link rel="stylesheet" href="../assets/css/custom.css" />
+        <!-- font-awesome -->
+            <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css" />
+        <!-- Css-->
+        <link href="../assets/css/loadingScreen.css" id="app-style" rel="stylesheet" type="text/css" />
+        <!-- App js -->
+        <!-- <script src="../assets/js/plugin.js"></script> -->
+        <!-- DataTables -->
+        
+        <!-- Font Awesome Icons -->
+        <!-- Date Range Picker CSS End -->
 
-    <!-- Customer Dashboard CSS -->
-    <link rel="stylesheet" href="../assets/css/customer_dashboard.css" />
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-    <!-- Date Range Picker CSS Start -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    
+        <!-- Customer Dashboard CSS -->
+        <link rel="stylesheet" href="../assets/css/customer_dashboard.css" />
+        <!-- FontAwesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
+        <!-- Date Range Picker CSS Start -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+        
 
-    <style>
-        .selected-date {
-            background-color: #dfeaff !important;
-            /* Light blue highlight */
-            border: 2px solid #007bff !important;
-            /* Blue border */
-            border-radius: 5px;
-        }
-
-        .cardHover:hover {
-            background-color: #556ee6 !important;
-            border-radius: 6px !important;
-            /* padding: 4px !important; */
-            border: none !important;
-        }
-
-        .faIcon {
-            padding: 21px 30px 21px 14px !important
-        }
-
-        .faIcon:hover {
-            color: #fff !important
-        }
-
-        .pera {
-            font-size: 10px !important;
-            font-weight: 500 !important;
-        }
-        .bookingDate {
-            width: 130px !important;
-        }
-
-        .dateRange {
-            border-radius: 14px !important;
-        }
-        .nav-link.active {
-            background: #4b38b3;
-            color: #fff;
-            box-shadow: 0 4px 12px rgba(95, 46, 234, 0.3);
-        }
-        .nav-link.active span{
-            color: #fff;
-        }
-        .span-tab-font{
-            font-size: 13px;
-        }
-        @media screen and (min-width: 993px) and (max-width: 1180px) {
-            .cardText {
-                font-size: 12px !important;
+        <style>
+            .selected-date {
+                background-color: #dfeaff !important;
+                /* Light blue highlight */
+                border: 2px solid #007bff !important;
+                /* Blue border */
+                border-radius: 5px;
             }
 
-            .cardProPic {
-                width: 35px !important;
-                height: 35px !important;
+            .cardHover:hover {
+                background-color: #556ee6 !important;
+                border-radius: 6px !important;
+                /* padding: 4px !important; */
+                border: none !important;
             }
 
-            .card-Img1 {
-                width: 70px !important;
-                height: 55px !important;
+            .faIcon {
+                padding: 21px 30px 21px 14px !important
             }
 
-        }
-
-        @media screen and (min-width: 768px) and (max-width: 960px) {
-            .cardText {
-                font-size: 12px !important;
+            .faIcon:hover {
+                color: #fff !important
             }
 
-            .cardProPic {
-                width: 35px !important;
-                height: 35px !important;
+            .pera {
+                font-size: 10px !important;
+                font-weight: 500 !important;
+            }
+            .bookingDate {
+                width: 130px !important;
             }
 
-            .card-Img1 {
-                width: 70px !important;
-                height: 55px !important;
+            .dateRange {
+                border-radius: 14px !important;
             }
-        }
+            .nav-link.active {
+                background: #4b38b3;
+                color: #fff;
+                box-shadow: 0 4px 12px rgba(95, 46, 234, 0.3);
+            }
+            .nav-link.active span{
+                color: #fff;
+            }
+            .span-tab-font{
+                font-size: 13px;
+            }
+            @media screen and (min-width: 993px) and (max-width: 1180px) {
+                .cardText {
+                    font-size: 12px !important;
+                }
 
-        @media screen and (min-width: 320px) and (max-width: 485px) {
-            .cardText {
-                font-size: 11px !important;
+                .cardProPic {
+                    width: 35px !important;
+                    height: 35px !important;
+                }
+
+                .card-Img1 {
+                    width: 70px !important;
+                    height: 55px !important;
+                }
+
             }
 
-            .cardProPic {
-                width: 35px !important;
-                height: 35px !important;
+            @media screen and (min-width: 768px) and (max-width: 960px) {
+                .cardText {
+                    font-size: 12px !important;
+                }
+
+                .cardProPic {
+                    width: 35px !important;
+                    height: 35px !important;
+                }
+
+                .card-Img1 {
+                    width: 70px !important;
+                    height: 55px !important;
+                }
             }
 
-            .card-Img1 {
-                width: 65px !important;
-                height: 50px !important;
+            @media screen and (min-width: 320px) and (max-width: 485px) {
+                .cardText {
+                    font-size: 11px !important;
+                }
+
+                .cardProPic {
+                    width: 35px !important;
+                    height: 35px !important;
+                }
+
+                .card-Img1 {
+                    width: 65px !important;
+                    height: 50px !important;
+                }
             }
-        }
 
-        @media only screen and (max-width: 1180px) {
-            .rowAlign {
-                display: block !important;
+            @media only screen and (max-width: 1180px) {
+                .rowAlign {
+                    display: block !important;
+                }
+
+                .dateRangeAlign {
+                    display: flex !important;
+                    justify-content: left !important;
+                }
+
             }
+        </style>
+    </head>
+    <body>
+        <div id="layout-wrapper">
+        <?php 
+                include_once(__DIR__ . '/customer_header.php');
+            
+                include_once(__DIR__ . '/customer_sidebar.php');
+            ?>
+            <?php
+                $pending_booking_count = 0;
+                $completed_booking_count = 0;
+                $pending_payment_amt = 0;
+                $in_transit_booking_count=0;
+                $canceled_booking_count=0;
+                $completed_payment_amt = 0;
 
-            .dateRangeAlign {
-                display: flex !important;
-                justify-content: left !important;
-            }
-
-        }
-    </style>
-</head>
-
-<body>
-    <div id="layout-wrapper">
-       <?php 
-            include_once(__DIR__ . '/customer_header.php');
-         
-            include_once(__DIR__ . '/customer_sidebar.php');
-        ?>
-        <?php
-            $pending_booking_count = 0;
-            $completed_booking_count = 0;
-            $pending_payment_amt = 0;
-            $in_transit_booking_count=0;
-            $canceled_booking_count=0;
-            $completed_payment_amt = 0;
-
-            $sql = "SELECT
-                        b.id,
-                        b.order_id,
-                        b.package_id,
-                        b.date,
-                        b.customer_id,
-                        b.name,
-                        b.status,
-                        p.name AS package_name,
-                        p.tour_days,
-                        bd.final_price,
-                        bd.amount,
-                        COALESCE(bd.part_pay_1, 0) AS part_pay_1,
-                        COALESCE(bd.part_pay_2, 0) AS part_pay_2,
-                        COALESCE(bd.part_pay_3, 0) AS part_pay_3,
-                        bd.part_pay_1_status,
-                        bd.part_pay_2_status,
-                        bd.part_pay_3_status,
-                        bd.status AS bd_status,
-                        b.confirm_status,
-                        b.ta_id,
-                        agg.max_b_date,
-                        agg.min_b_date
-                    FROM bookings b
-                    LEFT JOIN package p ON b.package_id = p.id
-                    LEFT JOIN booking_direct_bill bd ON b.id = bd.bookings_id
-                    ";
-                
-
-                    if ($userType == '24') { // BCM
-                        $filter = "CROSS JOIN (
-                                        SELECT
-                                            MAX(b2.date) AS max_b_date,
-                                            MIN(b2.date) AS min_b_date
-                                        FROM bookings b2
-                                        WHERE b2.ta_id IN (
-                                            -- 1. BCM -> BDM -> BM -> TE -> TC
-                                            SELECT ca.ca_travelagency_id
-                                            FROM ca_travelagency ca
-                                            INNER JOIN corporate_agency co
-                                                ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                            INNER JOIN business_mentor bm
-                                                ON bm.business_mentor_id = co.reference_no AND bm.status = 1
-                                            INNER JOIN employees bdm
-                                                ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                                            INNER JOIN employees bcm
-                                                ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                            WHERE ca.status = 1 AND bcm.employee_id = '$userId'
-                                        
-                                            UNION
-                                        
-                                            -- 2. BCM -> BDM -> BM -> TC
-                                            SELECT ca.ca_travelagency_id
-                                            FROM ca_travelagency ca
-                                            INNER JOIN business_mentor bm
-                                                ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
-                                            INNER JOIN employees bdm
-                                                ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                                            INNER JOIN employees bcm
-                                                ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                            WHERE ca.status = 1 AND bcm.employee_id = '$userId'
-                                        
-                                            UNION
-                                        
-                                            -- 3. BCM -> BDM -> MF -> TC
-                                            SELECT ca.ca_travelagency_id
-                                            FROM ca_travelagency ca
-                                            INNER JOIN master_franchisee mf
-                                                ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
-                                            INNER JOIN employees bdm
-                                                ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                            INNER JOIN employees bcm
-                                                ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                            WHERE ca.status = 1 AND bcm.employee_id = '$userId'
-                                        
-                                            UNION
-                                        
-                                            -- 4. BCM -> BDM -> MF -> F -> TC
-                                            SELECT ca.ca_travelagency_id
-                                            FROM ca_travelagency ca
-                                            INNER JOIN sub_franchisee f
-                                                ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                            INNER JOIN master_franchisee mf
-                                                ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
-                                            INNER JOIN employees bdm
-                                                ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                            INNER JOIN employees bcm
-                                                ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                            WHERE ca.status = 1 AND bcm.employee_id = '$userId'
-                                        
-                                            UNION
-                                        
-                                            -- 5. BCM -> BDM -> SF -> F -> TC
-                                            SELECT ca.ca_travelagency_id
-                                            FROM ca_travelagency ca
-                                            INNER JOIN sub_franchisee f
-                                                ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                            INNER JOIN sponsor_franchisee sf
-                                                ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
-                                            INNER JOIN employees bdm
-                                                ON bdm.employee_id = sf.reference_no AND bdm.status = 1
-                                            INNER JOIN employees bcm
-                                                ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                            WHERE ca.status = 1 AND bcm.employee_id = '$userId'
-                                        
-                                            UNION
-                                        
-                                            -- 6. BCM -> BDM -> TC
-                                            SELECT ca.ca_travelagency_id
-                                            FROM ca_travelagency ca
-                                            INNER JOIN employees bdm
-                                                ON bdm.employee_id = ca.reference_no AND bdm.status = 1
-                                            INNER JOIN employees bcm
-                                                ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                            WHERE ca.status = 1 AND bcm.employee_id = '$userId'
-                                        )
-                                    ) agg
-                                WHERE 1=1 AND b.ta_id IN (
-                            -- 1. BCM -> BDM -> BM -> TE -> TC
-                            SELECT ca.ca_travelagency_id
-                            FROM ca_travelagency ca
-                            INNER JOIN corporate_agency co
-                                ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                            INNER JOIN business_mentor bm
-                                ON bm.business_mentor_id = co.reference_no AND bm.status = 1
-                            INNER JOIN employees bdm
-                                ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                            INNER JOIN employees bcm
-                                ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                            WHERE ca.status = 1 AND bcm.employee_id = '$userId'
-                        
-                            UNION
-                        
-                            -- 2. BCM -> BDM -> BM -> TC
-                            SELECT ca.ca_travelagency_id
-                            FROM ca_travelagency ca
-                            INNER JOIN business_mentor bm
-                                ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
-                            INNER JOIN employees bdm
-                                ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                            INNER JOIN employees bcm
-                                ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                            WHERE ca.status = 1 AND bcm.employee_id = '$userId'
-                        
-                            UNION
-                        
-                            -- 3. BCM -> BDM -> MF -> TC
-                            SELECT ca.ca_travelagency_id
-                            FROM ca_travelagency ca
-                            INNER JOIN master_franchisee mf
-                                ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
-                            INNER JOIN employees bdm
-                                ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                            INNER JOIN employees bcm
-                                ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                            WHERE ca.status = 1 AND bcm.employee_id = '$userId'
-                        
-                            UNION
-                        
-                            -- 4. BCM -> BDM -> MF -> F -> TC
-                            SELECT ca.ca_travelagency_id
-                            FROM ca_travelagency ca
-                            INNER JOIN sub_franchisee f
-                                ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                            INNER JOIN master_franchisee mf
-                                ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
-                            INNER JOIN employees bdm
-                                ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                            INNER JOIN employees bcm
-                                ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                            WHERE ca.status = 1 AND bcm.employee_id = '$userId'
-                        
-                            UNION
-                        
-                            -- 5. BCM -> BDM -> SF -> F -> TC
-                            SELECT ca.ca_travelagency_id
-                            FROM ca_travelagency ca
-                            INNER JOIN sub_franchisee f
-                                ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                            INNER JOIN sponsor_franchisee sf
-                                ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
-                            INNER JOIN employees bdm
-                                ON bdm.employee_id = sf.reference_no AND bdm.status = 1
-                            INNER JOIN employees bcm
-                                ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                            WHERE ca.status = 1 AND bcm.employee_id = '$userId'
-                        
-                            UNION
-                        
-                            -- 6. BCM -> BDM -> TC
-                            SELECT ca.ca_travelagency_id
-                            FROM ca_travelagency ca
-                            INNER JOIN employees bdm
-                                ON bdm.employee_id = ca.reference_no AND bdm.status = 1
-                            INNER JOIN employees bcm
-                                ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                            WHERE ca.status = 1 AND bcm.employee_id = '$userId'
-                        )";
-                    } elseif ($userType == '25') { // BDM
-                        $filter = "CROSS JOIN (
-                                        SELECT
-                                            MAX(b2.date) AS max_b_date,
-                                            MIN(b2.date) AS min_b_date
-                                        FROM bookings b2
-                                        WHERE b2.ta_id IN (
-                                            -- 1. BDM -> BM -> TE -> TC
-                                            SELECT ca.ca_travelagency_id
-                                            FROM ca_travelagency ca
-                                            INNER JOIN corporate_agency co
-                                                ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                            INNER JOIN business_mentor bm
-                                                ON bm.business_mentor_id = co.reference_no AND bm.status = 1
-                                            INNER JOIN employees bdm
-                                                ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                                        
-                                            UNION
-                                        
-                                            -- 2. BDM -> BM -> TC
-                                            SELECT ca.ca_travelagency_id
-                                            FROM ca_travelagency ca
-                                            INNER JOIN business_mentor bm
-                                                ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
-                                            INNER JOIN employees bdm
-                                                ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                                        
-                                            UNION
-                                        
-                                            -- 3. BDM -> MF -> TC
-                                            SELECT ca.ca_travelagency_id
-                                            FROM ca_travelagency ca
-                                            INNER JOIN master_franchisee mf
-                                                ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
-                                            INNER JOIN employees bdm
-                                                ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                                        
-                                            UNION
-                                        
-                                            -- 4. BDM -> MF -> F -> TC
-                                            SELECT ca.ca_travelagency_id
-                                            FROM ca_travelagency ca
-                                            INNER JOIN sub_franchisee f
-                                                ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                            INNER JOIN master_franchisee mf
-                                                ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
-                                            INNER JOIN employees bdm
-                                                ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                                        
-                                            UNION
-                                        
-                                            -- 5. BDM -> SF -> F -> TC
-                                            SELECT ca.ca_travelagency_id
-                                            FROM ca_travelagency ca
-                                            INNER JOIN sub_franchisee f
-                                                ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                            INNER JOIN sponsor_franchisee sf
-                                                ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
-                                            INNER JOIN employees bdm
-                                                ON bdm.employee_id = sf.reference_no AND bdm.status = 1
-                                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                                        
-                                            UNION
-                                        
-                                            -- 6. BDM -> TC (direct)
-                                            SELECT ca.ca_travelagency_id
-                                            FROM ca_travelagency ca
-                                            INNER JOIN employees bdm
-                                                ON bdm.employee_id = ca.reference_no AND bdm.status = 1
-                                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                                        )
-                                    ) agg
-                                WHERE 1=1 AND b.ta_id IN (
-                            -- 1. BDM -> BM -> TE -> TC
-                            SELECT ca.ca_travelagency_id
-                            FROM ca_travelagency ca
-                            INNER JOIN corporate_agency co
-                                ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                            INNER JOIN business_mentor bm
-                                ON bm.business_mentor_id = co.reference_no AND bm.status = 1
-                            INNER JOIN employees bdm
-                                ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                        
-                            UNION
-                        
-                            -- 2. BDM -> BM -> TC
-                            SELECT ca.ca_travelagency_id
-                            FROM ca_travelagency ca
-                            INNER JOIN business_mentor bm
-                                ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
-                            INNER JOIN employees bdm
-                                ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                        
-                            UNION
-                        
-                            -- 3. BDM -> MF -> TC
-                            SELECT ca.ca_travelagency_id
-                            FROM ca_travelagency ca
-                            INNER JOIN master_franchisee mf
-                                ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
-                            INNER JOIN employees bdm
-                                ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                        
-                            UNION
-                        
-                            -- 4. BDM -> MF -> F -> TC
-                            SELECT ca.ca_travelagency_id
-                            FROM ca_travelagency ca
-                            INNER JOIN sub_franchisee f
-                                ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                            INNER JOIN master_franchisee mf
-                                ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
-                            INNER JOIN employees bdm
-                                ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                        
-                            UNION
-                        
-                            -- 5. BDM -> SF -> F -> TC
-                            SELECT ca.ca_travelagency_id
-                            FROM ca_travelagency ca
-                            INNER JOIN sub_franchisee f
-                                ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                            INNER JOIN sponsor_franchisee sf
-                                ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
-                            INNER JOIN employees bdm
-                                ON bdm.employee_id = sf.reference_no AND bdm.status = 1
-                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                        
-                            UNION
-                        
-                            -- 6. BDM -> TC (direct)
-                            SELECT ca.ca_travelagency_id
-                            FROM ca_travelagency ca
-                            INNER JOIN employees bdm
-                                ON bdm.employee_id = ca.reference_no AND bdm.status = 1
-                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                        )";
-                    } elseif ($userType == '26') { // BM
-                        $filter = "CROSS JOIN (
-                                        SELECT
-                                            MAX(b2.date) AS max_b_date,
-                                            MIN(b2.date) AS min_b_date
-                                        FROM bookings b2
-                                        WHERE b2.ta_id IN (
-                                            -- TA via corporate_agency
-                                            SELECT ca.ca_travelagency_id FROM ca_travelagency ca
-                                            INNER JOIN corporate_agency co ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                            INNER JOIN business_mentor bm ON co.reference_no = bm.business_mentor_id AND bm.status = 1
-                                            WHERE ca.status = 1 AND bm.business_mentor_id = '$userId'
+                $sql = "SELECT
+                            b.id,
+                            b.order_id,
+                            b.package_id,
+                            b.date,
+                            b.customer_id,
+                            b.name,
+                            b.status,
+                            p.name AS package_name,
+                            p.tour_days,
+                            bd.final_price,
+                            bd.amount,
+                            COALESCE(bd.part_pay_1, 0) AS part_pay_1,
+                            COALESCE(bd.part_pay_2, 0) AS part_pay_2,
+                            COALESCE(bd.part_pay_3, 0) AS part_pay_3,
+                            bd.part_pay_1_status,
+                            bd.part_pay_2_status,
+                            bd.part_pay_3_status,
+                            bd.status AS bd_status,
+                            b.confirm_status,
+                            b.ta_id,
+                            agg.max_b_date,
+                            agg.min_b_date
+                        FROM bookings b
+                        LEFT JOIN package p ON b.package_id = p.id
+                        LEFT JOIN booking_direct_bill bd ON b.id = bd.bookings_id
+                        ";
                     
-                                            UNION
-                    
-                                            -- Direct TC under BM
-                                            SELECT ca.ca_travelagency_id FROM ca_travelagency ca
-                                            WHERE ca.status = 1 AND ca.reference_no = '$userId'
-                                        )
-                                    ) agg
-                                WHERE 1=1 AND b.ta_id IN (
-                                -- TA via corporate_agency
-                                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
-                                INNER JOIN corporate_agency co ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                INNER JOIN business_mentor bm ON co.reference_no = bm.business_mentor_id AND bm.status = 1
-                                WHERE ca.status = 1 AND bm.business_mentor_id = '$userId'
 
+                        if ($userType == '24') { // BCM
+                            $filter = "CROSS JOIN (
+                                            SELECT
+                                                MAX(b2.date) AS max_b_date,
+                                                MIN(b2.date) AS min_b_date
+                                            FROM bookings b2
+                                            WHERE b2.ta_id IN (
+                                                -- 1. BCM -> BDM -> BM -> TE -> TC
+                                                SELECT ca.ca_travelagency_id
+                                                FROM ca_travelagency ca
+                                                INNER JOIN corporate_agency co
+                                                    ON co.corporate_agency_id = ca.reference_no AND co.status = 1
+                                                INNER JOIN business_mentor bm
+                                                    ON bm.business_mentor_id = co.reference_no AND bm.status = 1
+                                                INNER JOIN employees bdm
+                                                    ON bdm.employee_id = bm.reference_no AND bdm.status = 1
+                                                INNER JOIN employees bcm
+                                                    ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                                                WHERE ca.status = 1 AND bcm.employee_id = '$userId'
+                                            
+                                                UNION
+                                            
+                                                -- 2. BCM -> BDM -> BM -> TC
+                                                SELECT ca.ca_travelagency_id
+                                                FROM ca_travelagency ca
+                                                INNER JOIN business_mentor bm
+                                                    ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
+                                                INNER JOIN employees bdm
+                                                    ON bdm.employee_id = bm.reference_no AND bdm.status = 1
+                                                INNER JOIN employees bcm
+                                                    ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                                                WHERE ca.status = 1 AND bcm.employee_id = '$userId'
+                                            
+                                                UNION
+                                            
+                                                -- 3. BCM -> BDM -> MF -> TC
+                                                SELECT ca.ca_travelagency_id
+                                                FROM ca_travelagency ca
+                                                INNER JOIN master_franchisee mf
+                                                    ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
+                                                INNER JOIN employees bdm
+                                                    ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                                                INNER JOIN employees bcm
+                                                    ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                                                WHERE ca.status = 1 AND bcm.employee_id = '$userId'
+                                            
+                                                UNION
+                                            
+                                                -- 4. BCM -> BDM -> MF -> F -> TC
+                                                SELECT ca.ca_travelagency_id
+                                                FROM ca_travelagency ca
+                                                INNER JOIN sub_franchisee f
+                                                    ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                                                INNER JOIN master_franchisee mf
+                                                    ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
+                                                INNER JOIN employees bdm
+                                                    ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                                                INNER JOIN employees bcm
+                                                    ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                                                WHERE ca.status = 1 AND bcm.employee_id = '$userId'
+                                            
+                                                UNION
+                                            
+                                                -- 5. BCM -> BDM -> SF -> F -> TC
+                                                SELECT ca.ca_travelagency_id
+                                                FROM ca_travelagency ca
+                                                INNER JOIN sub_franchisee f
+                                                    ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                                                INNER JOIN sponsor_franchisee sf
+                                                    ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
+                                                INNER JOIN employees bdm
+                                                    ON bdm.employee_id = sf.reference_no AND bdm.status = 1
+                                                INNER JOIN employees bcm
+                                                    ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                                                WHERE ca.status = 1 AND bcm.employee_id = '$userId'
+                                            
+                                                UNION
+                                            
+                                                -- 6. BCM -> BDM -> TC
+                                                SELECT ca.ca_travelagency_id
+                                                FROM ca_travelagency ca
+                                                INNER JOIN employees bdm
+                                                    ON bdm.employee_id = ca.reference_no AND bdm.status = 1
+                                                INNER JOIN employees bcm
+                                                    ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                                                WHERE ca.status = 1 AND bcm.employee_id = '$userId'
+                                            )
+                                        ) agg
+                                    WHERE 1=1 AND b.ta_id IN (
+                                -- 1. BCM -> BDM -> BM -> TE -> TC
+                                SELECT ca.ca_travelagency_id
+                                FROM ca_travelagency ca
+                                INNER JOIN corporate_agency co
+                                    ON co.corporate_agency_id = ca.reference_no AND co.status = 1
+                                INNER JOIN business_mentor bm
+                                    ON bm.business_mentor_id = co.reference_no AND bm.status = 1
+                                INNER JOIN employees bdm
+                                    ON bdm.employee_id = bm.reference_no AND bdm.status = 1
+                                INNER JOIN employees bcm
+                                    ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                                WHERE ca.status = 1 AND bcm.employee_id = '$userId'
+                            
                                 UNION
-
-                                -- Direct TC under BM
-                                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
-                                WHERE ca.status = 1 AND ca.reference_no = '$userId'
-                            )";
-                    } elseif ($userType == '28') { // MF
-                        $filter = "CROSS JOIN (
-                                        SELECT
-                                            MAX(b2.date) AS max_b_date,
-                                            MIN(b2.date) AS min_b_date
-                                        FROM bookings b2
-                                        WHERE b2.ta_id IN (
-                                            -- TA via Franchisee
-                                            SELECT ca.ca_travelagency_id FROM ca_travelagency ca
-                                            INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
-                                            INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
-                                            WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'
-                                        )
-                                    ) agg
-                                WHERE 1=1 AND b.ta_id IN (
-                                -- TA via Franchisee
-                                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
-                                INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
-                                INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
-                                WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'
-
+                            
+                                -- 2. BCM -> BDM -> BM -> TC
+                                SELECT ca.ca_travelagency_id
+                                FROM ca_travelagency ca
+                                INNER JOIN business_mentor bm
+                                    ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
+                                INNER JOIN employees bdm
+                                    ON bdm.employee_id = bm.reference_no AND bdm.status = 1
+                                INNER JOIN employees bcm
+                                    ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                                WHERE ca.status = 1 AND bcm.employee_id = '$userId'
+                            
                                 UNION
+                            
+                                -- 3. BCM -> BDM -> MF -> TC
+                                SELECT ca.ca_travelagency_id
+                                FROM ca_travelagency ca
+                                INNER JOIN master_franchisee mf
+                                    ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
+                                INNER JOIN employees bdm
+                                    ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                                INNER JOIN employees bcm
+                                    ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                                WHERE ca.status = 1 AND bcm.employee_id = '$userId'
+                            
+                                UNION
+                            
+                                -- 4. BCM -> BDM -> MF -> F -> TC
+                                SELECT ca.ca_travelagency_id
+                                FROM ca_travelagency ca
+                                INNER JOIN sub_franchisee f
+                                    ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                                INNER JOIN master_franchisee mf
+                                    ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
+                                INNER JOIN employees bdm
+                                    ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                                INNER JOIN employees bcm
+                                    ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                                WHERE ca.status = 1 AND bcm.employee_id = '$userId'
+                            
+                                UNION
+                            
+                                -- 5. BCM -> BDM -> SF -> F -> TC
+                                SELECT ca.ca_travelagency_id
+                                FROM ca_travelagency ca
+                                INNER JOIN sub_franchisee f
+                                    ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                                INNER JOIN sponsor_franchisee sf
+                                    ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
+                                INNER JOIN employees bdm
+                                    ON bdm.employee_id = sf.reference_no AND bdm.status = 1
+                                INNER JOIN employees bcm
+                                    ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                                WHERE ca.status = 1 AND bcm.employee_id = '$userId'
+                            
+                                UNION
+                            
+                                -- 6. BCM -> BDM -> TC
+                                SELECT ca.ca_travelagency_id
+                                FROM ca_travelagency ca
+                                INNER JOIN employees bdm
+                                    ON bdm.employee_id = ca.reference_no AND bdm.status = 1
+                                INNER JOIN employees bcm
+                                    ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                                WHERE ca.status = 1 AND bcm.employee_id = '$userId'
+                            )";
+                        } elseif ($userType == '25') { // BDM
+                            $filter = "CROSS JOIN (
+                                            SELECT
+                                                MAX(b2.date) AS max_b_date,
+                                                MIN(b2.date) AS min_b_date
+                                            FROM bookings b2
+                                            WHERE b2.ta_id IN (
+                                                -- 1. BDM -> BM -> TE -> TC
+                                                SELECT ca.ca_travelagency_id
+                                                FROM ca_travelagency ca
+                                                INNER JOIN corporate_agency co
+                                                    ON co.corporate_agency_id = ca.reference_no AND co.status = 1
+                                                INNER JOIN business_mentor bm
+                                                    ON bm.business_mentor_id = co.reference_no AND bm.status = 1
+                                                INNER JOIN employees bdm
+                                                    ON bdm.employee_id = bm.reference_no AND bdm.status = 1
+                                                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                                            
+                                                UNION
+                                            
+                                                -- 2. BDM -> BM -> TC
+                                                SELECT ca.ca_travelagency_id
+                                                FROM ca_travelagency ca
+                                                INNER JOIN business_mentor bm
+                                                    ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
+                                                INNER JOIN employees bdm
+                                                    ON bdm.employee_id = bm.reference_no AND bdm.status = 1
+                                                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                                            
+                                                UNION
+                                            
+                                                -- 3. BDM -> MF -> TC
+                                                SELECT ca.ca_travelagency_id
+                                                FROM ca_travelagency ca
+                                                INNER JOIN master_franchisee mf
+                                                    ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
+                                                INNER JOIN employees bdm
+                                                    ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                                                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                                            
+                                                UNION
+                                            
+                                                -- 4. BDM -> MF -> F -> TC
+                                                SELECT ca.ca_travelagency_id
+                                                FROM ca_travelagency ca
+                                                INNER JOIN sub_franchisee f
+                                                    ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                                                INNER JOIN master_franchisee mf
+                                                    ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
+                                                INNER JOIN employees bdm
+                                                    ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                                                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                                            
+                                                UNION
+                                            
+                                                -- 5. BDM -> SF -> F -> TC
+                                                SELECT ca.ca_travelagency_id
+                                                FROM ca_travelagency ca
+                                                INNER JOIN sub_franchisee f
+                                                    ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                                                INNER JOIN sponsor_franchisee sf
+                                                    ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
+                                                INNER JOIN employees bdm
+                                                    ON bdm.employee_id = sf.reference_no AND bdm.status = 1
+                                                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                                            
+                                                UNION
+                                            
+                                                -- 6. BDM -> TC (direct)
+                                                SELECT ca.ca_travelagency_id
+                                                FROM ca_travelagency ca
+                                                INNER JOIN employees bdm
+                                                    ON bdm.employee_id = ca.reference_no AND bdm.status = 1
+                                                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                                            )
+                                        ) agg
+                                    WHERE 1=1 AND b.ta_id IN (
+                                -- 1. BDM -> BM -> TE -> TC
+                                SELECT ca.ca_travelagency_id
+                                FROM ca_travelagency ca
+                                INNER JOIN corporate_agency co
+                                    ON co.corporate_agency_id = ca.reference_no AND co.status = 1
+                                INNER JOIN business_mentor bm
+                                    ON bm.business_mentor_id = co.reference_no AND bm.status = 1
+                                INNER JOIN employees bdm
+                                    ON bdm.employee_id = bm.reference_no AND bdm.status = 1
+                                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                            
+                                UNION
+                            
+                                -- 2. BDM -> BM -> TC
+                                SELECT ca.ca_travelagency_id
+                                FROM ca_travelagency ca
+                                INNER JOIN business_mentor bm
+                                    ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
+                                INNER JOIN employees bdm
+                                    ON bdm.employee_id = bm.reference_no AND bdm.status = 1
+                                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                            
+                                UNION
+                            
+                                -- 3. BDM -> MF -> TC
+                                SELECT ca.ca_travelagency_id
+                                FROM ca_travelagency ca
+                                INNER JOIN master_franchisee mf
+                                    ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
+                                INNER JOIN employees bdm
+                                    ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                            
+                                UNION
+                            
+                                -- 4. BDM -> MF -> F -> TC
+                                SELECT ca.ca_travelagency_id
+                                FROM ca_travelagency ca
+                                INNER JOIN sub_franchisee f
+                                    ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                                INNER JOIN master_franchisee mf
+                                    ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
+                                INNER JOIN employees bdm
+                                    ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                            
+                                UNION
+                            
+                                -- 5. BDM -> SF -> F -> TC
+                                SELECT ca.ca_travelagency_id
+                                FROM ca_travelagency ca
+                                INNER JOIN sub_franchisee f
+                                    ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                                INNER JOIN sponsor_franchisee sf
+                                    ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
+                                INNER JOIN employees bdm
+                                    ON bdm.employee_id = sf.reference_no AND bdm.status = 1
+                                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                            
+                                UNION
+                            
+                                -- 6. BDM -> TC (direct)
+                                SELECT ca.ca_travelagency_id
+                                FROM ca_travelagency ca
+                                INNER JOIN employees bdm
+                                    ON bdm.employee_id = ca.reference_no AND bdm.status = 1
+                                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                            )";
+                        } elseif ($userType == '26') { // BM
+                            $filter = "CROSS JOIN (
+                                            SELECT
+                                                MAX(b2.date) AS max_b_date,
+                                                MIN(b2.date) AS min_b_date
+                                            FROM bookings b2
+                                            WHERE b2.ta_id IN (
+                                                -- TA via corporate_agency
+                                                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                                                INNER JOIN corporate_agency co ON co.corporate_agency_id = ca.reference_no AND co.status = 1
+                                                INNER JOIN business_mentor bm ON co.reference_no = bm.business_mentor_id AND bm.status = 1
+                                                WHERE ca.status = 1 AND bm.business_mentor_id = '$userId'
+                        
+                                                UNION
+                        
+                                                -- Direct TC under BM
+                                                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                                                WHERE ca.status = 1 AND ca.reference_no = '$userId'
+                                            )
+                                        ) agg
+                                    WHERE 1=1 AND b.ta_id IN (
+                                    -- TA via corporate_agency
+                                    SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                                    INNER JOIN corporate_agency co ON co.corporate_agency_id = ca.reference_no AND co.status = 1
+                                    INNER JOIN business_mentor bm ON co.reference_no = bm.business_mentor_id AND bm.status = 1
+                                    WHERE ca.status = 1 AND bm.business_mentor_id = '$userId'
 
-                                -- Direct TC under MF
-                                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
-                                WHERE ca.status = 1 AND ca.reference_no = '$userId'
+                                    UNION
+
+                                    -- Direct TC under BM
+                                    SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                                    WHERE ca.status = 1 AND ca.reference_no = '$userId'
+                                )";
+                        } elseif ($userType == '28') { // MF
+                            $filter = "CROSS JOIN (
+                                            SELECT
+                                                MAX(b2.date) AS max_b_date,
+                                                MIN(b2.date) AS min_b_date
+                                            FROM bookings b2
+                                            WHERE b2.ta_id IN (
+                                                -- TA via Franchisee
+                                                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                                                INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
+                                                INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
+                                                WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'
+                                            )
+                                        ) agg
+                                    WHERE 1=1 AND b.ta_id IN (
+                                    -- TA via Franchisee
+                                    SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                                    INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
+                                    INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
+                                    WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'
+
+                                    UNION
+
+                                    -- Direct TC under MF
+                                    SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                                    WHERE ca.status = 1 AND ca.reference_no = '$userId'
+                                )";
+                        } elseif ($userType == '30') { // SF
+                            $filter = "CROSS JOIN (
+                                            SELECT
+                                                MAX(b2.date) AS max_b_date,
+                                                MIN(b2.date) AS min_b_date
+                                            FROM bookings b2
+                                            WHERE b2.ta_id IN (
+                                                -- TA via Franchisee
+                                                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                                                INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
+                                                INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
+                                                WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'
+                                            )
+                                        ) agg
+                                    WHERE 1=1 AND b.ta_id IN (
+                                    -- TA via Franchisee
+                                    SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                                    INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
+                                    INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
+                                    WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'
+                                )";
+                        } elseif ($userType == '16' || $userType == '29') { // TE/F
+                            $filter = "CROSS JOIN (
+                                            SELECT
+                                                MAX(b2.date) AS max_b_date,
+                                                MIN(b2.date) AS min_b_date
+                                            FROM bookings b2
+                                            WHERE b2.ta_id IN (
+                                                SELECT ca.ca_travelagency_id
+                                                FROM ca_travelagency ca
+                                                WHERE ca.status = 1
+                                                AND ca.reference_no = '$userId'
+                                            )
+                                        ) agg
+                                    WHERE 1=1 AND b.ta_id IN (
+                                    SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                                    WHERE ca.status = 1 AND ca.reference_no = '$userId'
+                                )";
+                        } elseif ($userType == '32') { // TE/F
+                            $filter = "CROSS JOIN (
+                                            SELECT
+                                                MAX(b2.date) AS max_b_date,
+                                                MIN(b2.date) AS min_b_date
+                                            FROM bookings b2
+                                            WHERE b2.ta_id IN (
+                                                SELECT ca.institution_branch_manager_id
+                                                FROM institution_branch_manager ca
+                                                WHERE ca.status = 1
+                                                AND ca.reference_no = '$userId'
+                                            )
+                                        ) agg
+                                    WHERE 1=1 AND b.ta_id IN (
+                                    SELECT ca.institution_branch_manager_id FROM institution_branch_manager ca
+                                    WHERE ca.status = 1 AND ca.reference_no = '$userId'
+                                )";
+                        } elseif ($userType == '11' || $userType == '33') { // TC/IBR
+                            $filter = " CROSS JOIN (
+                                            SELECT
+                                                MAX(date) AS max_b_date,
+                                                MIN(date) AS min_b_date
+                                            FROM bookings b2
+                                            WHERE b2.ta_id = '$userId'
+                                        ) agg
+                                        WHERE 1=1 AND b.ta_id = '$userId'";
+                        } elseif ($userType == '10') { // Customer
+                            $filter = " CROSS JOIN (
+                                            SELECT
+                                                MAX(date) AS max_b_date,
+                                                MIN(date) AS min_b_date
+                                            FROM bookings b2
+                                            WHERE b2.customer_id = '$userId'
+                                        ) agg
+                                        WHERE 1=1 AND b.customer_id = '$userId'";
+                        } elseif ($userType == '31') { // RM
+                            $filter = "CROSS JOIN (
+                                            SELECT
+                                                MAX(b2.date) AS max_b_date,
+                                                MIN(b2.date) AS min_b_date
+                                            FROM bookings b2
+                                            WHERE b2.ta_id IN (
+                                                -- 1. RM -> MF -> TC
+                                                SELECT ca.ca_travelagency_id
+                                                FROM ca_travelagency ca
+                                                INNER JOIN master_franchisee mf
+                                                    ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
+                                                INNER JOIN employees bdm
+                                                    ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                                                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                                            
+                                                UNION
+                                            
+                                                -- 2. RM -> MF -> F -> TC
+                                                SELECT ca.ca_travelagency_id
+                                                FROM ca_travelagency ca
+                                                INNER JOIN sub_franchisee f
+                                                    ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                                                INNER JOIN master_franchisee mf
+                                                    ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
+                                                INNER JOIN employees bdm
+                                                    ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                                                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                                            
+                                                UNION
+                                            
+                                                -- 3. RM -> SF -> F -> TC
+                                                SELECT ca.ca_travelagency_id
+                                                FROM ca_travelagency ca
+                                                INNER JOIN sub_franchisee f
+                                                    ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                                                INNER JOIN sponsor_franchisee sf
+                                                    ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
+                                                INNER JOIN employees bdm
+                                                    ON bdm.employee_id = sf.reference_no AND bdm.status = 1
+                                                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                                            
+                                                UNION
+                                            
+                                                -- 6. RM -> TC (direct)
+                                                SELECT ca.ca_travelagency_id
+                                                FROM ca_travelagency ca
+                                                INNER JOIN employees bdm
+                                                    ON bdm.employee_id = ca.reference_no AND bdm.status = 1
+                                                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                                            )
+                                        ) agg
+                                    WHERE 1=1 AND b.ta_id IN (
+                                            
+                                -- 1. RM -> MF -> TC
+                                SELECT ca.ca_travelagency_id
+                                FROM ca_travelagency ca
+                                INNER JOIN master_franchisee mf
+                                    ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
+                                INNER JOIN employees bdm
+                                    ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                            
+                                UNION
+                            
+                                -- 2. RM -> MF -> F -> TC
+                                SELECT ca.ca_travelagency_id
+                                FROM ca_travelagency ca
+                                INNER JOIN sub_franchisee f
+                                    ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                                INNER JOIN master_franchisee mf
+                                    ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
+                                INNER JOIN employees bdm
+                                    ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                            
+                                UNION
+                            
+                                -- 3. RM -> SF -> F -> TC
+                                SELECT ca.ca_travelagency_id
+                                FROM ca_travelagency ca
+                                INNER JOIN sub_franchisee f
+                                    ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                                INNER JOIN sponsor_franchisee sf
+                                    ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
+                                INNER JOIN employees bdm
+                                    ON bdm.employee_id = sf.reference_no AND bdm.status = 1
+                                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                            
+                                UNION
+                            
+                                -- 6. RM -> TC (direct)
+                                SELECT ca.ca_travelagency_id
+                                FROM ca_travelagency ca
+                                INNER JOIN employees bdm
+                                    ON bdm.employee_id = ca.reference_no AND bdm.status = 1
+                                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
                             )";
-                    } elseif ($userType == '30') { // SF
-                        $filter = "CROSS JOIN (
-                                        SELECT
-                                            MAX(b2.date) AS max_b_date,
-                                            MIN(b2.date) AS min_b_date
-                                        FROM bookings b2
-                                        WHERE b2.ta_id IN (
-                                            -- TA via Franchisee
-                                            SELECT ca.ca_travelagency_id FROM ca_travelagency ca
-                                            INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
-                                            INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
-                                            WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'
-                                        )
-                                    ) agg
-                                WHERE 1=1 AND b.ta_id IN (
-                                -- TA via Franchisee
-                                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
-                                INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
-                                INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
-                                WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'
-                            )";
-                    } elseif ($userType == '16' || $userType == '29') { // TE/F
-                        $filter = "CROSS JOIN (
-                                        SELECT
-                                            MAX(b2.date) AS max_b_date,
-                                            MIN(b2.date) AS min_b_date
-                                        FROM bookings b2
-                                        WHERE b2.ta_id IN (
-                                            SELECT ca.ca_travelagency_id
-                                            FROM ca_travelagency ca
-                                            WHERE ca.status = 1
-                                            AND ca.reference_no = '$userId'
-                                        )
-                                    ) agg
-                                WHERE 1=1 AND b.ta_id IN (
-                                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
-                                WHERE ca.status = 1 AND ca.reference_no = '$userId'
-                            )";
-                    } elseif ($userType == '32') { // TE/F
-                        $filter = "CROSS JOIN (
-                                        SELECT
-                                            MAX(b2.date) AS max_b_date,
-                                            MIN(b2.date) AS min_b_date
-                                        FROM bookings b2
-                                        WHERE b2.ta_id IN (
-                                            SELECT ca.institution_branch_manager_id
-                                            FROM institution_branch_manager ca
-                                            WHERE ca.status = 1
-                                            AND ca.reference_no = '$userId'
-                                        )
-                                    ) agg
-                                WHERE 1=1 AND b.ta_id IN (
-                                SELECT ca.institution_branch_manager_id FROM institution_branch_manager ca
-                                WHERE ca.status = 1 AND ca.reference_no = '$userId'
-                            )";
-                    } elseif ($userType == '11' || $userType == '33') { // TC/IBR
-                        $filter = " CROSS JOIN (
-                                        SELECT
-                                            MAX(date) AS max_b_date,
-                                            MIN(date) AS min_b_date
-                                        FROM bookings b2
-                                        WHERE b2.ta_id = '$userId'
-                                    ) agg
-                                    WHERE 1=1 AND b.ta_id = '$userId'";
-                    } elseif ($userType == '10') { // Customer
-                        $filter = " CROSS JOIN (
-                                        SELECT
-                                            MAX(date) AS max_b_date,
-                                            MIN(date) AS min_b_date
-                                        FROM bookings b2
-                                        WHERE b2.customer_id = '$userId'
-                                    ) agg
-                                    WHERE 1=1 AND b.customer_id = '$userId'";
-                    } elseif ($userType == '31') { // RM
-                        $filter = "CROSS JOIN (
-                                        SELECT
-                                            MAX(b2.date) AS max_b_date,
-                                            MIN(b2.date) AS min_b_date
-                                        FROM bookings b2
-                                        WHERE b2.ta_id IN (
-                                            -- 1. RM -> MF -> TC
-                                            SELECT ca.ca_travelagency_id
-                                            FROM ca_travelagency ca
-                                            INNER JOIN master_franchisee mf
-                                                ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
-                                            INNER JOIN employees bdm
-                                                ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                                        
-                                            UNION
-                                        
-                                            -- 2. RM -> MF -> F -> TC
-                                            SELECT ca.ca_travelagency_id
-                                            FROM ca_travelagency ca
-                                            INNER JOIN sub_franchisee f
-                                                ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                            INNER JOIN master_franchisee mf
-                                                ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
-                                            INNER JOIN employees bdm
-                                                ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                                        
-                                            UNION
-                                        
-                                            -- 3. RM -> SF -> F -> TC
-                                            SELECT ca.ca_travelagency_id
-                                            FROM ca_travelagency ca
-                                            INNER JOIN sub_franchisee f
-                                                ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                            INNER JOIN sponsor_franchisee sf
-                                                ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
-                                            INNER JOIN employees bdm
-                                                ON bdm.employee_id = sf.reference_no AND bdm.status = 1
-                                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                                        
-                                            UNION
-                                        
-                                            -- 6. RM -> TC (direct)
-                                            SELECT ca.ca_travelagency_id
-                                            FROM ca_travelagency ca
-                                            INNER JOIN employees bdm
-                                                ON bdm.employee_id = ca.reference_no AND bdm.status = 1
-                                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                                        )
-                                    ) agg
-                                WHERE 1=1 AND b.ta_id IN (
-                                        
-                            -- 1. RM -> MF -> TC
-                            SELECT ca.ca_travelagency_id
-                            FROM ca_travelagency ca
-                            INNER JOIN master_franchisee mf
-                                ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
-                            INNER JOIN employees bdm
-                                ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                        
-                            UNION
-                        
-                            -- 2. RM -> MF -> F -> TC
-                            SELECT ca.ca_travelagency_id
-                            FROM ca_travelagency ca
-                            INNER JOIN sub_franchisee f
-                                ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                            INNER JOIN master_franchisee mf
-                                ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
-                            INNER JOIN employees bdm
-                                ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                        
-                            UNION
-                        
-                            -- 3. RM -> SF -> F -> TC
-                            SELECT ca.ca_travelagency_id
-                            FROM ca_travelagency ca
-                            INNER JOIN sub_franchisee f
-                                ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                            INNER JOIN sponsor_franchisee sf
-                                ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
-                            INNER JOIN employees bdm
-                                ON bdm.employee_id = sf.reference_no AND bdm.status = 1
-                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                        
-                            UNION
-                        
-                            -- 6. RM -> TC (direct)
-                            SELECT ca.ca_travelagency_id
-                            FROM ca_travelagency ca
-                            INNER JOIN employees bdm
-                                ON bdm.employee_id = ca.reference_no AND bdm.status = 1
-                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                        )";
+                        }
+
+                        $sql .= $filter;
+                        //hirarchy filter logic // no longer required
+                        // $sql .=" GROUP BY
+                        //             b.id,
+                        //             b.order_id,
+                        //             b.package_id,
+                        //             b.customer_id,
+                        //             b.name,
+                        //             b.status,
+                        //             p.name,
+                        //             p.tour_days,
+                        //             bd.final_price,
+                        //             bd.amount,
+                        //             bd.part_pay_1,
+                        //             bd.part_pay_2,
+                        //             bd.part_pay_3,
+                        //             bd.part_pay_1_status,
+                        //             bd.part_pay_2_status,
+                        //             bd.part_pay_3_status,
+                        //             bd.status,
+                        //             b.confirm_status,
+                        //             b.ta_id";
+                        $stmt = $conn->prepare($sql);
+                        // print_r($stmt);
+                        // exit;
+                        $stmt->execute();
+                $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $today = date('Y-m-d'); // Get today's date as a string
+
+                $mindate= "01-01-2022";
+                $maxdate=$today;
+                foreach ($bookings as $booking) {
+                    $maxdate=$booking['max_b_date'] ?? $today;
+                    // Ensure 'date' exists in booking data
+                    if (!isset($booking['date']) || empty($booking['date'])) {
+                        continue; // Skip if date is not set
                     }
 
-                    $sql .= $filter;
-                    //hirarchy filter logic // no longer required
-                    // $sql .=" GROUP BY
-                    //             b.id,
-                    //             b.order_id,
-                    //             b.package_id,
-                    //             b.customer_id,
-                    //             b.name,
-                    //             b.status,
-                    //             p.name,
-                    //             p.tour_days,
-                    //             bd.final_price,
-                    //             bd.amount,
-                    //             bd.part_pay_1,
-                    //             bd.part_pay_2,
-                    //             bd.part_pay_3,
-                    //             bd.part_pay_1_status,
-                    //             bd.part_pay_2_status,
-                    //             bd.part_pay_3_status,
-                    //             bd.status,
-                    //             b.confirm_status,
-                    //             b.ta_id";
-                    $stmt = $conn->prepare($sql);
-                    // print_r($stmt);
-                    // exit;
-                    $stmt->execute();
-            $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $today = date('Y-m-d'); // Get today's date as a string
+                    $startDate = date('Y-m-d', strtotime($booking['date'])); // Convert start date to string format
+                    $tourDays = !empty($booking['tour_days']) ? (int)$booking['tour_days'] : 0; // Ensure it's an integer
+                    $endDate = date('Y-m-d', strtotime("$startDate +$tourDays days")); // Calculate end date as string
+                    if ($booking['part_pay_2_status'] == 0) {
+                        $pending_payment_amt += floatval(number_format($booking['part_pay_2'], 2, '.', '')); // Convert NULL to 0
 
-            $mindate= "01-01-2022";
-            $maxdate=$today;
-            foreach ($bookings as $booking) {
-                $maxdate=$booking['max_b_date'] ?? $today;
-                // Ensure 'date' exists in booking data
-                if (!isset($booking['date']) || empty($booking['date'])) {
-                    continue; // Skip if date is not set
+                    }
+                    if ($booking['part_pay_3_status'] == 0) {
+                        $pending_payment_amt += floatval(number_format($booking['part_pay_3'], 2, '.', '')); // Convert NULL to 0
+                    }
+                    if ($booking['status'] == '1' && $booking['bd_status'] == 1) {
+                        $completed_payment_amt += floatval(number_format($booking['final_price'], 2, '.', '')); // Convert NULL to 0
+                    }
+                    if ($booking['status'] == '2') {
+                        $canceled_booking_count++;
+                    }
+                    if ($today > $endDate) {
+                        $completed_booking_count++;
+                    } else if ($booking['confirm_status'] == '0') {
+                        $pending_booking_count++;
+                    } else if ($booking['confirm_status'] == '1') {
+                        $in_transit_booking_count++;
+                    }
                 }
-
-                $startDate = date('Y-m-d', strtotime($booking['date'])); // Convert start date to string format
-                $tourDays = !empty($booking['tour_days']) ? (int)$booking['tour_days'] : 0; // Ensure it's an integer
-                $endDate = date('Y-m-d', strtotime("$startDate +$tourDays days")); // Calculate end date as string
-                if ($booking['part_pay_2_status'] == 0) {
-                    $pending_payment_amt += floatval(number_format($booking['part_pay_2'], 2, '.', '')); // Convert NULL to 0
-
-                }
-                if ($booking['part_pay_3_status'] == 0) {
-                    $pending_payment_amt += floatval(number_format($booking['part_pay_3'], 2, '.', '')); // Convert NULL to 0
-                }
-                if ($booking['status'] == '1' && $booking['bd_status'] == 1) {
-                    $completed_payment_amt += floatval(number_format($booking['final_price'], 2, '.', '')); // Convert NULL to 0
-                }
-                if ($booking['status'] == '2') {
-                    $canceled_booking_count++;
-                }
-                if ($today > $endDate) {
-                    $completed_booking_count++;
-                } else if ($booking['confirm_status'] == '0') {
-                    $pending_booking_count++;
-                } else if ($booking['confirm_status'] == '1') {
-                    $in_transit_booking_count++;
-                }
-            }
-        ?>
-        <div>
-            <div class="main-content">
-                <div class="page-content">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
-                                <div class="card rounded-4 p-3">
-                                    <div class="d-flex align-items-center">
-                                        <span class="bg-primary-subtle text-primary-emphasis rounded-3 cardHover">
-                                            <i class="fa-solid fa-hourglass-end fa-xl faIcon" style="color: #222c5c;"></i>
-                                        </span>
-                                        <div class="ms-4">
-                                            <h3 class="mb-0"><?= $pending_booking_count ?></h3>
-                                            <p class="text-muted mb-0 pera">Pending Booking</p>
+            ?>
+            <div>
+                <div class="main-content">
+                    <div class="page-content">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="card rounded-4 p-3">
+                                        <div class="d-flex align-items-center">
+                                            <span class="bg-primary-subtle text-primary-emphasis rounded-3 cardHover">
+                                                <i class="fa-solid fa-hourglass-end fa-xl faIcon" style="color: #222c5c;"></i>
+                                            </span>
+                                            <div class="ms-4">
+                                                <h3 class="mb-0"><?= $pending_booking_count ?></h3>
+                                                <p class="text-muted mb-0 pera">Pending Booking</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="card rounded-4 p-3">
+                                        <div class="d-flex align-items-center">
+                                            <span class="bg-primary-subtle text-primary-emphasis rounded-3 cardHover">
+                                                <i class="fa-solid fa-plane-departure fa-xl faIcon" style="color: #222c5c;"></i>
+                                                <!-- <i class="fa-solid fa-hourglass-end fa-xl faIcon" style="color: #222c5c;"></i> -->
+                                            </span>
+                                            <div class="ms-4">
+                                                <h3 class="mb-0"><?= $in_transit_booking_count ?></h3>
+                                                <p class="text-muted mb-0 pera">In Transit Booking</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="card rounded-4 p-3">
+                                        <div class="d-flex align-items-center">
+                                            <span class="bg-primary-subtle text-primary-emphasis rounded-3 cardHover">
+                                                <i class="fa-solid fa-check fa-xl faIcon" style="color: #222c5c;"></i>
+                                            </span>
+                                            <div class="ms-4">
+                                                <h3 class="mb-0"><?= $completed_booking_count ?></h3>
+                                                <p class="text-muted mb-0 pera">Completed Booking</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="card rounded-4 p-3">
+                                        <div class="d-flex align-items-center">
+                                            <span class="bg-primary-subtle text-primary-emphasis rounded-3 cardHover">
+                                                <i class="fa-solid fa-plane-slash fa-xl faIcon" style="color: #222c5c;"></i>
+                                            </span>
+                                            <div class="ms-4">
+                                                <h3 class="mb-0"><?= $canceled_booking_count ?></h3>
+                                                <p class="text-muted mb-0 pera">Canceled Booking</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="card rounded-4 p-3">
+                                        <div class="d-flex align-items-center">
+                                            <span class="bg-primary-subtle text-primary-emphasis rounded-3 cardHover">
+                                                <i class="fa-solid fa-hourglass-half fa-xl faIcon" style="color: #222c5c;"></i>
+                                            </span>
+                                            <div class="ms-4">
+                                                <h3 class="mb-0">&#8377;<?= $pending_payment_amt ?></h3>
+                                                <p class="text-muted mb-0 pera">Pending Payment</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="card rounded-4 p-3">
+                                        <div class="d-flex align-items-center">
+                                            <span class="bg-primary-subtle text-primary-emphasis rounded-3 cardHover">
+                                                <i class="fa-solid fa-check fa-xl faIcon" style="color: #222c5c;"></i>
+                                            </span>
+                                            <div class="ms-4">
+                                                <h3 class="mb-0">&#8377;<?= $completed_payment_amt ?></h3>
+                                                <p class="text-muted mb-0 pera">Completed Payment</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
-                                <div class="card rounded-4 p-3">
-                                    <div class="d-flex align-items-center">
-                                        <span class="bg-primary-subtle text-primary-emphasis rounded-3 cardHover">
-                                            <i class="fa-solid fa-plane-departure fa-xl faIcon" style="color: #222c5c;"></i>
-                                            <!-- <i class="fa-solid fa-hourglass-end fa-xl faIcon" style="color: #222c5c;"></i> -->
-                                        </span>
-                                        <div class="ms-4">
-                                            <h3 class="mb-0"><?= $in_transit_booking_count ?></h3>
-                                            <p class="text-muted mb-0 pera">In Transit Booking</p>
+                            <!-- Calender Start -->
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" id="eventCalender">
+                                    <div class="card rounded-4 d-grid p-3">
+                                        <div id="btn-new-event"></div>
+                                        <div id='locale-selector' class="d-none"></div>
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div class="card rounded-4 p-3 pt-2" id="bookingCardData">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Calender End -->
+
+                            <!-- Order History Start -->
+                            <div class="row rowAlign">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 pb-3">
+                                    <nav role="navigation">
+                                        <ul class="nav nav-underline border-bottom border-1 border-secondary-subtle d-flex flex-nowrap justify-content-around" role="tablist">
+                                            <li class="nav-item flex-shrink-0">
+                                                <a class="nav-link active" data-bs-toggle="tab" role="tab" href="#allHistory"><span class="span-tab-font">All</span></a>
+                                            </li>
+                                            <li class="nav-item flex-shrink-0">
+                                                <a class="nav-link"  data-bs-toggle="tab" role="tab" href="#pendingHistory"><span class="span-tab-font">Pending</span></a>
+                                            </li>
+                                            <li class="nav-item flex-shrink-0">
+                                                <a class="nav-link" data-bs-toggle="tab" role="tab" href="#bookedHistory"><span class="span-tab-font">Booked</span></a>
+                                            </li>
+                                            <li class="nav-item flex-shrink-0">
+                                                <a class="nav-link" data-bs-toggle="tab" role="tab" href="#canceledHistory"><span class="span-tab-font">Canceled</span></a>
+                                            </li>
+                                            <li class="nav-item flex-shrink-0">
+                                                <a class="nav-link" data-bs-toggle="tab" role="tab" href="#refundHistory"><span class="span-tab-font">Refund</span></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 pb-3">
+                                    <div class="d-flex justify-content-end dateRangeAlign">
+                                        <div id="reportrange" class="bg-primary text-white px-3 py-2 w-75 text-center dateRange">
+                                            <i class="fa fa-calendar"></i>&nbsp;
+                                            <span id='selectedDate'></span> <i class="fa-solid fa-angle-down"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
-                                <div class="card rounded-4 p-3">
-                                    <div class="d-flex align-items-center">
-                                        <span class="bg-primary-subtle text-primary-emphasis rounded-3 cardHover">
-                                            <i class="fa-solid fa-check fa-xl faIcon" style="color: #222c5c;"></i>
-                                        </span>
-                                        <div class="ms-4">
-                                            <h3 class="mb-0"><?= $completed_booking_count ?></h3>
-                                            <p class="text-muted mb-0 pera">Completed Booking</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
-                                <div class="card rounded-4 p-3">
-                                    <div class="d-flex align-items-center">
-                                        <span class="bg-primary-subtle text-primary-emphasis rounded-3 cardHover">
-                                            <i class="fa-solid fa-plane-slash fa-xl faIcon" style="color: #222c5c;"></i>
-                                        </span>
-                                        <div class="ms-4">
-                                            <h3 class="mb-0"><?= $canceled_booking_count ?></h3>
-                                            <p class="text-muted mb-0 pera">Canceled Booking</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
-                                <div class="card rounded-4 p-3">
-                                    <div class="d-flex align-items-center">
-                                        <span class="bg-primary-subtle text-primary-emphasis rounded-3 cardHover">
-                                            <i class="fa-solid fa-hourglass-half fa-xl faIcon" style="color: #222c5c;"></i>
-                                        </span>
-                                        <div class="ms-4">
-                                            <h3 class="mb-0">&#8377;<?= $pending_payment_amt ?></h3>
-                                            <p class="text-muted mb-0 pera">Pending Payment</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
-                                <div class="card rounded-4 p-3">
-                                    <div class="d-flex align-items-center">
-                                        <span class="bg-primary-subtle text-primary-emphasis rounded-3 cardHover">
-                                            <i class="fa-solid fa-check fa-xl faIcon" style="color: #222c5c;"></i>
-                                        </span>
-                                        <div class="ms-4">
-                                            <h3 class="mb-0">&#8377;<?= $completed_payment_amt ?></h3>
-                                            <p class="text-muted mb-0 pera">Completed Payment</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Calender Start -->
-                        <div class="row">
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" id="eventCalender">
-                                <div class="card rounded-4 d-grid p-3">
-                                    <div id="btn-new-event"></div>
-                                    <div id='locale-selector' class="d-none"></div>
+                            <!-- Order History end -->
+                            <div class="tab-content" id='tableList'>
+                                <div class="tab-pane fade card show active px-3 rounded-4 tabslist" id="allHistory" role="tabpanel">
+                                    <div class="col-lg-12 py-3">
+                                        <div class="table-responsive table-desi">
+                                            <table class="table table-hover" id="user_table1">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="ceterText fw-bolder font-size-13">Sr. No.</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Booking ID</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Tour Date</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Package Name</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Customer</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Travel Consultant</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Payment Status</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Status</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                        $customer_fil = '';
+                                                        //check which user logged in based on user type
+                                                        //data load from models file
+                                                        include 'all_channels.php';
 
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card rounded-4 p-3 pt-2" id="bookingCardData">
+                                                        // Check if travel agencies exist
+                                                        if (empty($ta_list)) {
+                                                            echo '<tr>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td class="text-center">No Travel Agencies Found</td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                </tr>';
 
-                                </div>
-                            </div>
-                        </div>
+                                                            // exit; // Stop further execution
+                                                        } else {
 
-                        <!-- Calender End -->
-
-                        <!-- Order History Start -->
-                        <div class="row rowAlign">
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 pb-3">
-                                <nav role="navigation">
-                                    <ul class="nav nav-underline border-bottom border-1 border-secondary-subtle d-flex flex-nowrap justify-content-around" role="tablist">
-                                        <li class="nav-item flex-shrink-0">
-                                            <a class="nav-link active" data-bs-toggle="tab" role="tab" href="#allHistory"><span class="span-tab-font">All</span></a>
-                                        </li>
-                                        <li class="nav-item flex-shrink-0">
-                                            <a class="nav-link"  data-bs-toggle="tab" role="tab" href="#pendingHistory"><span class="span-tab-font">Pending</span></a>
-                                        </li>
-                                        <li class="nav-item flex-shrink-0">
-                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#bookedHistory"><span class="span-tab-font">Booked</span></a>
-                                        </li>
-                                        <li class="nav-item flex-shrink-0">
-                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#canceledHistory"><span class="span-tab-font">Canceled</span></a>
-                                        </li>
-                                        <li class="nav-item flex-shrink-0">
-                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#refundHistory"><span class="span-tab-font">Refund</span></a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 pb-3">
-                                <div class="d-flex justify-content-end dateRangeAlign">
-                                    <div id="reportrange" class="bg-primary text-white px-3 py-2 w-75 text-center dateRange">
-                                        <i class="fa fa-calendar"></i>&nbsp;
-                                        <span id='selectedDate'></span> <i class="fa-solid fa-angle-down"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Order History end -->
-                        <div class="tab-content" id='tableList'>
-                            <div class="tab-pane fade card show active px-3 rounded-4 tabslist" id="allHistory" role="tabpanel">
-                                <div class="col-lg-12 py-3">
-                                    <div class="table-responsive table-desi">
-                                        <table class="table table-hover" id="user_table1">
-                                            <thead>
-                                                <tr>
-                                                    <th class="ceterText fw-bolder font-size-13">Sr. No.</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Booking ID</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Tour Date</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Package Name</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Customer</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Travel Consultant</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Payment Status</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Status</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                    $customer_fil = '';
-                                                    //check which user logged in based on user type
-                                                    //data load from models file
-                                                    include 'all_channels.php';
-
-                                                    // Check if travel agencies exist
-                                                    if (empty($ta_list)) {
-                                                        echo '<tr>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td class="text-center">No Travel Agencies Found</td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>';
-
-                                                        // exit; // Stop further execution
-                                                    } else {
-
-                                                    // Create an array mapping travel agency IDs to their details
-                                                    $ta_details = [];
-                                                    $ta_ids = [];
+                                                        // Create an array mapping travel agency IDs to their details
+                                                        $ta_details = [];
+                                                        $ta_ids = [];
 
 
-                                                    foreach ($ta_list as $ta) {
-                                                        $ta_ids[] = $ta['tc_id']; // Collecting IDs for SQL query
-                                                        $ta_details[$ta['tc_id']] = [
-                                                            'firstname' => $ta['firstname'],
-                                                            'lastname' => $ta['lastname'],
-                                                            'email' => $ta['email'],
-                                                            'phone' => $ta['contact_no']
-                                                        ];
-                                                    }
-
-                                                    if (!empty($ta_list)) {
-                                                        $ta_ids_str = "'" . implode("','", $ta_ids) . "'"; // Convert array to comma-separated string
-                                                        $sql = "
-                                                                    SELECT b.id,
-                                                                    b.order_id, 
-                                                                    b.customer_id, 
-                                                                    b.package_id, 
-                                                                    p.name AS package_name,
-                                                                    p.tour_days,
-                                                                    b.name AS c_name,
-                                                                    b.phone,
-                                                                    b.email,
-                                                                    b.date,
-                                                                    b.ta_id,
-                                                                    b.status,
-                                                                    b.confirm_status 
-                                                                    FROM bookings b
-                                                                    JOIN package p ON b.package_id = p.id
-                                                                    WHERE b.ta_id IN ($ta_ids_str) $customer_fil"; // Use IN clause to match multiple IDs
-                                                    }
-                                                    $stmt = $conn->prepare($sql);
-                                                    $stmt->execute();
-                                                    $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
-                                                    // Check if bookings exist
-                                                    if (empty($bookings)) {
-                                                ?>
-                                                        <tr>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td class="text-center">No Bookings Found</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                        <?php
-                                                            } else {
-                                                                $i = 0;
-
-                                                                foreach ($bookings as $booking) {
-                                                                    $sql3 = "SELECT * FROM booking_direct_bill WHERE bookings_id = " . $booking['id'] . "";
-                                                                    $stmt3 = $conn->prepare($sql3);
-                                                                    $stmt3->execute();
-                                                                    $booking_bill = $stmt3->fetch(PDO::FETCH_ASSOC);
-                                                                    $formattedDate = date("d-m-Y", strtotime($booking['date']));
-                                                        ?>
-                                                            <tr>
-                                                                <td><?= ++$i ?></td>
-                                                                <td><?= $booking['order_id'] ?></td>
-                                                                <td><?= $formattedDate ?></td>
-                                                                <td><?= $booking['package_name'] ?></td>
-                                                                <td><?= $booking['c_name'] . '(' . $booking['customer_id'] . ')<br>' . $booking['phone'] . '<br>' . $booking['email'] ?></td>
-                                                                <?php
-                                                                $ta_id = $booking['ta_id']; // Get the agency ID from booking
-
-                                                                // Retrieve travel agency details safely
-                                                                $agency_info = isset($ta_details[$ta_id]) ? $ta_details[$ta_id] : ['firstname' => '', 'lastname' => '', 'email' => '', 'phone' => ''];
-
-                                                                ?>
-                                                                <td><?= $agency_info['firstname'] . ' ' . $agency_info['lastname'] . '<br>' . $agency_info['phone'] . '<br>' . $agency_info['email'] ?></td>
-                                                                <?php
-                                                                if ($booking_bill['pay_type'] == 2) {
-                                                                    # code...
-                                                                    if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0) {
-                                                                        # code...
-                                                                        $perecent_fill = 50;
-                                                                        $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
-                                                                    } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
-                                                                        # code...
-                                                                        $perecent_fill = 100;
-                                                                        $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
-                                                                    }
-                                                                } else if ($booking_bill['pay_type'] == 3) {
-                                                                    # code...
-                                                                    if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0 && $booking_bill['part_pay_3_status'] == 0) {
-                                                                        # code...
-                                                                        $perecent_fill = 40;
-                                                                        $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
-                                                                    } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
-                                                                        # code...
-                                                                        $perecent_fill = 70;
-                                                                        $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
-                                                                    } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
-                                                                        # code...
-                                                                        $perecent_fill = 100;
-                                                                        $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
-                                                                    }
-                                                                } else {
-                                                                    $perecent_fill = 100;
-                                                                    $booking_paid_amt = $booking_bill['amount'];
-                                                                    $booking_full_amt = $booking_bill['total_net_payable'];
-                                                                }
-
-                                                                if ($perecent_fill == 100) {
-                                                                    $load_modal = '';
-                                                                    $border = 'border-success';
-                                                                    $bg_color = 'bg-success';
-                                                                    $cursor = '';
-                                                                } else {
-                                                                    $load_modal = $userType == '11' ? 'data-bs-toggle="modal"' : '';
-                                                                    $border = 'border-primary';
-                                                                    $bg_color = '';
-                                                                    $cursor = 'cursor: pointer';
-                                                                }
-                                                                ?>
-                                                                <td>
-                                                                    <div class="progress border  <?= $border ?>" role="progressbar" aria-label="Example with label" aria-valuenow="<?= $perecent_fill ?>" aria-valuemin="0" aria-valuemax="100" <?= $load_modal ?> data-bs-target="#paymentModal" data-booking-id="<?= $booking['id'] ?>" data-booking-fullamt="<?= $booking_full_amt ?>" data-booking-paytype="<?= $booking_bill['pay_type'] ?>" data-booking-fill="<?= $perecent_fill ?>"
-                                                                        <?php
-
-                                                                        if ($perecent_fill == 40) {
-                                                                            echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
-                                                                        } else if ($perecent_fill == 70) {
-                                                                            echo ' data-remaining-amt="' . $booking_bill['part_pay_3'] . '"data-pending-amt="' . $booking_bill['part_pay_3'] . '"';
-                                                                        } else if ($perecent_fill == 50) {
-                                                                            echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
-                                                                        }
-
-                                                                        ?>>
-                                                                        <div class="progress-bar <?= $bg_color ?>" style="width: <?= $perecent_fill ?>%; height:10px; <?= $cursor ?>"><?= $perecent_fill ?>%</div>
-                                                                    </div>
-                                                                    <div id="" class="my-2 text-center">Paid Rs.<?= $booking_paid_amt ?> of Rs.<?= $booking_full_amt ?></div>
-                                                                </td>
-                                                                <td>
-                                                                    <?php
-                                                                    $startDate = new DateTime($booking['date']); // Convert to DateTime object
-
-                                                                    $tourDays = !empty($booking['tour_days']) ? (int)$booking['tour_days'] : 0; // Ensure it's an integer
-
-                                                                    $endDate = clone $startDate; // Clone to avoid modifying original date
-                                                                    $endDate->modify("+$tourDays days"); // Add tour days
-                                                                    echo '<script>console.log("end date:'.$endDate->format('Y-m-d').'")</script>'; 
-                                                                    $today = new DateTime(); // Get the current date
-                                                                    $today->setTime(0, 0); // Reset time for accurate comparison
-
-                                                                    if ($booking['status'] === '2') { // Canceled
-                                                                    ?>
-                                                                        <div class="d-block">
-                                                                            <a href="#">
-                                                                                <button type="button" class="btn text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3 fw-bolder show-cancel-msg" data-id="<?= $booking['id'] ?>">
-                                                                                    Canceled
-                                                                                </button>
-                                                                            </a>
-                                                                        </div>
-                                                                    <?php
-                                                                    } else if ($booking['status'] === '3') { // Refunded
-                                                                    ?>
-                                                                        <div class="d-block">
-                                                                            <a href="#">
-                                                                                <button type="button" class="btn text-secondary-emphasis bg-secondary-subtle border border-secondary-subtle rounded-3 fw-bolder">
-                                                                                    Refunded
-                                                                                </button>
-                                                                            </a>
-                                                                        </div>
-                                                                    <?php
-                                                                        } else if ($booking['confirm_status'] == 0){ // Pending
-                                                                    ?>
-                                                                        <div class="d-block">
-                                                                            <a href="#">
-                                                                                <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">
-                                                                                    Pending
-                                                                                </button>
-                                                                            </a>
-                                                                        </div>
-                                                                    <?php
-                                                                        } else if ($booking['confirm_status'] == 1 && $today < $startDate){ // Confirmed
-                                                                    ?>
-                                                                        <div class="d-block">
-                                                                            <a href="#">
-                                                                                <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">
-                                                                                    Confirmed
-                                                                                </button>
-                                                                            </a>
-                                                                        </div>
-                                                                    
-                                                                    <?php
-                                                                        } else if ($booking['confirm_status'] == 1 && ($today == $startDate || $today <= $endDate)) { // Traveling
-                                                                    ?>
-                                                                        <div class="d-block">
-                                                                            <a href="#">
-                                                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">
-                                                                                    Traveling
-                                                                                </button>
-                                                                            </a>
-                                                                        </div>
-                                                                    
-                                                                    <?php
-                                                                        } else if ($booking['confirm_status'] == 1 && $today > $endDate) { // Completed
-                                                                    ?>
-                                                                        <div class="d-block">
-                                                                            <a href="#">
-                                                                                <button type="button" class="btn text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder">
-                                                                                    Completed
-                                                                                </button>
-                                                                            </a>
-                                                                        </div>
-                                                                    <?php } ?>
-
-                                                                </td>
-                                                                <td class="text-center">
-                                                                    <div class="dropdown">
-                                                                        <a id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                            <i class="fa-solid fa-ellipsis pe-3" style="color: grey;"></i>
-                                                                        </a>
-                                                                        <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
-                                                                            <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>">
-                                                                                <i class="fa-solid fa-eye"></i> View
-                                                                            </a>
-                                                                            <a class="dropdown-item" href="<?= $base_url_asset ?>orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF">
-                                                                                <i class="fa-solid fa-arrow-down"></i> Download Itineraries
-                                                                            </a>
-                                                                            <?php
-                                                                            if ($booking['status'] === '2') {
-                                                                            ?>
-                                                                                <a class="dropdown-item" href="#" id="refundAction" data-order-id=<?= $booking["id"] ?>>
-                                                                                    <i class="fa-solid fa-money-bill-transfer"></i> Initiate Refund
-                                                                                </a>
-                                                                            <?php
-                                                                            }
-                                                                            ?>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                <?php
+                                                        foreach ($ta_list as $ta) {
+                                                            $ta_ids[] = $ta['tc_id']; // Collecting IDs for SQL query
+                                                            $ta_details[$ta['tc_id']] = [
+                                                                'firstname' => $ta['firstname'],
+                                                                'lastname' => $ta['lastname'],
+                                                                'email' => $ta['email'],
+                                                                'phone' => $ta['contact_no']
+                                                            ];
                                                         }
-                                                    }
-                                                } ?>
-                                            </tbody>
-                                        </table>
-                                        <!-- pegination start -->
-                                        <div class="center text-center" id="pagination_row"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade card show px-3 rounded-4 tabslist" id="pendingHistory" role="tabpanel">
-                                <div class="col-lg-12 py-3">
-                                    <div class="table-responsive table-desi">
-                                        <table class="table table-hover" id="user_table2">
-                                            <thead>
-                                                <tr>
-                                                    <th class="ceterText fw-bolder font-size-13">Sr. No.</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Booking ID</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Tour Date</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Package Name</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Customer</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Travel Consultant</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Payment Status</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Status</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                    $customer_fil = '';
-                                                    //check which user logged in based on user type
-                                                    //data load from models file
-                                                    include 'all_channels.php';
-                                                    // Check if travel agencies exist
-                                                    if (empty($ta_list)) {
-                                                        echo '<tr>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td class="text-center">No Travel Agencies Found</td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>';
-                                                        // exit; // Stop further execution
-                                                    } else {
 
-                                                    // Travel Agency Mapping
-                                                    $ta_details = [];
-                                                    $ta_ids = [];
-                                                    foreach ($ta_list as $ta) {
-                                                        $ta_ids[] = $ta['tc_id'];
-                                                        $ta_details[$ta['tc_id']] = [
-                                                            'firstname' => $ta['firstname'],
-                                                            'lastname' => $ta['lastname'],
-                                                            'email' => $ta['email'],
-                                                            'phone' => $ta['contact_no']
-                                                        ];
-                                                    }
-
-                                                    // Convert IDs to SQL format
-                                                    $ta_ids_str = "'" . implode("','", $ta_ids) . "'";
-
-                                                    // Fetch Bookings
-                                                    $sql = "
-                                                                SELECT b.id, b.order_id, b.customer_id, b.package_id, p.name AS package_name, 
-                                                                p.tour_days, b.name AS c_name, b.phone, b.email, b.date, b.ta_id, b.confirm_status 
-                                                                FROM bookings b
-                                                                JOIN package p ON b.package_id = p.id
-                                                                WHERE b.ta_id IN ($ta_ids_str) AND b.status != '2' AND b.status != '3'AND b.confirm_status=0 $customer_fil
-                                                                ";
-
-                                                    $stmt = $conn->prepare($sql);
-                                                    $stmt->execute();
-                                                    $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
-
-                                                    // Check if bookings exist
-                                                    if (empty($bookings)) {
-                                                ?>
-                                                        <tr>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td class="text-center">No Bookings Found</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                        <?php } else {
-                                                            $i = 0;
-                                                            //$data_found = false;
-                                                            foreach ($bookings as $booking) {
-                                                            $sql3 = "SELECT * FROM booking_direct_bill WHERE bookings_id = " . $booking['id'];
-                                                            $stmt3 = $conn->prepare($sql3);
-                                                            $stmt3->execute();
-                                                            $booking_bill = $stmt3->fetch(PDO::FETCH_ASSOC);
-                                                            $formattedDate = date("d-m-Y", strtotime($booking['date']));
-
-                                                            // Tour Status Calculation
-                                                            $startDate = new DateTime($booking['date']);
-                                                            $tourDays = (int)$booking['tour_days'];
-                                                            $endDate = clone $startDate;
-                                                            $endDate->modify("+$tourDays days");
-
-                                                            $today = new DateTime();
-                                                            $today->setTime(0, 0);
-                                                            $endDate->setTime(0, 0);
-
-                                                            if ($today > $endDate) {
-                                                                continue;
-                                                            }
-
-                                                            //$data_found = true;
-                                                        ?>
-                                                            <tr>
-                                                                <td><?= ++$i ?></td>
-                                                                <td><?= $booking['order_id'] ?></td>
-                                                                <td><?= $formattedDate ?></td>
-                                                                <td><?= $booking['package_name'] ?></td>
-                                                                <td><?= $booking['c_name'] . '(' . $booking['customer_id'] . ')<br>' . $booking['phone'] . '<br>' . $booking['email'] ?></td>
-
-                                                                <?php
-                                                                $ta_id = $booking['ta_id'];
-                                                                $agency_info = $ta_details[$ta_id] ?? ['firstname' => '', 'lastname' => '', 'email' => '', 'phone' => ''];
-
-                                                                ?>
-                                                                <td><?= $agency_info['firstname'] . ' ' . $agency_info['lastname'] . '<br>' . $agency_info['phone'] . '<br>' . $agency_info['email'] ?></td>
-                                                                <?php
-                                                                // Payment Progress Calculation
-                                                                $perecent_fill = 0;
-                                                                $booking_paid_amt = 0;
-                                                                $booking_full_amt = 0;
-
-                                                                if ($booking_bill) {
-                                                                    $pay_type = $booking_bill['pay_type'];
-                                                                    $final_price = $booking_bill['total_net_payable'];
-
-                                                                    if ($pay_type == 2) {
-                                                                        if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0) {
-                                                                            $perecent_fill = 50;
-                                                                            $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                        } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
-                                                                            $perecent_fill = 100;
-                                                                            $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                        }
-                                                                    } elseif ($pay_type == 3) {
-                                                                        if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0 && $booking_bill['part_pay_3_status'] == 0) {
-                                                                            $perecent_fill = 40;
-                                                                            $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                        } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
-                                                                            $perecent_fill = 70;
-                                                                            $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                        } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
-                                                                            $perecent_fill = 100;
-                                                                            $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                                        }
-                                                                    } else {
-                                                                        $perecent_fill = 100;
-                                                                        $booking_paid_amt = $booking_bill['amount'];
-                                                                    }
-
-                                                                    $booking_full_amt = $final_price;
-                                                                }
-
-                                                                ?>
-                                                                <td>
-                                                                    <div class="progress border <?= ($perecent_fill == 100 ? 'border-success' : 'border-primary') ?>" role="progressbar"
-                                                                        aria-valuenow="<?= $perecent_fill ?>" aria-valuemin="0" aria-valuemax="100">
-                                                                        <div class="progress-bar <?= ($perecent_fill == 100 ? 'bg-success' : '') ?>" style="width: <?= $perecent_fill ?>%;">
-                                                                            <?= $perecent_fill ?>%
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="my-2 text-center">Paid Rs.<?= $booking_paid_amt . ' of Rs.' . $booking_full_amt ?></div>
-                                                                </td>
-
-                                                                <?php if ($booking['confirm_status'] == 0) { ?>
-                                                                <td>
-                                                                    <div class="d-block">
-                                                                        <a href="#">
-                                                                            <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Pending</button>
-                                                                        </a>
-                                                                    </div>
-                                                                </td>
-                                                                <?php } ?>
-
-                                                                <td class="text-center">
-                                                                    <div class="dropdown mt-">
-                                                                        <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
-                                                                        <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
-                                                                            <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                            <a class="dropdown-item" href="<?= $base_url_asset ?>orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                <?php  }
-                                                    }
-                                                } ?>
-                                            </tbody>
-                                        </table>
-                                        <!-- pegination start -->
-                                        <div class="center text-center" id="pagination_row"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade card show px-3 rounded-4 tabslist" id="bookedHistory" role="tabpanel">
-                                <div class="col-lg-12 py-3">
-                                    <div class="table-responsive table-desi">
-                                        <table class="table table-hover" id="user_table3">
-                                            <thead>
-                                                <tr>
-                                                    <th class="ceterText fw-bolder font-size-13">Sr. No.</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Booking ID</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Tour Date</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Package Name</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Customer</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Travel Consultant</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Payment Status</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Status</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                    $customer_fil = '';
-                                                    //check which user logged in based on user type
-                                                    //data load from models file
-                                                    include 'all_channels.php';
-
-                                                    // Check if travel agencies exist
-                                                    if (empty($ta_list)) {
-                                                        echo '<tr>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td class="text-center">No Travel Agencies Found</td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>';
-                                                        // exit; // Stop further execution
-                                                    } else {
-
-                                                    // Create an array mapping travel agency IDs to their details
-                                                    $ta_details = [];
-                                                    $ta_ids = [];
-
-                                                    foreach ($ta_list as $ta) {
-                                                        $ta_ids[] = $ta['tc_id']; // Collecting IDs for SQL query
-                                                        $ta_details[$ta['tc_id']] = [
-                                                            'firstname' => $ta['firstname'],
-                                                            'lastname' => $ta['lastname'],
-                                                            'email' => $ta['email'],
-                                                            'phone' => $ta['contact_no']
-                                                        ];
-                                                    }
-
-                                                    if (!empty($ta_list)) {
-                                                        $ta_ids_str = "'" . implode("','", $ta_ids) . "'"; // Convert array to comma-separated string
-                                                        $sql = "
-                                                                    SELECT b.id,
+                                                        if (!empty($ta_list)) {
+                                                            $ta_ids_str = "'" . implode("','", $ta_ids) . "'"; // Convert array to comma-separated string
+                                                            $sql = "
+                                                                        SELECT b.id,
                                                                         b.order_id, 
                                                                         b.customer_id, 
                                                                         b.package_id, 
@@ -1536,171 +1037,884 @@
                                                                         b.phone,
                                                                         b.email,
                                                                         b.date,
-                                                                        b.ta_id, 
+                                                                        b.ta_id,
                                                                         b.status,
-                                                                        b.confirm_status
+                                                                        b.confirm_status 
+                                                                        FROM bookings b
+                                                                        JOIN package p ON b.package_id = p.id
+                                                                        WHERE b.ta_id IN ($ta_ids_str) $customer_fil"; // Use IN clause to match multiple IDs
+                                                        }
+                                                        $stmt = $conn->prepare($sql);
+                                                        $stmt->execute();
+                                                        $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+                                                        // Check if bookings exist
+                                                        if (empty($bookings)) {
+                                                    ?>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td class="text-center">No Bookings Found</td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                            </tr>
+                                                            <?php
+                                                                } else {
+                                                                    $i = 0;
+
+                                                                    foreach ($bookings as $booking) {
+                                                                        $sql3 = "SELECT * FROM booking_direct_bill WHERE bookings_id = " . $booking['id'] . "";
+                                                                        $stmt3 = $conn->prepare($sql3);
+                                                                        $stmt3->execute();
+                                                                        $booking_bill = $stmt3->fetch(PDO::FETCH_ASSOC);
+                                                                        $formattedDate = date("d-m-Y", strtotime($booking['date']));
+                                                            ?>
+                                                                <tr>
+                                                                    <td><?= ++$i ?></td>
+                                                                    <td><?= $booking['order_id'] ?></td>
+                                                                    <td><?= $formattedDate ?></td>
+                                                                    <td><?= $booking['package_name'] ?></td>
+                                                                    <td><?= $booking['c_name'] . '(' . $booking['customer_id'] . ')<br>' . $booking['phone'] . '<br>' . $booking['email'] ?></td>
+                                                                    <?php
+                                                                    $ta_id = $booking['ta_id']; // Get the agency ID from booking
+
+                                                                    // Retrieve travel agency details safely
+                                                                    $agency_info = isset($ta_details[$ta_id]) ? $ta_details[$ta_id] : ['firstname' => '', 'lastname' => '', 'email' => '', 'phone' => ''];
+
+                                                                    ?>
+                                                                    <td><?= $agency_info['firstname'] . ' ' . $agency_info['lastname'] . '<br>' . $agency_info['phone'] . '<br>' . $agency_info['email'] ?></td>
+                                                                    <?php
+                                                                    if ($booking_bill['pay_type'] == 2) {
+                                                                        # code...
+                                                                        if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0) {
+                                                                            # code...
+                                                                            $perecent_fill = 50;
+                                                                            $booking_paid_amt = $booking_bill['part_pay_1'];
+                                                                            $booking_full_amt = $booking_bill['total_net_payable'];
+                                                                        } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
+                                                                            # code...
+                                                                            $perecent_fill = 100;
+                                                                            $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
+                                                                            $booking_full_amt = $booking_bill['total_net_payable'];
+                                                                        }
+                                                                    } else if ($booking_bill['pay_type'] == 3) {
+                                                                        # code...
+                                                                        if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0 && $booking_bill['part_pay_3_status'] == 0) {
+                                                                            # code...
+                                                                            $perecent_fill = 40;
+                                                                            $booking_paid_amt = $booking_bill['part_pay_1'];
+                                                                            $booking_full_amt = $booking_bill['total_net_payable'];
+                                                                        } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
+                                                                            # code...
+                                                                            $perecent_fill = 70;
+                                                                            $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
+                                                                            $booking_full_amt = $booking_bill['total_net_payable'];
+                                                                        } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
+                                                                            # code...
+                                                                            $perecent_fill = 100;
+                                                                            $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
+                                                                            $booking_full_amt = $booking_bill['total_net_payable'];
+                                                                        }
+                                                                    } else {
+                                                                        $perecent_fill = 100;
+                                                                        $booking_paid_amt = $booking_bill['amount'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
+                                                                    }
+
+                                                                    if ($perecent_fill == 100) {
+                                                                        $load_modal = '';
+                                                                        $border = 'border-success';
+                                                                        $bg_color = 'bg-success';
+                                                                        $cursor = '';
+                                                                    } else {
+                                                                        $load_modal = $userType == '11' ? 'data-bs-toggle="modal"' : '';
+                                                                        $border = 'border-primary';
+                                                                        $bg_color = '';
+                                                                        $cursor = 'cursor: pointer';
+                                                                    }
+                                                                    ?>
+                                                                    <td>
+                                                                        <div class="progress border  <?= $border ?>" role="progressbar" aria-label="Example with label" aria-valuenow="<?= $perecent_fill ?>" aria-valuemin="0" aria-valuemax="100" <?= $load_modal ?> data-bs-target="#paymentModal" data-booking-id="<?= $booking['id'] ?>" data-booking-fullamt="<?= $booking_full_amt ?>" data-booking-paytype="<?= $booking_bill['pay_type'] ?>" data-booking-fill="<?= $perecent_fill ?>"
+                                                                            <?php
+
+                                                                            if ($perecent_fill == 40) {
+                                                                                echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
+                                                                            } else if ($perecent_fill == 70) {
+                                                                                echo ' data-remaining-amt="' . $booking_bill['part_pay_3'] . '"data-pending-amt="' . $booking_bill['part_pay_3'] . '"';
+                                                                            } else if ($perecent_fill == 50) {
+                                                                                echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
+                                                                            }
+
+                                                                            ?>>
+                                                                            <div class="progress-bar <?= $bg_color ?>" style="width: <?= $perecent_fill ?>%; height:10px; <?= $cursor ?>"><?= $perecent_fill ?>%</div>
+                                                                        </div>
+                                                                        <div id="" class="my-2 text-center">Paid Rs.<?= $booking_paid_amt ?> of Rs.<?= $booking_full_amt ?></div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?php
+                                                                        $startDate = new DateTime($booking['date']); // Convert to DateTime object
+
+                                                                        $tourDays = !empty($booking['tour_days']) ? (int)$booking['tour_days'] : 0; // Ensure it's an integer
+
+                                                                        $endDate = clone $startDate; // Clone to avoid modifying original date
+                                                                        $endDate->modify("+$tourDays days"); // Add tour days
+                                                                        echo '<script>console.log("end date:'.$endDate->format('Y-m-d').'")</script>'; 
+                                                                        $today = new DateTime(); // Get the current date
+                                                                        $today->setTime(0, 0); // Reset time for accurate comparison
+
+                                                                        if ($booking['status'] === '2') { // Canceled
+                                                                        ?>
+                                                                            <div class="d-block">
+                                                                                <a href="#">
+                                                                                    <button type="button" class="btn text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3 fw-bolder show-cancel-msg" data-id="<?= $booking['id'] ?>">
+                                                                                        Canceled
+                                                                                    </button>
+                                                                                </a>
+                                                                            </div>
+                                                                        <?php
+                                                                        } else if ($booking['status'] === '3') { // Refunded
+                                                                        ?>
+                                                                            <div class="d-block">
+                                                                                <a href="#">
+                                                                                    <button type="button" class="btn text-secondary-emphasis bg-secondary-subtle border border-secondary-subtle rounded-3 fw-bolder">
+                                                                                        Refunded
+                                                                                    </button>
+                                                                                </a>
+                                                                            </div>
+                                                                        <?php
+                                                                            } else if ($booking['confirm_status'] == 0){ // Pending
+                                                                        ?>
+                                                                            <div class="d-block">
+                                                                                <a href="#">
+                                                                                    <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">
+                                                                                        Pending
+                                                                                    </button>
+                                                                                </a>
+                                                                            </div>
+                                                                        <?php
+                                                                            } else if ($booking['confirm_status'] == 1 && $today < $startDate){ // Confirmed
+                                                                        ?>
+                                                                            <div class="d-block">
+                                                                                <a href="#">
+                                                                                    <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">
+                                                                                        Confirmed
+                                                                                    </button>
+                                                                                </a>
+                                                                            </div>
+                                                                        
+                                                                        <?php
+                                                                            } else if ($booking['confirm_status'] == 1 && ($today == $startDate || $today <= $endDate)) { // Traveling
+                                                                        ?>
+                                                                            <div class="d-block">
+                                                                                <a href="#">
+                                                                                    <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">
+                                                                                        Traveling
+                                                                                    </button>
+                                                                                </a>
+                                                                            </div>
+                                                                        
+                                                                        <?php
+                                                                            } else if ($booking['confirm_status'] == 1 && $today > $endDate) { // Completed
+                                                                        ?>
+                                                                            <div class="d-block">
+                                                                                <a href="#">
+                                                                                    <button type="button" class="btn text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder">
+                                                                                        Completed
+                                                                                    </button>
+                                                                                </a>
+                                                                            </div>
+                                                                        <?php } ?>
+
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        <div class="dropdown">
+                                                                            <a id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                <i class="fa-solid fa-ellipsis pe-3" style="color: grey;"></i>
+                                                                            </a>
+                                                                            <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
+                                                                                <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>">
+                                                                                    <i class="fa-solid fa-eye"></i> View
+                                                                                </a>
+                                                                                <a class="dropdown-item" href="<?= $base_url_asset ?>orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF">
+                                                                                    <i class="fa-solid fa-arrow-down"></i> Download Itineraries
+                                                                                </a>
+                                                                                <?php
+                                                                                if ($booking['status'] === '2') {
+                                                                                ?>
+                                                                                    <a class="dropdown-item" href="#" id="refundAction" data-order-id=<?= $booking["id"] ?>>
+                                                                                        <i class="fa-solid fa-money-bill-transfer"></i> Initiate Refund
+                                                                                    </a>
+                                                                                <?php
+                                                                                }
+                                                                                ?>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                    <?php
+                                                            }
+                                                        }
+                                                    } ?>
+                                                </tbody>
+                                            </table>
+                                            <!-- pegination start -->
+                                            <div class="center text-center" id="pagination_row"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade card show px-3 rounded-4 tabslist" id="pendingHistory" role="tabpanel">
+                                    <div class="col-lg-12 py-3">
+                                        <div class="table-responsive table-desi">
+                                            <table class="table table-hover" id="user_table2">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="ceterText fw-bolder font-size-13">Sr. No.</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Booking ID</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Tour Date</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Package Name</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Customer</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Travel Consultant</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Payment Status</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Status</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                        $customer_fil = '';
+                                                        //check which user logged in based on user type
+                                                        //data load from models file
+                                                        include 'all_channels.php';
+                                                        // Check if travel agencies exist
+                                                        if (empty($ta_list)) {
+                                                            echo '<tr>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td class="text-center">No Travel Agencies Found</td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                </tr>';
+                                                            // exit; // Stop further execution
+                                                        } else {
+
+                                                        // Travel Agency Mapping
+                                                        $ta_details = [];
+                                                        $ta_ids = [];
+                                                        foreach ($ta_list as $ta) {
+                                                            $ta_ids[] = $ta['tc_id'];
+                                                            $ta_details[$ta['tc_id']] = [
+                                                                'firstname' => $ta['firstname'],
+                                                                'lastname' => $ta['lastname'],
+                                                                'email' => $ta['email'],
+                                                                'phone' => $ta['contact_no']
+                                                            ];
+                                                        }
+
+                                                        // Convert IDs to SQL format
+                                                        $ta_ids_str = "'" . implode("','", $ta_ids) . "'";
+
+                                                        // Fetch Bookings
+                                                        $sql = "
+                                                                    SELECT b.id, b.order_id, b.customer_id, b.package_id, p.name AS package_name, 
+                                                                    p.tour_days, b.name AS c_name, b.phone, b.email, b.date, b.ta_id, b.confirm_status 
                                                                     FROM bookings b
                                                                     JOIN package p ON b.package_id = p.id
-                                                                    WHERE b.ta_id IN ($ta_ids_str) AND b.status='1' AND b.confirm_status=1 $customer_fil"; // Use IN clause to match multiple IDs
-                                                    }
+                                                                    WHERE b.ta_id IN ($ta_ids_str) AND b.status != '2' AND b.status != '3'AND b.confirm_status=0 $customer_fil
+                                                                    ";
 
-                                                    $stmt = $conn->prepare($sql);
-                                                    $stmt->execute();
-                                                    $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                                        $stmt = $conn->prepare($sql);
+                                                        $stmt->execute();
+                                                        $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
-                                                    // Check if bookings exist
-                                                    if (empty($bookings)) {
-                                                ?>
-                                                        <tr>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td class="text-center">No Bookings Found</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                        <?php
-                                                            } else {
-                                                            $i = 0;
-                                                            foreach ($bookings as $booking) {
+
+                                                        // Check if bookings exist
+                                                        if (empty($bookings)) {
+                                                    ?>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td class="text-center">No Bookings Found</td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                            </tr>
+                                                            <?php } else {
+                                                                $i = 0;
+                                                                //$data_found = false;
+                                                                foreach ($bookings as $booking) {
                                                                 $sql3 = "SELECT * FROM booking_direct_bill WHERE bookings_id = " . $booking['id'];
                                                                 $stmt3 = $conn->prepare($sql3);
                                                                 $stmt3->execute();
                                                                 $booking_bill = $stmt3->fetch(PDO::FETCH_ASSOC);
-
                                                                 $formattedDate = date("d-m-Y", strtotime($booking['date']));
 
-                                                                // Travel agency details
-                                                                $ta_id = $booking['ta_id'];
-                                                                $agency_info = isset($ta_details[$ta_id]) ? $ta_details[$ta_id] : ['firstname' => '', 'lastname' => '', 'email' => '', 'phone' => ''];
+                                                                // Tour Status Calculation
+                                                                $startDate = new DateTime($booking['date']);
+                                                                $tourDays = (int)$booking['tour_days'];
+                                                                $endDate = clone $startDate;
+                                                                $endDate->modify("+$tourDays days");
 
-                                                                // Payment calculations
-                                                                if ($booking_bill['pay_type'] == 2) {
-                                                                    if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0) {
-                                                                        continue; // Skip if not fully paid
-                                                                    } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
-                                                                        $perecent_fill = 100;
-                                                                        $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
-                                                                    }
-                                                                } else if ($booking_bill['pay_type'] == 3) {
-                                                                    if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0 && $booking_bill['part_pay_3_status'] == 0) {
-                                                                        continue;
-                                                                    } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
-                                                                        continue;
-                                                                    } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
-                                                                        $perecent_fill = 100;
-                                                                        $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
-                                                                    }
-                                                                } else {
-                                                                    $perecent_fill = 100;
-                                                                    $booking_paid_amt = $booking_bill['amount'];
-                                                                    $booking_full_amt = $booking_bill['total_net_payable'];
-                                                                }
+                                                                $today = new DateTime();
+                                                                $today->setTime(0, 0);
+                                                                $endDate->setTime(0, 0);
 
-                                                                // **Skip entry if `$perecent_fill` is not 100**
-                                                                if ($perecent_fill !== 100) {
+                                                                if ($today > $endDate) {
                                                                     continue;
                                                                 }
 
-                                                            // Display the booking details
-                                                        ?>
-                                                            <tr>
-                                                                <td><?= ++$i ?></td>
-                                                                <td><?= $booking['order_id'] ?></td>
-                                                                <td><?= $formattedDate ?></td>
-                                                                <td><?= $booking['package_name'] ?></td>
-                                                                <td><?= $booking['c_name'] . '(' . $booking['customer_id'] . ')<br>' . $booking['phone'] . '<br>' . $booking['email'] ?></td>
-                                                                <td><?= $agency_info['firstname'] . ' ' . $agency_info['lastname'] . '<br>' . $agency_info['phone'] . '<br>' . $agency_info['email'] ?></td>
+                                                                //$data_found = true;
+                                                            ?>
+                                                                <tr>
+                                                                    <td><?= ++$i ?></td>
+                                                                    <td><?= $booking['order_id'] ?></td>
+                                                                    <td><?= $formattedDate ?></td>
+                                                                    <td><?= $booking['package_name'] ?></td>
+                                                                    <td><?= $booking['c_name'] . '(' . $booking['customer_id'] . ')<br>' . $booking['phone'] . '<br>' . $booking['email'] ?></td>
 
-                                                                <td>
-                                                                    <div class="progress border border-success" role="progressbar" aria-valuenow="<?= $perecent_fill ?>" aria-valuemin="0" aria-valuemax="100">
-                                                                        <div class="progress-bar bg-success" style="width: <?= $perecent_fill ?>%; height:10px;"><?= $perecent_fill ?>%</div>
-                                                                    </div>
-                                                                    <div class="my-2 text-center">Paid Rs.<?= $booking_paid_amt . ' of Rs.' . $booking_full_amt ?></div>
-                                                                </td>
-                                                                <?php
-                                                                // Tour completion status
-                                                                $startDate = new DateTime($booking['date']);
-                                                                $tourDays = !empty($booking['tour_days']) ? (int)$booking['tour_days'] : 0;
-                                                                $endDate = clone $startDate;
-                                                                $endDate->modify("+$tourDays days");
-                                                                $today = new DateTime();
-                                                                $today->setTime(0, 0);
+                                                                    <?php
+                                                                    $ta_id = $booking['ta_id'];
+                                                                    $agency_info = $ta_details[$ta_id] ?? ['firstname' => '', 'lastname' => '', 'email' => '', 'phone' => ''];
 
-                                                                if ($booking['confirm_status'] == 1 && $today > $endDate) {
-                                                                ?>
+                                                                    ?>
+                                                                    <td><?= $agency_info['firstname'] . ' ' . $agency_info['lastname'] . '<br>' . $agency_info['phone'] . '<br>' . $agency_info['email'] ?></td>
+                                                                    <?php
+                                                                    // Payment Progress Calculation
+                                                                    $perecent_fill = 0;
+                                                                    $booking_paid_amt = 0;
+                                                                    $booking_full_amt = 0;
+
+                                                                    if ($booking_bill) {
+                                                                        $pay_type = $booking_bill['pay_type'];
+                                                                        $final_price = $booking_bill['total_net_payable'];
+
+                                                                        if ($pay_type == 2) {
+                                                                            if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0) {
+                                                                                $perecent_fill = 50;
+                                                                                $booking_paid_amt = $booking_bill['part_pay_1'];
+                                                                            } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
+                                                                                $perecent_fill = 100;
+                                                                                $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
+                                                                            }
+                                                                        } elseif ($pay_type == 3) {
+                                                                            if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0 && $booking_bill['part_pay_3_status'] == 0) {
+                                                                                $perecent_fill = 40;
+                                                                                $booking_paid_amt = $booking_bill['part_pay_1'];
+                                                                            } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
+                                                                                $perecent_fill = 70;
+                                                                                $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
+                                                                            } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
+                                                                                $perecent_fill = 100;
+                                                                                $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
+                                                                            }
+                                                                        } else {
+                                                                            $perecent_fill = 100;
+                                                                            $booking_paid_amt = $booking_bill['amount'];
+                                                                        }
+
+                                                                        $booking_full_amt = $final_price;
+                                                                    }
+
+                                                                    ?>
+                                                                    <td>
+                                                                        <div class="progress border <?= ($perecent_fill == 100 ? 'border-success' : 'border-primary') ?>" role="progressbar"
+                                                                            aria-valuenow="<?= $perecent_fill ?>" aria-valuemin="0" aria-valuemax="100">
+                                                                            <div class="progress-bar <?= ($perecent_fill == 100 ? 'bg-success' : '') ?>" style="width: <?= $perecent_fill ?>%;">
+                                                                                <?= $perecent_fill ?>%
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="my-2 text-center">Paid Rs.<?= $booking_paid_amt . ' of Rs.' . $booking_full_amt ?></div>
+                                                                    </td>
+
+                                                                    <?php if ($booking['confirm_status'] == 0) { ?>
                                                                     <td>
                                                                         <div class="d-block">
                                                                             <a href="#">
-                                                                                <button type="button" class="btn text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder">Completed</button>
+                                                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Pending</button>
                                                                             </a>
                                                                         </div>
                                                                     </td>
-                                                                <?php } else if ($booking['confirm_status'] == 1 && ($today >= $startDate && $today <= $endDate)) { ?>
-                                                                    <td>
-                                                                        <div class="d-block">
-                                                                            <a href="#">
-                                                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Traveling</button>
-                                                                            </a>
-                                                                        </div>
-                                                                    </td>
-                                                                <?php } else { ?>
-                                                                    <td>
-                                                                        <div class="d-block">
-                                                                            <a href="#">
-                                                                                <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Confirmed</button>
-                                                                            </a>
-                                                                        </div>
-                                                                    </td>
-                                                                <?php } ?>
+                                                                    <?php } ?>
 
-                                                                <td class="text-center">
-                                                                    <div class="dropdown mt-">
-                                                                        <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
-                                                                        <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
-                                                                            <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                            <a class="dropdown-item" href="<?= $base_url_asset ?>orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
+                                                                    <td class="text-center">
+                                                                        <div class="dropdown mt-">
+                                                                            <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
+                                                                            <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
+                                                                                <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
+                                                                                <a class="dropdown-item" href="<?= $base_url_asset ?>orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                <?php
+                                                                    </td>
+                                                                </tr>
+                                                    <?php  }
                                                         }
-                                                    }
-                                                } ?>
-                                            </tbody>
-                                        </table>
-                                        <!-- pegination start -->
-                                        <div class="center text-center" id="pagination_row"></div>
+                                                    } ?>
+                                                </tbody>
+                                            </table>
+                                            <!-- pegination start -->
+                                            <div class="center text-center" id="pagination_row"></div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="tab-pane fade card show px-3 rounded-4 tabslist" id="canceledHistory" role="tabpanel">
-                                <div class="col-lg-12 py-3">
-                                    <div class="table-responsive table-desi">
-                                        <table class="table table-hover" id="user_table4">
-                                            <thead>
-                                                <tr>
-                                                    <th class="ceterText fw-bolder font-size-13">Sr. No.</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Booking ID</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Tour Date</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Package Name</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Customer</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Travel Consultant</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Payment Status</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Status</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
+                                <div class="tab-pane fade card show px-3 rounded-4 tabslist" id="bookedHistory" role="tabpanel">
+                                    <div class="col-lg-12 py-3">
+                                        <div class="table-responsive table-desi">
+                                            <table class="table table-hover" id="user_table3">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="ceterText fw-bolder font-size-13">Sr. No.</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Booking ID</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Tour Date</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Package Name</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Customer</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Travel Consultant</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Payment Status</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Status</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                        $customer_fil = '';
+                                                        //check which user logged in based on user type
+                                                        //data load from models file
+                                                        include 'all_channels.php';
+
+                                                        // Check if travel agencies exist
+                                                        if (empty($ta_list)) {
+                                                            echo '<tr>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td class="text-center">No Travel Agencies Found</td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                </tr>';
+                                                            // exit; // Stop further execution
+                                                        } else {
+
+                                                        // Create an array mapping travel agency IDs to their details
+                                                        $ta_details = [];
+                                                        $ta_ids = [];
+
+                                                        foreach ($ta_list as $ta) {
+                                                            $ta_ids[] = $ta['tc_id']; // Collecting IDs for SQL query
+                                                            $ta_details[$ta['tc_id']] = [
+                                                                'firstname' => $ta['firstname'],
+                                                                'lastname' => $ta['lastname'],
+                                                                'email' => $ta['email'],
+                                                                'phone' => $ta['contact_no']
+                                                            ];
+                                                        }
+
+                                                        if (!empty($ta_list)) {
+                                                            $ta_ids_str = "'" . implode("','", $ta_ids) . "'"; // Convert array to comma-separated string
+                                                            $sql = "
+                                                                        SELECT b.id,
+                                                                            b.order_id, 
+                                                                            b.customer_id, 
+                                                                            b.package_id, 
+                                                                            p.name AS package_name,
+                                                                            p.tour_days,
+                                                                            b.name AS c_name,
+                                                                            b.phone,
+                                                                            b.email,
+                                                                            b.date,
+                                                                            b.ta_id, 
+                                                                            b.status,
+                                                                            b.confirm_status
+                                                                        FROM bookings b
+                                                                        JOIN package p ON b.package_id = p.id
+                                                                        WHERE b.ta_id IN ($ta_ids_str) AND b.status='1' AND b.confirm_status=1 $customer_fil"; // Use IN clause to match multiple IDs
+                                                        }
+
+                                                        $stmt = $conn->prepare($sql);
+                                                        $stmt->execute();
+                                                        $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+                                                        // Check if bookings exist
+                                                        if (empty($bookings)) {
+                                                    ?>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td class="text-center">No Bookings Found</td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                            </tr>
+                                                            <?php
+                                                                } else {
+                                                                $i = 0;
+                                                                foreach ($bookings as $booking) {
+                                                                    $sql3 = "SELECT * FROM booking_direct_bill WHERE bookings_id = " . $booking['id'];
+                                                                    $stmt3 = $conn->prepare($sql3);
+                                                                    $stmt3->execute();
+                                                                    $booking_bill = $stmt3->fetch(PDO::FETCH_ASSOC);
+
+                                                                    $formattedDate = date("d-m-Y", strtotime($booking['date']));
+
+                                                                    // Travel agency details
+                                                                    $ta_id = $booking['ta_id'];
+                                                                    $agency_info = isset($ta_details[$ta_id]) ? $ta_details[$ta_id] : ['firstname' => '', 'lastname' => '', 'email' => '', 'phone' => ''];
+
+                                                                    // Payment calculations
+                                                                    if ($booking_bill['pay_type'] == 2) {
+                                                                        if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0) {
+                                                                            continue; // Skip if not fully paid
+                                                                        } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
+                                                                            $perecent_fill = 100;
+                                                                            $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
+                                                                            $booking_full_amt = $booking_bill['total_net_payable'];
+                                                                        }
+                                                                    } else if ($booking_bill['pay_type'] == 3) {
+                                                                        if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0 && $booking_bill['part_pay_3_status'] == 0) {
+                                                                            continue;
+                                                                        } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
+                                                                            continue;
+                                                                        } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
+                                                                            $perecent_fill = 100;
+                                                                            $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
+                                                                            $booking_full_amt = $booking_bill['total_net_payable'];
+                                                                        }
+                                                                    } else {
+                                                                        $perecent_fill = 100;
+                                                                        $booking_paid_amt = $booking_bill['amount'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
+                                                                    }
+
+                                                                    // **Skip entry if `$perecent_fill` is not 100**
+                                                                    if ($perecent_fill !== 100) {
+                                                                        continue;
+                                                                    }
+
+                                                                // Display the booking details
+                                                            ?>
+                                                                <tr>
+                                                                    <td><?= ++$i ?></td>
+                                                                    <td><?= $booking['order_id'] ?></td>
+                                                                    <td><?= $formattedDate ?></td>
+                                                                    <td><?= $booking['package_name'] ?></td>
+                                                                    <td><?= $booking['c_name'] . '(' . $booking['customer_id'] . ')<br>' . $booking['phone'] . '<br>' . $booking['email'] ?></td>
+                                                                    <td><?= $agency_info['firstname'] . ' ' . $agency_info['lastname'] . '<br>' . $agency_info['phone'] . '<br>' . $agency_info['email'] ?></td>
+
+                                                                    <td>
+                                                                        <div class="progress border border-success" role="progressbar" aria-valuenow="<?= $perecent_fill ?>" aria-valuemin="0" aria-valuemax="100">
+                                                                            <div class="progress-bar bg-success" style="width: <?= $perecent_fill ?>%; height:10px;"><?= $perecent_fill ?>%</div>
+                                                                        </div>
+                                                                        <div class="my-2 text-center">Paid Rs.<?= $booking_paid_amt . ' of Rs.' . $booking_full_amt ?></div>
+                                                                    </td>
+                                                                    <?php
+                                                                    // Tour completion status
+                                                                    $startDate = new DateTime($booking['date']);
+                                                                    $tourDays = !empty($booking['tour_days']) ? (int)$booking['tour_days'] : 0;
+                                                                    $endDate = clone $startDate;
+                                                                    $endDate->modify("+$tourDays days");
+                                                                    $today = new DateTime();
+                                                                    $today->setTime(0, 0);
+
+                                                                    if ($booking['confirm_status'] == 1 && $today > $endDate) {
+                                                                    ?>
+                                                                        <td>
+                                                                            <div class="d-block">
+                                                                                <a href="#">
+                                                                                    <button type="button" class="btn text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder">Completed</button>
+                                                                                </a>
+                                                                            </div>
+                                                                        </td>
+                                                                    <?php } else if ($booking['confirm_status'] == 1 && ($today >= $startDate && $today <= $endDate)) { ?>
+                                                                        <td>
+                                                                            <div class="d-block">
+                                                                                <a href="#">
+                                                                                    <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Traveling</button>
+                                                                                </a>
+                                                                            </div>
+                                                                        </td>
+                                                                    <?php } else { ?>
+                                                                        <td>
+                                                                            <div class="d-block">
+                                                                                <a href="#">
+                                                                                    <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Confirmed</button>
+                                                                                </a>
+                                                                            </div>
+                                                                        </td>
+                                                                    <?php } ?>
+
+                                                                    <td class="text-center">
+                                                                        <div class="dropdown mt-">
+                                                                            <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
+                                                                            <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
+                                                                                <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
+                                                                                <a class="dropdown-item" href="<?= $base_url_asset ?>orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                    <?php
+                                                            }
+                                                        }
+                                                    } ?>
+                                                </tbody>
+                                            </table>
+                                            <!-- pegination start -->
+                                            <div class="center text-center" id="pagination_row"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade card show px-3 rounded-4 tabslist" id="canceledHistory" role="tabpanel">
+                                    <div class="col-lg-12 py-3">
+                                        <div class="table-responsive table-desi">
+                                            <table class="table table-hover" id="user_table4">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="ceterText fw-bolder font-size-13">Sr. No.</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Booking ID</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Tour Date</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Package Name</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Customer</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Travel Consultant</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Payment Status</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Status</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                        $customer_fil = '';
+                                                        //check which user logged in based on user type
+                                                        //data load from models file
+                                                        include 'all_channels.php';
+
+                                                        // Check if travel agencies exist
+                                                        if (empty($ta_list)) {
+                                                            echo '<tr>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td class="text-center">No Travel Agencies Found</td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                </tr>';
+                                                            // exit; // Stop further execution
+                                                        } else {
+
+                                                            // Create an array mapping travel agency IDs to their details
+                                                            $ta_details = [];
+                                                            $ta_ids = [];
+
+                                                            foreach ($ta_list as $ta) {
+                                                                $ta_ids[] = $ta['tc_id']; // Collecting IDs for SQL query
+                                                                $ta_details[$ta['tc_id']] = [
+                                                                    'firstname' => $ta['firstname'],
+                                                                    'lastname' => $ta['lastname'],
+                                                                    'email' => $ta['email'],
+                                                                    'phone' => $ta['contact_no']
+                                                                ];
+                                                            }
+
+                                                            if (!empty($ta_list)) {
+                                                                $ta_ids_str = "'" . implode("','", $ta_ids) . "'"; // Convert array to comma-separated string
+                                                                $sql = "
+                                                                            SELECT b.id,
+                                                                                b.order_id, 
+                                                                                b.customer_id, 
+                                                                                b.package_id, 
+                                                                                p.name AS package_name,
+                                                                                p.tour_days,
+                                                                                b.name AS c_name,
+                                                                                b.phone,
+                                                                                b.email,
+                                                                                b.date,
+                                                                                b.ta_id,
+                                                                                b.status,
+                                                                                b.confirm_status
+                                                                            FROM bookings b
+                                                                            JOIN package p ON b.package_id = p.id
+                                                                            WHERE b.ta_id IN ($ta_ids_str) AND b.status='2' $customer_fil"; // Use IN clause to match multiple IDs
+                                                            }
+
+                                                            $stmt = $conn->prepare($sql);
+                                                            $stmt->execute();
+                                                            $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+                                                            // Check if bookings exist
+                                                            if (empty($bookings)) {
+                                                    ?>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td class="text-center">No Bookings Found</td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                            </tr>
+                                                            <?php
+                                                        } else {
+                                                            $i = 0;
+                                                            foreach ($bookings as $booking) {
+                                                                $sql3 = "SELECT * FROM booking_direct_bill WHERE bookings_id = " . $booking['id'] . "";
+                                                                $stmt3 = $conn->prepare($sql3);
+                                                                $stmt3->execute();
+                                                                $booking_bill = $stmt3->fetch(PDO::FETCH_ASSOC);
+                                                                //echo $booking['id'];
+                                                                if (!$booking_bill) {
+                                                                    continue; // Skip this booking if no matching record is found
+                                                                }
+                                                                $formattedDate = date("d-m-Y", strtotime($booking['date']));
+                                                            ?>
+                                                                <tr>
+                                                                    <td><?= ++$i ?></td>
+                                                                    <td><?= $booking['order_id'] ?></td>
+                                                                    <td><?= $formattedDate ?></td>
+                                                                    <td><?= $booking['package_name'] ?></td>
+                                                                    <td><? $booking['c_name'] . '(' . $booking['customer_id'] . ')<br>' . $booking['phone'] . '<br>' . $booking['email'] ?></td>
+                                                                    <?php
+                                                                    $ta_id = $booking['ta_id']; // Get the agency ID from booking
+
+                                                                    // Retrieve travel agency details safely
+                                                                    $agency_info = isset($ta_details[$ta_id]) ? $ta_details[$ta_id] : ['firstname' => '', 'lastname' => '', 'email' => '', 'phone' => ''];
+                                                                    ?>
+                                                                    <td><?= $agency_info['firstname'] . ' ' . $agency_info['lastname'] . '<br>' . $agency_info['phone'] . '<br>' . $agency_info['email'] ?></td>
+                                                                    <?php
+                                                                    if ($booking_bill['pay_type'] == 2) {
+                                                                        # code...
+                                                                        if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0) {
+                                                                            # code...
+                                                                            $perecent_fill = 50;
+                                                                            $booking_paid_amt = $booking_bill['part_pay_1'];
+                                                                            $booking_full_amt = $booking_bill['total_net_payable'];
+                                                                        } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
+                                                                            # code...
+                                                                            $perecent_fill = 100;
+                                                                            $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
+                                                                            $booking_full_amt = $booking_bill['total_net_payable'];
+                                                                        }
+                                                                    } else if ($booking_bill['pay_type'] == 3) {
+                                                                        # code...
+                                                                        if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0 && $booking_bill['part_pay_3_status'] == 0) {
+                                                                            # code...
+                                                                            $perecent_fill = 40;
+                                                                            $booking_paid_amt = $booking_bill['part_pay_1'];
+                                                                            $booking_full_amt = $booking_bill['total_net_payable'];
+                                                                        } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
+                                                                            # code...
+                                                                            $perecent_fill = 70;
+                                                                            $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
+                                                                            $booking_full_amt = $booking_bill['total_net_payable'];
+                                                                        } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
+                                                                            # code...
+                                                                            $perecent_fill = 100;
+                                                                            $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
+                                                                            $booking_full_amt = $booking_bill['total_net_payable'];
+                                                                        }
+                                                                    } else {
+                                                                        $perecent_fill = 100;
+                                                                        $booking_paid_amt = $booking_bill['amount'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
+                                                                    }
+
+                                                                    if ($perecent_fill == 100) {
+                                                                        $load_modal = '';
+                                                                        $border = 'border-success';
+                                                                        $bg_color = 'bg-success';
+                                                                        $cursor = '';
+                                                                    } else {
+                                                                        $load_modal = $userType == '11' ? 'data-bs-toggle="modal"' : '';
+                                                                        $border = 'border-primary';
+                                                                        $bg_color = '';
+                                                                        $cursor = 'cursor: pointer';
+                                                                    }
+                                                                    ?>
+                                                                    <td>
+                                                                        <div class="progress border  <?= $border ?>" role="progressbar" aria-label="Example with label" aria-valuenow="<?= $perecent_fill ?>" aria-valuemin="0" aria-valuemax="100" <?= $load_modal ?> data-bs-target="#paymentModal" data-booking-id="<?= $booking['id'] ?>" data-booking-fullamt="<?= $booking_full_amt ?>" data-booking-paytype="<?= $booking_bill['pay_type'] ?>" data-booking-fill="<?= $perecent_fill ?>"
+                                                                            <?php
+                                                                            if ($perecent_fill == 40) {
+                                                                                echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
+                                                                            } else if ($perecent_fill == 70) {
+                                                                                echo ' data-remaining-amt="' . $booking_bill['part_pay_3'] . '"data-pending-amt="' . $booking_bill['part_pay_3'] . '"';
+                                                                            } else if ($perecent_fill == 50) {
+                                                                                echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
+                                                                            }
+                                                                            ?>>
+                                                                            <div class="progress-bar <?= $bg_color . '" style="width: ' . $perecent_fill . '%; height:10px; ' . $cursor ?>"><?= $perecent_fill ?>%</div>
+                                                                        </div>
+                                                                        <div id="" class="my-2 text-center">Paid Rs.<? $booking_paid_amt . ' of Rs.' . $booking_full_amt ?></div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="d-block">
+                                                                            <a href="#">
+                                                                                <button type="button" class="btn text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3 fw-bolder show-cancel-msg" data-id="<?= $booking['id'] ?>">Canceled</button>
+                                                                            </a>
+                                                                        </div>
+                                                                    <td class="text-center">
+                                                                        <div class="dropdown mt-">
+                                                                            <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
+                                                                            <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
+                                                                                <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
+                                                                                <a class="dropdown-item" href="<?= $base_url_asset ?>orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
+                                                                                <a class="dropdown-item refundAction" href="#" data-order-id=<?= $booking["id"] ?>><i class="fa-solid fa-money-bill-transfer"></i> Initiate Refund</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                    <?php
+                                                            }
+                                                        }
+                                                    } ?>
+                                                </tbody>
+                                            </table>
+                                            <!-- pegination start -->
+                                            <div class="center text-center" id="pagination_row"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade card show px-3 rounded-4 tabslist" id="refundHistory" role="tabpanel">
+                                    <div class="col-lg-12 py-3">
+                                        <div class="table-responsive table-desi">
+                                            <table class="table table-hover" id="user_table5">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="ceterText fw-bolder font-size-13">Sr. No.</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Booking ID</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Tour Date</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Package Name</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Customer</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Travel Consultant</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Payment Status</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Status</th>
+                                                        <th class="ceterText fw-bolder font-size-13">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
                                                     $customer_fil = '';
+
                                                     //check which user logged in based on user type
                                                     //data load from models file
                                                     include 'all_channels.php';
@@ -1753,365 +1967,151 @@
                                                                             b.confirm_status
                                                                         FROM bookings b
                                                                         JOIN package p ON b.package_id = p.id
-                                                                        WHERE b.ta_id IN ($ta_ids_str) AND b.status='2' $customer_fil"; // Use IN clause to match multiple IDs
+                                                                        WHERE b.ta_id IN ($ta_ids_str) AND b.status='3' $customer_fil"; // Use IN clause to match multiple IDs
                                                         }
 
                                                         $stmt = $conn->prepare($sql);
                                                         $stmt->execute();
                                                         $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
                                                         // Check if bookings exist
                                                         if (empty($bookings)) {
-                                                ?>
-                                                        <tr>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td class="text-center">No Bookings Found</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                        <?php
-                                                    } else {
-                                                        $i = 0;
-                                                        foreach ($bookings as $booking) {
-                                                            $sql3 = "SELECT * FROM booking_direct_bill WHERE bookings_id = " . $booking['id'] . "";
-                                                            $stmt3 = $conn->prepare($sql3);
-                                                            $stmt3->execute();
-                                                            $booking_bill = $stmt3->fetch(PDO::FETCH_ASSOC);
-                                                            //echo $booking['id'];
-                                                            if (!$booking_bill) {
-                                                                continue; // Skip this booking if no matching record is found
-                                                            }
-                                                            $formattedDate = date("d-m-Y", strtotime($booking['date']));
-                                                        ?>
+                                                    ?>
                                                             <tr>
-                                                                <td><?= ++$i ?></td>
-                                                                <td><?= $booking['order_id'] ?></td>
-                                                                <td><?= $formattedDate ?></td>
-                                                                <td><?= $booking['package_name'] ?></td>
-                                                                <td><? $booking['c_name'] . '(' . $booking['customer_id'] . ')<br>' . $booking['phone'] . '<br>' . $booking['email'] ?></td>
-                                                                <?php
-                                                                $ta_id = $booking['ta_id']; // Get the agency ID from booking
-
-                                                                // Retrieve travel agency details safely
-                                                                $agency_info = isset($ta_details[$ta_id]) ? $ta_details[$ta_id] : ['firstname' => '', 'lastname' => '', 'email' => '', 'phone' => ''];
-                                                                ?>
-                                                                <td><?= $agency_info['firstname'] . ' ' . $agency_info['lastname'] . '<br>' . $agency_info['phone'] . '<br>' . $agency_info['email'] ?></td>
-                                                                <?php
-                                                                if ($booking_bill['pay_type'] == 2) {
-                                                                    # code...
-                                                                    if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0) {
-                                                                        # code...
-                                                                        $perecent_fill = 50;
-                                                                        $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
-                                                                    } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
-                                                                        # code...
-                                                                        $perecent_fill = 100;
-                                                                        $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
-                                                                    }
-                                                                } else if ($booking_bill['pay_type'] == 3) {
-                                                                    # code...
-                                                                    if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0 && $booking_bill['part_pay_3_status'] == 0) {
-                                                                        # code...
-                                                                        $perecent_fill = 40;
-                                                                        $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
-                                                                    } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
-                                                                        # code...
-                                                                        $perecent_fill = 70;
-                                                                        $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
-                                                                    } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
-                                                                        # code...
-                                                                        $perecent_fill = 100;
-                                                                        $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
-                                                                    }
-                                                                } else {
-                                                                    $perecent_fill = 100;
-                                                                    $booking_paid_amt = $booking_bill['amount'];
-                                                                    $booking_full_amt = $booking_bill['total_net_payable'];
-                                                                }
-
-                                                                if ($perecent_fill == 100) {
-                                                                    $load_modal = '';
-                                                                    $border = 'border-success';
-                                                                    $bg_color = 'bg-success';
-                                                                    $cursor = '';
-                                                                } else {
-                                                                    $load_modal = $userType == '11' ? 'data-bs-toggle="modal"' : '';
-                                                                    $border = 'border-primary';
-                                                                    $bg_color = '';
-                                                                    $cursor = 'cursor: pointer';
-                                                                }
-                                                                ?>
-                                                                <td>
-                                                                    <div class="progress border  <?= $border ?>" role="progressbar" aria-label="Example with label" aria-valuenow="<?= $perecent_fill ?>" aria-valuemin="0" aria-valuemax="100" <?= $load_modal ?> data-bs-target="#paymentModal" data-booking-id="<?= $booking['id'] ?>" data-booking-fullamt="<?= $booking_full_amt ?>" data-booking-paytype="<?= $booking_bill['pay_type'] ?>" data-booking-fill="<?= $perecent_fill ?>"
-                                                                        <?php
-                                                                        if ($perecent_fill == 40) {
-                                                                            echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
-                                                                        } else if ($perecent_fill == 70) {
-                                                                            echo ' data-remaining-amt="' . $booking_bill['part_pay_3'] . '"data-pending-amt="' . $booking_bill['part_pay_3'] . '"';
-                                                                        } else if ($perecent_fill == 50) {
-                                                                            echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
-                                                                        }
-                                                                        ?>>
-                                                                        <div class="progress-bar <?= $bg_color . '" style="width: ' . $perecent_fill . '%; height:10px; ' . $cursor ?>"><?= $perecent_fill ?>%</div>
-                                                                    </div>
-                                                                    <div id="" class="my-2 text-center">Paid Rs.<? $booking_paid_amt . ' of Rs.' . $booking_full_amt ?></div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="d-block">
-                                                                        <a href="#">
-                                                                            <button type="button" class="btn text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3 fw-bolder show-cancel-msg" data-id="<?= $booking['id'] ?>">Canceled</button>
-                                                                        </a>
-                                                                    </div>
-                                                                <td class="text-center">
-                                                                    <div class="dropdown mt-">
-                                                                        <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
-                                                                        <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
-                                                                            <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                            <a class="dropdown-item" href="<?= $base_url_asset ?>orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
-                                                                            <a class="dropdown-item refundAction" href="#" data-order-id=<?= $booking["id"] ?>><i class="fa-solid fa-money-bill-transfer"></i> Initiate Refund</a>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td class="text-center">No Bookings Found</td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
                                                             </tr>
-                                                <?php
+                                                            <?php
+                                                        } {
+                                                            $i = 0;
+                                                            foreach ($bookings as $booking) {
+                                                                $sql3 = "SELECT * FROM booking_direct_bill WHERE bookings_id = " . $booking['id'] . "";
+                                                                $stmt3 = $conn->prepare($sql3);
+                                                                $stmt3->execute();
+                                                                $booking_bill = $stmt3->fetch(PDO::FETCH_ASSOC);
+                                                                $formattedDate = date("d-m-Y", strtotime($booking['date']));
+                                                            ?>
+                                                                <tr>
+                                                                    <td><?= ++$i ?></td>
+                                                                    <td><?= $booking['order_id'] ?></td>
+                                                                    <td><?= $formattedDate ?></td>
+                                                                    <td><?= $booking['package_name'] ?></td>
+                                                                    <td><?= $booking['c_name'] . '(' . $booking['customer_id'] . ')<br>' . $booking['phone'] . '<br>' . $booking['email'] ?></td>
+
+                                                                    <?php
+                                                                    $ta_id = $booking['ta_id']; // Get the agency ID from booking
+
+                                                                    // Retrieve travel agency details safely
+                                                                    $agency_info = isset($ta_details[$ta_id]) ? $ta_details[$ta_id] : ['firstname' => '', 'lastname' => '', 'email' => '', 'phone' => ''];
+                                                                    ?>
+                                                                    <td><?= $agency_info['firstname'] . ' ' . $agency_info['lastname'] . '<br>' . $agency_info['phone'] . '<br>' . $agency_info['email'] ?></td>
+                                                                    <?php
+                                                                    if ($booking_bill['pay_type'] == 2) {
+                                                                        # code...
+                                                                        if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0) {
+                                                                            # code...
+                                                                            $perecent_fill = 50;
+                                                                            $booking_paid_amt = $booking_bill['part_pay_1'];
+                                                                            $booking_full_amt = $booking_bill['total_net_payable'];
+                                                                        } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
+                                                                            # code...
+                                                                            $perecent_fill = 100;
+                                                                            $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
+                                                                            $booking_full_amt = $booking_bill['total_net_payable'];
+                                                                        }
+                                                                    } else if ($booking_bill['pay_type'] == 3) {
+                                                                        # code...
+                                                                        if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0 && $booking_bill['part_pay_3_status'] == 0) {
+                                                                            # code...
+                                                                            $perecent_fill = 40;
+                                                                            $booking_paid_amt = $booking_bill['part_pay_1'];
+                                                                            $booking_full_amt = $booking_bill['total_net_payable'];
+                                                                        } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
+                                                                            # code...
+                                                                            $perecent_fill = 70;
+                                                                            $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
+                                                                            $booking_full_amt = $booking_bill['total_net_payable'];
+                                                                        } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
+                                                                            # code...
+                                                                            $perecent_fill = 100;
+                                                                            $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
+                                                                            $booking_full_amt = $booking_bill['total_net_payable'];
+                                                                        }
+                                                                    } else {
+                                                                        $perecent_fill = 100;
+                                                                        $booking_paid_amt = $booking_bill['amount'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
+                                                                    }
+
+                                                                    if ($perecent_fill == 100) {
+                                                                        $load_modal = '';
+                                                                        $border = 'border-success';
+                                                                        $bg_color = 'bg-success';
+                                                                        $cursor = '';
+                                                                    } else {
+                                                                        $load_modal = $userType == '11' ? 'data-bs-toggle="modal"' : '';
+                                                                        $border = 'border-primary';
+                                                                        $bg_color = '';
+                                                                        $cursor = '';
+                                                                    }
+                                                                    ?>
+
+
+                                                                    <td>
+                                                                        <div class="progress border  <?= $border . '" role="progressbar" aria-label="Example with label" aria-valuenow="' . $perecent_fill . '" aria-valuemin="0" aria-valuemax="100" ' . $load_modal . '" data-bs-target="#paymentModal" data-booking-id="' . $booking['id'] . '" data-booking-fullamt="' . $booking_full_amt . '" data-booking-paytype="' . $booking_bill['pay_type'] . '" data-booking-fill="' . $perecent_fill ?>"
+
+                                                                            <?php
+                                                                            if ($perecent_fill == 40) {
+                                                                                echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
+                                                                            } else if ($perecent_fill == 70) {
+                                                                                echo ' data-remaining-amt="' . $booking_bill['part_pay_3'] . '"data-pending-amt="' . $booking_bill['part_pay_3'] . '"';
+                                                                            } else if ($perecent_fill == 50) {
+                                                                                echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
+                                                                            }
+                                                                            ?>>
+                                                                            <div class="progress-bar <?= $bg_color . '" style="width: ' . $perecent_fill . '%; height:10px; ' . $cursor ?>"><?= $perecent_fill ?>%</div>
+                                                                        </div>
+                                                                        <div id="" class="my-2 text-center">Paid Rs.' . $booking_paid_amt . ' of Rs.' . $booking_full_amt . '</div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="d-block">
+                                                                            <a href="#">
+                                                                                <button type="button" class="btn text-secondary-emphasis bg-secondary-subtle border border-secondary-subtle rounded-3 fw-bolder">Refunded</button>
+                                                                            </a>
+                                                                        </div>
+                                                                    <td class="text-center">
+                                                                        <div class="dropdown mt-">
+                                                                            <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
+                                                                            <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
+                                                                                <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
+                                                                                <a class="dropdown-item" href="<?= $base_url_asset ?>orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                    <?php }
                                                         }
-                                                    }
-                                                } ?>
-                                            </tbody>
-                                        </table>
-                                        <!-- pegination start -->
-                                        <div class="center text-center" id="pagination_row"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade card show px-3 rounded-4 tabslist" id="refundHistory" role="tabpanel">
-                                <div class="col-lg-12 py-3">
-                                    <div class="table-responsive table-desi">
-                                        <table class="table table-hover" id="user_table5">
-                                            <thead>
-                                                <tr>
-                                                    <th class="ceterText fw-bolder font-size-13">Sr. No.</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Booking ID</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Tour Date</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Package Name</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Customer</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Travel Consultant</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Payment Status</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Status</th>
-                                                    <th class="ceterText fw-bolder font-size-13">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                $customer_fil = '';
-
-                                                //check which user logged in based on user type
-                                                //data load from models file
-                                                include 'all_channels.php';
-
-                                                // Check if travel agencies exist
-                                                if (empty($ta_list)) {
-                                                    echo '<tr>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td class="text-center">No Travel Agencies Found</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>';
-                                                    // exit; // Stop further execution
-                                                } else {
-
-                                                    // Create an array mapping travel agency IDs to their details
-                                                    $ta_details = [];
-                                                    $ta_ids = [];
-
-                                                    foreach ($ta_list as $ta) {
-                                                        $ta_ids[] = $ta['tc_id']; // Collecting IDs for SQL query
-                                                        $ta_details[$ta['tc_id']] = [
-                                                            'firstname' => $ta['firstname'],
-                                                            'lastname' => $ta['lastname'],
-                                                            'email' => $ta['email'],
-                                                            'phone' => $ta['contact_no']
-                                                        ];
-                                                    }
-
-                                                    if (!empty($ta_list)) {
-                                                        $ta_ids_str = "'" . implode("','", $ta_ids) . "'"; // Convert array to comma-separated string
-                                                        $sql = "
-                                                                    SELECT b.id,
-                                                                        b.order_id, 
-                                                                        b.customer_id, 
-                                                                        b.package_id, 
-                                                                        p.name AS package_name,
-                                                                        p.tour_days,
-                                                                        b.name AS c_name,
-                                                                        b.phone,
-                                                                        b.email,
-                                                                        b.date,
-                                                                        b.ta_id,
-                                                                        b.status,
-                                                                        b.confirm_status
-                                                                    FROM bookings b
-                                                                    JOIN package p ON b.package_id = p.id
-                                                                    WHERE b.ta_id IN ($ta_ids_str) AND b.status='3' $customer_fil"; // Use IN clause to match multiple IDs
-                                                    }
-
-                                                    $stmt = $conn->prepare($sql);
-                                                    $stmt->execute();
-                                                    $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                                    // Check if bookings exist
-                                                    if (empty($bookings)) {
-                                                ?>
-                                                        <tr>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td class="text-center">No Bookings Found</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                        <?php
-                                                    } {
-                                                        $i = 0;
-                                                        foreach ($bookings as $booking) {
-                                                            $sql3 = "SELECT * FROM booking_direct_bill WHERE bookings_id = " . $booking['id'] . "";
-                                                            $stmt3 = $conn->prepare($sql3);
-                                                            $stmt3->execute();
-                                                            $booking_bill = $stmt3->fetch(PDO::FETCH_ASSOC);
-                                                            $formattedDate = date("d-m-Y", strtotime($booking['date']));
-                                                        ?>
-                                                            <tr>
-                                                                <td><?= ++$i ?></td>
-                                                                <td><?= $booking['order_id'] ?></td>
-                                                                <td><?= $formattedDate ?></td>
-                                                                <td><?= $booking['package_name'] ?></td>
-                                                                <td><?= $booking['c_name'] . '(' . $booking['customer_id'] . ')<br>' . $booking['phone'] . '<br>' . $booking['email'] ?></td>
-
-                                                                <?php
-                                                                $ta_id = $booking['ta_id']; // Get the agency ID from booking
-
-                                                                // Retrieve travel agency details safely
-                                                                $agency_info = isset($ta_details[$ta_id]) ? $ta_details[$ta_id] : ['firstname' => '', 'lastname' => '', 'email' => '', 'phone' => ''];
-                                                                ?>
-                                                                <td><?= $agency_info['firstname'] . ' ' . $agency_info['lastname'] . '<br>' . $agency_info['phone'] . '<br>' . $agency_info['email'] ?></td>
-                                                                <?php
-                                                                if ($booking_bill['pay_type'] == 2) {
-                                                                    # code...
-                                                                    if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0) {
-                                                                        # code...
-                                                                        $perecent_fill = 50;
-                                                                        $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
-                                                                    } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
-                                                                        # code...
-                                                                        $perecent_fill = 100;
-                                                                        $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
-                                                                    }
-                                                                } else if ($booking_bill['pay_type'] == 3) {
-                                                                    # code...
-                                                                    if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0 && $booking_bill['part_pay_3_status'] == 0) {
-                                                                        # code...
-                                                                        $perecent_fill = 40;
-                                                                        $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
-                                                                    } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
-                                                                        # code...
-                                                                        $perecent_fill = 70;
-                                                                        $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
-                                                                    } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
-                                                                        # code...
-                                                                        $perecent_fill = 100;
-                                                                        $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
-                                                                    }
-                                                                } else {
-                                                                    $perecent_fill = 100;
-                                                                    $booking_paid_amt = $booking_bill['amount'];
-                                                                    $booking_full_amt = $booking_bill['total_net_payable'];
-                                                                }
-
-                                                                if ($perecent_fill == 100) {
-                                                                    $load_modal = '';
-                                                                    $border = 'border-success';
-                                                                    $bg_color = 'bg-success';
-                                                                    $cursor = '';
-                                                                } else {
-                                                                    $load_modal = $userType == '11' ? 'data-bs-toggle="modal"' : '';
-                                                                    $border = 'border-primary';
-                                                                    $bg_color = '';
-                                                                    $cursor = '';
-                                                                }
-                                                                ?>
-
-
-                                                                <td>
-                                                                    <div class="progress border  <?= $border . '" role="progressbar" aria-label="Example with label" aria-valuenow="' . $perecent_fill . '" aria-valuemin="0" aria-valuemax="100" ' . $load_modal . '" data-bs-target="#paymentModal" data-booking-id="' . $booking['id'] . '" data-booking-fullamt="' . $booking_full_amt . '" data-booking-paytype="' . $booking_bill['pay_type'] . '" data-booking-fill="' . $perecent_fill ?>"
-
-                                                                        <?php
-                                                                        if ($perecent_fill == 40) {
-                                                                            echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
-                                                                        } else if ($perecent_fill == 70) {
-                                                                            echo ' data-remaining-amt="' . $booking_bill['part_pay_3'] . '"data-pending-amt="' . $booking_bill['part_pay_3'] . '"';
-                                                                        } else if ($perecent_fill == 50) {
-                                                                            echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
-                                                                        }
-                                                                        ?>>
-                                                                        <div class="progress-bar <?= $bg_color . '" style="width: ' . $perecent_fill . '%; height:10px; ' . $cursor ?>"><?= $perecent_fill ?>%</div>
-                                                                    </div>
-                                                                    <div id="" class="my-2 text-center">Paid Rs.' . $booking_paid_amt . ' of Rs.' . $booking_full_amt . '</div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="d-block">
-                                                                        <a href="#">
-                                                                            <button type="button" class="btn text-secondary-emphasis bg-secondary-subtle border border-secondary-subtle rounded-3 fw-bolder">Refunded</button>
-                                                                        </a>
-                                                                    </div>
-                                                                <td class="text-center">
-                                                                    <div class="dropdown mt-">
-                                                                        <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
-                                                                        <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
-                                                                            <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                            <a class="dropdown-item" href="<?= $base_url_asset ?>orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                <?php }
-                                                    }
-                                                } ?>
-                                            </tbody>
-                                        </table>
-                                        <!-- pegination start -->
-                                        <div class="center text-center" id="pagination_row"></div>
-                                    </div>
-                                    <div class="row d-flex justify-content-center d-none" id="refundAmt">
-                                        <div class="col-md-8 col-sm-10">
-                                            <div class="row d-flex justify-content-center">
-                                                <div class="col-md-6 col-sm-6">
-                                                    <h5 class="fw-bolder">Paid Refund: <span>&#8377; 0</span></h5>
-                                                </div>
-                                                <div class="col-md-6 col-sm-6">
-                                                    <h5 class="fw-bolder">Pending Refund: <span>&#8377; 0</span></h5>
+                                                    } ?>
+                                                </tbody>
+                                            </table>
+                                            <!-- pegination start -->
+                                            <div class="center text-center" id="pagination_row"></div>
+                                        </div>
+                                        <div class="row d-flex justify-content-center d-none" id="refundAmt">
+                                            <div class="col-md-8 col-sm-10">
+                                                <div class="row d-flex justify-content-center">
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <h5 class="fw-bolder">Paid Refund: <span>&#8377; 0</span></h5>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <h5 class="fw-bolder">Pending Refund: <span>&#8377; 0</span></h5>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -2120,874 +2120,948 @@
                             </div>
                         </div>
                     </div>
+                    <?php 
+                            include_once(__DIR__ . '/customer_footer.php');
+                    ?>
                 </div>
-                <?php 
-                        include_once(__DIR__ . '/customer_footer.php');
-                ?>
             </div>
-        </div>
-        <!-- Payment Screen start -->
-        <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Payment</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-8 col-sm-8 col-12">
-                                <input type="hidden" id="modalBookingId">
-                                <p class="fw-bold text-muted fs-6">Amount to be Paid: <span class="fw-bolder" id="amountToBePaid" style="color: var(--pure-black);"></span>
-
-                                </p>
-                                <p class="fw-bold text-muted fs-6">Available TopUp Balance:
-                                    <span class="fw-bolder" style="color: var(--pure-black);" id="avalableBalance">
-                                        <?php
-                                        // Only for TA login
-                                        // Check if user exists
-                                        $stmt1 = $conn->prepare("SELECT * FROM `login` WHERE status = '1' AND `user_id` = ? AND `user_type_id` = '11'");
-                                        $stmt1->execute([$userId]);
-                                        // Fetch the latest available balance for the given ta_id
-                                        $stmt2 = $conn->prepare("SELECT available_balance FROM ta_top_up_utilisation WHERE ta_id = :ta_id ORDER BY id DESC LIMIT 1");
-                                        $stmt2->execute(array(':ta_id' => $userId));
-                                        $result3 = $stmt2->fetch(PDO::FETCH_ASSOC);
-                                        $available_bal = ($result3['available_balance'] ?? 0);
-                                        echo $available_bal
-                                        ?>
-                                    </span>
-                                    <i class="ri-refresh-line fs-5" style="color: red;"></i>
-                                    <span class="bg-danger-subtle text-danger py-1 px-2 mt-2 rounded-2 lowBal d-none" id="low_bal" style="color: red;">
-                                        Low Balance! Kindly TopUP
-                                    </span>
-                                </p>
-                            </div>
-                            <div class="col-md-4 col-sm-4 col-12 text-end">
-                                <a href="view_ta_topup.php" target="_blank">
-                                    <button type="button" class="btn text-dark-emphasis bg-dark-subtle border border-dark-subtle fw-bold">
-                                        <i class="ri-wallet-2-line" style="color: #615a5a;"></i>
-                                        Add TopUp
-                                    </button>
-                                </a>
-                            </div>
+            <!-- Payment Screen start -->
+            <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Payment</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div>
-                            
-                            <div class="py-3" id="showamt">
-                                <p class="fw-bolder fs-5 d-flex" style="color: var(--pure-black);">Amount:
-                                    <span><input class="form-control" type="text" id="amountInput" value="" aria-label="readonly input example" readonly></span>
-
-                                </p>
-                                <span class="fw-bold text-muted fs-6" id="showPayType"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="place_order">Pay</button>
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Payment Screen end -->
-        <!-- Refund Modal -->
-        <div class="modal fade" id="refundModal" tabindex="-1" aria-labelledby="refundModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content rounded-4">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="refundModalLabel">Initiate Refund</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-
-                    <div class="modal-body">
-                        <form id="refundForm" data-order-id="">
-                            <div class="mb-3">
-                                <label class="form-label d-block">Is Refund Amount Applicable?</label>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input refund-applicable" type="radio" name="isRefundApplicable" id="refundYes" value="yes" checked>
-                                    <label class="form-check-label" for="refundYes">Yes</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input refund-applicable" type="radio" name="isRefundApplicable" id="refundNo" value="no">
-                                    <label class="form-check-label" for="refundNo">No</label>
-                                </div>
-                            </div>
-
-                            <div class="mb-3" id="refundAmountGroup">
-                                <label for="refundAmount" class="form-label">Refund Amount</label>
-                                <input type="number" class="form-control" id="refundAmount" placeholder="Enter amount">
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="refundReason" class="form-label">Reason</label>
-                                <textarea class="form-control" id="refundReason" rows="3" placeholder="Enter refund reason..."></textarea>
-                            </div>
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-primary">Submit Refund</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Cancel Message Modal -->
-        <div class="modal fade" id="cancelStatusModal" tabindex="-1" aria-labelledby="cancelStatusModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content rounded-4">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="cancelStatusModalLabel">Booking Canceled</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-
-                    <div class="modal-body">
-                        <p id="cancelMessage" class="text-secondary">Loading message...</p>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <?php include (__DIR__ .'/../contact_modal.php') ?>
-    </div>
-    <!-- END layout-wrapper -->
-    <!--start back-to-top-->
-    <button onclick="topFunction()" class="scrollToTop scroll-btn show btn" id="back-to-top">
-        <i class="mdi mdi-arrow-up"></i>
-    </button>
-    <!--end back-to-top-->
-    <!-- JAVASCRIPT -->
-    <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/libs/simplebar/simplebar.min.js"></script>
-    <script src="../assets/libs/node-waves/waves.min.js"></script>
-    <script src="../assets/libs/feather-icons/feather.min.js"></script>
-    <script src="../assets/js/jquery/jquery-3.7.1.min.js"></script>
-    <!-- Required datatable js -->
-    <script src="../assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="../assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-
-    <!-- Responsive examples -->
-    <script src="../assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-   
-    <?php 
-        if ($userType == 10) {
-    ?>
-    <script src="../assets/js/pages/remix-icons-listing.js"></script>
-    <!-- Vector map-->
-    <script src="../assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
-    <script src="../assets/libs/jsvectormap/maps/world-merc.js"></script>
-
-    <!--Swiper slider js-->
-    <script src="../assets/libs/swiper/swiper-bundle.min.js"></script>
-    <!-- App js -->
-    <script src="../assets/js/app.js"></script>
-    <?php
-        }
-    ?>
-     <!-- Calendar init -->
-    <script src="../assets/libs/fullcalendar/index.global.min.js"></script>
-    <!-- Date Range Picker Script Start -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <!-- Date Range Picker Script End -->
-
-    <!-- App js -->
-    <!-- <script src="../assets/js/app.js"></script> -->
-    <script>
-        var mybutton = document.getElementById("back-to-top");
-
-        function scrollFunction() {
-            100 < document.body.scrollTop || 100 < document.documentElement.scrollTop ? mybutton.style.display = "block" : mybutton.style.display = "none"
-        }
-
-        function topFunction() {
-            document.body.scrollTop = 0,
-                document.documentElement.scrollTop = 0
-        }
-        mybutton && (window.onscroll = function() {
-            scrollFunction()
-        });
-    </script>
-    <script>
-        //show cancel message
-        $(document).on('click', '.show-cancel-msg', function() {
-            const bookingId = $(this).data('id');
-
-            // Clear previous message
-            $('#cancelMessage').text('Loading message...');
-
-            // Show the modal
-            const modal = new bootstrap.Modal(document.getElementById('cancelStatusModal'));
-            modal.show();
-
-            // Fetch cancellation message from server
-            $.ajax({
-                url: 'orders/get_cancel_message.php',
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    booking_id: bookingId
-                },
-                success: function(response) {
-                    if (response.status === 'success') {
-                        //$('#cancelMessage').text(response.message);
-                        // If your message includes new lines and you want formatting:
-                        console.log('res' + response.message);
-
-                        $('#cancelMessage').html(response.message.replace(/\n/g, '<br>'));
-                    } else {
-                        $('#cancelMessage').text('No message found.');
-                    }
-                },
-                error: function() {
-                    $('#cancelMessage').text('Failed to load message. Please try again.');
-                }
-            });
-        });
-        // Show modal on click
-        $(document).on('click', '#refundAction', function(e) {
-            e.preventDefault();
-            const orderId = $(this).data('order-id');
-            console.log('Clicked Refund - Order ID:', orderId); // 🔍 Log here
-
-            $('#refundForm').attr('data-order-id', orderId); // ✅ camelCase
-            $('#refundModal').modal('show');
-        });
-
-        // Toggle refund amount field based on radio
-        $(document).on('change', 'input[name="isRefundApplicable"]', function() {
-            if ($(this).val() === 'yes') {
-                $('#refundAmountGroup').show();
-            } else {
-                $('#refundAmountGroup').hide();
-            }
-        });
-
-        // Initially set refund amount visibility
-        $(document).ready(function() {
-            $('input[name="isRefundApplicable"]:checked').trigger('change');
-        });
-
-        // Handle refund submission
-        $('#refundForm').on('submit', function(e) {
-            e.preventDefault();
-
-            const orderId = $(this).attr('data-order-id');
-            const isRefundApplicable = $('input[name="isRefundApplicable"]:checked').val();
-            const amount = $('#refundAmount').val().trim();
-            const reason = $('#refundReason').val().trim();
-
-            // 🛑 Validation
-            if (isRefundApplicable === 'yes') {
-                if (!amount || isNaN(amount) || parseFloat(amount) <= 0) {
-                    alert('Please enter a valid refund amount.');
-                    $('#refundAmount').focus();
-                    return;
-                }
-
-                if (!reason) {
-                    alert('Please enter a reason for the refund.');
-                    $('#refundReason').focus();
-                    return;
-                }
-            } else {
-                if (!reason) {
-                    alert('Please enter a reason for the refund.');
-                    $('#refundReason').focus();
-                    return;
-                }
-            }
-
-            console.log('Order ID:', orderId);
-            console.log('Is Refund Applicable:', isRefundApplicable);
-            console.log('Refund Amount:', isRefundApplicable === 'yes' ? amount : 0);
-            console.log('Reason:', reason);
-
-            // Submit the form via AJAX
-            $.post('orders/submit_refund.php', {
-                order_id: orderId,
-                is_refund_applicable: isRefundApplicable,
-                amount: isRefundApplicable === 'yes' ? amount : 0,
-                reason: reason
-            }, function(response) {
-                alert('Refund submitted!');
-                $('#refundModal').modal('hide');
-                $('#refundForm')[0].reset(); // Optional: reset form
-                $('#refundAmountGroup').hide(); // Hide amount after reset
-            }).fail(function() {
-                alert('Error submitting refund.');
-            });
-        });
-
-
-
-        function showOrderDetails(id) {
-            window.location.href = 'order_details.php?vkvbvjfgfikix=' + id;
-        }
-
-        function downloadInvoice(id) {
-            window.location.href = 'orders/download_invoice?vkvbvjfgfikix=' + id;
-        }
-        //to reload data tables
-        // Select the target element
-        let targetNode = document.getElementById("selectedDate");
-
-        // Create a MutationObserver instance
-        let observer = new MutationObserver(function(mutationsList) {
-            for (let mutation of mutationsList) {
-                if (mutation.type === "childList") {
-                    let selectedDate = $("#selectedDate").text().trim(); // Get selected date
-                    if (selectedDate) {
-                        reloadTable(selectedDate); // Call function to reload table
-                    }
-                }
-            }
-        });
-
-        // Start observing changes in the target element
-        observer.observe(targetNode, {
-            childList: true
-        });
-
-        function reloadTable(selectedDate) {
-            //console.log('selectedDate:'+selectedDate);
-            // Get currently active tab ID (e.g., "#bookedHistory")
-            let activeTabId = $(".tabslist.active").attr("id");
-            console.log('active table:' + activeTabId);
-
-            $.ajax({
-                url: "orders/fetch_bookings.php", // Create a PHP script to fetch filtered data
-                type: "POST",
-                data: {
-                    date: selectedDate
-                },
-                success: function(response) {
-                    $("#tableList").html("");
-                    $("#tableList").html(response); // Update table body
-
-
-                    // After inserting, re-activate the previous tab
-                    $(".tabslist").removeClass("show active");
-                    $("#" + activeTabId).addClass("show active");
-
-                    // Also restore active class on the tab button
-                    $(".nav-link").removeClass("active");
-                    $('a[href="#' + activeTabId + '"]').addClass("active");
-                },
-                error: function() {
-                    alert("Failed to load data. Please try again.");
-                }
-            });
-        }
-        //part payment logic
-        //payment id generation
-        function makepayid(length) {
-            var result = 'Paid_';
-            const timestamp = Date.now();
-            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            var charactersLength = characters.length;
-            result += timestamp;
-            for (var i = 0; i < length; i++) {
-                result += characters.charAt(Math.floor(Math.random() *
-                    charactersLength));
-            }
-            return result;
-        }
-        //load part-pay modal
-        $("#paymentModal").on('show.bs.modal', function(event) {
-            // Part Payment Modal Start
-            const fullRadio = document.getElementById('inlineRadio1');
-            const partRadio = document.getElementById('inlineRadio2');
-            const payTypeSelect = document.getElementById('payTypeSelect');
-            const amountInput = document.getElementById('amountInput');
-            const divToToggle = document.getElementById('toggleDiv');
-            // Fetch the total amount dynamically from the "Amount to be Paid" section
-            const amountToBePaidElement = document.getElementById('amountToBePaid');
-      
-
-            var button = $(event.relatedTarget);
-            var paidfill = button.data("booking-fill");
-            var bookingId = button.data("booking-id"); // Get the booking ID from the clicked button
-            $("#modalBookingId").val(bookingId);
-            var pending_amt = button.data("pending-amt");
-            var remaining_amt = button.data("remaining-amt")
-            $("#amountToBePaid").text(remaining_amt);
-            $("#amountInput").val(pending_amt);
-            var paytype = button.data("booking-paytype");
-            var fullamt = button.data("booking-fullamt");
-            var partamt;
-
-            if (paytype == 3) {
-                if (paidfill == 40) {
-                    $("#showPayType").text("2/3 part payment");
-                    partamt = fullamt * 0.3;
-                }
-                if (paidfill == 70) {
-                    $("#showPayType").text("3/3 part payment");
-                    partamt = fullamt * 0.3;
-                }
-            } else {
-                if (paidfill == 50) {
-                    $("#showPayType").text("2/2 part payment");
-                    partamt = fullamt / 2;
-                }
-            }
-            var ta_bal;
-            setTimeout(function() {
-                ta_bal = $("#avalableBalance").text();
-                ta_bal = parseFloat(ta_bal);
-                console.log('pending_amt:' + partamt + ' ta_bal:' + ta_bal);
-
-                if (ta_bal < partamt) {
-                    $("#low_bal").removeClass('d-none');
-                    $("#low_bal").addClass('d-block');
-                    $('#showamt').addClass('d-none');
-                    $('#place_order').addClass('d-none');
-                } else {
-                    $("#low_bal").removeClass('d-block');
-                    $("#low_bal").addClass('d-none');
-                    $('#showamt').removeClass('d-none');
-                    $('#place_order').removeClass('d-none');
-                }
-            }, 1000);
-
-            $("#showPayType").text();
-        });
-        //initiate payment
-        $('#place_order').click(function() {
-            var payAmt = $("#amountInput").val();
-            var bookingId = $("#modalBookingId").val();
-            $("#showPayType").text();
-            var payType;
-            var payID = makepayid(25);
-            var partPayStatus = 1;
-            var partPayCount;
-            let text = $("#showPayType").text(); // Example text
-            let numbers = text.match(/\d+/g); // Extracts all numbers
-
-            if (numbers) {
-                partPayCount = parseInt(numbers[0]); // Extracts 2
-                payType = parseInt(numbers[1]); // Extracts 3
-            }
-
-            var overallStatus;
-            //if 3 part pay type and 2 part is paid currently
-            if (payType == 3 && partPayCount == 2) {
-                overallStatus = 0;
-            } else {
-                overallStatus = 1;
-            }
-            var formdata = {
-
-                bookingId: bookingId,
-                payID: payID,
-                payAmt: payAmt,
-                payType: payType,
-                partPayStatus: partPayStatus,
-                partPayCount: partPayCount,
-                overallStatus: overallStatus
-            };
-
-            console.log("formdata");
-            console.log(formdata);
-            //pay pending amount
-            let data = JSON.stringify(formdata);
-            $.ajax({
-                type: "POST",
-                url: "orders/tour_paymet_action.php",
-                data: data,
-                contentType: "application/json", // Ensure the correct header
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(res) {
-                    console.log('res:' + res);
-                    if (res.toString() == "1") {
-                        console.log("success payment");
-
-                        alert('Payment is successful')
-                        location.reload();
-                    } else {
-                        alert("Payment failed");
-                    }
-                },
-                error: function(err) {
-                    console.log(err);
-                }
-            });
-
-            console.log("Place Order button clicked!");
-        });
-        //part payment logic end
-    </script>
-    <script type="text/javascript">
-        // console.log('test');
-        document.addEventListener('DOMContentLoaded', function() {
-
-
-            let classVal;
-            let eventCalenderEl = document.getElementById('eventCalender');
-            let bookingCardsContainer = document.getElementById('bookingCardData');
-
-            if (!eventCalenderEl || !bookingCardsContainer) {
-                console.error("❌ Error: Calendar or Booking Card Container Not Found!");
-                //return;
-            }
-
-            let calendarEl = document.createElement('div');
-            calendarEl.id = 'calendar';
-            eventCalenderEl.querySelector('.card').appendChild(calendarEl);
-
-            let calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                selectable: true,
-                navLinks: true,
-
-                // ✅ Calendar navigation buttons
-                headerToolbar: {
-                    right: 'prev,next today',
-                    center: 'title',
-                    left: 'dayGridMonth,timeGridWeek,timeGridDay'
-                },
-
-                // ✅ Handle date clicks
-                dateClick: function(info) {
-                    let selectedDate = info.dateStr;
-
-                    checkBookingsForDate(selectedDate).then(hasBookings => {
-                        // if (!hasBookings) return; // Do nothing if no bookings exist
-                        loadBookingsForDate(selectedDate);
-                        highlightSelectedDate(info.date);
-                    });
-                },
-
-                // ✅ Fetch events dynamically
-                events: function(fetchInfo, successCallback, failureCallback) {
-                    fetch('orders/fetch_events.php')
-                        .then(response => response.json())
-                        .then(data => {
-                            if (!data.bookings || !Array.isArray(data.bookings) || data.bookings.length === 0) {
-                                console.log("ℹ️ No bookings found, keeping calendar blank.");
-                                successCallback([]); // Send empty array to keep the calendar blank
-                                return;
-                            }
-
-                            // Convert bookings data to FullCalendar format
-                            let events = data.bookings.map(booking => ({
-                                // title: booking.package_name,
-                                title: "",
-                                start: booking.date,
-                                extendedProps: {
-                                    order_id: booking.order_id,
-                                    customer_name: booking.name,
-                                    status: booking.status
-                                }
-                            }));
-
-                            successCallback(events);
-                        })
-                        .catch(error => {
-                            console.error("❌ Failed to fetch events:", error);
-                            successCallback([]);
-                        });
-                },
-                eventDidMount: function(info) {
-                    info.el.style.display = "none"; // Hides event completely
-                },
-                // ✅ Render event titles correctly
-                eventContent: function(arg) {
-                    let eventEl = document.createElement('div');
-                    eventEl.innerHTML = arg.event.title;
-                    return {
-                        domNodes: [eventEl]
-                    };
-                },
-
-                // ✅ Fix Day Cell Content Handling
-                dayCellContent: function(arg) {
-                    let container = document.createElement('div');
-                    container.innerHTML = arg.dayNumberText;
-
-                    checkBookingsForDate(formatDateToIST(arg.date)).then(hasBookings => {
-                        if (hasBookings) {
-                            let dotEl = document.createElement('div');
-                            dotEl.style.width = '10px';
-                            dotEl.style.height = '10px';
-                            dotEl.style.backgroundColor = 'blue';
-                            dotEl.style.borderRadius = '50%';
-                            dotEl.style.position = 'absolute';
-                            dotEl.style.top = '7px';
-                            dotEl.style.right = '48px';
-                            container.appendChild(dotEl);
-                        }
-                    });
-
-                    return {
-                        domNodes: [container]
-                    };
-                }
-            });
-
-            calendar.render();
-
-            function loadBookingsForDate(date) {
-                console.log("🔍 Fetching bookings for:", date);
-                $.ajax({
-                    url: 'orders/fetch_events.php',
-                    method: 'GET',
-                    data: {
-                        selected_date: date,
-                        limit: 4
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.bookings && Array.isArray(response.bookings)) {
-                            updateBookingCards(response.bookings);
-                        } else {
-                            console.error("❌ Invalid data format:", response);
-                            bookingCardsContainer.innerHTML = '<p class="text-center text-danger">Error: Invalid data format</p>';
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("❌ AJAX Error:", error);
-                        console.log("❗ Server Response:", xhr.responseText);
-                    }
-                });
-            }
-
-            function updateBookingCards(bookings) {
-                bookingCardsContainer.innerHTML = '';
-
-                if (bookings.length === 0) {
-                    bookingCardsContainer.innerHTML = '<p class="text-center">No bookings for this date.</p>';
-                    return;
-                }
-
-                bookings.forEach(booking => {
-                    let statusBadge = getStatusBadge(booking);
-                    let message = booking.status == '3' ?
-                        `<p class="mb-0 cardText"><span class="fw-bold">${booking.name}</span> got a <span class="fw-bold">${statusBadge}</span> towards the package <span class="fw-bold">${booking.package_name}</span> with <span class="fw-bold">Booking ID: ${booking.order_id}</span></p>` :
-                        `<p class="mb-0 cardText"><span class="fw-bold">${booking.name}</span> has <span class="fw-bold">${statusBadge}</span> of the package for <span class="fw-bold">${booking.package_name}</span> with <span class="fw-bold">Booking ID: ${booking.order_id}</span></p>`;
-
-                    let card = `
-                <div class="card ${classVal} border border-primary-subtle rounded-4 p-2 mt-2 mb-0">
-                    <div class="d-flex justify-content-between mb-2">
-                        <span class="text-center fs-5 fw-bold cardText ms-3">${booking.package_name}</span>
-                        <span class="text-muted text-end m-0 pera bookingDate">${booking.date}</span>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 col-sm-3 col-3 d-flex align-items-center">
-                            <img src="<?= $home_url ?>${booking.package_image}" alt="" width="100" height="75" class="rounded-4 card-Img1">
-                        </div>
-                        <div class="col-md-9 col-sm-9 col-9">
+                        <div class="modal-body">
                             <div class="row">
-                                <div class="col-md-2 col-sm-2 col-2 d-flex align-items-center">
-                                    <img src="<?= $home_url ?>uploading/${booking.customer_profile_pic}" alt="" width="50px" height="50px" class="rounded-circle cardProPic">
+                                <div class="col-md-8 col-sm-8 col-12">
+                                    <input type="hidden" id="modalBookingId">
+                                    <p class="fw-bold text-muted fs-6">Amount to be Paid: <span class="fw-bolder" id="amountToBePaid" style="color: var(--pure-black);"></span>
+
+                                    </p>
+                                    <p class="fw-bold text-muted fs-6">Available TopUp Balance:
+                                        <span class="fw-bolder" style="color: var(--pure-black);" id="avalableBalance">
+                                            <?php
+                                            // Only for TA login
+                                            // Check if user exists
+                                            $stmt1 = $conn->prepare("SELECT * FROM `login` WHERE status = '1' AND `user_id` = ? AND `user_type_id` = '11'");
+                                            $stmt1->execute([$userId]);
+                                            // Fetch the latest available balance for the given ta_id
+                                            $stmt2 = $conn->prepare("SELECT available_balance FROM ta_top_up_utilisation WHERE ta_id = :ta_id ORDER BY id DESC LIMIT 1");
+                                            $stmt2->execute(array(':ta_id' => $userId));
+                                            $result3 = $stmt2->fetch(PDO::FETCH_ASSOC);
+                                            $available_bal = ($result3['available_balance'] ?? 0);
+                                            echo $available_bal
+                                            ?>
+                                        </span>
+                                        <i class="ri-refresh-line fs-5" style="color: red;"></i>
+                                        <span class="bg-danger-subtle text-danger py-1 px-2 mt-2 rounded-2 lowBal d-none" id="low_bal" style="color: red;">
+                                            Low Balance! Kindly TopUP
+                                        </span>
+                                    </p>
                                 </div>
-                                <div class="col-md-10 col-sm-10 col-10">
-                                    ${message}
+                                <div class="col-md-4 col-sm-4 col-12 text-end">
+                                    <a href="view_ta_topup.php" target="_blank">
+                                        <button type="button" class="btn text-dark-emphasis bg-dark-subtle border border-dark-subtle fw-bold">
+                                            <i class="ri-wallet-2-line" style="color: #615a5a;"></i>
+                                            Add TopUp
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                
+                                <div class="py-3" id="showamt">
+                                    <p class="fw-bolder fs-5 d-flex" style="color: var(--pure-black);">Amount:
+                                        <span><input class="form-control" type="text" id="amountInput" value="" aria-label="readonly input example" readonly></span>
+
+                                    </p>
+                                    <span class="fw-bold text-muted fs-6" id="showPayType"></span>
                                 </div>
                             </div>
                         </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="place_order">Pay</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                        </div>
                     </div>
                 </div>
-            `;
-                    bookingCardsContainer.innerHTML += card;
-                });
+            </div>
+            <!-- Payment Screen end -->
+            <!-- Refund Modal -->
+            <div class="modal fade" id="refundModal" tabindex="-1" aria-labelledby="refundModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content rounded-4">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="refundModalLabel">Initiate Refund</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <form id="refundForm" data-order-id="">
+                                <div class="mb-3">
+                                    <label class="form-label d-block">Is Refund Amount Applicable?</label>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input refund-applicable" type="radio" name="isRefundApplicable" id="refundYes" value="yes" checked>
+                                        <label class="form-check-label" for="refundYes">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input refund-applicable" type="radio" name="isRefundApplicable" id="refundNo" value="no">
+                                        <label class="form-check-label" for="refundNo">No</label>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3" id="refundAmountGroup">
+                                    <label for="refundAmount" class="form-label">Refund Amount</label>
+                                    <input type="number" class="form-control" id="refundAmount" placeholder="Enter amount">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="refundReason" class="form-label">Reason</label>
+                                    <textarea class="form-control" id="refundReason" rows="3" placeholder="Enter refund reason..."></textarea>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Submit Refund</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Cancel Message Modal -->
+            <div class="modal fade" id="cancelStatusModal" tabindex="-1" aria-labelledby="cancelStatusModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content rounded-4">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="cancelStatusModalLabel">Booking Canceled</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <p id="cancelMessage" class="text-secondary">Loading message...</p>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php include (__DIR__ .'/../contact_modal.php') ?>
+        </div>
+        <!-- END layout-wrapper -->
+        <!--start back-to-top-->
+        <button onclick="topFunction()" class="scrollToTop scroll-btn show btn" id="back-to-top">
+            <i class="mdi mdi-arrow-up"></i>
+        </button>
+        <!--end back-to-top-->
+        <!-- JAVASCRIPT -->
+        <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="../assets/libs/node-waves/waves.min.js"></script>
+        <script src="../assets/libs/feather-icons/feather.min.js"></script>
+        <script src="../assets/js/jquery/jquery-3.7.1.min.js"></script>
+        <!-- Required datatable js -->
+        <script src="../assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="../assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+
+        <!-- Responsive examples -->
+        <script src="../assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+    
+        <?php 
+            if ($userType == 10) {
+        ?>
+        <script src="../assets/js/pages/remix-icons-listing.js"></script>
+        <!-- Vector map-->
+        <script src="../assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+        <script src="../assets/libs/jsvectormap/maps/world-merc.js"></script>
+
+        <!--Swiper slider js-->
+        <script src="../assets/libs/swiper/swiper-bundle.min.js"></script>
+        <!-- App js -->
+        <script src="../assets/js/app.js"></script>
+        <?php
+            }
+        ?>
+        <!-- Calendar init -->
+        <script src="../assets/libs/fullcalendar/index.global.min.js"></script>
+        <!-- Date Range Picker Script Start -->
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <!-- Date Range Picker Script End -->
+
+        <!-- App js -->
+        <!-- <script src="../assets/js/app.js"></script> -->
+        <script>
+            var mybutton = document.getElementById("back-to-top");
+
+            function scrollFunction() {
+                100 < document.body.scrollTop || 100 < document.documentElement.scrollTop ? mybutton.style.display = "block" : mybutton.style.display = "none"
             }
 
-            function checkBookingsForDate(dateStr) {
-                return new Promise((resolve) => {
+            function topFunction() {
+                document.body.scrollTop = 0,
+                    document.documentElement.scrollTop = 0
+            }
+            mybutton && (window.onscroll = function() {
+                scrollFunction()
+            });
+        </script>
+        <script>
+            //show cancel message
+            $(document).on('click', '.show-cancel-msg', function() {
+                const bookingId = $(this).data('id');
+
+                // Clear previous message
+                $('#cancelMessage').text('Loading message...');
+
+                // Show the modal
+                const modal = new bootstrap.Modal(document.getElementById('cancelStatusModal'));
+                modal.show();
+
+                // Fetch cancellation message from server
+                $.ajax({
+                    url: 'orders/get_cancel_message.php',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        booking_id: bookingId
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            //$('#cancelMessage').text(response.message);
+                            // If your message includes new lines and you want formatting:
+                            console.log('res' + response.message);
+
+                            $('#cancelMessage').html(response.message.replace(/\n/g, '<br>'));
+                        } else {
+                            $('#cancelMessage').text('No message found.');
+                        }
+                    },
+                    error: function() {
+                        $('#cancelMessage').text('Failed to load message. Please try again.');
+                    }
+                });
+            });
+            // Show modal on click
+            $(document).on('click', '#refundAction', function(e) {
+                e.preventDefault();
+                const orderId = $(this).data('order-id');
+                console.log('Clicked Refund - Order ID:', orderId); // 🔍 Log here
+
+                $('#refundForm').attr('data-order-id', orderId); // ✅ camelCase
+                $('#refundModal').modal('show');
+            });
+
+            // Toggle refund amount field based on radio
+            $(document).on('change', 'input[name="isRefundApplicable"]', function() {
+                if ($(this).val() === 'yes') {
+                    $('#refundAmountGroup').show();
+                } else {
+                    $('#refundAmountGroup').hide();
+                }
+            });
+
+            // Initially set refund amount visibility
+            $(document).ready(function() {
+                $('input[name="isRefundApplicable"]:checked').trigger('change');
+            });
+
+            // Handle refund submission
+            $('#refundForm').on('submit', function(e) {
+                e.preventDefault();
+
+                const orderId = $(this).attr('data-order-id');
+                const isRefundApplicable = $('input[name="isRefundApplicable"]:checked').val();
+                const amount = $('#refundAmount').val().trim();
+                const reason = $('#refundReason').val().trim();
+
+                // 🛑 Validation
+                if (isRefundApplicable === 'yes') {
+                    if (!amount || isNaN(amount) || parseFloat(amount) <= 0) {
+                        alert('Please enter a valid refund amount.');
+                        $('#refundAmount').focus();
+                        return;
+                    }
+
+                    if (!reason) {
+                        alert('Please enter a reason for the refund.');
+                        $('#refundReason').focus();
+                        return;
+                    }
+                } else {
+                    if (!reason) {
+                        alert('Please enter a reason for the refund.');
+                        $('#refundReason').focus();
+                        return;
+                    }
+                }
+
+                console.log('Order ID:', orderId);
+                console.log('Is Refund Applicable:', isRefundApplicable);
+                console.log('Refund Amount:', isRefundApplicable === 'yes' ? amount : 0);
+                console.log('Reason:', reason);
+
+                // Submit the form via AJAX
+                $.post('orders/submit_refund.php', {
+                    order_id: orderId,
+                    is_refund_applicable: isRefundApplicable,
+                    amount: isRefundApplicable === 'yes' ? amount : 0,
+                    reason: reason
+                }, function(response) {
+                    alert('Refund submitted!');
+                    $('#refundModal').modal('hide');
+                    $('#refundForm')[0].reset(); // Optional: reset form
+                    $('#refundAmountGroup').hide(); // Hide amount after reset
+                }).fail(function() {
+                    alert('Error submitting refund.');
+                });
+            });
+
+
+
+            function showOrderDetails(id) {
+                window.location.href = 'order_details.php?vkvbvjfgfikix=' + id;
+            }
+
+            function downloadInvoice(id) {
+                window.location.href = 'orders/download_invoice?vkvbvjfgfikix=' + id;
+            }
+            //to reload data tables
+            // Select the target element
+            let targetNode = document.getElementById("selectedDate");
+
+            // Create a MutationObserver instance
+            let observer = new MutationObserver(function(mutationsList) {
+                for (let mutation of mutationsList) {
+                    if (mutation.type === "childList") {
+                        let selectedDate = $("#selectedDate").text().trim(); // Get selected date
+                        if (selectedDate) {
+                            reloadTable(selectedDate); // Call function to reload table
+                        }
+                    }
+                }
+            });
+
+            // Start observing changes in the target element
+            observer.observe(targetNode, {
+                childList: true
+            });
+
+            function reloadTable(selectedDate) {
+                //console.log('selectedDate:'+selectedDate);
+                // Get currently active tab ID (e.g., "#bookedHistory")
+                let activeTabId = $(".tabslist.active").attr("id");
+                console.log('active table:' + activeTabId);
+
+                $.ajax({
+                    url: "orders/fetch_bookings.php", // Create a PHP script to fetch filtered data
+                    type: "POST",
+                    data: {
+                        date: selectedDate
+                    },
+                    success: function(response) {
+                        $("#tableList").html("");
+                        $("#tableList").html(response); // Update table body
+
+
+                        // After inserting, re-activate the previous tab
+                        $(".tabslist").removeClass("show active");
+                        $("#" + activeTabId).addClass("show active");
+
+                        // Also restore active class on the tab button
+                        $(".nav-link").removeClass("active");
+                        $('a[href="#' + activeTabId + '"]').addClass("active");
+                    },
+                    error: function() {
+                        alert("Failed to load data. Please try again.");
+                    }
+                });
+            }
+            //part payment logic
+            //payment id generation
+            function makepayid(length) {
+                var result = 'Paid_';
+                const timestamp = Date.now();
+                var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                var charactersLength = characters.length;
+                result += timestamp;
+                for (var i = 0; i < length; i++) {
+                    result += characters.charAt(Math.floor(Math.random() *
+                        charactersLength));
+                }
+                return result;
+            }
+            //load part-pay modal
+            $("#paymentModal").on('show.bs.modal', function(event) {
+                // Part Payment Modal Start
+                const fullRadio = document.getElementById('inlineRadio1');
+                const partRadio = document.getElementById('inlineRadio2');
+                const payTypeSelect = document.getElementById('payTypeSelect');
+                const amountInput = document.getElementById('amountInput');
+                const divToToggle = document.getElementById('toggleDiv');
+                // Fetch the total amount dynamically from the "Amount to be Paid" section
+                const amountToBePaidElement = document.getElementById('amountToBePaid');
+        
+
+                var button = $(event.relatedTarget);
+                var paidfill = button.data("booking-fill");
+                var bookingId = button.data("booking-id"); // Get the booking ID from the clicked button
+                $("#modalBookingId").val(bookingId);
+                var pending_amt = button.data("pending-amt");
+                var remaining_amt = button.data("remaining-amt")
+                $("#amountToBePaid").text(remaining_amt);
+                $("#amountInput").val(pending_amt);
+                var paytype = button.data("booking-paytype");
+                var fullamt = button.data("booking-fullamt");
+                var partamt;
+
+                if (paytype == 3) {
+                    if (paidfill == 40) {
+                        $("#showPayType").text("2/3 part payment");
+                        partamt = fullamt * 0.3;
+                    }
+                    if (paidfill == 70) {
+                        $("#showPayType").text("3/3 part payment");
+                        partamt = fullamt * 0.3;
+                    }
+                } else {
+                    if (paidfill == 50) {
+                        $("#showPayType").text("2/2 part payment");
+                        partamt = fullamt / 2;
+                    }
+                }
+                var ta_bal;
+                setTimeout(function() {
+                    ta_bal = $("#avalableBalance").text();
+                    ta_bal = parseFloat(ta_bal);
+                    console.log('pending_amt:' + partamt + ' ta_bal:' + ta_bal);
+
+                    if (ta_bal < partamt) {
+                        $("#low_bal").removeClass('d-none');
+                        $("#low_bal").addClass('d-block');
+                        $('#showamt').addClass('d-none');
+                        $('#place_order').addClass('d-none');
+                    } else {
+                        $("#low_bal").removeClass('d-block');
+                        $("#low_bal").addClass('d-none');
+                        $('#showamt').removeClass('d-none');
+                        $('#place_order').removeClass('d-none');
+                    }
+                }, 1000);
+
+                $("#showPayType").text();
+            });
+            //initiate payment
+            $('#place_order').click(function() {
+                var payAmt = $("#amountInput").val();
+                var bookingId = $("#modalBookingId").val();
+                $("#showPayType").text();
+                var payType;
+                var payID = makepayid(25);
+                var partPayStatus = 1;
+                var partPayCount;
+                let text = $("#showPayType").text(); // Example text
+                let numbers = text.match(/\d+/g); // Extracts all numbers
+
+                if (numbers) {
+                    partPayCount = parseInt(numbers[0]); // Extracts 2
+                    payType = parseInt(numbers[1]); // Extracts 3
+                }
+
+                var overallStatus;
+                //if 3 part pay type and 2 part is paid currently
+                if (payType == 3 && partPayCount == 2) {
+                    overallStatus = 0;
+                } else {
+                    overallStatus = 1;
+                }
+                var formdata = {
+
+                    bookingId: bookingId,
+                    payID: payID,
+                    payAmt: payAmt,
+                    payType: payType,
+                    partPayStatus: partPayStatus,
+                    partPayCount: partPayCount,
+                    overallStatus: overallStatus
+                };
+
+                console.log("formdata");
+                console.log(formdata);
+                //pay pending amount
+                let data = JSON.stringify(formdata);
+                $.ajax({
+                    type: "POST",
+                    url: "orders/tour_paymet_action.php",
+                    data: data,
+                    contentType: "application/json", // Ensure the correct header
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(res) {
+                        console.log('res:' + res);
+                        if (res.toString() == "1") {
+                            console.log("success payment");
+
+                            alert('Payment is successful')
+                            location.reload();
+                        } else {
+                            alert("Payment failed");
+                        }
+                    },
+                    error: function(err) {
+                        console.log(err);
+                    }
+                });
+
+                console.log("Place Order button clicked!");
+            });
+            //part payment logic end
+        </script>
+        <script type="text/javascript">
+            // console.log('test');
+            document.addEventListener('DOMContentLoaded', function() {
+
+
+                let classVal;
+                let eventCalenderEl = document.getElementById('eventCalender');
+                let bookingCardsContainer = document.getElementById('bookingCardData');
+
+                if (!eventCalenderEl || !bookingCardsContainer) {
+                    console.error("❌ Error: Calendar or Booking Card Container Not Found!");
+                    //return;
+                }
+
+                let calendarEl = document.createElement('div');
+                calendarEl.id = 'calendar';
+                eventCalenderEl.querySelector('.card').appendChild(calendarEl);
+
+                let calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    selectable: true,
+                    navLinks: true,
+
+                    // ✅ Calendar navigation buttons
+                    headerToolbar: {
+                        right: 'prev,next today',
+                        center: 'title',
+                        left: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    },
+
+                    // ✅ Handle date clicks
+                    dateClick: function(info) {
+                        let selectedDate = info.dateStr;
+
+                        checkBookingsForDate(selectedDate).then(hasBookings => {
+                            // if (!hasBookings) return; // Do nothing if no bookings exist
+                            loadBookingsForDate(selectedDate);
+                            highlightSelectedDate(info.date);
+                        });
+                    },
+
+                    // ✅ Fetch events dynamically
+                    events: function(fetchInfo, successCallback, failureCallback) {
+                        fetch('orders/fetch_events.php')
+                            .then(response => response.json())
+                            .then(data => {
+                                if (!data.bookings || !Array.isArray(data.bookings) || data.bookings.length === 0) {
+                                    console.log("ℹ️ No bookings found, keeping calendar blank.");
+                                    successCallback([]); // Send empty array to keep the calendar blank
+                                    return;
+                                }
+
+                                // Convert bookings data to FullCalendar format
+                                let events = data.bookings.map(booking => ({
+                                    // title: booking.package_name,
+                                    title: "",
+                                    start: booking.date,
+                                    extendedProps: {
+                                        order_id: booking.order_id,
+                                        customer_name: booking.name,
+                                        status: booking.status
+                                    }
+                                }));
+
+                                successCallback(events);
+                            })
+                            .catch(error => {
+                                console.error("❌ Failed to fetch events:", error);
+                                successCallback([]);
+                            });
+                    },
+                    eventDidMount: function(info) {
+                        info.el.style.display = "none"; // Hides event completely
+                    },
+                    // ✅ Render event titles correctly
+                    eventContent: function(arg) {
+                        let eventEl = document.createElement('div');
+                        eventEl.innerHTML = arg.event.title;
+                        return {
+                            domNodes: [eventEl]
+                        };
+                    },
+
+                    // ✅ Fix Day Cell Content Handling
+                    dayCellContent: function(arg) {
+                        let container = document.createElement('div');
+                        container.innerHTML = arg.dayNumberText;
+
+                        checkBookingsForDate(formatDateToIST(arg.date)).then(hasBookings => {
+                            if (hasBookings) {
+                                let dotEl = document.createElement('div');
+                                dotEl.style.width = '10px';
+                                dotEl.style.height = '10px';
+                                dotEl.style.backgroundColor = 'blue';
+                                dotEl.style.borderRadius = '50%';
+                                dotEl.style.position = 'absolute';
+                                dotEl.style.top = '7px';
+                                dotEl.style.right = '48px';
+                                container.appendChild(dotEl);
+                            }
+                        });
+
+                        return {
+                            domNodes: [container]
+                        };
+                    }
+                });
+
+                calendar.render();
+
+                function loadBookingsForDate(date) {
+                    console.log("🔍 Fetching bookings for:", date);
                     $.ajax({
                         url: 'orders/fetch_events.php',
                         method: 'GET',
                         data: {
-                            selected_date: dateStr
+                            selected_date: date,
+                            limit: 4
                         },
                         dataType: 'json',
                         success: function(response) {
-                            resolve(response.bookings && response.bookings.length > 0);
+                            if (response.bookings && Array.isArray(response.bookings)) {
+                                updateBookingCards(response.bookings);
+                            } else {
+                                console.error("❌ Invalid data format:", response);
+                                bookingCardsContainer.innerHTML = '<p class="text-center text-danger">Error: Invalid data format</p>';
+                            }
                         },
                         error: function(xhr, status, error) {
-                            console.error("❌ Error fetching bookings for the date:", error);
-                            resolve(false);
+                            console.error("❌ AJAX Error:", error);
+                            console.log("❗ Server Response:", xhr.responseText);
                         }
                     });
-                });
-            }
-
-            function highlightSelectedDate(date) {
-                // Convert selected date to IST
-                let istDateStr = formatDateToIST(date);
-
-                // Remove previous highlight
-                document.querySelectorAll('.selected-date').forEach(el => {
-                    el.classList.remove('selected-date');
-                    el.style.backgroundColor = ''; // Reset background
-                });
-
-                // Highlight the clicked date in IST
-                let selectedDateCell = document.querySelector(`[data-date="${istDateStr}"]`);
-                if (selectedDateCell) {
-                    selectedDateCell.classList.add('selected-date');
-                    selectedDateCell.style.backgroundColor = '#dfeaff'; // Light blue highlight
-                }
-            }
-
-            function formatDateToIST(date) {
-                let istOffset = 5.5 * 60 * 60 * 1000; // Convert 5.5 hours to milliseconds
-                let local = new Date(date.getTime() + istOffset);
-                return local.toISOString().split('T')[0];
-            }
-
-            function getStatusBadge(booking) {
-                let startDate = new Date(booking.date);
-                let tourDays = booking.tour_days ? parseInt(booking.tour_days) : 0;
-                let endDate = new Date(startDate);
-                endDate.setDate(endDate.getDate() + tourDays);
-                let confirmBooking = booking.confirm_status;
-                let today = new Date();
-                today.setHours(0, 0, 0, 0);
-                startDate.setHours(0, 0, 0, 0);
-                endDate.setHours(0, 0, 0, 0);
-                // Cancelled
-                if (booking.status == '2') {
-                    classVal = 'text-danger-emphasis bg-danger-subtle border border-danger-subtle';
-                    return `<span class="text-danger-emphasis">Canceled Booking</span>`;
                 }
 
-                // Refunded
-                else if (booking.status == '3') {
-                    classVal = 'text-secondary-emphasis bg-secondary-subtle border border-secondary-subtle';
-                    return `<span class="text-secondary-emphasis">Refunded Booking</span>`;
+                function updateBookingCards(bookings) {
+                    bookingCardsContainer.innerHTML = '';
+
+                    if (bookings.length === 0) {
+                        bookingCardsContainer.innerHTML = '<p class="text-center">No bookings for this date.</p>';
+                        return;
+                    }
+
+                    bookings.forEach(booking => {
+                        let statusBadge = getStatusBadge(booking);
+                        let message = booking.status == '3' ?
+                            `<p class="mb-0 cardText"><span class="fw-bold">${booking.name}</span> got a <span class="fw-bold">${statusBadge}</span> towards the package <span class="fw-bold">${booking.package_name}</span> with <span class="fw-bold">Booking ID: ${booking.order_id}</span></p>` :
+                            `<p class="mb-0 cardText"><span class="fw-bold">${booking.name}</span> has <span class="fw-bold">${statusBadge}</span> of the package for <span class="fw-bold">${booking.package_name}</span> with <span class="fw-bold">Booking ID: ${booking.order_id}</span></p>`;
+
+                        let card = `
+                    <div class="card ${classVal} border border-primary-subtle rounded-4 p-2 mt-2 mb-0">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-center fs-5 fw-bold cardText ms-3">${booking.package_name}</span>
+                            <span class="text-muted text-end m-0 pera bookingDate">${booking.date}</span>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-sm-3 col-3 d-flex align-items-center">
+                                <img src="<?= $home_url ?>${booking.package_image}" alt="" width="100" height="75" class="rounded-4 card-Img1">
+                            </div>
+                            <div class="col-md-9 col-sm-9 col-9">
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-2 col-2 d-flex align-items-center">
+                                        <img src="<?= $home_url ?>uploading/${booking.customer_profile_pic}" alt="" width="50px" height="50px" class="rounded-circle cardProPic">
+                                    </div>
+                                    <div class="col-md-10 col-sm-10 col-10">
+                                        ${message}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                        bookingCardsContainer.innerHTML += card;
+                    });
                 }
 
-                // Pending (not confirmed)
-                else if (confirmBooking == '0') {
-                    classVal = 'text-warning-emphasis bg-warning-subtle border border-warning-subtle';
-                    return `<span class="text-warning-emphasis">Pending Booking</span>`;
+                function checkBookingsForDate(dateStr) {
+                    return new Promise((resolve) => {
+                        $.ajax({
+                            url: 'orders/fetch_events.php',
+                            method: 'GET',
+                            data: {
+                                selected_date: dateStr
+                            },
+                            dataType: 'json',
+                            success: function(response) {
+                                resolve(response.bookings && response.bookings.length > 0);
+                            },
+                            error: function(xhr, status, error) {
+                                console.error("❌ Error fetching bookings for the date:", error);
+                                resolve(false);
+                            }
+                        });
+                    });
                 }
 
-                // Completed
-                else if (confirmBooking == '1' && today > endDate) {
-                    classVal = 'text-success-emphasis bg-success-subtle border border-success-subtle';
-                    return `<span class="text-success-emphasis">Completed</span>`;
+                function highlightSelectedDate(date) {
+                    // Convert selected date to IST
+                    let istDateStr = formatDateToIST(date);
+
+                    // Remove previous highlight
+                    document.querySelectorAll('.selected-date').forEach(el => {
+                        el.classList.remove('selected-date');
+                        el.style.backgroundColor = ''; // Reset background
+                    });
+
+                    // Highlight the clicked date in IST
+                    let selectedDateCell = document.querySelector(`[data-date="${istDateStr}"]`);
+                    if (selectedDateCell) {
+                        selectedDateCell.classList.add('selected-date');
+                        selectedDateCell.style.backgroundColor = '#dfeaff'; // Light blue highlight
+                    }
                 }
 
-                // In-Transit
-                else if (confirmBooking == '1' && today >= startDate && today <= endDate) {
-                    classVal = 'text-info-emphasis bg-info-subtle border border-info-subtle';
-                    return `<span class="text-info-emphasis">In-Transit Booking</span>`;
+                function formatDateToIST(date) {
+                    let istOffset = 5.5 * 60 * 60 * 1000; // Convert 5.5 hours to milliseconds
+                    let local = new Date(date.getTime() + istOffset);
+                    return local.toISOString().split('T')[0];
                 }
 
-                // Confirmed (default confirmed)
-                else if (confirmBooking == '1') {
-                    classVal = 'text-success-emphasis bg-success-subtle border border-success-subtle';
-                    return `<span class="text-success-emphasis">Confirmed Booking</span>`;
+                function getStatusBadge(booking) {
+                    let startDate = new Date(booking.date);
+                    let tourDays = booking.tour_days ? parseInt(booking.tour_days) : 0;
+                    let endDate = new Date(startDate);
+                    endDate.setDate(endDate.getDate() + tourDays);
+                    let confirmBooking = booking.confirm_status;
+                    let today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    startDate.setHours(0, 0, 0, 0);
+                    endDate.setHours(0, 0, 0, 0);
+                    // Cancelled
+                    if (booking.status == '2') {
+                        classVal = 'text-danger-emphasis bg-danger-subtle border border-danger-subtle';
+                        return `<span class="text-danger-emphasis">Canceled Booking</span>`;
+                    }
+
+                    // Refunded
+                    else if (booking.status == '3') {
+                        classVal = 'text-secondary-emphasis bg-secondary-subtle border border-secondary-subtle';
+                        return `<span class="text-secondary-emphasis">Refunded Booking</span>`;
+                    }
+
+                    // Pending (not confirmed)
+                    else if (confirmBooking == '0') {
+                        classVal = 'text-warning-emphasis bg-warning-subtle border border-warning-subtle';
+                        return `<span class="text-warning-emphasis">Pending Booking</span>`;
+                    }
+
+                    // Completed
+                    else if (confirmBooking == '1' && today > endDate) {
+                        classVal = 'text-success-emphasis bg-success-subtle border border-success-subtle';
+                        return `<span class="text-success-emphasis">Completed</span>`;
+                    }
+
+                    // In-Transit
+                    else if (confirmBooking == '1' && today >= startDate && today <= endDate) {
+                        classVal = 'text-info-emphasis bg-info-subtle border border-info-subtle';
+                        return `<span class="text-info-emphasis">In-Transit Booking</span>`;
+                    }
+
+                    // Confirmed (default confirmed)
+                    else if (confirmBooking == '1') {
+                        classVal = 'text-success-emphasis bg-success-subtle border border-success-subtle';
+                        return `<span class="text-success-emphasis">Confirmed Booking</span>`;
+                    }
+
+                    // Fallback
+                    else {
+                        classVal = 'text-primary-emphasis bg-primary-subtle border border-primary-subtle';
+                        return `<span class="text-primary-emphasis">Booking</span>`;
+                    }
+
                 }
 
-                // Fallback
-                else {
-                    classVal = 'text-primary-emphasis bg-primary-subtle border border-primary-subtle';
-                    return `<span class="text-primary-emphasis">Booking</span>`;
+                // ✅ IST Date Conversion Function
+                function formatDateToIST(date) {
+                    let istOffset = 5.5 * 60 * 60 * 1000; // Convert 5.5 hours to milliseconds
+                    let local = new Date(date.getTime() + istOffset);
+                    return local.toISOString().split('T')[0];
                 }
 
-            }
+                loadBookingsForDate(null);
+            });
+        </script>
+        <!-- Date Range Script -->
+        <script type="text/javascript">
+            $(function() {
 
-            // ✅ IST Date Conversion Function
-            function formatDateToIST(date) {
-                let istOffset = 5.5 * 60 * 60 * 1000; // Convert 5.5 hours to milliseconds
-                let local = new Date(date.getTime() + istOffset);
-                return local.toISOString().split('T')[0];
-            }
+                // var start = moment().subtract(29, 'days');
+                // var end = moment();
+                var start = moment("<?= $mindate ?>", "YYYY-MM-DD");
+                var end = moment("<?= $maxdate ?>", "YYYY-MM-DD");
 
-            loadBookingsForDate(null);
-        });
-    </script>
-    <!-- Date Range Script -->
-    <script type="text/javascript">
-        $(function() {
-
-            // var start = moment().subtract(29, 'days');
-            // var end = moment();
-            var start = moment("<?= $mindate ?>", "YYYY-MM-DD");
-            var end = moment("<?= $maxdate ?>", "YYYY-MM-DD");
-
-            function cb(start, end) {
-                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-            }
-
-            $('#reportrange').daterangepicker({
-                startDate: start,
-                endDate: end,
-                ranges: {
-                    'Today': [moment(), moment()],
-                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                    'This Month': [moment().startOf('month'), moment().endOf('month')],
-                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                function cb(start, end) {
+                    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
                 }
-            }, cb);
 
-            cb(start, end);
+                $('#reportrange').daterangepicker({
+                    startDate: start,
+                    endDate: end,
+                    ranges: {
+                        'Today': [moment(), moment()],
+                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    }
+                }, cb);
 
-        });
-    </script>
-    <!-- Date Range Script -->
-    <!-- dialer logic scripts -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
+                cb(start, end);
 
-            const callBtn = document.getElementById("callBtn");
+            });
+        </script>
+        <!-- Date Range Script -->
+        <!-- dialer logic scripts -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
 
-            if (callBtn) {
-                callBtn.addEventListener("click", function(e) {
+                const callBtn = document.getElementById("callBtn");
 
-                    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                if (callBtn) {
+                    callBtn.addEventListener("click", function(e) {
 
-                    if (!isMobile) {
-                        e.preventDefault();
+                        let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-                        alert("📞 Calling works only on mobile devices.\nPlease dial 8010892265 from your phone.");
-                        location.reload();
+                        if (!isMobile) {
+                            e.preventDefault();
 
-                        // Optional clipboard copy (safe fallback)
-                        if (navigator.clipboard) {
-                            navigator.clipboard.writeText("8010892265");
+                            alert("📞 Calling works only on mobile devices.\nPlease dial 8010892265 from your phone.");
+                            location.reload();
+
+                            // Optional clipboard copy (safe fallback)
+                            if (navigator.clipboard) {
+                                navigator.clipboard.writeText("8010892265");
+                            }
                         }
+                    });
+                }
+
+            });
+        </script>
+
+        <script>
+            var modal = document.getElementById('staticBackdrop');
+
+            // Store the element that opened the modal
+            let lastFocusedElement;
+
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('[data-bs-toggle="modal"]')) {
+                    lastFocusedElement = e.target;
+                }
+            });
+
+            modal.addEventListener('hidden.bs.modal', function () {
+                if (lastFocusedElement) {
+                    lastFocusedElement.focus();
+                } else {
+                    document.body.focus();
+                }
+            });
+        </script>
+        <!-- end dialer logic scripts -->
+        <!-- Sidebar Start -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const sidebar = document.querySelector(".navbar-menu");
+                const hamburger = document.getElementById("topnav-hamburger-icon");
+                const hamburgerIcon = document.querySelector(".hamburger-icon");
+                const overlay = document.querySelector(".vertical-overlay");
+
+                if (window.innerWidth > 1024) {
+                    sidebar.classList.remove("sidebar-hidden");
+                }
+
+                hamburger.addEventListener("click", function () {
+
+                    if (window.innerWidth <= 1024) {
+
+                        /* BELOW 767 - YOUR ORIGINAL WORKING LOGIC */
+                        if (window.innerWidth <= 767) {
+
+                            sidebar.classList.toggle("sidebar-mobile-show");
+                            hamburgerIcon.classList.toggle("open");
+
+                            if (overlay) {
+                                overlay.classList.toggle("active");
+                            }
+                        }
+
+                        /* 768px TO 1024px */
+                        else {
+
+                            if (!sidebar.classList.contains("sidebar-mobile-show")) {
+
+                                sidebar.classList.add("sidebar-mobile-show");
+
+                                if (overlay) {
+                                    overlay.classList.add("active");
+                                }
+
+                                /* SHOW 3 LINES */
+                                hamburgerIcon.classList.add("open");
+
+                            } else {
+
+                                sidebar.classList.remove("sidebar-mobile-show");
+
+                                if (overlay) {
+                                    overlay.classList.remove("active");
+                                }
+
+                                /* SHOW ARROW */
+                                hamburgerIcon.classList.remove("open");
+                            }
+                        }
+
+                    } else {
+
+                        /* DESKTOP */
+                        sidebar.classList.toggle("sidebar-hidden");
                     }
                 });
-            }
 
-        });
-    </script>
+                if (overlay) {
 
-    <script>
-        var modal = document.getElementById('staticBackdrop');
+                    overlay.addEventListener("click", function () {
 
-        // Store the element that opened the modal
-        let lastFocusedElement;
+                        sidebar.classList.remove("sidebar-mobile-show");
+                        overlay.classList.remove("active");
+                        hamburgerIcon.classList.remove("open");
 
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('[data-bs-toggle="modal"]')) {
-                lastFocusedElement = e.target;
-            }
-        });
+                    });
+                }
 
-        modal.addEventListener('hidden.bs.modal', function () {
-            if (lastFocusedElement) {
-                lastFocusedElement.focus();
-            } else {
-                document.body.focus();
-            }
-        });
-    </script>
-    <!-- end dialer logic scripts -->
-</body>
-
+            });
+        </script>
+        <!-- Sidebar End -->
+    </body>
 </html>
