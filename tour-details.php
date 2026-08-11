@@ -308,6 +308,17 @@ if ($showGuestPrice) {
             $childPrice / (1 + ($percentage / 100));
     }
 }
+$stmt = $conn->prepare("
+    SELECT image
+    FROM package_pictures
+    WHERE package_id = ?
+    AND type = 'video'
+    ORDER BY id ASC
+");
+
+$stmt->execute([$id]);
+
+$packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
 ?>
 
 <!DOCTYPE html>
@@ -385,6 +396,184 @@ if ($showGuestPrice) {
         <!-- Swiper -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <style>
+            .floating-video-button {
+                position: fixed;
+                right: 25px;
+                bottom: 25px;
+
+                z-index: 9999;
+
+                display: flex;
+                align-items: center;
+                gap: 10px;
+
+                padding: 12px 18px;
+
+                background: #000;
+                color: #fff;
+
+                border-radius: 50px;
+
+                cursor: pointer;
+
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+
+                transition: 0.3s;
+            }
+
+            .floating-video-button:hover {
+                transform: translateY(-3px);
+            }
+
+            .floating-video-button small {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                width: 22px;
+                height: 22px;
+
+                border-radius: 50%;
+
+                background: #fff;
+                color: #000;
+
+                font-size: 11px;
+            }
+
+
+            .floating-video-modal {
+                display: none;
+
+                position: fixed;
+                inset: 0;
+
+                z-index: 10000;
+            }
+
+
+            .floating-video-overlay {
+                position: absolute;
+                inset: 0;
+
+                background: rgba(0, 0, 0, 0.8);
+            }
+
+
+            .floating-video-container {
+                position: absolute;
+
+                top: 50%;
+                left: 50%;
+
+                transform: translate(-50%, -50%);
+
+                width: min(900px, 90vw);
+
+                background: #000;
+
+                border-radius: 12px;
+
+                overflow: hidden;
+
+                box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+            }
+
+
+            #floatingVideoPlayer {
+                display: block;
+
+                width: 100%;
+
+                max-height: 75vh;
+
+                background: #000;
+            }
+
+
+            .floating-video-close {
+                position: absolute;
+
+                top: 12px;
+                right: 12px;
+
+                z-index: 5;
+
+                width: 40px;
+                height: 40px;
+
+                border: none;
+
+                border-radius: 50%;
+
+                background: rgba(0, 0, 0, 0.7);
+
+                color: #fff;
+
+                cursor: pointer;
+            }
+
+
+            .floating-video-controls {
+                display: flex;
+
+                align-items: center;
+                justify-content: space-between;
+
+                padding: 12px 15px;
+
+                background: #111;
+
+                color: #fff;
+            }
+
+
+            .floating-video-controls button {
+                border: none;
+
+                background: transparent;
+
+                color: #fff;
+
+                cursor: pointer;
+
+                padding: 8px 12px;
+            }
+
+
+            .floating-video-controls button:disabled {
+                opacity: 0.4;
+
+                cursor: not-allowed;
+            }
+
+
+            #videoCounter {
+                font-size: 14px;
+            }
+
+
+            @media (max-width: 576px) {
+
+                .floating-video-button {
+                    right: 15px;
+                    bottom: 15px;
+
+                    padding: 10px 14px;
+                }
+
+                .floating-video-container {
+                    width: 95vw;
+                }
+
+                .floating-video-controls button {
+                    font-size: 12px;
+                    padding: 6px;
+                }
+
+            }
+        </style>
     </head>
     
     <body>
@@ -434,7 +623,7 @@ if ($showGuestPrice) {
                             <?php
                                 $galleryImages = [];
 
-                                $galleryData = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = ?");
+                                $galleryData = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = ? AND type IN('gallery_image','cover_image')");
                                 $galleryData->execute([$id]);
 
                                 if ($galleryData->rowCount() > 0) {
@@ -1270,7 +1459,58 @@ if ($showGuestPrice) {
             </section>
             <!--/ End-of Destination -->
         </main>
-        
+        <?php if (!empty($packageVideos)): ?>
+
+            <div id="floatingVideoButton" class="floating-video-button">
+                <i class="ri-play-line"></i>
+                <span>Watch Videos</span>
+                <small><?= count($packageVideos) ?></small>
+            </div>
+
+            <div id="floatingVideoModal" class="floating-video-modal">
+
+                <div class="floating-video-overlay"></div>
+
+                <div class="floating-video-container">
+
+                    <button
+                        type="button"
+                        id="closeFloatingVideo"
+                        class="floating-video-close">
+                        <i class="ri-close-fill"></i>
+                    </button>
+
+                    <video
+                        id="floatingVideoPlayer"
+                        controls
+                        playsinline>
+                    </video>
+
+                    <div class="floating-video-controls">
+
+                        <button
+                            type="button"
+                            id="previousVideo">
+                            <i class="ri-skip-back-line"></i>
+                            Previous
+                        </button>
+
+                        <span id="videoCounter"></span>
+
+                        <button
+                            type="button"
+                            id="nextVideo">
+                            Next
+                            <i class="ri-skip-forward-line"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        <?php endif; ?>
         <!-- share model 30-07-2026 start-->
         <div class="overlay" id="shareModal">
             <div class="shareBox">
@@ -3339,6 +3579,143 @@ if ($showGuestPrice) {
                     $(this).text("View More");
 
                 }
+
+            });
+        </script>
+        <script>
+            const videoBasePath = "uploading/package_videos/";
+            const packageVideos = <?= json_encode($packageVideos ?? []) ?>;
+            let currentVideoIndex = 0;
+
+            $(document).ready(function () {
+
+                if (!packageVideos || packageVideos.length === 0) {
+                    return;
+                }
+
+
+                function loadFloatingVideo(index) {
+
+                    if (index < 0) {
+                        index = packageVideos.length - 1;
+                    }
+
+                    if (index >= packageVideos.length) {
+                        index = 0;
+                    }
+
+                    currentVideoIndex = index;
+
+                    const videoFile = packageVideos[currentVideoIndex];
+
+                    const videoUrl =
+                        videoBasePath + videoFile;
+
+                    const player =
+                        $("#floatingVideoPlayer")[0];
+
+                    player.pause();
+
+                    player.src = videoUrl;
+
+                    player.load();
+
+                    $("#videoCounter").text(
+                        `${currentVideoIndex + 1} / ${packageVideos.length}`
+                    );
+
+                    $("#previousVideo").prop(
+                        "disabled",
+                        packageVideos.length <= 1
+                    );
+
+                    $("#nextVideo").prop(
+                        "disabled",
+                        packageVideos.length <= 1
+                    );
+
+                    player.play().catch(function () {
+                        // Browser autoplay restriction
+                    });
+                }
+
+
+                // Open floating videos
+
+                $("#floatingVideoButton").on("click", function () {
+
+                    currentVideoIndex = 0;
+
+                    $("#floatingVideoModal").fadeIn(200);
+
+                    loadFloatingVideo(currentVideoIndex);
+
+                });
+
+
+                // Previous
+
+                $("#previousVideo").on("click", function () {
+
+                    loadFloatingVideo(
+                        currentVideoIndex - 1
+                    );
+
+                });
+
+
+                // Next
+
+                $("#nextVideo").on("click", function () {
+
+                    loadFloatingVideo(
+                        currentVideoIndex + 1
+                    );
+
+                });
+
+
+                // Close
+
+                function closeFloatingVideo() {
+
+                    const player =
+                        $("#floatingVideoPlayer")[0];
+
+                    player.pause();
+
+                    player.removeAttribute("src");
+
+                    player.load();
+
+                    $("#floatingVideoModal").fadeOut(200);
+
+                }
+
+
+                $("#closeFloatingVideo").on(
+                    "click",
+                    closeFloatingVideo
+                );
+
+
+                $(".floating-video-overlay").on(
+                    "click",
+                    closeFloatingVideo
+                );
+
+
+                // ESC
+
+                $(document).on("keydown", function (e) {
+
+                    if (e.key === "Escape") {
+
+                        closeFloatingVideo();
+
+                    }
+
+                });
 
             });
         </script>

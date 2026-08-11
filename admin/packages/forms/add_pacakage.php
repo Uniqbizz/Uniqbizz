@@ -1107,23 +1107,233 @@ try {
         |--------------------------------------------------------------------------
         */
 
-        if (!empty($mydata['media']['videos'])) {
+        $videoUploadDir = "../../../uploading/package_videos/";
+        $videoDbPath    = "uploading/package_videos/";
 
-            foreach ($mydata['media']['videos'] as $video) {
+        /*
+        |--------------------------------------------------------------------------
+        | Create upload directory
+        |--------------------------------------------------------------------------
+        */
 
-                if (empty($video['url'])) {
+        if (!is_dir($videoUploadDir)) {
 
-                    continue;
+            if (!mkdir($videoUploadDir, 0777, true)) {
+
+                throw new Exception(
+                    "Unable to create video upload directory."
+                );
+
+            }
+
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Allowed extensions
+        |--------------------------------------------------------------------------
+        */
+
+        $allowedExtensions = [
+            'mp4',
+            'webm',
+            'mov',
+            'avi',
+            'mkv',
+            'm4v'
+        ];
+
+        /*
+        |--------------------------------------------------------------------------
+        | Upload new videos
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+            isset($_FILES['videos']) &&
+            isset($_FILES['videos']['name']) &&
+            is_array($_FILES['videos']['name'])
+        ) {
+
+            /*
+            |--------------------------------------------------------------------------
+            | Insert statement
+            |--------------------------------------------------------------------------
+            */
+
+            $stmt = $conn->prepare("
+                INSERT INTO package_pictures
+                (
+                    package_id,
+                    image,
+                    type
+                )
+                VALUES
+                (
+                    :package_id,
+                    :image,
+                    'video'
+                )
+            ");
+
+            /*
+            |--------------------------------------------------------------------------
+            | Process new videos
+            |--------------------------------------------------------------------------
+            */
+
+            foreach ($_FILES['videos']['name'] as $i => $originalName) {
+
+                /*
+                |--------------------------------------------------------------------------
+                | Upload error
+                |--------------------------------------------------------------------------
+                */
+
+                $error = $_FILES['videos']['error'][$i]
+                    ?? UPLOAD_ERR_NO_FILE;
+
+                if ($error !== UPLOAD_ERR_OK) {
+
+                    $uploadErrors = [
+
+                        UPLOAD_ERR_INI_SIZE =>
+                            "File exceeds upload_max_filesize.",
+
+                        UPLOAD_ERR_FORM_SIZE =>
+                            "File exceeds the form upload limit.",
+
+                        UPLOAD_ERR_PARTIAL =>
+                            "File was only partially uploaded.",
+
+                        UPLOAD_ERR_NO_FILE =>
+                            "No file was uploaded.",
+
+                        UPLOAD_ERR_NO_TMP_DIR =>
+                            "Missing temporary upload directory.",
+
+                        UPLOAD_ERR_CANT_WRITE =>
+                            "Failed to write file to disk.",
+
+                        UPLOAD_ERR_EXTENSION =>
+                            "A PHP extension stopped the upload."
+
+                    ];
+
+                    $errorMessage =
+                        $uploadErrors[$error]
+                        ?? "Unknown upload error.";
+
+                    throw new Exception(
+                        "Video upload failed: " .
+                        $originalName .
+                        " | Error code: " .
+                        $error .
+                        " | " .
+                        $errorMessage
+                    );
 
                 }
+
+                /*
+                |--------------------------------------------------------------------------
+                | Get extension
+                |--------------------------------------------------------------------------
+                */
+
+                $extension = strtolower(
+                    pathinfo(
+                        $originalName,
+                        PATHINFO_EXTENSION
+                    )
+                );
+
+                /*
+                |--------------------------------------------------------------------------
+                | Validate extension
+                |--------------------------------------------------------------------------
+                */
+
+                if (!in_array(
+                    $extension,
+                    $allowedExtensions,
+                    true
+                )) {
+
+                    throw new Exception(
+                        "Invalid video format: " .
+                        $extension
+                    );
+
+                }
+
+                /*
+                |--------------------------------------------------------------------------
+                | Generate unique filename
+                |--------------------------------------------------------------------------
+                */
+
+                $newFileName =
+                    uniqid("VID_", true) .
+                    "." .
+                    $extension;
+
+                /*
+                |--------------------------------------------------------------------------
+                | Physical file location
+                |--------------------------------------------------------------------------
+                */
+
+                $destination =
+                    $videoUploadDir .
+                    $newFileName;
+
+                /*
+                |--------------------------------------------------------------------------
+                | Move uploaded video
+                |--------------------------------------------------------------------------
+                */
+
+                if (!move_uploaded_file(
+                    $_FILES['videos']['tmp_name'][$i],
+                    $destination
+                )) {
+
+                    throw new Exception(
+                        "Unable to move uploaded video: " .
+                        $originalName
+                    );
+
+                }
+
+                /*
+                |--------------------------------------------------------------------------
+                | Track uploaded file for rollback
+                |--------------------------------------------------------------------------
+                */
+
+                $uploadedFiles[] = $destination;
+
+                /*
+                |--------------------------------------------------------------------------
+                | Database path
+                |--------------------------------------------------------------------------
+                */
+
+                $databasePath =
+                    $newFileName;
+
+                /*
+                |--------------------------------------------------------------------------
+                | Insert new video
+                |--------------------------------------------------------------------------
+                */
 
                 $stmt->execute([
 
                     ':package_id' => $get_id,
 
-                    ':image' => trim($video['url']),
-
-                    ':type' => "video"
+                    ':image' => $databasePath
 
                 ]);
 

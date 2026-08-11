@@ -1450,32 +1450,57 @@ $gstValue = $gst['gst'] ?? 0;
                                                         </div>
                                                         <div class="col-lg-12">
                                                             <div class="borderHighlight p-3 mt-3">
-                                                                <h4 class="fw-bolder">3. Video</h4>
-                                                                <p>Upload a promotional video to give users a better preview of the destination and package.</p>
-                                                                <div class="row">
-                                                                    <div class="col-lg-12">
-                                                                        <div class="video-preview-wrapper">
-                                                                            <div class="video-input-group">
-                                                                                <input type="text"
-                                                                                    class="video-link-input"
-                                                                                    id="videoLinkInput"
-                                                                                    placeholder="Paste YouTube or Vimeo link here">
 
-                                                                                <button type="button" class="preview-btn" id="addVideoBtn">
-                                                                                    Preview Video
+                                                                <h4 class="fw-bolder">3. Video</h4>
+
+                                                                <p>
+                                                                    Upload a promotional video to give users a better preview
+                                                                    of the destination and package.
+                                                                </p>
+
+                                                                <div class="row">
+
+                                                                    <div class="col-lg-12">
+
+                                                                        <div class="video-preview-wrapper">
+
+                                                                            <div class="video-input-group">
+
+                                                                                <input
+                                                                                    type="file"
+                                                                                    class="form-control"
+                                                                                    id="videoFileInput"
+                                                                                    accept="video/mp4,video/webm,video/quicktime,video/x-msvideo,video/x-matroska"
+                                                                                    multiple
+                                                                                >
+
+                                                                                <button
+                                                                                    type="button"
+                                                                                    class="preview-btn"
+                                                                                    id="addVideoBtn"
+                                                                                >
+                                                                                    Add Video
                                                                                 </button>
+
                                                                             </div>
 
-                                                                            <div class="video-example">
-                                                                                <i class="ri-play-line"></i>
-                                                                                Example: https://www.youtube.com/watch?v=xxxxxxxx
-                                                                                or https://vimeo.com/xxxxxxxx
+                                                                            <div class="video-example mt-2">
+
+                                                                                <i class="ri-video-line"></i>
+
+                                                                                Supported formats:
+                                                                                MP4, WebM, MOV, AVI, MKV, M4V
+
                                                                             </div>
 
                                                                             <div id="videoPreviewList"></div>
+
                                                                         </div>
+
                                                                     </div>
+
                                                                 </div>
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2873,97 +2898,353 @@ $gstValue = $gst['gst'] ?? 0;
         </script>
         <!-- Video -->
         <script>
+            window.videoFiles = window.videoFiles || [];
+
             $(document).ready(function () {
 
-                // Hide example if videos already exist
-                if ($("#videoPreviewList .video-preview-item").length > 0) {
-                    $(".video-example").hide();
-                }
+                /*
+                |--------------------------------------------------------------------------
+                | Add Video Files
+                |--------------------------------------------------------------------------
+                */
 
-                function addVideoLink() {
+                function addVideoFiles() {
 
-                    let videoUrl = $("#videoLinkInput").val().trim();
+                    console.log("addVideoFiles() STARTED");
 
-                    if (!videoUrl) {
-                        alert("Please enter a video link");
+                    const input = $("#videoFileInput")[0];
+
+                    if (!input) {
+
+                        console.error("videoFileInput not found.");
+
                         return;
                     }
 
-                    // Optional: Validate YouTube/Vimeo URL
-                    const validVideoUrl =
-                        videoUrl.includes("youtube.com") ||
-                        videoUrl.includes("youtu.be") ||
-                        videoUrl.includes("vimeo.com");
+                    const files = input.files;
 
-                    if (!validVideoUrl) {
-                        alert("Please enter a valid YouTube or Vimeo link.");
+                    console.log("Selected files:", files);
+                    console.log("File count:", files.length);
+
+
+                    if (!files || files.length === 0) {
+
+                        alert("Please select a video file.");
+
                         return;
                     }
 
-                    // Prevent duplicates
-                    let exists = false;
 
-                    $(".video-url").each(function () {
-                        if ($(this).text().trim() === videoUrl) {
-                            exists = true;
-                            return false;
+                    const allowedExtensions = [
+                        "mp4",
+                        "webm",
+                        "mov",
+                        "avi",
+                        "mkv",
+                        "m4v"
+                    ];
+
+
+                    for (let file of files) {
+
+                        console.log("Processing file:", file);
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Get extension
+                        |--------------------------------------------------------------------------
+                        */
+
+                        const extension = file.name
+                            .split(".")
+                            .pop()
+                            .toLowerCase();
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Validate extension
+                        |--------------------------------------------------------------------------
+                        */
+
+                        if (!allowedExtensions.includes(extension)) {
+
+                            alert(
+                                `"${file.name}" is not a supported video format.`
+                            );
+
+                            continue;
                         }
-                    });
 
-                    if (exists) {
-                        alert("This video link already exists.");
-                        return;
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Prevent duplicate
+                        |--------------------------------------------------------------------------
+                        */
+
+                        const exists = window.videoFiles.some(function (existingFile) {
+
+                            return (
+                                existingFile.name === file.name &&
+                                existingFile.size === file.size
+                            );
+
+                        });
+
+
+                        if (exists) {
+
+                            alert(
+                                `"${file.name}" has already been added.`
+                            );
+
+                            continue;
+                        }
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Store actual File object
+                        |--------------------------------------------------------------------------
+                        */
+
+                        window.videoFiles.push(file);
+
+
+                        console.log(
+                            "FILE PUSHED:",
+                            file.name,
+                            file.size,
+                            file.type
+                        );
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Create browser preview URL
+                        |--------------------------------------------------------------------------
+                        */
+
+                        const previewUrl = URL.createObjectURL(file);
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Create preview item
+                        |--------------------------------------------------------------------------
+                        */
+
+                        const videoItem = `
+                            <div
+                                class="video-preview-item"
+                                data-file-name="${file.name}"
+                                data-file-size="${file.size}"
+                                data-preview-url="${previewUrl}"
+                            >
+
+                                <div class="video-link-content">
+
+                                    <i
+                                        class="fa-solid fa-play play-video"
+                                        data-url="${previewUrl}"
+                                        title="Play Video">
+                                    </i>
+
+                                    <span class="video-url">
+                                        ${file.name}
+                                    </span>
+
+                                </div>
+
+                                <i
+                                    class="fa-solid fa-trash-can delete-video"
+                                    title="Delete">
+                                </i>
+
+                            </div>
+                        `;
+
+
+                        $("#videoPreviewList").append(videoItem);
+
                     }
 
-                    let videoItem = `
-                        <div class="video-preview-item">
-                            <div class="video-link-content">
-                                <i class="fa-solid fa-play play-video"
-                                data-url="${videoUrl}"
-                                title="Play Video"></i>
 
-                                <span class="video-url">${videoUrl}</span>
-                            </div>
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Hide example
+                    |--------------------------------------------------------------------------
+                    */
 
-                            <i class="fa-solid fa-trash-can delete-video"
-                            title="Delete"></i>
-                        </div>
-                    `;
+                    if (
+                        $("#videoPreviewList .video-preview-item").length > 0
+                    ) {
 
-                    $("#videoPreviewList").append(videoItem);
+                        $(".video-example").hide();
 
-                    $(".video-example").hide();
+                    }
 
-                    $("#videoLinkInput").val("").focus();
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Clear file input
+                    |--------------------------------------------------------------------------
+                    */
+
+                    $("#videoFileInput").val("");
+
+
+                    console.log(
+                        "FINAL window.videoFiles:",
+                        window.videoFiles
+                    );
+
                 }
 
-                // Button Click
+
+                /*
+                |--------------------------------------------------------------------------
+                | Add Video Button
+                |--------------------------------------------------------------------------
+                */
+
                 $("#addVideoBtn").on("click", function () {
-                    addVideoLink();
+
+                    console.log("ADD VIDEO BUTTON CLICKED");
+
+                    addVideoFiles();
+
                 });
 
-                // Enter Key
-                $("#videoLinkInput").on("keypress", function (e) {
-                    if (e.which === 13) {
-                        e.preventDefault();
-                        addVideoLink();
+
+                /*
+                |--------------------------------------------------------------------------
+                | Play Video
+                |--------------------------------------------------------------------------
+                */
+
+                $(document).on(
+                    "click",
+                    ".play-video",
+                    function () {
+
+                        const url = $(this).attr("data-url");
+
+                        if (url) {
+
+                            window.open(url, "_blank");
+
+                        }
+
                     }
-                });
+                );
 
-                // Play Video
-                $(document).on("click", ".play-video", function () {
-                    window.open($(this).data("url"), "_blank");
-                });
 
-                // Delete Video
-                $(document).on("click", ".delete-video", function () {
+                /*
+                |--------------------------------------------------------------------------
+                | Delete Video
+                |--------------------------------------------------------------------------
+                */
 
-                    $(this).closest(".video-preview-item").remove();
+                $(document).on(
+                    "click",
+                    ".delete-video",
+                    function () {
 
-                    if ($("#videoPreviewList .video-preview-item").length === 0) {
-                        $(".video-example").show();
+                        const item = $(this).closest(
+                            ".video-preview-item"
+                        );
+
+
+                        const fileName = item.attr(
+                            "data-file-name"
+                        );
+
+
+                        const fileSize = Number(
+                            item.attr("data-file-size")
+                        );
+
+
+                        const previewUrl = item.attr(
+                            "data-preview-url"
+                        );
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Release preview URL
+                        |--------------------------------------------------------------------------
+                        */
+
+                        if (previewUrl) {
+
+                            URL.revokeObjectURL(
+                                previewUrl
+                            );
+
+                        }
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Remove actual File object
+                        |--------------------------------------------------------------------------
+                        */
+
+                        window.videoFiles =
+                            window.videoFiles.filter(
+                                function (file) {
+
+                                    return !(
+                                        file.name === fileName &&
+                                        file.size === fileSize
+                                    );
+
+                                }
+                            );
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Remove HTML
+                        |--------------------------------------------------------------------------
+                        */
+
+                        item.remove();
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Show example
+                        |--------------------------------------------------------------------------
+                        */
+
+                        if (
+                            $("#videoPreviewList .video-preview-item")
+                                .length === 0
+                        ) {
+
+                            $(".video-example").show();
+
+                        }
+
+
+                        console.log(
+                            "VIDEO REMOVED:",
+                            fileName
+                        );
+
+                        console.log(
+                            "Remaining videos:",
+                            window.videoFiles
+                        );
+
                     }
-                });
+                );
+
 
             });
         </script>
