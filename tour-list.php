@@ -1,6 +1,8 @@
 <?php
 require 'connect.php';
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 if (isset($_SESSION['user_type_id_value'])) {
     $user_type = $_SESSION["user_type_id_value"];
@@ -35,6 +37,12 @@ if ($data7->rowCount() > 0) {
 } else {
     $categoryHotels = [];
 }
+//show guest price 
+$userType = $_SESSION['user_type_id_value'] ?? null;
+
+$showGuestPrice = !empty($userType)
+    && !in_array((int)$userType, [1, 17, 15]);
+
 ?>
 <!DOCTYPE html>
 <html lang="zxx" dir="lrt">
@@ -1117,12 +1125,12 @@ if ($data7->rowCount() > 0) {
                                         }
 
                                         $stmt = $conn->prepare(" SELECT p.id,p.created_date, p.name,p.description, p.destination, p.location, p.tour_days, 
-                                                                t.net_price_adult_with_GST, t.markup_total, COUNT(b.package_id) AS booking_count,p.highlight_type
+                                                                t.total_package_price_per_adult, COUNT(b.package_id) AS booking_count,p.highlight_type
                                                                 FROM package p JOIN package_pricing t ON p.id = t.package_id 
                                                                 JOIN category c ON p.category_id = c.id 
                                                                 LEFT JOIN bookings b ON b.package_id = p.id 
                                                                 WHERE p.status = '1' 
-                                                                GROUP BY p.id, p.description, p.destination, p.location, t.net_price_adult_with_GST, t.markup_total 
+                                                                GROUP BY p.id, p.description, p.destination, p.location, t.total_package_price_per_adult, t.markup_total 
                                                                 ORDER BY booking_count DESC, p.id  ");
                                         $stmt->execute();
                                         $stmt->SetFetchMode(PDO::FETCH_ASSOC);
@@ -1138,22 +1146,41 @@ if ($data7->rowCount() > 0) {
                                                 $value = $data->fetch();
                                                 // echo $value['image'].'-id-'.$value['id'].'-package_id-'.$value['package_id'];
 
-                                                $adult_price = (int)$row['net_price_adult_with_GST'];
-                                                $markup_price = (int)$row['markup_total'];
+                                                $adult_price = (int)$row['total_package_price_per_adult'];
 
                                                 $tourDay = (int)$row['tour_days'] - 1;
                                                 $tourNight = (int)$row['tour_days'] - 2;
 
-                                                $total_base_price = $adult_price + $markup_price;
+                                                $total_price = $adult_price;
+                                                
+                                                // Get guest pricing from package_pricing
+                                                $stmt = $conn->prepare("
+                                                    SELECT guest_amount, guest_percentage
+                                                    FROM package_pricing
+                                                    WHERE package_id = ?
+                                                    LIMIT 1
+                                                ");
+                                                $stmt->execute([$row['id']]);
 
+                                                $guestPricing = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                                                $guest_amount = (float) ($guestPricing['guest_amount'] ?? 0);
+                                                $guest_percentage = (float) ($guestPricing['guest_percentage'] ?? 0);
+
+                                                // Calculate final price
+                                                $final_price = $total_price;
+
+                                                if ($guest_amount > 0) {
+                                                    $final_price += $guest_amount;
+                                                } elseif ($guest_percentage > 0) {
+                                                    $final_price += ($total_price * $guest_percentage / 100);
+                                                }
                                                 if ($ta_id) {
                                                     $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '" . $ta_id . "' AND package_id = '" . $row['id'] . "' AND status='1' LIMIT 1");
                                                     $ta_markup_data->execute();
                                                     $ta_markup = $ta_markup_data->fetch();
 
-                                                    $total_price = $ta_markup['selling_price'] ?? $total_base_price;
-                                                } else {
-                                                    $total_price = $total_base_price;
+                                                    $final_price = $ta_markup['selling_price'] ?? $total_price;
                                                 }
 
                                                 $packageType = trim((string)($row['highlight_type'] ?? ''));
@@ -1185,7 +1212,21 @@ if ($data7->rowCount() > 0) {
                                                         $badgeClass = 'badge-popular';
                                                         break;
                                                 }
+                                                
 
+                                                $hasGuestAdjustment = ($guest_amount > 0 || $guest_percentage > 0);
+
+                                                if ($showGuestPrice && $hasGuestAdjustment) {
+
+                                                    if ($guest_amount > 0) {
+                                                        $displayPrice = $final_price - $guest_amount;
+                                                    } else {
+                                                        $displayPrice = $final_price - (($total_price * $guest_percentage) / 100);
+                                                    }
+
+                                                } else {
+                                                    $displayPrice = $final_price;
+                                                }
                                 
                                                 echo '
                                                     <div class="col-xl-4 col-lg-4 col-sm-6">
@@ -1194,38 +1235,65 @@ if ($data7->rowCount() > 0) {
                                                                 <a href="#" onclick=\'viewPackage("' . $row['id'] . '")\'>
                                                                     <img src="' . $value['image'] . '" alt="BizzMirth">
                                                                 </a>
-                                                                <div class="badge-color '.$badgeClass.'">
-                                                                    <p>'.htmlspecialchars($badgeText).'</p>
+                                                                <div class="badge-color ' . $badgeClass . '">
+                                                                    <p>' . htmlspecialchars($badgeText) . '</p>
                                                                 </div>
                                                             </div>
+
                                                             <div class="package-content">
+
                                                                 <h4 class="area-name">
-                                                                    <a href="#" onclick=\'viewPackage("' . $row['id'] . '")\'>' . $row['name'] . '</a>
+                                                                    <a href="#" onclick=\'viewPackage("' . $row['id'] . '")\'>
+                                                                        ' . $row['name'] . '
+                                                                    </a>
                                                                 </h4>
+
                                                                 <div class="location">
                                                                     <i class="ri-map-pin-line"></i>
                                                                     <div class="name">' . $row['location'] . '</div>
                                                                 </div>
+
                                                                 <div class="packages-person">
                                                                     <div class="count">
                                                                         <i class="ri-time-line"></i>
-                                                                        <p class="pera"> '.$tourNight.' Night '.$tourDay.' Days</p>
+                                                                        <p class="pera">' . $tourNight . ' Night ' . $tourDay . ' Days</p>
                                                                     </div>
-                                                                    <!-- <div class="count">
-                                                                        <i class="ri-user-line"></i>
-                                                                        <p class="pera">2 Person</p>
-                                                                    </div> -->
                                                                 </div>
+
                                                                 <div class="price-review">
                                                                     <div class="d-flex gap-10">
+
                                                                         <p class="light-pera">From</p>
-                                                                        <p class="pera"><span>&#8377</span>' . $total_price . '</p>
+
+                                                                        <p class="pera">
+                                                                            <span>&#8377;</span>' . $displayPrice . '
+                                                                        </p>
+
+                                                                        ' . (
+                                                                            $showGuestPrice && $hasGuestAdjustment
+                                                                                ? '
+                                                                                    <p class="pera text-muted text-decoration-line-through">
+                                                                                        <small>
+                                                                                            <span>&#8377;</span>' . $final_price . '
+                                                                                        </small>
+                                                                                    </p>
+                                                                                '
+                                                                                : (
+                                                                                    !$showGuestPrice && $final_price != $total_price
+                                                                                        ? '
+                                                                                            <p class="pera text-muted text-decoration-line-through">
+                                                                                                <small>
+                                                                                                    <span>&#8377;</span>' . $total_price . '
+                                                                                                </small>
+                                                                                            </p>
+                                                                                        '
+                                                                                        : ''
+                                                                                )
+                                                                        ) . '
+
                                                                     </div>
-                                                                    <!-- <div class="rating">
-                                                                        <i class="ri-star-s-fill"></i>
-                                                                        <p class="pera">4.7 (20 Reviews)</p>
-                                                                    </div> -->
                                                                 </div>
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1257,7 +1325,16 @@ if ($data7->rowCount() > 0) {
                                             }
                                         }
 
-                                        $stmt = $conn->prepare(" SELECT p.id,p.created_date, p.name,p.description, p.destination, p.location, p.tour_days, t.net_price_adult_with_GST, t.markup_total, COUNT(b.package_id) AS booking_count FROM package p JOIN package_pricing t ON p.id = t.package_id JOIN category c ON p.category_id = c.id LEFT JOIN bookings b ON b.package_id = p.id WHERE p.status = '1' GROUP BY p.id, p.description, p.destination, p.location, t.net_price_adult_with_GST, t.markup_total ORDER BY booking_count DESC, p.id  ");
+                                        $stmt = $conn->prepare(" SELECT p.id,p.created_date, p.name,p.description, p.destination, 
+                                                                p.location, p.tour_days, t.total_package_price_per_adult, 
+                                                                COUNT(b.package_id) AS booking_count FROM package p 
+                                                                JOIN package_pricing t ON p.id = t.package_id 
+                                                                JOIN category c ON p.category_id = c.id 
+                                                                LEFT JOIN bookings b ON b.package_id = p.id 
+                                                                WHERE p.status = '1' 
+                                                                GROUP BY p.id, p.description, p.destination, p.location, 
+                                                                t.total_package_price_per_adult, t.markup_total 
+                                                                ORDER BY booking_count DESC, p.id  ");
                                         $stmt->execute();
                                         $stmt->SetFetchMode(PDO::FETCH_ASSOC);
                                         if ($stmt->rowCount() > 0) {
@@ -1271,15 +1348,14 @@ if ($data7->rowCount() > 0) {
                                                 $value = $data->fetch();
                                                 // echo $value['image'].'-id-'.$value['id'].'-package_id-'.$value['package_id'];
 
-                                                $adult_price = (int)$row['net_price_adult_with_GST'];
-                                                $markup_price = (int)$row['markup_total'];
+                                                $adult_price = (int)$row['total_package_price_per_adult'];
 
                                            //calculate nights and days from tour days number
                                             $tourDay = (int)$row['tour_days'] - 1;
                                             $tourNight = (int)$row['tour_days'] - 2;
 
                                             // show inflated pricing and current price
-                                            $total_price_inflated = $adult_price + 5000;
+                                            // $total_price_inflated = $adult_price + 5000;
                                             
                                             // tour package description limit words counts to show in list view
                                             $description = $row['description'];
@@ -1290,57 +1366,165 @@ if ($data7->rowCount() > 0) {
                                                 $truncatedString = $description;
                                             }
 
-                                                $total_base_price = $adult_price + $markup_price;
+                                            $total_price = $adult_price;
+                                            
+                                            // Get guest pricing from package_pricing
+                                            $stmt = $conn->prepare("
+                                                SELECT guest_amount, guest_percentage
+                                                FROM package_pricing
+                                                WHERE package_id = ?
+                                                LIMIT 1
+                                            ");
+                                            $stmt->execute([$row['id']]);
 
-                                                if ($ta_id) {
-                                                    $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '" . $ta_id . "' AND package_id = '" . $row['id'] . "' AND status='1' LIMIT 1");
-                                                    $ta_markup_data->execute();
-                                                    $ta_markup = $ta_markup_data->fetch();
+                                            $guestPricing = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                                                $total_price = $ta_markup['selling_price'] ?? $total_base_price;
-                                            } else {
-                                                $total_price = $total_base_price;
+                                            $guest_amount = (float) ($guestPricing['guest_amount'] ?? 0);
+                                            $guest_percentage = (float) ($guestPricing['guest_percentage'] ?? 0);
+
+                                            // Calculate final price
+                                            $final_price = $total_price;
+
+                                            if ($guest_amount > 0) {
+                                                $final_price += $guest_amount;
+                                            } elseif ($guest_percentage > 0) {
+                                                $final_price += ($total_price * $guest_percentage / 100);
                                             }
-                                            echo'<div class="card rounded shadow-lg mb-5 bg-body-tertiary rounded-3 mt-5 border-0">
+                                            if ($ta_id) {
+                                                $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '" . $ta_id . "' AND package_id = '" . $row['id'] . "' AND status='1' LIMIT 1");
+                                                $ta_markup_data->execute();
+                                                $ta_markup = $ta_markup_data->fetch();
+
+                                                $final_price = $ta_markup['selling_price'] ?? $total_price;
+                                            } 
+                                            $packageType = trim((string)($row['highlight_type'] ?? ''));
+                                                
+                                            switch ($packageType) {
+
+                                                case 'Trending':
+                                                    $badgeText = 'Trending';
+                                                    $badgeClass = 'badge-trending';
+                                                    break;
+
+                                                case 'Best Seller':
+                                                    $badgeText = 'Best Seller';
+                                                    $badgeClass = 'badge-bestseller';
+                                                    break;
+
+                                                case 'New Arrival':
+                                                    $badgeText = 'New Arrival';
+                                                    $badgeClass = 'badge-new-arrival';
+                                                    break;
+
+                                                case '':
+                                                    $badgeText = 'Popular';
+                                                    $badgeClass = 'badge-popular';
+                                                    break;
+
+                                                default:
+                                                    $badgeText = 'Popular';
+                                                    $badgeClass = 'badge-popular';
+                                                    break;
+                                            }
+                                            
+
+                                            $hasGuestAdjustment = ($guest_amount > 0 || $guest_percentage > 0);
+
+                                            if ($showGuestPrice && $hasGuestAdjustment) {
+
+                                                if ($guest_amount > 0) {
+                                                    $displayPrice = $final_price - $guest_amount;
+                                                } else {
+                                                    $displayPrice = $final_price - (($total_price * $guest_percentage) / 100);
+                                                }
+
+                                            } else {
+                                                $displayPrice = $final_price;
+                                            }
+                                            echo '<div class="card rounded shadow-lg mb-5 bg-body-tertiary rounded-3 mt-5 border-0">
                                                     <div class="row">
                                                         <div class="col-lg-4 col-md-4 col-sm-12 col-12 px-0">
                                                             <div class="parent-container-badge">
                                                                 <a href="#" onclick=\'viewPackage("' . $row['id'] . '")\'>
-                                                                    <img src="'.$value['image'].'" alt="BizzMirth" class="rounded-start imageSize">
+                                                                    <img src="' . $value['image'] . '" alt="BizzMirth" class="rounded-start imageSize">
                                                                 </a>
-                                                                <div class="badge-color">
-                                                                    <p class="trending">Trending</p>
+                                                                <div class="badge-color ' . $badgeClass . '">
+                                                                    <p>' . htmlspecialchars($badgeText) . '</p>
                                                                 </div>
                                                             </div>
                                                         </div>
+
                                                         <div class="col-lg-5 col-md-5 col-sm-12 col-12 py-3 px-0 border-end borderRemove">
                                                             <h4 class="fw-bolder pb-2 packageTitle">
                                                                 <a href="#" onclick=\'viewPackage("' . $row['id'] . '")\'>' . $row['name'] . '</a>
                                                             </h4>
+
                                                             <p class="pb-2 packageLocation">
                                                                 <i class="fa-solid fa-location-dot fa-sm" style="color: #e03d42;"></i>
-                                                                <span class="text-muted">'.$row['location'].'</span>
+                                                                <span class="text-muted">' . $row['location'] . '</span>
                                                             </p>
+
                                                             <div class="text-start list-desc packageDesc">
-                                                               '.$truncatedString.'
+                                                                ' . $truncatedString . '
                                                             </div>
                                                         </div>
+
                                                         <div class="col-lg-3 col-md-3 col-sm-12 col-12 ps-0">
+
                                                             <div class="d-flex justify-content-evenly py-3 packageButton">
                                                                 <button class="rounded-2 btn border-danger-subtle border-2">
-                                                                    <p><i class="fa-solid fa-user fa-xs" style="color: #e03d42;"></i> <span class="text-danger"> 60</span></p>
+                                                                    <p>
+                                                                        <i class="fa-solid fa-user fa-xs" style="color: #e03d42;"></i>
+                                                                        <span class="text-danger">60</span>
+                                                                    </p>
                                                                 </button>
+
                                                                 <div class="rounded-2 btn border-danger-subtle border-2">
-                                                                    <p class="text-danger"><i class="fa-solid fa-clock-rotate-left fa-xs" style="color: #e03d42;"></i> <span class="text-danger">'.$tourNight.' Night '.$tourDay.'</span></p>
+                                                                    <p class="text-danger">
+                                                                        <i class="fa-solid fa-clock-rotate-left fa-xs" style="color: #e03d42;"></i>
+                                                                        <span class="text-danger">' . $tourNight . ' Night ' . $tourDay . '</span>
+                                                                    </p>
                                                                 </div>
                                                             </div>
+
                                                             <div class="d-flex justify-content-evenly py-3 packagePriceDiv">
-                                                                <h5 class="fw-bolder pacakgePrice">&#8377; ' . $total_price . '</h5>
-                                                                <h5 class="fw-bolder pacakgePrice text-muted text-decoration-line-through">&#8377; 25,000</h5>
+
+                                                                <!-- Main Price -->
+                                                                <h4 class="fw-bolder pacakgePrice">
+                                                                    &#8377; ' . $displayPrice . '
+                                                                </h4>
+
+                                                                ' . (
+                                                                    $showGuestPrice && $hasGuestAdjustment
+                                                                        ? '
+                                                                            <!-- Original price for guest-priced user -->
+                                                                            <h5 class="fw-bolder pacakgePrice text-muted text-decoration-line-through">
+                                                                                &#8377; ' . $final_price . '
+                                                                            </h5>
+                                                                        '
+                                                                        : (
+                                                                            !$showGuestPrice && $final_price != $total_price
+                                                                                ? '
+                                                                                    <!-- Normal discounted price -->
+                                                                                    <h5 class="fw-bolder pacakgePrice text-muted text-decoration-line-through">
+                                                                                        &#8377; ' . $total_price . '
+                                                                                    </h5>
+                                                                                '
+                                                                                : ''
+                                                                        )
+                                                                ) . '
+
                                                             </div>
+
                                                             <div class="d-flex justify-content-center py-3 packageExplore">
-                                                                <a class="btn btn-background-color fw-bolder" href="#" role="button" onclick=\'viewPackage("' . $row['id'] . '")\'>Explore</a>
+                                                                <a class="btn btn-background-color fw-bolder"
+                                                                href="#"
+                                                                role="button"
+                                                                onclick=\'viewPackage("' . $row['id'] . '")\'>
+                                                                    Explore
+                                                                </a>
                                                             </div>
+
                                                         </div>
                                                     </div>
                                                 </div>';

@@ -1,6 +1,9 @@
 <?php
 
 require '../../connect.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 $user_id       = $_POST['userid'] ?? 0;
 $user_type     = $_POST['usertype'] ?? '';
@@ -319,8 +322,10 @@ $totalRecords = (int) $countStmt->fetchColumn();
 $totalPages = $totalRecords > 0
     ? ceil($totalRecords / $limit)
     : 0;
+//
+$userType = $_SESSION['user_type_id_value'] ?? null;
 
-
+$showGuestPrice = !empty($userType);
 ?>
 
 <div class="all-tour-list <?=$viewType == 1?'':'d-none'?> " id="all-tour-list">
@@ -358,22 +363,45 @@ $totalPages = $totalRecords > 0
                     $value = $data->fetch();
                     // echo $value['image'].'-id-'.$value['id'].'-package_id-'.$value['package_id'];
 
-                    $adult_price = (float)$row['total_package_price_per_adult'] + (float)$row['price_up_per_adult'];
+                    $adult_price = (float)$row['total_package_price_per_adult'];
                     // $markup_price = (float)$row['markup_total'];
-                    $total_base_price = $adult_price ;
+                    $total_price = $adult_price ;
+                    
+                    // Get guest pricing from package_pricing
+                    $stmt = $conn->prepare("
+                        SELECT guest_amount, guest_percentage
+                        FROM package_pricing
+                        WHERE package_id = ?
+                        LIMIT 1
+                    ");
+                    $stmt->execute([$row['id']]);
+
+                    $guestPricing = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                    $guest_amount = (float) ($guestPricing['guest_amount'] ?? 0);
+                    $guest_percentage = (float) ($guestPricing['guest_percentage'] ?? 0);
+
+                    // Calculate final price
+                    $final_price = $total_price;
+
+                    if ($guest_amount > 0) {
+                        $final_price += $guest_amount;
+                    } elseif ($guest_percentage > 0) {
+                        $final_price += ($total_price * $guest_percentage / 100);
+                    }
+                    if ($ta_id) {
+                        $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '" . $ta_id . "' AND package_id = '" . $row['id'] . "' AND status='1' LIMIT 1");
+                        $ta_markup_data->execute();
+                        $ta_markup = $ta_markup_data->fetch();
+
+                        $final_price = $ta_markup['selling_price'] ?? $total_price;
+                    }
                     //print_r($total_base_price);
 
                     $tourDay = (int)$row['tour_days'] - 1;
                     $tourNight = (int)$row['tour_days'] - 2;
 
-                    if ($ta_id) {
-                        $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '" . $ta_id . "' AND package_id = '" . $row['id'] . "' AND status='1' LIMIT 1");
-                        $ta_markup_data->execute();
-                        $ta_markup = $ta_markup_data->fetch();
-                        $total_price = $ta_markup['selling_price_adult'] ?? $total_base_price;
-                    } else {
-                        $total_price = $total_base_price;
-                    }
+                    
         ?>
                     <div class="col-xl-4 col-lg-4 col-sm-6">
                         <div class="package-card">
@@ -441,7 +469,51 @@ $totalPages = $totalRecords > 0
                                 <div class="price-review">
                                     <div class="d-flex gap-10">
                                         <p class="light-pera">From</p>
-                                        <p class="pera"><span>&#8377</span><?= $total_price ?></p>
+                                        <?php
+                                            
+
+                                            // Get guest pricing from package_pricing
+                                            $stmt = $conn->prepare("
+                                                SELECT guest_amount, guest_percentage
+                                                FROM package_pricing
+                                                WHERE package_id = ?
+                                                LIMIT 1
+                                            ");
+                                            $stmt->execute([$row['id']]);
+
+                                            $guestPricing = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                                            $guest_amount = (float) ($guestPricing['guest_amount'] ?? 0);
+                                            $guest_percentage = (float) ($guestPricing['guest_percentage'] ?? 0);
+
+                                            $hasGuestAdjustment = ($guest_amount > 0 || $guest_percentage > 0);
+
+                                            if ($showGuestPrice && $hasGuestAdjustment) {
+
+                                                if ($guest_amount > 0) {
+                                                    $displayPrice = $final_price - $guest_amount;
+                                                } elseif ($guest_percentage > 0) {
+                                                    $displayPrice = $final_price - (($total_price * $guest_percentage) / 100);
+                                                }
+
+                                            } else {
+                                                $displayPrice = $final_price;
+                                            }
+                                        ?>
+
+                                        <p class="pera">
+                                            <span>&#8377;</span><?= $displayPrice ?>
+                                        </p>
+
+                                        <?php
+                                        echo ($showGuestPrice && $hasGuestAdjustment)
+                                            ? '
+                                                <p class="pera text-muted text-decoration-line-through">
+                                                    <small><span>&#8377;</span>' . $final_price . '</small>
+                                                </p>
+                                            '
+                                            : '';
+                                        ?>
                                     </div>
                                     <!-- <div class="rating">
                                             <i class="ri-star-s-fill"></i>
@@ -491,9 +563,39 @@ $totalPages = $totalRecords > 0
                     $value = $data->fetch();
                     // echo $value['image'].'-id-'.$value['id'].'-package_id-'.$value['package_id'];
 
-                    $adult_price = (float)$row['total_package_price_per_adult'] + (float)$row['price_up_per_adult'];
+                    $adult_price = (float)$row['total_package_price_per_adult'];
                     // $markup_price = (float)$row['markup_total'];
-                    $total_base_price = $adult_price ;
+                    $total_price = $adult_price ;
+                    
+                    // Get guest pricing from package_pricing
+                    $stmt = $conn->prepare("
+                        SELECT guest_amount, guest_percentage
+                        FROM package_pricing
+                        WHERE package_id = ?
+                        LIMIT 1
+                    ");
+                    $stmt->execute([$row['id']]);
+
+                    $guestPricing = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                    $guest_amount = (float) ($guestPricing['guest_amount'] ?? 0);
+                    $guest_percentage = (float) ($guestPricing['guest_percentage'] ?? 0);
+
+                    // Calculate final price
+                    $final_price = $total_price;
+
+                    if ($guest_amount > 0) {
+                        $final_price += $guest_amount;
+                    } elseif ($guest_percentage > 0) {
+                        $final_price += ($total_price * $guest_percentage / 100);
+                    }
+                    if ($ta_id) {
+                        $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '" . $ta_id . "' AND package_id = '" . $row['id'] . "' AND status='1' LIMIT 1");
+                        $ta_markup_data->execute();
+                        $ta_markup = $ta_markup_data->fetch();
+
+                        $final_price = $ta_markup['selling_price'] ?? $total_price;
+                    }
                     //print_r($total_base_price);
 
                     //calculate nights and days from tour days number
@@ -501,25 +603,19 @@ $totalPages = $totalRecords > 0
                     $tourNight = (int)$row['tour_days'] - 2;
 
                     // show inflated pricing and current price
-                    $total_price_inflated = $adult_price + 5000;
+                    // $total_price_inflated = $adult_price + 5000;
                     
                     // tour package description limit words counts to show in list view
                     $description = $row['description'];
-                    $maxLength = 500;
+                    $maxLength = 200;
                     if (strlen($description) > $maxLength) {
                         $truncatedString = substr($description, 0, $maxLength) . '...';
                     } else {
                         $truncatedString = $description;
                     }
 
-                    if ($ta_id) {
-                        $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '" . $ta_id . "' AND package_id = '" . $row['id'] . "' AND status='1' LIMIT 1");
-                        $ta_markup_data->execute();
-                        $ta_markup = $ta_markup_data->fetch();
-                        $total_price = $ta_markup['selling_price_adult'] ?? $total_base_price;
-                    } else {
-                        $total_price = $total_base_price;
-                    }
+                    
+
     ?>
                 <div class="card rounded shadow-lg mb-5 bg-body-tertiary rounded-3 mt-5 border-0">
                     <div class="row">
@@ -528,8 +624,42 @@ $totalPages = $totalRecords > 0
                                 <a href="#" onclick='viewPackage("<?= $row["id"] ?>")'>
                                     <img src="<?=$value['image']?>" alt="BizzMirth" class="rounded-start imageSize">
                                 </a>
-                                <div class="badge-color">
-                                    <p class="trending">Trending</p>
+                                <?php
+
+                                    $packageType = trim((string)($row['highlight_type'] ?? ''));
+
+                                    switch ($packageType) {
+
+                                        case 'Trending':
+                                            $badgeText = 'Trending';
+                                            $badgeClass = 'badge-trending';
+                                            break;
+
+                                        case 'Best Seller':
+                                            $badgeText = 'Best Seller';
+                                            $badgeClass = 'badge-bestseller';
+                                            break;
+
+                                        case 'New Arrival':
+                                            $badgeText = 'New Arrival';
+                                            $badgeClass = 'badge-new-arrival';
+                                            break;
+
+                                        case '':
+                                            $badgeText = 'Popular';
+                                            $badgeClass = 'badge-popular';
+                                            break;
+
+                                        default:
+                                            $badgeText = 'Popular';
+                                            $badgeClass = 'badge-popular';
+                                            break;
+                                    }
+
+                                ?>
+
+                                <div class="badge-color <?= $badgeClass ?>">
+                                    <p><?= htmlspecialchars($badgeText) ?></p>
                                 </div>
                             </div>
                         </div>
@@ -565,11 +695,50 @@ $totalPages = $totalRecords > 0
                                 </div>
                             </div>
                             <div class="d-flex justify-content-evenly py-3 packagePriceDiv">
-                                <h5 class="fw-bolder pacakgePrice">&#8377; <?= $total_price ?></h5>
-                                <h5 class="fw-bolder pacakgePrice text-muted text-decoration-line-through">&#8377; <?= $total_price_inflated ?></h5>
+                                <?php
+                                    
+                                    // Get guest pricing from package_pricing
+                                    $stmt = $conn->prepare("
+                                        SELECT guest_amount, guest_percentage
+                                        FROM package_pricing
+                                        WHERE package_id = ?
+                                        LIMIT 1
+                                    ");
+                                    $stmt->execute([$row['id']]);
+
+                                    $guestPricing = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                                    $guest_amount = (float) ($guestPricing['guest_amount'] ?? 0);
+                                    $guest_percentage = (float) ($guestPricing['guest_percentage'] ?? 0);
+                                    $hasGuestAdjustment = ($guest_amount > 0 || $guest_percentage > 0);
+
+                                    if ($showGuestPrice && $hasGuestAdjustment) {
+
+                                        if ($guest_amount > 0) {
+                                            $displayPrice = $final_price - $guest_amount;
+                                        } elseif ($guest_percentage > 0) {
+                                            $displayPrice = $final_price - (($total_price * $guest_percentage) / 100);
+                                        }
+
+                                    } else {
+                                        $displayPrice = $final_price;
+                                    }
+                                ?>
+
+                                    <h4 class="fw-bolder pacakgePrice">
+                                        &#8377; <?= $displayPrice ?>
+                                    </h4>
+
+                                <?php if ($showGuestPrice && $hasGuestAdjustment): ?>
+                                    <small class="fw-bolder pacakgePrice text-muted text-decoration-line-through">
+                                        &#8377; <?= $final_price ?>
+                                    </small>
+
+                                <?php endif; ?>
+                                
                             </div>
                             <div class="d-flex justify-content-center py-3 packageExplore">
-                                <a class="btn btn-background-color fw-bolder" href="#" role="button" onclick='viewPackage("<?= $row["id"] ?>")\'>Explore</a>
+                                <a class="btn btn-background-color fw-bolder" href="#" role="button" onclick='viewPackage("<?= $row["id"] ?>")'>Explore</a>
                             </div>
                         </div>
                     </div>
