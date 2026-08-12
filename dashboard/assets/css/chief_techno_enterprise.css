@@ -953,5 +953,13 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control {
     }
 }
 @media (max-width: 441px) {
+    .cardSmallScreen {
+        display: block !important;
+        width: fit-content !important;
+    }
+    .greetingCard p:nth-of-type(2),
+    .greetingCard p:last-of-type {
+        font-size: 14px !important;
+    }
 }
 /* sidebar end */

@@ -28,6 +28,30 @@
                 AND st.status IN (1,3)
 
                 UNION
+                
+                SELECT YEAR(ca.register_date) AS year
+                FROM sub_franchisee ca
+                INNER JOIN business_mentor st
+                    ON ca.reference_no = st.business_mentor_id
+                WHERE st.reference_no = :user_id
+                AND ca.status IN (1,3)
+                AND st.status IN (1,3)
+                
+                UNION
+                
+                SELECT YEAR(ca.register_date) AS year
+                FROM corporate_agency ca
+                WHERE ca.reference_no = :user_id
+                AND ca.status IN (1,3)
+
+                UNION
+                
+                SELECT YEAR(ca.register_date) AS year
+                FROM sub_franchisee ca
+                WHERE ca.reference_no = :user_id
+                AND ca.status IN (1,3)
+                
+                UNION
 
                 SELECT YEAR(sf.register_date) AS year
                 FROM institution sf
@@ -73,6 +97,42 @@
                 AND bm.status IN (1,3)
                 GROUP BY MONTH(ca.register_date)
 
+                UNION ALL
+                
+                SELECT
+                    MONTH(ca.register_date) AS month_no,
+                    COUNT(*) AS te_count
+                FROM sub_franchisee ca
+                INNER JOIN business_mentor bm
+                    ON ca.reference_no = bm.business_mentor_id
+                WHERE bm.reference_no = :user_id
+                AND YEAR(ca.register_date) = :year
+                AND ca.status IN (1,3)
+                AND bm.status IN (1,3)
+                GROUP BY MONTH(ca.register_date)
+                
+                UNION ALL
+                
+                SELECT
+                    MONTH(ca.register_date) AS month_no,
+                    COUNT(*) AS te_count
+                FROM corporate_agency ca
+                WHERE ca.reference_no = :user_id
+                AND YEAR(ca.register_date) = :year
+                AND ca.status IN (1,3)
+                GROUP BY MONTH(ca.register_date)
+
+                UNION ALL
+                
+                SELECT
+                    MONTH(ca.register_date) AS month_no,
+                    COUNT(*) AS te_count
+                FROM sub_franchisee ca
+                WHERE ca.reference_no = :user_id
+                AND YEAR(ca.register_date) = :year
+                AND ca.status IN (1,3)
+                GROUP BY MONTH(ca.register_date)
+                
                 UNION ALL
 
                 SELECT

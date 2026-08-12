@@ -9,28 +9,33 @@
                 (
                     SELECT COUNT(*)
                     FROM corporate_agency ca
-                    INNER JOIN business_mentor st
-                        ON ca.reference_no = st.business_mentor_id
-                    WHERE st.reference_no = :user_id
+                    WHERE ca.reference_no = :user_id
                     AND ca.status IN (1,3)
-                    AND st.status IN (1,3)
                 )
                 +
                 (
                     SELECT COUNT(*)
                     FROM sub_franchisee ca
-                    INNER JOIN business_mentor st
-                        ON ca.reference_no = st.business_mentor_id
-                    WHERE st.reference_no = :user_id
+                    WHERE ca.reference_no = :user_id
                     AND ca.status IN (1,3)
-                    AND st.status IN (1,3)
                 )
                 +
                 (
                     SELECT COUNT(*)
                     FROM corporate_agency ca
-                    WHERE ca.reference_no = :user_id
+                    INNER JOIN business_mentor bm ON bm.business_mentor_id=ca.reference_no
+                    WHERE bm.reference_no = :user_id
                     AND ca.status IN (1,3)
+                    AND bm.status IN (1,3)
+                )
+                +
+                (
+                    SELECT COUNT(*)
+                    FROM sub_franchisee ca
+                    INNER JOIN business_mentor bm ON bm.business_mentor_id=ca.reference_no
+                    WHERE bm.reference_no = :user_id
+                    AND ca.status IN (1,3)
+                    AND bm.status IN (1,3)
                 )
             ) AS te_count,
             (
@@ -87,6 +92,29 @@
                     AND ibr.status IN (1,3)
                     AND i.status IN (1,3)
                 )
+                +
+                (
+                    SELECT COUNT(*)
+                    FROM ca_travelagency ta
+                    INNER JOIN sub_franchisee ca
+                        ON ta.reference_no = ca.sub_franchisee_id
+                    INNER JOIN business_mentor st
+                        ON ca.reference_no = st.business_mentor_id
+                    WHERE st.reference_no = :user_id
+                    AND ta.status IN (1,3)
+                    AND ca.status IN (1,3)
+                    AND st.status IN (1,3)
+                )
+                 +
+                (
+                    SELECT COUNT(*)
+                    FROM ca_travelagency ta
+                    INNER JOIN sub_franchisee ca
+                        ON ta.reference_no = ca.sub_franchisee_id
+                    WHERE ca.reference_no = :user_id
+                    AND ta.status IN (1,3)
+                    AND ca.status IN (1,3)
+                )
             ) AS tc_count,
 
             (
@@ -131,13 +159,48 @@
                     AND ibr.status IN (1,3)
                     AND i.status IN (1,3)
                 )
+                +
+                (
+                    SELECT COUNT(*)
+                    FROM ca_customer cu
+                    INNER JOIN ca_travelagency ta
+                        ON cu.ta_reference_no = ta.ca_travelagency_id
+                    INNER JOIN sub_franchisee ca
+                        ON ta.reference_no = ca.sub_franchisee_id
+                    INNER JOIN business_mentor st
+                        ON ca.reference_no = st.business_mentor_id
+                    WHERE st.reference_no = :user_id
+                    AND cu.status IN (1,3)
+                    AND ta.status IN (1,3)
+                    AND ca.status IN (1,3)
+                    AND st.status IN (1,3)
+                )
+                +
+                (
+                    SELECT COUNT(*)
+                    FROM ca_customer cu
+                    INNER JOIN ca_travelagency ta
+                        ON cu.ta_reference_no = ta.ca_travelagency_id
+                    INNER JOIN sub_franchisee ca
+                        ON ta.reference_no = ca.sub_franchisee_id
+                    WHERE ca.reference_no = :user_id
+                    AND cu.status IN (1,3)
+                    AND ta.status IN (1,3)
+                    AND ca.status IN (1,3)
+                )
             ) AS cu_count,
 
             (
                 (
-                    SELECT COALESCE(SUM(ete_amount),0)
+                    SELECT COALESCE(SUM(te_amount),0)
                     FROM techno_enterprise_payout
-                    WHERE ete_id = :user_id
+                    WHERE te_id = :user_id
+                )
+                +
+                (
+                    SELECT COALESCE(SUM(commission_zm),0)
+                    FROM sub_franchisee_payout
+                    WHERE zonal_manager = :user_id
                 )
                 +
                 (
@@ -160,9 +223,15 @@
             ) AS all_earning,
             (
                 (
-                    SELECT COALESCE(SUM(ete_amount),0)
+                    SELECT COALESCE(SUM(te_amount),0)
                     FROM techno_enterprise_payout
                     WHERE ete_id = :user_id AND ete_status=2 
+                )
+                +
+                (
+                    SELECT COALESCE(SUM(commission_zm),0)
+                    FROM sub_franchisee_payout
+                    WHERE zonal_manager = :user_id AND status_zm=2
                 )
                 +
                 (
@@ -185,9 +254,15 @@
             ) AS all_pending_earning,
             (
                 (
-                    SELECT COALESCE(SUM(ete_amount),0)
+                    SELECT COALESCE(SUM(te_amount),0)
                     FROM techno_enterprise_payout
                     WHERE ete_id = :user_id AND ste_status=1 
+                )
+                +
+                (
+                    SELECT COALESCE(SUM(commission_zm),0)
+                    FROM sub_franchisee_payout
+                    WHERE zonal_manager = :user_id AND status_zm=1
                 )
                 +
                 (

@@ -172,8 +172,8 @@
                     ta.status,
                     ta.amount,
                     ta.user_type,
-                    sf.firstname AS ref_firstname,
-                    sf.lastname AS ref_lastname,
+                    sf.name AS ref_firstname,
+                    '' AS ref_lastname,
                     sf.institution_id AS reference_id,
 
                     'I' AS ref_type
@@ -201,8 +201,8 @@
                     ta.status,
                     ta.amount,
                     ta.user_type,
-                    sf.firstname AS ref_firstname,
-                    sf.lastname AS ref_lastname,
+                    sf.name AS ref_firstname,
+                    '' AS ref_lastname,
                     sf.institution_id AS reference_id,
 
                     'I' AS ref_type

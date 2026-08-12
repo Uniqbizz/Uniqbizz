@@ -5,14 +5,22 @@
     <div class="layout-width">
         <div class="navbar-header">
             <div class="d-flex">
+                <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger shadow-none" id="topnav-hamburger-icon">
+                    <span class="hamburger-icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </button>
+
                 <!-- LOGO -->
-                <div class="navbar-brand-box" class="rounded-4">
+                <div class="navbar-brand-box ms-5" class="rounded-4">
                     <!-- Light Logo-->
                     <a href="index.php" class="logo logo-light">
                         <span class="logo-sm">
                             <img src="assets/images/fav.png" alt="" height="25">
                         </span>
-                        <span class="logo-lg ms-5">
+                        <span class="logo-lg">
                             <img src="assets/images/bizz_logo.png" alt="" height="50">
                         </span>
                     </a>
@@ -25,18 +33,9 @@
                         </span>
                     </a>
                 </div>
-                <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger shadow-none ms-5" id="topnav-hamburger-icon">
-                    <span class="hamburger-icon">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </span>
-                </button>
-
                 <!-- App Search-->
-
             </div>
-            <div class="searchBar d-none d-md-block">
+            <div class="searchBar d-none d-md-block ms-5">
                 <input class="form-control pe-5" list="datalistOptions" id="exampleDataList" placeholder="Type to search...">
                 <i class="fa-solid fa-magnifying-glass searchIcon"></i>
             </div>

@@ -47,10 +47,10 @@
         <link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- Icons Css -->
         <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-        <!-- App Css-->
-        <link href="../assets/css/app.min.css" rel="stylesheet" type="text/css" />
         <!-- custom Css-->
         <link href="../assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <!-- App Css-->
+        <link href="../assets/css/app.min.css" rel="stylesheet" type="text/css" />
         <!-- custom Css developer-->
         <link rel="stylesheet" href="../assets/css/custom.css" />
         <link rel="stylesheet" href="../assets/css/super_techno_enterprise.css" />
@@ -853,5 +853,81 @@
             });
 
         </script>
+        <!-- Sidebar Start -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const sidebar = document.querySelector(".navbar-menu");
+                const hamburger = document.getElementById("topnav-hamburger-icon");
+                const hamburgerIcon = document.querySelector(".hamburger-icon");
+                const overlay = document.querySelector(".vertical-overlay");
+
+                if (window.innerWidth > 1024) {
+                    sidebar.classList.remove("sidebar-hidden");
+                }
+
+                hamburger.addEventListener("click", function () {
+
+                    if (window.innerWidth <= 1024) {
+
+                        /* BELOW 767 - YOUR ORIGINAL WORKING LOGIC */
+                        if (window.innerWidth <= 767) {
+
+                            sidebar.classList.toggle("sidebar-mobile-show");
+                            hamburgerIcon.classList.toggle("open");
+
+                            if (overlay) {
+                                overlay.classList.toggle("active");
+                            }
+                        }
+
+                        /* 768px TO 1024px */
+                        else {
+
+                            if (!sidebar.classList.contains("sidebar-mobile-show")) {
+
+                                sidebar.classList.add("sidebar-mobile-show");
+
+                                if (overlay) {
+                                    overlay.classList.add("active");
+                                }
+
+                                /* SHOW 3 LINES */
+                                hamburgerIcon.classList.add("open");
+
+                            } else {
+
+                                sidebar.classList.remove("sidebar-mobile-show");
+
+                                if (overlay) {
+                                    overlay.classList.remove("active");
+                                }
+
+                                /* SHOW ARROW */
+                                hamburgerIcon.classList.remove("open");
+                            }
+                        }
+
+                    } else {
+
+                        /* DESKTOP */
+                        sidebar.classList.toggle("sidebar-hidden");
+                    }
+                });
+
+                if (overlay) {
+
+                    overlay.addEventListener("click", function () {
+
+                        sidebar.classList.remove("sidebar-mobile-show");
+                        overlay.classList.remove("active");
+                        hamburgerIcon.classList.remove("open");
+
+                    });
+                }
+
+            });
+        </script>
+        <!-- Sidebar End -->
     </body>
 </html>

@@ -168,11 +168,7 @@
                 SELECT
                     i.institution_id,
 
-                    CONCAT(
-                        COALESCE(i.firstname,''),
-                        ' ',
-                        COALESCE(i.lastname,'')
-                    ),
+                    i.name,
 
                     COUNT(DISTINCT ibm.institution_branch_manager_id),
 
@@ -193,8 +189,7 @@
 
                 GROUP BY
                     i.institution_id,
-                    i.firstname,
-                    i.lastname
+                    i.name
 
                 UNION ALL
 
@@ -204,11 +199,7 @@
                 SELECT
                     i.institution_id,
 
-                    CONCAT(
-                        COALESCE(i.firstname,''),
-                        ' ',
-                        COALESCE(i.lastname,'')
-                    ),
+                    i.name,
 
                     COUNT(DISTINCT ibm.institution_branch_manager_id),
 
@@ -233,8 +224,7 @@
 
                 GROUP BY
                     i.institution_id,
-                    i.firstname,
-                    i.lastname
+                    i.name
 
             ) AS combined
 
