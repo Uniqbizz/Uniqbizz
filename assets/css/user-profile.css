@@ -1,6 +1,6 @@
 .profileScetion {
     display: flex;
-    gap: 20px;
+    gap: 10px;
 }
 .profilePic img {
     width: 50px;
@@ -10,6 +10,7 @@
 .profileUserName {
     color: #fff;
     font-weight: 800;
+    margin-right: 8px;
 }
 .alignContent {
     align-content: center;
