@@ -802,7 +802,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                             <?php
                                 $galleryImages = [];
 
-                                $galleryData = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = ? AND type NOT IN ('video')");
+                                $galleryData = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = ? AND (type NOT IN ('video') OR type IS NULL)");
                                 $galleryData->execute([$id]);
 
                                 if ($galleryData->rowCount() > 0) {
