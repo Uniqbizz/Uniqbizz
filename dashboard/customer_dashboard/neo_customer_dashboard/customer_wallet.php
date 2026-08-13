@@ -300,8 +300,8 @@
                                             <div class="wallet-stat-label">Wallet Balance</div>
                                             <div class="wallet-stat blue-title">₹<?= $disWalletData['balance'] ?? '0' ?></div>
 
-                                            <div class="wallet-stat-label mt-4 custom-tight-space">Usable Balance</div>
-                                            <div class="wallet-total">₹<?= $disWalletData['balance'] ?? '0' ?></div>
+                                            <div class="wallet-stat-label mt-4 custom-tight-space">Earned Amount</div>
+                                            <div class="wallet-total">₹<?= $disWalletData['total_discount_earned'] ?? '0' ?></div>
                                             <a href="customer_discount_wallet.php" class="btn wallet-btn">
                                                 View Transactions
                                             </a>

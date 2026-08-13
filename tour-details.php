@@ -552,8 +552,187 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
             #videoCounter {
                 font-size: 14px;
             }
+            /* ==========================================
+            ITINERARY TIMELINE
+            ========================================== */
+
+            .destination-accordion .accordion {
+                position: relative;
+
+                display: grid;
+
+                grid-template-columns: 54px minmax(0, 1fr);
+
+                column-gap: 26px;
+                row-gap: 18px;
+
+                padding-left: 0;
+            }
 
 
+            /* ==========================================
+            CONTINUOUS VERTICAL TIMELINE
+            ========================================== */
+
+            .destination-accordion .accordion::before {
+                content: "";
+
+                position: absolute;
+
+                top: 27px;
+                bottom: 27px;
+
+                left: 26px;
+
+                width: 2px;
+
+                background: #e3e7eb;
+
+                z-index: 0;
+            }
+
+
+            /* ==========================================
+            TIMELINE NUMBER
+            ========================================== */
+
+            .timeline-number {
+                position: relative;
+
+                z-index: 2;
+
+                width: 54px;
+                min-width: 54px;
+                height: 54px;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                background: #fff;
+
+                border: 2px solid #e03d42;
+
+                color: #e03d42;
+
+                border-radius: 50%;
+
+                font-weight: 800;
+
+                font-size: 13px;
+
+                box-sizing: border-box;
+            }
+
+
+            /* ==========================================
+            ACCORDION ITEM
+            ========================================== */
+
+            .destination-accordion .accordion-item {
+                position: relative;
+
+                z-index: 1;
+
+                width: 100%;
+
+                border: 1px solid #edf0f2 !important;
+
+                border-radius: 16px !important;
+
+                overflow: hidden;
+
+                background: #fff;
+
+                margin: 0 !important;
+            }
+
+
+            /* ==========================================
+            ACCORDION BUTTON
+            ========================================== */
+
+            .destination-accordion .accordion-button {
+                min-height: 54px;
+
+                padding: 15px 20px;
+
+                background: #fff;
+
+                color: #1f2933;
+
+                font-weight: 700;
+
+                border-radius: 16px !important;
+
+                box-shadow: none;
+            }
+
+            .destination-accordion .accordion-button:focus {
+                box-shadow: none;
+            }
+
+            .destination-accordion .accordion-button:not(.collapsed) {
+                background: #fff;
+
+                color: #1f2933;
+
+                box-shadow: none;
+            }
+
+
+            /* ==========================================
+            ACCORDION BODY
+            ========================================== */
+
+            .destination-accordion .accordion-body {
+                padding: 18px 20px 20px;
+            }
+
+
+            /* ==========================================
+            MOBILE
+            ========================================== */
+
+            @media (max-width: 767px) {
+
+                .destination-accordion .accordion {
+                    grid-template-columns: 45px minmax(0, 1fr);
+
+                    column-gap: 18px;
+
+                    row-gap: 14px;
+                }
+
+                .destination-accordion .accordion::before {
+                    left: 22px;
+
+                    top: 22px;
+                    bottom: 22px;
+                }
+
+                .timeline-number {
+                    width: 45px;
+
+                    min-width: 45px;
+
+                    height: 45px;
+
+                    font-size: 11px;
+                }
+
+                .destination-accordion .accordion-button {
+                    min-height: 45px;
+
+                    padding: 12px 15px;
+
+                    font-size: 14px;
+                }
+
+                .destination-accordion .accordion-body {
+                    padding: 15px;
+                }
+            }
             @media (max-width: 576px) {
 
                 .floating-video-button {
@@ -904,7 +1083,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                             </div>
                                         </div>
                                         <div id="itinerary" class="section-block">
-                                            <div class="card cardBackgroundColor rounded-3 p-3 pb-0">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 pb-4">
                                                 <h5 class="fw-bolder">Itinerary</h5>
                                                 <div class="tour-details-content">
                                                     <div class="destination-accordion mt-2">
@@ -922,7 +1101,9 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                                                     $decription = $day['day_details'];
                                                                     $decription_1 = explode(".", $decription);
                                                                     $decription_2 = implode(".<br>", $decription_1);
-                                                            ?>
+                                                            ?>      <div class="timeline-number">
+                                                                        <?= str_pad($count, 2, '0', STR_PAD_LEFT) ?>
+                                                                    </div>
                                                                     <div class="accordion-item">
                                                                         <h2 class="accordion-header" id="panelsStayOpen-heading<?= $count; ?>">
                                                                             <button class="accordion-button <?= ($count != 1) ? 'collapsed' : ''; ?>"
@@ -952,7 +1133,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
                                                                                 <hr class="my-3" style="border-top:1px solid #4b5051;">
 
-                                                                                <div>
+                                                                                <div class="d-flex justify-content-evenly">
                                                                                     <div class="gap-1 d-flex">
                                                                                         <h6 class="fw-bold">Meal:&nbsp;</h6>
                                                                                         <p class="text-muted fontSize3"><?= $day['meal_plan']; ?></p>
