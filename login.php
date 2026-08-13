@@ -58,6 +58,8 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <!-- User Profile CSS -->
+        <link rel="stylesheet" type="text/css" href="assets/css/user-profile.css">
         <style>
             .loginImage {
                 width: 100% !important;

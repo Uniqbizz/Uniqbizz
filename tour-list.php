@@ -62,6 +62,8 @@ if (isset($_SESSION['user_type_id_value'])) {
         <link rel="stylesheet" type="text/css" href="assets/css/plugin.css">
         <!-- Main CSS -->
         <link rel="stylesheet" type="text/css" href="assets/css/main-style.css">
+        <!-- User Profile CSS -->
+        <link rel="stylesheet" type="text/css" href="assets/css/user-profile.css">
         <!-- RTL CSS::When Need RTL Uncomments File -->
         <!-- <link rel="stylesheet" type="text/css" href="assets/css/rtl.css"> -->
         <!-- Font Awesome Icons -->
