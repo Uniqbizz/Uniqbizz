@@ -300,6 +300,69 @@ ACCORDION BODY
     color: var(--primary-paragraph);
     font-weight: 400;
 }
+.download-format-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    padding: 18px;
+
+    border: 1px solid #edf0f2;
+    border-radius: 16px;
+
+    background: #fff;
+
+    color: #1f2933;
+
+    transition: all 0.25s ease;
+}
+
+.download-format-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.download-format-icon {
+    width: 52px;
+    height: 52px;
+
+    min-width: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    font-size: 25px;
+}
+
+.pdf-card .download-format-icon {
+    background: rgba(224, 61, 66, 0.10);
+    color: #e03d42;
+}
+
+.word-card .download-format-icon {
+    background: rgba(37, 99, 235, 0.10);
+    color: #2563eb;
+}
+
+.download-format-content {
+    flex: 1;
+}
+
+.download-format-content h6 {
+    color: #1f2933;
+}
+
+.download-format-content p {
+    font-size: 13px;
+}
+
+.download-arrow {
+    font-size: 24px;
+    color: #9ca3af;
+}
 
 /* ==========================================
 MOBILE

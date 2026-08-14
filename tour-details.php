@@ -1085,11 +1085,95 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                         </div>
                                         <div class="row">
                                             <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3">
-                                                <div class="blueCardBtn text-center rounded-4 p-3">
+                                                <div class="blueCardBtn text-center rounded-4 p-3"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#downloadItineraryModal"
+                                                    style="cursor: pointer;">
+
                                                     <div class="goldBtn">
                                                         <i class="ri-download-2-line"></i>
                                                     </div>
+
                                                     Download Itinerary
+                                                </div>
+
+
+                                                <!-- Download Itinerary Modal -->
+                                                <div class="modal fade"
+                                                    id="downloadItineraryModal"
+                                                    tabindex="-1"
+                                                    aria-labelledby="downloadItineraryModalLabel"
+                                                    aria-hidden="true">
+
+                                                    <div class="modal-dialog modal-dialog-centered">
+
+                                                        <div class="modal-content border-0 rounded-4 shadow-lg">
+
+                                                            <!-- Header -->
+                                                            <div class="modal-header border-0 pb-0">
+
+                                                                <div>
+                                                                    <h5 class="modal-title fw-bold" id="downloadItineraryModalLabel">
+                                                                        Download Itinerary
+                                                                    </h5>
+
+                                                                    <p class="text-muted mb-0 small">
+                                                                        Choose your preferred format
+                                                                    </p>
+                                                                </div>
+
+                                                                <button type="button"
+                                                                    class="btn-close"
+                                                                    data-bs-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                </button>
+
+                                                            </div>
+
+
+                                                            <!-- Body -->
+                                                            <div class="modal-body p-4">
+
+                                                                <div class="row g-3">
+
+                                                                    <!-- PDF / PRINT -->
+                                                                    <div class="col-12">
+
+                                                                        <a href="download_tour_detail.php?pacId=<?= urlencode($id) ?>&format=pdf"
+                                                                            class="download-format-card pdf-card text-decoration-none">
+
+                                                                            <div class="download-format-icon">
+                                                                                <i class="ri-file-pdf-2-line"></i>
+                                                                            </div>
+
+                                                                            <div class="download-format-content">
+
+                                                                                <h6 class="mb-1 fw-bold">
+                                                                                    Save as PDF
+                                                                                </h6>
+
+                                                                                <p class="mb-0 text-muted">
+                                                                                    Print or save this itinerary as PDF
+                                                                                </p>
+
+                                                                            </div>
+
+                                                                            <i class="ri-arrow-right-s-line download-arrow"></i>
+
+                                                                        </a>
+
+                                                                    </div>
+
+
+                                                                    
+
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3">
@@ -1411,7 +1495,24 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
         <!-- Main js-->
         <script src="assets/js/main.js"></script>
         <script type="text/javascript" src="logout/logout.js"></script>
+        <script>
 
+            function printItinerary() {
+
+                const modalElement = document.getElementById('downloadItineraryModal');
+
+                const modal = bootstrap.Modal.getInstance(modalElement);
+
+                if (modal) {
+                    modal.hide();
+                }
+
+                setTimeout(function () {
+                    window.print();
+                }, 400);
+            }
+
+        </script>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
 
