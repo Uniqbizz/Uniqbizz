@@ -152,7 +152,7 @@ $showGuestPrice = !empty($userType)
             }
 
             /* Package Type 3 */
-            .badge-featured p {
+            .badge-new-arrival p {
                 background-color: #198754;
                 color: #fff;
                 font-size: 13px;
