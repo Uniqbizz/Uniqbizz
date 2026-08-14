@@ -391,368 +391,14 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
         <link rel="stylesheet" type="text/css" href="assets/css/tour-details.css">
         <!-- share model css file 30-07-2026 -->
         <link rel="stylesheet" type="text/css" href="assets/css/tour_details_share.css">
+        <link rel="stylesheet" type="text/css" href="assets/css/tour-details.css">
+        <!-- Tour Details Video -->
+        <link rel="stylesheet" type="text/css" href="assets/css/tour-details-video.css">
         <!-- RTL CSS::When Need RTL Uncomments File -->
         <!-- <link rel="stylesheet" type="text/css" href="assets/css/rtl.css"> -->
         <!-- Swiper -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <style>
-            .floating-video-button {
-                position: fixed;
-                right: 25px;
-                bottom: 25px;
-
-                z-index: 9999;
-
-                display: flex;
-                align-items: center;
-                gap: 10px;
-
-                padding: 12px 18px;
-
-                background: #000;
-                color: #fff;
-
-                border-radius: 50px;
-
-                cursor: pointer;
-
-                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-
-                transition: 0.3s;
-            }
-
-            .floating-video-button:hover {
-                transform: translateY(-3px);
-            }
-
-            .floating-video-button small {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-
-                width: 22px;
-                height: 22px;
-
-                border-radius: 50%;
-
-                background: #fff;
-                color: #000;
-
-                font-size: 11px;
-            }
-
-
-            .floating-video-modal {
-                display: none;
-
-                position: fixed;
-                inset: 0;
-
-                z-index: 10000;
-            }
-
-
-            .floating-video-overlay {
-                position: absolute;
-                inset: 0;
-
-                background: rgba(0, 0, 0, 0.8);
-            }
-
-
-            .floating-video-container {
-                position: absolute;
-
-                top: 50%;
-                left: 50%;
-
-                transform: translate(-50%, -50%);
-
-                width: min(900px, 90vw);
-
-                background: #000;
-
-                border-radius: 12px;
-
-                overflow: hidden;
-
-                box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
-            }
-
-
-            #floatingVideoPlayer {
-                display: block;
-
-                width: 100%;
-
-                max-height: 75vh;
-
-                background: #000;
-            }
-
-
-            .floating-video-close {
-                position: absolute;
-
-                top: 12px;
-                right: 12px;
-
-                z-index: 5;
-
-                width: 40px;
-                height: 40px;
-
-                border: none;
-
-                border-radius: 50%;
-
-                background: rgba(0, 0, 0, 0.7);
-
-                color: #fff;
-
-                cursor: pointer;
-            }
-
-
-            .floating-video-controls {
-                display: flex;
-
-                align-items: center;
-                justify-content: space-between;
-
-                padding: 12px 15px;
-
-                background: #111;
-
-                color: #fff;
-            }
-
-
-            .floating-video-controls button {
-                border: none;
-
-                background: transparent;
-
-                color: #fff;
-
-                cursor: pointer;
-
-                padding: 8px 12px;
-            }
-
-
-            .floating-video-controls button:disabled {
-                opacity: 0.4;
-
-                cursor: not-allowed;
-            }
-
-
-            #videoCounter {
-                font-size: 14px;
-            }
-            /* ==========================================
-            ITINERARY TIMELINE
-            ========================================== */
-
-            .destination-accordion .accordion {
-                position: relative;
-
-                display: grid;
-
-                grid-template-columns: 54px minmax(0, 1fr);
-
-                column-gap: 26px;
-                row-gap: 18px;
-
-                padding-left: 0;
-            }
-
-
-            /* ==========================================
-            CONTINUOUS VERTICAL TIMELINE
-            ========================================== */
-
-            .destination-accordion .accordion::before {
-                content: "";
-
-                position: absolute;
-
-                top: 27px;
-                bottom: 27px;
-
-                left: 26px;
-
-                width: 2px;
-
-                background: #e3e7eb;
-
-                z-index: 0;
-            }
-
-
-            /* ==========================================
-            TIMELINE NUMBER
-            ========================================== */
-
-            .timeline-number {
-                position: relative;
-
-                z-index: 2;
-
-                width: 54px;
-                min-width: 54px;
-                height: 54px;
-
-                display: flex;
-                align-items: center;
-                justify-content: center;
-
-                background: #fff;
-
-                border: 2px solid #e03d42;
-
-                color: #e03d42;
-
-                border-radius: 50%;
-
-                font-weight: 800;
-
-                font-size: 13px;
-
-                box-sizing: border-box;
-            }
-
-
-            /* ==========================================
-            ACCORDION ITEM
-            ========================================== */
-
-            .destination-accordion .accordion-item {
-                position: relative;
-
-                z-index: 1;
-
-                width: 100%;
-
-                border: 1px solid #edf0f2 !important;
-
-                border-radius: 16px !important;
-
-                overflow: hidden;
-
-                background: #fff;
-
-                margin: 0 !important;
-            }
-
-
-            /* ==========================================
-            ACCORDION BUTTON
-            ========================================== */
-
-            .destination-accordion .accordion-button {
-                min-height: 54px;
-
-                padding: 15px 20px;
-
-                background: #fff;
-
-                color: #1f2933;
-
-                font-weight: 700;
-
-                border-radius: 16px !important;
-
-                box-shadow: none;
-            }
-
-            .destination-accordion .accordion-button:focus {
-                box-shadow: none;
-            }
-
-            .destination-accordion .accordion-button:not(.collapsed) {
-                background: #fff;
-
-                color: #1f2933;
-
-                box-shadow: none;
-            }
-
-
-            /* ==========================================
-            ACCORDION BODY
-            ========================================== */
-
-            .destination-accordion .accordion-body {
-                padding: 18px 20px 20px;
-            }
-
-
-            /* ==========================================
-            MOBILE
-            ========================================== */
-
-            @media (max-width: 767px) {
-
-                .destination-accordion .accordion {
-                    grid-template-columns: 45px minmax(0, 1fr);
-
-                    column-gap: 18px;
-
-                    row-gap: 14px;
-                }
-
-                .destination-accordion .accordion::before {
-                    left: 22px;
-
-                    top: 22px;
-                    bottom: 22px;
-                }
-
-                .timeline-number {
-                    width: 45px;
-
-                    min-width: 45px;
-
-                    height: 45px;
-
-                    font-size: 11px;
-                }
-
-                .destination-accordion .accordion-button {
-                    min-height: 45px;
-
-                    padding: 12px 15px;
-
-                    font-size: 14px;
-                }
-
-                .destination-accordion .accordion-body {
-                    padding: 15px;
-                }
-            }
-            @media (max-width: 576px) {
-
-                .floating-video-button {
-                    right: 15px;
-                    bottom: 15px;
-
-                    padding: 10px 14px;
-                }
-
-                .floating-video-container {
-                    width: 95vw;
-                }
-
-                .floating-video-controls button {
-                    font-size: 12px;
-                    padding: 6px;
-                }
-
-            }
-        </style>
     </head>
     
     <body>
@@ -1099,8 +745,8 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                                                 foreach ($data4->fetchAll() as $key_3 => $day) {
 
                                                                     $decription = $day['day_details'];
-                                                                    $decription_1 = explode(".", $decription);
-                                                                    $decription_2 = implode(".<br>", $decription_1);
+                                                                    // $decription_1 = explode(".", $decription);
+                                                                    // $decription_2 = implode(".<br>", $decription_1);
                                                             ?>      <div class="timeline-number">
                                                                         <?= str_pad($count, 2, '0', STR_PAD_LEFT) ?>
                                                                     </div>
@@ -1127,7 +773,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
                                                                                 <ul class="listing">
                                                                                     <li class="list">
-                                                                                        <?= $decription_2; ?>
+                                                                                        <?= $decription; ?>
                                                                                     </li>
                                                                                 </ul>
 
@@ -1504,7 +1150,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                         <div class="packContent">
                                             <div class="row p-3">
 
-                                                <h5 class="fw-bolder text-black mb-2">What to Pack</h5>
+                                                <h5 class="fw-bolder text-black mb-2">Important Notes / Remarks</h5>
 
                                                 <?php
                                                 $remarkData = $itinery['remark'] ?? '';
@@ -1562,7 +1208,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                         <div class="packContent">
                                             <div class="row p-3">
 
-                                                <h5 class="fw-bolder text-black mb-2">Advance Preparation</h5>
+                                                <h5 class="fw-bolder text-black mb-2">Things to Know Before You Go</h5>
 
                                                 <div class="col-xl-12">
 

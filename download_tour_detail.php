@@ -55,6 +55,7 @@
     $location  = $package['location'] ?? '';
     $destination = $package['destination'] ?? '';
     $short_discription=$package['description'];
+    $detailed_discription=$package['detailed_description'];
 
     $tour_days_total = $package['tour_days'] ?? 0;
     $tour_days = $tour_days_total - 1;
@@ -122,10 +123,10 @@
     $occu_type_id = $data10->rowCount() > 0 ? $data10->fetchAll(PDO::FETCH_ASSOC) : [];
 
     // Fetch vehicle types for a given package_id
-    $data11 = $conn->prepare("SELECT * FROM `package_to_category_vehicle` WHERE package_id = :id");
-    $data11->bindParam(':id', $id, PDO::PARAM_INT);
+    $data11 = $conn->prepare("SELECT * FROM `category_vehicle` WHERE id = :id");
+    $data11->bindParam(':id', $package['category_vehicle_id'], PDO::PARAM_INT);
     $data11->execute();
-    $vehicle_type = $data11->rowCount() > 0 ? $data11->fetchAll(PDO::FETCH_ASSOC) : []; // Corrected variable name
+    $vehicle_type = $data11->rowCount() > 0 ? $data11->fetch(PDO::FETCH_ASSOC) : []; // Corrected variable name
 
     // Fetch vehicle types for a given package_id
     $data11 = $conn->prepare("
@@ -333,8 +334,8 @@
     <link rel="stylesheet"
         href="assets/css/plugin.css">
 
-    <link rel="stylesheet"
-        href="assets/css/main-style.css">
+    <!-- <link rel="stylesheet"
+        href="assets/css/main-style.css"> -->
 
     <link rel="stylesheet"
         href="assets/css/tour-details.css">
@@ -355,7 +356,7 @@
         .travel-package-page {
             background: #f7f9fc;
             color: #172033;
-            font-family: inherit;
+            font-family: var(--Dm);
         }
 
 
@@ -450,7 +451,7 @@
 
             padding: 7px 13px;
 
-            background: #ff7a00;
+            background: #e03d42;
             color: #fff;
 
             border-radius: 50px;
@@ -502,7 +503,7 @@
         }
 
         .hero-meta i {
-            color: #ff9d42;
+            color: #e03d42;
             font-size: 20px;
         }
 
@@ -584,7 +585,7 @@
             border-radius: 14px;
 
             background: #fff2e6;
-            color: #f47b20;
+            color: #e03d42;
 
             font-size: 22px;
         }
@@ -626,7 +627,7 @@
         }
 
         .section-heading > span {
-            color: #f47b20;
+            color: #e03d42;
             font-size: 11px;
             font-weight: 800;
             letter-spacing: 2px;
@@ -641,13 +642,13 @@
         }
 
         .section-heading h2 strong {
-            color: #f47b20;
+            color: #e03d42;
         }
 
         .package-text {
             color: #697386;
             line-height: 1.9;
-            font-size: 15px;
+            font-size: 16px;
             margin-bottom: 5px;
         }
 
@@ -686,7 +687,7 @@
             justify-content: center;
 
             background: #fff1e5;
-            color: #f47b20;
+            color: #e03d42;
 
             border-radius: 14px;
             font-size: 22px;
@@ -758,7 +759,7 @@
 
         .gallery-caption span {
             display: block;
-            color: #ff9b48;
+            color: #e03d42;
             font-size: 11px;
             font-weight: 800;
         }
@@ -843,14 +844,14 @@
 
             background: #fff;
 
-            border: 2px solid #f47b20;
+            border: 2px solid #e03d42;
 
-            color: #f47b20;
+            color: #e03d42;
 
             border-radius: 50%;
 
             font-weight: 800;
-            font-size: 13px;
+            font-size: 14px;
         }
 
         .timeline-content {
@@ -865,8 +866,8 @@
         }
 
         .day-label {
-            color: #f47b20;
-            font-size: 11px;
+            color: #e03d42;
+            font-size: 12px;
             font-weight: 800;
             letter-spacing: 1px;
         }
@@ -879,7 +880,7 @@
         .timeline-content p {
             color: #737d8f;
             line-height: 1.75;
-            font-size: 14px;
+            font-size: 16px;
         }
 
         .day-info {
@@ -887,7 +888,7 @@
             flex-wrap: wrap;
             gap: 20px;
 
-            margin-top: 15px;
+            /* margin-top: 15px; */
         }
 
         .day-info span {
@@ -896,16 +897,16 @@
             gap: 6px;
 
             color: #697386;
-            font-size: 13px;
+            font-size: 14px;
         }
 
         .day-info i {
-            color: #f47b20;
+            color: #e03d42;
         }
 
         .day-highlight {
             margin-top: 16px;
-            padding-top: 15px;
+            padding-top: 10px;
 
             border-top: 1px solid #edf0f5;
 
@@ -915,7 +916,7 @@
         }
 
         .day-highlight i {
-            color: #f47b20;
+            color: #e03d42;
             margin-right: 5px;
         }
 
@@ -973,7 +974,7 @@
         }
 
         .list-title h3 {
-            font-size: 18px;
+            font-size: 16px;
             margin: 0;
         }
 
@@ -990,7 +991,7 @@
             padding: 9px 0;
 
             color: #687284;
-            font-size: 13px;
+            font-size: 14px;
         }
 
         .included li i {
@@ -1029,7 +1030,7 @@
         }
 
         .packing-grid i {
-            color: #f47b20;
+            color: #e03d42;
             font-size: 20px;
         }
 
@@ -1059,7 +1060,7 @@
 
         .custom-accordion .accordion-button i {
             margin-right: 12px;
-            color: #f47b20;
+            color: #e03d42;
             font-size: 20px;
         }
 
@@ -1094,7 +1095,7 @@
         }
 
         .booking-top > span {
-            color: #f47b20;
+            color: #e03d42;
             font-size: 10px;
             font-weight: 800;
             letter-spacing: 1.5px;
@@ -1125,7 +1126,7 @@
 
             padding: 12px 0;
 
-            font-size: 13px;
+            font-size: 14px;
         }
 
         .price-row span {
@@ -1137,7 +1138,7 @@
         }
 
         .booking-btn {
-            background: #f47b20;
+            background: #e03d42;
             color: #fff;
 
             border: 0;
@@ -1152,7 +1153,7 @@
         }
 
         .booking-btn:hover {
-            background: #dd6810;
+            background: #e03d42;
             color: #fff;
             transform: translateY(-2px);
         }
@@ -1208,18 +1209,18 @@
         }
 
         .quick-info-item > i {
-            color: #f47b20;
+            color: #e03d42;
             font-size: 21px;
         }
 
         .quick-info-item small {
             display: block;
             color: #969eac;
-            font-size: 10px;
+            font-size: 12px;
         }
 
         .quick-info-item strong {
-            font-size: 13px;
+            font-size: 14px;
         }
 
 
@@ -1290,17 +1291,17 @@
         }
 
         .cta-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            display: block;
+
+            width: 100%;
 
             padding: 55px 60px;
 
             background:
                 linear-gradient(
                     120deg,
-                    #f47b20,
-                    #f99b4d
+                    #e03d42,
+                    #e03d42ca
                 );
 
             border-radius: 28px;
@@ -1308,6 +1309,12 @@
             color: #fff;
 
             box-shadow: 0 20px 55px rgba(244,123,32,.22);
+
+            text-align: center;
+        }
+
+        .cta-inner > div:first-child {
+            width: 100%;
         }
 
         .cta-inner > div:first-child > span {
@@ -1326,7 +1333,8 @@
         }
 
         .cta-inner p {
-            margin: 0;
+            margin: 0 auto;
+            max-width: 700px;
             color: rgba(255,255,255,.8);
         }
 
@@ -1603,16 +1611,16 @@
                             </span>
                         </div>
                         <?php
-                            $packageName = $package['name'];
-                            $words = preg_split('/\s+/', trim($packageName));
+                            // $packageName = $package['name'];
+                            // $words = preg_split('/\s+/', trim($packageName));
 
-                            foreach ($words as $index => $word) {
-                                echo htmlspecialchars($word) . ' ';
+                            // foreach ($words as $index => $word) {
+                            //     echo htmlspecialchars($word) . ' ';
 
-                                if (($index + 1) % 3 === 0) {
-                                    echo '<br>';
-                                }
-                            }
+                            //     if (($index + 1) % 3 === 0) {
+                            //         echo '<br>';
+                            //     }
+                            // }
                         ?>
                         <h1 class="light" style="color: #fff;">
                             <?php
@@ -1642,7 +1650,7 @@
                     </div>
 
                     <!-- Price -->
-                    <div class="hero-price-card">
+                    <!-- <div class="hero-price-card">
 
                         <small>Starting from</small>
 
@@ -1650,17 +1658,13 @@
                             ₹9,765
                             <span>/ Adult</span>
                         </div>
-                        <!-- <div class="hero-price">
-                            ₹5,765
-                            <span>/ child</span>
-                        </div> -->
 
                         <button class="btn btn-primary w-100">
                             Enquire Now
                             <i class="ri-arrow-right-line"></i>
                         </button>
 
-                    </div>
+                    </div> -->
 
                 </div>
 
@@ -1776,7 +1780,7 @@
 
 
                         <!-- WHY YOU'LL LOVE -->
-                        <div class="package-section">
+                        <!-- <div class="package-section">
 
                             <div class="section-heading">
 
@@ -1873,7 +1877,7 @@
 
                             </div>
 
-                        </div>
+                        </div> -->
 
 
                         <!-- DESTINATION GALLERY -->
@@ -1899,6 +1903,7 @@
                                     WHERE package_id = ?
                                     AND type NOT IN ('video')
                                     ORDER BY id ASC
+                                    LIMIT 2
                                 ");
 
                                 $galleryData->execute([$id]);
@@ -1964,7 +1969,7 @@
                                     <span>PACKAGE PRICE</span>
 
                                     <h2>
-                                        ₹9,765
+                                        ₹<?= number_format($adultDisplayPrice, 2) ?>
                                         <small>/ adult</small>
                                     </h2>
 
@@ -1975,51 +1980,69 @@
                                 </div>
 
 
+                                <!-- ADULT -->
                                 <div class="price-row">
 
                                     <span>Adult</span>
 
-                                    <strong>₹9,765</strong>
+                                    <strong>
+
+                                        <?php if ($showGuestPrice && $adultDisplayPrice < $adultPrice): ?>
+
+                                            <span class="text-decoration-line-through"
+                                                style="font-size: 13px; opacity: .55; margin-right: 5px;">
+
+                                                ₹<?= number_format($adultPrice, 2) ?>
+
+                                            </span><br>
+
+                                        <?php endif; ?>
+
+                                        ₹<?= number_format($adultDisplayPrice, 2) ?>
+
+                                    </strong>
 
                                 </div>
 
+
+                                <!-- CHILD -->
                                 <div class="price-row">
 
                                     <span>Child</span>
 
-                                    <strong>₹6,500</strong>
+                                    <strong>
+
+                                        <?php if ($showGuestPrice && $childDisplayPrice < $childPrice): ?>
+
+                                            <span class="text-decoration-line-through"
+                                                style="font-size: 13px; opacity: .55; margin-right: 5px;">
+
+                                                ₹<?= number_format($childPrice, 2) ?>
+
+                                            </span><br/>
+
+                                        <?php endif; ?>
+
+                                        ₹<?= number_format($childDisplayPrice, 2) ?>
+
+                                    </strong>
 
                                 </div>
 
+
+                                <!-- EXTRA MATTRESS -->
                                 <div class="price-row">
 
                                     <span>Extra Mattress</span>
 
-                                    <strong>₹500</strong>
+                                    <strong>
+                                        ₹<?= number_format($amount['extra_mattress'] ?? 0, 2) ?>
+                                    </strong>
 
                                 </div>
 
-                                <hr>
 
-                                <button class="btn booking-btn w-100">
-                                    Enquire About This Package
-                                    <i class="ri-arrow-right-line"></i>
-                                </button>
-
-                                <button class="btn btn-outline-secondary w-100 mt-2">
-                                    <i class="ri-share-line"></i>
-                                    Share Package
-                                </button>
-
-                                <div class="secure-booking">
-
-                                    <i class="ri-shield-check-line"></i>
-
-                                    <span>
-                                        Your enquiry is safe & secure
-                                    </span>
-
-                                </div>
+                                <!-- <hr> -->
 
                             </div>
 
@@ -2029,16 +2052,20 @@
 
                                 <h4>Quick Information</h4>
 
+
                                 <div class="quick-info-item">
 
                                     <i class="ri-hotel-line"></i>
 
                                     <div>
                                         <small>Hotel Category</small>
-                                        <strong>3 Star</strong>
+                                        <strong>
+                                            <?= htmlspecialchars($hotel_cat['name'] ?? 'Not Available') ?>
+                                        </strong>
                                     </div>
 
                                 </div>
+
 
                                 <div class="quick-info-item">
 
@@ -2046,32 +2073,60 @@
 
                                     <div>
                                         <small>Meal Plan</small>
-                                        <strong>Breakfast</strong>
+                                        <strong>
+                                            <?= htmlspecialchars($meal_cat['name'] ?? 'Not Available') ?>
+                                        </strong>
                                     </div>
 
                                 </div>
 
+                                <?php
+                                    $vehicleName = $vehicle_type['name'] ?? 'Not Available';
+
+                                    $vehicleIcon = match (strtolower(trim($vehicleName))) {
+                                        'car'            => 'ri-car-line',
+                                        'bus'            => 'ri-bus-line',
+                                        'train'          => 'ri-train-line',
+                                        'volvo bus'      => 'ri-bus-2-line',
+                                        'tempo traveler' => 'ri-bus-2-line',
+                                        'seat in coach'  => 'ri-roadster-line',
+                                        'speedboat'      => 'ri-ship-line',
+                                        default          => 'ri-roadster-line'
+                                    };
+                                ?>
                                 <div class="quick-info-item">
 
-                                    <i class="ri-car-line"></i>
+                                    <i class="<?= $vehicleIcon ?>"></i>
 
                                     <div>
                                         <small>Vehicle</small>
-                                        <strong>AC Vehicle</strong>
+
+                                        <strong>
+                                            <?= htmlspecialchars($vehicleName) ?>
+                                        </strong>
                                     </div>
 
                                 </div>
 
-                                <div class="quick-info-item">
 
-                                    <i class="ri-translate-2"></i>
+                                <?php if (!empty($package['language_type'])): ?>
 
-                                    <div>
-                                        <small>Language</small>
-                                        <strong>Hindi, English</strong>
-                                    </div>
+                                    <!-- <div class="quick-info-item">
 
-                                </div>
+                                        <i class="ri-translate-2"></i>
+
+                                        <div>
+                                            <small>Language</small>
+
+                                            <strong>
+                                                <?= htmlspecialchars($package['language_type']) ?>
+                                            </strong>
+                                        </div>
+
+                                    </div> -->
+
+                                <?php endif; ?>
+
 
                             </div>
 
@@ -2090,9 +2145,9 @@
                                     you create the perfect trip.
                                 </p>
 
-                                <a href="tel:+919999999999">
+                                <a href="tel:+918010892265">
                                     <i class="ri-phone-line"></i>
-                                    +91 99999 99999
+                                    +91 8010892265
                                 </a>
 
                             </div>
@@ -2101,7 +2156,7 @@
 
                     </div>
                     <!-- PACKAGE DETAILS -->
-                    <div class="package-section">
+                    <!-- <div class="package-section">
 
                         <div class="section-heading">
 
@@ -2158,7 +2213,7 @@
 
                         </div>
 
-                    </div>
+                    </div> -->
 
 
                     <!-- ITINERARY -->
@@ -2175,229 +2230,192 @@
 
                         </div>
 
+
                         <div class="timeline">
 
-                            <!-- DAY 1 -->
-                            <div class="timeline-item">
+                            <?php
 
-                                <div class="timeline-number">
-                                    01
-                                </div>
+                            $data4 = $conn->prepare("
+                                SELECT *
+                                FROM package_trip_days
+                                WHERE package_id = ?
+                                ORDER BY id ASC
+                            ");
 
-                                <div class="timeline-content">
+                            $data4->execute([$id]);
 
-                                    <div class="day-label">
-                                        DAY 1
-                                    </div>
+                            $days = $data4->fetchAll(PDO::FETCH_ASSOC);
 
-                                    <h3>Arrival in Varanasi</h3>
-
-                                    <p>
-                                        Arrive in Varanasi and transfer
-                                        to your hotel. Spend the evening
-                                        exploring the vibrant surroundings
-                                        before enjoying your first glimpse
-                                        of the sacred Ganges.
-                                    </p>
-
-                                    <div class="day-info">
-
-                                        <span>
-                                            <i class="ri-restaurant-line"></i>
-                                            Dinner
-                                        </span>
-
-                                        <span>
-                                            <i class="ri-car-line"></i>
-                                            Private Transfer
-                                        </span>
-
-                                    </div>
-
-                                    <div class="day-highlight">
-                                        <i class="ri-star-fill"></i>
-                                        Hotel check-in & local exploration
-                                    </div>
-
-                                </div>
-
-                            </div>
+                            ?>
 
 
-                            <!-- DAY 2 -->
-                            <div class="timeline-item">
+                            <?php if (!empty($days)): ?>
 
-                                <div class="timeline-number">
-                                    02
-                                </div>
+                                <?php foreach ($days as $key_3 => $day): ?>
 
-                                <div class="timeline-content">
+                                    <?php
 
-                                    <div class="day-label">
-                                        DAY 2
-                                    </div>
+                                    $count = $key_3 + 1;
 
-                                    <h3>Temples & Spiritual Varanasi</h3>
+                                    /*
+                                    * Description
+                                    */
+                                    $description = trim($day['day_details'] ?? '');
 
-                                    <p>
-                                        Begin your day with a peaceful
-                                        morning visit to the sacred temples
-                                        followed by sightseeing around
-                                        the historic city.
-                                    </p>
+                                    /*
+                                    * Meal
+                                    */
+                                    $meal = trim($day['meal_plan'] ?? '');
 
-                                    <div class="day-info">
+                                    /*
+                                    * Transport
+                                    */
+                                    $transport = trim($day['day_tansport'] ?? '');
 
-                                        <span>
-                                            <i class="ri-restaurant-line"></i>
-                                            Breakfast
-                                        </span>
+                                    /*
+                                    * Stay
+                                    */
+                                    $stay = trim($day['stay'] ?? '');
 
-                                        <span>
-                                            <i class="ri-car-line"></i>
-                                            Sightseeing
-                                        </span>
-
-                                    </div>
-
-                                    <div class="day-highlight">
-                                        <i class="ri-star-fill"></i>
-                                        Temple visit & cultural experience
-                                    </div>
-
-                                </div>
-
-                            </div>
+                                    ?>
 
 
-                            <!-- DAY 3 -->
-                            <div class="timeline-item">
-
-                                <div class="timeline-number">
-                                    03
-                                </div>
-
-                                <div class="timeline-content">
-
-                                    <div class="day-label">
-                                        DAY 3
-                                    </div>
-
-                                    <h3>Ganges Boat Ride</h3>
-
-                                    <p>
-                                        Witness the beauty of Varanasi
-                                        from the river as the city comes
-                                        alive around the sacred ghats.
-                                    </p>
-
-                                    <div class="day-info">
-
-                                        <span>
-                                            <i class="ri-restaurant-line"></i>
-                                            Breakfast
-                                        </span>
-
-                                        <span>
-                                            <i class="ri-ship-line"></i>
-                                            Boat Ride
-                                        </span>
-
-                                    </div>
-
-                                    <div class="day-highlight">
-                                        <i class="ri-star-fill"></i>
-                                        Sunrise boat ride on the Ganges
-                                    </div>
-
-                                </div>
-
-                            </div>
+                                    <!-- TIMELINE ITEM -->
+                                    <div class="timeline-item">
 
 
-                            <!-- DAY 4 -->
-                            <div class="timeline-item">
+                                        <!-- NUMBER -->
+                                        <div class="timeline-number">
 
-                                <div class="timeline-number">
-                                    04
-                                </div>
+                                            <?= str_pad($count, 2, '0', STR_PAD_LEFT) ?>
 
-                                <div class="timeline-content">
+                                        </div>
 
-                                    <div class="day-label">
-                                        DAY 4
-                                    </div>
 
-                                    <h3>Culture & Ganga Aarti</h3>
+                                        <!-- CONTENT -->
+                                        <div class="timeline-content">
 
-                                    <p>
-                                        Spend the day discovering the
-                                        local culture before experiencing
-                                        the spectacular Ganga Aarti.
-                                    </p>
 
-                                    <div class="day-info">
+                                            <!-- DAY LABEL -->
+                                            <div class="day-label">
 
-                                        <span>
-                                            <i class="ri-restaurant-line"></i>
-                                            Breakfast
-                                        </span>
+                                                DAY <?= $count ?>
 
-                                        <span>
-                                            <i class="ri-walk-line"></i>
-                                            Walking Tour
-                                        </span>
+                                            </div>
+
+
+                                            <!-- TITLE -->
+                                            <h3>
+
+                                                <?= htmlspecialchars($day['title'] ?? 'Day ' . $count) ?>
+
+                                            </h3>
+
+
+                                            <!-- DESCRIPTION -->
+                                            <?php if ($description !== ''): ?>
+
+                                                <p>
+                                                    <?= nl2br(htmlspecialchars($description)) ?>
+                                                </p>
+
+                                            <?php else: ?>
+
+                                                <p>
+                                                    No Details available
+                                                </p>
+
+                                            <?php endif; ?>
+
+
+                                            <!-- DAY INFO -->
+                                            <div class="day-highlight">
+                                                <div class="day-info">
+
+
+                                                    <?php if ($meal !== ''): ?>
+
+                                                        <span>
+
+                                                            <i class="ri-restaurant-line"></i>
+
+                                                            <?= htmlspecialchars($meal) ?>
+
+                                                        </span>
+
+                                                    <?php endif; ?>
+
+
+                                                    <?php if ($transport !== ''): ?>
+
+                                                        <span>
+
+                                                            <i class="ri-car-line"></i>
+
+                                                            <?= htmlspecialchars($transport) ?>
+
+                                                        </span>
+
+                                                    <?php endif; ?>
+
+
+                                                    <?php if ($stay !== ''): ?>
+
+                                                        <span>
+
+                                                            <i class="ri-hotel-line"></i>
+
+                                                            <?= htmlspecialchars($stay) ?>
+
+                                                        </span>
+
+                                                    <?php endif; ?>
+
+
+                                                </div>
+                                            </div>
+
+
+                                            <!-- HIGHLIGHT -->
+
+                                        </div>
 
                                     </div>
 
-                                    <div class="day-highlight">
-                                        <i class="ri-star-fill"></i>
-                                        Evening Ganga Aarti
+
+                                <?php endforeach; ?>
+
+
+                            <?php else: ?>
+
+
+                                <div class="timeline-item">
+
+                                    <div class="timeline-number">
+                                        01
                                     </div>
 
-                                </div>
+                                    <div class="timeline-content">
 
-                            </div>
+                                        <div class="day-label">
+                                            ITINERARY
+                                        </div>
 
+                                        <h3>
+                                            No Details Available
+                                        </h3>
 
-                            <!-- DAY 5 -->
-                            <div class="timeline-item">
-
-                                <div class="timeline-number">
-                                    05
-                                </div>
-
-                                <div class="timeline-content">
-
-                                    <div class="day-label">
-                                        DAY 5
-                                    </div>
-
-                                    <h3>Departure</h3>
-
-                                    <p>
-                                        Enjoy your final breakfast before
-                                        checking out and departing with
-                                        beautiful memories of Varanasi.
-                                    </p>
-
-                                    <div class="day-info">
-
-                                        <span>
-                                            <i class="ri-restaurant-line"></i>
-                                            Breakfast
-                                        </span>
-
-                                        <span>
-                                            <i class="ri-flight-takeoff-line"></i>
-                                            Departure
-                                        </span>
+                                        <p>
+                                            No itinerary details are available for this package.
+                                        </p>
 
                                     </div>
 
                                 </div>
 
-                            </div>
+
+                            <?php endif; ?>
+
 
                         </div>
 
@@ -2418,84 +2436,219 @@
                                             <i class="ri-check-line"></i>
                                         </div>
 
-                                        <h3>What's Included</h3>
+                                        <h3>Inclusion</h3>
                                     </div>
 
                                     <ul>
 
-                                        <li>
-                                            <i class="ri-checkbox-circle-fill"></i>
-                                            Hotel accommodation
-                                        </li>
+                                        <?php
+                                        $inclusionData = $itinery['inclusion'] ?? '';
 
-                                        <li>
-                                            <i class="ri-checkbox-circle-fill"></i>
-                                            Daily breakfast
-                                        </li>
+                                        $inclusions = json_decode($inclusionData, true);
 
-                                        <li>
-                                            <i class="ri-checkbox-circle-fill"></i>
-                                            Airport / railway transfer
-                                        </li>
+                                        if (!is_array($inclusions)) {
+                                            $inclusions = [];
+                                        }
 
-                                        <li>
-                                            <i class="ri-checkbox-circle-fill"></i>
-                                            Sightseeing as per itinerary
-                                        </li>
+                                        // Remove empty values
+                                        $inclusions = array_filter($inclusions, function ($inclusion) {
+                                            return trim($inclusion) !== '';
+                                        });
+                                        ?>
 
-                                        <li>
-                                            <i class="ri-checkbox-circle-fill"></i>
-                                            Professional driver
-                                        </li>
+                                        <?php if (!empty($inclusions)): ?>
+
+                                            <?php foreach ($inclusions as $inclusion): ?>
+
+                                                <li>
+                                                    <i class="ri-checkbox-circle-fill"></i>
+                                                    <?= htmlspecialchars(trim($inclusion)) ?>
+                                                </li>
+
+                                            <?php endforeach; ?>
+
+                                        <?php else: ?>
+
+                                            <li>
+                                                <i class="ri-checkbox-circle-fill"></i>
+                                                No Details available
+                                            </li>
+
+                                        <?php endif; ?>
 
                                     </ul>
 
                                 </div>
 
                             </div>
-
-
                             <div class="col-md-6">
 
                                 <div class="included-card excluded">
 
                                     <div class="list-title">
-
                                         <div class="list-icon">
                                             <i class="ri-close-line"></i>
                                         </div>
 
-                                        <h3>What's Not Included</h3>
-
+                                        <h3>Exclusion</h3>
                                     </div>
 
                                     <ul>
 
-                                        <li>
-                                            <i class="ri-close-circle-fill"></i>
-                                            Personal expenses
-                                        </li>
+                                        <?php
+                                        $inclusionData = $itinery['exclusion'] ?? '';
 
-                                        <li>
-                                            <i class="ri-close-circle-fill"></i>
-                                            Airfare / train tickets
-                                        </li>
+                                        $inclusions = json_decode($inclusionData, true);
 
-                                        <li>
-                                            <i class="ri-close-circle-fill"></i>
-                                            Travel insurance
-                                        </li>
+                                        if (!is_array($inclusions)) {
+                                            $inclusions = [];
+                                        }
 
-                                        <li>
-                                            <i class="ri-close-circle-fill"></i>
-                                            Monument entrance fees
-                                        </li>
+                                        // Remove empty values
+                                        $inclusions = array_filter($inclusions, function ($inclusion) {
+                                            return trim($inclusion) !== '';
+                                        });
+                                        ?>
+
+                                        <?php if (!empty($inclusions)): ?>
+
+                                            <?php foreach ($inclusions as $inclusion): ?>
+
+                                                <li>
+                                                    <i class="ri-close-circle-fill"></i>
+                                                    <?= htmlspecialchars(trim($inclusion)) ?>
+                                                </li>
+
+                                            <?php endforeach; ?>
+
+                                        <?php else: ?>
+
+                                            <li>
+                                                <i class="ri-checkbox-circle-fill"></i>
+                                                No Details available
+                                            </li>
+
+                                        <?php endif; ?>
 
                                     </ul>
 
                                 </div>
 
                             </div>
+
+                            <div class="col-md-6">
+
+                                <div class="included-card included">
+
+                                    <div class="list-title">
+
+                                        <div class="list-icon">
+                                            <i class="ri-error-warning-line"></i>
+                                        </div>
+
+                                        <h3>Important Notes / Remarks</h3>
+
+                                    </div>
+
+                                    <ul>
+
+                                        <?php
+                                        $travelInfo = $itinery['remark'] ?? '';
+
+                                        $thingsToKnow = json_decode($travelInfo, true);
+
+                                        if (!is_array($thingsToKnow)) {
+                                            $thingsToKnow = [];
+                                        }
+
+                                        // Remove empty values
+                                        $thingsToKnow = array_filter($thingsToKnow, function ($thing) {
+                                            return trim($thing) !== '';
+                                        });
+                                        ?>
+
+                                        <?php if (!empty($thingsToKnow)): ?>
+
+                                            <?php foreach ($thingsToKnow as $thing): ?>
+
+                                                <li>
+                                                    <i class="ri-error-warning-fill"></i>
+                                                    <?= htmlspecialchars(trim($thing)) ?>
+                                                </li>
+
+                                            <?php endforeach; ?>
+
+                                        <?php else: ?>
+
+                                            <li>
+                                                <i class="ri-suitcase-3-fill"></i>
+                                                No Details available
+                                            </li>
+
+                                        <?php endif; ?>
+
+                                    </ul>
+
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="included-card included">
+
+                                    <div class="list-title">
+
+                                        <div class="list-icon">
+                                            <i class="ri-suitcase-3-line"></i>
+                                        </div>
+
+                                        <h3>Things to Know Before You Go</h3>
+
+                                    </div>
+
+                                    <ul>
+
+                                        <?php
+                                        $travelInfo = $itinery['travel_info'] ?? '';
+
+                                        $thingsToKnow = json_decode($travelInfo, true);
+
+                                        if (!is_array($thingsToKnow)) {
+                                            $thingsToKnow = [];
+                                        }
+
+                                        // Remove empty values
+                                        $thingsToKnow = array_filter($thingsToKnow, function ($thing) {
+                                            return trim($thing) !== '';
+                                        });
+                                        ?>
+
+                                        <?php if (!empty($thingsToKnow)): ?>
+
+                                            <?php foreach ($thingsToKnow as $thing): ?>
+
+                                                <li>
+                                                    <i class="ri-suitcase-3-fill"></i>
+                                                    <?= htmlspecialchars(trim($thing)) ?>
+                                                </li>
+
+                                            <?php endforeach; ?>
+
+                                        <?php else: ?>
+
+                                            <li>
+                                                <i class="ri-suitcase-3-fill"></i>
+                                                No Details available
+                                            </li>
+
+                                        <?php endif; ?>
+
+                                    </ul>
+
+                                </div>
+
+                            </div>
+                            
 
                         </div>
 
@@ -2503,7 +2656,7 @@
 
 
                     <!-- PACKING -->
-                    <div class="package-section">
+                    <!-- <div class="package-section">
 
                         <div class="section-heading">
 
@@ -2550,11 +2703,11 @@
 
                         </div>
 
-                    </div>
+                    </div> -->
 
 
                     <!-- POLICIES -->
-                    <div class="package-section">
+                    <!-- <div class="package-section">
 
                         <div class="section-heading">
 
@@ -2669,7 +2822,7 @@
 
                         </div>
 
-                    </div>
+                    </div> -->
 
                 </div>
 
@@ -2691,7 +2844,7 @@
 
                         <h2>
                             Ready to Explore
-                            <strong>Varanasi?</strong>
+                            <strong><?= $destination ?>?</strong>
                         </h2>
 
                         <p>
@@ -2701,7 +2854,7 @@
 
                     </div>
 
-                    <div class="cta-buttons">
+                    <!-- <div class="cta-buttons">
 
                         <button class="btn btn-light">
                             Enquire Now
@@ -2713,7 +2866,7 @@
                             Talk to Expert
                         </button>
 
-                    </div>
+                    </div> -->
 
                 </div>
 
