@@ -39,3 +39,12 @@
     color: #fff !important;
     display: inline-block;
 }
+.mobileProfile {
+    position: relative;
+    bottom: 50px !important;
+    z-index: 1001;
+}
+
+.dropdown-menu {
+    z-index: 1002;
+}
