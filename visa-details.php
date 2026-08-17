@@ -60,6 +60,8 @@
         <link rel="stylesheet" type="text/css" href="assets/css/visa-details.css">
         <!-- User Profile CSS -->
         <link rel="stylesheet" type="text/css" href="assets/css/user-profile.css">
+        <!-- Tour Details Video -->
+        <link rel="stylesheet" type="text/css" href="assets/css/tour-details-video.css">
     </head>
     <body>
         <!-- /* Animated Cursor Start */ -->
