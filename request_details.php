@@ -152,7 +152,106 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-4 col-lg-3 mb-3"></div>
+                            <div class="col-xl-4 col-lg-3 mb-3">
+                                <div class="card">
+                                    <h4 class="fw-bold p-3">Package Price Calculation</h4>
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="p-3">
+                                        <p class="fw-bold">Base Price (Per Person)</p>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="fontSize10">Adult (12+ yrs)</p>
+                                                <p class="fontSize10">Child (5-11 yrs)</p>
+                                                <p class="fontSize10">Infant (0-4 yrs)</p>
+                                            </div>
+                                            <div>
+                                                <p class="fontSize10 text-end">&#8377; 13,754</p>
+                                                <p class="fontSize10 text-end">&#8377; 11,004</p>
+                                                <p class="fontSize10 text-end">FREE</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="p-3">
+                                        <p class="fw-bold">Price Based on Travelers</p>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="fontSize10">Adult: <span class="">2 x &#8377; 13,754</span></p>
+                                                <p class="fontSize10">Children: <span class="">1 x &#8377; 11,004</span></p>
+                                                <p class="fontSize10">Infant: <span class="">0 x FREE</span></p>
+                                            </div>
+                                            <div>
+                                                <p class="fontSize10 text-end">&#8377; 27,508</p>
+                                                <p class="fontSize10 text-end">&#8377; 11,004</p>
+                                                <p class="fontSize10 text-end">&#8377; 0</p>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <p class="fw-bold">Subtotal</p>
+                                            <p class="fontSize13 fw-bold">&#8377; 38,512</p>
+                                        </div>
+                                    </div>
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="p-3">
+                                        <p class="fw-bold">Room & Extra Mattress</p>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="fontSize10">Room 1 (1 Double Bed)</p>
+                                                <p class="fontSize10">Extra Mattress (1) x &#8377; 1,500</p>
+                                            </div>
+                                            <div>
+                                                <p class="fontSize10 text-end">Included</p>
+                                                <p class="fontSize10 text-end">&#8377; 1,500</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="p-3">
+                                        <p class="fw-bold">Transport</p>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="fontSize10">4 Seater AC Vehicle (For 3 Pax)</p>
+                                                <a href="#" class="fontSize10 text-primary">Change Vehicle</a>
+                                            </div>
+                                            <div>
+                                                <p class="fontSize10 text-end">Included</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="p-3">
+                                        <p class="fw-bold">Other Charges</p>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="fontSize10">Convenience Fee</p>
+                                                <p class="fontSize10">GST (18%)</p>
+                                            </div>
+                                            <div>
+                                                <p class="fontSize10 text-end">&#8377; 499</p>
+                                                <p class="fontSize10 text-end">&#8377; 7,840</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="d-flex justify-content-between px-3">
+                                        <p class="fontSize10 discountGreen fw-bold">Discounts (Coupons)</p>
+                                        <p class="fontSize10 discountGreen fw-bold text-end">- &#8377; 7,500</p>
+                                    </div>
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="p-3">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="fs-6">Total Estimated Price</p>
+                                                <p class="fontSize10">Per Person</p>
+                                            </div>
+                                            <div>
+                                                <p class="fs-5 text-danger fw-bolder text-end">&#8377; 40,851</p>
+                                                <p class="fontSize10 text-end">&#8377; 13,617</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
