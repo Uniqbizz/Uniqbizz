@@ -1,8 +1,8 @@
 <?php
-    // session_start();
-    // if(!isset($_SESSION['username'])){
-    //     echo '<script>location.href = "login.php";</script>';
-    // }
+    session_start();
+    if(!isset($_SESSION['username'])){
+        echo '<script>location.href = "login.php";</script>';
+    }
 
     require '../connect.php';
     $date = date('Y'); 
@@ -83,6 +83,7 @@
                                                     <th class="ceterText fw-bolder font-size-16">Sr. No.</th>
                                                     <th class="ceterText fw-bolder font-size-16">Unique Code</th>
                                                     <th class="ceterText fw-bolder font-size-16">Package Name</th>
+                                                    <th class="ceterText fw-bolder font-size-16">Validity Date</th>
                                                     <th class="ceterText fw-bolder font-size-16">Total Price</th>
                                                     <th class="ceterText fw-bolder font-size-16">Product Type</th>
                                                     <th class="ceterText fw-bolder font-size-16">Action</th>
@@ -93,15 +94,19 @@
                                                 <?php
                                                     require '../connect.php';
                                                     
-                                                    $stmt = $conn->prepare("SELECT p.id, name, unique_code, category_name, total_package_price_per_adult,total_package_price_per_child FROM package p, package_pricing t, category c WHERE p.id = t.package_id AND p.category_id = c.id AND p.status = '1' ORDER BY p.id DESC ");
+                                                    $stmt = $conn->prepare("SELECT p.id, name, unique_code, category_name, total_package_price_per_adult,total_package_price_per_child, validity FROM package p, package_pricing t, category c WHERE p.id = t.package_id AND p.category_id = c.id AND p.status = '1' ORDER BY p.id DESC ");
                                                     $stmt->execute();
                                                     $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                                     if($stmt->rowCount()>0){
-                                                        foreach (($stmt->fetchAll()) as $key => $row) {
+                                                        foreach (($stmt->fetchAll()) as $key => $row) {                                                       
+                                                            $today = date('Y-m-d');
+                                                            $validity = date('Y-m-d', strtotime($row['validity']));
+                                                            $bgColor = ($validity < $today) ? '#FF2E2E' : '';
                                                             echo '<tr>
                                                                     <td style="text-align:center"><span class="list-img text-black">'.++$key.'</span></td>
                                                                     <td style="text-align:center"><a href="#" class="text-black"><span class="list-end-name">'.$row['unique_code'].'</span></a></td>
                                                                     <td><a href="#" class="text-black"><span class="list-end-name">'.$row['name'].'</span></a></td>
+                                                                    <td><a href="#" class="text-black" ><span class="list-end-name" style="color:'. $bgColor .'">'.$validity.'</span></a></td>
                                                                     <td style="text-align:right" class="text-black"> Adult: ₹ '.$row['total_package_price_per_adult'].'<br> Child: ₹ '.$row['total_package_price_per_child'].'</td>
                                                                     <td style="text-align:center" class="text-black">'.$row['category_name'].'</td>
                                                                     <td>
