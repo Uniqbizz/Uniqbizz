@@ -143,7 +143,7 @@
 
                                     <div class="profileScetion">
                                         <div class="profilePic">
-                                            <img src="assets/images/hero/user-1.jpeg" alt="">
+                                            <img src="uploading/<?= $_SESSION['profile_pic'] ?>" alt="">
                                         </div>
 
                                         <div class="dropdown alignContent">
@@ -376,7 +376,7 @@
 
                             <div class="dropdown">
                                 <div class="profilePic mobileProfile" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="assets/images/hero/user-1.jpeg" alt="">
+                                    <img src="uploading/<?= $_SESSION['profile_pic'] ?>" alt="">
                                 </div>
 
                                 <ul class="dropdown-menu dropdown-menu-end px-3">
@@ -584,7 +584,7 @@
                         <?php else : ?>
 
                             <a href="login.php"
-                            class="btn-secondary-sm my2logout d-flex justify-content-center align-items-center p-0"
+                            class="btn btn-outline-light radius-20 text-white my2logout d-flex justify-content-center align-items-center p-0"
                             style="width:80px;height:40px;">
                                 Log In
                             </a>

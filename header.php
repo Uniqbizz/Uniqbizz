@@ -377,7 +377,7 @@
                         <?php if(isset($_SESSION['username2'])): ?>
                             <div class="dropdown me-2">
                                 <div class="profilePic mobileProfile1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="assets/images/hero/user-1.jpeg" alt="">
+                                    <img src="uploading/<?= $_SESSION['profile_pic'] ?>" alt="">
                                 </div>
 
                                 <ul class="dropdown-menu dropdown-menu-end px-3">
@@ -482,23 +482,21 @@
                                         </li>
 
                                         <?php
-                                        } else {
-                                        ?>
-
-                                        <a href="login.php"
-                                        class="btn-secondary-sm my2logout d-flex justify-content-center align-items-center p-0"
-                                        style="width:80px;height:40px;">
-                                            Log In
-                                        </a>
-
-                                        <?php
-                                        }
+                                        } 
                                         ?>
                                     
                                 </ul>
                             </div>
 
-                        <?php endif; ?>
+                        <?php else :?>
+
+                        <a href="login.php"
+                        class="btn-secondary-sm my2logout d-flex justify-content-center align-items-center p-0"
+                        style="width:80px;height:40px;">
+                            Log In
+                        </a>
+
+                        <?php endif;?>
 
                         <div class="mobile_menu"></div>
 
