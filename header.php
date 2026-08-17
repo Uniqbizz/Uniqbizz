@@ -302,7 +302,7 @@
                                                                         <li class="d-flex">
                                                                             <i class="ri-calendar-line align-content-center stickyTextBlack"></i>
                                                                             <a class="dropdown-item stickyTextBlack"
-                                                                            href="<?php echo $dashboardFolder; ?>/order_details.php">
+                                                                            href="<?php echo $dashboardFolder; ?>/order_history.php">
                                                                                 My Bookings
                                                                             </a>
                                                                         </li>
@@ -436,7 +436,7 @@
                                             $profileLink = $dashboardFolder . "/profile.php";
 
                                             // Order / booking details page
-                                            $orderDetailsLink = $dashboardFolder . "/order_details.php";
+                                            $orderDetailsLink = $dashboardFolder . "/order_history.php";
                                     ?>
 
                                         <!-- Dashboard -->

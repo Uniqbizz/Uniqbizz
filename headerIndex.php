@@ -324,7 +324,7 @@
 
                                                 <li class="d-flex">
                                                     <i class="ri-calendar-line align-content-center stickyTextBlack"></i>
-                                                    <a class="dropdown-item stickyTextBlack" href="<?php echo $dashboardFolder; ?>/order_details.php">
+                                                    <a class="dropdown-item stickyTextBlack" href="<?php echo $dashboardFolder; ?>/order_history.php">
                                                         My Bookings
                                                     </a>
                                                 </li>
@@ -550,7 +550,7 @@
 
                                     <li class="d-flex">
                                         <i class="ri-calendar-line align-content-center stickyTextBlack"></i>
-                                        <a class="dropdown-item stickyTextBlack" href="<?php echo $dashboardFolder; ?>/order_details.php">
+                                        <a class="dropdown-item stickyTextBlack" href="<?php echo $dashboardFolder; ?>/order_history.php">
                                             My Bookings
                                         </a>
                                     </li>
