@@ -1,0 +1,21 @@
+.requestQuotePackageImg {
+    width: 220px !important;
+    height: 220px !important;
+    border-radius: 5px;
+}
+.fontSize10 {
+    font-size: 12px;
+}
+.widthStretch {
+    width: stretch;
+}
+.priceGreenBtn {
+    background-color: #e8f5e8;
+    border: 1px solid #9ed39e;
+    border-radius: 8px;
+}
+.priceTextGreen {
+    color: #008000;
+    font-size: 18px;
+    font-weight: 900;
+}
