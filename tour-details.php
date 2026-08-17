@@ -393,6 +393,8 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
         <link rel="stylesheet" type="text/css" href="assets/css/tour_details_share.css">
         <!-- User Profile CSS -->
         <link rel="stylesheet" type="text/css" href="assets/css/user-profile.css">
+        <!-- Tour Details Video -->
+        <link rel="stylesheet" type="text/css" href="assets/css/tour-details-video.css">
         <!-- RTL CSS::When Need RTL Uncomments File -->
         <!-- <link rel="stylesheet" type="text/css" href="assets/css/rtl.css"> -->
         <!-- Swiper -->
