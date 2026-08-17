@@ -332,6 +332,8 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
         <link rel="stylesheet" type="text/css" href="assets/css/tour-details.css">
         <!-- share model css file 30-07-2026 -->
         <link rel="stylesheet" type="text/css" href="assets/css/tour_details_share.css">
+        <!-- User Profile CSS -->
+        <link rel="stylesheet" type="text/css" href="assets/css/user-profile.css">
         <!-- RTL CSS::When Need RTL Uncomments File -->
         <!-- <link rel="stylesheet" type="text/css" href="assets/css/rtl.css"> -->
         <!-- Swiper -->

@@ -22,10 +22,10 @@
         <link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- Icons Css -->
         <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-        <!-- App Css-->
-        <link href="../assets/css/app.min.css" rel="stylesheet" type="text/css" />
         <!-- custom Css-->
         <link href="../assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <!-- App Css-->
+        <link href="../assets/css/app.min.css" rel="stylesheet" type="text/css" />
         <!-- custom Css developer-->
         <link rel="stylesheet" href="../assets/css/custom.css" />
         <!-- Super Techno Enterprisee Dashboard CSS -->
@@ -79,7 +79,7 @@
                             </div>
                             <div class="greetingCard">
                                 <p class="fw-bold text-dark gap-3 fs-4">Welcome Back,<span class="" id="userName"></span>! &#128075;</p>
-                                <h1 class="fw-bold text-dark gap-3">Sponsor Franchisee</h1>
+                                <h1 class="fw-bold text-dark gap-3">Master Franchisee</h1>
                                 <p class="text-dark fs-4 mb-0">You're building something great.</p>
                                 <p class="text-dark fs-4">Here's your business overview.</p>
                             </div>
@@ -479,28 +479,59 @@
                 }
             });
         </script>
+        <!-- Sidebar Start -->
         <script>
             document.addEventListener("DOMContentLoaded", function () {
 
                 const sidebar = document.querySelector(".navbar-menu");
                 const hamburger = document.getElementById("topnav-hamburger-icon");
+                const hamburgerIcon = document.querySelector(".hamburger-icon");
                 const overlay = document.querySelector(".vertical-overlay");
 
-                /* DEFAULT DESKTOP */
                 if (window.innerWidth > 1024) {
                     sidebar.classList.remove("sidebar-hidden");
                 }
 
                 hamburger.addEventListener("click", function () {
 
-                    /* BELOW 1024 */
                     if (window.innerWidth <= 1024) {
 
-                        sidebar.classList.toggle("sidebar-mobile-show");
+                        /* BELOW 767 - YOUR ORIGINAL WORKING LOGIC */
+                        if (window.innerWidth <= 767) {
 
-                        /* OVERLAY ONLY BELOW 768 */
-                        if (window.innerWidth <= 768) {
-                            overlay.classList.toggle("active");
+                            sidebar.classList.toggle("sidebar-mobile-show");
+                            hamburgerIcon.classList.toggle("open");
+
+                            if (overlay) {
+                                overlay.classList.toggle("active");
+                            }
+                        }
+
+                        /* 768px TO 1024px */
+                        else {
+
+                            if (!sidebar.classList.contains("sidebar-mobile-show")) {
+
+                                sidebar.classList.add("sidebar-mobile-show");
+
+                                if (overlay) {
+                                    overlay.classList.add("active");
+                                }
+
+                                /* SHOW 3 LINES */
+                                hamburgerIcon.classList.add("open");
+
+                            } else {
+
+                                sidebar.classList.remove("sidebar-mobile-show");
+
+                                if (overlay) {
+                                    overlay.classList.remove("active");
+                                }
+
+                                /* SHOW ARROW */
+                                hamburgerIcon.classList.remove("open");
+                            }
                         }
 
                     } else {
@@ -510,20 +541,20 @@
                     }
                 });
 
-                /* CLOSE ONLY MOBILE */
-                if (window.innerWidth <= 768) {
+                if (overlay) {
 
                     overlay.addEventListener("click", function () {
 
                         sidebar.classList.remove("sidebar-mobile-show");
                         overlay.classList.remove("active");
+                        hamburgerIcon.classList.remove("open");
 
                     });
                 }
 
             });
-
         </script>
+        <!-- Sidebar End -->
        
         <!-- dialer logic -->
         <!-- Card section 3 -->

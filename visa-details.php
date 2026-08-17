@@ -58,6 +58,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
         <!-- Visa CSS -->
         <link rel="stylesheet" type="text/css" href="assets/css/visa-details.css">
+        <!-- User Profile CSS -->
+        <link rel="stylesheet" type="text/css" href="assets/css/user-profile.css">
     </head>
     <body>
         <!-- /* Animated Cursor Start */ -->
