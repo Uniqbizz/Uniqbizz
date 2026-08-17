@@ -1048,7 +1048,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                                             </h5>
 
                                                             <p class="text-white">
-                                                                Child (5-12 yrs)
+                                                                Child (3-11 yrs)
                                                             </p>
 
                                                         </div>
@@ -1058,23 +1058,18 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                             </div>
                                             <div class="p-3">
                                                 <div class="durationCard p-2 mb-3">
-                                                    <?php
-                                                    $days = (int)$package['tour_days'];
-                                                    $nights = max(0, $days - 1);
-                                                    ?>
-
                                                     <p class="text-muted fw-bolder">
                                                         Duration:
                                                         <span class="text-black fw-bolder fs-5">
-                                                            <?= $nights ?> Nights / <?= $days ?> Days
+                                                            <?= $tour_nights ?> Nights / <?= $tour_days ?> Days
                                                         </span>
                                                     </p>
                                                 </div>
-                                                <button class="request-btn mb-3">
+                                                <button class="request-btn mb-3" id="requestDetails" style="cursor:pointer;">
                                                     <i class="ri-image-line me-2"></i>
                                                     Request Details
                                                 </button>      
-                                                <button class="enquiry-btn mb-3">
+                                                <button class="enquiry-btn mb-3" id="sendEnquiry" style="cursor:pointer;">
                                                     <i class="ri-image-line me-2"></i>
                                                     Send Enquiry
                                                 </button>  
@@ -1085,7 +1080,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3">
+                                            <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3" style="cursor:pointer;">
 
                                                 <a href="download_tour_detail.php?pacId=<?= urlencode($id) ?>&format=pdf"
                                                     class="blueCardBtn text-center rounded-4 p-3 text-decoration-none d-block">
@@ -1099,16 +1094,16 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                                 </a>
 
                                             </div>
-                                            <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3">
-                                                <div class="blueCardBtn text-center rounded-4 p-3">
+                                            <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3" id="emailItinerary">
+                                                <div class="blueCardBtn text-center rounded-4 p-3" style="cursor:pointer;">
                                                     <div class="goldBtn">
                                                         <i class="ri-mail-line"></i>
                                                     </div>
                                                     Email Itinerary
                                                 </div>
                                             </div>
-                                            <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3">
-                                                <div class="blueCardBtn text-center rounded-4 p-3">
+                                            <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3" id="sendItenerary">
+                                                <div class="blueCardBtn text-center rounded-4 p-3" style="cursor:pointer;">
                                                     <div class="goldBtn">
                                                         <i class="ri-send-plane-line"></i>
                                                     </div>
@@ -1435,6 +1430,66 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                 }, 400);
             }
 
+        </script>
+        <script>
+            // Send Enquiry and Send Itinerary
+            document.querySelectorAll('#sendEnquiry, #sendItenerary').forEach(button => {
+                button.addEventListener('click', function () {
+
+                    const phoneNumber = '919876543210';
+
+                    const packageReference = `<?= htmlspecialchars($package['unique_code'] ?? '') ?>`;
+                    const packageName = `<?= htmlspecialchars($package['pack_name'] ?? '') ?>`;
+
+                    let message = '';
+
+                    if (this.id === 'sendEnquiry') {
+
+                        message = `Hello, I would like to enquire about this travel package.
+
+                        Package Reference: ${packageReference}
+                        Package Name: ${packageName}
+
+                        Please share more details about this package.`;
+
+                                } else if (this.id === 'sendItenerary') {
+
+                                    message = `Hello, I would like to enquire about the itinerary of this travel package.
+
+                        Package Reference: ${packageReference}
+                        Package Name: ${packageName}
+
+                        Please share the detailed itinerary with me.`;
+                    }
+
+                    const whatsappURL =
+                        `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+                    window.open(whatsappURL, '_blank');
+                });
+            });
+
+            //email itinerary
+            document.getElementById('emailItinerary').addEventListener('click', function () {
+
+                const subject = `Travel Package Enquiry - <?= htmlspecialchars($package['unique_code'] ?? '') ?>`;
+
+                const body = `Hello,
+
+                I am interested in the following travel package:
+
+                Package Reference: <?= htmlspecialchars($package['unique_code'] ?? '') ?>
+                Package Name: <?= htmlspecialchars($package['pack_name'] ?? '') ?>
+
+                Please share more details about this package.
+
+                Thank you.`;
+
+                const mailtoURL =
+                    `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+                window.location.href = mailtoURL;
+            });
         </script>
         <script>
             document.addEventListener("DOMContentLoaded", function () {

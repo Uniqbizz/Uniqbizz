@@ -2003,10 +2003,10 @@ function validatePolicy() {
     let tableData = [];
 
     // Coupon Rule Validation
-    if (!switchCoupon && !switchCombine) {
-        showCouponRuleError("Please enable at least one coupon rule.");
-        return false;
-    }
+    // if (!switchCoupon && !switchCombine) {
+    //     showCouponRuleError("Please enable at least one coupon rule.");
+    //     return false;
+    // }
 
     // Booking Validation
     if (bookingPercentage === "") {
