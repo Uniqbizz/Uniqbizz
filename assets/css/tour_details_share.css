@@ -49,6 +49,16 @@
         animation:popup .25s ease;
     }
 
+    .share-icon {
+        width: 35px;
+        height: 35px;
+        border: 1px solid #73797a;
+        /*border-radius: 100%;*/
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
     @keyframes popup{
 
     from{

@@ -1571,6 +1571,17 @@ $showGuestPrice = !empty($userType)
         <script type="text/javascript" src="logout/logout.js"></script>
         <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
         <script>
+            
+            // Restore selected sorting when returning to the listing page
+            $(document).ready(function () {
+
+                let savedSort = sessionStorage.getItem("packageSort");
+
+                if (savedSort) {
+                    $(".sort-options").val(savedSort).trigger("change");
+                }
+
+            });
             function viewPackage(id) {
                 window.location.href = 'tour-details.php?pacId=' + id;
             }
@@ -1700,26 +1711,13 @@ $showGuestPrice = !empty($userType)
             });
 
             // Run AJAX on sort change
-            $(".sort-options").on("change", function() {
-                // sortValue = $(this).val();
-                // priceRange = $("#amount").val();
-                // prices = extractPrices(priceRange);
+            $(document).on("change", ".sort-options", function () {
 
-                // minDuration = $("#slider-range-duration").slider("values", 0);
-                // maxDuration = $("#slider-range-duration").slider("values", 1);
-                
-                // tourType = getTourType();
-                // listBtnVal = document.getElementById("all-tour-list");
-                // gridBtnVal = document.getElementById("all-tour-grid");
-                // viewType = 0;
+                let selectedSort = $(this).val();
 
-                // if (!listBtnVal.classList.contains('d-none')) {
-                //     viewType = 1; // list view
-                // } else if (!gridBtnVal.classList.contains('d-none')) {
-                //     viewType = 2; // grid view
-                // }
-                
-                // fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDestination,tourType,viewType);
+                // Save selected sorting option
+                sessionStorage.setItem("packageSort", selectedSort);
+
                 page = 1;
 
                 applyFilters();

@@ -24,7 +24,7 @@ html {
     display: flex;
     justify-content: space-between;
 }
-.share-icon,.wishlist-icon {
+.wishlist-icon {
     width: 35px;
     height: 35px;
     border: 1px solid #73797a;

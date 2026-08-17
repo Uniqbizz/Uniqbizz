@@ -33,6 +33,7 @@ if($stmt->rowCount()>0){
 					foreach (($stmt->fetchAll()) as $key => $row){
 						$_SESSION["username2"] = $row['firstname'] ;
 						$_SESSION["lname"] = $row['lastname'] ;
+						$_SESSION["profile_pic"] = $row['profile_pic'] ;
 						
 					}
 				}
@@ -47,6 +48,7 @@ if($stmt->rowCount()>0){
 					foreach (($stmt->fetchAll()) as $key => $row){
 						$_SESSION["username2"] = $row['firstname'] ;
 						$_SESSION["lname"] = $row['lastname'] ;
+						$_SESSION["profile_pic"] = $row['profile_pic'] ;
 						
 					}
 				}
@@ -62,6 +64,7 @@ if($stmt->rowCount()>0){
 					foreach (($stmt->fetchAll()) as $key => $row){
 						$_SESSION["username2"] = $row['firstname'] ;
 						$_SESSION["lname"] = $row['lastname'] ;
+						$_SESSION["profile_pic"] = $row['profile_pic'] ;
 						
 					}
 				}
@@ -77,6 +80,7 @@ if($stmt->rowCount()>0){
 					foreach (($stmt->fetchAll()) as $key => $row){
 						$_SESSION["username2"] = $row['firstname'] ;
 						$_SESSION["lname"] = $row['lastname'] ;
+						$_SESSION["profile_pic"] = $row['profile_pic'] ;
 						
 					}
 				}
@@ -92,6 +96,7 @@ if($stmt->rowCount()>0){
 					foreach (($stmt->fetchAll()) as $key => $row){
 						$_SESSION["username2"] = $row['firstname'] ;
 						$_SESSION["lname"] = $row['lastname'] ;
+						$_SESSION["profile_pic"] = $row['profile_pic'] ;
 						
 					}
 				}
@@ -107,6 +112,7 @@ if($stmt->rowCount()>0){
 					foreach (($stmt->fetchAll()) as $key => $row){
 						$_SESSION["username2"] = $row['firstname'] ;
 						$_SESSION["lname"] = $row['lastname'] ;
+						$_SESSION["profile_pic"] = $row['profile_pic'] ;
 						
 					}
 				}
@@ -122,6 +128,7 @@ if($stmt->rowCount()>0){
 					foreach (($stmt->fetchAll()) as $key => $row){
 						$_SESSION["username2"] = $row['firstname'] ;
 						$_SESSION["lname"] = $row['lastname'] ;
+						$_SESSION["profile_pic"] = $row['profile_pic'] ;
 						
 					}
 				}
@@ -136,6 +143,7 @@ if($stmt->rowCount()>0){
 					foreach (($stmt->fetchAll()) as $key => $row){
 						$_SESSION["username2"] = $row['firstname'] ;
 						$_SESSION["lname"] = $row['lastname'] ;
+						$_SESSION["profile_pic"] = $row['profile_pic'] ;
 						
 					}
 				}
@@ -153,6 +161,7 @@ if($stmt->rowCount()>0){
 						$_SESSION["username2"] = $row['firstname'] ;
 						$_SESSION["lname"] = $row['lastname'] ;
 						$_SESSION["customer_type"] = $row['customer_type'] ;
+						$_SESSION["profile_pic"] = $row['profile_pic'] ;
 						
 					}
 				}
@@ -167,6 +176,7 @@ if($stmt->rowCount()>0){
 					foreach (($stmt->fetchAll()) as $key => $row){
 						$_SESSION["username2"] = $row['firstname'] ;
 						$_SESSION["lname"] = $row['lastname'] ;
+						$_SESSION["profile_pic"] = $row['profile_pic'] ;
 						
 					}
 				}
@@ -181,6 +191,7 @@ if($stmt->rowCount()>0){
 					foreach (($stmt->fetchAll()) as $key => $row){
 						$_SESSION["username2"] = $row['firstname'] ;
 						$_SESSION["lname"] = $row['lastname'] ;
+						$_SESSION["profile_pic"] = $row['profile_pic'] ;
 						
 					}
 				}
@@ -195,6 +206,7 @@ if($stmt->rowCount()>0){
 					foreach (($stmt->fetchAll()) as $key => $row){
 						$_SESSION["username2"] = $row['firstname'] ;
 						$_SESSION["lname"] = $row['lastname'] ;
+						$_SESSION["profile_pic"] = $row['profile_pic'] ;
 						
 					}
 				}
@@ -209,6 +221,7 @@ if($stmt->rowCount()>0){
 					foreach (($stmt->fetchAll()) as $key => $row){
 						$_SESSION["username2"] = $row['firstname'] ;
 						$_SESSION["lname"] = $row['lastname'] ;
+						$_SESSION["profile_pic"] = $row['profile_pic'] ;
 						
 					}
 				}
@@ -223,6 +236,7 @@ if($stmt->rowCount()>0){
 				foreach (($stmt->fetchAll()) as $key => $row){
 					$_SESSION["username2"] = $row['firstname'] ;
 					$_SESSION["lname"] = $row['lastname'] ;
+					$_SESSION["profile_pic"] = $row['profile_pic'] ;
 					
 				}
 			}
@@ -237,6 +251,7 @@ if($stmt->rowCount()>0){
 				foreach (($stmt->fetchAll()) as $key => $row){
 					$_SESSION["username2"] = $row['firstname'] ;
 					$_SESSION["lname"] = $row['lastname'] ;
+					$_SESSION["profile_pic"] = $row['profile_pic'] ;
 					
 				}
 			}
@@ -255,6 +270,7 @@ if($stmt->rowCount()>0){
 				foreach (($stmt->fetchAll()) as $key => $row){
 					$_SESSION["username2"] = $row['firstname'] ;
 					$_SESSION["lname"] = $row['lastname'] ;
+					$_SESSION["profile_pic"] = $row['profile_pic'] ;
 					
 				}
 			}
@@ -269,6 +285,7 @@ if($stmt->rowCount()>0){
 				foreach (($stmt->fetchAll()) as $key => $row){
 					$_SESSION["username2"] = $row['firstname'] ;
 					$_SESSION["lname"] = $row['lastname'] ;
+					$_SESSION["profile_pic"] = $row['profile_pic'] ;
 					
 				}
 			}
@@ -283,6 +300,7 @@ if($stmt->rowCount()>0){
 				foreach (($stmt->fetchAll()) as $key => $row){
 					$_SESSION["username2"] = $row['name'] ;
 					$_SESSION["lname"] = ' ';
+					$_SESSION["profile_pic"] = $row['profile_pic'] ;
 					
 				}
 			}
@@ -297,6 +315,7 @@ if($stmt->rowCount()>0){
 				foreach (($stmt->fetchAll()) as $key => $row){
 					$_SESSION["username2"] = $row['name'] ;
 					$_SESSION["lname"] = ' ' ;
+					$_SESSION["profile_pic"] = $row['profile_pic'] ;
 					
 				}
 			}
@@ -311,6 +330,7 @@ if($stmt->rowCount()>0){
 				foreach (($stmt->fetchAll()) as $key => $row){
 					$_SESSION["username2"] = $row['firstname'] ;
 					$_SESSION["lname"] = $row['lastname'] ;
+					$_SESSION["profile_pic"] = $row['profile_pic'] ;
 					
 				}
 			}
@@ -325,6 +345,7 @@ if($stmt->rowCount()>0){
 				foreach (($stmt->fetchAll()) as $key => $row){
 					$_SESSION["username2"] = $row['name'] ;
 					$_SESSION["lname"] = '' ;
+					$_SESSION["profile_pic"] = $row['profile_pic'] ;
 					
 				}
 			}
@@ -339,6 +360,7 @@ if($stmt->rowCount()>0){
 				foreach (($stmt->fetchAll()) as $key => $row){
 					$_SESSION["username2"] = $row['firstname'] ;
 					$_SESSION["lname"] = $row['lastname'] ;
+					$_SESSION["profile_pic"] = $row['profile_pic'] ;
 					
 				}
 			}
@@ -353,6 +375,7 @@ if($stmt->rowCount()>0){
 				foreach (($stmt->fetchAll()) as $key => $row){
 					$_SESSION["username2"] = $row['firstname'] ;
 					$_SESSION["lname"] = $row['lastname'] ;
+					$_SESSION["profile_pic"] = $row['profile_pic'] ;
 					
 				}
 			}
@@ -367,6 +390,7 @@ if($stmt->rowCount()>0){
 				foreach (($stmt->fetchAll()) as $key => $row){
 					$_SESSION["username2"] = $row['firstname'] ;
 					$_SESSION["lname"] = $row['lastname'] ;
+					$_SESSION["profile_pic"] = $row['profile_pic'] ;
 					
 				}
 			}
@@ -381,6 +405,7 @@ if($stmt->rowCount()>0){
 				foreach (($stmt->fetchAll()) as $key => $row){
 					$_SESSION["username2"] = $row['name'] ;
 					$_SESSION["lname"] = ' ' ;
+					$_SESSION["profile_pic"] = $row['profile_pic'] ;
 					
 				}
 			}
@@ -395,6 +420,7 @@ if($stmt->rowCount()>0){
 				foreach (($stmt->fetchAll()) as $key => $row){
 					$_SESSION["username2"] = $row['firstname'] ;
 					$_SESSION["lname"] = $row['lastname'] ;
+					$_SESSION["profile_pic"] = $row['profile_pic'] ;
 					
 				}
 			}
@@ -409,6 +435,7 @@ if($stmt->rowCount()>0){
 				foreach (($stmt->fetchAll()) as $key => $row){
 					$_SESSION["username2"] = $row['firstname'] ;
 					$_SESSION["lname"] = $row['lastname'] ;
+					$_SESSION["profile_pic"] = $row['profile_pic'] ;
 					
 				}
 			}
@@ -423,6 +450,7 @@ if($stmt->rowCount()>0){
 				foreach (($stmt->fetchAll()) as $key => $row){
 					$_SESSION["username2"] = $row['firstname'] ;
 					$_SESSION["lname"] = $row['lastname'] ;
+					$_SESSION["profile_pic"] = $row['profile_pic'] ;
 					
 				}
 			}
@@ -437,6 +465,7 @@ if($stmt->rowCount()>0){
 				foreach (($stmt->fetchAll()) as $key => $row){
 					$_SESSION["username2"] = $row['firstname'] ;
 					$_SESSION["lname"] = $row['lastname'] ;
+					$_SESSION["profile_pic"] = $row['profile_pic'] ;
 					
 				}
 			}
@@ -451,6 +480,7 @@ if($stmt->rowCount()>0){
 				foreach (($stmt->fetchAll()) as $key => $row){
 					$_SESSION["username2"] = $row['firstname'] ;
 					$_SESSION["lname"] = $row['lastname'] ;
+					$_SESSION["profile_pic"] = $row['profile_pic'] ;
 					
 				}
 			}
@@ -489,7 +519,8 @@ if($stmt->rowCount()>0){
 			"message" => "Login Successful",
 			"user_type" => $user_type,
 			"user_id" => $_SESSION["user_id"],
-			"customer_type" => $_SESSION["customer_type"] ?? ''
+			"customer_type" => $_SESSION["customer_type"] ?? '',
+			"profile_pic" => $_SESSION["profile_pic"] ?? ''
 		];
 
 		echo json_encode($response);
