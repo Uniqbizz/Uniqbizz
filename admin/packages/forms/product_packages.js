@@ -1098,24 +1098,50 @@ $(".packageType").on("change",function(){
 
 });
 //visa type
-function showVisaTypeError(message){
+function showVisaTypeError(message) {
 
     $("#visaType_wrapper")
         .addClass("error")
-        .attr("tabindex","-1")
+        .attr("tabindex", "-1")
         .focus();
 
     $("#visaType_error").text(message);
 }
 
-function clearVisaTypeError(){
+
+function clearVisaTypeError() {
 
     $("#visaType_wrapper").removeClass("error");
 
     $("#visaType_error").text("");
 }
 
-$(".visaType").on("change",function(){
+
+function validateVisaType() {
+
+    const selectedVisa =
+        $('input[name="visaType"]:checked').val();
+
+
+    // Nothing selected
+    if (selectedVisa === undefined) {
+
+        showVisaTypeError(
+            "Please select Yes or No."
+        );
+
+        return false;
+    }
+
+
+    // Valid selection
+    clearVisaTypeError();
+
+    return true;
+}
+
+
+$(".visaType").on("change", function () {
 
     clearVisaTypeError();
 
@@ -1335,7 +1361,7 @@ function collectGeneralInfo() {
 
         packageType: $('input[name="packageType"]:checked').val(),
 
-        visaType: $('input[name="visaType"]:checked').length ? 1 : 0,
+        visaType : $('#visaYes').is(':checked') ? 1 : 0,
 
         dropPriceCheck: $('#dropPriceCheck').is(":checked") ? 1 : 0,
 
@@ -1369,7 +1395,9 @@ function validateGeneralInfo() {
         let description = $('#description').val().trim();
         let descriptionDetail = $('#descriptionDetail').val().trim();
         let packageType = $('input[name="packageType"]:checked').val();
-        let visaType = $('input[name="visaType"]:checked').length ? 1 : 0;
+        let visaSelected = $('input[name="visaType"]:checked').val();
+
+        let visaType = visaSelected === "visaYes" ? 1 : 0;
         let dropPrice = $('#dropPrice').val();
 
         const isEdit = $("#editFlag").length &&
@@ -1439,7 +1467,7 @@ function validateGeneralInfo() {
                 return false;
             }
 
-            if (!visaType) {
+            if (!visaSelected) {
                 showVisaTypeError("Please select Visa Type.");
                 return false;
             }
@@ -2054,11 +2082,16 @@ function validatePolicy() {
 }
 function collectMedia() {
 
+    let formData =
+        window.packageFormData || new FormData();
+
+
     // Cover Image
     const coverImage = {
         name: $("#coverImageUrl").data("base64") || "",
         url: $("#coverImageUrl").val().trim()
     };
+
 
     // Gallery Images
     const gallery = galleryImages.map(img => ({
@@ -2066,27 +2099,85 @@ function collectMedia() {
         url: img.url
     }));
 
-    // Videos
-    const videos = [
-		...new Set(
-			$("#videoPreviewList .video-preview-item .video-url")
-				.map(function () {
-					return $(this).text().trim();
-				})
-				.get()
-				.filter(Boolean)
-		)
-	].map(url => ({ url }));
 
+    // Videos
+    const videos = window.videoFiles.map(file => ({
+        name: file.name,
+        size: file.size,
+        type: "video"
+    }));
+
+
+    // Remove previously appended videos
+    formData.delete("videos[]");
+
+
+    // Save payload
     payLoadData.media = {
         coverImage,
         gallery,
         videos
     };
+
+
+    // Append actual files
+    window.videoFiles.forEach(function (file) {
+
+        console.log(
+            "Appending video:",
+            file.name,
+            file.size,
+            file.type
+        );
+
+        formData.append(
+            "videos[]",
+            file,
+            file.name
+        );
+
+    });
+
+
+    // Update payload
+    formData.set(
+        "payload",
+        JSON.stringify(payLoadData)
+    );
+
+
+    window.packageFormData = formData;
+
+
+    // DEBUG
+    console.log("========== FORMDATA ==========");
+
+    for (const [key, value] of formData.entries()) {
+
+        if (value instanceof File) {
+
+            console.log(
+                key,
+                "FILE:",
+                value.name,
+                value.size,
+                value.type
+            );
+
+        } else {
+
+            console.log(key, value);
+
+        }
+
+    }
+
+    console.log("==============================");
 }
 function validateMedia() {
 
     clearAllErrors();
+
 
     // Cover Image
     const coverImage = {
@@ -2095,9 +2186,14 @@ function validateMedia() {
     };
 
     if (!coverImage.name && !coverImage.url) {
-        showCoverImageError("Please upload a Cover Image.");
+
+        showCoverImageError(
+            "Please upload a Cover Image."
+        );
+
         return false;
     }
+
 
     // Gallery Images
     const gallery = galleryImages.map(img => ({
@@ -2106,18 +2202,22 @@ function validateMedia() {
     }));
 
     if (gallery.length === 0) {
-        showGalleryError("Please upload at least one Gallery Image.");
+
+        showGalleryError(
+            "Please upload at least one Gallery Image."
+        );
+
         return false;
     }
 
-    // Videos
-    const videos = [];
 
-    $("#videoPreviewList .video-preview-item").each(function () {
-        videos.push({
-            url: $(this).find(".video-url").text().trim()
-        });
-    });
+    // Videos
+    const videos = window.videoFiles.map(file => ({
+        name: file.name,
+        size: file.size,
+        type: "video"
+    }));
+
 
     // Save payload
     payLoadData.media = {
@@ -2125,6 +2225,7 @@ function validateMedia() {
         gallery,
         videos
     };
+
 
     return true;
 }
@@ -2269,7 +2370,7 @@ $('#package_form_policy_nextBtn').on('click', function (e) {
     if (!validatePolicy()) {
         return false;
     }
-
+    collectPolicy();
     console.log(payLoadData);
     console.log(window.packageFormData);
 
@@ -2279,81 +2380,264 @@ $('#package_form_policy_nextBtn').on('click', function (e) {
 $("#update_form").on("click", function (e) {
 
     e.preventDefault();
-    
-    
+
+
+    // ============================================================
+    // VALIDATE + COLLECT ALL DATA
+    // ============================================================
+
     if (!validateAndCollectAll()) {
         return false;
     }
 
-    let formData = window.packageFormData;
 
-    formData.set("payload", JSON.stringify(payLoadData));
+    // ============================================================
+    // CREATE FINAL FORMDATA
+    // ============================================================
 
-    // console.log(payLoadData);
+    let formData = new FormData();
 
-    Swal.fire({
-        title: "Creating Package...",
-        text: "Please wait while we save your package.",
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-        didOpen: () => Swal.showLoading()
+
+    // ============================================================
+    // POLICY DOCUMENTS
+    // ============================================================
+
+    window.attachments.forEach(function (item) {
+
+        if (!item.existing && item.file) {
+
+            formData.append(
+                "documents[]",
+                item.file,
+                item.file.name
+            );
+
+        }
+
     });
 
+
+    // ============================================================
+    // VIDEO FILES
+    // ============================================================
+
+    console.log(
+        "FINAL VIDEO FILES:",
+        window.videoFiles
+    );
+
+
+    window.videoFiles.forEach(function (file) {
+
+        console.log(
+            "Appending video:",
+            file.name,
+            file.size,
+            file.type
+        );
+
+        formData.append(
+            "videos[]",
+            file,
+            file.name
+        );
+
+    });
+
+
+    // ============================================================
+    // GALLERY IMAGES
+    // ============================================================
+
+    const galleryInput = $("#galleryInput")[0];
+
+    if (galleryInput && galleryInput.files.length > 0) {
+
+        Array.from(galleryInput.files).forEach(function (file) {
+
+            formData.append(
+                "galleryImages[]",
+                file,
+                file.name
+            );
+
+        });
+
+    }
+
+
+    // ============================================================
+    // PAYLOAD
+    // ============================================================
+
+    formData.append(
+        "payload",
+        JSON.stringify(payLoadData)
+    );
+
+
+    // ============================================================
+    // DEBUG FORMDATA
+    // ============================================================
+
+    console.log("========== FINAL FORMDATA ==========");
+
+    for (const [key, value] of formData.entries()) {
+
+        if (value instanceof File) {
+
+            console.log(
+                key,
+                "FILE:",
+                value.name,
+                value.size,
+                value.type
+            );
+
+        } else {
+
+            console.log(
+                key,
+                value
+            );
+
+        }
+
+    }
+
+    console.log("====================================");
+
+
+    // ============================================================
+    // LOADING
+    // ============================================================
+
+    Swal.fire({
+
+        title: "Creating Package...",
+
+        text: "Please wait while we save your package.",
+
+        allowOutsideClick: false,
+
+        allowEscapeKey: false,
+
+        didOpen: () => {
+
+            Swal.showLoading();
+
+        }
+
+    });
+
+
+    // ============================================================
+    // AJAX
+    // ============================================================
+
     $.ajax({
+
         type: "POST",
+
         url: "forms/add_pacakage.php",
+
         data: formData,
+
         processData: false,
+
         contentType: false,
+
         dataType: "json",
+
         headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+
+            "X-CSRF-TOKEN":
+                $('meta[name="csrf-token"]').attr("content")
+
         },
+
 
         success: function (res) {
 
             Swal.close();
 
+
             if (res.status) {
 
                 Swal.fire({
+
                     icon: "success",
+
                     title: "Success!",
+
                     text: "Package created successfully.",
+
                     confirmButtonText: "OK"
+
                 }).then(() => {
-                    window.location.href = "../packages/all_packages.php";
+
+                    window.location.href =
+                        "../packages/all_packages.php";
+
                 });
 
             } else {
 
                 Swal.fire({
+
                     icon: "error",
+
                     title: "Failed!",
-                    text: "Unable to create package."
+
+                    text:
+                        res.message ||
+                        "Unable to create package."
+
                 });
 
             }
+
         },
+
 
         error: function (xhr) {
 
             Swal.close();
 
-            let message = "Something went wrong. Please try again.";
 
-            if (xhr.responseJSON && xhr.responseJSON.message) {
-                message = xhr.responseJSON.message;
+            let message =
+                "Something went wrong. Please try again.";
+
+
+            if (
+                xhr.responseJSON &&
+                xhr.responseJSON.message
+            ) {
+
+                message =
+                    xhr.responseJSON.message;
+
             }
 
+
             Swal.fire({
+
                 icon: "error",
+
                 title: "Error",
+
                 text: message
+
             });
 
-            console.error(xhr);
+
+            console.error(
+                "AJAX ERROR:",
+                xhr
+            );
+
         }
+
     });
 
 });
@@ -2363,96 +2647,268 @@ $("#edit_package").on("click", function (e) {
 
     e.preventDefault();
 
+
+    // ============================================================
+    // VALIDATE MEDIA
+    // ============================================================
+
     if (!validateEditMedia()) {
         return false;
     }
 
+
+    // ============================================================
+    // COLLECT MEDIA
+    // ============================================================
+
     collectEditMedia();
+
+
+    // ============================================================
+    // CREATE FINAL FORMDATA
+    // ============================================================
 
     let formData = new FormData();
 
-    // Documents
-    // Policy Documents
-    window.attachments.forEach(item => {
+
+    // ============================================================
+    // POLICY DOCUMENTS
+    // ============================================================
+
+    window.attachments.forEach(function (item) {
 
         if (!item.existing && item.file) {
 
-            formData.append("documents[]", item.file);
+            formData.append(
+                "documents[]",
+                item.file
+            );
 
         }
 
     });
 
-    // Gallery Images
-    $("#galleryInput")[0]?.files &&
-    Array.from($("#galleryInput")[0].files).forEach(file => {
-        formData.append("galleryImages[]", file);
+
+    // ============================================================
+    // VIDEO FILES
+    // ============================================================
+
+    console.log(
+        "FINAL VIDEO FILES:",
+        window.videoFiles
+    );
+
+
+    window.videoFiles.forEach(function (file) {
+
+        console.log(
+            "Appending video:",
+            file.name,
+            file.size,
+            file.type
+        );
+
+        formData.append(
+            "videos[]",
+            file,
+            file.name
+        );
+
     });
 
-    formData.append("payload", JSON.stringify(payLoadData));
+
+    // ============================================================
+    // GALLERY IMAGES
+    // ============================================================
+
+    const galleryInput = $("#galleryInput")[0];
+
+    if (galleryInput && galleryInput.files.length > 0) {
+
+        Array.from(galleryInput.files).forEach(function (file) {
+
+            formData.append(
+                "galleryImages[]",
+                file
+            );
+
+        });
+
+    }
+
+
+    // ============================================================
+    // PAYLOAD
+    // ============================================================
+
+    formData.append(
+        "payload",
+        JSON.stringify(payLoadData)
+    );
+
+
+    // ============================================================
+    // FINAL FORMDATA DEBUG
+    // ============================================================
+
+    console.log("========== FINAL FORMDATA ==========");
+
+    for (const [key, value] of formData.entries()) {
+
+        if (value instanceof File) {
+
+            console.log(
+                key,
+                "FILE:",
+                value.name,
+                value.size,
+                value.type
+            );
+
+        } else {
+
+            console.log(
+                key,
+                value
+            );
+
+        }
+
+    }
+
+    console.log("====================================");
+
+
+    // ============================================================
+    // LOADING
+    // ============================================================
 
     Swal.fire({
+
         title: "Updating Package...",
+
         text: "Please wait while we update your package.",
+
         allowOutsideClick: false,
+
         allowEscapeKey: false,
-        didOpen: () => Swal.showLoading()
+
+        didOpen: () => {
+
+            Swal.showLoading();
+
+        }
+
     });
 
+
+    // ============================================================
+    // AJAX
+    // ============================================================
+
     $.ajax({
+
         type: "POST",
+
         url: "forms/edit_package.php",
+
         data: formData,
+
         processData: false,
+
         contentType: false,
+
         dataType: "json",
+
         headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+
+            "X-CSRF-TOKEN":
+                $('meta[name="csrf-token"]').attr("content")
+
         },
+
 
         success: function (res) {
 
             Swal.close();
 
+
             if (res.status) {
 
                 Swal.fire({
+
                     icon: "success",
+
                     title: "Success!",
+
                     text: res.message,
+
                     confirmButtonText: "OK"
+
                 }).then(() => {
-                    window.location.href = "../packages/all_packages.php";
+
+                    window.location.href =
+                        "../packages/all_packages.php";
+
                 });
 
             } else {
 
                 Swal.fire({
+
                     icon: "error",
+
                     title: "Failed!",
-                    text: "Unable to create package."
+
+                    text:
+                        res.message ||
+                        "Unable to update package."
+
                 });
 
             }
+
         },
+
 
         error: function (xhr) {
 
             Swal.close();
 
-            let message = "Something went wrong. Please try again.";
 
-            if (xhr.responseJSON && xhr.responseJSON.message) {
-                message = xhr.responseJSON.message;
+            let message =
+                "Something went wrong. Please try again.";
+
+
+            if (
+                xhr.responseJSON &&
+                xhr.responseJSON.message
+            ) {
+
+                message =
+                    xhr.responseJSON.message;
+
             }
 
+
             Swal.fire({
+
                 icon: "error",
+
                 title: "Error",
+
                 text: message
+
             });
 
-            console.error(xhr);
+
+            console.error(
+                "AJAX ERROR:",
+                xhr
+            );
+
         }
+
     });
+
 });
