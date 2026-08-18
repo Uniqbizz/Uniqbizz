@@ -709,7 +709,89 @@ $isLoggedIn = !empty($_SESSION['username2']);
             return [];
         }
     }
+    //db data
+    async function loadWishlistFromDB() {
 
+        if (!isWishlistUserLoggedIn) {
+            return [];
+        }
+
+        try {
+
+            const response =
+                await fetch(
+                    'assets/submit/get_user_wishlist.php',
+                    {
+                        method: 'POST',
+                        cache: 'no-store'
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    `HTTP ${response.status}`
+                );
+            }
+
+
+            const result =
+                await response.json();
+
+
+            if (
+                !result ||
+                result.status !== true ||
+                !Array.isArray(result.data)
+            ) {
+
+                return [];
+            }
+
+
+            return [
+                ...new Set(
+                    result.data
+                        .map(id => String(id).trim())
+                        .filter(id => id !== '')
+                )
+            ];
+
+        } catch (error) {
+
+            return [];
+        }
+    }
+    //sync
+    async function syncWishlistWithDB() {
+
+        if (!isWishlistUserLoggedIn) {
+            return;
+        }
+
+
+        const localWishlist =
+            getWishlist();
+
+
+        const dbWishlist =
+            await loadWishlistFromDB();
+
+
+        const mergedWishlist =
+            [
+                ...new Set([
+                    ...localWishlist,
+                    ...dbWishlist
+                ])
+            ];
+
+
+        saveWishlist(
+            mergedWishlist
+        );
+    }
 
     /* =========================================================
     SAVE WISHLIST
@@ -1969,7 +2051,7 @@ $isLoggedIn = !empty($_SESSION['username2']);
 
     document.addEventListener(
         'DOMContentLoaded',
-        function () {
+        async function () {
 
             // console.log(
             //     'WISHLIST: Initializing'
@@ -1988,6 +2070,22 @@ $isLoggedIn = !empty($_SESSION['username2']);
             --------------------------------------------------- */
 
             loadWishlistHeartState();
+
+            
+            /*
+            |--------------------------------------------------------------------------
+            | SYNC DATABASE WISHLIST
+            |--------------------------------------------------------------------------
+            */
+
+            if (isWishlistUserLoggedIn) {
+
+                await syncWishlistWithDB();
+
+                updateWishlistCount();
+
+                loadWishlistHeartState();
+            }
 
         }
     );
