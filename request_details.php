@@ -119,7 +119,7 @@
                         <!-- Card Section 1 -->
                         <div class="row">
                             <div class="col-xl-8 col-lg-9 mb-3">
-                                <div class="card">
+                                <div class="card cardShadow">
                                     <div class="d-flex">
                                         <div>
                                             <img src="assets/images/package/package-7.jpg" alt="" class="requestQuotePackageImg">
@@ -153,7 +153,7 @@
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-3 mb-3">
-                                <div class="card">
+                                <div class="card cardShadow">
                                     <h4 class="fw-bold p-3">Package Price Calculation</h4>
                                     <hr class="my-1 border border-2 mx-3">
                                     <div class="p-3">
