@@ -483,7 +483,8 @@ html {
 .cardCreame {
     width: 100%;
     display: block;
-    height: 240px;
+    min-height: 350px;
+    height: auto;
     border-radius: 12px;
 }
 .packContent {
@@ -499,7 +500,8 @@ html {
 }
 .cardPurple {
     width: stretch;
-    height: 240px;
+    min-height: 350px;
+    height: auto;
     border-radius: 12px;
 }
 .checkIconGreen {
@@ -675,7 +677,15 @@ html {
     .cardCreame {
         width: 100%;
         display: block;
-        height: 280px;
+        min-height: 500px;
+        height: auto;
+        border-radius: 12px;
+    }
+    .cardPurple {
+        width: 100%;
+        display: block;
+        min-height: 500px;
+        height: auto;
         border-radius: 12px;
     }
     .package-slider {
@@ -701,5 +711,22 @@ html {
 
     .slider-btn {
         display: none;
+    }
+}
+
+@media(max-width:374px){
+    .cardCreame {
+        width: 100%;
+        display: block;
+        min-height: 550px;
+        height: auto;
+        border-radius: 12px;
+    }
+    .cardPurple {
+        width: 100%;
+        display: block;
+        min-height: 550px;
+        height: auto;
+        border-radius: 12px;
     }
 }

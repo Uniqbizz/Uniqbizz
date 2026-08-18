@@ -256,9 +256,9 @@ ACCORDION BUTTON
 .destination-accordion .accordion-button {
     min-height: 54px;
 
-    padding: 15px 20px;
+    padding: 15px 20px !important;
 
-    background: #fff;
+    background: #fff !important;
 
     color: #1f2933;
 
