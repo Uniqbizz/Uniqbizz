@@ -1066,7 +1066,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                                             </h5>
 
                                                             <p class="text-white">
-                                                                Child (3-11 yrs)
+                                                                Child (2-11 yrs)
                                                             </p>
 
                                                         </div>
@@ -2355,7 +2355,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                     showError(document.getElementById('member_validationAdult'), "Adult must be 12 years or older");
                     return false;
                 } else if (memberType === "Child" && (age < 3 || age > 11)) {
-                    showError(document.getElementById('member_validationChild'), "Child must be between 3-11 years");
+                    showError(document.getElementById('member_validationChild'), "Child must be between 2-11 years");
                     return false;
                 } else if (memberType === "Infant" && age > 2) {
                     showError(document.getElementById('member_validationInfant'), "Infant must be 2 years or younger");
