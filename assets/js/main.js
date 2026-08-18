@@ -110,14 +110,36 @@
             }
         });
         // Pause autoplay on hover over slider
+        // const slider = document.querySelector(".testimonialThree-active");
+        // slider.addEventListener("mouseenter", () => swiper.autoplay.stop());
+        // slider.addEventListener("mouseleave", () => swiper.autoplay.start());
         const slider = document.querySelector(".testimonialThree-active");
-        slider.addEventListener("mouseenter", () => swiper.autoplay.stop());
-        slider.addEventListener("mouseleave", () => swiper.autoplay.start());
+
+        if (slider && swiper) {
+
+            slider.addEventListener("mouseenter", () => {
+                swiper.autoplay.stop();
+            });
+
+            slider.addEventListener("mouseleave", () => {
+                swiper.autoplay.start();
+            });
+
+        }
 
         // Optional: Pause autoplay on hover over the banner image too
+
         const banner = document.getElementById("testimonialBanner");
-        banner.addEventListener("mouseenter", () => swiper.autoplay.stop());
-        banner.addEventListener("mouseleave", () => swiper.autoplay.start());
+
+        if (banner) {
+            banner.addEventListener("mouseenter", () => {
+                swiper.autoplay.stop();
+            });
+
+            banner.addEventListener("mouseleave", () => {
+                swiper.autoplay.start();
+            });
+        }
 
     });
     // <!-- testimonial end 6/3/2026-->

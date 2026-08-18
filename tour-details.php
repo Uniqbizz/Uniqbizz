@@ -400,6 +400,23 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
         <!-- Swiper -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <style>
+            .wishlist-icon {
+                cursor: pointer;
+            }
+
+            .wishlist-icon.active {
+                color: #dc3545;
+            }
+
+            .wishlist-icon i {
+                transition: all 0.2s ease;
+            }
+
+            .wishlist-icon.active i {
+                transform: scale(1.1);
+            }
+        </style>
     </head>
     
     <body>
@@ -436,7 +453,8 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                         <div class="share-icon openShare" onclick="openShare()">
                                             <i class="ri-share-line"></i>
                                         </div>
-                                        <div class="wishlist-icon">
+                                        <div class="wishlist-icon"
+                                            data-package-id="<?= htmlspecialchars($package['id']) ?>">
                                             <i class="ri-heart-line"></i>
                                         </div>
                                     </div>
@@ -1413,6 +1431,123 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
         <!-- Main js-->
         <script src="assets/js/main.js"></script>
         <script type="text/javascript" src="logout/logout.js"></script>
+        <script>
+            /// ===============================
+            // WISHLIST
+            // ===============================
+
+            function getWishlist() {
+                return JSON.parse(localStorage.getItem('wishlist') || '[]');
+            }
+
+            function saveWishlist(wishlist) {
+                localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                updateWishlistCount();
+            }
+
+
+            // ===============================
+            // UPDATE WISHLIST COUNT
+            // ===============================
+
+            function updateWishlistCount() {
+
+                const wishlist = getWishlist();
+
+                document.querySelectorAll('.wishlistCount').forEach(element => {
+                    element.textContent = wishlist.length;
+                });
+            }
+
+
+            // ===============================
+            // UPDATE HEART ICON
+            // ===============================
+
+            function updateWishlistButton(button, active) {
+
+                const icon = button.querySelector('i');
+
+                if (!icon) return;
+
+                if (active) {
+
+                    button.classList.add('active');
+
+                    icon.classList.remove('ri-heart-line');
+                    icon.classList.add('ri-heart-fill');
+
+                } else {
+
+                    button.classList.remove('active');
+
+                    icon.classList.remove('ri-heart-fill');
+                    icon.classList.add('ri-heart-line');
+                }
+            }
+
+
+            // ===============================
+            // ADD / REMOVE WISHLIST
+            // ===============================
+
+            document.querySelectorAll('.wishlist-icon').forEach(button => {
+
+                button.addEventListener('click', function (e) {
+
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const packageId = this.dataset.packageId;
+
+                    let wishlist = getWishlist();
+
+                    const index = wishlist.indexOf(packageId);
+
+                    if (index === -1) {
+
+                        // ADD
+                        wishlist.push(packageId);
+
+                        updateWishlistButton(this, true);
+
+                    } else {
+
+                        // REMOVE
+                        wishlist.splice(index, 1);
+
+                        updateWishlistButton(this, false);
+                    }
+
+                    saveWishlist(wishlist);
+
+                    console.log('Wishlist:', wishlist);
+                });
+
+            });
+
+
+            // ===============================
+            // LOAD EXISTING WISHLIST STATE
+            // ===============================
+
+            document.addEventListener('DOMContentLoaded', function () {
+
+                const wishlist = getWishlist();
+
+                document.querySelectorAll('.wishlist-icon').forEach(button => {
+
+                    const packageId = button.dataset.packageId;
+
+                    if (wishlist.includes(packageId)) {
+                        updateWishlistButton(button, true);
+                    }
+
+                });
+
+                updateWishlistCount();
+            });
+        </script>
         <script>
 
             function printItinerary() {
