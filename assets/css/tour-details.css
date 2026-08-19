@@ -13,6 +13,28 @@ body {
 .breadcrumb {
     margin-bottom: 0;
 }
+.package-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 150px; 
+}
+
+.package-slider-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+
+.package-slider-image.active {
+    opacity: 1;
+    visibility: visible;
+}
 .breadcrumb-item a {
     text-decoration: none;
     color: #6c757d;

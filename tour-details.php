@@ -252,13 +252,13 @@ foreach ($packages as $similarPackage) {
         SELECT image
         FROM package_pictures
         WHERE package_id = ?
+        AND type NOT IN ('video')
         ORDER BY id ASC
-        LIMIT 1
     ");
 
     $sqlPackImage->execute([$similarPackage['id']]);
 
-    $packageImage = $sqlPackImage->fetch(PDO::FETCH_ASSOC);
+    $packageImages = $sqlPackImage->fetchAll(PDO::FETCH_COLUMN);
 
     $days = (int)$similarPackage['tour_days'];
     $nights = max(0, $days - 1);
@@ -270,7 +270,7 @@ foreach ($packages as $similarPackage) {
         "title"    => $similarPackage['name'],
         "duration" => $package_duration,
         "price"    => $packagePrice['total_package_price_per_adult'] ?? 0,
-        "image"    => $packageImage['image'] ?? '',
+        'images'    => $packageImages,
         "link"     => "tour-details.php?pacId=" . $similarPackage['id']
     ];
 }
@@ -3280,101 +3280,48 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
             });
         </script>
         <script>
-            // const packages = [
-            //     {
-            //         title: "Phuket Getaway",
-            //         duration: "4 Nights / 5 Days",
-            //         price: "22,999",
-            //         image: "assets/images/package/package-11.jpg",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Bali Bliss",
-            //         duration: "5 Nights / 6 Days",
-            //         price: "28,999",
-            //         image: "assets/images/package/package-2.png",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Singapore Explorer",
-            //         duration: "4 Nights / 5 Days",
-            //         price: "39,999",
-            //         image: "assets/images/package/package-3.png",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Dubai Dazzle",
-            //         duration: "5 Nights / 6 Days",
-            //         price: "42,999",
-            //         image: "assets/images/package/package-4.png",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Thailand Escape",
-            //         duration: "5 Nights / 6 Days",
-            //         price: "24,999",
-            //         image: "assets/images/package/package-5.jpg",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Maldives Luxury",
-            //         duration: "4 Nights / 5 Days",
-            //         price: "55,999",
-            //         image: "assets/images/package/package-6.jpg",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Vietnam Discovery",
-            //         duration: "6 Nights / 7 Days",
-            //         price: "34,999",
-            //         image: "assets/images/package/package-7.jpg",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Japan Highlights",
-            //         duration: "7 Nights / 8 Days",
-            //         price: "89,999",
-            //         image: "assets/images/package/package-8.jpg",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Europe Delight",
-            //         duration: "8 Nights / 9 Days",
-            //         price: "1,19,999",
-            //         image: "assets/images/package/package-9.jpg",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Swiss Adventure",
-            //         duration: "6 Nights / 7 Days",
-            //         price: "99,999",
-            //         image: "assets/images/package/package-10.jpg",
-            //         link: "#"
-            //     }
-            // ];
+            
             const packages = <?= json_encode(
                 $package_array,
                 JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
             ) ?>;
-            // console.log(packages);
-            
+
             const track = document.getElementById("packageTrack");
 
             if (packages && packages.length > 0) {
 
-                packages.forEach(pkg => {
+                packages.forEach((pkg, packageIndex) => {
+
+                    const images = Array.isArray(pkg.images)
+                        ? pkg.images
+                        : [];
+                    const imageHTML = images.map((image, imageIndex) => `
+                        <img
+                            src="${image}"
+                            alt="${pkg.title}"
+                            class="package-slider-image ${imageIndex === 0 ? 'active' : ''}"
+                            data-image-index="${imageIndex}"
+                        >
+                    `).join('');
                     track.innerHTML += `
+
                         <div class="package-item">
 
                             <a href="javascript:void(0);"
                             class="text-decoration-none"
                             onclick="window.location.href='tour-details.php?pacId=${pkg.packid}'">
 
-                                <div class="package-card">
+                                <div class="package-card package-image-slider"
+                                    data-package-index="${packageIndex}">
 
-                                    <img src="${pkg.image}" alt="${pkg.title}">
+                                    <div class="package-image-wrapper">
+
+                                        ${imageHTML}
+
+                                    </div>
 
                                     <div class="package-body">
+
                                         <h5>${pkg.title}</h5>
 
                                         <p>${pkg.duration}</p>
@@ -3383,6 +3330,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                             ₹${pkg.price}
                                             <span>/ Person</span>
                                         </div>
+
                                     </div>
 
                                 </div>
@@ -3397,16 +3345,196 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
                 track.innerHTML = `
                     <div class="package-placeholder text-center w-100 py-5">
-                        <i class="ri-suitcase-line" style="font-size:40px;"></i>
-                        <h5 class="mt-3">No similar packages available</h5>
+
+                        <i class="ri-suitcase-line"
+                        style="font-size:40px;">
+                        </i>
+
+                        <h5 class="mt-3">
+                            No similar packages available
+                        </h5>
+
                         <p class="text-muted mb-0">
                             There are currently no similar packages available.
                         </p>
+
                     </div>
                 `;
-
             }
+           /* =========================================================
+            PACKAGE IMAGE HOVER SLIDER
+            ========================================================= */
 
+            // console.log('PACKAGE HOVER: Initializing');
+
+            const packageCards =
+                document.querySelectorAll('.package-image-slider');
+
+            // console.log(
+            //     'PACKAGE HOVER: Cards found:',
+            //     packageCards.length
+            // );
+
+
+            packageCards.forEach(function (card, index) {
+
+                // console.log(
+                //     'PACKAGE HOVER: Card:',
+                //     index
+                // );
+
+
+                /* -----------------------------------------
+                GET ALL IMAGES INSIDE THIS CARD
+                ----------------------------------------- */
+
+                const images =
+                    card.querySelectorAll('.package-slider-image');
+
+
+                // if (!images.length) {
+
+                //     console.log(
+                //         'PACKAGE HOVER: Images not found:',
+                //         index
+                //     );
+
+                //     return;
+                // }
+
+
+                // console.log(
+                //     'PACKAGE HOVER: Images found:',
+                //     images.length
+                // );
+
+
+                /* -----------------------------------------
+                ONLY ONE IMAGE
+                ----------------------------------------- */
+
+                if (images.length <= 1) {
+
+                    // console.log(
+                    //     'PACKAGE HOVER: Only one image'
+                    // );
+
+                    return;
+                }
+
+
+                let currentImage = 0;
+                let hoverInterval = null;
+
+
+                /* =====================================================
+                SHOW IMAGE
+                ===================================================== */
+
+                function showImage(index) {
+
+                    images.forEach(function (img, i) {
+
+                        img.classList.toggle(
+                            'active',
+                            i === index
+                        );
+
+                    });
+
+                }
+
+
+                /* =====================================================
+                MOUSE ENTER
+                ===================================================== */
+
+                card.addEventListener(
+                    'mouseenter',
+                    function () {
+
+                        // console.log(
+                        //     'PACKAGE HOVER: MOUSE ENTER',
+                        //     index
+                        // );
+
+
+                        /* Prevent duplicate interval */
+
+                        if (hoverInterval !== null) {
+                            return;
+                        }
+
+
+                        currentImage = 0;
+
+                        showImage(currentImage);
+
+
+                        hoverInterval =
+                            setInterval(function () {
+
+                                currentImage++;
+
+
+                                if (
+                                    currentImage >=
+                                    images.length
+                                ) {
+
+                                    currentImage = 0;
+
+                                }
+
+
+                                // console.log(
+                                //     'PACKAGE HOVER: Changing image:',
+                                //     currentImage
+                                // );
+
+
+                                showImage(currentImage);
+
+
+                            }, 1000);
+
+                    }
+                );
+
+
+                /* =====================================================
+                MOUSE LEAVE
+                ===================================================== */
+
+                card.addEventListener(
+                    'mouseleave',
+                    function () {
+
+                        // console.log(
+                        //     'PACKAGE HOVER: MOUSE LEAVE',
+                        //     index
+                        // );
+
+
+                        if (hoverInterval !== null) {
+
+                            clearInterval(
+                                hoverInterval
+                            );
+
+                            hoverInterval = null;
+
+                        }
+
+
+                        currentImage = 0;
+
+                        showImage(currentImage);
+
+                    }
+                );
+
+            });
 
             let currentIndex = 0;
 
@@ -3455,36 +3583,93 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
             }
 
 
-            // NEXT
-            document.querySelector(".next-btn").addEventListener("click", function () {
-                // console.log('clicked next');
+            // // NEXT
+            // document.querySelector(".next-btn").addEventListener("click", function () {
+            //     // console.log('clicked next');
                 
-                const visibleCards = getVisibleCards();
+            //     const visibleCards = getVisibleCards();
 
-                const maxIndex = Math.max(
-                    0,
-                    packages.length - visibleCards
+            //     const maxIndex = Math.max(
+            //         0,
+            //         packages.length - visibleCards
+            //     );
+
+            //     if (currentIndex < maxIndex) {
+
+            //         currentIndex++;
+
+            //         moveSlider();
+            //     }
+            // });
+
+
+            // // PREVIOUS
+            // document.querySelector(".prev-btn").addEventListener("click", function () {
+            //     // console.log('clicked prev');
+            //     if (currentIndex > 0) {
+
+            //         currentIndex--;
+
+            //         moveSlider();
+            //     }
+            // });
+            const nextBtn =
+                document.querySelector(".next-btn");
+
+            if (nextBtn) {
+
+                nextBtn.addEventListener(
+                    "click",
+                    function () {
+
+                        const visibleCards =
+                            getVisibleCards();
+
+                        const maxIndex =
+                            Math.max(
+                                0,
+                                packages.length -
+                                visibleCards
+                            );
+
+                        if (
+                            currentIndex <
+                            maxIndex
+                        ) {
+
+                            currentIndex++;
+
+                            moveSlider();
+
+                        }
+
+                    }
                 );
 
-                if (currentIndex < maxIndex) {
-
-                    currentIndex++;
-
-                    moveSlider();
-                }
-            });
+            }
 
 
-            // PREVIOUS
-            document.querySelector(".prev-btn").addEventListener("click", function () {
-                // console.log('clicked prev');
-                if (currentIndex > 0) {
+            const prevBtn =
+                document.querySelector(".prev-btn");
 
-                    currentIndex--;
+            if (prevBtn) {
 
-                    moveSlider();
-                }
-            });
+                prevBtn.addEventListener(
+                    "click",
+                    function () {
+
+                        if (currentIndex > 0) {
+
+                            currentIndex--;
+
+                            moveSlider();
+
+                        }
+
+                    }
+                );
+
+            }
             // Initial check
             updateSliderControls();
 
