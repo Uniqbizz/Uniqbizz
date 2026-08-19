@@ -125,7 +125,7 @@
                                             <img src="assets/images/package/package-7.jpg" alt="" class="requestQuotePackageImg">
                                         </div>
                                         <div class="p-3 widthStretch">
-                                            <p class="fw-bolder text-black mb-1" id="pack_name">Varanasi A Spiritual Journey Awaits</p>
+                                            <p class="fw-bolder text-black mb-1 fs-5" id="pack_name">Varanasi A Spiritual Journey Awaits</p>
                                             <div class="d-flex justify-content-between">
                                                 <p class="fontSize10 mb-3">
                                                     <i class="ri-map-pin-line destination-title fs-6"></i>
@@ -151,10 +151,107 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!-- Traveller & Trip Details -->
+                                <div class="card cardShadow p-3 mt-3">
+                                    <div class="d-flex gap-2 mb-3">
+                                        <p class="travellerTittleNum">1</p>
+                                        <h5 class="mb-0 fw-bold">Traveller & Trip Details</h5>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                            <div class="mb-3">
+                                                <label for="travelStartDate" class="form-label fontSize10">Travel Start Date</label>
+                                                <input type="date" class="form-control fontSize10" id="travelStartDate">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                            <div class="mb-3">
+                                                <label for="travelEndDate" class="form-label fontSize10">Travel End Date</label>
+                                                <input type="date" class="form-control fontSize10" id="travelEndDate">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                            <div class="mb-3">
+                                                <label for="dayInput" class="form-label fontSize10">Nights / Days</label>
+                                                <select class="form-select fontSize10" aria-label="Default select example">
+                                                    <option selected>Select Days</option>
+                                                    <option value="1">4 Nights / 5 Days</option>
+                                                    <option value="2">2 Nights / 3 Days</option>
+                                                    <option value="3">5Nights / 6 Days</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                            <div class="mb-3">
+                                                <label for="pickupLocation" class="fontSize10 form-label">Pickup</label>
+                                                <input type="email" class="fontSize10 form-control" id="pickupLocation" placeholder="Varanasi">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                            <div class="mb-3">
+                                                <label for="dropLocation" class="fontSize10 form-label">Drop</label>
+                                                <input type="email" class="fontSize10 form-control" id="dropLocation" placeholder="Mumbai">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                            <div class="guest-counter">
+                                                <label class="guest-label">Adults (12+ yrs)</label>
+                                                <div class="counter-box">
+                                                    <button type="button" class="counter-btn minus">−</button>
+                                                    <input type="number" name="adults" class="counter-value" value="2" min="1">
+                                                    <button type="button" class="counter-btn plus">+</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                            <div class="guest-counter">
+                                                <label class="guest-label">Children (2-11 yrs)</label>
+                                                <div class="counter-box">
+                                                    <button type="button" class="counter-btn minus">−</button>
+                                                    <input type="number" name="children" class="counter-value" value="0" min="0">
+                                                    <button type="button" class="counter-btn plus">+</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                            <div class="guest-counter">
+                                                <label class="guest-label">Infants (0-1 yrs)</label>
+                                                <div class="counter-box">
+                                                    <button type="button" class="counter-btn minus">−</button>
+                                                    <input type="number" name="infants" class="counter-value" value="0" min="0">
+                                                    <button type="button" class="counter-btn plus">+</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card cardRoom mt-3 p-3">
+                                        <p class="fontSize10 fw-bold">Room 1</p>
+                                        <div class="row">
+                                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-7 col-12 mb-3">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <p class="fontSize10 fw-bold"><i class="ri-hotel-bed-fill destination-title fs-6"></i> 1 Double Bed + 1 Extra Mattress</p>
+                                                        <p class="fontSize10">3 Pax will be accommendated in 1 room with extra mattress.</p>
+                                                    </div>
+                                                    <div class="py-1 px-2 text-center text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 recommendedBtn fw-bold">
+                                                        Recommended
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-5 col-12 mb-3">
+                                                <button class="btn modifyBtn" type="submit">Modify Rooms</button>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+                                            <button class="btn addRoomBtn" type="submit">Add Room (If more travellers)</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            <!-- Pricing Section -->
                             <div class="col-xl-4 col-lg-3 mb-3">
                                 <div class="card cardShadow">
-                                    <h4 class="fw-bold p-3">Package Price Calculation</h4>
+                                    <h5 class="fw-bold p-3">Package Price Calculation</h5>
                                     <hr class="my-1 border border-2 mx-3">
                                     <div class="p-3">
                                         <p class="fw-bold">Base Price (Per Person)</p>
@@ -924,6 +1021,32 @@
 
             });
         </script>
+        <!-- Request Details Age Incrementer And Decrementer Start -->
+        <script>
+            document.querySelectorAll('.guest-counter').forEach(counter => {
+                const minusBtn = counter.querySelector('.minus');
+                const plusBtn = counter.querySelector('.plus');
+                const input = counter.querySelector('.counter-value');
+
+                minusBtn.addEventListener('click', () => {
+                    let value = parseInt(input.value) || 0;
+
+                    // Adults minimum 1, Children/Infants minimum 0
+                    const minValue = counter.querySelector('.guest-label')
+                        .textContent.includes('Adults') ? 1 : 0;
+
+                    if (value > minValue) {
+                        input.value = value - 1;
+                    }
+                });
+
+                plusBtn.addEventListener('click', () => {
+                    let value = parseInt(input.value) || 0;
+                    input.value = value + 1;
+                });
+            });
+        </script>
+        <!-- Request Details Age Incrementer And Decrementer End -->
     </body>
 
 </html>

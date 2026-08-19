@@ -3,7 +3,7 @@ body {
 }
 .requestQuotePackageImg {
     width: 220px !important;
-    height: 220px !important;
+    height: 230px !important;
     border-radius: 5px;
 }
 .fontSize10 {
@@ -33,4 +33,84 @@ body {
 }
 .cardShadow:hover {
     box-shadow: 0px 0px 3px 3px #5958581a;
+}
+.travellerTittleNum {
+    width: 25px;
+    height: 25px;
+    border-radius: 100%;
+    background-color: #e03d42;
+    color: #fff;
+    font-weight: 800;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.guest-counter-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.guest-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #4b5563;
+    margin-bottom: 8px;
+}
+.counter-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
+}
+.counter-btn {
+    width: 60px;
+    height: 36px;
+    border: none;
+    background: #f8fafc;
+    color: #6b7280;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.counter-btn:hover {
+    background: #f1f5f9;
+}
+.counter-value {
+    width: 100%;
+    height: 36px;
+    border: none;
+    border-left: 1px solid #e5e7eb;
+    border-right: 1px solid #e5e7eb;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+    background: #fff;
+}
+.counter-value:focus {
+    outline: none;
+}
+.cardRoom {
+    background-color: #f8f8ff;
+}
+.recommendedBtn {
+    width: 150px;
+    height: 35px;
+}
+.modifyBtn, .addRoomBtn {
+    background-color: #fff;
+    color: #e03d42;
+    font-weight: 900;
+    border: 1px solid #e03d42;
+}
+.modifyBtn:hover, .addRoomBtn:hover {
+    background-color: #e03d42;
+    color: #fff;
+    border: 1px solid #e03d42;
 }
