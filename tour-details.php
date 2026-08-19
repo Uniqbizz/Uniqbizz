@@ -400,23 +400,6 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
         <!-- Swiper -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <style>
-            .wishlist-icon {
-                cursor: pointer;
-            }
-
-            .wishlist-icon.active {
-                color: #dc3545;
-            }
-
-            .wishlist-icon i {
-                transition: all 0.2s ease;
-            }
-
-            .wishlist-icon.active i {
-                transform: scale(1.1);
-            }
-        </style>
     </head>
     
     <body>
@@ -558,7 +541,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                 </div>
                             </div>
                             <!-- Card section start 1 -->
-                            <div class="borderColor p-3 pb-0 mb-3">
+                            <div class="borderColor p-3 pb-0 mb-3 cardShadow">
                                 <div class="row">
                                     <div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-6 mb-3">
                                         <div class="d-flex gap-2">
@@ -697,7 +680,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                     </div>
                                     <div class="content-sections">
                                         <div id="overview" class="section-block">
-                                            <div class="card cardBackgroundColor rounded-3 p-3">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
                                                 <h5 class="fw-bolder">Overview</h5>
                                                 <p class="text-muted fw-bold fontSize2 mt-2">
                                                     <?= $package['detailed_description'] ?>
@@ -720,7 +703,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                         ?>
 
                                         <div id="highlights" class="section-block">
-                                            <div class="card cardBackgroundColor rounded-3 p-3">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
                                                 <h5 class="fw-bolder">Highlights</h5>
 
                                                 <?php if (!empty($highlights)): ?>
@@ -748,7 +731,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                             </div>
                                         </div>
                                         <div id="itinerary" class="section-block">
-                                            <div class="card cardBackgroundColor rounded-3 p-3 pb-4">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 pb-4 cardShadow">
                                                 <h5 class="fw-bolder">Itinerary</h5>
                                                 <div class="tour-details-content">
                                                     <div class="destination-accordion mt-2">
@@ -835,7 +818,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                             $exclusions = json_decode($itinery['exclusion'], true);
                                             ?>
 
-                                            <div class="card cardBackgroundColor rounded-3 p-3">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
                                                 <h5 class="fw-bolder">Inclusion & Exclusion</h5>
 
                                                 <div class="row">
@@ -880,7 +863,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                             </div>
                                         </div>
                                         <div id="policies" class="section-block">
-                                            <div class="card cardBackgroundColor rounded-3 p-3">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
                                                 <h5 class="fw-bolder mb-3">Policies</h5>
 
                                                 <?php
@@ -924,7 +907,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                             </div>
                                         </div>
                                         <div id="faqs" class="section-block">
-                                            <div class="card cardBackgroundColor rounded-3 p-3 pb-0">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
                                                 <h5 class="fw-bolder">Frequently Asked Questions</h5>
 
                                                 <div class="faq-wrapper mt-2">
@@ -976,7 +959,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
                                                         <?php if (count($faqs) > 3): ?>
                                                             <div class="text-center mt-3 mb-3">
-                                                                <button id="viewMoreFaq" class="btn btn-outline-primary">
+                                                                <button id="viewMoreFaq" class="btn viewMoreFaq">
                                                                     View More
                                                                 </button>
                                                             </div>
@@ -996,7 +979,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                 <div class="col-xl-4 col-lg-3 col-md-12 col-sm-12 col-12 mb-3 pricing-wrapper">
                                     <!-- Pricing Section -->
                                     <div class="pricingSection">
-                                        <div class="card priceCard rounded-3 mb-3">
+                                        <div class="card priceCard rounded-3 mb-3 cardShadow">
                                             <div class="pricingHeader p-3">
                                                 <h5 class="text-white fw-bolder mb-2"><?= $package['name'] ?></h5>
                                                 <p class="text-white mb-2">Starting From</p>
@@ -1101,7 +1084,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                             <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3" style="cursor:pointer;">
 
                                                 <a href="download_tour_detail.php?pacId=<?= urlencode($id) ?>&format=pdf"
-                                                    class="blueCardBtn text-center rounded-4 p-3 text-decoration-none d-block">
+                                                    class="blueCardBtn text-center rounded-4 p-3 text-decoration-none d-block cardShadow">
 
                                                     <div class="goldBtn">
                                                         <i class="ri-download-2-line"></i>
@@ -1113,7 +1096,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
                                             </div>
                                             <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3" id="emailItinerary">
-                                                <div class="blueCardBtn text-center rounded-4 p-3" style="cursor:pointer;">
+                                                <div class="blueCardBtn text-center rounded-4 p-3 cardShadow" style="cursor:pointer;">
                                                     <div class="goldBtn">
                                                         <i class="ri-mail-line"></i>
                                                     </div>
@@ -1121,7 +1104,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                                 </div>
                                             </div>
                                             <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3" id="sendItenerary">
-                                                <div class="blueCardBtn text-center rounded-4 p-3" style="cursor:pointer;">
+                                                <div class="blueCardBtn text-center rounded-4 p-3 cardShadow" style="cursor:pointer;">
                                                     <div class="goldBtn">
                                                         <i class="ri-send-plane-line"></i>
                                                     </div>
@@ -1129,7 +1112,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card rounded-3 greenCard p-3">
+                                        <div class="card rounded-3 greenCard p-3 cardShadow">
                                             <div class="d-flex gap-3 mb-2">
                                                 <div class="greenIcon">
                                                     <i class="ri-calendar-check-line"></i>
@@ -1165,7 +1148,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                             <!-- Card Section Start 3 -->
                             <div class="row">
                                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-3">
-                                    <div class="packCard">
+                                    <div class="packCard cardShadow">
                                         <img src="assets/images/tourDetails/creameImg.png" alt="" class="cardCreame">
                                         <div class="packContent">
                                             <div class="row p-3">
@@ -1223,7 +1206,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                     </div>
                                 </div>
                                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-3">
-                                    <div class="packCard">
+                                    <div class="packCard cardShadow">
                                         <img src="assets/images/tourDetails/purpleImg.png" alt="" class="cardPurple">
                                         <div class="packContent">
                                             <div class="row p-3">
