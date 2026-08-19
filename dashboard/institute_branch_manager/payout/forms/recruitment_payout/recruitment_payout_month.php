@@ -11,16 +11,12 @@ $user_id = $_POST['user_id'] ?? '';
 $commision = $_POST['Commision'] ?? '';
 
 $user_id_str=substr($user_id,0,1) == 'F'?substr($user_id,0,1):substr($user_id,0,2);
-if($user_id_str =='MF' || $user_id_str =='SF' || $user_id_str=='BM'){
-    $message = "message_bm";
-}else if ($user_id_str =='F' || $user_id_str =='CA' || $user_id_str=='TE' || $user_id_str=='I'){
-    $message = "message_te";
-}else if($user_id_str =='TA'){
-    $message = "message_tc";
-}
+
+$message = "message_bm";
+
 
 if($totalAmountMessage){
-    $stmt = " SELECT SUM($commision) as TotalPayout FROM ca_cu_payout WHERE $designation = '".$user_id."' AND YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."' ";
+    $stmt = " SELECT SUM($commision) as TotalPayout FROM ca_ta_payout WHERE $designation = '".$user_id."' AND YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."' ";
     $stmt = $conn -> prepare($stmt);
     $stmt -> execute();
     $stmt -> setFetchMode(PDO::FETCH_ASSOC);
@@ -59,14 +55,10 @@ if($totalTableMessage){
                             ca.message_te,
                             ca.commision_te,
                             ca.commision_bm,
-                            ca.travel_consultant,
-                            ca.message_tc,
-                            ca.commision_tc,
-                            ca.status_tc,
                             cap.status,
                             cap.date AS paydate
-                        FROM ca_cu_payout ca
-                        LEFT JOIN ca_cu_payout_paid cap ON cap.$designation = ca.$designation AND cap.travel_consultant = ca.travel_consultant
+                        FROM ca_ta_payout ca
+                        LEFT JOIN ca_ta_payout_paid cap ON cap.$designation = ca.$designation AND cap.techno_enterprise = ca.techno_enterprise
                         WHERE ca.$designation = '".$user_id."' 
                         AND YEAR(ca.created_date) = '".$TotalYear."' 
                         AND MONTH(ca.created_date) = '".$TotalMonth."'
@@ -93,7 +85,7 @@ if($totalTableMessage){
                         <td style="text-align:center;">'.$Commision.'</td>
                         <td style="text-align:center;">'.$CommisionTDS.'</td>
                         <td style="text-align:center;">'.$CommisionTotal.'
-                        <a href="payout/forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$designation.'&date='.$dt.'&message='.$message.'&message_status='.$status.'&commission='.$Commision.'&paydate='.$row['paydate'].'">
+                        <a href="payout/forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$user_id.'&date='.$dt.'&message='.$row[$message].'&message_status='.$status.'&commission='.$Commision.'&paydate='.$row['paydate'].'">
                                 <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                             </a>
                         </td>';

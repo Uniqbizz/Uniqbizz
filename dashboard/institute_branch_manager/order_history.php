@@ -1,5 +1,5 @@
 <?php
-include_once 'dashboard_user_details.php';
+include_once '../dashboard_user_details.php';
 
 // get current date to show next payout amount  and pass it in sql @ line 129
 $date = date('F,Y'); //month and year. 'F' - month in Text form
@@ -20,32 +20,32 @@ $prevDateYear = date('Y');  //Year in number form.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Order History</title>
         <!-- App favicon -->
-        <link rel="shortcut icon" href="assets/images/fav.png">
+        <link rel="shortcut icon" href="../assets/images/fav.png">
         <!-- custom css file -->
-        <!-- <link href="assets/css/styles.css" rel="stylesheet" type="text/css" /> -->
+        <!-- <link href="../assets/css/styles.css" rel="stylesheet" type="text/css" /> -->
         <!-- Layout config Js -->
-        <!-- <script src="assets/js/layout.js"></script> -->
+        <!-- <script src="../assets/js/layout.js"></script> -->
         <!-- Bootstrap Css -->
-        <!-- <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" /> -->
+        <!-- <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" /> -->
         <!-- Icons Css -->
-        <!-- <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" /> -->
+        <!-- <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" /> -->
         <!-- App Css-->
-        <!-- <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" /> -->
+        <!-- <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" /> -->
         <!-- custom Css-->
-        <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <!-- <link href="../assets/css/custom.min.css" rel="stylesheet" type="text/css" /> -->
         <!-- custom Css developer-->
-        <!-- <link rel="stylesheet" href="assets/css/custom.css" /> -->
+        <!-- <link rel="stylesheet" href="../assets/css/custom.css" /> -->
         <!-- Css-->
-        <link href="assets/css/loadingScreen.css" id="app-style" rel="stylesheet" type="text/css" />
+        <link href="../assets/css/loadingScreen.css" id="app-style" rel="stylesheet" type="text/css" />
         <!-- App js -->
-        <!-- <script src="assets/js/plugin.js"></script> -->
+        <!-- <script src="../assets/js/plugin.js"></script> -->
         <!-- DataTables -->
-        <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 
         <!-- Responsive datatable examples -->
-        <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
         <!-- Font Awesome Icons -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- Date Range Picker CSS Start -->
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
         <!-- Date Range Picker CSS End -->
@@ -54,25 +54,25 @@ $prevDateYear = date('Y');  //Year in number form.
 
         <!-- new css file to include new customer dashboard  -->
         <!-- jsvectormap css -->
-        <link href="assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
 
         <!--Swiper slider css-->
-        <link href="assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
 
         <!-- Layout config Js -->
-        <script src="assets/js/layout.js"></script>
+        <script src="../assets/js/layout.js"></script>
         <!-- Bootstrap Css -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- Icons Css -->
-        <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-        <!-- App Css-->
-        <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
         <!-- custom Css-->
-        <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <!-- App Css-->
+        <link href="../assets/css/app.min.css" rel="stylesheet" type="text/css" />
         <!-- custom Css developer-->
-        <link rel="stylesheet" href="assets/css/custom.css" />
-        <!-- Customer Dashboard CSS -->
-        <link rel="stylesheet" href="assets/css/customer_dashboard.css" />
+        <link rel="stylesheet" href="../assets/css/custom.css" />
+        <!-- Travel Consultant CSS -->
+        <link rel="stylesheet" href="../assets/css/travel_consultant.css" />
 
         <!-- FontAwesome -->
         <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
@@ -94,7 +94,7 @@ $prevDateYear = date('Y');  //Year in number form.
             }
 
             .faIcon {
-                padding: 21px 17px 21px 17px !important;
+                padding: 21px 30px 21px 14px !important
             }
 
             .faIcon:hover {
@@ -175,7 +175,6 @@ $prevDateYear = date('Y');  //Year in number form.
             }
         </style>
     </head>
-
     <body>
         <div id="layout-wrapper">
             <?php
@@ -2257,20 +2256,20 @@ $prevDateYear = date('Y');  //Year in number form.
         </button>
         <!--end back-to-top-->
         <!-- JAVASCRIPT -->
-        <script src="assets/js/jquery/jquery-3.7.1.min.js"></script>
-        <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/libs/metismenu/metisMenu.min.js"></script>
-        <script src="assets/libs/simplebar/simplebar.min.js"></script>
-        <script src="assets/libs/node-waves/waves.min.js"></script>
+        <script src="../assets/js/jquery/jquery-3.7.1.min.js"></script>
+        <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../assets/libs/metismenu/metisMenu.min.js"></script>
+        <script src="../assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="../assets/libs/node-waves/waves.min.js"></script>
         <!-- Required datatable js -->
-        <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-        <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="../assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="../assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
 
         <!-- Responsive examples -->
-        <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-        <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+        <script src="../assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
         <!-- Calendar init -->
-        <script src="assets/libs/fullcalendar/index.global.min.js"></script>
+        <script src="../assets/libs/fullcalendar/index.global.min.js"></script>
 
         <!-- Date Range Picker Script Start -->
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
@@ -2279,35 +2278,35 @@ $prevDateYear = date('Y');  //Year in number form.
 
         <!-- New js file for new customer design  -->
         <!-- JAVASCRIPT -->
-        <!-- <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-        <!-- <script src="assets/libs/simplebar/simplebar.min.js"></script> -->
-        <!-- <script src="assets/libs/node-waves/waves.min.js"></script> -->
-        <script src="assets/libs/feather-icons/feather.min.js"></script>
-        <!-- <script src="assets/js/jquery/jquery-3.7.1.min.js"></script> -->
+        <!-- <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+        <!-- <script src="../assets/libs/simplebar/simplebar.min.js"></script> -->
+        <!-- <script src="../assets/libs/node-waves/waves.min.js"></script> -->
+        <script src="../assets/libs/feather-icons/feather.min.js"></script>
+        <!-- <script src="../assets/js/jquery/jquery-3.7.1.min.js"></script> -->
 
         <!-- !-- materialdesign remix icon js- -->
-        <script src="assets/js/pages/remix-icons-listing.js"></script>
+        <script src="../assets/js/pages/remix-icons-listing.js"></script>
 
         <!-- Vector map-->
-        <script src="assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
-        <script src="assets/libs/jsvectormap/maps/world-merc.js"></script>
+        <script src="../assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+        <script src="../assets/libs/jsvectormap/maps/world-merc.js"></script>
 
         <!--Swiper slider js-->
-        <script src="assets/libs/swiper/swiper-bundle.min.js"></script>
+        <script src="../assets/libs/swiper/swiper-bundle.min.js"></script>
 
         <!-- App js -->
-        <script src="assets/js/app.js"></script>
+        <script src="../assets/js/app.js"></script>
 
-        <script src="assets/libs/chart.js/Chart-2.5.0.min.js"></script>
+        <script src="../assets/libs/chart.js/Chart-2.5.0.min.js"></script>
 
 
         <!-- Dashboard init  popular candidates section js file-->
-        <script src="assets/js/pages/dashboard-job.init.js"></script>
+        <script src="../assets/js/pages/dashboard-job.init.js"></script>
 
-        <script src="assets/js/js-confetti.js"></script>
+        <script src="../assets/js/js-confetti.js"></script>
 
         <!-- App js -->
-        <!-- <script src="assets/js/app.js"></script> -->
+        <!-- <script src="../assets/js/app.js"></script> -->
         <script>
             var mybutton = document.getElementById("back-to-top");
 
@@ -2792,12 +2791,12 @@ $prevDateYear = date('Y');  //Year in number form.
                         </div>
                         <div class="row">
                             <div class="col-md-3 col-sm-3 col-3 d-flex align-items-center">
-                                <img src="../${booking.package_image}" alt="" width="100" height="75" class="rounded-4 card-Img1">
+                                <img src="../../${booking.package_image}" alt="" width="100" height="75" class="rounded-4 card-Img1">
                             </div>
                             <div class="col-md-9 col-sm-9 col-9">
                                 <div class="row">
                                     <div class="col-md-2 col-sm-2 col-2 d-flex align-items-center">
-                                        <img src="../uploading/${booking.customer_profile_pic}" alt="" width="50px" height="50px" class="rounded-circle cardProPic">
+                                        <img src="../../uploading/${booking.customer_profile_pic}" alt="" width="50px" height="50px" class="rounded-circle cardProPic">
                                     </div>
                                     <div class="col-md-10 col-sm-10 col-10">
                                         ${message}
@@ -2929,7 +2928,7 @@ $prevDateYear = date('Y');  //Year in number form.
                 var end = moment("<?= $maxdate ?>", "YYYY-MM-DD");
 
                 function cb(start, end) {
-                    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                    $('#reportrange span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
                 }
 
                 $('#reportrange').daterangepicker({

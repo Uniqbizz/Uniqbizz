@@ -1,6 +1,6 @@
 <?php
-    include_once 'dashboard_user_details.php';
-    // include 'customer_model.php';
+    include_once(__DIR__ . '/../dashboard_user_details.php');
+    include 'urls.php';
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -9,26 +9,26 @@
         <title>IBR Dashboard</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
-        <link rel="shortcut icon" href="assets/images/fav.png">
+        <link rel="shortcut icon" href="../assets/images/fav.png">
 
         <!-- jsvectormap css -->
-        <link href="assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
 
         <!--Swiper slider css-->
-        <link href="assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
 
         <!-- Layout config Js -->
-        <script src="assets/js/layout.js"></script>
+        <script src="../assets/js/layout.js"></script>
         <!-- Bootstrap Css -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- Icons Css -->
-        <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
         <!-- custom Css-->
-        <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/css/custom.min.css" rel="stylesheet" type="text/css" />
         <!-- App Css-->
-        <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/css/app.min.css" rel="stylesheet" type="text/css" />
         <!-- custom Css developer-->
-        <link rel="stylesheet" href="assets/css/custom.css" />
+        <link rel="stylesheet" href="../assets/css/custom.css" />
         
         
         <!-- FontAwesome -->
@@ -43,8 +43,8 @@
 
         <!-- CHART JS -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <link rel="stylesheet" href="assets/css/customer_dashboard.css" />
-        <link rel="stylesheet" href="assets/css/ibr_index.css" />
+        <link rel="stylesheet" href="../assets/css/customer_dashboard.css" />
+        <link rel="stylesheet" href="../assets/css/ibr_index.css" />
         
     </head>
 
@@ -604,7 +604,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body text-center">
-                        <img src="assets/images/img-bot.png" alt="image-bot" class="mb-3">
+                        <img src="../assets/images/img-bot.png" alt="image-bot" class="mb-3">
                         <h5 class="fw-bold" id="staticBackdropLabel">
                             Hi, how can we help?
                         </h5>
@@ -626,33 +626,33 @@
         <!-- contact card pop up end-->
 
         <!-- JAVASCRIPT -->
-        <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/libs/simplebar/simplebar.min.js"></script>
-        <script src="assets/libs/node-waves/waves.min.js"></script>
-        <script src="assets/libs/feather-icons/feather.min.js"></script>
-        <script src="assets/js/jquery/jquery-3.7.1.min.js"></script>
+        <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="../assets/libs/node-waves/waves.min.js"></script>
+        <script src="../assets/libs/feather-icons/feather.min.js"></script>
+        <script src="../assets/js/jquery/jquery-3.7.1.min.js"></script>
 
         <!-- !-- materialdesign remix icon js- -->
-        <script src="assets/js/pages/remix-icons-listing.js"></script>
+        <script src="../assets/js/pages/remix-icons-listing.js"></script>
 
         <!-- Vector map-->
-        <script src="assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
-        <script src="assets/libs/jsvectormap/maps/world-merc.js"></script>
+        <script src="../assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+        <script src="../assets/libs/jsvectormap/maps/world-merc.js"></script>
 
         <!--Swiper slider js-->
-        <script src="assets/libs/swiper/swiper-bundle.min.js"></script>
+        <script src="../assets/libs/swiper/swiper-bundle.min.js"></script>
 
         <!-- App js -->
-        <script src="assets/js/app.js"></script>
+        <script src="../assets/js/app.js"></script>
 
-        <script src="assets/libs/chart.js/Chart-2.5.0.min.js"></script>
+        <script src="../assets/libs/chart.js/Chart-2.5.0.min.js"></script>
 
 
         <!-- Dashboard init  popular candidates section js file-->
-        <script src="assets/js/pages/dashboard-job.init.js"></script>
+        <script src="../assets/js/pages/dashboard-job.init.js"></script>
 
-        <script src="assets/js/js-confetti.js"></script>
-        <script src="assets/js/ibr_index.js"></script>
+        <script src="../assets/js/js-confetti.js"></script>
+        <script src="../assets/js/ibr_index.js"></script>
 
         <script>
             var userType= document.getElementById("user_type").value;

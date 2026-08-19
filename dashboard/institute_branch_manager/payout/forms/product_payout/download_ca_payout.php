@@ -1,5 +1,5 @@
 <?php
-
+ 
 require '../../../../connect.php';
 
 $id = $_GET['vkvbvjfgfikix'];
@@ -18,13 +18,26 @@ $totalAmt = $commission - $commissionTDS;
 
 $date = date('F,Y', strtotime($dateCA));
 
-$tableSearch = (substr($designation, 0, 1) === 'F' || substr($designation, 0, 1) === 'I') 
-    ? substr($designation, 0, 1) 
-    : substr($designation, 0, 2);
-
-$bcNames = $conn -> prepare("SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '".$designation."' AND status = 1");
-
-
+$tableSearch = (substr($designation , 0, 1) === 'F' || substr($designation , 0, 1) === 'I') 
+    ? substr($designation , 0, 1) 
+    : substr($designation , 0, 2);
+if($tableSearch == "CA" || $tableSearch =="TE"){
+    $bcNames = $conn -> prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$designation  ."' AND status = 1");
+}elseif($tableSearch == "MF"){
+    $bcNames = $conn -> prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$designation  ."' AND status = 1");
+}elseif($tableSearch == "SF"){
+    $bcNames = $conn -> prepare("SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '".$designation  ."' AND status = 1");
+}else if($tableSearch == "F"){
+    $bcNames = $conn -> prepare("SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '".$designation  ."' AND status = 1");
+}else if($tableSearch == "I"){
+    $bcNames = $conn -> prepare("SELECT * FROM institution WHERE institution_id = '".$designation  ."' AND status = 1");
+}else if($tableSearch == "BM"){
+    $bcNames = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$designation  ."' AND status = 1");
+}else if($tableSearch == "TA"){
+    $bcNames = $conn -> prepare("SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '".$designation  ."' AND status = 1");
+}else{
+    $bcNames = $conn -> prepare("SELECT * FROM business_consultant WHERE business_consultant_id = '".$designation  ."' AND status = 1");
+}
 $bcNames -> execute();
 $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
 if($bcNames -> rowCount()>0){
@@ -32,8 +45,36 @@ if($bcNames -> rowCount()>0){
         $firstname = $row['firstname'];
         $lastname = $row['lastname'];
     }
-}  
+}
 
+$tableSearch = (substr($id , 0, 1) === 'F' || substr($id , 0, 1) === 'I') 
+    ? substr($id , 0, 1) 
+    : substr($id , 0, 2);
+if($tableSearch == "CA" || $tableSearch =="TE"){
+    $caNames = $conn -> prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$id ."' AND status = 1");
+}elseif($tableSearch == "MF"){
+    $caNames = $conn -> prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$id ."' AND status = 1");
+}elseif($tableSearch == "SF"){
+    $caNames = $conn -> prepare("SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '".$id ."' AND status = 1");
+}else if($tableSearch == "F"){
+    $caNames = $conn -> prepare("SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '".$id ."' AND status = 1");
+}else if($tableSearch == "I"){
+    $caNames = $conn -> prepare("SELECT * FROM institution WHERE institution_id = '".$id ."' AND status = 1");
+}else if($tableSearch == "BM"){
+    $caNames = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$id ."' AND status = 1");
+}else if($tableSearch == "TA"){
+    $caNames = $conn -> prepare("SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '".$id ."' AND status = 1");
+}else{
+    $caNames = $conn -> prepare("SELECT * FROM business_consultant WHERE business_consultant_id = '".$id ."' AND status = 1");
+}
+$caNames -> execute();
+$caNames -> setFetchMode(PDO::FETCH_ASSOC);
+if($caNames -> rowCount()>0){
+    foreach(($caNames -> fetchAll()) as $key => $row){
+        $cafirstname = $row['firstname'];
+        $calastname = $row['lastname'];
+    }
+} 
 
 ?>
 <!DOCTYPE html>
@@ -78,7 +119,7 @@ if($bcNames -> rowCount()>0){
     <body>
         <div class="background" >
             <div class="container cont-btn d-flex justify-content-around pt-3 pb-4">
-                <a href="../../../holiday_payout.php" class="go-back"> Go Back</a>
+                <a href="../../../product_payout.php" class="go-back"> Go Back</a>
                 
                 <a href="#" id="generatePDF" class="download-btn">
                     <i class="fa fa-download " aria-hidden="true" style="color: white;" ></i> 
@@ -88,7 +129,7 @@ if($bcNames -> rowCount()>0){
 
             <div class="d-flex justify-content-center main-box" id="htmlContent">
                 <div class="row rounded-4"  style="width:650px; border:1px solid #417482;">
-                    <div class="col-md-12 col-sm-12 col-12 ps-3 pe-3">
+                    <div class="col-md-12 col-sm-12 col-12 ps-3 pe-3" >
                         <div class="row">
                             <table class="col-md-12 col-sm-12" style="border-bottom: 2px solid #417482;">
                                 <tbody>
@@ -110,11 +151,11 @@ if($bcNames -> rowCount()>0){
                                     <tr>
                                         <td class="col-md-7 col-sm-7 left pt-3">
                                             <h6 style="padding:2px 10px; font-weight: 700;">Name : <?php echo $firstname .' '.$lastname; ?></h6>
-                                            <h6 style="padding:2px 10px; font-weight: 700;">User ID : <?php echo $designation; ?></h6>
+                                            <h6 style="padding:2px 10px; font-weight: 700;">User ID : <?php echo $designation ; ?></h6>
                                             <h6 style="padding:2px 10px; font-weight: 700;">Month : <?php echo $date; ?></h6>
                                         </td>
                                         <td class="col-md-5 col-sm-5 pt-3">
-                                            <h6 style="padding:2px 0; font-weight: 700;">Pay For : Travel Consultant Payout</h6>
+                                            <h6 style="padding:2px 0; font-weight: 700;">Pay For : Travel Consultant Payout </h6>
                                             <h6 style="padding:2px 0; font-weight: 700;">Pay date : <?=$paydate?> </h6>
                                             <h6 style="padding:2px 0; font-weight: 700;">Payout status : <?=$message_status == 2 ? 'Pending' :($message_status == 1?'Paid':'')?></h6>
                                         </td>
@@ -122,12 +163,12 @@ if($bcNames -> rowCount()>0){
                                 </tbody>
                             </table>  
                             <div class="col-md-12 col-sm-12" >
-                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; ">Holiday Account Payout</h5>
+                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; ">Product Payout</h5>
                                 <div class="col-md-12 col-sm-12" style="text-align: left; margin-bottom:20px">
                                     <table class="orderTable text-center" style="padding-bottom:5px; margin:0px; border:1px solid #DDDDDD;">
                                         <thead>
                                             <tr class="tableHead" style="border-bottom: 1px solid #DDDDDD">
-                                                <!-- <th style="font-size:12px; height: 100%; padding:5px; text-align:center;" class="rowHeading">Date</th> -->
+                                                <th style="font-size:12px; height: 100%; padding:5px; text-align:center;" class="rowHeading">Date</th>
                                                 <th style="font-size:12px; height: 100%; padding:5px;" class="rowHeading">Payout Details</th>
                                                 <th style="font-size:12px; height: 100%; padding:5px; text-align:center;" class="rowHeading">Amount</th>
                                                 <th style="font-size:12px; height: 100%; padding:5px; text-align:center;" class="rowHeading">TDS</th>
@@ -137,12 +178,12 @@ if($bcNames -> rowCount()>0){
                                         </thead>
                                         <tbody>
                                             <tr class="fw-normal">
-                                                <!-- <td class="ps-2 pe-2 pt-3 pb-3"><?php //echo $date; ?></td></td> -->
+                                                <td class="ps-2 pe-2 pt-3 pb-3"><?php echo $date; ?></td></td>
                                                 <td class="ps-4 pe-4 text-start pt-3 pb-3"><?php echo $message; ?></td>
                                                 <td class="ps-2 pe-2 pt-3 pb-3">₹<?php echo $commission; ?>/-</td>
                                                 <td class="ps-2 pe-2 pt-3 pb-3">₹<?php echo $commissionTDS; ?>/-</td>
                                                 <td class="ps-2 pe-2 pt-3 pb-3">₹<?php echo $totalAmt; ?>/-</td>
-                                                <td class="ps-2 pe-2 pt-3 pb-3"><?=$message_status == 2 ? 'Pending' :($message_status == 1?'Paid':'')?></td>
+                                                <td class="ps-2 pe-2 pt-3 pb-3"><?php echo $message_status == 0 ? 'Pending' : 'Paid' ; ?></td>
                                             </tr>
                                         </tbody>
                                     </table>
