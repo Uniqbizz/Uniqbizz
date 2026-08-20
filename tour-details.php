@@ -319,6 +319,19 @@ $stmt = $conn->prepare("
 $stmt->execute([$id]);
 
 $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+function safeJsonDecode($value)
+{
+    if (empty($value)) {
+        return [];
+    }
+
+    $decoded = json_decode($value, true);
+
+    return (json_last_error() === JSON_ERROR_NONE && is_array($decoded))
+        ? $decoded
+        : [];
+}
 ?>
 
 <!DOCTYPE html>
@@ -699,7 +712,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                             </div>
                                         </div>
                                         <?php
-                                        $highlights = json_decode($itinery['highlights'], true);
+                                        $highlights = safeJsonDecode($itinery['highlights'] ?? '');
                                         ?>
 
                                         <div id="highlights" class="section-block">
@@ -814,8 +827,8 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                         <div id="inclusion" class="section-block">
                                             
                                             <?php
-                                            $inclusions = json_decode($itinery['inclusion'], true);
-                                            $exclusions = json_decode($itinery['exclusion'], true);
+                                            $inclusions = safeJsonDecode($itinery['inclusion'] ?? '');
+                                            $exclusions = safeJsonDecode($itinery['exclusion'] ?? '');
                                             ?>
 
                                             <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
@@ -1158,7 +1171,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                                 <?php
                                                 $remarkData = $itinery['remark'] ?? '';
 
-                                                $remarks = json_decode($remarkData, true);
+                                                $remarks    = safeJsonDecode($remarkData ?? '');
 
                                                 if (!is_array($remarks)) {
                                                     $remarks = preg_split(
@@ -1217,7 +1230,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
                                                     <?php
                                                     $travelInfo = $itinery['travel_info'] ?? '';
-                                                    $thingsToKnow = json_decode($itinery['travel_info'] ?? '[]', true);
+                                                    $thingsToKnow = safeJsonDecode($itinery['travel_info'] ?? '');
                                                     if (!is_array($thingsToKnow)) {
                                                         $thingsToKnow = preg_split(
                                                             '/\s*\.\s*/',
