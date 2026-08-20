@@ -117,7 +117,7 @@ if ($sort === 'Popular') {
 // ============================================================
 
 $where = "
-    WHERE p.status = '1'
+    WHERE p.status = '1' AND visibility =1 AND DATE(validity) >= CURRENT_DATE
 
     AND t.total_package_price_per_adult
         BETWEEN {$min_price} AND {$max_price}

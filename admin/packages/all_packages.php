@@ -36,7 +36,8 @@
     <link href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
     <!-- Font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+    <link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
         .table{
            
@@ -85,7 +86,8 @@
                                                     <th class="ceterText fw-bolder font-size-16">Package Name</th>
                                                     <th class="ceterText fw-bolder font-size-16">Validity Date</th>
                                                     <th class="ceterText fw-bolder font-size-16">Total Price</th>
-                                                    <th class="ceterText fw-bolder font-size-16">Product Type</th>
+                                                    <th class="ceterText fw-bolder font-size-16">Package Type</th>
+                                                    <th class="ceterText fw-bolder font-size-16">Visibility</th>
                                                     <th class="ceterText fw-bolder font-size-16">Action</th>
                                                     <!-- <th class="ceterText fw-bolder font-size-16">Delete</th> -->
                                                 </tr>
@@ -94,7 +96,7 @@
                                                 <?php
                                                     require '../connect.php';
                                                     
-                                                    $stmt = $conn->prepare("SELECT p.id, name, unique_code, category_name, total_package_price_per_adult,total_package_price_per_child, validity FROM package p, package_pricing t, category c WHERE p.id = t.package_id AND p.category_id = c.id AND p.status = '1' ORDER BY p.id DESC ");
+                                                    $stmt = $conn->prepare("SELECT p.id, name, unique_code, category_name,visibility, total_package_price_per_adult,total_package_price_per_child, validity FROM package p, package_pricing t, category c WHERE p.id = t.package_id AND p.category_id = c.id AND p.status = '1' ORDER BY p.id DESC ");
                                                     $stmt->execute();
                                                     $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                                     if($stmt->rowCount()>0){
@@ -102,6 +104,17 @@
                                                             $today = date('Y-m-d');
                                                             $validity = date('Y-m-d', strtotime($row['validity']));
                                                             $bgColor = ($validity < $today) ? '#FF2E2E' : '';
+                                                            $visibility=$row['visibility'] == 1 ? 'Visible':'Hidden';
+                                                            $visibility_label=$row['visibility'] == 1 ? 'text-success':'text-danger';
+                                                            if ($visibility === 'Visible') {
+                                                                $actionText = 'Hide';
+                                                                $actionIcon = 'mdi-eye-off';
+                                                                $iconColor  = 'text-warning';
+                                                            } else {
+                                                                $actionText = 'Show';
+                                                                $actionIcon = 'mdi-eye';
+                                                                $iconColor  = 'text-success';
+                                                            }
                                                             echo '<tr>
                                                                     <td style="text-align:center"><span class="list-img text-black">'.++$key.'</span></td>
                                                                     <td style="text-align:center"><a href="#" class="text-black"><span class="list-end-name">'.$row['unique_code'].'</span></a></td>
@@ -109,6 +122,7 @@
                                                                     <td><a href="#" class="text-black" ><span class="list-end-name" style="color:'. $bgColor .'">'.$validity.'</span></a></td>
                                                                     <td style="text-align:right" class="text-black"> Adult: ₹ '.$row['total_package_price_per_adult'].'<br> Child: ₹ '.$row['total_package_price_per_child'].'</td>
                                                                     <td style="text-align:center" class="text-black">'.$row['category_name'].'</td>
+                                                                    <td style="text-align:center" class="'.$visibility_label.'">'.$visibility.'</td>
                                                                     <td>
                                                                         <div class="dropdown">
                                                                             <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal mdi-24px" style="color: grey;"></i></a>
@@ -117,6 +131,17 @@
                                                                                     <i class="mdi mdi-pencil font-size-16 text-primary me-1"></i>Edit
                                                                                 </a>
                                                                                 <a class="dropdown-item" href="#" onclick=\'deleteData("' .$row['id']. '")\'><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i>Delete</a>
+                                                                                <a class="dropdown-item"
+                                                                                href="#"
+                                                                                <a class="dropdown-item"
+                                                                                href="#"
+                                                                                onclick=\'visibleData("' . $row['id'] . '", "' . ($visibility == "Visible" ? 0 : 1) . '")\'>
+
+                                                                                    <i class="mdi ' . $actionIcon . ' font-size-16 ' . $iconColor . ' me-1"></i>
+
+                                                                                    ' . $actionText . '
+
+                                                                                </a>
                                                                             </div>
                                                                             <form id="editPackageForm" action="edit_packages.php" method="POST" style="display:none;">
                                                                                 <input type="hidden" name="id" id="editPackageId">
@@ -168,6 +193,7 @@
     <!-- Responsive examples -->
     <script src="../assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
     <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         var mybutton = document.getElementById("back-to-top");
@@ -192,28 +218,211 @@
             $("#user_table").DataTable();
         });
 
-        function deleteData(id)
-        { 
-            // delete function
-            var dataString = 'id='+ id;
-            // console.log(dataString);
-            var r = confirm("Do you want to delete Package Details ?");
-            if (r == true) {
-                $.ajax({
-                    type: "POST",
-                    url: "forms/delete.php",
-                    data: dataString,
-                    cache: false,
-                    success:function(data){
-                        if(data == "success"){
-                            alert("Delete Succesfully");
-                            window.location.reload();
-                        }else{
-                            alert("Deletion Failed");
+        function deleteData(id) {
+
+            Swal.fire({
+                title: 'Delete Package?',
+                text: 'Do you want to delete this package?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Delete',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d'
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        type: "POST",
+                        url: "forms/delete.php",
+                        data: {
+                            id: id
+                        },
+                        cache: false,
+
+                        success: function(data) {
+
+                            data = $.trim(data);
+
+                            if (data === "success") {
+
+                                Swal.fire({
+                                    title: 'Deleted!',
+                                    text: 'Package deleted successfully.',
+                                    icon: 'success',
+                                    confirmButtonColor: '#198754'
+                                }).then(() => {
+
+                                    window.location.reload();
+
+                                });
+
+                            } else {
+
+                                Swal.fire({
+                                    title: 'Failed!',
+                                    text: 'Package deletion failed.',
+                                    icon: 'error',
+                                    confirmButtonColor: '#d33'
+                                });
+
+                            }
+
+                        },
+
+                        error: function() {
+
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'Something went wrong. Please try again.',
+                                icon: 'error',
+                                confirmButtonColor: '#d33'
+                            });
+
                         }
-                    }
-                }); 
-            }   
+
+                    });
+
+                }
+
+            });
+
+        }
+
+
+        function visibleData(id, action) {
+
+            /*
+            * action:
+            * 1 = Show
+            * 0 = Hide
+            */
+
+            var isShow = action == 1;
+
+            var actionText = isShow ? 'Show' : 'Hide';
+
+            var questionText = isShow
+                ? 'Do you want to make this package visible?'
+                : 'Do you want to hide this package?';
+
+            var successText = isShow
+                ? 'Package is now visible.'
+                : 'Package has been hidden.';
+
+            var successTitle = isShow
+                ? 'Package Visible!'
+                : 'Package Hidden!';
+
+            var confirmColor = isShow
+                ? '#198754'       // Green
+                : '#f59e0b';      // Orange
+
+            var confirmButtonText = isShow
+                ? 'Yes, Show'
+                : 'Yes, Hide';
+
+
+            Swal.fire({
+
+                title: actionText + ' Package?',
+
+                text: questionText,
+
+                icon: isShow ? 'question' : 'warning',
+
+                showCancelButton: true,
+
+                confirmButtonText: confirmButtonText,
+
+                cancelButtonText: 'Cancel',
+
+                confirmButtonColor: confirmColor,
+
+                cancelButtonColor: '#6c757d'
+
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+
+                    $.ajax({
+
+                        type: "POST",
+
+                        url: "forms/change_visibility.php",
+
+                        data: {
+                            id: id,
+                            visibility: action
+                        },
+
+                        cache: false,
+
+                        success: function(data) {
+
+                            data = $.trim(data);
+
+                            if (data === "success") {
+
+                                Swal.fire({
+
+                                    title: successTitle,
+
+                                    text: successText,
+
+                                    icon: 'success',
+
+                                    confirmButtonColor: '#198754'
+
+                                }).then(() => {
+
+                                    window.location.reload();
+
+                                });
+
+                            } else {
+
+                                Swal.fire({
+
+                                    title: 'Failed!',
+
+                                    text: isShow
+                                        ? 'Unable to show the package.'
+                                        : 'Unable to hide the package.',
+
+                                    icon: 'error',
+
+                                    confirmButtonColor: '#dc3545'
+
+                                });
+
+                            }
+
+                        },
+
+                        error: function() {
+
+                            Swal.fire({
+
+                                title: 'Error!',
+
+                                text: 'Something went wrong. Please try again.',
+
+                                icon: 'error',
+
+                                confirmButtonColor: '#dc3545'
+
+                            });
+
+                        }
+
+                    });
+
+                }
+
+            });
+
         }
 
         //for edit page

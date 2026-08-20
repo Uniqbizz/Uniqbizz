@@ -17,7 +17,7 @@ $stmtDestination = $conn->prepare("
         TRIM(destination) AS destination,
         name
     FROM package
-    WHERE status = 1
+    WHERE status = 1 AND visibility = 1 AND DATE(validity) >= CURRENT_DATE
       AND destination IS NOT NULL
       AND TRIM(destination) != ''
     ORDER BY destination ASC
@@ -1131,7 +1131,7 @@ $showGuestPrice = !empty($userType)
                                                                 FROM package p JOIN package_pricing t ON p.id = t.package_id 
                                                                 JOIN category c ON p.category_id = c.id 
                                                                 LEFT JOIN bookings b ON b.package_id = p.id 
-                                                                WHERE p.status = '1' 
+                                                                WHERE p.status = '1' AND visibility = 1 AND DATE(validity) >= CURRENT_DATE
                                                                 GROUP BY p.id, p.description, p.destination, p.location, t.total_package_price_per_adult, t.markup_total 
                                                                 ORDER BY booking_count DESC, p.id  ");
                                         $stmt->execute();
@@ -1327,15 +1327,13 @@ $showGuestPrice = !empty($userType)
                                             }
                                         }
 
-                                        $stmt = $conn->prepare(" SELECT p.id,p.created_date, p.name,p.description, p.destination, 
-                                                                p.location, p.tour_days, t.total_package_price_per_adult, 
-                                                                COUNT(b.package_id) AS booking_count FROM package p 
-                                                                JOIN package_pricing t ON p.id = t.package_id 
+                                        $stmt = $conn->prepare(" SELECT p.id,p.created_date, p.name,p.description, p.destination, p.location, p.tour_days, 
+                                                                t.total_package_price_per_adult, COUNT(b.package_id) AS booking_count,p.highlight_type
+                                                                FROM package p JOIN package_pricing t ON p.id = t.package_id 
                                                                 JOIN category c ON p.category_id = c.id 
                                                                 LEFT JOIN bookings b ON b.package_id = p.id 
-                                                                WHERE p.status = '1' 
-                                                                GROUP BY p.id, p.description, p.destination, p.location, 
-                                                                t.total_package_price_per_adult, t.markup_total 
+                                                                WHERE p.status = '1' AND visibility = 1 AND DATE(validity) >= CURRENT_DATE
+                                                                GROUP BY p.id, p.description, p.destination, p.location, t.total_package_price_per_adult, t.markup_total 
                                                                 ORDER BY booking_count DESC, p.id  ");
                                         $stmt->execute();
                                         $stmt->SetFetchMode(PDO::FETCH_ASSOC);
