@@ -173,24 +173,33 @@
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
                                             <div class="mb-3">
                                                 <label for="dayInput" class="form-label fontSize10">Nights / Days</label>
-                                                <select class="form-select fontSize10" aria-label="Default select example">
-                                                    <option selected>Select Days</option>
-                                                    <option value="1">4 Nights / 5 Days</option>
-                                                    <option value="2">2 Nights / 3 Days</option>
-                                                    <option value="3">5Nights / 6 Days</option>
-                                                </select>
+                                                <div class="icon-select-wrapper">
+                                                    <i class="ri-moon-line iconPosition iconRed"></i>
+                                                    <select class="form-select fontSize10 paddingLeft" aria-label="Default select example">
+                                                        <option selected>Select Days</option>
+                                                        <option value="1">4 Nights / 5 Days</option>
+                                                        <option value="2">2 Nights / 3 Days</option>
+                                                        <option value="3">5Nights / 6 Days</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                             <div class="mb-3">
                                                 <label for="pickupLocation" class="fontSize10 form-label">Pickup</label>
-                                                <input type="email" class="fontSize10 form-control" id="pickupLocation" placeholder="Varanasi">
+                                                <div class="icon-select-wrapper">
+                                                    <i class="ri-map-pin-line iconPosition iconRed"></i>
+                                                    <input type="email" class="fontSize10 form-control paddingLeft" id="pickupLocation" placeholder="Varanasi">
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                             <div class="mb-3">
                                                 <label for="dropLocation" class="fontSize10 form-label">Drop</label>
-                                                <input type="email" class="fontSize10 form-control" id="dropLocation" placeholder="Mumbai">
+                                                <div class="icon-select-wrapper">
+                                                    <i class="ri-map-pin-line iconPosition iconRed"></i>
+                                                    <input type="email" class="fontSize10 form-control paddingLeft" id="dropLocation" placeholder="Mumbai">
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -233,7 +242,7 @@
                                                         <p class="fontSize10 fw-bold"><i class="ri-hotel-bed-fill destination-title fs-6"></i> 1 Double Bed + 1 Extra Mattress</p>
                                                         <p class="fontSize10">3 Pax will be accommendated in 1 room with extra mattress.</p>
                                                     </div>
-                                                    <div class="py-1 px-2 text-center text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 recommendedBtn fw-bold">
+                                                    <div class="py-1 px-2 text-center text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 recommendedBtn fw-bold fontSize10">
                                                         Recommended
                                                     </div>
                                                 </div>
@@ -244,6 +253,63 @@
                                         </div>
                                         <div class="d-flex justify-content-center">
                                             <button class="btn addRoomBtn" type="submit">Add Room (If more travellers)</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Preferences Details -->
+                                <div class="card cardShadow p-3 mt-3">
+                                    <div class="d-flex gap-2 mb-3">
+                                        <p class="travellerTittleNum">2</p>
+                                        <h5 class="mb-0 fw-bold">Preferences (Optional)</h5>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                            <div class="mb-3">
+                                                <label for="hotelCategory" class="form-label fontSize10">Hotel Category</label>
+                                                <div class="icon-select-wrapper">
+                                                    <i class="ri-hotel-line iconPosition iconRed"></i>
+                                                    <select class="form-select fontSize10 paddingLeft" aria-label="Default select example">
+                                                        <option selected>Select Hotel</option>
+                                                        <option value="1">5 Star</option>
+                                                        <option value="2">4 Star</option>
+                                                        <option value="3">3 Star</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                            <div class="mb-3">
+                                                <label for="mealPreference" class="form-label fontSize10">Meal Preference</label>
+                                                <div class="icon-select-wrapper">
+                                                    <i class="ri-restaurant-line iconPosition iconRed"></i>
+                                                    <select class="form-select fontSize10 paddingLeft" aria-label="Default select example">
+                                                        <option selected>Select Meal</option>
+                                                        <option value="1">Breakfast & Dinner</option>
+                                                        <option value="2">Dinner</option>
+                                                        <option value="3">Breakfast</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                            <div class="mb-3">
+                                                <label for="transportPreference" class="form-label fontSize10">Transport Preference</label>
+                                                <div class="icon-select-wrapper">
+                                                    <i class="ri-car-line iconPosition iconRed"></i>
+                                                    <select class="form-select fontSize10 paddingLeft" aria-label="Default select example">
+                                                        <option selected>Select Vehicle</option>
+                                                        <option value="1">AC Vehicle</option>
+                                                        <option value="2">Non Ac Vehicle</option>
+                                                        <option value="3">Bus</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                            <div class="mb-0">
+                                                <label for="specialRequirement" class="form-label fontSize10">Special Requirements (Optional)</label>
+                                                <textarea class="form-control fontSize10" id="specialRequirement" placeholder="Eg. Wheelchair, extra bed, high floor, adjoining rooms, etc."></textarea>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

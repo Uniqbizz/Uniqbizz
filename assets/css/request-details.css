@@ -100,8 +100,8 @@ body {
     background-color: #f8f8ff;
 }
 .recommendedBtn {
-    width: 150px;
-    height: 35px;
+    width: 110px;
+    height: 30px;
 }
 .modifyBtn, .addRoomBtn {
     background-color: #fff;
@@ -113,4 +113,22 @@ body {
     background-color: #e03d42;
     color: #fff;
     border: 1px solid #e03d42;
+}
+.icon-select-wrapper {
+    position: relative;
+}
+.iconPosition {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #6c757d;
+    z-index: 2;
+}
+.paddingLeft {
+    padding-left: 40px !important;
+}
+.iconRed {
+    color: #e03d42;
 }
