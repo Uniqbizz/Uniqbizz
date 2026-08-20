@@ -60,7 +60,7 @@ function parseFaqTxt($filePath)
     return $faqs;
 }
 // package
-$stmt = $conn->prepare("SELECT * FROM package WHERE id = $id");
+$stmt = $conn->prepare("SELECT * FROM package WHERE id = $id AND status = '1' AND visibility = 1 AND DATE(validity) >= CURRENT_DATE");
 $stmt->execute();
 $package = $stmt->fetch();
 $cat_id = $package['category_id'];
@@ -212,7 +212,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
 $sqlPack = $conn->prepare("
     SELECT *
     FROM package
-    WHERE status = 1
+    WHERE status = 1 AND visibility = 1 AND DATE(validity) >= CURRENT_DATE
     AND id != ?
     AND (
             package_keywords LIKE ?
@@ -252,7 +252,7 @@ foreach ($packages as $similarPackage) {
         SELECT image
         FROM package_pictures
         WHERE package_id = ?
-        AND type NOT IN ('video')
+        AND (type IS NULL OR type IN ('cover_image', 'gallary_image'))
         ORDER BY id ASC
     ");
 
@@ -3300,7 +3300,8 @@ function safeJsonDecode($value)
             ) ?>;
 
             const track = document.getElementById("packageTrack");
-
+            console.log(packages);
+            
             if (packages && packages.length > 0) {
 
                 packages.forEach((pkg, packageIndex) => {
