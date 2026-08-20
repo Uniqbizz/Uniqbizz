@@ -120,13 +120,13 @@
                         <div class="row">
                             <div class="col-xl-8 col-lg-9 mb-3">
                                 <div class="card cardShadow">
-                                    <div class="d-flex">
+                                    <div class="d-flex tabDisplayBlock">
                                         <div>
                                             <img src="assets/images/package/package-7.jpg" alt="" class="requestQuotePackageImg">
                                         </div>
                                         <div class="p-3 widthStretch">
                                             <p class="fw-bolder text-black mb-1 fs-5" id="pack_name">Varanasi A Spiritual Journey Awaits</p>
-                                            <div class="d-flex justify-content-between">
+                                            <div class="d-flex justify-content-between mobileDisplayBlock">
                                                 <p class="fontSize10 mb-3">
                                                     <i class="ri-map-pin-line destination-title fs-6"></i>
                                                     Varanasi, Uttar Pradesh
@@ -237,7 +237,7 @@
                                         <p class="fontSize10 fw-bold">Room 1</p>
                                         <div class="row">
                                             <div class="col-xl-9 col-lg-8 col-md-8 col-sm-7 col-12 mb-3">
-                                                <div class="d-flex justify-content-between">
+                                                <div class="d-flex justify-content-between mobileDisplayBlock">
                                                     <div>
                                                         <p class="fontSize10 fw-bold"><i class="ri-hotel-bed-fill destination-title fs-6"></i> 1 Double Bed + 1 Extra Mattress</p>
                                                         <p class="fontSize10">3 Pax will be accommendated in 1 room with extra mattress.</p>

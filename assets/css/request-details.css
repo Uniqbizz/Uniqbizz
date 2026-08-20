@@ -238,3 +238,19 @@ body {
         padding: 15px;
     }
 }
+@media (max-width: 767px) {
+    .tabDisplayBlock {
+        display: block !important;
+    }
+    .requestQuotePackageImg {
+        width: 100% !important;
+    }
+}
+@media (max-width: 576px) {
+    .mobileDisplayBlock {
+        display: block !important;
+    }
+    .mobileDisplayBlock p {
+        margin-bottom: 3px !important;
+    }
+}
