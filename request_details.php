@@ -426,8 +426,8 @@
             </section>
             <!-- Request Details Page End -->
             <button id="openPricingBtn" class="floating-price-btn">
-                <i class="ri-price-tag-3-line"></i>
-                Package Price
+                <p class="fs-6 text-white fw-bold">Total Estimated Price:</p>
+                <p class="fs-6 text-white fw-bold">&#8377; 40,851 /-</p>
             </button>
 
             <div class="pricing-overlay" id="pricingOverlay"></div>
