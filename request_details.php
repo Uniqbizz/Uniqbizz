@@ -315,9 +315,14 @@
                                 </div>
                             </div>
                             <!-- Pricing Section -->
-                            <div class="col-xl-4 col-lg-3 mb-3">
+                            <div class="col-xl-4 col-lg-3 mb-3 pricing-sidebar" id="pricingSidebar">
                                 <div class="card cardShadow">
-                                    <h5 class="fw-bold p-3">Package Price Calculation</h5>
+                                    <div class="pricing-header">
+                                        <h5 class="fw-bold mb-0">Package Price Calculation</h5>
+                                        <button type="button" class="pricing-close-btn" id="closePricing">
+                                            <i class="ri-close-line"></i>
+                                        </button>
+                                    </div>
                                     <hr class="my-1 border border-2 mx-3">
                                     <div class="p-3">
                                         <p class="fw-bold">Base Price (Per Person)</p>
@@ -420,6 +425,12 @@
                 </div>
             </section>
             <!-- Request Details Page End -->
+            <button id="openPricingBtn" class="floating-price-btn">
+                <i class="ri-price-tag-3-line"></i>
+                Package Price
+            </button>
+
+            <div class="pricing-overlay" id="pricingOverlay"></div>
         </main>
         
         <!-- share model 30-07-2026 start-->
@@ -1110,6 +1121,41 @@
                     let value = parseInt(input.value) || 0;
                     input.value = value + 1;
                 });
+            });
+        </script>
+        <!-- Pricing Section -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const pricingSidebar = document.getElementById("pricingSidebar");
+                const openBtn = document.getElementById("openPricingBtn");
+                const closeBtn = document.getElementById("closePricing");
+                const overlay = document.getElementById("pricingOverlay");
+
+                function openPricing() {
+                    pricingSidebar.classList.add("show");
+                    overlay.classList.add("show");
+                    document.body.style.overflow = "hidden";
+                }
+
+                function closePricing() {
+                    pricingSidebar.classList.remove("show");
+                    overlay.classList.remove("show");
+                    document.body.style.overflow = "";
+                }
+
+                openBtn.addEventListener("click", openPricing);
+
+                closeBtn.addEventListener("click", closePricing);
+
+                overlay.addEventListener("click", closePricing);
+
+                window.addEventListener("resize", function () {
+                    if (window.innerWidth > 991) {
+                        closePricing();
+                    }
+                });
+
             });
         </script>
         <!-- Request Details Age Incrementer And Decrementer End -->
