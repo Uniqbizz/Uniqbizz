@@ -1,5 +1,7 @@
 <?php
-    include_once 'dashboard_user_details.php';
+    include_once(__DIR__ . '/../dashboard_user_details.php');
+    // include 'travel_consultant_model.php';
+    include 'urls.php';
 ?>
 <header id="page-topbar" class="rounded-4" style="left: 0 !important;">
     <div class="layout-width">
@@ -18,10 +20,10 @@
                     <!-- Light Logo-->
                     <a href="index.php" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="assets/images/fav.png" alt="" height="25">
+                            <img src="../assets/images/fav.png" alt="" height="25">
                         </span>
                         <span class="logo-lg">
-                            <img src="assets/images/bizz_logo.png" alt="" height="50">
+                            <img src="../assets/images/bizz_logo.png" alt="" height="50">
                         </span>
                     </a>
                 </div>
@@ -29,7 +31,7 @@
                 <div class="com_logo">
                     <a href="index.php" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="assets/images/bizz_logo.png" alt="" height="50">
+                            <img src="../assets/images/bizz_logo.png" alt="" height="50">
                         </span>
                     </a>
                 </div>
@@ -175,7 +177,7 @@
                             <div class="tab-pane fade show p-4" id="all-noti-tab" role="tabpanel">
                                 <div class="empty-notification-elem">
                                     <div class="w-25 w-sm-50 pt-3 mx-auto">
-                                        <img src="assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
+                                        <img src="../assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
                                     </div>
                                     <div class="text-center pb-5 mt-2">
                                         <h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>
@@ -186,7 +188,7 @@
                             <div class="tab-pane fade p-4" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
                                 <div class="empty-notification-elem">
                                     <div class="w-25 w-sm-50 pt-3 mx-auto">
-                                        <img src="assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
+                                        <img src="../assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
                                     </div>
                                     <div class="text-center pb-5 mt-2">
                                         <h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>
@@ -196,7 +198,7 @@
                             <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel" aria-labelledby="alerts-tab">
                                 <div class="empty-notification-elem">
                                     <div class="w-25 w-sm-50 pt-3 mx-auto">
-                                        <img src="assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
+                                        <img src="../assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
                                     </div>
                                     <div class="text-center pb-5 mt-2">
                                         <h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>

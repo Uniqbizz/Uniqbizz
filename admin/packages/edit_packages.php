@@ -1825,32 +1825,53 @@
                                                         </div>
                                                         <div class="col-lg-12">
                                                             <div class="borderHighlight p-3 mt-3">
-                                                                <h4 class="fw-bolder">3. Video</h4>
-                                                                <p>Upload a promotional video to give users a better preview of the destination and package.</p>
-                                                                <div class="row">
-                                                                    <div class="col-lg-12">
-                                                                        <div class="video-preview-wrapper">
-                                                                            <div class="video-input-group">
-                                                                                <input type="text"
-                                                                                    class="video-link-input"
-                                                                                    id="videoLinkInput"
-                                                                                    placeholder="Paste YouTube or Vimeo link here">
 
-                                                                                <button type="button" class="preview-btn" id="addVideoBtn">
-                                                                                    Preview Video
+                                                                <h4 class="fw-bolder">3. Video</h4>
+
+                                                                <p>
+                                                                    Upload a promotional video to give users a better preview
+                                                                    of the destination and package.
+                                                                </p>
+
+                                                                <div class="row">
+
+                                                                    <div class="col-lg-12">
+
+                                                                        <div class="video-preview-wrapper">
+
+                                                                            <div class="video-input-group">
+
+                                                                                <input
+                                                                                    type="file"
+                                                                                    class="form-control"
+                                                                                    id="videoFileInput"
+                                                                                    accept="video/mp4,video/webm,video/mov,video/avi,video/mkv"
+                                                                                    multiple
+                                                                                >
+
+                                                                                <button
+                                                                                    type="button"
+                                                                                    class="preview-btn"
+                                                                                    id="addVideoBtn"
+                                                                                >
+                                                                                    Add Video
                                                                                 </button>
+
                                                                             </div>
 
-                                                                            <div class="video-example">
-                                                                                <i class="ri-play-line"></i>
-                                                                                Example: https://www.youtube.com/watch?v=xxxxxxxx
-                                                                                or https://vimeo.com/xxxxxxxx
+                                                                            <div class="video-example mt-2">
+                                                                                <i class="ri-video-line"></i>
+                                                                                Supported formats: MP4, WebM, MOV, AVI, MKV
                                                                             </div>
 
                                                                             <div id="videoPreviewList"></div>
+
                                                                         </div>
+
                                                                     </div>
+
                                                                 </div>
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -3056,97 +3077,391 @@
         </script>
         <!-- Video -->
         <script>
-            function addVideoLink() {
+            // function addVideoLink() {
 
-                let videoUrl = $("#videoLinkInput").val().trim();
+            //     let videoUrl = $("#videoLinkInput").val().trim();
 
-                if (!videoUrl) {
-                    alert("Please enter a video link");
-                    return;
-                }
+            //     if (!videoUrl) {
+            //         alert("Please enter a video link");
+            //         return;
+            //     }
 
-                // Optional: Validate YouTube/Vimeo URL
-                const validVideoUrl =
-                    videoUrl.includes("youtube.com") ||
-                    videoUrl.includes("youtu.be") ||
-                    videoUrl.includes("vimeo.com");
+            //     // Optional: Validate YouTube/Vimeo URL
+            //     const validVideoUrl =
+            //         videoUrl.includes("youtube.com") ||
+            //         videoUrl.includes("youtu.be") ||
+            //         videoUrl.includes("vimeo.com");
 
-                if (!validVideoUrl) {
-                    alert("Please enter a valid YouTube or Vimeo link.");
-                    return;
-                }
+            //     if (!validVideoUrl) {
+            //         alert("Please enter a valid YouTube or Vimeo link.");
+            //         return;
+            //     }
 
-                // Prevent duplicates
-                let exists = false;
+            //     // Prevent duplicates
+            //     let exists = false;
 
-                $(".video-url").each(function () {
-                    if ($(this).text().trim() === videoUrl) {
-                        exists = true;
-                        return false;
-                    }
-                });
+            //     $(".video-url").each(function () {
+            //         if ($(this).text().trim() === videoUrl) {
+            //             exists = true;
+            //             return false;
+            //         }
+            //     });
 
-                if (exists) {
-                    alert("This video link already exists.");
-                    return;
-                }
+            //     if (exists) {
+            //         alert("This video link already exists.");
+            //         return;
+            //     }
 
-                let videoItem = `
-                    <div class="video-preview-item">
-                        <div class="video-link-content">
-                            <i class="fa-solid fa-play play-video"
-                            data-url="${videoUrl}"
-                            title="Play Video"></i>
+            //     let videoItem = `
+            //         <div class="video-preview-item">
+            //             <div class="video-link-content">
+            //                 <i class="fa-solid fa-play play-video"
+            //                 data-url="${videoUrl}"
+            //                 title="Play Video"></i>
 
-                            <span class="video-url">${videoUrl}</span>
-                        </div>
+            //                 <span class="video-url">${videoUrl}</span>
+            //             </div>
 
-                        <i class="fa-solid fa-trash-can delete-video"
-                        title="Delete"></i>
-                    </div>
-                `;
+            //             <i class="fa-solid fa-trash-can delete-video"
+            //             title="Delete"></i>
+            //         </div>
+            //     `;
 
-                $("#videoPreviewList").append(videoItem);
+            //     $("#videoPreviewList").append(videoItem);
 
-                $(".video-example").hide();
+            //     $(".video-example").hide();
 
-                $("#videoLinkInput").val("").focus();
-            }
-            $(document).ready(function () {
+            //     $("#videoLinkInput").val("").focus();
+            // }
+            // function getPackageVideos() {
 
-                // Hide example if videos already exist
-                if ($("#videoPreviewList .video-preview-item").length > 0) {
-                    $(".video-example").hide();
-                }
+            //     let videos = [];
+
+            //     $("#videoPreviewList .video-preview-item").each(function () {
+
+            //         let url = $(this)
+            //             .find(".play-video")
+            //             .attr("data-url");
+
+            //         if (url) {
+
+            //             videos.push({
+            //                 url: url.trim(),
+            //                 type: "video"
+            //             });
+
+            //         }
+
+            //     });
+
+            //     return videos;
+            // }
+            // $(document).ready(function () {
+
+            //     // Hide example if videos already exist
+            //     if ($("#videoPreviewList .video-preview-item").length > 0) {
+            //         $(".video-example").hide();
+            //     }
 
                 
 
-                // Button Click
-                $("#addVideoBtn").on("click", function () {
-                    addVideoLink();
-                });
+            //     // Button Click
+            //     $("#addVideoBtn").on("click", function () {
+            //         addVideoLink();
+            //     });
 
-                // Enter Key
-                $("#videoLinkInput").on("keypress", function (e) {
-                    if (e.which === 13) {
-                        e.preventDefault();
-                        addVideoLink();
+            //     // Enter Key
+            //     $("#videoLinkInput").on("keypress", function (e) {
+            //         if (e.which === 13) {
+            //             e.preventDefault();
+            //             addVideoLink();
+            //         }
+            //     });
+
+            //     // Play Video
+            //     $(document).on("click", ".play-video", function () {
+            //         window.open($(this).data("url"), "_blank");
+            //     });
+
+            //     // Delete Video
+            //     $(document).on("click", ".delete-video", function () {
+
+            //         $(this).closest(".video-preview-item").remove();
+
+            //         if ($("#videoPreviewList .video-preview-item").length === 0) {
+            //             $(".video-example").show();
+            //         }
+            //     });
+
+            // });
+            // let videoFiles = [];
+            window.videoFiles = window.videoFiles || [];
+
+
+            function addVideoFiles() {
+
+                console.log("addVideoFiles() STARTED");
+
+                const input = $("#videoFileInput")[0];
+
+                console.log("Input:", input);
+
+                if (!input) {
+
+                    console.error("#videoFileInput NOT FOUND");
+                    return;
+
+                }
+
+                console.log("Selected files:", input.files);
+                console.log("File count:", input.files.length);
+
+
+                const files = input.files;
+
+                if (!files || files.length === 0) {
+
+                    alert("Please select a video file.");
+                    return;
+
+                }
+
+
+                const allowedExtensions = [
+                    "mp4",
+                    "webm",
+                    "mov",
+                    "avi",
+                    "mkv",
+                    "m4v"
+                ];
+
+
+                for (let file of files) {
+
+                    console.log("Processing file:", file);
+
+
+                    const extension = file.name
+                        .split(".")
+                        .pop()
+                        .toLowerCase();
+
+
+                    if (!allowedExtensions.includes(extension)) {
+
+                        alert(
+                            `"${file.name}" is not a supported video format.`
+                        );
+
+                        continue;
                     }
+
+
+                    const exists = window.videoFiles.some(function (existingFile) {
+
+                        return (
+                            existingFile.name === file.name &&
+                            existingFile.size === file.size
+                        );
+
+                    });
+
+
+                    if (exists) {
+
+                        alert(
+                            `"${file.name}" has already been added.`
+                        );
+
+                        continue;
+                    }
+
+
+                    // IMPORTANT
+                    window.videoFiles.push(file);
+
+
+                    console.log(
+                        "FILE PUSHED:",
+                        file.name,
+                        file.size,
+                        file.type
+                    );
+
+
+                    const previewUrl = URL.createObjectURL(file);
+
+
+                    const videoItem = `
+                        <div
+                            class="video-preview-item"
+                            data-file-name="${file.name}"
+                            data-file-size="${file.size}"
+                            data-preview-url="${previewUrl}"
+                        >
+
+                            <div class="video-link-content">
+
+                                <i
+                                    class="fa-solid fa-play play-video"
+                                    data-url="${previewUrl}"
+                                    title="Play Video">
+                                </i>
+
+                                <span class="video-url">
+                                    ${file.name}
+                                </span>
+
+                            </div>
+
+                            <i
+                                class="fa-solid fa-trash-can delete-video"
+                                title="Delete">
+                            </i>
+
+                        </div>
+                    `;
+
+
+                    $("#videoPreviewList").append(videoItem);
+
+                }
+
+
+                $(".video-example").hide();
+
+                $("#videoFileInput").val("");
+
+
+                console.log(
+                    "FINAL window.videoFiles:",
+                    window.videoFiles
+                );
+            }
+
+
+            function getPackageVideos() {
+
+                let videos = [];
+
+                window.videoFiles.forEach(function (file) {
+
+                    videos.push({
+
+                        name: file.name,
+
+                        size: file.size,
+
+                        type: "video"
+
+                    });
+
                 });
 
-                // Play Video
+                return videos;
+            }
+
+
+            $(document).ready(function () {
+
+                /*
+                |--------------------------------------------------------------------------
+                | Add Video
+                |--------------------------------------------------------------------------
+                */
+
+                $(document).on("click", "#addVideoBtn", function () {
+
+                    console.log("ADD VIDEO BUTTON CLICKED");
+
+                    addVideoFiles();
+
+                });
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Play Video
+                |--------------------------------------------------------------------------
+                */
+
                 $(document).on("click", ".play-video", function () {
-                    window.open($(this).data("url"), "_blank");
+
+                    const url = $(this).attr("data-url");
+
+                    if (url) {
+
+                        window.open(url, "_blank");
+
+                    }
+
                 });
 
-                // Delete Video
+
+                /*
+                |--------------------------------------------------------------------------
+                | Delete Video
+                |--------------------------------------------------------------------------
+                */
+
                 $(document).on("click", ".delete-video", function () {
 
-                    $(this).closest(".video-preview-item").remove();
+                    const item = $(this).closest(".video-preview-item");
 
-                    if ($("#videoPreviewList .video-preview-item").length === 0) {
-                        $(".video-example").show();
+                    const fileName = item.attr("data-file-name");
+                    const fileSize = Number(item.attr("data-file-size"));
+                    const previewUrl = item.attr("data-preview-url");
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Remove preview URL from memory
+                    |--------------------------------------------------------------------------
+                    */
+
+                    if (previewUrl) {
+
+                        URL.revokeObjectURL(previewUrl);
+
                     }
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Remove from window.videoFiles
+                    |--------------------------------------------------------------------------
+                    */
+
+                    window.videoFiles = window.videoFiles.filter(function (file) {
+
+                        return !(
+                            file.name === fileName &&
+                            file.size === fileSize
+                        );
+
+                    });
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Remove preview
+                    |--------------------------------------------------------------------------
+                    */
+
+                    item.remove();
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Show example when no videos remain
+                    |--------------------------------------------------------------------------
+                    */
+
+                    if (
+                        $("#videoPreviewList .video-preview-item").length === 0
+                    ) {
+
+                        $(".video-example").show();
+
+                    }
+
                 });
 
             });

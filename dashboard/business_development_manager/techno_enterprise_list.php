@@ -528,20 +528,25 @@
                         }
                     },
                     {
-                        data: 'amount',
+                        data: null,
                         render: function(data) {
 
-                            if(!data || data == 0) {
-                                return '-';
-                            }
+                            // if(!data || data == 0) {
+                            //     return '-';
+                            // }
 
                             return `
                                 <p class="fs-6 mb-0">
-                                    ₹ ${Number(data).toLocaleString('en-IN', {
+                                    ₹ ${Number(data.amount ?? 0).toLocaleString('en-IN', {
                                         minimumFractionDigits: 2,
                                         maximumFractionDigits: 2
                                     })}
                                 </p>
+                                ${data.converted == 1 ? `<p class="fs-6 mb-0">
+                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                    Converted
+                                </p>` : '' }
+                                
                             `;
                         }
                     },

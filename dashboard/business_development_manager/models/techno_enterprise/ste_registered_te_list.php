@@ -49,6 +49,7 @@
                 ca.status,
                 ca.amount,
                 ca.user_type,
+                ca.converted,
 
                 bm.name AS ref_firstname,
                 '' AS ref_lastname,
@@ -77,6 +78,7 @@
                 ca.status,
                 ca.amount,
                 ca.user_type,
+                ca.converted,
 
                 bm.firstname AS ref_firstname,
                 bm.lastname AS ref_lastname,
@@ -108,6 +110,7 @@
                 i.status,
                 i.amount,
                 i.user_type,
+                i.converted,
 
                 bm.name AS ref_firstname,
                 '' AS ref_lastname,
@@ -136,6 +139,7 @@
                 i.status,
                 i.amount,
                 i.user_type,
+                i.converted,
 
                 bm.firstname AS ref_firstname,
                 bm.lastname AS ref_lastname,

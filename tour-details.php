@@ -25,7 +25,11 @@ $user_id = $_SESSION['user_id'] ?? null;
 //     echo "Welcome, Guest!";
 // }
 
-$id = $_GET['pacId']; //package_id '156'
+$id = isset($_GET['pacId']) ? (int)$_GET['pacId'] : 0;
+
+if ($id <= 0) {
+    die("Invalid package ID");
+}
 
 // echo $userFname = $_SESSION['username2']; //first name of user 'Ryam'.
 // echo $userLname = $_SESSION['lname']; //last name of user 'Cardoso'.
@@ -56,7 +60,7 @@ function parseFaqTxt($filePath)
     return $faqs;
 }
 // package
-$stmt = $conn->prepare("SELECT * FROM package WHERE id = $id");
+$stmt = $conn->prepare("SELECT * FROM package WHERE id = $id AND status = '1' AND visibility = 1 AND DATE(validity) >= CURRENT_DATE");
 $stmt->execute();
 $package = $stmt->fetch();
 $cat_id = $package['category_id'];
@@ -127,6 +131,20 @@ $data11->bindParam(':id', $id, PDO::PARAM_INT);
 $data11->execute();
 $vehicle_type = $data11->rowCount() > 0 ? $data11->fetchAll(PDO::FETCH_ASSOC) : []; // Corrected variable name
 
+// Fetch vehicle types for a given package_id
+$data11 = $conn->prepare("
+    SELECT *
+    FROM package_pricing
+    WHERE package_id = :id
+    ORDER BY id DESC
+    LIMIT 1
+");
+
+$data11->bindParam(':id', $id, PDO::PARAM_INT);
+$data11->execute();
+
+$pricing = $data11->fetch(PDO::FETCH_ASSOC) ?: [];
+
 // Fetch all vehicle categories
 $data12 = $conn->prepare("SELECT id, name FROM `category_vehicle`");
 $data12->execute();
@@ -161,6 +179,7 @@ $stmtPolicy = $conn->prepare("
     WHERE package_id = ?
     ORDER BY id ASC
 ");
+
 $stmtPolicy->execute([$id]);
 $policies = $stmtPolicy->fetchAll(PDO::FETCH_ASSOC);
 //share model start 30-07-2026
@@ -189,77 +208,130 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
 
 //share model end
 //package similar list
-    // Get latest 12 packages
-    $sqlPack = $conn->prepare("
-        SELECT *
-        FROM package
-        WHERE status = 1
-        AND id != ?
-        AND (
-                package_keywords LIKE ?
-                OR destination LIKE ?
-                OR location LIKE ?
-            )
+// Get latest 10 packages
+$sqlPack = $conn->prepare("
+    SELECT *
+    FROM package
+    WHERE status = 1 AND visibility = 1 AND DATE(validity) >= CURRENT_DATE
+    AND id != ?
+    AND (
+            package_keywords LIKE ?
+            OR destination LIKE ?
+            OR location LIKE ?
+        )
+    ORDER BY id DESC
+    LIMIT 10
+");
+
+$sqlPack->execute([
+    $id,
+    "%$package_keywords%",
+    "%$destination%",
+    "%$location%"
+]);
+
+$packages = $sqlPack->fetchAll(PDO::FETCH_ASSOC);
+
+$package_array = [];
+
+foreach ($packages as $similarPackage) {
+
+    $sqlPackPrice = $conn->prepare("
+        SELECT total_package_price_per_adult
+        FROM package_pricing
+        WHERE package_id = ?
         ORDER BY id DESC
-        LIMIT 10
+        LIMIT 1
     ");
 
-    $sqlPack->execute([
-        $id,
-        "%$package_keywords%",
-        "%$destination%",
-        "%$location%"
-    ]);
-    
-    $packages = $sqlPack->fetchAll(PDO::FETCH_ASSOC);
-    
-    $package_array = [];
-    
-    foreach ($packages as $package) {
-    
-        // Get package price
-        $sqlPackPrice = $conn->prepare("
-            SELECT total_package_price_per_adult
-            FROM package_pricing
-            WHERE package_id = ?
-            ORDER BY id DESC
-            LIMIT 1
-        ");
-    
-        $sqlPackPrice->execute([$package['id']]);
-    
-        $packagePrice = $sqlPackPrice->fetch(PDO::FETCH_ASSOC);
-    
-        // Get first package image
-        $sqlPackImage = $conn->prepare("
-            SELECT image
-            FROM package_pictures
-            WHERE package_id = ?
-            ORDER BY id ASC
-            LIMIT 1
-        ");
-    
-        $sqlPackImage->execute([$package['id']]);
-    
-        $packageImage = $sqlPackImage->fetch(PDO::FETCH_ASSOC);
-    
-        // Calculate duration
-        $days = (int)$package['tour_days'];
-        $nights = $days - 1;
-    
-        $package_duration = $nights . "N / " . $days . "D";
-    
-        // Store in multidimensional array
-        $package_array[] = [
-            "packid"    => $package['id'],
-            "title"     => $package['name'],
-            "duration"  => $package_duration,
-            "price"     => $packagePrice['total_package_price_per_adult'] ?? 0,
-            "image"     => $packageImage['image'] ?? '',
-            "link"      => "package-details.php?id=" . $package['id']
-        ];
+    $sqlPackPrice->execute([$similarPackage['id']]);
+
+    $packagePrice = $sqlPackPrice->fetch(PDO::FETCH_ASSOC);
+
+    $sqlPackImage = $conn->prepare("
+        SELECT image
+        FROM package_pictures
+        WHERE package_id = ?
+        AND (type IS NULL OR type IN ('cover_image', 'gallary_image'))
+        ORDER BY id ASC
+    ");
+
+    $sqlPackImage->execute([$similarPackage['id']]);
+
+    $packageImages = $sqlPackImage->fetchAll(PDO::FETCH_COLUMN);
+
+    $days = (int)$similarPackage['tour_days'];
+    $nights = max(0, $days - 1);
+
+    $package_duration = $nights . "N / " . $days . "D";
+
+    $package_array[] = [
+        "packid"   => $similarPackage['id'],
+        "title"    => $similarPackage['name'],
+        "duration" => $package_duration,
+        "price"    => $packagePrice['total_package_price_per_adult'] ?? 0,
+        'images'    => $packageImages,
+        "link"     => "tour-details.php?pacId=" . $similarPackage['id']
+    ];
+}
+//guest princinglogic
+$userType = $_SESSION['user_type_id_value'] ?? null;
+
+$showGuestPrice = !empty($userType)
+    && !in_array((int)$userType, [1, 17, 15]);
+
+$adultPrice = (float)$pricing['total_package_price_per_adult'];
+$childPrice = (float)$pricing['total_package_price_per_child'];
+
+$adultDisplayPrice = $adultPrice;
+$childDisplayPrice = $childPrice;
+
+if ($showGuestPrice) {
+
+    if (!empty($pricing['guest_amount'])) {
+
+        $guestAmount = (float)$pricing['guest_amount'];
+
+        // Remove guest fixed amount
+        $adultDisplayPrice = $adultPrice - $guestAmount;
+        $childDisplayPrice = $childPrice - $guestAmount;
+
+    } elseif (!empty($pricing['guest_percentage'])) {
+
+        $percentage = (float)$pricing['guest_percentage'];
+
+        // Remove guest percentage
+        $adultDisplayPrice =
+            $adultPrice / (1 + ($percentage / 100));
+
+        $childDisplayPrice =
+            $childPrice / (1 + ($percentage / 100));
+    }
+}
+$stmt = $conn->prepare("
+    SELECT image
+    FROM package_pictures
+    WHERE package_id = ?
+    AND type = 'video'
+    ORDER BY id ASC
+");
+
+$stmt->execute([$id]);
+
+$packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+function safeJsonDecode($value)
+{
+    if (empty($value)) {
+        return [];
     }
 
+    $decoded = json_decode($value, true);
+
+    return (json_last_error() === JSON_ERROR_NONE && is_array($decoded))
+        ? $decoded
+        : [];
+}
 ?>
 
 <!DOCTYPE html>
@@ -334,6 +406,8 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
         <link rel="stylesheet" type="text/css" href="assets/css/tour_details_share.css">
         <!-- User Profile CSS -->
         <link rel="stylesheet" type="text/css" href="assets/css/user-profile.css">
+        <!-- Tour Details Video -->
+        <link rel="stylesheet" type="text/css" href="assets/css/tour-details-video.css">
         <!-- RTL CSS::When Need RTL Uncomments File -->
         <!-- <link rel="stylesheet" type="text/css" href="assets/css/rtl.css"> -->
         <!-- Swiper -->
@@ -364,29 +438,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                 <div class="tour-details-area">
                     
                     <!-- Details Banner Slider -->
-                    <!-- <div class="tour-details-banner">
-                        <div class="swiper tourSwiper-active">
-                            <div class="swiper-wrapper">
-                                <?php
-                                // require 'connect.php';
-                                // $data = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = $id");
-                                // $data->execute();
-                                // $data->setFetchMode(PDO::FETCH_ASSOC);
-                                // if ($data->rowCount() > 0) {
-                                //     $counterimage = 0;
-                                //     foreach (($data->fetchAll()) as $key_1 => $image) {
-                                //         echo '<div class="swiper-slide">
-                                //                 <img src="' . $image['image'] . '" alt="BizzMirth" style="width: 710px !important; height: 400px !important;">
-                                //             </div>';
-                                //     }
-                                // }
-                                ?>
-
-                            </div>
-                            <div class="swiper-button-next"><i class="ri-arrow-right-s-line"></i></div>
-                            <div class="swiper-button-prev"><i class="ri-arrow-left-s-line"></i></div>
-                        </div>
-                    </div> -->
+                    
                     <!-- / Slider-->
                     <div class="tour-details-container">
                         <div class="container">
@@ -397,7 +449,8 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                         <div class="share-icon openShare" onclick="openShare()">
                                             <i class="ri-share-line"></i>
                                         </div>
-                                        <div class="wishlist-icon">
+                                        <div class="wishlist-icon"
+                                            data-package-id="<?= htmlspecialchars($package['id']) ?>">
                                             <i class="ri-heart-line"></i>
                                         </div>
                                     </div>
@@ -410,7 +463,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                             <?php
                                 $galleryImages = [];
 
-                                $galleryData = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = ?");
+                                $galleryData = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = ? AND (type NOT IN ('video') OR type IS NULL)");
                                 $galleryData->execute([$id]);
 
                                 if ($galleryData->rowCount() > 0) {
@@ -501,7 +554,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                 </div>
                             </div>
                             <!-- Card section start 1 -->
-                            <div class="borderColor p-3 pb-0 mb-3">
+                            <div class="borderColor p-3 pb-0 mb-3 cardShadow">
                                 <div class="row">
                                     <div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-6 mb-3">
                                         <div class="d-flex gap-2">
@@ -640,7 +693,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                     </div>
                                     <div class="content-sections">
                                         <div id="overview" class="section-block">
-                                            <div class="card cardBackgroundColor rounded-3 p-3">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
                                                 <h5 class="fw-bolder">Overview</h5>
                                                 <p class="text-muted fw-bold fontSize2 mt-2">
                                                     <?= $package['detailed_description'] ?>
@@ -659,11 +712,11 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                             </div>
                                         </div>
                                         <?php
-                                        $highlights = json_decode($itinery['highlights'], true);
+                                        $highlights = safeJsonDecode($itinery['highlights'] ?? '');
                                         ?>
 
                                         <div id="highlights" class="section-block">
-                                            <div class="card cardBackgroundColor rounded-3 p-3">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
                                                 <h5 class="fw-bolder">Highlights</h5>
 
                                                 <?php if (!empty($highlights)): ?>
@@ -691,7 +744,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                             </div>
                                         </div>
                                         <div id="itinerary" class="section-block">
-                                            <div class="card cardBackgroundColor rounded-3 p-3 pb-0">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 pb-4 cardShadow">
                                                 <h5 class="fw-bolder">Itinerary</h5>
                                                 <div class="tour-details-content">
                                                     <div class="destination-accordion mt-2">
@@ -707,9 +760,11 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                                                 foreach ($data4->fetchAll() as $key_3 => $day) {
 
                                                                     $decription = $day['day_details'];
-                                                                    $decription_1 = explode(".", $decription);
-                                                                    $decription_2 = implode(".<br>", $decription_1);
-                                                            ?>
+                                                                    // $decription_1 = explode(".", $decription);
+                                                                    // $decription_2 = implode(".<br>", $decription_1);
+                                                            ?>      <div class="timeline-number">
+                                                                        <?= str_pad($count, 2, '0', STR_PAD_LEFT) ?>
+                                                                    </div>
                                                                     <div class="accordion-item">
                                                                         <h2 class="accordion-header" id="panelsStayOpen-heading<?= $count; ?>">
                                                                             <button class="accordion-button <?= ($count != 1) ? 'collapsed' : ''; ?>"
@@ -733,13 +788,13 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
 
                                                                                 <ul class="listing">
                                                                                     <li class="list">
-                                                                                        <?= $decription_2; ?>
+                                                                                        <?= $decription; ?>
                                                                                     </li>
                                                                                 </ul>
 
                                                                                 <hr class="my-3" style="border-top:1px solid #4b5051;">
 
-                                                                                <div>
+                                                                                <div class="d-flex justify-content-evenly">
                                                                                     <div class="gap-1 d-flex">
                                                                                         <h6 class="fw-bold">Meal:&nbsp;</h6>
                                                                                         <p class="text-muted fontSize3"><?= $day['meal_plan']; ?></p>
@@ -772,11 +827,11 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                         <div id="inclusion" class="section-block">
                                             
                                             <?php
-                                            $inclusions = json_decode($itinery['inclusion'], true);
-                                            $exclusions = json_decode($itinery['exclusion'], true);
+                                            $inclusions = safeJsonDecode($itinery['inclusion'] ?? '');
+                                            $exclusions = safeJsonDecode($itinery['exclusion'] ?? '');
                                             ?>
 
-                                            <div class="card cardBackgroundColor rounded-3 p-3">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
                                                 <h5 class="fw-bolder">Inclusion & Exclusion</h5>
 
                                                 <div class="row">
@@ -821,76 +876,51 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                             </div>
                                         </div>
                                         <div id="policies" class="section-block">
-                                            <div class="card cardBackgroundColor rounded-3 p-3">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
                                                 <h5 class="fw-bolder mb-3">Policies</h5>
 
-                                                <?php if (!empty($policies)): ?>
-                                                    <?php foreach ($policies as $policy): ?>
-                                                        <div class="policyItem">
-                                                            <div class="d-flex align-items-center gap-3">
-                                                                <div class="highlightIcon" style="background-color: #b2e0b1;">
-                                                                    <i class="ri-file-pdf-line text-success"></i>
-                                                                </div>
-                                                                <p class="mb-0"><?= htmlspecialchars($policy['title']) ?></p>
+                                                <?php
+                                                $hasPolicies = false;
+                                                ?>
+
+                                                <?php foreach ($policies as $policy): ?>
+
+                                                    <?php if (strcasecmp(trim($policy['title']), 'FAQ') === 0): ?>
+                                                        <?php continue; ?>
+                                                    <?php endif; ?>
+
+                                                    <?php $hasPolicies = true; ?>
+
+                                                    <div class="policyItem">
+                                                        <div class="d-flex align-items-center gap-3">
+                                                            <div class="highlightIcon" style="background-color: #b2e0b1;">
+                                                                <i class="ri-file-pdf-line text-success"></i>
                                                             </div>
 
-                                                            <a href="uploading/package_policy_attachments/<?= urlencode($policy['file_name']) ?>"
-                                                            download
-                                                            class="downloadBtn">
-                                                                <i class="ri-download-line"></i>
-                                                            </a>
+                                                            <p class="mb-0">
+                                                                <?= htmlspecialchars($policy['title']) ?>
+                                                            </p>
                                                         </div>
-                                                    <?php endforeach; ?>
-                                                <?php else: ?>
-                                                    <p class="text-muted mb-0">No policy documents available.</p>
+
+                                                        <a href="uploading/package_policy_attachments/<?= urlencode($policy['file_name']) ?>"
+                                                        download
+                                                        class="downloadBtn">
+                                                            <i class="ri-download-line"></i>
+                                                        </a>
+                                                    </div>
+
+                                                <?php endforeach; ?>
+
+                                                <?php if (!$hasPolicies): ?>
+                                                    <p class="text-muted mb-0">
+                                                        No policy documents available.
+                                                    </p>
                                                 <?php endif; ?>
 
                                             </div>
                                         </div>
-                                        <!-- <div id="faqs" class="section-block">
-                                            <div class="card cardBackgroundColor rounded-3 p-3 pb-0">
-                                                <h5 class="fw-bolder">Frequently Asked Questions</h5>
-                                                <div class="faq-wrapper mt-2">
-                                                    <div class="faq-item active">
-                                                        <div class="faq-header">
-                                                            <h5>Does offer free cancellation for a full refund?</h5>
-                                                            <i class="ri-eye-line faq-icon"></i>
-                                                        </div>
-                                                        <div class="faq-body">
-                                                            <p>
-                                                                Does have fully refundable room rates available to book on our site.
-                                                                If you've booked a fully refundable room rate, this can be cancelled
-                                                                up to a few days before check-in depending on the property's
-                                                                cancellation policy. Just make sure to check this property's cancellation 
-                                                                policy for the exact terms and conditions.
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="faq-item">
-                                                        <div class="faq-header">
-                                                            <h5>Is there a pool?</h5>
-                                                            <i class="ri-eye-off-line faq-icon"></i>
-                                                        </div>
-
-                                                        <div class="faq-body">
-                                                            <p>Pool information goes here.</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="faq-item">
-                                                        <div class="faq-header">
-                                                            <h5>Are pets allowed?</h5>
-                                                            <i class="ri-eye-off-line faq-icon"></i>
-                                                        </div>
-                                                        <div class="faq-body">
-                                                            <p>Pet policy goes here.</p>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div> -->
                                         <div id="faqs" class="section-block">
-                                            <div class="card cardBackgroundColor rounded-3 p-3 pb-0">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
                                                 <h5 class="fw-bolder">Frequently Asked Questions</h5>
 
                                                 <div class="faq-wrapper mt-2">
@@ -912,10 +942,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                                     if ($faqDoc) {
 
                                                         // Parse your Word document here and return:
-                                                        // [
-                                                        //     ['question'=>'...', 'answer'=>'...'],
-                                                        //     ['question'=>'...', 'answer'=>'...']
-                                                        // ]
+                                                        
                                                         $faqs = parseFaqTxt(
                                                             "uploading/package_policy_attachments/" . $faqDoc['file_name']
                                                         );
@@ -945,7 +972,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
 
                                                         <?php if (count($faqs) > 3): ?>
                                                             <div class="text-center mt-3 mb-3">
-                                                                <button id="viewMoreFaq" class="btn btn-outline-primary">
+                                                                <button id="viewMoreFaq" class="btn viewMoreFaq">
                                                                     View More
                                                                 </button>
                                                             </div>
@@ -965,70 +992,140 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                 <div class="col-xl-4 col-lg-3 col-md-12 col-sm-12 col-12 mb-3 pricing-wrapper">
                                     <!-- Pricing Section -->
                                     <div class="pricingSection">
-                                        <div class="card priceCard rounded-3 mb-3">
+                                        <div class="card priceCard rounded-3 mb-3 cardShadow">
                                             <div class="pricingHeader p-3">
                                                 <h5 class="text-white fw-bolder mb-2"><?= $package['name'] ?></h5>
                                                 <p class="text-white mb-2">Starting From</p>
                                                 <div class="row">
-                                                    <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-6">
+                                                    <!-- <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-6">
                                                         <div class="border-end">
-                                                            <h4 class="fw-bold text-white">&#8377; 22,900</h4>
+                                                            <h4 class="fw-bold text-white">
+                                                                &#8377;
+                                                                0
+                                                            </h4>
                                                             <p class="text-white">Adult / Person</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-6">
                                                         <div class="">
-                                                            <h4 class="fw-bold text-white">&#8377; 18,900</h4>
+                                                            <h4 class="fw-bold text-white">&#8377; 0</h4>
                                                             <p class="text-white">Child (5-12 yrs)</p>
                                                         </div>
+                                                    </div> -->
+                                                    <!-- ADULT -->
+                                                    <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-6">
+
+                                                        <div class="position-relative">
+
+                                                            <?php if ($showGuestPrice && $adultDisplayPrice < $adultPrice): ?>
+
+                                                                <div class="text-white text-decoration-line-through"
+                                                                    style="font-size: 16px; opacity: .8;">
+
+                                                                    &#8377; <?= number_format($adultPrice, 2) ?>
+
+                                                                </div>
+
+                                                            <?php endif; ?>
+
+                                                            <h5 class="fw-bold text-white mb-0">
+                                                                &#8377; <?= number_format($adultDisplayPrice, 2) ?>
+                                                            </h5>
+
+                                                            <p class="text-white">
+                                                                Adult / Person
+                                                            </p>
+
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <!-- CHILD -->
+                                                    <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-6">
+
+                                                        <div class="position-relative">
+
+                                                            <?php if ($showGuestPrice && $childDisplayPrice < $childPrice): ?>
+
+                                                                <div class="text-white text-decoration-line-through"
+                                                                    style="font-size: 16px; opacity: .8;">
+
+                                                                    &#8377; <?= number_format($childPrice, 2) ?>
+
+                                                                </div>
+
+                                                            <?php endif; ?>
+
+                                                            <h5 class="fw-bold text-white mb-0">
+                                                                &#8377; <?= number_format($childDisplayPrice, 2) ?>
+                                                            </h5>
+
+                                                            <p class="text-white">
+                                                                Child (2-11 yrs)
+                                                            </p>
+
+                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="p-3">
                                                 <div class="durationCard p-2 mb-3">
-                                                    <p class="text-muted fw-bolder">Duration: <span class="text-black fw-bolder fs-5">4 Nights / 5 Days</span></p>
+                                                    <p class="text-muted fw-bolder">
+                                                        Duration:
+                                                        <span class="text-black fw-bolder fs-5">
+                                                            <?= $tour_nights ?> Nights / <?= $tour_days ?> Days
+                                                        </span>
+                                                    </p>
                                                 </div>
-                                                <button class="request-btn mb-3">
+                                                <button class="request-btn mb-3" id="requestDetails" style="cursor:pointer;">
                                                     <i class="ri-image-line me-2"></i>
                                                     Request Details
                                                 </button>      
-                                                <button class="enquiry-btn mb-3">
+                                                <button class="enquiry-btn mb-3" id="sendEnquiry" style="cursor:pointer;">
                                                     <i class="ri-image-line me-2"></i>
                                                     Send Enquiry
                                                 </button>  
                                                 <div class="contactNum d-flex justify-content-center gap-2">
                                                     <i class="ri-phone-line"></i>
-                                                    <p class="textBlue fw-bolder pb-0">+919677355555</p>    
+                                                    <p class="textBlue fw-bolder pb-0" href="tel:8010892265" id="callBtn" style="cursor: pointer;">+91 8010892265</p>    
                                                 </div> 
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3">
-                                                <div class="blueCardBtn text-center rounded-4 p-3">
+                                            <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3" style="cursor:pointer;">
+
+                                                <a href="download_tour_detail.php?pacId=<?= urlencode($id) ?>&format=pdf"
+                                                    class="blueCardBtn text-center rounded-4 p-3 text-decoration-none d-block cardShadow">
+
                                                     <div class="goldBtn">
                                                         <i class="ri-download-2-line"></i>
                                                     </div>
-                                                    Download Ininery
-                                                </div>
+
+                                                    Download Itinerary
+
+                                                </a>
+
                                             </div>
-                                            <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3">
-                                                <div class="blueCardBtn text-center rounded-4 p-3">
+                                            <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3" id="emailItinerary">
+                                                <div class="blueCardBtn text-center rounded-4 p-3 cardShadow" style="cursor:pointer;">
                                                     <div class="goldBtn">
                                                         <i class="ri-mail-line"></i>
                                                     </div>
-                                                    Email Ininery
+                                                    Email Itinerary
                                                 </div>
                                             </div>
-                                            <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3">
-                                                <div class="blueCardBtn text-center rounded-4 p-3">
+                                            <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3" id="sendItenerary">
+                                                <div class="blueCardBtn text-center rounded-4 p-3 cardShadow" style="cursor:pointer;">
                                                     <div class="goldBtn">
                                                         <i class="ri-send-plane-line"></i>
                                                     </div>
-                                                    Send Ininery
+                                                    Send Itinerary
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card rounded-3 greenCard p-3">
+                                        <div class="card rounded-3 greenCard p-3 cardShadow">
                                             <div class="d-flex gap-3 mb-2">
                                                 <div class="greenIcon">
                                                     <i class="ri-calendar-check-line"></i>
@@ -1064,79 +1161,114 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                             <!-- Card Section Start 3 -->
                             <div class="row">
                                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-3">
-                                    <div class="packCard">
+                                    <div class="packCard cardShadow">
                                         <img src="assets/images/tourDetails/creameImg.png" alt="" class="cardCreame">
                                         <div class="packContent">
                                             <div class="row p-3">
-                                                <h5 class="fw-bolder text-black mb-2">What to Pack</h5>
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                                    <div class="d-flex gap-2">
+
+                                                <h5 class="fw-bolder text-black mb-2">Important Notes / Remarks</h5>
+
+                                                <?php
+                                                $remarkData = $itinery['remark'] ?? '';
+
+                                                $remarks    = safeJsonDecode($remarkData ?? '');
+
+                                                if (!is_array($remarks)) {
+                                                    $remarks = preg_split(
+                                                        '/\s*\.\s*/',
+                                                        trim($remarkData, " ."),
+                                                        -1,
+                                                        PREG_SPLIT_NO_EMPTY
+                                                    );
+                                                }
+
+                                                if (!empty($remarks) && is_array($remarks)):
+
+                                                    foreach ($remarks as $remark):
+                                                        $remark = trim($remark);
+
+                                                        if ($remark === '') {
+                                                            continue;
+                                                        }
+                                                ?>
+
+                                                        <div class="d-flex gap-2 align-items-start mb-2">
+                                                            <i class="ri-check-fill checkIconGreen"></i>
+                                                            <p class="fw-bolder mb-0">
+                                                                <?= htmlspecialchars($remark) ?>
+                                                            </p>
+                                                        </div>
+
+                                                <?php
+                                                    endforeach;
+
+                                                else:
+                                                ?>
+
+                                                    <div class="d-flex gap-2 align-items-start">
                                                         <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Comfortable clothing</p>
+                                                        <p class="fw-bolder mb-0">
+                                                            No Details available
+                                                        </p>
                                                     </div>
-                                                    <div class="d-flex gap-2">
-                                                        <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Walking Shoes</p>
-                                                    </div>
-                                                    <div class="d-flex gap-2">
-                                                        <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Sunscreen & Cap</p>
-                                                    </div>
-                                                    <div class="d-flex gap-2">
-                                                        <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Sunglasses</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                                    <div class="d-flex gap-2">
-                                                        <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Sunglasses</p>
-                                                    </div>
-                                                    <div class="d-flex gap-2">
-                                                        <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Personal Medicines</p>
-                                                    </div>
-                                                    <div class="d-flex gap-2">
-                                                        <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Camera</p>
-                                                    </div>
-                                                    <div class="d-flex gap-2">
-                                                        <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Light jacket / Shawl</p>
-                                                    </div>
-                                                </div>
+
+                                                <?php endif; ?>
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-3">
-                                    <div class="packCard">
+                                    <div class="packCard cardShadow">
                                         <img src="assets/images/tourDetails/purpleImg.png" alt="" class="cardPurple">
                                         <div class="packContent">
                                             <div class="row p-3">
-                                                <h5 class="fw-bolder text-black mb-2">Advance Preparation</h5>
+
+                                                <h5 class="fw-bolder text-black mb-2">Things to Know Before You Go</h5>
+
                                                 <div class="col-xl-12">
-                                                    <div class="d-flex gap-2">
-                                                        <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Carry a valid ID proof</p>
-                                                    </div>
-                                                    <div class="d-flex gap-2">
-                                                        <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Keep a copy of travel tickets</p>
-                                                    </div>
-                                                    <div class="d-flex gap-2">
-                                                        <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Check weather before travel</p>
-                                                    </div>
-                                                    <div class="d-flex gap-2">
-                                                        <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Carry cash for local shopping</p>
-                                                    </div>
-                                                    <div class="d-flex gap-2">
-                                                        <i class="ri-check-fill checkIconGreen"></i>
-                                                        <p class="fw-bolder">Stay hydrated</p>
-                                                    </div>
+
+                                                    <?php
+                                                    $travelInfo = $itinery['travel_info'] ?? '';
+                                                    $thingsToKnow = safeJsonDecode($itinery['travel_info'] ?? '');
+                                                    if (!is_array($thingsToKnow)) {
+                                                        $thingsToKnow = preg_split(
+                                                            '/\s*\.\s*/',
+                                                            trim($travelInfo, " ."),
+                                                            -1,
+                                                            PREG_SPLIT_NO_EMPTY
+                                                        );
+                                                    }
+                                                    if (!empty($thingsToKnow) && is_array($thingsToKnow)):
+
+                                                        foreach ($thingsToKnow as $thing):
+                                                            $thing = trim($thing);
+
+                                                            if ($thing === '') {
+                                                                continue;
+                                                            }
+                                                    ?>
+
+                                                            <div class="d-flex gap-2">
+                                                                <i class="ri-check-fill checkIconGreen"></i>
+                                                                <p class="fw-bolder"><?= htmlspecialchars($thing) ?></p>
+                                                            </div>
+
+                                                    <?php
+                                                        endforeach;
+
+                                                    else:
+                                                    ?>
+
+                                                        <div class="d-flex gap-2">
+                                                            <i class="ri-check-fill checkIconGreen"></i>
+                                                            <p class="fw-bolder">No Details available</p>
+                                                        </div>
+
+                                                    <?php endif; ?>
+
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -1170,7 +1302,58 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
             </section>
             <!--/ End-of Destination -->
         </main>
-        
+        <?php if (!empty($packageVideos)): ?>
+
+            <div id="floatingVideoButton" class="floating-video-button">
+                <i class="ri-play-line"></i>
+                <span>Watch Videos</span>
+                <small><?= count($packageVideos) ?></small>
+            </div>
+
+            <div id="floatingVideoModal" class="floating-video-modal">
+
+                <div class="floating-video-overlay"></div>
+
+                <div class="floating-video-container">
+
+                    <button
+                        type="button"
+                        id="closeFloatingVideo"
+                        class="floating-video-close">
+                        <i class="ri-close-fill"></i>
+                    </button>
+
+                    <video
+                        id="floatingVideoPlayer"
+                        controls
+                        playsinline>
+                    </video>
+
+                    <div class="floating-video-controls">
+
+                        <button
+                            type="button"
+                            id="previousVideo">
+                            <i class="ri-skip-back-line"></i>
+                            Previous
+                        </button>
+
+                        <span id="videoCounter"></span>
+
+                        <button
+                            type="button"
+                            id="nextVideo">
+                            Next
+                            <i class="ri-skip-forward-line"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        <?php endif; ?>
         <!-- share model 30-07-2026 start-->
         <div class="overlay" id="shareModal">
             <div class="shareBox">
@@ -1244,9 +1427,226 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
         <!-- Main js-->
         <script src="assets/js/main.js"></script>
         <script type="text/javascript" src="logout/logout.js"></script>
+        <script>
+            /// ===============================
+            // WISHLIST
+            // ===============================
 
+            function getWishlist() {
+                return JSON.parse(localStorage.getItem('wishlist') || '[]');
+            }
+
+            function saveWishlist(wishlist) {
+                localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                updateWishlistCount();
+            }
+
+
+            // ===============================
+            // UPDATE WISHLIST COUNT
+            // ===============================
+
+            function updateWishlistCount() {
+
+                const wishlist = getWishlist();
+
+                document.querySelectorAll('.wishlistCount').forEach(element => {
+                    element.textContent = wishlist.length;
+                });
+            }
+
+
+            // ===============================
+            // UPDATE HEART ICON
+            // ===============================
+
+            function updateWishlistButton(button, active) {
+
+                const icon = button.querySelector('i');
+
+                if (!icon) return;
+
+                if (active) {
+
+                    button.classList.add('active');
+
+                    icon.classList.remove('ri-heart-line');
+                    icon.classList.add('ri-heart-fill');
+
+                } else {
+
+                    button.classList.remove('active');
+
+                    icon.classList.remove('ri-heart-fill');
+                    icon.classList.add('ri-heart-line');
+                }
+            }
+
+
+            // ===============================
+            // ADD / REMOVE WISHLIST
+            // ===============================
+
+            document.querySelectorAll('.wishlist-icon').forEach(button => {
+
+                button.addEventListener('click', function (e) {
+
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const packageId = this.dataset.packageId;
+
+                    let wishlist = getWishlist();
+
+                    const index = wishlist.indexOf(packageId);
+
+                    if (index === -1) {
+
+                        // ADD
+                        wishlist.push(packageId);
+
+                        updateWishlistButton(this, true);
+
+                    } else {
+
+                        // REMOVE
+                        wishlist.splice(index, 1);
+
+                        updateWishlistButton(this, false);
+                    }
+
+                    saveWishlist(wishlist);
+
+                    console.log('Wishlist:', wishlist);
+                });
+
+            });
+
+
+            // ===============================
+            // LOAD EXISTING WISHLIST STATE
+            // ===============================
+
+            document.addEventListener('DOMContentLoaded', function () {
+
+                const wishlist = getWishlist();
+
+                document.querySelectorAll('.wishlist-icon').forEach(button => {
+
+                    const packageId = button.dataset.packageId;
+
+                    if (wishlist.includes(packageId)) {
+                        updateWishlistButton(button, true);
+                    }
+
+                });
+
+                updateWishlistCount();
+            });
+        </script>
         <script>
 
+            function printItinerary() {
+
+                const modalElement = document.getElementById('downloadItineraryModal');
+
+                const modal = bootstrap.Modal.getInstance(modalElement);
+
+                if (modal) {
+                    modal.hide();
+                }
+
+                setTimeout(function () {
+                    window.print();
+                }, 400);
+            }
+
+        </script>
+        <script>
+            // Send Enquiry and Send Itinerary
+            document.querySelectorAll('#sendEnquiry, #sendItenerary').forEach(button => {
+                button.addEventListener('click', function () {
+
+                    const phoneNumber = '919876543210';
+
+                    const packageReference = `<?= htmlspecialchars($package['unique_code'] ?? '') ?>`;
+                    const packageName = `<?= htmlspecialchars($package['pack_name'] ?? '') ?>`;
+
+                    let message = '';
+
+                    if (this.id === 'sendEnquiry') {
+
+                        message = `Hello, I would like to enquire about this travel package.
+
+                        Package Reference: ${packageReference}
+                        Package Name: ${packageName}
+
+                        Please share more details about this package.`;
+
+                                } else if (this.id === 'sendItenerary') {
+
+                                    message = `Hello, I would like to enquire about the itinerary of this travel package.
+
+                        Package Reference: ${packageReference}
+                        Package Name: ${packageName}
+
+                        Please share the detailed itinerary with me.`;
+                    }
+
+                    const whatsappURL =
+                        `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+                    window.open(whatsappURL, '_blank');
+                });
+            });
+
+            //email itinerary
+            document.getElementById('emailItinerary').addEventListener('click', function () {
+
+                const subject = `Travel Package Enquiry - <?= htmlspecialchars($package['unique_code'] ?? '') ?>`;
+
+                const body = `Hello,
+
+                I am interested in the following travel package:
+
+                Package Reference: <?= htmlspecialchars($package['unique_code'] ?? '') ?>
+                Package Name: <?= htmlspecialchars($package['pack_name'] ?? '') ?>
+
+                Please share more details about this package.
+
+                Thank you.`;
+
+                const mailtoURL =
+                    `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+                window.location.href = mailtoURL;
+            });
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const callBtn = document.getElementById("callBtn");
+
+                if (callBtn) {
+                    callBtn.addEventListener("click", function(e) {
+
+                        let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+                        if (!isMobile) {
+                            e.preventDefault();
+
+                            alert("📞 Calling works only on mobile devices.\nPlease dial 8010892265 from your phone.");
+                            location.reload();
+
+                            // Optional clipboard copy (safe fallback)
+                            if (navigator.clipboard) {
+                                navigator.clipboard.writeText("8010892265");
+                            }
+                        }
+                    });
+                }
+
+            });
             function checkCustomerCoupons(cust_id) {
                 if (cust_id) {
                     $.ajax({
@@ -1951,7 +2351,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                     showError(document.getElementById('member_validationAdult'), "Adult must be 12 years or older");
                     return false;
                 } else if (memberType === "Child" && (age < 3 || age > 11)) {
-                    showError(document.getElementById('member_validationChild'), "Child must be between 3-11 years");
+                    showError(document.getElementById('member_validationChild'), "Child must be between 2-11 years");
                     return false;
                 } else if (memberType === "Infant" && age > 2) {
                     showError(document.getElementById('member_validationInfant'), "Infant must be 2 years or younger");
@@ -2893,105 +3293,262 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
             });
         </script>
         <script>
-            // const packages = [
-            //     {
-            //         title: "Phuket Getaway",
-            //         duration: "4 Nights / 5 Days",
-            //         price: "22,999",
-            //         image: "assets/images/package/package-11.jpg",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Bali Bliss",
-            //         duration: "5 Nights / 6 Days",
-            //         price: "28,999",
-            //         image: "assets/images/package/package-2.png",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Singapore Explorer",
-            //         duration: "4 Nights / 5 Days",
-            //         price: "39,999",
-            //         image: "assets/images/package/package-3.png",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Dubai Dazzle",
-            //         duration: "5 Nights / 6 Days",
-            //         price: "42,999",
-            //         image: "assets/images/package/package-4.png",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Thailand Escape",
-            //         duration: "5 Nights / 6 Days",
-            //         price: "24,999",
-            //         image: "assets/images/package/package-5.jpg",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Maldives Luxury",
-            //         duration: "4 Nights / 5 Days",
-            //         price: "55,999",
-            //         image: "assets/images/package/package-6.jpg",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Vietnam Discovery",
-            //         duration: "6 Nights / 7 Days",
-            //         price: "34,999",
-            //         image: "assets/images/package/package-7.jpg",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Japan Highlights",
-            //         duration: "7 Nights / 8 Days",
-            //         price: "89,999",
-            //         image: "assets/images/package/package-8.jpg",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Europe Delight",
-            //         duration: "8 Nights / 9 Days",
-            //         price: "1,19,999",
-            //         image: "assets/images/package/package-9.jpg",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Swiss Adventure",
-            //         duration: "6 Nights / 7 Days",
-            //         price: "99,999",
-            //         image: "assets/images/package/package-10.jpg",
-            //         link: "#"
-            //     }
-            // ];
+            
             const packages = <?= json_encode(
                 $package_array,
                 JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
             ) ?>;
-            // console.log(packages);
-            
-            const track = document.getElementById("packageTrack");
 
-            packages.forEach(pkg => {
-                track.innerHTML += `
-                    <div class="package-item">
-                        <a href="${pkg.link}" class="text-decoration-none">
-                            <div class="package-card">
-                                <img src="${pkg.image}" alt="${pkg.title}">
-                                <div class="package-body">
-                                    <h5>${pkg.title}</h5>
-                                    <p>${pkg.duration}</p>
-                                    <div class="package-price">
-                                        ₹${pkg.price} <span>/ Person</span>
+            const track = document.getElementById("packageTrack");
+            console.log(packages);
+            
+            if (packages && packages.length > 0) {
+
+                packages.forEach((pkg, packageIndex) => {
+
+                    const images = Array.isArray(pkg.images)
+                        ? pkg.images
+                        : [];
+                    const imageHTML = images.map((image, imageIndex) => `
+                        <img
+                            src="${image}"
+                            alt="${pkg.title}"
+                            class="package-slider-image ${imageIndex === 0 ? 'active' : ''}"
+                            data-image-index="${imageIndex}"
+                        >
+                    `).join('');
+                    track.innerHTML += `
+
+                        <div class="package-item">
+
+                            <a href="javascript:void(0);"
+                            class="text-decoration-none"
+                            onclick="window.location.href='tour-details.php?pacId=${pkg.packid}'">
+
+                                <div class="package-card package-image-slider"
+                                    data-package-index="${packageIndex}">
+
+                                    <div class="package-image-wrapper">
+
+                                        ${imageHTML}
+
                                     </div>
+
+                                    <div class="package-body">
+
+                                        <h5>${pkg.title}</h5>
+
+                                        <p>${pkg.duration}</p>
+
+                                        <div class="package-price">
+                                            ₹${pkg.price}
+                                            <span>/ Person</span>
+                                        </div>
+
+                                    </div>
+
                                 </div>
-                            </div>
-                        </a>
+
+                            </a>
+
+                        </div>
+                    `;
+                });
+
+            } else {
+
+                track.innerHTML = `
+                    <div class="package-placeholder text-center w-100 py-5">
+
+                        <i class="ri-suitcase-line"
+                        style="font-size:40px;">
+                        </i>
+
+                        <h5 class="mt-3">
+                            No similar packages available
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            There are currently no similar packages available.
+                        </p>
+
                     </div>
                 `;
-            });
+            }
+           /* =========================================================
+            PACKAGE IMAGE HOVER SLIDER
+            ========================================================= */
 
+            // console.log('PACKAGE HOVER: Initializing');
+
+            const packageCards =
+                document.querySelectorAll('.package-image-slider');
+
+            // console.log(
+            //     'PACKAGE HOVER: Cards found:',
+            //     packageCards.length
+            // );
+
+
+            packageCards.forEach(function (card, index) {
+
+                // console.log(
+                //     'PACKAGE HOVER: Card:',
+                //     index
+                // );
+
+
+                /* -----------------------------------------
+                GET ALL IMAGES INSIDE THIS CARD
+                ----------------------------------------- */
+
+                const images =
+                    card.querySelectorAll('.package-slider-image');
+
+
+                // if (!images.length) {
+
+                //     console.log(
+                //         'PACKAGE HOVER: Images not found:',
+                //         index
+                //     );
+
+                //     return;
+                // }
+
+
+                // console.log(
+                //     'PACKAGE HOVER: Images found:',
+                //     images.length
+                // );
+
+
+                /* -----------------------------------------
+                ONLY ONE IMAGE
+                ----------------------------------------- */
+
+                if (images.length <= 1) {
+
+                    // console.log(
+                    //     'PACKAGE HOVER: Only one image'
+                    // );
+
+                    return;
+                }
+
+
+                let currentImage = 0;
+                let hoverInterval = null;
+
+
+                /* =====================================================
+                SHOW IMAGE
+                ===================================================== */
+
+                function showImage(index) {
+
+                    images.forEach(function (img, i) {
+
+                        img.classList.toggle(
+                            'active',
+                            i === index
+                        );
+
+                    });
+
+                }
+
+
+                /* =====================================================
+                MOUSE ENTER
+                ===================================================== */
+
+                card.addEventListener(
+                    'mouseenter',
+                    function () {
+
+                        // console.log(
+                        //     'PACKAGE HOVER: MOUSE ENTER',
+                        //     index
+                        // );
+
+
+                        /* Prevent duplicate interval */
+
+                        if (hoverInterval !== null) {
+                            return;
+                        }
+
+
+                        currentImage = 0;
+
+                        showImage(currentImage);
+
+
+                        hoverInterval =
+                            setInterval(function () {
+
+                                currentImage++;
+
+
+                                if (
+                                    currentImage >=
+                                    images.length
+                                ) {
+
+                                    currentImage = 0;
+
+                                }
+
+
+                                // console.log(
+                                //     'PACKAGE HOVER: Changing image:',
+                                //     currentImage
+                                // );
+
+
+                                showImage(currentImage);
+
+
+                            }, 1000);
+
+                    }
+                );
+
+
+                /* =====================================================
+                MOUSE LEAVE
+                ===================================================== */
+
+                card.addEventListener(
+                    'mouseleave',
+                    function () {
+
+                        // console.log(
+                        //     'PACKAGE HOVER: MOUSE LEAVE',
+                        //     index
+                        // );
+
+
+                        if (hoverInterval !== null) {
+
+                            clearInterval(
+                                hoverInterval
+                            );
+
+                            hoverInterval = null;
+
+                        }
+
+
+                        currentImage = 0;
+
+                        showImage(currentImage);
+
+                    }
+                );
+
+            });
 
             let currentIndex = 0;
 
@@ -3040,37 +3597,95 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
             }
 
 
-            // NEXT
-            document.querySelector(".next-btn").addEventListener("click", function () {
-                // console.log('clicked next');
+            // // NEXT
+            // document.querySelector(".next-btn").addEventListener("click", function () {
+            //     // console.log('clicked next');
                 
-                const visibleCards = getVisibleCards();
+            //     const visibleCards = getVisibleCards();
 
-                const maxIndex = Math.max(
-                    0,
-                    packages.length - visibleCards
+            //     const maxIndex = Math.max(
+            //         0,
+            //         packages.length - visibleCards
+            //     );
+
+            //     if (currentIndex < maxIndex) {
+
+            //         currentIndex++;
+
+            //         moveSlider();
+            //     }
+            // });
+
+
+            // // PREVIOUS
+            // document.querySelector(".prev-btn").addEventListener("click", function () {
+            //     // console.log('clicked prev');
+            //     if (currentIndex > 0) {
+
+            //         currentIndex--;
+
+            //         moveSlider();
+            //     }
+            // });
+            const nextBtn =
+                document.querySelector(".next-btn");
+
+            if (nextBtn) {
+
+                nextBtn.addEventListener(
+                    "click",
+                    function () {
+
+                        const visibleCards =
+                            getVisibleCards();
+
+                        const maxIndex =
+                            Math.max(
+                                0,
+                                packages.length -
+                                visibleCards
+                            );
+
+                        if (
+                            currentIndex <
+                            maxIndex
+                        ) {
+
+                            currentIndex++;
+
+                            moveSlider();
+
+                        }
+
+                    }
                 );
 
-                if (currentIndex < maxIndex) {
-
-                    currentIndex++;
-
-                    moveSlider();
-                }
-            });
+            }
 
 
-            // PREVIOUS
-            document.querySelector(".prev-btn").addEventListener("click", function () {
-                // console.log('clicked prev');
-                if (currentIndex > 0) {
+            const prevBtn =
+                document.querySelector(".prev-btn");
 
-                    currentIndex--;
+            if (prevBtn) {
 
-                    moveSlider();
-                }
-            });
+                prevBtn.addEventListener(
+                    "click",
+                    function () {
 
+                        if (currentIndex > 0) {
+
+                            currentIndex--;
+
+                            moveSlider();
+
+                        }
+
+                    }
+                );
+
+            }
+            // Initial check
+            updateSliderControls();
 
             // Resize
             window.addEventListener("resize", function () {
@@ -3096,8 +3711,8 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
 
                 } else {
 
-                    prevBtn.style.display = "flex";
-                    nextBtn.style.display = "flex";
+                    // prevBtn.style.display = "flex";
+                    // nextBtn.style.display = "flex";
 
                     moveSlider();
                 }
@@ -3187,6 +3802,143 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                     $(this).text("View More");
 
                 }
+
+            });
+        </script>
+        <script>
+            const videoBasePath = "uploading/package_videos/";
+            const packageVideos = <?= json_encode($packageVideos ?? []) ?>;
+            let currentVideoIndex = 0;
+
+            $(document).ready(function () {
+
+                if (!packageVideos || packageVideos.length === 0) {
+                    return;
+                }
+
+
+                function loadFloatingVideo(index) {
+
+                    if (index < 0) {
+                        index = packageVideos.length - 1;
+                    }
+
+                    if (index >= packageVideos.length) {
+                        index = 0;
+                    }
+
+                    currentVideoIndex = index;
+
+                    const videoFile = packageVideos[currentVideoIndex];
+
+                    const videoUrl =
+                        videoBasePath + videoFile;
+
+                    const player =
+                        $("#floatingVideoPlayer")[0];
+
+                    player.pause();
+
+                    player.src = videoUrl;
+
+                    player.load();
+
+                    $("#videoCounter").text(
+                        `${currentVideoIndex + 1} / ${packageVideos.length}`
+                    );
+
+                    $("#previousVideo").prop(
+                        "disabled",
+                        packageVideos.length <= 1
+                    );
+
+                    $("#nextVideo").prop(
+                        "disabled",
+                        packageVideos.length <= 1
+                    );
+
+                    player.play().catch(function () {
+                        // Browser autoplay restriction
+                    });
+                }
+
+
+                // Open floating videos
+
+                $("#floatingVideoButton").on("click", function () {
+
+                    currentVideoIndex = 0;
+
+                    $("#floatingVideoModal").fadeIn(200);
+
+                    loadFloatingVideo(currentVideoIndex);
+
+                });
+
+
+                // Previous
+
+                $("#previousVideo").on("click", function () {
+
+                    loadFloatingVideo(
+                        currentVideoIndex - 1
+                    );
+
+                });
+
+
+                // Next
+
+                $("#nextVideo").on("click", function () {
+
+                    loadFloatingVideo(
+                        currentVideoIndex + 1
+                    );
+
+                });
+
+
+                // Close
+
+                function closeFloatingVideo() {
+
+                    const player =
+                        $("#floatingVideoPlayer")[0];
+
+                    player.pause();
+
+                    player.removeAttribute("src");
+
+                    player.load();
+
+                    $("#floatingVideoModal").fadeOut(200);
+
+                }
+
+
+                $("#closeFloatingVideo").on(
+                    "click",
+                    closeFloatingVideo
+                );
+
+
+                $(".floating-video-overlay").on(
+                    "click",
+                    closeFloatingVideo
+                );
+
+
+                // ESC
+
+                $(document).on("keydown", function (e) {
+
+                    if (e.key === "Escape") {
+
+                        closeFloatingVideo();
+
+                    }
+
+                });
 
             });
         </script>

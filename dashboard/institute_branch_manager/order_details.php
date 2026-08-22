@@ -1,5 +1,5 @@
 <?php
-include_once 'dashboard_user_details.php';
+include_once '../dashboard_user_details.php';
 
 $id = $_GET['id'];
 
@@ -83,20 +83,22 @@ if ($today > $endDate && $booking['status'] != '2' && $booking['status'] != '3')
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Order Details</title>
         <!-- App favicon -->
-        <link rel="shortcut icon" href="assets/images/fav.png">
+        <link rel="shortcut icon" href="../assets/images/fav.png">
         <!-- Bootstrap Css -->
-        <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
         <!-- Icons Css -->
-        <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
         <!-- custom Css-->
-        <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/css/custom.min.css" rel="stylesheet" type="text/css" />
         <!-- App Css-->
-        <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+        <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
         <!-- custom Css developer-->
-        <link rel="stylesheet" href="assets/css/custom.css" />
+        <link rel="stylesheet" href="../assets/css/custom.css" />
+        <!-- Travel Consultant CSS -->
+        <link rel="stylesheet" href="../assets/css/travel_consultant.css" />
         <!-- Font Awesome -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+        <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <style>
             @media only screen and (max-width:575px) {
                 .qrCode {
@@ -215,7 +217,7 @@ if ($today > $endDate && $booking['status'] != '2' && $booking['status'] != '3')
                                             <div class="col-lg-12 col-md-12 col-sm-12">
                                                 <div class="row">
                                                     <div class="col-lg-12 col-md-12 col-sm-12 p-3 d-flex justify-content-between pt-5">
-                                                        <img src="assets/images/bizz_logo.png" alt="uniqbizz logo" height="50px" width="100px">
+                                                        <img src="../assets/images/bizz_logo.png" alt="uniqbizz logo" height="50px" width="100px">
                                                         <div>
                                                             <p class="fw-bold pt-3 mb-0">Invoice No: <span class="fw-normal"> <?php echo $booking['invoice_no'] ?></span></p>
                                                             <p class="fw-bold pt-0 mb-0 text-end">Date: <span class="fw-normal"><?php echo $booked_on ?></span></p>
@@ -260,7 +262,7 @@ if ($today > $endDate && $booking['status'] != '2' && $booking['status'] != '3')
                                                                 <?php
                                                                 foreach ($pictures as $key => $picture) {
                                                                     echo '<div class="preview-images-zone qrCode" style="height:180px; width:100%; border-radius: 20px; position:relative; margin-right:1px; display:inline-flex;">
-                                                                                <img src="../' . $picture['image'] . '" style="width: 100%; height: 180px; border-radius: 20px; object-fit: cover;">
+                                                                                <img src="../../' . $picture['image'] . '" style="width: 100%; height: 180px; border-radius: 20px; object-fit: cover;">
                                                                             </div>
                                                                             ';
                                                                 }
@@ -541,18 +543,19 @@ if ($today > $endDate && $booking['status'] != '2' && $booking['status'] != '3')
                             <!-- Active Logs End -->
                         </div>
                     </div>
+                    <?php include_once "ibr_footer.php" ?>
                 </div>
             </div>
         </div>
         <!-- JAVASCRIPT -->
-        <script src="assets/libs/jquery/jquery.min.js"></script>
-        <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/libs/metismenu/metisMenu.min.js"></script>
-        <script src="assets/libs/simplebar/simplebar.min.js"></script>
-        <script src="assets/libs/node-waves/waves.min.js"></script>
+        <script src="../assets/libs/jquery/jquery.min.js"></script>
+        <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../assets/libs/metismenu/metisMenu.min.js"></script>
+        <script src="../assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="../assets/libs/node-waves/waves.min.js"></script>
 
         <!-- App js -->
-        <script src="assets/js/app.js"></script>
+        <script src="../assets/js/app.js"></script>
         <script>
             $("#generatePDF").on("click", function (e) {
                 e.preventDefault(); // prevent form submit if inside form
@@ -566,9 +569,9 @@ if ($today > $endDate && $booking['status'] != '2' && $booking['status'] != '3')
                     <html>
                     <head>
                         <title>Invoice</title>
-                        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-                        <link rel="stylesheet" href="assets/css/icons.min.css">
-                        <link rel="stylesheet" href="assets/css/app.min.css">
+                        <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+                        <link rel="stylesheet" href="../../assets/css/icons.min.css">
+                        <link rel="stylesheet" href="../../assets/css/app.min.css">
                     </head>
                     <body>
                         ${divToPrint.outerHTML}

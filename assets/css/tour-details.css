@@ -1,8 +1,39 @@
 html {
     scroll-behavior: smooth;
 }
+body {
+    background-color: #f4fff9;
+}
+.cardShadow {
+    border: 1px solid #6a69691a !important;
+}
+.cardShadow:hover {
+    box-shadow: 0px 0px 3px 3px #5958581a !important;
+}
 .breadcrumb {
     margin-bottom: 0;
+}
+.package-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 150px; 
+}
+
+.package-slider-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+
+.package-slider-image.active {
+    opacity: 1;
+    visibility: visible;
 }
 .breadcrumb-item a {
     text-decoration: none;
@@ -24,7 +55,7 @@ html {
     display: flex;
     justify-content: space-between;
 }
-.share-icon,.wishlist-icon {
+.wishlist-icon {
     width: 35px;
     height: 35px;
     border: 1px solid #73797a;
@@ -32,12 +63,23 @@ html {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 .share-icon:hover,
 .wishlist-icon:hover {
     border: 1px solid #e03d42;
-    color: #fff;
+    color: #fff !important;
     background: #e03d42;
+}
+.wishlist-icon.active {
+    color: #e03d42;
+    border: 1px solid #e03d42;
+}
+.wishlist-icon i {
+    transition: all 0.2s ease;
+}
+.wishlist-icon.active i {
+    transform: scale(1.1);
 }
 .destination-title {
     font-weight: 700;
@@ -218,6 +260,7 @@ html {
 .borderColor {
     border: 1px solid #ebf1f2 !important;
     border-radius: 6px;
+    background-color: #fff !important;
 }
 .nav-placeholder {
     display: none;
@@ -479,11 +522,24 @@ html {
 /* Card Section 3 */
 .packCard {
     position: relative;
+    border-radius: 12px;
+}
+.viewMoreFaq{
+    background-color: #fff;
+    border: 1px solid #0d6efd;
+    color: #0d6efd !important;
+    font-weight: 700;
+}
+.viewMoreFaq:hover{
+    background-color: #0d6efd;
+    border: 1px solid #0d6efd;
+    color: #fff !important;
 }
 .cardCreame {
     width: 100%;
     display: block;
-    height: 240px;
+    min-height: 350px;
+    height: auto;
     border-radius: 12px;
 }
 .packContent {
@@ -499,7 +555,8 @@ html {
 }
 .cardPurple {
     width: stretch;
-    height: 240px;
+    min-height: 350px;
+    height: auto;
     border-radius: 12px;
 }
 .checkIconGreen {
@@ -675,7 +732,15 @@ html {
     .cardCreame {
         width: 100%;
         display: block;
-        height: 280px;
+        min-height: 500px;
+        height: auto;
+        border-radius: 12px;
+    }
+    .cardPurple {
+        width: 100%;
+        display: block;
+        min-height: 500px;
+        height: auto;
         border-radius: 12px;
     }
     .package-slider {
@@ -701,5 +766,22 @@ html {
 
     .slider-btn {
         display: none;
+    }
+}
+
+@media(max-width:374px){
+    .cardCreame {
+        width: 100%;
+        display: block;
+        min-height: 550px;
+        height: auto;
+        border-radius: 12px;
+    }
+    .cardPurple {
+        width: 100%;
+        display: block;
+        min-height: 550px;
+        height: auto;
+        border-radius: 12px;
     }
 }

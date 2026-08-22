@@ -1,5 +1,8 @@
 <?php
-session_start();
+require 'connect.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 if (isset($_SESSION['user_type_id_value'])) {
     $user_type = $_SESSION["user_type_id_value"];
@@ -9,8 +12,37 @@ if (isset($_SESSION['user_type_id_value'])) {
     $user_type = 0;
     $user_id = 0;
 }
+$stmtDestination = $conn->prepare("
+    SELECT DISTINCT
+        TRIM(destination) AS destination,
+        name
+    FROM package
+    WHERE status = 1 AND visibility = 1 AND DATE(validity) >= CURRENT_DATE
+      AND destination IS NOT NULL
+      AND TRIM(destination) != ''
+    ORDER BY destination ASC
+");
+
+$stmtDestination->execute();
+
+$destinations = $stmtDestination->fetchAll(PDO::FETCH_ASSOC);
 // $page =  1;
 // $totalPages =10;
+//get the hotel types 
+$data7 = $conn->prepare("SELECT * FROM category_hotel");
+$data7->execute();
+
+if ($data7->rowCount() > 0) {
+    $categoryHotels = $data7->fetchAll(PDO::FETCH_ASSOC);
+} else {
+    $categoryHotels = [];
+}
+//show guest price 
+$userType = $_SESSION['user_type_id_value'] ?? null;
+
+$showGuestPrice = !empty($userType)
+    && !in_array((int)$userType, [1, 17, 15]);
+
 ?>
 <!DOCTYPE html>
 <html lang="zxx" dir="lrt">
@@ -104,6 +136,38 @@ if (isset($_SESSION['user_type_id_value'])) {
                 font-size: 13px;
                 font-weight: bolder;
             }
+
+            /* Package Type 1 */
+            .badge-trending p {
+                background-color: #e03d42;
+                color: #fff;
+                font-size: 13px;
+                font-weight: bolder;
+            }
+
+            /* Package Type 2 */
+            .badge-bestseller p {
+                background-color: #ffb400;
+                color: #fff;
+                font-size: 13px;
+                font-weight: bolder;
+            }
+
+            /* Package Type 3 */
+            .badge-new-arrival p {
+                background-color: #198754;
+                color: #fff;
+                font-size: 13px;
+                font-weight: bolder;
+            }
+
+            /* Default */
+            .badge-popular p {
+                background-color: #6f42c1;
+                color: #fff;
+                font-size: 13px;
+                font-weight: bolder;
+            }
             .btn-background-color {
                 background-color: #e03d42 !important;
                 color: #fff !important;
@@ -120,6 +184,414 @@ if (isset($_SESSION['user_type_id_value'])) {
             .page-btn.active {
                 background-color: #e03d42 !important;
                 color: #fff !important;
+            }
+            /* ==========================================
+            DESTINATION SEARCH
+            ========================================== */
+
+            .destination-search-wrapper {
+                position: relative;
+                width: 100%;
+            }
+
+
+            /* Search input box */
+
+            .destination-search {
+                position: relative;
+
+                width: 100%;
+                height: 52px;
+
+                display: flex;
+                align-items: center;
+
+                background: #fff;
+
+                border: 1px solid #e1e4e8;
+                border-radius: 10px;
+
+                transition: all 0.2s ease;
+            }
+
+
+            /* Focus */
+
+            .destination-search:focus-within {
+                border-color: #e03d42;
+
+                box-shadow: 0 0 0 3px rgba(224, 61, 66, 0.08);
+            }
+
+
+            /* Location icon */
+
+            .destination-icon {
+                position: absolute;
+
+                left: 15px;
+
+                font-size: 20px;
+
+                color: #e03d42;
+
+                pointer-events: none;
+            }
+
+
+            /* Input */
+
+            .destination-input {
+                width: 100%;
+                height: 100%;
+
+                border: none;
+                outline: none;
+
+                background: transparent;
+
+                padding: 0 75px 0 45px;
+
+                font-size: 15px;
+
+                color: #071516;
+            }
+
+
+            /* Placeholder */
+
+            .destination-input::placeholder {
+                color: #8a8f94;
+            }
+
+
+            /* Clear button */
+
+            .destination-clear {
+                position: absolute;
+
+                right: 40px;
+
+                font-size: 20px;
+
+                color: #999;
+
+                cursor: pointer;
+
+                display: none;
+
+                transition: 0.2s;
+            }
+
+            .destination-clear:hover {
+                color: #e03d42;
+            }
+
+
+            /* Arrow */
+
+            .destination-dropdown-icon {
+                position: absolute;
+
+                right: 14px;
+
+                font-size: 21px;
+
+                color: #071516;
+
+                cursor: pointer;
+
+                transition: transform 0.2s ease;
+            }
+
+
+            /* Rotate arrow when open */
+
+            .destination-search-wrapper.active
+            .destination-dropdown-icon {
+                transform: rotate(180deg);
+            }
+
+
+            /* ==========================================
+            SUGGESTIONS
+            ========================================== */
+
+            .destination-suggestions {
+
+                position: absolute;
+
+                top: calc(100% + 8px);
+
+                left: 0;
+                right: 0;
+
+                background: #fff;
+
+                border: 1px solid #e5e7eb;
+
+                border-radius: 10px;
+
+                box-shadow:
+                    0 10px 30px rgba(0, 0, 0, 0.12);
+
+                z-index: 9999;
+
+                overflow: hidden;
+
+                display: none;
+            }
+
+
+            /* Open */
+
+            .destination-search-wrapper.active
+            .destination-suggestions {
+                display: block;
+            }
+
+
+            /* Scrollable area */
+
+            .destination-suggestions {
+                max-height: 260px;
+
+                overflow-y: auto;
+
+                scrollbar-width: thin;
+                scrollbar-color: #c8c8c8 transparent;
+            }
+
+
+            /* Chrome scrollbar */
+
+            .destination-suggestions::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .destination-suggestions::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            .destination-suggestions::-webkit-scrollbar-thumb {
+                background: #c8c8c8;
+
+                border-radius: 10px;
+            }
+
+            .destination-suggestions::-webkit-scrollbar-thumb:hover {
+                background: #999;
+            }
+
+
+            /* ==========================================
+            OPTION
+            ========================================== */
+
+            .destination-option {
+
+                min-height: 48px;
+
+                display: flex;
+                align-items: center;
+
+                gap: 10px;
+
+                padding: 11px 15px;
+
+                cursor: pointer;
+
+                color: #333;
+
+                font-size: 14px;
+
+                transition: background 0.15s ease;
+            }
+
+
+            .destination-option i {
+
+                font-size: 17px;
+
+                color: #e03d42;
+
+                flex-shrink: 0;
+            }
+
+
+            .destination-option:hover {
+
+                background: #f8f8f8;
+
+                color: #e03d42;
+            }
+
+
+            /* Selected */
+
+            .destination-option.selected {
+
+                background: rgba(224, 61, 66, 0.08);
+
+                color: #e03d42;
+
+                font-weight: 600;
+            }
+
+
+            /* No results */
+
+            .destination-no-result {
+
+                padding: 18px;
+
+                text-align: center;
+
+                color: #888;
+
+                font-size: 14px;
+            }
+
+            .theme-checkbox {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 12px;
+            }
+
+            .theme-checkbox input[type="checkbox"] {
+                width: 15px;
+                height: 15px;
+                margin: 0;
+                flex-shrink: 0;
+                cursor: pointer;
+            }
+
+            .theme-checkbox > div {
+                display: flex;
+                align-items: center;
+            }
+
+            .theme-checkbox span {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 15px;
+                color: #444;
+                line-height: 1;
+                cursor: pointer;
+            }
+
+            .theme-checkbox span i {
+                font-size: 14px;
+                color: #FFB400;
+            }
+            .theme-section {
+                padding-top: 15px;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -ms-flex-wrap: wrap;
+                    flex-wrap: wrap;
+                gap: 4px;
+            }
+            .theme-section .theme-checkbox {
+                position: relative;
+                float: left;
+                border: 1px solid var(--tertiary-border);
+                -webkit-box-sizing: border-box;
+                        box-sizing: border-box;
+                border-radius: 4px;
+                background-color: #ffffff;
+                -webkit-transition: background-color 0.5s ease;
+                transition: background-color 0.5s ease;
+            }
+            .theme-section .theme-checkbox span {
+                padding: 4px 10px;
+                font-size: 14px;
+                font-weight: 500;
+                line-height: 1.4;
+                color: var(--primary-paragraph);
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-align: center;
+                    -ms-flex-align: center;
+                        align-items: center;
+                gap: 6px;
+            }
+            .theme-section .theme-checkbox div {
+                width: 100%;
+                height: 100%;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-pack: center;
+                    -ms-flex-pack: center;
+                        justify-content: center;
+                -webkit-box-align: center;
+                    -ms-flex-align: center;
+                        align-items: center;
+                line-height: 25px;
+            }
+            .theme-section .theme-checkbox input {
+                position: absolute;
+                top: 0;
+                left: 0;
+                opacity: 0;
+                cursor: pointer;
+                width: 100%;
+                height: 100%;
+            }
+            .theme-section .theme-checkbox input[type=checkbox]:checked + div {
+                background-color: var(--primary-color);
+                border-radius: 4px;
+            }
+            .theme-section .theme-checkbox input[type=checkbox]:checked + div span {
+                color: var(--white);
+            }
+            /* ==========================================
+            MOBILE
+            ========================================== */
+
+            @media (max-width: 767px) {
+
+                .destination-search {
+
+                    height: 48px;
+
+                    border-radius: 9px;
+                }
+
+                .destination-input {
+
+                    font-size: 14px;
+
+                    padding-left: 42px;
+                }
+
+                .destination-icon {
+
+                    left: 13px;
+
+                    font-size: 19px;
+                }
+
+                .destination-suggestions {
+
+                    max-height: 220px;
+
+                    border-radius: 9px;
+                }
+
+                .destination-option {
+
+                    min-height: 46px;
+
+                    padding: 10px 13px;
+
+                    font-size: 14px;
+                }
             }
             @media screen and (max-width: 991px) {
                 .imageSize {
@@ -301,7 +773,7 @@ if (isset($_SESSION['user_type_id_value'])) {
                                         </label>
                                     </div>
                                 </div>
-                                <div class="tour-search">
+                                <!-- <div class="tour-search">
                                     <div class="select-dropdown-section">
                                         <div class="d-flex gap-10 align-items-center">
                                             <i class="ri-map-pin-line"></i>
@@ -310,7 +782,7 @@ if (isset($_SESSION['user_type_id_value'])) {
                                         <select class="destination-dropdown">
                                         </select>
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <div class="heading">
                                     <h4 class="title">Filter By Price</h4>
@@ -341,49 +813,207 @@ if (isset($_SESSION['user_type_id_value'])) {
                                     <h4 class="title">Hotel Category</h4>
                                 </div>
                                 <div class="ratting-section">
-                                    <div class="ratting-checkbox">
-                                        <input type="checkbox" id="3" checked>
+
+                                    <?php foreach ($categoryHotels as $categoryHotel): ?>
+
+                                        <?php
+                                        $id = (int) $categoryHotel['id'];
+                                        $name = trim($categoryHotel['name']);
+
+                                        // Check if this is a star category
+                                        $isStar = preg_match('/^[1-5]\s*Star$/i', $name);
+
+                                        // Get number for star category
+                                        $starNumber = $isStar ? (int) filter_var($name, FILTER_SANITIZE_NUMBER_INT) : null;
+                                        ?>
+
+                                        <div class="ratting-checkbox">
+
+                                            <input
+                                                type="checkbox"
+                                                id="<?= $id ?>"
+                                                name="hotel_category[]"
+                                                value="<?= $id ?>"
+                                                checked
+                                            >
+
+                                            <div>
+                                                <span>
+
+                                                    <?php if ($isStar): ?>
+
+                                                        <!-- Star Icon -->
+                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                            width="14"
+                                                            height="13"
+                                                            viewBox="0 0 14 13"
+                                                            fill="none">
+
+                                                            <path
+                                                                d="M6.09749 0.891366C6.45972 0.132244 7.54028 0.132244 7.90251 0.891366L9.07038 3.33882C9.21616 3.64433 9.5066 3.85534 9.84221 3.89958L12.5308 4.25399C13.3647 4.36391 13.6986 5.39158 13.0885 5.97067L11.1218 7.83768C10.8763 8.07073 10.7653 8.41217 10.827 8.74502L11.3207 11.4115C11.4739 12.2386 10.5997 12.8737 9.86041 12.4725L7.47702 11.1789C7.1795 11.0174 6.8205 11.0174 6.52298 11.1789L4.13959 12.4725C3.40033 12.8737 2.52614 12.2386 2.67929 11.4115L3.17304 8.74502C3.23467 8.41217 3.12373 8.07073 2.87823 7.83768L0.911452 5.97067C0.301421 5.39158 0.635332 4.36391 1.46924 4.25399L4.15779 3.89958C4.4934 3.85534 4.78384 3.64433 4.92962 3.33882L6.09749 0.891366Z"
+                                                                fill="#FFB400" />
+
+                                                        </svg>
+
+                                                        <?= $starNumber ?>
+
+                                                    <?php elseif (strtolower($name) === 'villa'): ?>
+
+                                                        <!-- Villa Icon -->
+                                                        <i class="ri-home-4-line"
+                                                            style="font-size:14px; color:#FFB400;"></i>
+
+                                                        Villa
+
+                                                    <?php elseif (strtolower($name) === 'apartment'): ?>
+
+                                                        <!-- Apartment Icon -->
+                                                        <i class="ri-building-2-line"
+                                                            style="font-size:14px; color:#FFB400;"></i>
+
+                                                        Apartment
+
+                                                    <?php else: ?>
+
+                                                        <!-- Fallback -->
+                                                        <?= htmlspecialchars($name) ?>
+
+                                                    <?php endif; ?>
+
+                                                </span>
+                                            </div>
+
+                                        </div>
+
+                                    <?php endforeach; ?>
+
+                                </div>
+
+                                <div class="heading">
+
+                                    <h4 class="title">Travel Theme / Type </h4>
+                                </div>
+                                <div class="theme-section">
+                                    <!-- Leisure -->
+                                    <div class="theme-checkbox">
+                                        <input
+                                            type="checkbox"
+                                            id="Leisure"
+                                            name="travelTheme[]"
+                                            value="Leisure"
+                                            checked
+                                        >
+
                                         <div>
                                             <span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="13"
-                                                    viewBox="0 0 14 13" fill="none">
-                                                    <path
-                                                        d="M6.09749 0.891366C6.45972 0.132244 7.54028 0.132244 7.90251 0.891366L9.07038 3.33882C9.21616 3.64433 9.5066 3.85534 9.84221 3.89958L12.5308 4.25399C13.3647 4.36391 13.6986 5.39158 13.0885 5.97067L11.1218 7.83768C10.8763 8.07073 10.7653 8.41217 10.827 8.74502L11.3207 11.4115C11.4739 12.2386 10.5997 12.8737 9.86041 12.4725L7.47702 11.1789C7.1795 11.0174 6.8205 11.0174 6.52298 11.1789L4.13959 12.4725C3.40033 12.8737 2.52614 12.2386 2.67929 11.4115L3.17304 8.74502C3.23467 8.41217 3.12373 8.07073 2.87823 7.83768L0.911452 5.97067C0.301421 5.39158 0.635332 4.36391 1.46924 4.25399L4.15779 3.89958C4.4934 3.85534 4.78384 3.64433 4.92962 3.33882L6.09749 0.891366Z"
-                                                        fill="#FFB400" />
-                                                </svg>
-                                                3
+                                                <i class="fa-solid fa-mountain-city"
+                                                style="font-size:14px; color:#FFB400;"></i>
+                                                Leisure
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="ratting-checkbox">
-                                        <input type="checkbox" id="4" checked>
+
+
+                                    <!-- Adventure -->
+                                    <div class="theme-checkbox">
+                                        <input
+                                            type="checkbox"
+                                            id="Adventure"
+                                            name="travelTheme[]"
+                                            value="Adventure"
+                                            checked
+                                        >
+
                                         <div>
                                             <span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="13"
-                                                    viewBox="0 0 14 13" fill="none">
-                                                    <path
-                                                        d="M6.09749 0.891366C6.45972 0.132244 7.54028 0.132244 7.90251 0.891366L9.07038 3.33882C9.21616 3.64433 9.5066 3.85534 9.84221 3.89958L12.5308 4.25399C13.3647 4.36391 13.6986 5.39158 13.0885 5.97067L11.1218 7.83768C10.8763 8.07073 10.7653 8.41217 10.827 8.74502L11.3207 11.4115C11.4739 12.2386 10.5997 12.8737 9.86041 12.4725L7.47702 11.1789C7.1795 11.0174 6.8205 11.0174 6.52298 11.1789L4.13959 12.4725C3.40033 12.8737 2.52614 12.2386 2.67929 11.4115L3.17304 8.74502C3.23467 8.41217 3.12373 8.07073 2.87823 7.83768L0.911452 5.97067C0.301421 5.39158 0.635332 4.36391 1.46924 4.25399L4.15779 3.89958C4.4934 3.85534 4.78384 3.64433 4.92962 3.33882L6.09749 0.891366Z"
-                                                        fill="#FFB400" />
-                                                </svg>
-                                                4
+                                                <i class="fa-solid fa-mountain-sun"
+                                                style="font-size:14px; color:#FFB400;"></i>
+                                                Adventure
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="ratting-checkbox">
-                                        <input type="checkbox" id="5" checked>
+
+
+                                    <!-- Spiritual -->
+                                    <div class="theme-checkbox">
+                                        <input
+                                            type="checkbox"
+                                            id="Spiritual"
+                                            name="travelTheme[]"
+                                            value="Spiritual"
+                                            checked
+                                        >
+
                                         <div>
                                             <span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="13"
-                                                    viewBox="0 0 14 13" fill="none">
-                                                    <path
-                                                        d="M6.09749 0.891366C6.45972 0.132244 7.54028 0.132244 7.90251 0.891366L9.07038 3.33882C9.21616 3.64433 9.5066 3.85534 9.84221 3.89958L12.5308 4.25399C13.3647 4.36391 13.6986 5.39158 13.0885 5.97067L11.1218 7.83768C10.8763 8.07073 10.7653 8.41217 10.827 8.74502L11.3207 11.4115C11.4739 12.2386 10.5997 12.8737 9.86041 12.4725L7.47702 11.1789C7.1795 11.0174 6.8205 11.0174 6.52298 11.1789L4.13959 12.4725C3.40033 12.8737 2.52614 12.2386 2.67929 11.4115L3.17304 8.74502C3.23467 8.41217 3.12373 8.07073 2.87823 7.83768L0.911452 5.97067C0.301421 5.39158 0.635332 4.36391 1.46924 4.25399L4.15779 3.89958C4.4934 3.85534 4.78384 3.64433 4.92962 3.33882L6.09749 0.891366Z"
-                                                        fill="#FFB400" />
-                                                </svg>
-                                                5
+                                                <i class="fa-solid fa-place-of-worship"
+                                                style="font-size:14px; color:#FFB400;"></i>
+                                                Spiritual
+                                            </span>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Beach -->
+                                    <div class="theme-checkbox">
+                                        <input
+                                            type="checkbox"
+                                            id="Beach"
+                                            name="travelTheme[]"
+                                            value="Beach"
+                                            checked
+                                        >
+
+                                        <div>
+                                            <span>
+                                                <i class="fa-solid fa-umbrella-beach"
+                                                style="font-size:14px; color:#FFB400;"></i>
+                                                Beach
+                                            </span>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Honeymoon -->
+                                    <div class="theme-checkbox">
+                                        <input
+                                            type="checkbox"
+                                            id="Honeymoon"
+                                            name="travelTheme[]"
+                                            value="Honeymoon"
+                                            checked
+                                        >
+
+                                        <div>
+                                            <span>
+                                                <i class="fa-solid fa-heart"
+                                                style="font-size:14px; color:#FFB400;"></i>
+                                                Honeymoon
+                                            </span>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Other -->
+                                    <div class="theme-checkbox">
+                                        <input
+                                            type="checkbox"
+                                            id="Other"
+                                            name="travelTheme[]"
+                                            value="Other"
+                                            checked
+                                        >
+
+                                        <div>
+                                            <span>
+                                                <i class="fa-solid fa-crosshairs"
+                                                style="font-size:14px; color:#FFB400;"></i>
+                                                Other
                                             </span>
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <div class="mt-4">
                                     <button id="clearAll" class="btn btn-outline-secondary btn-sm">Clear</button>
                                 </div>
@@ -391,6 +1021,55 @@ if (isset($_SESSION['user_type_id_value'])) {
                             <div class="cover"></div>
                         </div>
                         <div class="col-xl-9">
+                            <div class="select-dropdown-section destination-search-wrapper mb-3">
+
+                                <div class="destination-search">
+
+                                    <i class="ri-map-pin-line destination-icon"></i>
+
+                                    <input
+                                        type="text"
+                                        id="destinationSearch"
+                                        class="destination-input"
+                                        placeholder="Search destination..."
+                                        autocomplete="off"
+                                    >
+
+                                    <i class="ri-close-line destination-clear" id="destinationClear"></i>
+
+                                    <i class="ri-arrow-down-s-line destination-dropdown-icon"
+                                    id="destinationArrow"></i>
+
+                                </div>
+
+                                <div class="destination-suggestions mb-2" id="destinationSuggestions">
+
+                                    <?php foreach ($destinations as $destination): ?>
+
+                                    <div
+                                        class="destination-option"
+                                        data-value="<?= htmlspecialchars($destination['destination']) ?>"
+                                    >
+                                        <i class="ri-map-pin-line"></i>
+
+                                        <span class="destination-option-text">
+
+                                            <strong>
+                                                <?= htmlspecialchars($destination['name']) ?>
+                                            </strong>
+                                            </br>
+                                            <small>
+                                                <?= htmlspecialchars($destination['destination']) ?>
+                                            </small>
+
+                                        </span>
+                                    </div>
+
+                                <?php endforeach; ?>
+
+                                </div>
+
+                            </div>
                             <div class="showing-result d-flex justify-content-end">
                                 <div class="d-flex">
                                     <div class="pe-2" id="list_column">
@@ -413,7 +1092,10 @@ if (isset($_SESSION['user_type_id_value'])) {
                                     </div>
                                     <div class="sorting-dropdown ">
                                         <select class="select2 sort-options">
-                                            <option value="popular"> Sort by Popular</option>
+                                            <option value="Popular"> Sort by Popular</option>
+                                            <option value="Trending"> Sort by Trending</option>
+                                            <option value="Most Selling"> Sort by Most Selling</option>
+                                            <option value="New Arrival"> Sort by New Arrival</option>
                                             <option value="low">Price low to high</option>
                                             <option value="high">Price high to low</option>
                                             <option value="new">Sort by Newset</option>
@@ -444,38 +1126,110 @@ if (isset($_SESSION['user_type_id_value'])) {
                                             }
                                         }
 
-                                        $stmt = $conn->prepare(" SELECT p.id,p.created_date, p.name,p.description, p.destination, p.location, p.tour_days, t.net_price_adult_with_GST, t.markup_total, COUNT(b.package_id) AS booking_count FROM package p JOIN package_pricing t ON p.id = t.package_id JOIN category c ON p.category_id = c.id LEFT JOIN bookings b ON b.package_id = p.id WHERE p.status = '1' GROUP BY p.id, p.description, p.destination, p.location, t.net_price_adult_with_GST, t.markup_total ORDER BY booking_count DESC, p.id  ");
+                                        $stmt = $conn->prepare(" SELECT p.id,p.created_date, p.name,p.description, p.destination, p.location, p.tour_days, 
+                                                                t.total_package_price_per_adult, COUNT(b.package_id) AS booking_count,p.highlight_type
+                                                                FROM package p JOIN package_pricing t ON p.id = t.package_id 
+                                                                JOIN category c ON p.category_id = c.id 
+                                                                LEFT JOIN bookings b ON b.package_id = p.id 
+                                                                WHERE p.status = '1' AND visibility = 1 AND DATE(validity) >= CURRENT_DATE
+                                                                GROUP BY p.id, p.description, p.destination, p.location, t.total_package_price_per_adult, t.markup_total 
+                                                                ORDER BY booking_count DESC, p.id  ");
                                         $stmt->execute();
                                         $stmt->SetFetchMode(PDO::FETCH_ASSOC);
                                         if ($stmt->rowCount() > 0) {
                                             foreach (($stmt->fetchAll()) as $key => $row) {
                                                 // $name = $row['name'].''.$row['unique_code'];
                                                 // echo $srno.' '.$name.'</br>';
-
+                                                $badgeText = 'Popular';
+                                                $badgeClass = 'badge-popular';
                                                 // get images
                                                 $data = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = '" . $row['id'] . "' LIMIT 1");
                                                 $data->execute();
                                                 $value = $data->fetch();
                                                 // echo $value['image'].'-id-'.$value['id'].'-package_id-'.$value['package_id'];
 
-                                                $adult_price = (int)$row['net_price_adult_with_GST'];
-                                                $markup_price = (int)$row['markup_total'];
+                                                $adult_price = (int)$row['total_package_price_per_adult'];
 
                                                 $tourDay = (int)$row['tour_days'] - 1;
                                                 $tourNight = (int)$row['tour_days'] - 2;
 
-                                                $total_base_price = $adult_price + $markup_price;
+                                                $total_price = $adult_price;
+                                                
+                                                // Get guest pricing from package_pricing
+                                                $stmt = $conn->prepare("
+                                                    SELECT guest_amount, guest_percentage
+                                                    FROM package_pricing
+                                                    WHERE package_id = ?
+                                                    LIMIT 1
+                                                ");
+                                                $stmt->execute([$row['id']]);
 
+                                                $guestPricing = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                                                $guest_amount = (float) ($guestPricing['guest_amount'] ?? 0);
+                                                $guest_percentage = (float) ($guestPricing['guest_percentage'] ?? 0);
+
+                                                // Calculate final price
+                                                $final_price = $total_price;
+
+                                                if ($guest_amount > 0) {
+                                                    $final_price += $guest_amount;
+                                                } elseif ($guest_percentage > 0) {
+                                                    $final_price += ($total_price * $guest_percentage / 100);
+                                                }
                                                 if ($ta_id) {
                                                     $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '" . $ta_id . "' AND package_id = '" . $row['id'] . "' AND status='1' LIMIT 1");
                                                     $ta_markup_data->execute();
                                                     $ta_markup = $ta_markup_data->fetch();
 
-                                                    $total_price = $ta_markup['selling_price'] ?? $total_base_price;
-                                                } else {
-                                                    $total_price = $total_base_price;
+                                                    $final_price = $ta_markup['selling_price'] ?? $total_price;
                                                 }
 
+                                                $packageType = trim((string)($row['highlight_type'] ?? ''));
+                                                
+                                                switch ($packageType) {
+
+                                                    case 'Trending':
+                                                        $badgeText = 'Trending';
+                                                        $badgeClass = 'badge-trending';
+                                                        break;
+
+                                                    case 'Best Seller':
+                                                        $badgeText = 'Best Seller';
+                                                        $badgeClass = 'badge-bestseller';
+                                                        break;
+
+                                                    case 'New Arrival':
+                                                        $badgeText = 'New Arrival';
+                                                        $badgeClass = 'badge-new-arrival';
+                                                        break;
+
+                                                    case '':
+                                                        $badgeText = 'Popular';
+                                                        $badgeClass = 'badge-popular';
+                                                        break;
+
+                                                    default:
+                                                        $badgeText = 'Popular';
+                                                        $badgeClass = 'badge-popular';
+                                                        break;
+                                                }
+                                                
+
+                                                $hasGuestAdjustment = ($guest_amount > 0 || $guest_percentage > 0);
+
+                                                if ($showGuestPrice && $hasGuestAdjustment) {
+
+                                                    if ($guest_amount > 0) {
+                                                        $displayPrice = $final_price - $guest_amount;
+                                                    } else {
+                                                        $displayPrice = $final_price - (($total_price * $guest_percentage) / 100);
+                                                    }
+
+                                                } else {
+                                                    $displayPrice = $final_price;
+                                                }
+                                
                                                 echo '
                                                     <div class="col-xl-4 col-lg-4 col-sm-6">
                                                         <div class="package-card">
@@ -483,38 +1237,65 @@ if (isset($_SESSION['user_type_id_value'])) {
                                                                 <a href="#" onclick=\'viewPackage("' . $row['id'] . '")\'>
                                                                     <img src="' . $value['image'] . '" alt="BizzMirth">
                                                                 </a>
-                                                                <div class="badge-color">
-                                                                    <p class="trending">Trending</p>
+                                                                <div class="badge-color ' . $badgeClass . '">
+                                                                    <p>' . htmlspecialchars($badgeText) . '</p>
                                                                 </div>
                                                             </div>
+
                                                             <div class="package-content">
+
                                                                 <h4 class="area-name">
-                                                                    <a href="#" onclick=\'viewPackage("' . $row['id'] . '")\'>' . $row['name'] . '</a>
+                                                                    <a href="#" onclick=\'viewPackage("' . $row['id'] . '")\'>
+                                                                        ' . $row['name'] . '
+                                                                    </a>
                                                                 </h4>
+
                                                                 <div class="location">
                                                                     <i class="ri-map-pin-line"></i>
                                                                     <div class="name">' . $row['location'] . '</div>
                                                                 </div>
+
                                                                 <div class="packages-person">
                                                                     <div class="count">
                                                                         <i class="ri-time-line"></i>
-                                                                        <p class="pera"> '.$tourNight.' Night '.$tourDay.' Days</p>
+                                                                        <p class="pera">' . $tourNight . ' Night ' . $tourDay . ' Days</p>
                                                                     </div>
-                                                                    <!-- <div class="count">
-                                                                        <i class="ri-user-line"></i>
-                                                                        <p class="pera">2 Person</p>
-                                                                    </div> -->
                                                                 </div>
+
                                                                 <div class="price-review">
                                                                     <div class="d-flex gap-10">
+
                                                                         <p class="light-pera">From</p>
-                                                                        <p class="pera"><span>&#8377</span>' . $total_price . '</p>
+
+                                                                        <p class="pera">
+                                                                            <span>&#8377;</span>' . $displayPrice . '
+                                                                        </p>
+
+                                                                        ' . (
+                                                                            $showGuestPrice && $hasGuestAdjustment
+                                                                                ? '
+                                                                                    <p class="pera text-muted text-decoration-line-through">
+                                                                                        <small>
+                                                                                            <span>&#8377;</span>' . $final_price . '
+                                                                                        </small>
+                                                                                    </p>
+                                                                                '
+                                                                                : (
+                                                                                    !$showGuestPrice && $final_price != $total_price
+                                                                                        ? '
+                                                                                            <p class="pera text-muted text-decoration-line-through">
+                                                                                                <small>
+                                                                                                    <span>&#8377;</span>' . $total_price . '
+                                                                                                </small>
+                                                                                            </p>
+                                                                                        '
+                                                                                        : ''
+                                                                                )
+                                                                        ) . '
+
                                                                     </div>
-                                                                    <!-- <div class="rating">
-                                                                        <i class="ri-star-s-fill"></i>
-                                                                        <p class="pera">4.7 (20 Reviews)</p>
-                                                                    </div> -->
                                                                 </div>
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -546,7 +1327,14 @@ if (isset($_SESSION['user_type_id_value'])) {
                                             }
                                         }
 
-                                        $stmt = $conn->prepare(" SELECT p.id,p.created_date, p.name,p.description, p.destination, p.location, p.tour_days, t.net_price_adult_with_GST, t.markup_total, COUNT(b.package_id) AS booking_count FROM package p JOIN package_pricing t ON p.id = t.package_id JOIN category c ON p.category_id = c.id LEFT JOIN bookings b ON b.package_id = p.id WHERE p.status = '1' GROUP BY p.id, p.description, p.destination, p.location, t.net_price_adult_with_GST, t.markup_total ORDER BY booking_count DESC, p.id  ");
+                                        $stmt = $conn->prepare(" SELECT p.id,p.created_date, p.name,p.description, p.destination, p.location, p.tour_days, 
+                                                                t.total_package_price_per_adult, COUNT(b.package_id) AS booking_count,p.highlight_type
+                                                                FROM package p JOIN package_pricing t ON p.id = t.package_id 
+                                                                JOIN category c ON p.category_id = c.id 
+                                                                LEFT JOIN bookings b ON b.package_id = p.id 
+                                                                WHERE p.status = '1' AND visibility = 1 AND DATE(validity) >= CURRENT_DATE
+                                                                GROUP BY p.id, p.description, p.destination, p.location, t.total_package_price_per_adult, t.markup_total 
+                                                                ORDER BY booking_count DESC, p.id  ");
                                         $stmt->execute();
                                         $stmt->SetFetchMode(PDO::FETCH_ASSOC);
                                         if ($stmt->rowCount() > 0) {
@@ -560,15 +1348,14 @@ if (isset($_SESSION['user_type_id_value'])) {
                                                 $value = $data->fetch();
                                                 // echo $value['image'].'-id-'.$value['id'].'-package_id-'.$value['package_id'];
 
-                                                $adult_price = (int)$row['net_price_adult_with_GST'];
-                                                $markup_price = (int)$row['markup_total'];
+                                                $adult_price = (int)$row['total_package_price_per_adult'];
 
                                            //calculate nights and days from tour days number
                                             $tourDay = (int)$row['tour_days'] - 1;
                                             $tourNight = (int)$row['tour_days'] - 2;
 
                                             // show inflated pricing and current price
-                                            $total_price_inflated = $adult_price + 5000;
+                                            // $total_price_inflated = $adult_price + 5000;
                                             
                                             // tour package description limit words counts to show in list view
                                             $description = $row['description'];
@@ -579,57 +1366,165 @@ if (isset($_SESSION['user_type_id_value'])) {
                                                 $truncatedString = $description;
                                             }
 
-                                                $total_base_price = $adult_price + $markup_price;
+                                            $total_price = $adult_price;
+                                            
+                                            // Get guest pricing from package_pricing
+                                            $stmt = $conn->prepare("
+                                                SELECT guest_amount, guest_percentage
+                                                FROM package_pricing
+                                                WHERE package_id = ?
+                                                LIMIT 1
+                                            ");
+                                            $stmt->execute([$row['id']]);
 
-                                                if ($ta_id) {
-                                                    $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '" . $ta_id . "' AND package_id = '" . $row['id'] . "' AND status='1' LIMIT 1");
-                                                    $ta_markup_data->execute();
-                                                    $ta_markup = $ta_markup_data->fetch();
+                                            $guestPricing = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                                                $total_price = $ta_markup['selling_price'] ?? $total_base_price;
-                                            } else {
-                                                $total_price = $total_base_price;
+                                            $guest_amount = (float) ($guestPricing['guest_amount'] ?? 0);
+                                            $guest_percentage = (float) ($guestPricing['guest_percentage'] ?? 0);
+
+                                            // Calculate final price
+                                            $final_price = $total_price;
+
+                                            if ($guest_amount > 0) {
+                                                $final_price += $guest_amount;
+                                            } elseif ($guest_percentage > 0) {
+                                                $final_price += ($total_price * $guest_percentage / 100);
                                             }
-                                            echo'<div class="card rounded shadow-lg mb-5 bg-body-tertiary rounded-3 mt-5 border-0">
+                                            if ($ta_id) {
+                                                $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '" . $ta_id . "' AND package_id = '" . $row['id'] . "' AND status='1' LIMIT 1");
+                                                $ta_markup_data->execute();
+                                                $ta_markup = $ta_markup_data->fetch();
+
+                                                $final_price = $ta_markup['selling_price'] ?? $total_price;
+                                            } 
+                                            $packageType = trim((string)($row['highlight_type'] ?? ''));
+                                                
+                                            switch ($packageType) {
+
+                                                case 'Trending':
+                                                    $badgeText = 'Trending';
+                                                    $badgeClass = 'badge-trending';
+                                                    break;
+
+                                                case 'Best Seller':
+                                                    $badgeText = 'Best Seller';
+                                                    $badgeClass = 'badge-bestseller';
+                                                    break;
+
+                                                case 'New Arrival':
+                                                    $badgeText = 'New Arrival';
+                                                    $badgeClass = 'badge-new-arrival';
+                                                    break;
+
+                                                case '':
+                                                    $badgeText = 'Popular';
+                                                    $badgeClass = 'badge-popular';
+                                                    break;
+
+                                                default:
+                                                    $badgeText = 'Popular';
+                                                    $badgeClass = 'badge-popular';
+                                                    break;
+                                            }
+                                            
+
+                                            $hasGuestAdjustment = ($guest_amount > 0 || $guest_percentage > 0);
+
+                                            if ($showGuestPrice && $hasGuestAdjustment) {
+
+                                                if ($guest_amount > 0) {
+                                                    $displayPrice = $final_price - $guest_amount;
+                                                } else {
+                                                    $displayPrice = $final_price - (($total_price * $guest_percentage) / 100);
+                                                }
+
+                                            } else {
+                                                $displayPrice = $final_price;
+                                            }
+                                            echo '<div class="card rounded shadow-lg mb-5 bg-body-tertiary rounded-3 mt-5 border-0">
                                                     <div class="row">
                                                         <div class="col-lg-4 col-md-4 col-sm-12 col-12 px-0">
                                                             <div class="parent-container-badge">
                                                                 <a href="#" onclick=\'viewPackage("' . $row['id'] . '")\'>
-                                                                    <img src="'.$value['image'].'" alt="BizzMirth" class="rounded-start imageSize">
+                                                                    <img src="' . $value['image'] . '" alt="BizzMirth" class="rounded-start imageSize">
                                                                 </a>
-                                                                <div class="badge-color">
-                                                                    <p class="trending">Trending</p>
+                                                                <div class="badge-color ' . $badgeClass . '">
+                                                                    <p>' . htmlspecialchars($badgeText) . '</p>
                                                                 </div>
                                                             </div>
                                                         </div>
+
                                                         <div class="col-lg-5 col-md-5 col-sm-12 col-12 py-3 px-0 border-end borderRemove">
                                                             <h4 class="fw-bolder pb-2 packageTitle">
                                                                 <a href="#" onclick=\'viewPackage("' . $row['id'] . '")\'>' . $row['name'] . '</a>
                                                             </h4>
+
                                                             <p class="pb-2 packageLocation">
                                                                 <i class="fa-solid fa-location-dot fa-sm" style="color: #e03d42;"></i>
-                                                                <span class="text-muted">'.$row['location'].'</span>
+                                                                <span class="text-muted">' . $row['location'] . '</span>
                                                             </p>
+
                                                             <div class="text-start list-desc packageDesc">
-                                                               '.$truncatedString.'
+                                                                ' . $truncatedString . '
                                                             </div>
                                                         </div>
+
                                                         <div class="col-lg-3 col-md-3 col-sm-12 col-12 ps-0">
+
                                                             <div class="d-flex justify-content-evenly py-3 packageButton">
                                                                 <button class="rounded-2 btn border-danger-subtle border-2">
-                                                                    <p><i class="fa-solid fa-user fa-xs" style="color: #e03d42;"></i> <span class="text-danger"> 60</span></p>
+                                                                    <p>
+                                                                        <i class="fa-solid fa-user fa-xs" style="color: #e03d42;"></i>
+                                                                        <span class="text-danger">60</span>
+                                                                    </p>
                                                                 </button>
+
                                                                 <div class="rounded-2 btn border-danger-subtle border-2">
-                                                                    <p class="text-danger"><i class="fa-solid fa-clock-rotate-left fa-xs" style="color: #e03d42;"></i> <span class="text-danger">'.$tourNight.' Night '.$tourDay.'</span></p>
+                                                                    <p class="text-danger">
+                                                                        <i class="fa-solid fa-clock-rotate-left fa-xs" style="color: #e03d42;"></i>
+                                                                        <span class="text-danger">' . $tourNight . ' Night ' . $tourDay . '</span>
+                                                                    </p>
                                                                 </div>
                                                             </div>
+
                                                             <div class="d-flex justify-content-evenly py-3 packagePriceDiv">
-                                                                <h5 class="fw-bolder pacakgePrice">&#8377; ' . $total_price . '</h5>
-                                                                <h5 class="fw-bolder pacakgePrice text-muted text-decoration-line-through">&#8377; 25,000</h5>
+
+                                                                <!-- Main Price -->
+                                                                <h4 class="fw-bolder pacakgePrice">
+                                                                    &#8377; ' . $displayPrice . '
+                                                                </h4>
+
+                                                                ' . (
+                                                                    $showGuestPrice && $hasGuestAdjustment
+                                                                        ? '
+                                                                            <!-- Original price for guest-priced user -->
+                                                                            <h5 class="fw-bolder pacakgePrice text-muted text-decoration-line-through">
+                                                                                &#8377; ' . $final_price . '
+                                                                            </h5>
+                                                                        '
+                                                                        : (
+                                                                            !$showGuestPrice && $final_price != $total_price
+                                                                                ? '
+                                                                                    <!-- Normal discounted price -->
+                                                                                    <h5 class="fw-bolder pacakgePrice text-muted text-decoration-line-through">
+                                                                                        &#8377; ' . $total_price . '
+                                                                                    </h5>
+                                                                                '
+                                                                                : ''
+                                                                        )
+                                                                ) . '
+
                                                             </div>
+
                                                             <div class="d-flex justify-content-center py-3 packageExplore">
-                                                                <a class="btn btn-background-color fw-bolder" href="#" role="button" onclick=\'viewPackage("' . $row['id'] . '")\'>Explore</a>
+                                                                <a class="btn btn-background-color fw-bolder"
+                                                                href="#"
+                                                                role="button"
+                                                                onclick=\'viewPackage("' . $row['id'] . '")\'>
+                                                                    Explore
+                                                                </a>
                                                             </div>
+
                                                         </div>
                                                     </div>
                                                 </div>';
@@ -674,6 +1569,17 @@ if (isset($_SESSION['user_type_id_value'])) {
         <script type="text/javascript" src="logout/logout.js"></script>
         <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
         <script>
+            
+            // Restore selected sorting when returning to the listing page
+            $(document).ready(function () {
+
+                let savedSort = sessionStorage.getItem("packageSort");
+
+                if (savedSort) {
+                    $(".sort-options").val(savedSort).trigger("change");
+                }
+
+            });
             function viewPackage(id) {
                 window.location.href = 'tour-details.php?pacId=' + id;
             }
@@ -681,10 +1587,11 @@ if (isset($_SESSION['user_type_id_value'])) {
             //on load show popular packs 
             var userid = $("#userId").val();
             var usertype = $("#userType").val();
-            let selectedId ; // gets the selected ID
-            let selectedText; // gets the selected text
-            let selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
-            var priceRange=$("#amount").val();
+            let selectedId = null;
+            let selectedText = "";
+            let selectedDestination = "";
+
+            var priceRange = $("#amount").val();
             let prices =extractPrices(priceRange);
             let maxPrice =prices.maxPrice ;
             let minPrice =prices.minPrice ;
@@ -693,10 +1600,11 @@ if (isset($_SESSION['user_type_id_value'])) {
             let minDuration ;
             let maxDuration ;
             let tourType =getTourType()??0;
-            let destination =selectedDescription;
+            let destination =selectedDestination;
             let listBtnVal = document.getElementById("all-tour-list");
             let gridBtnVal = document.getElementById("all-tour-grid");
             let viewType = 0;
+            let theme=getSelectedTheme();
             let page = 1 ;
             const listView = $("#all-tour-list");
             const gridView = $("#all-tour-grid");
@@ -715,9 +1623,23 @@ if (isset($_SESSION['user_type_id_value'])) {
             //extract selected ratings
             function getSelectedRatings() {
                 let selected = [];
+
                 $(".ratting-section input[type='checkbox']:checked").each(function() {
                     selected.push($(this).attr("id"));
                 });
+                console.log(selected);
+                
+                return selected;
+            }
+            //extract selected ratings
+            function getSelectedTheme() {
+                let selected = [];
+
+                $(".theme-section input[type='checkbox']:checked").each(function() {
+                    selected.push($(this).val());
+                });
+                console.log(selected);
+                
                 return selected;
             }
             
@@ -730,6 +1652,7 @@ if (isset($_SESSION['user_type_id_value'])) {
 
             function fetchSortedProducts(page,sortValue, minPrice, maxPrice, minDuration, maxDuration, destination, tourType,viewType) {
                 let ratings = getSelectedRatings();
+                let theme = getSelectedTheme();
 
                 $.ajax({
                     url: "assets/submit/fetch_sorted_products.php",
@@ -746,7 +1669,8 @@ if (isset($_SESSION['user_type_id_value'])) {
                         ratings: ratings,
                         destination: destination,
                         tourType: tourType,
-                        viewType: viewType
+                        viewType: viewType,
+                        theme:theme
                     },
                     success: function(response) {
                         $("#all-tour-container").html(''); // ✅ clear old content to avoid duplicate IDs
@@ -761,95 +1685,119 @@ if (isset($_SESSION['user_type_id_value'])) {
 
             // Run AJAX on sort change
             $(".tour-type").on("change", function() {
-                sortValue = $(".sort-options").val();
-                priceRange = $("#amount").val();
-                prices = extractPrices(priceRange);
-                minDuration = $("#slider-range-duration").slider("values", 0);
-                maxDuration = $("#slider-range-duration").slider("values", 1);
-                selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
-                tourType = getTourType()??0;
-                // console.log("tourType:", tourType);
-                listBtnVal = document.getElementById("all-tour-list");
-                gridBtnVal = document.getElementById("all-tour-grid");
-                viewType = 0;
+                // sortValue = $(".sort-options").val();
+                // priceRange = $("#amount").val();
+                // prices = extractPrices(priceRange);
+                // minDuration = $("#slider-range-duration").slider("values", 0);
+                // maxDuration = $("#slider-range-duration").slider("values", 1);
+                
+                // tourType = getTourType()??0;
+                // // console.log("tourType:", tourType);
+                // listBtnVal = document.getElementById("all-tour-list");
+                // gridBtnVal = document.getElementById("all-tour-grid");
+                // viewType = 0;
 
-                if (!listBtnVal.classList.contains('d-none')) {
-                    viewType = 1; // list view
-                } else if (!gridBtnVal.classList.contains('d-none')) {
-                    viewType = 2; // grid view
-                }
-                fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription,tourType,viewType);
+                // if (!listBtnVal.classList.contains('d-none')) {
+                //     viewType = 1; // list view
+                // } else if (!gridBtnVal.classList.contains('d-none')) {
+                //     viewType = 2; // grid view
+                // }
+                // fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDestination,tourType,viewType);
+                page = 1;
+
+                applyFilters();
             });
 
             // Run AJAX on sort change
-            $(".sort-options").on("change", function() {
-                sortValue = $(this).val();
-                priceRange = $("#amount").val();
-                prices = extractPrices(priceRange);
+            $(document).on("change", ".sort-options", function () {
 
-                minDuration = $("#slider-range-duration").slider("values", 0);
-                maxDuration = $("#slider-range-duration").slider("values", 1);
-                selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
-                tourType = getTourType();
-                listBtnVal = document.getElementById("all-tour-list");
-                gridBtnVal = document.getElementById("all-tour-grid");
-                viewType = 0;
+                let selectedSort = $(this).val();
 
-                if (!listBtnVal.classList.contains('d-none')) {
-                    viewType = 1; // list view
-                } else if (!gridBtnVal.classList.contains('d-none')) {
-                    viewType = 2; // grid view
-                }
-                
-                fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription,tourType,viewType);
+                // Save selected sorting option
+                sessionStorage.setItem("packageSort", selectedSort);
+
+                page = 1;
+
+                applyFilters();
             });
 
 
             // Run AJAX on price change
             $("#amount").on("change", function() {
-                priceRange = $(this).val();
-                prices = extractPrices(priceRange);
-                sortValue = $(".sort-options").val();
+                // priceRange = $(this).val();
+                // prices = extractPrices(priceRange);
+                // sortValue = $(".sort-options").val();
 
-                minDuration = $("#slider-range-duration").slider("values", 0);
-                maxDuration = $("#slider-range-duration").slider("values", 1);
+                // minDuration = $("#slider-range-duration").slider("values", 0);
+                // maxDuration = $("#slider-range-duration").slider("values", 1);
 
-                selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
-                tourType = getTourType();
-                listBtnVal = document.getElementById("all-tour-list");
-                gridBtnVal = document.getElementById("all-tour-grid");
-                viewType = 0;
+                
+                // tourType = getTourType();
+                // listBtnVal = document.getElementById("all-tour-list");
+                // gridBtnVal = document.getElementById("all-tour-grid");
+                // viewType = 0;
 
-                if (!listBtnVal.classList.contains('d-none')) {
-                    viewType = 1; // list view
-                } else if (!gridBtnVal.classList.contains('d-none')) {
-                    viewType = 2; // grid view
-                }
+                // if (!listBtnVal.classList.contains('d-none')) {
+                //     viewType = 1; // list view
+                // } else if (!gridBtnVal.classList.contains('d-none')) {
+                //     viewType = 2; // grid view
+                // }
 
-                fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription,tourType,viewType);
+                // fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDestination,tourType,viewType);
+                page = 1;
+
+                applyFilters();
             });
 
             // Run AJAX on rating checkbox change
             $(".ratting-section input[type='checkbox']").on("change", function() {
-                priceRange = $("#amount").val();
-                prices = extractPrices(priceRange);
-                sortValue = $(".sort-options").val();
+                // priceRange = $("#amount").val();
+                // prices = extractPrices(priceRange);
+                // sortValue = $(".sort-options").val();
 
-                minDuration = $("#slider-range-duration").slider("values", 0);
-                maxDuration = $("#slider-range-duration").slider("values", 1);
+                // minDuration = $("#slider-range-duration").slider("values", 0);
+                // maxDuration = $("#slider-range-duration").slider("values", 1);
 
-                selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
-                tourType = getTourType();
-                listBtnVal = document.getElementById("all-tour-list");
-                gridBtnVal = document.getElementById("all-tour-grid");
-                viewType = 0;
+                
+                // tourType = getTourType();
+                // listBtnVal = document.getElementById("all-tour-list");
+                // gridBtnVal = document.getElementById("all-tour-grid");
+                // viewType = 0;
 
-                if (!listBtnVal.classList.contains('d-none')) {
-                    viewType = 1; // list view
-                } else if (!gridBtnVal.classList.contains('d-none')) {
-                    viewType = 2; // grid view
-                }
-                fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription,tourType,viewType);
+                // if (!listBtnVal.classList.contains('d-none')) {
+                //     viewType = 1; // list view
+                // } else if (!gridBtnVal.classList.contains('d-none')) {
+                //     viewType = 2; // grid view
+                // }
+                // fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDestination,tourType,viewType);
+                page = 1;
+
+                applyFilters();
+            });
+            // Run AJAX on rating checkbox change
+            $(".theme-section input[type='checkbox']").on("change", function() {
+                // priceRange = $("#amount").val();
+                // prices = extractPrices(priceRange);
+                // sortValue = $(".sort-options").val();
+
+                // minDuration = $("#slider-range-duration").slider("values", 0);
+                // maxDuration = $("#slider-range-duration").slider("values", 1);
+
+                
+                // tourType = getTourType();
+                // listBtnVal = document.getElementById("all-tour-list");
+                // gridBtnVal = document.getElementById("all-tour-grid");
+                // viewType = 0;
+
+                // if (!listBtnVal.classList.contains('d-none')) {
+                //     viewType = 1; // list view
+                // } else if (!gridBtnVal.classList.contains('d-none')) {
+                //     viewType = 2; // grid view
+                // }
+                // fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDestination,tourType,viewType);
+                page = 1;
+
+                applyFilters();
             });
             
             $("#clearAll").on("click", function() {
@@ -859,8 +1807,9 @@ if (isset($_SESSION['user_type_id_value'])) {
                 listView.removeClass("d-none");
                 gridView.addClass("d-none");
                 viewType = 1;
-                console.log('test1');
-                fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration,selectedDescription,tourType,viewType);
+                // console.log('test1');
+                // fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration,selectedDestination,tourType,viewType);
+                applyFilters(viewType);
             });
 
             $("#grid_column").on("click", function () {
@@ -868,76 +1817,477 @@ if (isset($_SESSION['user_type_id_value'])) {
                 listView.addClass("d-none");
                 viewType = 2;
                 console.log('test2');
-                fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration,selectedDescription,tourType,viewType);
+                // fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration,selectedDestination,tourType,viewType);
+                applyFilters(viewType);
             });
 
             $(document).ready(function() {
                 //loadDestinations();
 
-                priceRange = $("#amount").val();
-                prices = extractPrices(priceRange);
-                sortValue = $(".sort-options").val();
-                minDuration = $("#slider-range-duration").slider("values", 0);
-                maxDuration = $("#slider-range-duration").slider("values", 1);
-                selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
-                tourType = getTourType();
-                listBtnVal = document.getElementById("all-tour-list");
-                gridBtnVal = document.getElementById("all-tour-grid");
-                viewType = 1;
-                console.log("min price:", prices.minPrice);
-                console.log("min price:", prices.maxPrice);
-
-                fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration,selectedDescription,tourType,viewType);
-            });
-            $(document).on("change", ".destination-dropdown", function() {
-                selectedId = $(this).val(); // gets the selected ID
-                selectedText = $(this).find("option:selected").text(); // gets the selected text
-                selectedDescription = $(this).find("option:selected").data("description");
-                priceRange = $("#amount").val();
-                prices = extractPrices(priceRange);
-                sortValue = $(".sort-options").val();
-                minDuration = $("#slider-range-duration").slider("values", 0);
-                maxDuration = $("#slider-range-duration").slider("values", 1);
-                tourType = getTourType();
-                listBtnVal = document.getElementById("all-tour-list");
-                gridBtnVal = document.getElementById("all-tour-grid");
-                viewType = 0;
-
-                if (!listBtnVal.classList.contains('d-none')) {
-                    viewType = 1; // list view
-                } else if (!gridBtnVal.classList.contains('d-none')) {
-                    viewType = 2; // grid view
-                }
-                console.log("Destination Changed:");
-                console.log("ID:", selectedId);
-                console.log("Text:", selectedText);
-                console.log("Description:", selectedDescription);
-
-                fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription,tourType,viewType);
-            });
-            // pagination logic
-            $(document).on('click', '.page-btn, .next-page, .prev-page', function() {
+                // priceRange = $("#amount").val();
+                // prices = extractPrices(priceRange);
+                // sortValue = $(".sort-options").val();
+                // minDuration = $("#slider-range-duration").slider("values", 0);
+                // maxDuration = $("#slider-range-duration").slider("values", 1);
                 
-                page = $(this).data('page');
-                selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
+                // tourType = getTourType();
+                // listBtnVal = document.getElementById("all-tour-list");
+                // gridBtnVal = document.getElementById("all-tour-grid");
+                // viewType = 1;
+                // console.log("min price:", prices.minPrice);
+                // console.log("min price:", prices.maxPrice);
+                getCurrentFilters();
+
+                fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration,selectedDestination,tourType,viewType);
+            });
+            // $(document).on("change", ".destination-dropdown", function() {
+            //     selectedId = $(this).val(); // gets the selected ID
+            //     selectedText = $(this).find("option:selected").text(); // gets the selected text
+            //     selectedDestination = $(this).find("option:selected").data("description");
+            //     priceRange = $("#amount").val();
+            //     prices = extractPrices(priceRange);
+            //     sortValue = $(".sort-options").val();
+            //     minDuration = $("#slider-range-duration").slider("values", 0);
+            //     maxDuration = $("#slider-range-duration").slider("values", 1);
+            //     tourType = getTourType();
+            //     listBtnVal = document.getElementById("all-tour-list");
+            //     gridBtnVal = document.getElementById("all-tour-grid");
+            //     viewType = 0;
+
+            //     if (!listBtnVal.classList.contains('d-none')) {
+            //         viewType = 1; // list view
+            //     } else if (!gridBtnVal.classList.contains('d-none')) {
+            //         viewType = 2; // grid view
+            //     }
+            //     console.log("Destination Changed:");
+            //     console.log("ID:", selectedId);
+            //     console.log("Text:", selectedText);
+            //     console.log("Description:", selectedDestination);
+
+            //     fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDestination,tourType,viewType);
+            // });
+            // pagination logic
+            // $(document).on('click', '.page-btn, .next-page, .prev-page', function() {
+                
+            //     page = $(this).data('page');
+                
+            //     priceRange = $("#amount").val();
+            //     prices = extractPrices(priceRange);
+            //     sortValue = $(".sort-options").val();
+            //     minDuration = $("#slider-range-duration").slider("values", 0);
+            //     maxDuration = $("#slider-range-duration").slider("values", 1);
+            //     tourType = getTourType();
+            //     listBtnVal = document.getElementById("all-tour-list");
+            //     gridBtnVal = document.getElementById("all-tour-grid");
+            //     viewType = 0;
+
+            //     if (!listBtnVal.classList.contains('d-none')) {
+            //         viewType = 1; // list view
+            //     } else if (!gridBtnVal.classList.contains('d-none')) {
+            //         viewType = 2; // grid view
+            //     }
+            //     fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration,selectedDestination,tourType,viewType);
+            // });  
+            $(document).on(
+                "click",
+                ".page-btn, .next-page, .prev-page",
+                function () {
+
+                    page = $(this).data("page");
+
+                    priceRange = $("#amount").val();
+                    prices = extractPrices(priceRange);
+
+                    sortValue = $(".sort-options").val();
+
+                    minDuration = $("#slider-range-duration")
+                        .slider("values", 0);
+
+                    maxDuration = $("#slider-range-duration")
+                        .slider("values", 1);
+
+                    tourType = getTourType();
+
+                    listBtnVal = document.getElementById("all-tour-list");
+                    gridBtnVal = document.getElementById("all-tour-grid");
+
+                    viewType = 0;
+
+                    if (!listBtnVal.classList.contains("d-none")) {
+
+                        viewType = 1; // list view
+
+                    } else if (!gridBtnVal.classList.contains("d-none")) {
+
+                        viewType = 2; // grid view
+
+                    }
+
+                    fetchSortedProducts(
+                        page,
+                        sortValue,
+                        prices.minPrice,
+                        prices.maxPrice,
+                        minDuration,
+                        maxDuration,
+                        selectedDestination,
+                        tourType,
+                        viewType
+                    );
+                }
+            );
+
+            function getCurrentFilters() {
+
                 priceRange = $("#amount").val();
+
                 prices = extractPrices(priceRange);
+
                 sortValue = $(".sort-options").val();
+
                 minDuration = $("#slider-range-duration").slider("values", 0);
+
                 maxDuration = $("#slider-range-duration").slider("values", 1);
-                tourType = getTourType();
+
+                tourType = getTourType() ?? 0;
+
                 listBtnVal = document.getElementById("all-tour-list");
+
                 gridBtnVal = document.getElementById("all-tour-grid");
+
                 viewType = 0;
 
-                if (!listBtnVal.classList.contains('d-none')) {
-                    viewType = 1; // list view
-                } else if (!gridBtnVal.classList.contains('d-none')) {
-                    viewType = 2; // grid view
-                }
-                fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration,selectedDescription,tourType,viewType);
-            });      
+                if (listBtnVal && !listBtnVal.classList.contains("d-none")) {
 
+                    viewType = 1;
+
+                } else if (gridBtnVal && !gridBtnVal.classList.contains("d-none")) {
+
+                    viewType = 2;
+                }
+            } 
+            
+            function applyFilters(viewType=1) {
+
+                getCurrentFilters();
+
+                fetchSortedProducts(
+                    page,
+                    sortValue,
+                    prices.minPrice,
+                    prices.maxPrice,
+                    minDuration,
+                    maxDuration,
+                    selectedDestination,
+                    tourType,
+                    viewType
+                );
+            }
+            $(document).ready(function () {
+
+                const wrapper = document.querySelector(
+                    ".destination-search-wrapper"
+                );
+
+                const input = document.getElementById(
+                    "destinationSearch"
+                );
+
+                const suggestions = document.getElementById(
+                    "destinationSuggestions"
+                );
+
+                const clearBtn = document.getElementById(
+                    "destinationClear"
+                );
+
+                const arrow = document.getElementById(
+                    "destinationArrow"
+                );
+
+                const options = Array.from(
+                    document.querySelectorAll(
+                        ".destination-option"
+                    )
+                );
+
+
+                /* ==========================================
+                OPEN DROPDOWN
+                ========================================== */
+
+                input.addEventListener("focus", function () {
+
+                    wrapper.classList.add("active");
+
+                    filterDestinations();
+
+                });
+
+
+                input.addEventListener("click", function () {
+
+                    wrapper.classList.add("active");
+
+                    filterDestinations();
+
+                });
+
+
+                /* ==========================================
+                SEARCH DESTINATIONS
+                ========================================== */
+
+                input.addEventListener("input", function () {
+
+                    filterDestinations();
+
+                });
+
+
+                function filterDestinations() {
+
+                    const searchValue = input.value
+                        .trim()
+                        .toLowerCase();
+
+                    let matchCount = 0;
+
+
+                    // options.forEach(function (option) {
+
+                    //     const destination = option
+                    //         .dataset.value
+                    //         .toLowerCase();
+
+                    //     if (
+                    //         searchValue === "" ||
+                    //         destination.includes(searchValue)
+                    //     ) {
+
+                    //         option.style.display = "flex";
+
+                    //         matchCount++;
+
+                    //     } else {
+
+                    //         option.style.display = "none";
+
+                    //     }
+
+                    // });
+                    options.forEach(function (option) {
+
+                        const destination = (option.dataset.value || "").toLowerCase();
+
+                        const name = (
+                            option.querySelector(".destination-option-text strong")?.textContent || ""
+                        ).trim().toLowerCase();
+
+                        if (
+                            searchValue === "" ||
+                            destination.includes(searchValue) ||
+                            name.includes(searchValue)
+                        ) {
+
+                            option.style.display = "flex";
+                            matchCount++;
+
+                        } else {
+
+                            option.style.display = "none";
+
+                        }
+
+                    });
+
+
+                    /* Remove old no-result message */
+
+                    const oldNoResult =
+                        suggestions.querySelector(
+                            ".destination-no-result"
+                        );
+
+                    if (oldNoResult) {
+                        oldNoResult.remove();
+                    }
+
+
+                    /* No results */
+
+                    if (matchCount === 0) {
+
+                        const noResult =
+                            document.createElement("div");
+
+                        noResult.className =
+                            "destination-no-result";
+
+                        noResult.textContent =
+                            "No matching destinations found";
+
+                        suggestions.appendChild(noResult);
+                    }
+
+
+                    /* Clear button */
+
+                    clearBtn.style.display =
+                        searchValue ? "block" : "none";
+                }
+
+
+                /* ==========================================
+                SELECT DESTINATION
+                ========================================== */
+
+                options.forEach(function (option) {
+
+                    option.addEventListener("click", function () {
+
+                        const value =
+                            this.dataset.value;
+
+
+                        selectedDestination = value;
+
+                        selectedText = value;
+
+                        selectedId = value;
+
+
+                        /* Set input */
+
+                        input.value = value;
+
+
+                        /* Selected class */
+
+                        options.forEach(function (item) {
+
+                            item.classList.remove(
+                                "selected"
+                            );
+
+                        });
+
+                        this.classList.add("selected");
+
+
+                        /* Close dropdown */
+
+                        wrapper.classList.remove("active");
+
+
+                        /* Show clear */
+
+                        clearBtn.style.display = "block";
+
+
+                        console.log(
+                            "Selected destination:",
+                            selectedDestination
+                        );
+
+
+                        /* Reset page */
+
+                        page = 1;
+
+
+                        /* Apply filters */
+
+                        applyFilters();
+
+                    });
+
+                });
+
+
+                /* ==========================================
+                CLEAR DESTINATION
+                ========================================== */
+
+                clearBtn.addEventListener("click", function (e) {
+
+                    e.preventDefault();
+
+                    e.stopPropagation();
+
+
+                    input.value = "";
+
+                    selectedDestination = "";
+
+                    selectedText = "";
+
+                    selectedId = null;
+
+
+                    options.forEach(function (option) {
+
+                        option.classList.remove(
+                            "selected"
+                        );
+
+                        option.style.display = "flex";
+
+                    });
+
+
+                    clearBtn.style.display = "none";
+
+
+                    page = 1;
+
+
+                    /* Apply filters without destination */
+
+                    applyFilters();
+
+
+                    input.focus();
+
+                });
+
+
+                /* ==========================================
+                CLICK ARROW
+                ========================================== */
+
+                arrow.addEventListener("click", function (e) {
+
+                    e.preventDefault();
+
+                    e.stopPropagation();
+
+                    input.focus();
+
+                    wrapper.classList.add("active");
+
+                    filterDestinations();
+
+                });
+
+
+                /* ==========================================
+                CLICK OUTSIDE
+                ========================================== */
+
+                document.addEventListener("click", function (e) {
+
+                    if (!wrapper.contains(e.target)) {
+
+                        wrapper.classList.remove(
+                            "active"
+                        );
+
+                    }
+
+                });
+
+            });
         </script>
     </body>
 </html>

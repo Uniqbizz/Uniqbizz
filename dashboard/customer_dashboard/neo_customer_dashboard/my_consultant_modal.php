@@ -39,7 +39,7 @@
                         <h3><?= $customerTa['firstname'] .' '. $customerTa['lastname']  ?></h3>
 
                         <span>
-                            Branch Manager
+                            <?= $customerTa['user_type'] == '11' ? 'Travel Consultant' : ($customerTa['user_type'] == '33' ? 'Branch Manager' : 'NA' ) ?>
                         </span>
 
                         <!-- <div class="qxz9-rating-badge">

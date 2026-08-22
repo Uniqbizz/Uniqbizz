@@ -29,7 +29,7 @@
     // }
 
     // TDS calculation
-    $tdsAmount = $Commi * 5/100;
+    $tdsAmount = $Commi * 2/100;
     $total = $Commi - $tdsAmount; 
 
 
