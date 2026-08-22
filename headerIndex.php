@@ -32,6 +32,20 @@
                                     <li class="single-list">
                                         <a href="contact.php" class="single">Contact</a>
                                     </li>
+                                    <div class="stickyBtnDisplay">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <!-- Wishlist -->
+                                            <a type="button" class="wishlistHeaderBtn1 btn btn-outline-light radius-30 text-white my2logout fw-bolder d-flex justify-content-center align-items-center" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas" aria-controls="wishlistOffcanvas">
+                                                <i class="ri-heart-line"></i>
+                                                <span class="wishlistCount">0</span>
+                                            </a>
+
+                                            <!-- Login -->
+                                            <a href="login.php" class="loginBtn1 btn btn-outline-light radius-30 text-white my2logout fw-bolder d-flex justify-content-center align-items-center">
+                                                Log In
+                                            </a>
+                                        </div>
+                                    </div>
                                 </ul>
                             </nav>
                         </div>
@@ -339,29 +353,18 @@
                                                 <hr class="my-2 border border-black opacity-25">
 
                                                 <li class="d-flex">
-
                                                     <i class="ri-heart-line align-content-center stickyTextBlack"></i>
-
-                                                    <a class="dropdown-item stickyTextBlack"
-                                                    data-bs-toggle="offcanvas"
-                                                    data-bs-target="#wishlistOffcanvas"
-                                                    aria-controls="wishlistOffcanvas">
-
+                                                    <a class="dropdown-item stickyTextBlack" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas" aria-controls="wishlistOffcanvas">
                                                         My Wishlist
-
                                                         <span class="wishlistCount ms-1">0</span>
-
                                                     </a>
-
                                                 </li>
-
                                                 <li class="d-flex">
                                                     <i class="ri-logout-box-r-line align-content-center stickyTextBlack"></i>
                                                     <a class="dropdown-item stickyTextBlack" href="dashboard/logout.php">
                                                         Logout
                                                     </a>
                                                 </li>
-
                                             </ul>
                                         </div>
                                     </div>
@@ -371,22 +374,13 @@
                                     <div class="d-flex align-items-center gap-2">
 
                                         <!-- Wishlist -->
-                                        <button type="button"
-                                                class="wishlistHeaderBtn btn btn-outline-light radius-30 text-white my2logout fw-bolder"
-                                                data-bs-toggle="offcanvas"
-                                                data-bs-target="#wishlistOffcanvas"
-                                                aria-controls="wishlistOffcanvas">
-
-                                            <i class="ri-heart-line text-white"></i>
-
+                                        <a type="button" class="wishlistHeaderBtn btn btn-outline-light radius-30 text-white my2logout fw-bolder" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas" aria-controls="wishlistOffcanvas">
+                                            <i class="ri-heart-line"></i>
                                             <span class="wishlistCount">0</span>
-
-                                        </button>
+                                        </a>
 
                                         <!-- Login -->
-                                        <a href="login.php"
-                                        class="btn btn-outline-light radius-30 text-white my2logout fw-bolder d-flex justify-content-center align-items-center"
-                                        style="width:80px;height:40px;">
+                                        <a href="login.php" class="btn btn-outline-light radius-30 text-white my2logout fw-bolder d-flex justify-content-center align-items-center" style="width:80px;height:40px;">
                                             Log In
                                         </a>
 
@@ -596,20 +590,11 @@
 
                                     <!-- Wishlist -->
                                     <li class="d-flex">
-
                                         <i class="ri-heart-line align-content-center stickyTextBlack"></i>
-
-                                        <a class="dropdown-item stickyTextBlack"
-                                        data-bs-toggle="offcanvas"
-                                        data-bs-target="#wishlistOffcanvas"
-                                        aria-controls="wishlistOffcanvas">
-
+                                        <a class="dropdown-item stickyTextBlack" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas" aria-controls="wishlistOffcanvas">
                                             My Wishlist
-
                                             <span class="wishlistCount ms-1">0</span>
-
                                         </a>
-
                                     </li>
 
                                     <li class="d-flex">
@@ -620,32 +605,6 @@
                                     </li>
 
                                 </ul>
-                            </div>
-
-                        <?php else: ?>
-
-                            <div class="d-flex align-items-center gap-2">
-
-                                <!-- Wishlist -->
-                                <button type="button"
-                                        class="wishlistHeaderBtn btn btn-outline-light radius-30 text-white my2logout fw-bolder"
-                                        data-bs-toggle="offcanvas"
-                                        data-bs-target="#wishlistOffcanvas"
-                                        aria-controls="wishlistOffcanvas">
-
-                                    <i class="ri-heart-line text-white"></i>
-
-                                    <span class="wishlistCount">0</span>
-
-                                </button>
-
-                                <!-- Login -->
-                                <a href="login.php"
-                                class="btn btn-outline-light radius-30 text-white my2logout fw-bolder d-flex justify-content-center align-items-center"
-                                style="width:80px;height:40px;">
-                                    Log In
-                                </a>
-
                             </div>
 
                         <?php endif; ?>
