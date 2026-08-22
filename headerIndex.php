@@ -32,6 +32,7 @@
                                     <li class="single-list">
                                         <a href="contact.php" class="single">Contact</a>
                                     </li>
+                                    <!-- add session -->
                                     <div class="stickyBtnDisplay">
                                         <div class="d-flex align-items-center gap-2">
                                             <!-- Wishlist -->
@@ -46,6 +47,7 @@
                                             </a>
                                         </div>
                                     </div>
+                                    <!-- end add session -->
                                 </ul>
                             </nav>
                         </div>

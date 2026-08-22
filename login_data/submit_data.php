@@ -440,7 +440,7 @@ if($stmt->rowCount()>0){
 				}
 			}
 		}else if($_SESSION["user_type_id_value"] =='34'){
-			$stmt = $conn->prepare("SELECT * FROM executive_techno_enterprise where email='".$username."' AND user_type = '34' AND status='1' ");
+			$stmt = $conn->prepare("SELECT firstname,lastname,profile_pic FROM executive_techno_enterprise JOIN documents ON user_id=executive_techno_enterprise_id where email='".$username."' AND user_type = '34' AND status='1' ");
 			$stmt->execute();
 
 				// set the resulting array to associative
@@ -455,7 +455,7 @@ if($stmt->rowCount()>0){
 				}
 			}
 		}else if($_SESSION["user_type_id_value"] =='35'){
-			$stmt = $conn->prepare("SELECT * FROM super_techno_enterprise where email='".$username."' AND user_type = '35' AND status='1' ");
+			$stmt = $conn->prepare("SELECT firstname,lastname,profile_pic FROM super_techno_enterprise JOIN documents ON user_id=super_techno_enterprise_id where email='".$username."' AND user_type = '35' AND status='1' ");
 			$stmt->execute();
 
 				// set the resulting array to associative
@@ -470,7 +470,7 @@ if($stmt->rowCount()>0){
 				}
 			}
 		}else if($_SESSION["user_type_id_value"] =='36'){
-			$stmt = $conn->prepare("SELECT * FROM chief_techno_enterprise where email='".$username."' AND user_type = '36' AND status='1' ");
+			$stmt = $conn->prepare("SELECT firstname,lastname,profile_pic FROM chief_techno_enterprise JOIN documents ON user_id=chief_techno_enterprise_id where email='".$username."' AND user_type = '36' AND status='1' ");
 			$stmt->execute();
 
 				// set the resulting array to associative
