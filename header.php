@@ -74,6 +74,20 @@
                                                 <li class="single-list">
                                                     <a href="contact.php" class="single">Contact</a>
                                                 </li>
+                                                <div class="stickyBtnDisplay">
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <!-- Wishlist -->
+                                                        <a type="button" class="wishlistHeaderBtn1 btn btn-outline-light radius-30 text-white my2logout fw-bolder d-flex justify-content-center align-items-center" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas" aria-controls="wishlistOffcanvas">
+                                                            <i class="ri-heart-line"></i>
+                                                            <span class="wishlistCount">0</span>
+                                                        </a>
+
+                                                        <!-- Login -->
+                                                        <a href="login.php" class="loginBtn1 btn btn-outline-light radius-30 text-white my2logout fw-bolder d-flex justify-content-center align-items-center">
+                                                            Log In
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </ul>
                                             
                                             <div class="header-right">
@@ -495,23 +509,7 @@
                                     
                                 </ul>
                             </div>
-
-                        <?php else :?>
-
-                            <div class="d-flex align-items-center gap-2">
-
-                                <!-- Wishlist -->
-                                <button type="button" class="wishlistHeaderBtn btn-secondary-sm" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas" aria-controls="wishlistOffcanvas">
-                                    <i class="ri-heart-line"></i>
-                                    <span class="wishlistCount">0</span>
-                                </button>
-
-                                <!-- Login -->
-                                <a href="login.php" class="btn-secondary-sm my2logout d-flex justify-content-center align-items-center p-0" style="width:80px;height:40px;">
-                                    Log In
-                                </a>
-                            </div>
-
+                            
                         <?php endif;?>
 
                         <div class="mobile_menu"></div>

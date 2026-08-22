@@ -44,7 +44,7 @@
     background-color: #e03d42;
     border: 1px solid transparent;
     padding: 8px 20px;
-    font-size: 12px !important;
+    font-size: 14px !important;
     font-weight: 500;
     line-height: 1.3;
     border-radius: 8px;
@@ -55,9 +55,9 @@
 }
 .wishlistHeaderBtn1:hover, .loginBtn1:hover {
     background-color: transparent;
-    border: 1px solid #e03d42;
+    border: 1px solid #e03d42 !important;
     padding: 8px 20px;
-    font-size: 12px !important;
+    font-size: 14px !important;
     font-weight: 500;
     line-height: 1.3;
     border-radius: 8px;
@@ -113,10 +113,14 @@
 .mobile-header-right .slicknav_menutxt {
     display: none;
 }
-/* stickyBtnDisplay */
+/* stickyBtnDisplay Header Index*/
 .stickyBtnDisplay {
     display: none !important;
 }
 .header-area-three .mobile_menu .slicknav_menu .slicknav_nav .stickyBtnDisplay{
+    display: block !important;
+}
+/* stickyBtnDisplay Header*/
+.header-area .mobile_menu .slicknav_menu .slicknav_nav .stickyBtnDisplay{
     display: block !important;
 }
