@@ -446,7 +446,7 @@ function safeJsonDecode($value)
                                 <div class="title-section">
                                     <h3 class="fw-bolder" id="pack_name"><?php echo $package['name'] ?></h3>
                                     <div class="d-flex gap-4">
-                                        <div class="share-icon openShare" onclick="openShare()">
+                                        <div class="openShare" onclick="openShare()">
                                             <i class="ri-share-line"></i>
                                         </div>
                                         <div class="wishlist-icon"

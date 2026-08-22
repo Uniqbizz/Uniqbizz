@@ -108,7 +108,7 @@
                                 <p class="fw-bolder text-black" id="pack_name">Varanasi A Spiritual Journey Awaits</p>
                             </div>
                             <div class="d-flex gap-4">
-                                <div class="share-icon openShare" onclick="openShare()">
+                                <div class="openShare" onclick="openShare()">
                                     <i class="ri-share-line"></i>
                                 </div>
                                 <div class="wishlist-icon">
