@@ -171,6 +171,15 @@ body {
     opacity: 1;
     visibility: visible;
 }
+.selectPadding {
+    padding: 3px 6px;
+    width: 100px;
+}
+@media (max-width: 1199px) and (min-width: 992px) {
+    .largeDisplay {
+        display: block !important;
+    }
+}
 /* Mobile / Tablet */
 @media (max-width: 991px){
 

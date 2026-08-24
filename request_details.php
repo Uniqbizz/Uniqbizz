@@ -401,6 +401,52 @@
                                         </div>
                                     </div>
                                     <hr class="my-1 border border-2 mx-3">
+                                    <div class="p-3 pb-0">
+                                        <p class="fontSize10 fw-bold mb-2">Apply Coupons <span class="text-muted fw-normal">(One coupon per passanger) <i class="ri-error-warning-line"></i></span></p>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <div class="d-flex gap-3 largeDisplay">
+                                                <p class="fontSize10 align-content-end">Adult 1</p>
+                                                <p>
+                                                    <select class="form-select fontSize10 selectPadding" aria-label="Default select example">
+                                                        <option selected>Select </option>
+                                                        <option value="1">Rs-3000</option>
+                                                        <option value="2">Rs-3000</option>
+                                                        <option value="3">Rs-1500</option>
+                                                    </select>
+                                                </p>
+                                            </div>
+                                            <p class="fontSize10 discountGreen fw-bold text-end align-content-end">- &#8377; 3,000</p>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <div class="d-flex gap-3 largeDisplay">
+                                                <p class="fontSize10 align-content-end">Adult 2</p>
+                                                <p>
+                                                    <select class="form-select fontSize10 selectPadding" aria-label="Default select example">
+                                                        <option selected>Select </option>
+                                                        <option value="1">Rs-3000</option>
+                                                        <option value="2">Rs-3000</option>
+                                                        <option value="3">Rs-1500</option>
+                                                    </select>
+                                                </p>
+                                            </div>
+                                            <p class="fontSize10 discountGreen fw-bold text-end align-content-end">- &#8377; 3,000</p>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <div class="d-flex gap-3 largeDisplay">
+                                                <p class="fontSize10 align-content-end">Child 1</p>
+                                                <p>
+                                                    <select class="form-select fontSize10 selectPadding" aria-label="Default select example">
+                                                        <option selected>Select </option>
+                                                        <option value="1">Rs-3000</option>
+                                                        <option value="2">Rs-3000</option>
+                                                        <option value="3">Rs-1500</option>
+                                                    </select>
+                                                </p>
+                                            </div>
+                                            <p class="fontSize10 discountGreen fw-bold text-end align-content-end">- &#8377; 1,500</p>
+                                        </div>
+                                    </div>
+                                    <hr class="my-1 border border-2 mx-3">
                                     <div class="d-flex justify-content-between px-3">
                                         <p class="fontSize10 discountGreen fw-bold">Discounts (Coupons)</p>
                                         <p class="fontSize10 discountGreen fw-bold text-end">- &#8377; 7,500</p>
