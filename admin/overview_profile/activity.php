@@ -5,6 +5,8 @@ $stmt = $conn->prepare("
     SELECT *
     FROM `logs`
     WHERE reference_no = :id
+    AND user_id IS NOT NULL
+    AND user_id != ''
     ORDER BY `id` DESC
 ");
 
@@ -40,14 +42,16 @@ function getUserDetails($conn, $title, $ref_id, $user_id = null)
 
             $table = 'business_mentor';
             $idField = 'business_mentor_id';
-            $selectField = 'firstname, lastname, profile_pic, business_mentor_id';
 
-            if (!empty($user_id)) {
-                $condition = 'business_mentor_id = :user_id';
-                $useUserId = true;
-            } else {
-                $condition = 'reference_no = :ref_id';
-            }
+            $selectField = '
+                firstname,
+                lastname,
+                profile_pic,
+                business_mentor_id,
+                id AS base_id
+            ';
+
+            $condition = 'reference_no = :ref_id';
 
             break;
 
@@ -59,14 +63,16 @@ function getUserDetails($conn, $title, $ref_id, $user_id = null)
 
             $table = 'ca_travelagency';
             $idField = 'ca_travelagency_id';
-            $selectField = 'firstname, lastname, profile_pic, ca_travelagency_id';
 
-            if (!empty($user_id)) {
-                $condition = 'ca_travelagency_id = :user_id';
-                $useUserId = true;
-            } else {
-                $condition = 'reference_no = :ref_id';
-            }
+            $selectField = '
+                firstname,
+                lastname,
+                profile_pic,
+                ca_travelagency_id,
+                id AS base_id
+            ';
+
+            $condition = 'reference_no = :ref_id';
 
             break;
 
@@ -78,14 +84,16 @@ function getUserDetails($conn, $title, $ref_id, $user_id = null)
 
             $table = 'ca_customer';
             $idField = 'ca_customer_id';
-            $selectField = 'firstname, lastname, profile_pic, ca_customer_id';
 
-            if (!empty($user_id)) {
-                $condition = 'ca_customer_id = :user_id';
-                $useUserId = true;
-            } else {
-                $condition = 'COALESCE(reference_no, ta_reference_no) = :ref_id';
-            }
+            $selectField = '
+                firstname,
+                lastname,
+                profile_pic,
+                ca_customer_id,
+                id AS base_id
+            ';
+
+            $condition = 'COALESCE(reference_no, ta_reference_no) = :ref_id';
 
             break;
 
@@ -97,14 +105,16 @@ function getUserDetails($conn, $title, $ref_id, $user_id = null)
 
             $table = 'business_consultant';
             $idField = 'business_consultant_id';
-            $selectField = 'firstname, lastname, profile_pic, business_consultant_id';
 
-            if (!empty($user_id)) {
-                $condition = 'business_consultant_id = :user_id';
-                $useUserId = true;
-            } else {
-                $condition = 'reference_no = :ref_id';
-            }
+            $selectField = '
+                firstname,
+                lastname,
+                profile_pic,
+                business_consultant_id,
+                id AS base_id
+            ';
+
+            $condition = 'reference_no = :ref_id';
 
             break;
 
@@ -120,18 +130,11 @@ function getUserDetails($conn, $title, $ref_id, $user_id = null)
             $selectField = '
                 firstname,
                 lastname,
-                executive_techno_enterprise_id
+                executive_techno_enterprise_id,
+                id AS base_id
             ';
 
-            if (!empty($user_id)) {
-
-                $condition = 'executive_techno_enterprise_id = :user_id';
-                $useUserId = true;
-
-            } else {
-
-                $condition = 'reference_no = :ref_id';
-            }
+            $condition = 'reference_no = :ref_id';
 
             break;
 
@@ -147,18 +150,11 @@ function getUserDetails($conn, $title, $ref_id, $user_id = null)
             $selectField = '
                 firstname,
                 lastname,
-                super_techno_enterprise_id
+                super_techno_enterprise_id,
+                id AS base_id
             ';
 
-            if (!empty($user_id)) {
-
-                $condition = 'super_techno_enterprise_id = :user_id';
-                $useUserId = true;
-
-            } else {
-
-                $condition = 'reference_no = :ref_id';
-            }
+            $condition = 'reference_no = :ref_id';
 
             break;
 
@@ -175,15 +171,11 @@ function getUserDetails($conn, $title, $ref_id, $user_id = null)
                 firstname,
                 lastname,
                 profile_pic,
-                corporate_agency_id
+                corporate_agency_id,
+                id AS base_id
             ';
 
-            if (!empty($user_id)) {
-                $condition = 'corporate_agency_id = :user_id';
-                $useUserId = true;
-            } else {
-                $condition = 'reference_no = :ref_id';
-            }
+            $condition = 'reference_no = :ref_id';
 
             break;
 
@@ -199,21 +191,14 @@ function getUserDetails($conn, $title, $ref_id, $user_id = null)
             $selectField = '
                 name,
                 employee_id,
-                profile_pic
+                profile_pic,
+                id AS base_id
             ';
 
-            if (!empty($user_id)) {
-
-                $condition = 'employee_id = :user_id';
-                $useUserId = true;
-
-            } else {
-
-                $condition = '
-                    reference_no = :ref_id
-                    AND user_type = 25
-                ';
-            }
+            $condition = '
+                reference_no = :ref_id
+                AND user_type = 25
+            ';
 
             break;
 
@@ -229,21 +214,14 @@ function getUserDetails($conn, $title, $ref_id, $user_id = null)
             $selectField = '
                 name,
                 zonal_manager_id,
-                profile_pic
+                profile_pic,
+                id AS base_id
             ';
 
-            if (!empty($user_id)) {
-
-                $condition = 'zonal_manager_id = :user_id';
-                $useUserId = true;
-
-            } else {
-
-                $condition = '
-                    reference_no = :ref_id
-                    AND user_type = 27
-                ';
-            }
+            $condition = '
+                reference_no = :ref_id
+                AND user_type = 27
+            ';
 
             break;
 
@@ -260,21 +238,14 @@ function getUserDetails($conn, $title, $ref_id, $user_id = null)
                 firstname,
                 lastname,
                 profile_pic,
-                master_franchisee_id
+                master_franchisee_id,
+                id AS base_id
             ';
 
-            if (!empty($user_id)) {
-
-                $condition = 'master_franchisee_id = :user_id';
-                $useUserId = true;
-
-            } else {
-
-                $condition = '
-                    reference_no = :ref_id
-                    AND user_type = 28
-                ';
-            }
+            $condition = '
+                reference_no = :ref_id
+                AND user_type = 28
+            ';
 
             break;
 
@@ -291,21 +262,14 @@ function getUserDetails($conn, $title, $ref_id, $user_id = null)
                 firstname,
                 lastname,
                 profile_pic,
-                sub_franchisee_id
+                sub_franchisee_id,
+                id AS base_id
             ';
 
-            if (!empty($user_id)) {
-
-                $condition = 'sub_franchisee_id = :user_id';
-                $useUserId = true;
-
-            } else {
-
-                $condition = '
-                    reference_no = :ref_id
-                    AND user_type = 29
-                ';
-            }
+            $condition = '
+                reference_no = :ref_id
+                AND user_type = 29
+            ';
 
             break;
 
@@ -321,21 +285,14 @@ function getUserDetails($conn, $title, $ref_id, $user_id = null)
             $selectField = '
                 name,
                 employee_id,
-                profile_pic
+                profile_pic,
+                id AS base_id
             ';
 
-            if (!empty($user_id)) {
-
-                $condition = 'employee_id = :user_id';
-                $useUserId = true;
-
-            } else {
-
-                $condition = '
-                    reference_no = :ref_id
-                    AND user_type = 31
-                ';
-            }
+            $condition = '
+                reference_no = :ref_id
+                AND user_type = 31
+            ';
 
             break;
 
@@ -353,45 +310,86 @@ function getUserDetails($conn, $title, $ref_id, $user_id = null)
 
 
     // =====================================================
-    // BUILD SQL
+    // FIND USER
     // =====================================================
 
-    $sqlUser = "
-        SELECT $selectField
-        FROM $table
-        WHERE $condition
-        LIMIT 1
-    ";
+    $user = false;
 
-    $stmtUser = $conn->prepare($sqlUser);
+    if (!empty($user_id)) {
 
+        // -------------------------------------------------
+        // STEP 1:
+        // Try the table-specific ID first
+        // Example:
+        // ca_travelagency_id = TA250128
+        // -------------------------------------------------
 
-    // =====================================================
-    // EXECUTE
-    // =====================================================
+        $sqlUser = "
+            SELECT $selectField
+            FROM $table
+            WHERE {$idField} = :user_id
+            LIMIT 1
+        ";
 
-    if ($useUserId) {
+        $stmtUser = $conn->prepare($sqlUser);
 
         $stmtUser->execute([
             'user_id' => $user_id
         ]);
 
+        $user = $stmtUser->fetch(PDO::FETCH_ASSOC);
+
+
+        // -------------------------------------------------
+        // STEP 2:
+        // If not found, try common database ID
+        // Example:
+        // id = 136
+        // -------------------------------------------------
+
+        if (!$user) {
+
+            $sqlUser = "
+                SELECT $selectField
+                FROM $table
+                WHERE id = :user_id
+                LIMIT 1
+            ";
+
+            $stmtUser = $conn->prepare($sqlUser);
+
+            $stmtUser->execute([
+                'user_id' => $user_id
+            ]);
+
+            $user = $stmtUser->fetch(PDO::FETCH_ASSOC);
+        }
+
     } else {
+
+        // -------------------------------------------------
+        // NO USER ID
+        // Fall back to reference number
+        // -------------------------------------------------
+
+        $sqlUser = "
+            SELECT $selectField
+            FROM $table
+            WHERE $condition
+            LIMIT 1
+        ";
+
+        $stmtUser = $conn->prepare($sqlUser);
 
         $stmtUser->execute([
             'ref_id' => $ref_id
         ]);
+
+        $user = $stmtUser->fetch(PDO::FETCH_ASSOC);
     }
 
 
-    // =====================================================
-    // FETCH USER
-    // =====================================================
-
-    $user = $stmtUser->fetch(PDO::FETCH_ASSOC);
-
-
-    if (!$user || !isset($user[$idField])) {
+    if (!$user) {
 
         return [
             'name' => 'Unknown User',
@@ -404,7 +402,27 @@ function getUserDetails($conn, $title, $ref_id, $user_id = null)
     // RESOLVED USER ID
     // =====================================================
 
-    $resolvedUserId = $user[$idField];
+    if (
+        isset($user[$idField]) &&
+        !empty($user[$idField])
+    ) {
+
+        $resolvedUserId = $user[$idField];
+
+    } elseif (
+        isset($user['base_id']) &&
+        !empty($user['base_id'])
+    ) {
+
+        $resolvedUserId = $user['base_id'];
+
+    } else {
+
+        return [
+            'name' => 'Unknown User',
+            'profile_pic' => 'not_uploaded.png'
+        ];
+    }
 
 
     // =====================================================
@@ -477,9 +495,9 @@ function getUserDetails($conn, $title, $ref_id, $user_id = null)
     ) {
 
         $name =
-            trim($user['name']) .
+            trim($user['name'] ?? '') .
             ' (' .
-            $user[$idField] .
+            $resolvedUserId .
             ')';
 
     } else {
@@ -491,7 +509,7 @@ function getUserDetails($conn, $title, $ref_id, $user_id = null)
                 ($user['lastname'] ?? '')
             ) .
             ' (' .
-            $user[$idField] .
+            $resolvedUserId .
             ')';
     }
 
