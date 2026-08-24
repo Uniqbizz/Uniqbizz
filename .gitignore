@@ -15,7 +15,6 @@ operation/connect.php
 testcode.php
 slab_test.php
 tour-details-old.php
- 
 uploading/aadhar
 uploading/aadhar_card
 uploading/bank_passbook
@@ -46,3 +45,5 @@ uploading/business_profile
 uploading/certificate_of_incorporation
 uploading/package_policy_attachments
 uploading/package_videos
+uploading/board_resolution
+uploading/gstin
