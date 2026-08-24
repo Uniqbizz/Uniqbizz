@@ -33,6 +33,7 @@
                                         <a href="contact.php" class="single">Contact</a>
                                     </li>
                                     <!-- add session -->
+                                    <?php if(!isset($_SESSION['username2'])) { ?>
                                     <div class="stickyBtnDisplay">
                                         <div class="d-flex align-items-center gap-2">
                                             <!-- Wishlist -->
@@ -47,6 +48,7 @@
                                             </a>
                                         </div>
                                     </div>
+                                    <?php } ?>
                                     <!-- end add session -->
                                 </ul>
                             </nav>

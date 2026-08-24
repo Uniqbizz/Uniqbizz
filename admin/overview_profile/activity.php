@@ -75,6 +75,25 @@ function getUserDetails($conn, $title, $ref_id, $user_id = null)
             $condition = 'reference_no = :ref_id';
 
             break;
+        // =================================================
+        // INSTITUTION BRANCH MANAGER
+        // =================================================
+        case strpos($title, 'Travel Consultant') !== false:
+
+            $table = 'ca_travelagency';
+            $idField = 'ca_travelagency_id';
+
+            $selectField = '
+                firstname,
+                lastname,
+                profile_pic,
+                ca_travelagency_id,
+                id AS base_id
+            ';
+
+            $condition = 'reference_no = :ref_id';
+
+            break;
 
 
         // =================================================
@@ -178,7 +197,24 @@ function getUserDetails($conn, $title, $ref_id, $user_id = null)
             $condition = 'reference_no = :ref_id';
 
             break;
+        // =================================================
+        // NORMAL INSTITUTION
+        // =================================================
+        case strpos($title, 'Institution') !== false:
 
+            $table = 'institution';
+            $idField = 'institution_id';
+
+            $selectField = '
+                name AS firstname,
+                "" AS lastname,
+                institution_id,
+                id AS base_id
+            ';
+
+            $condition = 'reference_no = :ref_id';
+
+            break;
 
         // =================================================
         // BUSINESS DEVELOPMENT MANAGER

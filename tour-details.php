@@ -197,7 +197,7 @@ $siteName = "Holiday Packages";
 | Must be publicly accessible.
 |
 */
-$image = "https://ca.uniqbizz.com/admin/assets/images/fav.png";
+$image = "http://localhost/ca.uniqbizz.com/admin/assets/images/fav.png";
 
 $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
     ? "https"
@@ -1588,10 +1588,10 @@ function safeJsonDecode($value)
             document.querySelectorAll('#sendEnquiry, #sendItenerary').forEach(button => {
                 button.addEventListener('click', function () {
 
-                    const phoneNumber = '919876543210';
+                    const phoneNumber = '';
 
                     const packageReference = `<?= htmlspecialchars($package['unique_code'] ?? '') ?>`;
-                    const packageName = `<?= htmlspecialchars($package['pack_name'] ?? '') ?>`;
+                    const packageName = `<?= htmlspecialchars($package['name'] ?? '') ?>`;
 
                     let message = '';
 
@@ -1611,7 +1611,8 @@ function safeJsonDecode($value)
                         Package Reference: ${packageReference}
                         Package Name: ${packageName}
 
-                        Please share the detailed itinerary with me.`;
+                        Please share the detailed itinerary with me.
+                        `+ "<?= html_entity_decode($url, ENT_QUOTES, 'UTF-8') ?>";
                     }
 
                     const whatsappURL =
@@ -1631,11 +1632,11 @@ function safeJsonDecode($value)
                 I am interested in the following travel package:
 
                 Package Reference: <?= htmlspecialchars($package['unique_code'] ?? '') ?>
-                Package Name: <?= htmlspecialchars($package['pack_name'] ?? '') ?>
+                Package Name: <?= htmlspecialchars($package['name'] ?? '') ?>
 
                 Please share more details about this package.
 
-                Thank you.`;
+                Thank you.`+ "<?= html_entity_decode($url, ENT_QUOTES, 'UTF-8') ?>";
 
                 const mailtoURL =
                     `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;

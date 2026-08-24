@@ -140,6 +140,17 @@
         );
 
     }
+    //I
+    if ($DBtable == 'institution') {
+
+        renderTeamHierarchy(
+            $conn,
+            $id,
+            'institution',
+            $hierarchyConfig
+        );
+
+    }
     //TC
     if ($DBtable == 'ca_travelagency') {
 
