@@ -701,6 +701,10 @@ body {
     .navItem .nav-link {
         white-space: nowrap;
     }
+    /* tab & mobile view for meal transport stay*/
+    .displayMeal {
+        display: block !important;
+    }
 }
 @media(max-width:576px){
 

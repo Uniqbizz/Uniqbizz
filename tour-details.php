@@ -825,20 +825,20 @@ function safeJsonDecode($value)
 
                                                                                 <hr class="my-3" style="border-top:1px solid #4b5051;">
 
-                                                                                <div class="d-flex justify-content-evenly">
+                                                                                <div class="d-flex justify-content-evenly displayMeal">
                                                                                     <div class="gap-1 d-flex">
-                                                                                        <h6 class="fw-bold">Meal:&nbsp;</h6>
-                                                                                        <p class="text-muted fontSize3"><?= $day['meal_plan']; ?></p>
+                                                                                        <h6 class="fw-bold align-content-center">Meal:&nbsp;</h6>
+                                                                                        <p class="text-muted fontSize3 align-content-center"><?= $day['meal_plan']; ?></p>
                                                                                     </div>
 
                                                                                     <div class="gap-1 d-flex">
-                                                                                        <h6 class="fw-bold">Transport:&nbsp;</h6>
-                                                                                        <p class="text-muted fontSize3"><?= $day['day_tansport']; ?></p>
+                                                                                        <h6 class="fw-bold align-content-center">Transport:&nbsp;</h6>
+                                                                                        <p class="text-muted fontSize3 align-content-center"><?= $day['day_tansport']; ?></p>
                                                                                     </div>
 
                                                                                     <div class="gap-1 d-flex">
-                                                                                        <h6 class="fw-bold">Stay:&nbsp;</h6>
-                                                                                        <p class="text-muted fontSize3"><?= $day['stay']; ?></p>
+                                                                                        <h6 class="fw-bold align-content-center">Stay:&nbsp;</h6>
+                                                                                        <p class="text-muted fontSize3 align-content-center"><?= $day['stay']; ?></p>
                                                                                     </div>
                                                                                 </div>
 
