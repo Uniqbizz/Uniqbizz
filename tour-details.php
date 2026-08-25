@@ -1114,10 +1114,10 @@ function safeJsonDecode($value)
                                                     <i class="ri-image-line me-2"></i>
                                                     Request Details
                                                 </button>      
-                                                <button class="enquiry-btn mb-3" id="sendEnquiry" style="cursor:pointer;">
+                                                <!-- <button class="enquiry-btn mb-3" id="sendEnquiry" style="cursor:pointer;">
                                                     <i class="ri-image-line me-2"></i>
                                                     Send Enquiry
-                                                </button>  
+                                                </button>   -->
                                                 <div class="contactNum d-flex justify-content-center gap-2">
                                                     <i class="ri-phone-line"></i>
                                                     <p class="textBlue fw-bolder pb-0" href="tel:8010892265" id="callBtn" style="cursor: pointer;">+91 8010892265</p>    
@@ -1147,7 +1147,7 @@ function safeJsonDecode($value)
                                                     Email Itinerary
                                                 </div>
                                             </div>
-                                            <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3" id="sendItenerary">
+                                            <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3" id="sendItenerary" onclick="openShare()">
                                                 <div class="blueCardBtn text-center rounded-4 p-3 cardShadow" style="cursor:pointer;">
                                                     <div class="goldBtn">
                                                         <i class="ri-send-plane-line"></i>
@@ -1615,45 +1615,45 @@ function safeJsonDecode($value)
 
         </script>
         <script>
-            // Send Enquiry and Send Itinerary
-            document.querySelectorAll('#sendEnquiry, #sendItenerary').forEach(button => {
-                button.addEventListener('click', function () {
+            // // Send Enquiry and Send Itinerary
+            // document.querySelectorAll('#sendEnquiry, #sendItenerary').forEach(button => {
+            //     button.addEventListener('click', function () {
 
-                    const phoneNumber = '';
+            //         const phoneNumber = '';
 
-                    const packageReference = `<?= htmlspecialchars($package['unique_code'] ?? '') ?>`;
-                    const packageName = `<?= htmlspecialchars($package['name'] ?? '') ?>`;
+            //         const packageReference = `<?= htmlspecialchars($package['unique_code'] ?? '') ?>`;
+            //         const packageName = `<?= htmlspecialchars($package['name'] ?? '') ?>`;
 
-                    let message = '';
+            //         let message = '';
 
-                    if (this.id === 'sendEnquiry') {
+            //         if (this.id === 'sendEnquiry') {
 
-                        message = `Hello, I would like to enquire about this travel package.
+            //             message = `Hello, I would like to enquire about this travel package.
 
-                        Package Reference: ${packageReference}
-                        Package Name: ${packageName}
+            //             Package Reference: ${packageReference}
+            //             Package Name: ${packageName}
 
-                        Please share more details about this package.`;
+            //             Please share more details about this package.`;
 
-                                } else if (this.id === 'sendItenerary') {
+            //                     } else if (this.id === 'sendItenerary') {
 
-                                    message = `Hello, I would like to enquire about the itinerary of this travel package.
+            //                         message = `Hello, I would like to enquire about the itinerary of this travel package.
 
-                        Package Reference: ${packageReference}
-                        Package Name: ${packageName}
+            //             Package Reference: ${packageReference}
+            //             Package Name: ${packageName}
 
-                        Please share the detailed itinerary with me.
-                        `+ "<?= html_entity_decode($url, ENT_QUOTES, 'UTF-8') ?>";
-                    }
+            //             Please share the detailed itinerary with me.
+            //             `+ "<?= html_entity_decode($url, ENT_QUOTES, 'UTF-8') ?>";
+            //         }
 
-                    const whatsappURL =
-                        `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            //         const whatsappURL =
+            //             `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
-                    window.open(whatsappURL, '_blank');
-                });
-            });
+            //         window.open(whatsappURL, '_blank');
+            //     });
+            // });
 
-            //email itinerary
+            // //email itinerary
             document.getElementById('emailItinerary').addEventListener('click', function () {
 
                 const subject = `Travel Package Enquiry - <?= htmlspecialchars($package['unique_code'] ?? '') ?>`;
