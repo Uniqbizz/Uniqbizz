@@ -1,11 +1,12 @@
 /* =========================================================
 PREMIUM TRAVEL PACKAGE DESIGN
 ========================================================= */
-
+body {
+    font-family: "DM Sans", sans-serif !important;
+}
 .travel-package-page {
     background: #f7f9fc;
     color: #172033;
-    font-family: var(--Dm);
 }
 
 
@@ -1220,6 +1221,7 @@ RESPONSIVE
 
     html,
     body {
+        font-family: "DM Sans", sans-serif !important;
         width: 210mm !important;
         min-width: 210mm !important;
         margin: 0 !important;
@@ -1232,7 +1234,7 @@ RESPONSIVE
     }
 
     body {
-        font-family: var(--Dm) !important;
+        font-family: "DM Sans", sans-serif !important;
         color: #172033 !important;
         overflow: visible !important;
     }

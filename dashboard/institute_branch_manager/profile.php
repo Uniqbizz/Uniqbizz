@@ -1,5 +1,5 @@
 <?php
-include_once 'dashboard_user_details.php';
+include_once '../dashboard_user_details.php';
 
 //get profile col data (img link) to display in header
 $stmt = $conn->prepare($sql2);

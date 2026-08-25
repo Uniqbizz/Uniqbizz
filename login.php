@@ -588,8 +588,7 @@
                                 {
                                     location.href = "dashboard/customer_dashboard/customer_dashboard.php";
                                 }
-                                else if (res.user_type == "33" &&
-                                        res.user_id == "IBRGA26004")
+                                else if (res.user_type == "33")
                                 {
                                     location.href = "dashboard/institute_branch_manager/index.php";
                                 }

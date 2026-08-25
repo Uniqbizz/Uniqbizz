@@ -51,12 +51,12 @@
                     </a>
                 </li> -->
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="view_customer.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                    <a class="nav-link menu-link" href="customer_list.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-group-line"></i> <span data-key="t-home">Holiday Account</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="holiday_account_payout.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                    <a class="nav-link menu-link" href="holiday_payout.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Holiday Account Payout</span>
                     </a>
                 </li>
@@ -66,11 +66,11 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="reset_password.php">
+                    <a class="nav-link menu-link" href="profile.php">
                         <i class="ri-settings-3-line"></i><span>Settings</span>
                     </a>
                 </li>
-                <img src="assets/images/sidebarImage.png" alt="Package" class="sidebarImage">
+                <img src="../assets/images/sidebarImage.png" alt="Package" class="sidebarImage">
                 <div class="exploreCard">
                     <h3 class="fw-bold text-white">Dream. <br> <span class="text-warning">Explore.</span> <br> <span class="text-warning">Discover.</span></h3>
                     <p class="text-white">Your next adventure is just a click away.</p>

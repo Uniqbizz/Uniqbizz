@@ -60,7 +60,7 @@ function parseFaqTxt($filePath)
     return $faqs;
 }
 // package
-$stmt = $conn->prepare("SELECT * FROM package WHERE id = $id");
+$stmt = $conn->prepare("SELECT * FROM package WHERE id = $id AND status = '1' AND visibility = 1 AND DATE(validity) >= CURRENT_DATE");
 $stmt->execute();
 $package = $stmt->fetch();
 $cat_id = $package['category_id'];
@@ -71,6 +71,7 @@ $validity = $package['validity'] ?? 0;
 $package_keywords = $package['package_keywords'] ?? '';
 $location  = $package['location'] ?? '';
 $destination = $package['destination'] ?? '';
+$package_type = $package['package_type'] ?? '';
 
 $tour_days_total = $package['tour_days'] ?? 0;
 $tour_days = $tour_days_total - 1;
@@ -197,7 +198,7 @@ $siteName = "Holiday Packages";
 | Must be publicly accessible.
 |
 */
-$image = "https://ca.uniqbizz.com/admin/assets/images/fav.png";
+$image = "http://localhost/ca.uniqbizz.com/admin/assets/images/fav.png";
 
 $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
     ? "https"
@@ -209,26 +210,57 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
 //share model end
 //package similar list
 // Get latest 10 packages
-$sqlPack = $conn->prepare("
+$sql = "
     SELECT *
     FROM package
     WHERE status = 1
+    AND visibility = 1
+    AND DATE(validity) >= CURRENT_DATE
     AND id != ?
     AND (
-            package_keywords LIKE ?
-            OR destination LIKE ?
-            OR location LIKE ?
-        )
-    ORDER BY id DESC
-    LIMIT 10
-");
+        package_keywords LIKE ?
+        OR destination LIKE ?
+        OR location LIKE ?
+        OR package_type LIKE ?
+    )
 
-$sqlPack->execute([
+    ORDER BY
+        CASE
+            WHEN destination LIKE ? THEN 1
+            WHEN location LIKE ? THEN 2
+            WHEN package_keywords LIKE ? THEN 3
+            WHEN package_type LIKE ? THEN 4
+            ELSE 5
+        END ASC,
+
+        id DESC
+
+    LIMIT 10
+";
+
+$keywordSearch    = "%$package_keywords%";
+$destinationSearch = "%$destination%";
+$locationSearch    = "%$location%";
+$typeSearch        = "%$package_type%";
+
+$bindValues = [
+    // WHERE
     $id,
-    "%$package_keywords%",
-    "%$destination%",
-    "%$location%"
-]);
+    $keywordSearch,
+    $destinationSearch,
+    $locationSearch,
+    $typeSearch,
+
+    // ORDER BY priority
+    $keywordSearch,
+    $destinationSearch,
+    $locationSearch,
+    $typeSearch
+];
+
+$sqlPack = $conn->prepare($sql);
+
+$sqlPack->execute($bindValues);
 
 $packages = $sqlPack->fetchAll(PDO::FETCH_ASSOC);
 
@@ -252,13 +284,13 @@ foreach ($packages as $similarPackage) {
         SELECT image
         FROM package_pictures
         WHERE package_id = ?
+        AND (type IS NULL OR type IN ('cover_image', 'gallary_image'))
         ORDER BY id ASC
-        LIMIT 1
     ");
 
     $sqlPackImage->execute([$similarPackage['id']]);
 
-    $packageImage = $sqlPackImage->fetch(PDO::FETCH_ASSOC);
+    $packageImages = $sqlPackImage->fetchAll(PDO::FETCH_COLUMN);
 
     $days = (int)$similarPackage['tour_days'];
     $nights = max(0, $days - 1);
@@ -270,7 +302,7 @@ foreach ($packages as $similarPackage) {
         "title"    => $similarPackage['name'],
         "duration" => $package_duration,
         "price"    => $packagePrice['total_package_price_per_adult'] ?? 0,
-        "image"    => $packageImage['image'] ?? '',
+        'images'    => $packageImages,
         "link"     => "tour-details.php?pacId=" . $similarPackage['id']
     ];
 }
@@ -319,6 +351,19 @@ $stmt = $conn->prepare("
 $stmt->execute([$id]);
 
 $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+function safeJsonDecode($value)
+{
+    if (empty($value)) {
+        return [];
+    }
+
+    $decoded = json_decode($value, true);
+
+    return (json_last_error() === JSON_ERROR_NONE && is_array($decoded))
+        ? $decoded
+        : [];
+}
 ?>
 
 <!DOCTYPE html>
@@ -401,7 +446,6 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
-    
     <body>
         <?php include_once "header.php" ?>
         <main>
@@ -433,10 +477,11 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                 <div class="title-section">
                                     <h3 class="fw-bolder" id="pack_name"><?php echo $package['name'] ?></h3>
                                     <div class="d-flex gap-4">
-                                        <div class="share-icon openShare" onclick="openShare()">
+                                        <div class="openShare" onclick="openShare()">
                                             <i class="ri-share-line"></i>
                                         </div>
-                                        <div class="wishlist-icon">
+                                        <div class="wishlist-icon"
+                                            data-package-id="<?= htmlspecialchars($package['id']) ?>">
                                             <i class="ri-heart-line"></i>
                                         </div>
                                     </div>
@@ -540,7 +585,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                 </div>
                             </div>
                             <!-- Card section start 1 -->
-                            <div class="borderColor p-3 pb-0 mb-3">
+                            <div class="borderColor p-3 pb-0 mb-3 cardShadow">
                                 <div class="row">
                                     <div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-6 mb-3">
                                         <div class="d-flex gap-2">
@@ -679,7 +724,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                     </div>
                                     <div class="content-sections">
                                         <div id="overview" class="section-block">
-                                            <div class="card cardBackgroundColor rounded-3 p-3">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
                                                 <h5 class="fw-bolder">Overview</h5>
                                                 <p class="text-muted fw-bold fontSize2 mt-2">
                                                     <?= $package['detailed_description'] ?>
@@ -698,11 +743,11 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                             </div>
                                         </div>
                                         <?php
-                                        $highlights = json_decode($itinery['highlights'], true);
+                                        $highlights = safeJsonDecode($itinery['highlights'] ?? '');
                                         ?>
 
                                         <div id="highlights" class="section-block">
-                                            <div class="card cardBackgroundColor rounded-3 p-3">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
                                                 <h5 class="fw-bolder">Highlights</h5>
 
                                                 <?php if (!empty($highlights)): ?>
@@ -730,7 +775,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                             </div>
                                         </div>
                                         <div id="itinerary" class="section-block">
-                                            <div class="card cardBackgroundColor rounded-3 p-3 pb-4">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 pb-4 cardShadow">
                                                 <h5 class="fw-bolder">Itinerary</h5>
                                                 <div class="tour-details-content">
                                                     <div class="destination-accordion mt-2">
@@ -813,11 +858,11 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                         <div id="inclusion" class="section-block">
                                             
                                             <?php
-                                            $inclusions = json_decode($itinery['inclusion'], true);
-                                            $exclusions = json_decode($itinery['exclusion'], true);
+                                            $inclusions = safeJsonDecode($itinery['inclusion'] ?? '');
+                                            $exclusions = safeJsonDecode($itinery['exclusion'] ?? '');
                                             ?>
 
-                                            <div class="card cardBackgroundColor rounded-3 p-3">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
                                                 <h5 class="fw-bolder">Inclusion & Exclusion</h5>
 
                                                 <div class="row">
@@ -862,7 +907,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                             </div>
                                         </div>
                                         <div id="policies" class="section-block">
-                                            <div class="card cardBackgroundColor rounded-3 p-3">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
                                                 <h5 class="fw-bolder mb-3">Policies</h5>
 
                                                 <?php
@@ -906,7 +951,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                             </div>
                                         </div>
                                         <div id="faqs" class="section-block">
-                                            <div class="card cardBackgroundColor rounded-3 p-3 pb-0">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
                                                 <h5 class="fw-bolder">Frequently Asked Questions</h5>
 
                                                 <div class="faq-wrapper mt-2">
@@ -958,7 +1003,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
                                                         <?php if (count($faqs) > 3): ?>
                                                             <div class="text-center mt-3 mb-3">
-                                                                <button id="viewMoreFaq" class="btn btn-outline-primary">
+                                                                <button id="viewMoreFaq" class="btn viewMoreFaq">
                                                                     View More
                                                                 </button>
                                                             </div>
@@ -978,7 +1023,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                 <div class="col-xl-4 col-lg-3 col-md-12 col-sm-12 col-12 mb-3 pricing-wrapper">
                                     <!-- Pricing Section -->
                                     <div class="pricingSection">
-                                        <div class="card priceCard rounded-3 mb-3">
+                                        <div class="card priceCard rounded-3 mb-3 cardShadow">
                                             <div class="pricingHeader p-3">
                                                 <h5 class="text-white fw-bolder mb-2"><?= $package['name'] ?></h5>
                                                 <p class="text-white mb-2">Starting From</p>
@@ -1048,7 +1093,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                                             </h5>
 
                                                             <p class="text-white">
-                                                                Child (3-11 yrs)
+                                                                Child (2-11 yrs)
                                                             </p>
 
                                                         </div>
@@ -1083,7 +1128,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                             <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3" style="cursor:pointer;">
 
                                                 <a href="download_tour_detail.php?pacId=<?= urlencode($id) ?>&format=pdf"
-                                                    class="blueCardBtn text-center rounded-4 p-3 text-decoration-none d-block">
+                                                    class="blueCardBtn text-center rounded-4 p-3 text-decoration-none d-block cardShadow">
 
                                                     <div class="goldBtn">
                                                         <i class="ri-download-2-line"></i>
@@ -1095,7 +1140,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
                                             </div>
                                             <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3" id="emailItinerary">
-                                                <div class="blueCardBtn text-center rounded-4 p-3" style="cursor:pointer;">
+                                                <div class="blueCardBtn text-center rounded-4 p-3 cardShadow" style="cursor:pointer;">
                                                     <div class="goldBtn">
                                                         <i class="ri-mail-line"></i>
                                                     </div>
@@ -1103,7 +1148,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                                 </div>
                                             </div>
                                             <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3" id="sendItenerary">
-                                                <div class="blueCardBtn text-center rounded-4 p-3" style="cursor:pointer;">
+                                                <div class="blueCardBtn text-center rounded-4 p-3 cardShadow" style="cursor:pointer;">
                                                     <div class="goldBtn">
                                                         <i class="ri-send-plane-line"></i>
                                                     </div>
@@ -1111,7 +1156,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card rounded-3 greenCard p-3">
+                                        <div class="card rounded-3 greenCard p-3 cardShadow">
                                             <div class="d-flex gap-3 mb-2">
                                                 <div class="greenIcon">
                                                     <i class="ri-calendar-check-line"></i>
@@ -1147,7 +1192,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                             <!-- Card Section Start 3 -->
                             <div class="row">
                                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-3">
-                                    <div class="packCard">
+                                    <div class="packCard cardShadow">
                                         <img src="assets/images/tourDetails/creameImg.png" alt="" class="cardCreame">
                                         <div class="packContent">
                                             <div class="row p-3">
@@ -1157,7 +1202,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                                 <?php
                                                 $remarkData = $itinery['remark'] ?? '';
 
-                                                $remarks = json_decode($remarkData, true);
+                                                $remarks    = safeJsonDecode($remarkData ?? '');
 
                                                 if (!is_array($remarks)) {
                                                     $remarks = preg_split(
@@ -1205,7 +1250,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                     </div>
                                 </div>
                                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-3">
-                                    <div class="packCard">
+                                    <div class="packCard cardShadow">
                                         <img src="assets/images/tourDetails/purpleImg.png" alt="" class="cardPurple">
                                         <div class="packContent">
                                             <div class="row p-3">
@@ -1216,7 +1261,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
                                                     <?php
                                                     $travelInfo = $itinery['travel_info'] ?? '';
-                                                    $thingsToKnow = json_decode($itinery['travel_info'] ?? '[]', true);
+                                                    $thingsToKnow = safeJsonDecode($itinery['travel_info'] ?? '');
                                                     if (!is_array($thingsToKnow)) {
                                                         $thingsToKnow = preg_split(
                                                             '/\s*\.\s*/',
@@ -1352,27 +1397,48 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                 <div class="icons">
 
                     <a class="social" target="_blank"  href="https://wa.me/?text=<?php echo urlencode("🎬 ".$title."\n\n".$description."\n\n".$url); ?>">
-                        <div class="circle whatsapp">☎</div>
+                        <div class="shareIcon">
+                            <svg xmlns="http://w3.org" viewBox="0 0 448 512" width="60" height="60" fill="#25D366" class="social">
+                                <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+                            </svg>
+                        </div>
                         <span>WhatsApp</span>
                     </a>
 
                     <a class="social" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode($url); ?>">
-                        <div class="circle facebook">f</div>
+                        <div class="shareIcon">
+                            <svg xmlns="http://w3.org" viewBox="0 0 512 512" width="60" height="60" fill="#1877F2">
+                                <path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.8 90.7 226.4 209.3 245V327.7h-63V256h63v-54.6c0-62.2 37-96.5 93.7-96.5 27.1 0 55.5 4.8 55.5 4.8v61h-31.3c-30.8 0-40.4 19.1-40.4 38.7V256h68.8l-11 71.7h-57.8V501C413.3 482.4 504 379.8 504 256z"/>
+                            </svg>
+
+                        </div>
                         <span>Facebook</span>
                     </a>
 
                     <a class="social" target="_blank" href="https://twitter.com/intent/tweet?text=<?php echo urlencode($title); ?>&url=<?php echo urlencode($url); ?>">
-                        <div class="circle x">𝕏</div>
+                        <div class="shareIcon">
+                            <svg xmlns="http://w3.org" viewBox="0 0 512 512" width="60" height="60" fill="#000000">
+                                <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/>
+                            </svg>
+                        </div>
                         <span>X</span>
                     </a>
 
                     <a class="social" target="_blank" href="https://t.me/share/url?url=<?php echo urlencode($url); ?>&text=<?php echo urlencode($title."\n".$description); ?>">
-                        <div class="circle telegram">✈</div>
+                        <div class="shareIcon">
+                            <svg xmlns="http://w3.org" viewBox="0 0 496 512" width="60" height="60" fill="#24A1DE">
+                                <path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 18.3z"/>
+                            </svg>
+                        </div>
                         <span>Telegram</span>
                     </a>
 
                     <a class="social" href="mailto:?subject=<?php echo urlencode($title); ?>&body=<?php echo urlencode($description."\n\n".$url); ?>">
-                        <div class="circle email">✉</div>
+                        <div class="shareIcon">
+                            <svg xmlns="http://w3.org" viewBox="0 0 512 512" width="60" height="60" fill="#e03d42">
+                                <path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/>
+                            </svg>
+                        </div>
                         <span>Email</span>
                     </a>
 
@@ -1414,6 +1480,123 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
         <script src="assets/js/main.js"></script>
         <script type="text/javascript" src="logout/logout.js"></script>
         <script>
+            /// ===============================
+            // WISHLIST
+            // ===============================
+
+            function getWishlist() {
+                return JSON.parse(localStorage.getItem('wishlist') || '[]');
+            }
+
+            function saveWishlist(wishlist) {
+                localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                updateWishlistCount();
+            }
+
+
+            // ===============================
+            // UPDATE WISHLIST COUNT
+            // ===============================
+
+            function updateWishlistCount() {
+
+                const wishlist = getWishlist();
+
+                document.querySelectorAll('.wishlistCount').forEach(element => {
+                    element.textContent = wishlist.length;
+                });
+            }
+
+
+            // ===============================
+            // UPDATE HEART ICON
+            // ===============================
+
+            function updateWishlistButton(button, active) {
+
+                const icon = button.querySelector('i');
+
+                if (!icon) return;
+
+                if (active) {
+
+                    button.classList.add('active');
+
+                    icon.classList.remove('ri-heart-line');
+                    icon.classList.add('ri-heart-fill');
+
+                } else {
+
+                    button.classList.remove('active');
+
+                    icon.classList.remove('ri-heart-fill');
+                    icon.classList.add('ri-heart-line');
+                }
+            }
+
+
+            // ===============================
+            // ADD / REMOVE WISHLIST
+            // ===============================
+
+            document.querySelectorAll('.wishlist-icon').forEach(button => {
+
+                button.addEventListener('click', function (e) {
+
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const packageId = this.dataset.packageId;
+
+                    let wishlist = getWishlist();
+
+                    const index = wishlist.indexOf(packageId);
+
+                    if (index === -1) {
+
+                        // ADD
+                        wishlist.push(packageId);
+
+                        updateWishlistButton(this, true);
+
+                    } else {
+
+                        // REMOVE
+                        wishlist.splice(index, 1);
+
+                        updateWishlistButton(this, false);
+                    }
+
+                    saveWishlist(wishlist);
+
+                    // console.log('Wishlist:', wishlist);
+                });
+
+            });
+
+
+            // ===============================
+            // LOAD EXISTING WISHLIST STATE
+            // ===============================
+
+            document.addEventListener('DOMContentLoaded', function () {
+
+                const wishlist = getWishlist();
+
+                document.querySelectorAll('.wishlist-icon').forEach(button => {
+
+                    const packageId = button.dataset.packageId;
+
+                    if (wishlist.includes(packageId)) {
+                        updateWishlistButton(button, true);
+                    }
+
+                });
+
+                updateWishlistCount();
+            });
+        </script>
+        <script>
 
             function printItinerary() {
 
@@ -1436,10 +1619,10 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
             document.querySelectorAll('#sendEnquiry, #sendItenerary').forEach(button => {
                 button.addEventListener('click', function () {
 
-                    const phoneNumber = '919876543210';
+                    const phoneNumber = '';
 
                     const packageReference = `<?= htmlspecialchars($package['unique_code'] ?? '') ?>`;
-                    const packageName = `<?= htmlspecialchars($package['pack_name'] ?? '') ?>`;
+                    const packageName = `<?= htmlspecialchars($package['name'] ?? '') ?>`;
 
                     let message = '';
 
@@ -1459,7 +1642,8 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                         Package Reference: ${packageReference}
                         Package Name: ${packageName}
 
-                        Please share the detailed itinerary with me.`;
+                        Please share the detailed itinerary with me.
+                        `+ "<?= html_entity_decode($url, ENT_QUOTES, 'UTF-8') ?>";
                     }
 
                     const whatsappURL =
@@ -1479,11 +1663,11 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                 I am interested in the following travel package:
 
                 Package Reference: <?= htmlspecialchars($package['unique_code'] ?? '') ?>
-                Package Name: <?= htmlspecialchars($package['pack_name'] ?? '') ?>
+                Package Name: <?= htmlspecialchars($package['name'] ?? '') ?>
 
                 Please share more details about this package.
 
-                Thank you.`;
+                Thank you.`+ "<?= html_entity_decode($url, ENT_QUOTES, 'UTF-8') ?>";
 
                 const mailtoURL =
                     `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -1554,7 +1738,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                 // } else {
                                 //     couponSelect.removeAttr('multiple');
                                 // }
-                                console.log('test');
+                                // console.log('test');
                                 
                                 $('#discount_price_box').removeClass('d-none');
                                 $('#offer_price_box').removeClass('d-none');
@@ -1694,9 +1878,9 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                 var initialTotal = prime_pack_price;
                 $('#get_total_offer_price').text(initialTotal);
 
-                console.log('Initial price:', total);
-                console.log('Initial offer price:', initialTotal);
-                console.log('adult added price:', added_adult_price);
+                // console.log('Initial price:', total);
+                // console.log('Initial offer price:', initialTotal);
+                // console.log('adult added price:', added_adult_price);
 
                 // Update total on count change
                 $('#b_no_adult, #b_no_child, #b_no_infants').on('change', function() {
@@ -1754,7 +1938,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
             $("#cust_id").change(function() {
                 var customerData;
                 cust_id = $("#cust_id").val();
-                console.log('customerId:'+cust_id);
+                // console.log('customerId:'+cust_id);
                 ta_id = <?php
                             $data = json_encode($ta_id ?? 0, JSON_HEX_TAG);
                             echo ($data === false) ? 0 : $data;
@@ -1780,7 +1964,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                 //let formattedCustomerType = customerTypeRaw.charAt(0).toUpperCase() + customerTypeRaw.slice(1); // "Premium"
 
                                 $("#specCust").text(customerTypeRaw + ' Customer');
-                                console.log('customerTypeRaw:'+customerTypeRaw);
+                                // console.log('customerTypeRaw:'+customerTypeRaw);
                                 
                                 // Check for customer coupons
                                 checkCustomerCoupons(cust_id);
@@ -1873,7 +2057,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                 package_price_np.innerText = parseFloat(total1).toFixed(2);
                 $('#get_total_offer_price').text(parseFloat(total).toFixed(2));
                 // $("#get_total_package_price_actual").text(parseFloat(total).toFixed(2));
-                console.log('total:' + total + '--- tptal1:' + total1);
+                // console.log('total:' + total + '--- tptal1:' + total1);
             }
 
             var coupon_applied_status = 'false';
@@ -2220,7 +2404,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                     showError(document.getElementById('member_validationAdult'), "Adult must be 12 years or older");
                     return false;
                 } else if (memberType === "Child" && (age < 3 || age > 11)) {
-                    showError(document.getElementById('member_validationChild'), "Child must be between 3-11 years");
+                    showError(document.getElementById('member_validationChild'), "Child must be between 2-11 years");
                     return false;
                 } else if (memberType === "Infant" && age > 2) {
                     showError(document.getElementById('member_validationInfant'), "Infant must be 2 years or younger");
@@ -2340,7 +2524,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                 }
 
                 $('#amountToBePaid').text(final_pack_amount);
-                console.log("modal price: " + final_pack_amount);
+                // console.log("modal price: " + final_pack_amount);
 
                 let totalAmount = parseFloat(final_pack_amount) || 0;
 
@@ -2353,8 +2537,8 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                         return;
                     }
 
-                    console.log('Available Balance:', bal_amt);
-                    console.log('Amount To Be Paid:', amountToBePaidVal);
+                    // console.log('Available Balance:', bal_amt);
+                    // console.log('Amount To Be Paid:', amountToBePaidVal);
 
                     if (bal_amt < amountToBePaidVal) {
                         $('#low_bal').removeClass('d-none');
@@ -2424,7 +2608,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
             $('#place_order').click(async function(e) {
                 e.preventDefault();
-                console.log("in place order");
+                // console.log("in place order");
                 //product_package_payout();
                 //valiadtions
 
@@ -2556,8 +2740,8 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                         'gender': genders[i]
                                     });
                                 });
-                                console.log("formdata");
-                                console.log(formdata);
+                                // console.log("formdata");
+                                // console.log(formdata);
                                 //resolve(formdata)
                                 // Book Package
                                 let data = formdata;
@@ -2575,7 +2759,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
                                         //$('#book_id').val(res.bookid);
                                         if (res.status == 1) {
-                                            console.log("success payment");
+                                            // console.log("success payment");
                                             // ✅ Add invoice_no to data
                                             let secondData = {
                                                 ...formdata, // ✅ use original object
@@ -3162,101 +3346,49 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
             });
         </script>
         <script>
-            // const packages = [
-            //     {
-            //         title: "Phuket Getaway",
-            //         duration: "4 Nights / 5 Days",
-            //         price: "22,999",
-            //         image: "assets/images/package/package-11.jpg",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Bali Bliss",
-            //         duration: "5 Nights / 6 Days",
-            //         price: "28,999",
-            //         image: "assets/images/package/package-2.png",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Singapore Explorer",
-            //         duration: "4 Nights / 5 Days",
-            //         price: "39,999",
-            //         image: "assets/images/package/package-3.png",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Dubai Dazzle",
-            //         duration: "5 Nights / 6 Days",
-            //         price: "42,999",
-            //         image: "assets/images/package/package-4.png",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Thailand Escape",
-            //         duration: "5 Nights / 6 Days",
-            //         price: "24,999",
-            //         image: "assets/images/package/package-5.jpg",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Maldives Luxury",
-            //         duration: "4 Nights / 5 Days",
-            //         price: "55,999",
-            //         image: "assets/images/package/package-6.jpg",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Vietnam Discovery",
-            //         duration: "6 Nights / 7 Days",
-            //         price: "34,999",
-            //         image: "assets/images/package/package-7.jpg",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Japan Highlights",
-            //         duration: "7 Nights / 8 Days",
-            //         price: "89,999",
-            //         image: "assets/images/package/package-8.jpg",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Europe Delight",
-            //         duration: "8 Nights / 9 Days",
-            //         price: "1,19,999",
-            //         image: "assets/images/package/package-9.jpg",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Swiss Adventure",
-            //         duration: "6 Nights / 7 Days",
-            //         price: "99,999",
-            //         image: "assets/images/package/package-10.jpg",
-            //         link: "#"
-            //     }
-            // ];
+            
             const packages = <?= json_encode(
                 $package_array,
                 JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
             ) ?>;
+
+            const track = document.getElementById("packageTrack");
             // console.log(packages);
             
-            const track = document.getElementById("packageTrack");
-
             if (packages && packages.length > 0) {
 
-                packages.forEach(pkg => {
+                packages.forEach((pkg, packageIndex) => {
+
+                    const images = Array.isArray(pkg.images)
+                        ? pkg.images
+                        : [];
+                    const imageHTML = images.map((image, imageIndex) => `
+                        <img
+                            src="${image}"
+                            alt="${pkg.title}"
+                            class="package-slider-image ${imageIndex === 0 ? 'active' : ''}"
+                            data-image-index="${imageIndex}"
+                        >
+                    `).join('');
                     track.innerHTML += `
+
                         <div class="package-item">
 
                             <a href="javascript:void(0);"
                             class="text-decoration-none"
                             onclick="window.location.href='tour-details.php?pacId=${pkg.packid}'">
 
-                                <div class="package-card">
+                                <div class="package-card package-image-slider"
+                                    data-package-index="${packageIndex}">
 
-                                    <img src="${pkg.image}" alt="${pkg.title}">
+                                    <div class="package-image-wrapper">
+
+                                        ${imageHTML}
+
+                                    </div>
 
                                     <div class="package-body">
+
                                         <h5>${pkg.title}</h5>
 
                                         <p>${pkg.duration}</p>
@@ -3265,6 +3397,7 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                             ₹${pkg.price}
                                             <span>/ Person</span>
                                         </div>
+
                                     </div>
 
                                 </div>
@@ -3279,16 +3412,196 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
                 track.innerHTML = `
                     <div class="package-placeholder text-center w-100 py-5">
-                        <i class="ri-suitcase-line" style="font-size:40px;"></i>
-                        <h5 class="mt-3">No similar packages available</h5>
+
+                        <i class="ri-suitcase-line"
+                        style="font-size:40px;">
+                        </i>
+
+                        <h5 class="mt-3">
+                            No similar packages available
+                        </h5>
+
                         <p class="text-muted mb-0">
                             There are currently no similar packages available.
                         </p>
+
                     </div>
                 `;
-
             }
+           /* =========================================================
+            PACKAGE IMAGE HOVER SLIDER
+            ========================================================= */
 
+            // console.log('PACKAGE HOVER: Initializing');
+
+            const packageCards =
+                document.querySelectorAll('.package-image-slider');
+
+            // console.log(
+            //     'PACKAGE HOVER: Cards found:',
+            //     packageCards.length
+            // );
+
+
+            packageCards.forEach(function (card, index) {
+
+                // console.log(
+                //     'PACKAGE HOVER: Card:',
+                //     index
+                // );
+
+
+                /* -----------------------------------------
+                GET ALL IMAGES INSIDE THIS CARD
+                ----------------------------------------- */
+
+                const images =
+                    card.querySelectorAll('.package-slider-image');
+
+
+                // if (!images.length) {
+
+                //     console.log(
+                //         'PACKAGE HOVER: Images not found:',
+                //         index
+                //     );
+
+                //     return;
+                // }
+
+
+                // console.log(
+                //     'PACKAGE HOVER: Images found:',
+                //     images.length
+                // );
+
+
+                /* -----------------------------------------
+                ONLY ONE IMAGE
+                ----------------------------------------- */
+
+                if (images.length <= 1) {
+
+                    // console.log(
+                    //     'PACKAGE HOVER: Only one image'
+                    // );
+
+                    return;
+                }
+
+
+                let currentImage = 0;
+                let hoverInterval = null;
+
+
+                /* =====================================================
+                SHOW IMAGE
+                ===================================================== */
+
+                function showImage(index) {
+
+                    images.forEach(function (img, i) {
+
+                        img.classList.toggle(
+                            'active',
+                            i === index
+                        );
+
+                    });
+
+                }
+
+
+                /* =====================================================
+                MOUSE ENTER
+                ===================================================== */
+
+                card.addEventListener(
+                    'mouseenter',
+                    function () {
+
+                        // console.log(
+                        //     'PACKAGE HOVER: MOUSE ENTER',
+                        //     index
+                        // );
+
+
+                        /* Prevent duplicate interval */
+
+                        if (hoverInterval !== null) {
+                            return;
+                        }
+
+
+                        currentImage = 0;
+
+                        showImage(currentImage);
+
+
+                        hoverInterval =
+                            setInterval(function () {
+
+                                currentImage++;
+
+
+                                if (
+                                    currentImage >=
+                                    images.length
+                                ) {
+
+                                    currentImage = 0;
+
+                                }
+
+
+                                // console.log(
+                                //     'PACKAGE HOVER: Changing image:',
+                                //     currentImage
+                                // );
+
+
+                                showImage(currentImage);
+
+
+                            }, 1000);
+
+                    }
+                );
+
+
+                /* =====================================================
+                MOUSE LEAVE
+                ===================================================== */
+
+                card.addEventListener(
+                    'mouseleave',
+                    function () {
+
+                        // console.log(
+                        //     'PACKAGE HOVER: MOUSE LEAVE',
+                        //     index
+                        // );
+
+
+                        if (hoverInterval !== null) {
+
+                            clearInterval(
+                                hoverInterval
+                            );
+
+                            hoverInterval = null;
+
+                        }
+
+
+                        currentImage = 0;
+
+                        showImage(currentImage);
+
+                    }
+                );
+
+            });
 
             let currentIndex = 0;
 
@@ -3337,36 +3650,93 @@ $packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
             }
 
 
-            // NEXT
-            document.querySelector(".next-btn").addEventListener("click", function () {
-                // console.log('clicked next');
+            // // NEXT
+            // document.querySelector(".next-btn").addEventListener("click", function () {
+            //     // console.log('clicked next');
                 
-                const visibleCards = getVisibleCards();
+            //     const visibleCards = getVisibleCards();
 
-                const maxIndex = Math.max(
-                    0,
-                    packages.length - visibleCards
+            //     const maxIndex = Math.max(
+            //         0,
+            //         packages.length - visibleCards
+            //     );
+
+            //     if (currentIndex < maxIndex) {
+
+            //         currentIndex++;
+
+            //         moveSlider();
+            //     }
+            // });
+
+
+            // // PREVIOUS
+            // document.querySelector(".prev-btn").addEventListener("click", function () {
+            //     // console.log('clicked prev');
+            //     if (currentIndex > 0) {
+
+            //         currentIndex--;
+
+            //         moveSlider();
+            //     }
+            // });
+            const nextBtn =
+                document.querySelector(".next-btn");
+
+            if (nextBtn) {
+
+                nextBtn.addEventListener(
+                    "click",
+                    function () {
+
+                        const visibleCards =
+                            getVisibleCards();
+
+                        const maxIndex =
+                            Math.max(
+                                0,
+                                packages.length -
+                                visibleCards
+                            );
+
+                        if (
+                            currentIndex <
+                            maxIndex
+                        ) {
+
+                            currentIndex++;
+
+                            moveSlider();
+
+                        }
+
+                    }
                 );
 
-                if (currentIndex < maxIndex) {
-
-                    currentIndex++;
-
-                    moveSlider();
-                }
-            });
+            }
 
 
-            // PREVIOUS
-            document.querySelector(".prev-btn").addEventListener("click", function () {
-                // console.log('clicked prev');
-                if (currentIndex > 0) {
+            const prevBtn =
+                document.querySelector(".prev-btn");
 
-                    currentIndex--;
+            if (prevBtn) {
 
-                    moveSlider();
-                }
-            });
+                prevBtn.addEventListener(
+                    "click",
+                    function () {
+
+                        if (currentIndex > 0) {
+
+                            currentIndex--;
+
+                            moveSlider();
+
+                        }
+
+                    }
+                );
+
+            }
             // Initial check
             updateSliderControls();
 

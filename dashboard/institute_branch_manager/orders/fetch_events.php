@@ -1,6 +1,5 @@
 <?php
-require '../../connect.php';
-require '../dashboard_user_details.php';
+require '../../dashboard_user_details.php';
 header('Content-Type: application/json');
 
 try {
@@ -277,6 +276,7 @@ try {
     }
 
     $stmt->execute();
+    // print_r($stmt);
     $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     echo json_encode(["bookings" => $bookings ?: []], JSON_PRETTY_PRINT);

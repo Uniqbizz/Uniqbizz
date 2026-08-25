@@ -16,20 +16,20 @@
 .alignContent {
     align-content: center;
 }
-.header-sticky.sticky-bar .sign-btn a {
+/* .header-sticky .sticky-bar .sign-btn a {
     border: 0!important;
     color: #e03d42 !important;
 }
-.header-sticky.sticky-bar .sign-btn i {
+.header-sticky .sticky-bar .sign-btn i {
     color: #e03d42 !important;
 }
-.header-sticky.sticky-bar .sign-btn .stickyTextBlack {
+.header-sticky .sticky-bar .sign-btn .stickyTextBlack {
     color: #000 !important;
 }
-.header-sticky.sticky-bar .sign-btn .profileUserName {
+.header-sticky .sticky-bar .sign-btn .profileUserName {
     color: #000 !important;
 }
-.header-sticky.sticky-bar .sign-btn .btn-secondary-sm {
+.header-sticky .sticky-bar .sign-btn .btn-secondary-sm {
     background-color: #e03d42;
     border: 1px solid transparent;
     padding: 8px 20px;
@@ -39,6 +39,35 @@
     border-radius: 8px;
     color: #fff !important;
     display: inline-block;
+} */
+.wishlistHeaderBtn1, .loginBtn1 {
+    background-color: #e03d42;
+    border: 1px solid transparent;
+    padding: 8px 20px;
+    font-size: 14px !important;
+    font-weight: 500;
+    line-height: 1.3;
+    border-radius: 8px;
+    color: #fff !important;
+    display: inline-block;
+    width: 80px;
+    height: 40px;
+}
+.wishlistHeaderBtn1:hover, .loginBtn1:hover {
+    background-color: transparent;
+    border: 1px solid #e03d42 !important;
+    padding: 8px 20px;
+    font-size: 14px !important;
+    font-weight: 500;
+    line-height: 1.3;
+    border-radius: 8px;
+    color: #e03d42 !important;
+    display: inline-block;
+    width: 80px;
+    height: 40px;
+}
+.dropdown-item:hover {
+    color: #e03d42 !important;
 }
 .mobileProfile {
     position: relative;
@@ -84,4 +113,14 @@
 .mobile-header-right .slicknav_menutxt {
     display: none;
 }
-
+/* stickyBtnDisplay Header Index*/
+.stickyBtnDisplay {
+    display: none !important;
+}
+.header-area-three .mobile_menu .slicknav_menu .slicknav_nav .stickyBtnDisplay{
+    display: block !important;
+}
+/* stickyBtnDisplay Header*/
+.header-area .mobile_menu .slicknav_menu .slicknav_nav .stickyBtnDisplay{
+    display: block !important;
+}
