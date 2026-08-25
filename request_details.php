@@ -1,5 +1,26 @@
+<?php
 
+// Start the session only if it's not already started
+if (session_status() == PHP_SESSION_NONE) {
+    @session_start(); // Suppress warnings if headers already sent
+}
 
+// Define default values for users who are not logged in
+$username2 = $_SESSION['username2'] ?? null;
+$user_type_id_value = $_SESSION['user_type_id_value'] ?? null;
+$user_id = $_SESSION['user_id'] ?? null;
+
+$id = isset($_GET['pacId']) ? (int)$_GET['pacId'] : 0;
+
+if ($id <= 0) {
+    die("Invalid package ID");
+}
+
+$userId = $_SESSION['user_id']??'0';
+
+require 'connect.php';
+include 'assets/submit/tour_details_data.php';
+?>
 <!DOCTYPE html>
 <html lang="zxx" dir="lrt">
 
@@ -8,15 +29,6 @@
     <meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 
     <head>
-        <!-- <script>
-        const setTheme = (theme) => {
-            theme ?? = localStorage.theme || "light";
-            document.documentElement.dataset.theme = theme;
-            localStorage.theme = theme;
-        };
-        setTheme();
-        </script> -->
-
         <script>
             const setTheme = (theme) => {
                 // If theme is undefined or null, set it to localStorage.theme or "light"
@@ -105,13 +117,13 @@
                         <div class="title-section mb-3">
                             <div>
                                 <h3 class="fw-bolder" id="pack_name">Request Best Quote</h3>
-                                <p class="fw-bolder text-black" id="pack_name">Varanasi A Spiritual Journey Awaits</p>
+                                <p class="fw-bolder text-black" id="pack_name"><?= $package['name'] ?></p>
                             </div>
                             <div class="d-flex gap-4">
                                 <div class="openShare" onclick="openShare()">
                                     <i class="ri-share-line"></i>
                                 </div>
-                                <div class="wishlist-icon">
+                                <div class="wishlist-icon" data-package-id="<?= htmlspecialchars($package['id']) ?>">
                                     <i class="ri-heart-line"></i>
                                 </div>
                             </div>
@@ -122,31 +134,39 @@
                                 <div class="card cardShadow">
                                     <div class="d-flex tabDisplayBlock">
                                         <div>
-                                            <img src="assets/images/package/package-7.jpg" alt="" class="requestQuotePackageImg">
+                                            <img src="<?= $galleryImages[0]['image'] ?>" alt="" class="requestQuotePackageImg">
                                         </div>
                                         <div class="p-3 widthStretch">
-                                            <p class="fw-bolder text-black mb-1 fs-5" id="pack_name">Varanasi A Spiritual Journey Awaits</p>
+                                            <p class="fw-bolder text-black mb-1 fs-5" id="pack_name"><?= $package['name'] ?></p>
                                             <div class="d-flex justify-content-between mobileDisplayBlock">
                                                 <p class="fontSize10 mb-3">
                                                     <i class="ri-map-pin-line destination-title fs-6"></i>
-                                                    Varanasi, Uttar Pradesh
+                                                    <?php echo $package['destination'] ?>
                                                 </p>
                                                 <p class="fontSize10 mb-3">
                                                     <i class="ri-time-line destination-title fs-6"></i>
-                                                    4 Nights / 5 Days
+                                                    <?= $tour_nights ?> Nights / <?= $tour_days ?> Days
                                                 </p>
                                                 <p class="fontSize10 mb-3">
                                                     <i class="ri-restaurant-line destination-title fs-6"></i>
-                                                    Meals: Breakfast & Dinner
+                                                    Meals: <?= $meal_cat['name'] ?>
                                                 </p>
                                             </div>
                                             <p class="fontSize10 mb-3">
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. At inventore adipisci, fugiat 
-                                                sunt nemo quidem hic reiciendis! Neque velit sint maiores facilis iste quas iure vero, 
-                                                deleniti culpa, alias iusto?
+                                                <?= $package['description'] ?>
                                             </p>
                                             <div class="p-2 priceGreenBtn">
-                                                <p class="text-center">Starting from <span class="priceTextGreen">&#8377;13,754 /-</span> per adult</p>
+                                                <div class="d-flex justify-content-center align-items-end">Starting from 
+                                                    <div class="d-block mx-2">
+                                                        <?php if ($showGuestPrice && $adultDisplayPrice < $adultPrice): ?>
+                                                            <p class="priceTextGreen1 fontSize10 text-center d-block">
+                                                                &#8377; <?= number_format($adultPrice, 2) ?> /-
+                                                            </p>
+                                                        <?php endif; ?>
+                                                        <p class="priceTextGreen">&#8377;<?= number_format($adultDisplayPrice, 2) ?> /-</p>
+                                                    </div>
+                                                     per adult
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -333,8 +353,8 @@
                                                 <p class="fontSize10">Infant (0-4 yrs)</p>
                                             </div>
                                             <div>
-                                                <p class="fontSize10 text-end">&#8377; 13,754</p>
-                                                <p class="fontSize10 text-end">&#8377; 11,004</p>
+                                                <p class="fontSize10 text-end">&#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
+                                                <p class="fontSize10 text-end">&#8377; <?= number_format($childDisplayPrice, 2) ?></p>
                                                 <p class="fontSize10 text-end">FREE</p>
                                             </div>
                                         </div>
@@ -456,11 +476,13 @@
                                         <div class="d-flex justify-content-between">
                                             <div>
                                                 <p class="fs-6">Total Estimated Price</p>
-                                                <p class="fontSize10">Per Person</p>
+                                                <p class="fontSize10">Per Adult</p>
+                                                <p class="fontSize10">Per Child</p>
                                             </div>
                                             <div>
                                                 <p class="fs-5 text-danger fw-bolder text-end">&#8377; 40,851</p>
-                                                <p class="fontSize10 text-end">&#8377; 13,617</p>
+                                                <p class="fontSize10 text-end">&#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
+                                                <p class="fontSize10 text-end">&#8377; <?= number_format($childDisplayPrice, 2) ?></p>
                                             </div>
                                         </div>
                                     </div>

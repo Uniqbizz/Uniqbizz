@@ -3,7 +3,7 @@ body {
 }
 .requestQuotePackageImg {
     width: 220px !important;
-    height: 230px !important;
+    height: 250px !important;
     border-radius: 5px;
 }
 .fontSize10 {
@@ -22,6 +22,13 @@ body {
     font-size: 18px;
     font-weight: 900;
 }
+.priceTextGreen1 {
+    color: #008000;
+    font-size: 12px !important;
+    font-weight: 900;
+    text-decoration: line-through !important;
+}
+
 .fontSize13 {
     font-size: 13px;
 }
