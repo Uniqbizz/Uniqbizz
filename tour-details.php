@@ -71,6 +71,7 @@ $validity = $package['validity'] ?? 0;
 $package_keywords = $package['package_keywords'] ?? '';
 $location  = $package['location'] ?? '';
 $destination = $package['destination'] ?? '';
+$package_type = $package['package_type'] ?? '';
 
 $tour_days_total = $package['tour_days'] ?? 0;
 $tour_days = $tour_days_total - 1;
@@ -209,26 +210,57 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
 //share model end
 //package similar list
 // Get latest 10 packages
-$sqlPack = $conn->prepare("
+$sql = "
     SELECT *
     FROM package
-    WHERE status = 1 AND visibility = 1 AND DATE(validity) >= CURRENT_DATE
+    WHERE status = 1
+    AND visibility = 1
+    AND DATE(validity) >= CURRENT_DATE
     AND id != ?
     AND (
-            package_keywords LIKE ?
-            OR destination LIKE ?
-            OR location LIKE ?
-        )
-    ORDER BY id DESC
-    LIMIT 10
-");
+        package_keywords LIKE ?
+        OR destination LIKE ?
+        OR location LIKE ?
+        OR package_type LIKE ?
+    )
 
-$sqlPack->execute([
+    ORDER BY
+        CASE
+            WHEN destination LIKE ? THEN 1
+            WHEN location LIKE ? THEN 2
+            WHEN package_keywords LIKE ? THEN 3
+            WHEN package_type LIKE ? THEN 4
+            ELSE 5
+        END ASC,
+
+        id DESC
+
+    LIMIT 10
+";
+
+$keywordSearch    = "%$package_keywords%";
+$destinationSearch = "%$destination%";
+$locationSearch    = "%$location%";
+$typeSearch        = "%$package_type%";
+
+$bindValues = [
+    // WHERE
     $id,
-    "%$package_keywords%",
-    "%$destination%",
-    "%$location%"
-]);
+    $keywordSearch,
+    $destinationSearch,
+    $locationSearch,
+    $typeSearch,
+
+    // ORDER BY priority
+    $keywordSearch,
+    $destinationSearch,
+    $locationSearch,
+    $typeSearch
+];
+
+$sqlPack = $conn->prepare($sql);
+
+$sqlPack->execute($bindValues);
 
 $packages = $sqlPack->fetchAll(PDO::FETCH_ASSOC);
 
@@ -414,7 +446,6 @@ function safeJsonDecode($value)
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
-    
     <body>
         <?php include_once "header.php" ?>
         <main>
@@ -1538,7 +1569,7 @@ function safeJsonDecode($value)
 
                     saveWishlist(wishlist);
 
-                    console.log('Wishlist:', wishlist);
+                    // console.log('Wishlist:', wishlist);
                 });
 
             });
@@ -1707,7 +1738,7 @@ function safeJsonDecode($value)
                                 // } else {
                                 //     couponSelect.removeAttr('multiple');
                                 // }
-                                console.log('test');
+                                // console.log('test');
                                 
                                 $('#discount_price_box').removeClass('d-none');
                                 $('#offer_price_box').removeClass('d-none');
@@ -1847,9 +1878,9 @@ function safeJsonDecode($value)
                 var initialTotal = prime_pack_price;
                 $('#get_total_offer_price').text(initialTotal);
 
-                console.log('Initial price:', total);
-                console.log('Initial offer price:', initialTotal);
-                console.log('adult added price:', added_adult_price);
+                // console.log('Initial price:', total);
+                // console.log('Initial offer price:', initialTotal);
+                // console.log('adult added price:', added_adult_price);
 
                 // Update total on count change
                 $('#b_no_adult, #b_no_child, #b_no_infants').on('change', function() {
@@ -1907,7 +1938,7 @@ function safeJsonDecode($value)
             $("#cust_id").change(function() {
                 var customerData;
                 cust_id = $("#cust_id").val();
-                console.log('customerId:'+cust_id);
+                // console.log('customerId:'+cust_id);
                 ta_id = <?php
                             $data = json_encode($ta_id ?? 0, JSON_HEX_TAG);
                             echo ($data === false) ? 0 : $data;
@@ -1933,7 +1964,7 @@ function safeJsonDecode($value)
                                 //let formattedCustomerType = customerTypeRaw.charAt(0).toUpperCase() + customerTypeRaw.slice(1); // "Premium"
 
                                 $("#specCust").text(customerTypeRaw + ' Customer');
-                                console.log('customerTypeRaw:'+customerTypeRaw);
+                                // console.log('customerTypeRaw:'+customerTypeRaw);
                                 
                                 // Check for customer coupons
                                 checkCustomerCoupons(cust_id);
@@ -2026,7 +2057,7 @@ function safeJsonDecode($value)
                 package_price_np.innerText = parseFloat(total1).toFixed(2);
                 $('#get_total_offer_price').text(parseFloat(total).toFixed(2));
                 // $("#get_total_package_price_actual").text(parseFloat(total).toFixed(2));
-                console.log('total:' + total + '--- tptal1:' + total1);
+                // console.log('total:' + total + '--- tptal1:' + total1);
             }
 
             var coupon_applied_status = 'false';
@@ -2493,7 +2524,7 @@ function safeJsonDecode($value)
                 }
 
                 $('#amountToBePaid').text(final_pack_amount);
-                console.log("modal price: " + final_pack_amount);
+                // console.log("modal price: " + final_pack_amount);
 
                 let totalAmount = parseFloat(final_pack_amount) || 0;
 
@@ -2506,8 +2537,8 @@ function safeJsonDecode($value)
                         return;
                     }
 
-                    console.log('Available Balance:', bal_amt);
-                    console.log('Amount To Be Paid:', amountToBePaidVal);
+                    // console.log('Available Balance:', bal_amt);
+                    // console.log('Amount To Be Paid:', amountToBePaidVal);
 
                     if (bal_amt < amountToBePaidVal) {
                         $('#low_bal').removeClass('d-none');
@@ -2577,7 +2608,7 @@ function safeJsonDecode($value)
 
             $('#place_order').click(async function(e) {
                 e.preventDefault();
-                console.log("in place order");
+                // console.log("in place order");
                 //product_package_payout();
                 //valiadtions
 
@@ -2709,8 +2740,8 @@ function safeJsonDecode($value)
                                         'gender': genders[i]
                                     });
                                 });
-                                console.log("formdata");
-                                console.log(formdata);
+                                // console.log("formdata");
+                                // console.log(formdata);
                                 //resolve(formdata)
                                 // Book Package
                                 let data = formdata;
@@ -2728,7 +2759,7 @@ function safeJsonDecode($value)
 
                                         //$('#book_id').val(res.bookid);
                                         if (res.status == 1) {
-                                            console.log("success payment");
+                                            // console.log("success payment");
                                             // ✅ Add invoice_no to data
                                             let secondData = {
                                                 ...formdata, // ✅ use original object
@@ -3322,7 +3353,7 @@ function safeJsonDecode($value)
             ) ?>;
 
             const track = document.getElementById("packageTrack");
-            console.log(packages);
+            // console.log(packages);
             
             if (packages && packages.length > 0) {
 
