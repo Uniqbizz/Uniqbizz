@@ -33,6 +33,7 @@ $package_keywords = $package['package_keywords'] ?? '';
 $location  = $package['location'] ?? '';
 $destination = $package['destination'] ?? '';
 $package_type = $package['package_type'] ?? '';
+$category_vehicle_id = $package['category_vehicle_id'] ?? '';
 
 $tour_days_total = $package['tour_days'] ?? 0;
 $tour_days = $tour_days_total - 1;
