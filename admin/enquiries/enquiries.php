@@ -133,6 +133,42 @@ $date = date('Y');
                                 </div>
                             </div>
                         </div>
+                        <!-- Enquiries Start -->
+                        <div class="row d-flex justify-content-between">
+                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 pb-3">
+                                <nav role="navigation">
+                                    <ul class="nav nav-underline border-bottom border-1 border-secondary-subtle d-flex justify-content-around" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" data-bs-toggle="tab" role="tab" href="#allEnquiries">All Enquiries</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#newEnquiry">New</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#inProgress">In Progress</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#quotationSent">Quotation Sent</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#awaitingResponse">Awaiting Response</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#closedEnquiry">Closed</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-7 col-7 pb-3 ps-0">
+                                <div class="d-flex justify-content-end dateRangeAlign">
+                                    <div id="reportrange" class="bg-primary text-white px-3 py-2 w-100 text-center dateRange">
+                                        <i class="fa fa-calendar"></i>&nbsp;
+                                        <span id='selectedDate'></span> <i class="fa-solid fa-angle-down"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Enquiries end -->
                         
                     </div>
                 </div>
