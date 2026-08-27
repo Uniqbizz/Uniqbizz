@@ -215,6 +215,7 @@ body {
     transition: all 0.2s ease;
 }
 
+
 .modify-room-card:hover {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
 }
@@ -411,6 +412,227 @@ body {
     align-items: center;
     justify-content: center;
 }
+/* =====================================================
+   ENQUIRY SUCCESS SWEET ALERT
+   ===================================================== */
+
+.enquiry-success-popup {
+    width: 680px !important;
+    max-width: 95% !important;
+    border-radius: 20px !important;
+    padding: 30px !important;
+}
+
+/* SweetAlert title */
+
+.enquiry-success-popup .swal2-title {
+    color: #159447 !important;
+    font-size: 28px !important;
+    font-weight: 700 !important;
+    margin-bottom: 10px !important;
+}
+
+/* Main wrapper */
+
+.swal-enquiry-success {
+    text-align: left;
+}
+
+/* Thank you */
+
+.swal-thankyou {
+    text-align: center;
+    font-size: 17px;
+    color: #172b4d;
+    margin: 0 0 8px;
+}
+
+.swal-thankyou strong {
+    font-weight: 700;
+}
+
+/* Message */
+
+.swal-message {
+    text-align: center;
+    color: #68758a;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0 auto 20px;
+    max-width: 550px;
+}
+
+/* =====================================================
+   ENQUIRY NUMBER
+   ===================================================== */
+
+.enquiry-number-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: #f1f7ff;
+    border: 1px solid #dceaff;
+
+    border-radius: 12px;
+
+    padding: 14px 18px;
+
+    margin-bottom: 18px;
+}
+
+.enquiry-number-label {
+    color: #617086;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.enquiry-number-box strong {
+    background: #e3efff;
+    color: #1769e0;
+
+    padding: 7px 14px;
+
+    border-radius: 20px;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* =====================================================
+   ENQUIRY DETAILS
+   ===================================================== */
+
+.enquiry-details {
+    border: 1px solid #e5e9ef;
+    border-radius: 14px;
+
+    overflow: hidden;
+
+    margin-bottom: 18px;
+}
+
+.enquiry-details-header {
+    background: #f8fafc;
+
+    padding: 13px 18px;
+
+    border-bottom: 1px solid #e5e9ef;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    color: #172b4d;
+}
+
+.enquiry-details-header i {
+    margin-right: 7px;
+    color: #159447;
+}
+
+.enquiry-detail-row {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 11px 18px;
+
+    border-bottom: 1px solid #f0f2f5;
+
+    font-size: 13px;
+}
+
+.enquiry-detail-row:last-child {
+    border-bottom: none;
+}
+
+.enquiry-detail-row > span {
+    color: #718096;
+}
+
+.enquiry-detail-row > strong {
+    color: #172b4d;
+    text-align: right;
+}
+
+/* =====================================================
+   WHAT'S NEXT
+   ===================================================== */
+
+.whats-next-box {
+    background: #fff9e9;
+
+    border: 1px solid #ffe3a3;
+
+    border-radius: 14px;
+
+    padding: 17px 18px;
+
+    margin-bottom: 5px;
+}
+
+.whats-next-title {
+    color: #172b4d;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    margin-bottom: 7px;
+}
+
+.whats-next-title i {
+    color: #159447;
+    margin-right: 5px;
+}
+
+.whats-next-box p {
+    color: #65758b;
+
+    font-size: 13px;
+    line-height: 1.6;
+
+    margin: 0 0 6px;
+}
+
+.whats-next-box .whats-next-small {
+    margin-bottom: 0;
+    font-size: 12px;
+}
+
+/* =====================================================
+   BUTTON
+   ===================================================== */
+
+.enquiry-confirm-btn {
+    display: inline-block;
+
+    background: #159447;
+
+    color: #fff;
+
+    border: none;
+
+    border-radius: 8px;
+
+    padding: 11px 32px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    margin-top: 20px;
+
+    transition: all 0.2s ease;
+}
+
+.enquiry-confirm-btn:hover {
+    background: #117c3b;
+    color: #fff;
+}
 
 @media (max-width: 1199px) and (min-width: 992px) {
     .largeDisplay {
@@ -419,6 +641,30 @@ body {
 }
 /* Mobile / Tablet */
 @media (max-width: 991px){
+    .enquiry-success-popup {
+        width: 95% !important;
+        padding: 22px !important;
+    }
+
+    .enquiry-success-popup .swal2-title {
+        font-size: 22px !important;
+    }
+
+    .enquiry-number-box {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .enquiry-detail-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    .enquiry-detail-row > strong {
+        text-align: left;
+    }
     .vehicle-option {
         padding: 12px;
     }
