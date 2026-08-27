@@ -169,7 +169,288 @@ $date = date('Y');
                             </div>
                         </div>
                         <!-- Enquiries end -->
-                        
+                        <div class="tab-content" id='tableList'>
+                            <div class="tab-pane fade card show active px-3 rounded-4" id="allHistory" role="tabpanel">
+                                <div class="col-lg-12 py-3">
+                                    <div class="table-responsive table-desi">
+                                        <table class="table table-hover" id="user_table1">
+                                            <thead>
+                                                <tr>
+                                                    <th class="ceterText fw-bolder font-size-13">Enquiry ID</th>
+                                                    <th class="ceterText fw-bolder font-size-13">Customer Details</th>
+                                                    <th class="ceterText fw-bolder font-size-13">Destination & Dates</th>
+                                                    <th class="ceterText fw-bolder font-size-13">Submitted On</th>
+                                                    <th class="ceterText fw-bolder font-size-13">Status</th>
+                                                    <th class="ceterText fw-bolder font-size-13">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="align-content-center">
+                                                        <p class="text-danger fontSize12 fw-bold mb-0">BQ10245</p>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="">
+                                                            <p class="fontSize12 mb-1 fw-bold">Devika Naik</p>
+                                                            <p class="fontSize12 mb-1">
+                                                                <i class="fa-solid fa-phone me-2"></i>
+                                                                +91 7289564566
+                                                            </p>
+                                                            <p class="fontSize12 mb-1">
+                                                                <i class="fa-regular fa-envelope me-2"></i>
+                                                                devika.naik@gmail.com
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="">
+                                                            <p class="fontSize12 mb-1 fw-bold">Varanasi</p>
+                                                            <p class="fontSize12 mb-1">
+                                                                <span>20 Jul 2026</span> - <span>24 Jul 2026</span>
+                                                            </p>
+                                                            <p class="fontSize12 mb-1">
+                                                                <span>4N</span> / <span>5D</span>
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="">
+                                                            <p class="fontSize12 mb-1 fw-bold">18 May 2026</p>
+                                                            <p class="fontSize12 mb-1">
+                                                                10:15 AM
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="enquiryStatusBtn enquiryStatusBtn1">New Enquiry</div>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="enquiryEditBtn">Edit</div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="align-content-center">
+                                                        <p class="text-danger fontSize12 fw-bold mb-0">BQ10245</p>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="">
+                                                            <p class="fontSize12 mb-1 fw-bold">Devika Naik</p>
+                                                            <p class="fontSize12 mb-1">
+                                                                <i class="fa-solid fa-phone me-2"></i>
+                                                                +91 7289564566
+                                                            </p>
+                                                            <p class="fontSize12 mb-1">
+                                                                <i class="fa-regular fa-envelope me-2"></i>
+                                                                devika.naik@gmail.com
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="">
+                                                            <p class="fontSize12 mb-1 fw-bold">Varanasi</p>
+                                                            <p class="fontSize12 mb-1">
+                                                                <span>20 Jul 2026</span> - <span>24 Jul 2026</span>
+                                                            </p>
+                                                            <p class="fontSize12 mb-1">
+                                                                <span>4N</span> / <span>5D</span>
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="">
+                                                            <p class="fontSize12 mb-1 fw-bold">18 May 2026</p>
+                                                            <p class="fontSize12 mb-1">
+                                                                10:15 AM
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="enquiryStatusBtn enquiryStatusBtn2">In Progress</div>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="enquiryEditBtn">Edit</div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="align-content-center">
+                                                        <p class="text-danger fontSize12 fw-bold mb-0">BQ10245</p>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="">
+                                                            <p class="fontSize12 mb-1 fw-bold">Devika Naik</p>
+                                                            <p class="fontSize12 mb-1">
+                                                                <i class="fa-solid fa-phone me-2"></i>
+                                                                +91 7289564566
+                                                            </p>
+                                                            <p class="fontSize12 mb-1">
+                                                                <i class="fa-regular fa-envelope me-2"></i>
+                                                                devika.naik@gmail.com
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="">
+                                                            <p class="fontSize12 mb-1 fw-bold">Varanasi</p>
+                                                            <p class="fontSize12 mb-1">
+                                                                <span>20 Jul 2026</span> - <span>24 Jul 2026</span>
+                                                            </p>
+                                                            <p class="fontSize12 mb-1">
+                                                                <span>4N</span> / <span>5D</span>
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="">
+                                                            <p class="fontSize12 mb-1 fw-bold">18 May 2026</p>
+                                                            <p class="fontSize12 mb-1">
+                                                                10:15 AM
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="enquiryStatusBtn enquiryStatusBtn3">Quotation Sent</div>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="enquiryEditBtn">Edit</div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="align-content-center">
+                                                        <p class="text-danger fontSize12 fw-bold mb-0">BQ10245</p>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="">
+                                                            <p class="fontSize12 mb-1 fw-bold">Devika Naik</p>
+                                                            <p class="fontSize12 mb-1">
+                                                                <i class="fa-solid fa-phone me-2"></i>
+                                                                +91 7289564566
+                                                            </p>
+                                                            <p class="fontSize12 mb-1">
+                                                                <i class="fa-regular fa-envelope me-2"></i>
+                                                                devika.naik@gmail.com
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="">
+                                                            <p class="fontSize12 mb-1 fw-bold">Varanasi</p>
+                                                            <p class="fontSize12 mb-1">
+                                                                <span>20 Jul 2026</span> - <span>24 Jul 2026</span>
+                                                            </p>
+                                                            <p class="fontSize12 mb-1">
+                                                                <span>4N</span> / <span>5D</span>
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="">
+                                                            <p class="fontSize12 mb-1 fw-bold">18 May 2026</p>
+                                                            <p class="fontSize12 mb-1">
+                                                                10:15 AM
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="enquiryStatusBtn enquiryStatusBtn4">Awaiting Response</div>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="enquiryEditBtn">Edit</div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="align-content-center">
+                                                        <p class="text-danger fontSize12 fw-bold mb-0">BQ10245</p>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="">
+                                                            <p class="fontSize12 mb-1 fw-bold">Devika Naik</p>
+                                                            <p class="fontSize12 mb-1">
+                                                                <i class="fa-solid fa-phone me-2"></i>
+                                                                +91 7289564566
+                                                            </p>
+                                                            <p class="fontSize12 mb-1">
+                                                                <i class="fa-regular fa-envelope me-2"></i>
+                                                                devika.naik@gmail.com
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="">
+                                                            <p class="fontSize12 mb-1 fw-bold">Varanasi</p>
+                                                            <p class="fontSize12 mb-1">
+                                                                <span>20 Jul 2026</span> - <span>24 Jul 2026</span>
+                                                            </p>
+                                                            <p class="fontSize12 mb-1">
+                                                                <span>4N</span> / <span>5D</span>
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="">
+                                                            <p class="fontSize12 mb-1 fw-bold">18 May 2026</p>
+                                                            <p class="fontSize12 mb-1">
+                                                                10:15 AM
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="enquiryStatusBtn enquiryStatusBtn5">Advance Received</div>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="enquiryEditBtn">Edit</div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="align-content-center">
+                                                        <p class="text-danger fontSize12 fw-bold mb-0">BQ10245</p>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="">
+                                                            <p class="fontSize12 mb-1 fw-bold">Devika Naik</p>
+                                                            <p class="fontSize12 mb-1">
+                                                                <i class="fa-solid fa-phone me-2"></i>
+                                                                +91 7289564566
+                                                            </p>
+                                                            <p class="fontSize12 mb-1">
+                                                                <i class="fa-regular fa-envelope me-2"></i>
+                                                                devika.naik@gmail.com
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="">
+                                                            <p class="fontSize12 mb-1 fw-bold">Varanasi</p>
+                                                            <p class="fontSize12 mb-1">
+                                                                <span>20 Jul 2026</span> - <span>24 Jul 2026</span>
+                                                            </p>
+                                                            <p class="fontSize12 mb-1">
+                                                                <span>4N</span> / <span>5D</span>
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="">
+                                                            <p class="fontSize12 mb-1 fw-bold">18 May 2026</p>
+                                                            <p class="fontSize12 mb-1">
+                                                                10:15 AM
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="enquiryStatusBtn enquiryStatusBtn6">Closed</div>
+                                                    </td>
+                                                    <td class="align-content-center">
+                                                        <div class="enquiryEditBtn">Edit</div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <!-- pegination start -->
+                                        <div class="center text-center" id="pagination_row"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <?php include_once "../footer.php" ?>
