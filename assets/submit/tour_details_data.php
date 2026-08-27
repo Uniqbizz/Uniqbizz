@@ -20,6 +20,91 @@ function parseFaqTxt($filePath)
 
     return $faqs;
 }
+//gst
+$stmt = $conn->prepare("SELECT * FROM `gst` ORDER BY id DESC");
+$stmt->execute();
+$gst=$stmt->fetch();
+if ($_SESSION['user_type_id_value'] == 10) {
+
+    // =====================================================
+    // CU PRIMARY COUPONS
+    // =====================================================
+
+    $stmt1 = $conn->prepare("
+        SELECT *
+        FROM cu_coupons
+        WHERE user_id = :user_id
+        AND usage_status=0
+        AND confirm_status=1
+    ");
+
+    $stmt1->execute([
+        ':user_id' => $user_id
+    ]);
+
+    $cuCoupons = $stmt1->fetchAll(PDO::FETCH_ASSOC);
+
+
+    // =====================================================
+    // CU LOYALTY COUPONS
+    // =====================================================
+
+    $stmt2 = $conn->prepare("
+        SELECT *
+        FROM loyalty_coupon
+        WHERE user_id = :user_id
+        AND usage_status=0
+        AND confirm_status=1
+    ");
+
+    $stmt2->execute([
+        ':user_id' => $user_id
+    ]);
+
+    $loyaltyCoupons = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
+
+    // =====================================================
+    // REFERRAL BALANCE
+    // =====================================================
+
+    $stmt3 = $conn->prepare("
+        SELECT balance
+        FROM customer_reference_wallet_utilization
+        WHERE customer_id = :user_id
+        ORDER BY id DESC
+        LIMIT 1
+    ");
+
+    $stmt3->execute([
+        ':user_id' => $user_id
+    ]);
+
+    $referralWallet = $stmt3->fetch(PDO::FETCH_ASSOC);
+
+    $referralBalance = (float)($referralWallet['balance'] ?? 0);
+
+
+    // =====================================================
+    // DISCOUNT BALANCE
+    // =====================================================
+
+    $stmt4 = $conn->prepare("
+        SELECT balance
+        FROM customer_discount_wallet_utilization
+        WHERE customer_id = :user_id
+        ORDER BY id DESC
+        LIMIT 1
+    ");
+
+    $stmt4->execute([
+        ':user_id' => $user_id
+    ]);
+
+    $discountWallet = $stmt4->fetch(PDO::FETCH_ASSOC);
+
+    $discountBalance = (float)($discountWallet['balance'] ?? 0);
+}
 // package
 $stmt = $conn->prepare("SELECT * FROM package WHERE id = $id AND status = '1' AND visibility = 1 AND DATE(validity) >= CURRENT_DATE");
 $stmt->execute();

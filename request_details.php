@@ -552,79 +552,119 @@ $vehicleOptions = [
                                         <div class="d-flex justify-content-between">
                                             <div>
                                                 <p class="fontSize10">Convenience Fee</p>
-                                                <p class="fontSize10">GST (18%)</p>
+                                                <p class="fontSize10">GST (<?= $gst['gst'] ?>%)</p>
                                             </div>
                                             <div>
-                                                <p class="fontSize10 text-end">&#8377; 499</p>
-                                                <p class="fontSize10 text-end">&#8377; 7,840</p>
+                                                <p class="fontSize10 text-end" id="convenienceFeee">&#8377; 0</p>
+                                                <p class="fontSize10 text-end" id="gstValue">&#8377; 0</p>
                                             </div>
                                         </div>
                                     </div>
+                                    <?php if($_SESSION['user_type_id_value'] == 10 && $_SESSION['customer_type'] == 'Neo Select'){  ?>
                                     <hr class="my-1 border border-2 mx-3">
                                     <div class="p-3 pb-0">
-                                        <p class="fontSize10 fw-bold mb-2">Apply Coupons <span class="text-muted fw-normal">(One coupon per passanger) <i class="ri-error-warning-line"></i></span></p>
-                                        <div class="d-flex justify-content-between mb-2">
-                                            <div class="d-flex gap-3 largeDisplay">
-                                                <p class="fontSize10 align-content-end">Adult 1</p>
-                                                <p>
-                                                    <select class="form-select fontSize10 selectPadding" aria-label="Default select example">
-                                                        <option selected>Select </option>
-                                                        <option value="1">Rs-3000</option>
-                                                        <option value="2">Rs-3000</option>
-                                                        <option value="3">Rs-1500</option>
-                                                    </select>
-                                                </p>
-                                            </div>
-                                            <p class="fontSize10 discountGreen fw-bold text-end align-content-end">- &#8377; 3,000</p>
-                                        </div>
-                                        <div class="d-flex justify-content-between mb-2">
-                                            <div class="d-flex gap-3 largeDisplay">
-                                                <p class="fontSize10 align-content-end">Adult 2</p>
-                                                <p>
-                                                    <select class="form-select fontSize10 selectPadding" aria-label="Default select example">
-                                                        <option selected>Select </option>
-                                                        <option value="1">Rs-3000</option>
-                                                        <option value="2">Rs-3000</option>
-                                                        <option value="3">Rs-1500</option>
-                                                    </select>
-                                                </p>
-                                            </div>
-                                            <p class="fontSize10 discountGreen fw-bold text-end align-content-end">- &#8377; 3,000</p>
-                                        </div>
-                                        <div class="d-flex justify-content-between mb-2">
-                                            <div class="d-flex gap-3 largeDisplay">
-                                                <p class="fontSize10 align-content-end">Child 1</p>
-                                                <p>
-                                                    <select class="form-select fontSize10 selectPadding" aria-label="Default select example">
-                                                        <option selected>Select </option>
-                                                        <option value="1">Rs-3000</option>
-                                                        <option value="2">Rs-3000</option>
-                                                        <option value="3">Rs-1500</option>
-                                                    </select>
-                                                </p>
-                                            </div>
-                                            <p class="fontSize10 discountGreen fw-bold text-end align-content-end">- &#8377; 1,500</p>
-                                        </div>
+
+                                        <p class="fontSize10 fw-bold mb-2">
+                                            Apply Coupons
+                                            <span class="text-muted fw-normal">
+                                                (One coupon per passenger)
+                                                <i class="ri-error-warning-line"></i>
+                                            </span>
+                                        </p>
+
+                                        <div id="couponPassengerContainer"></div>
+
                                     </div>
                                     <hr class="my-1 border border-2 mx-3">
                                     <div class="d-flex justify-content-between px-3">
-                                        <p class="fontSize10 discountGreen fw-bold">Discounts (Coupons)</p>
-                                        <p class="fontSize10 discountGreen fw-bold text-end">- &#8377; 7,500</p>
+                                        <p class="fontSize10 discountGreen fw-bold">
+                                            Discounts (Coupons)
+                                        </p>
+
+                                        <p class="fontSize10 discountGreen fw-bold text-end"
+                                        id="totalCouponDiscount">
+                                            - ₹ 0
+                                        </p>
                                     </div>
+                                    <?php } elseif ($_SESSION['user_type_id_value'] == 10 && $_SESSION['customer_type'] != 'Neo Select') {?>
+                                    <hr class="my-2 border border-2 mx-3">
+                                    <div class="p-3">
+                                        <!-- HEADER -->
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <div>
+                                                <p class="fontSize10 fw-bold mb-1">Apply Coupon</p>
+                                                <small class="text-muted fontSize10">
+                                                    Only one coupon can be applied per package
+                                                    <i class="ri-information-line"></i>
+                                                </small>
+                                            </div>
+                                            <div class="coupon-package-icon">
+                                                <i class="ri-coupon-3-line"></i>
+                                            </div>
+                                        </div>
+                                        <!-- COUPON SELECT -->
+                                        <div class="package-coupon-box">
+                                            <div class="coupon-select-wrapper">
+                                                <i class="ri-coupon-3-line"></i>
+                                                <select id="packageCouponSelect" class="form-select fontSize10 selectPadding coupon-select1">
+                                                    <option value="">Select Coupon</option>
+                                                    <?php if (!empty($cuCoupons)): ?>
+                                                        <optgroup label="Primary Coupons">
+                                                            <?php foreach ($cuCoupons as $coupon): ?>
+                                                                <option value="<?= htmlspecialchars($coupon['code']) ?>" data-type="primary" data-amount="<?= htmlspecialchars($coupon['coupon_amount']) ?>">
+                                                                    <?= htmlspecialchars($coupon['code']) ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </optgroup>
+                                                    <?php endif; ?>
+                                                    <?php if (!empty($loyaltyCoupons)): ?>
+                                                        <optgroup label="Loyalty Coupons">
+                                                            <?php foreach ($loyaltyCoupons as $coupon): ?>
+                                                                <option value="<?= htmlspecialchars($coupon['code']) ?>" data-type="loyalty" data-amount="<?= htmlspecialchars($coupon['coupon_amount']) ?>">
+                                                                    <?= htmlspecialchars($coupon['code']) ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </optgroup>
+                                                    <?php endif; ?>
+                                                </select>
+                                            </div>
+                                            <!-- DISCOUNT -->
+                                            <div class="package-discount">
+                                                <span class="text-muted fontSize10">Discount</span>
+                                                <span class="discountGreen fw-bold fontSize10" id="packageCouponDiscount"> ₹ 0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- TOTAL -->
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="d-flex justify-content-between align-items-center px-3 pb-2">
+                                        <p class="fontSize10 discountGreen fw-bold mb-0">
+                                            <i class="ri-price-tag-3-line"></i>
+                                            Discounts (Coupon)
+                                        </p>
+                                        <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="totalCouponDiscount">- ₹ 0</p>
+                                    </div>
+                                    <?php } ?>
                                     <hr class="my-1 border border-2 mx-3">
                                     <div class="p-3">
                                         <div class="d-flex justify-content-between">
                                             <div>
                                                 <p class="fs-6">Total Estimated Price</p>
-                                                <p class="fontSize10">Per Adult</p>
-                                                <p class="fontSize10">Per Child</p>
+                                                <!-- <p class="fontSize10">Per Adult</p>
+                                                <p class="fontSize10">Per Child</p> -->
                                             </div>
                                             <div>
-                                                <p class="fs-5 text-danger fw-bolder text-end">&#8377; 40,851</p>
-                                                <p class="fontSize10 text-end">&#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
-                                                <p class="fontSize10 text-end">&#8377; <?= number_format($childDisplayPrice, 2) ?></p>
+                                                <p class="fs-5 text-danger fw-bolder text-end" id="finalPackagePrice">&#8377; 0</p>
+                                                <!-- <p class="fontSize10 text-end">&#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
+                                                <p class="fontSize10 text-end">&#8377; <?= number_format($childDisplayPrice, 2) ?></p> -->
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <button id="submitRequst" class="submit-request-btn">
+                                            <p class="fs-6 text-white fw-bold">Total Estimated Price:</p>
+                                            <p class="fs-6 text-white fw-bold" id="finalPackagePrice2">&#8377; 0 /-</p>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -635,7 +675,7 @@ $vehicleOptions = [
             <!-- Request Details Page End -->
             <button id="openPricingBtn" class="floating-price-btn">
                 <p class="fs-6 text-white fw-bold">Total Estimated Price:</p>
-                <p class="fs-6 text-white fw-bold">&#8377; 40,851 /-</p>
+                <p class="fs-6 text-white fw-bold" id="finalPackagePrice1">&#8377; 0 /-</p>
             </button>
 
             <div class="pricing-overlay" id="pricingOverlay"></div>
@@ -858,31 +898,25 @@ $vehicleOptions = [
         <script src="assets/js/jquery-3.7.0.min.js"></script>
         <script src="assets/js/popper.min.js"></script>
         <script src="assets/js/bootstrap-5.3.0.min.js"></script>
-
         <!-- SweetAlert2 -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
         <!-- Swiper -->
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
         <!-- Plugin -->
         <script src="assets/js/plugin.js"></script>
-
         <!-- Main js-->
         <script src="assets/js/main.js"></script>
-
         <script type="text/javascript" src="logout/logout.js"></script>
-
-        <!-- New Design 17/7/26 -->
-        
+        <!--New Design 17/7/26 -->
         <script>
             // Price values from PHP
             const perAdultPrice = <?= json_encode((float)$adultDisplayPrice) ?>;
             const perChildPrice = <?= json_encode((float)$childDisplayPrice) ?>;
             const tourDays = <?= json_encode($tour_days_total) ?>;
+            const totalPrimaryCoupons = <?= count($cuCoupons) ?>;
+            const totalLoyaltyCoupons = <?= count($loyaltyCoupons) ?>;
         </script>
         <script>
-
             // Animate price
             function animatePrice($element, finalValue, duration = 800) {
 
@@ -1302,6 +1336,414 @@ $vehicleOptions = [
 
                 $('#roomRecommendation').html(roomsHTML);
             }
+            //coupon drop down
+            function updateCouponDropdowns() {
+                const selectedCoupons = [];
+                let selectedPrimaryCoupons = 0;
+                /*
+                |--------------------------------------------------------------------------
+                | Get all currently selected coupons
+                |--------------------------------------------------------------------------
+                */
+                $('.coupon-select').each(function () {
+                    const value = $(this).val();
+                    if (value !== '') {
+                        selectedCoupons.push(value);
+                        const type = $(this)
+                            .find('option:selected')
+                            .data('type');
+                        if (type === 'primary') {
+                            selectedPrimaryCoupons++;
+                        }
+                    }
+                });
+                /*
+                |--------------------------------------------------------------------------
+                | Primary coupons are considered exhausted
+                | when all available primary coupons are selected
+                |--------------------------------------------------------------------------
+                */
+                const primaryCouponsExhausted =
+                    totalPrimaryCoupons === 0 ||
+                    selectedPrimaryCoupons >= totalPrimaryCoupons;
+                /*
+                |--------------------------------------------------------------------------
+                | Update all dropdowns
+                |--------------------------------------------------------------------------
+                */
+                $('.coupon-select').each(function () {
+                    const $select = $(this);
+                    const currentValue = $select.val();
+                    $select.find('option').each(function () {
+                        const $option = $(this);
+                        const value = $option.val();
+                        const type = $option.data('type');
+                        // Skip placeholder
+                        if (!value) {
+                            return;
+                        }
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Disable coupon already selected in another dropdown
+                        |--------------------------------------------------------------------------
+                        */
+                        if (
+                            selectedCoupons.includes(value) &&
+                            value !== currentValue
+                        ) {
+
+                            $option.prop('disabled', true);
+
+                            return;
+                        }
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Loyalty coupons
+                        |--------------------------------------------------------------------------
+                        */
+
+                        if (type === 'loyalty') {
+
+                            /*
+                            * Enable loyalty only when all
+                            * available primary coupons are selected
+                            */
+                            if (!primaryCouponsExhausted) {
+
+                                $option.prop('disabled', true);
+
+                            } else {
+
+                                $option.prop('disabled', false);
+
+                            }
+
+                        } else {
+
+                            /*
+                            * Primary coupon is available
+                            */
+                            $option.prop('disabled', false);
+
+                        }
+
+                    });
+
+                });
+
+                // calculate total selected coupon discount
+                let totalDiscount = 0;
+
+                $('.coupon-select').each(function () {
+
+                    const selectedOption =
+                        $(this).find('option:selected');
+
+                    const amount =
+                        parseFloat(selectedOption.data('amount')) || 0;
+
+                    if ($(this).val() !== '') {
+                        totalDiscount += amount;
+                    }
+                });
+
+                // Update discount display
+                $('#totalCouponDiscount').text(
+                    '- ₹ ' + totalDiscount.toLocaleString('en-IN')
+                );
+
+                // Update final package price
+                updateFinalPackagePrice();
+
+            }
+            // =====================================================
+            // GENERATE COUPON DROPDOWNS
+            // =====================================================
+
+            function generateCouponDropdowns() {
+
+                const adults =
+                    parseInt($('#adultCount').val()) || 0;
+
+                const children =
+                    parseInt($('#childrenCount').val()) || 0;
+
+                const container =
+                    $('#couponPassengerContainer');
+
+                container.empty();
+
+                // Create Adult rows
+                for (let i = 1; i <= adults; i++) {
+
+                    container.append(
+                        createCouponRow('Adult', i)
+                    );
+
+                }
+
+                // Create Child rows
+                for (let i = 1; i <= children; i++) {
+
+                    container.append(
+                        createCouponRow('Child', i)
+                    );
+
+                }
+
+                updateCouponDropdowns();
+
+                // Reset total coupon discount
+                updateTotalCouponDiscount();
+
+            }
+            //coupon row
+            function createCouponRow(type, number) {
+
+                return `
+                    <div class="d-flex justify-content-between mb-2 coupon-passenger-row">
+
+                        <div class="d-flex gap-3 largeDisplay">
+
+                            <p class="fontSize10 align-content-end mb-0">
+                                ${type} ${number}
+                            </p>
+
+                            <p class="mb-0">
+
+                                <select
+                                    class="form-select fontSize10 selectPadding coupon-select">
+
+                                    <option value="">
+                                        Select Coupon
+                                    </option>
+
+                                    <?php if (!empty($cuCoupons)): ?>
+
+                                        <optgroup label="Primary Coupons">
+
+                                            <?php foreach ($cuCoupons as $coupon): ?>
+
+                                                <option
+                                                    value="<?= htmlspecialchars($coupon['code']) ?>"
+                                                    data-type="primary"
+                                                    data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
+
+                                                    <?= htmlspecialchars($coupon['code']) ?>
+
+                                                </option>
+
+                                            <?php endforeach; ?>
+
+                                        </optgroup>
+
+                                    <?php endif; ?>
+
+
+                                    <?php if (!empty($loyaltyCoupons)): ?>
+
+                                        <optgroup label="Loyalty Coupons">
+
+                                            <?php foreach ($loyaltyCoupons as $coupon): ?>
+
+                                                <option
+                                                    value="<?= htmlspecialchars($coupon['code']) ?>"
+                                                    data-type="loyalty"
+                                                    data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
+
+                                                    <?= htmlspecialchars($coupon['code']) ?>
+
+                                                </option>
+
+                                            <?php endforeach; ?>
+
+                                        </optgroup>
+
+                                    <?php endif; ?>
+
+                                </select>
+
+                            </p>
+
+                        </div>
+
+
+                        <p class="fontSize10 discountGreen fw-bold text-end align-content-end coupon-discount mb-0">
+                            - ₹ 0
+                        </p>
+
+                    </div>
+                `;
+            }
+            // =====================================================
+            // UPDATE TOTAL COUPON DISCOUNT
+            // =====================================================
+
+            function updateTotalCouponDiscount() {
+
+                let totalDiscount = 0;
+
+                $('.coupon-select').each(function () {
+
+                    const selectedOption =
+                        $(this).find('option:selected');
+
+                    const amount =
+                        parseFloat(
+                            selectedOption.data('amount')
+                        ) || 0;
+
+                    totalDiscount += amount;
+
+                });
+
+                $('#totalCouponDiscount').text(
+                    '- ₹ ' + totalDiscount.toLocaleString('en-IN')
+                );
+
+            }
+            // =====================================================
+            // UPDATE FINAL PACKAGE PRICE
+            // =====================================================
+            function updateFinalPackagePrice() {
+
+                const adults =
+                    parseInt($('#adultCount').val()) || 0;
+
+                const children =
+                    parseInt($('#childrenCount').val()) || 0;
+
+
+                // =====================================================
+                // ADULT TOTAL
+                // =====================================================
+
+                const adultTotal =
+                    adults * perAdultPrice;
+
+
+                // =====================================================
+                // CHILD TOTAL
+                // =====================================================
+
+                const childrenTotal =
+                    children * perChildPrice;
+
+
+                // =====================================================
+                // COUPON DISCOUNT
+                // Always convert to POSITIVE amount
+                // =====================================================
+
+                const couponDiscount =
+                    Math.abs(
+                        parseFloat(
+                            $('#totalCouponDiscount')
+                                .text()
+                                .replace(/[^\d.-]/g, '')
+                        ) || 0
+                    );
+
+
+                // =====================================================
+                // TOTAL AFTER COUPON
+                // =====================================================
+
+                const totalAfterCoupon =
+                    Math.max(
+                        0,
+                        adultTotal +
+                        childrenTotal -
+                        couponDiscount
+                    );
+
+
+                // =====================================================
+                // CONVENIENCE FEE - 1%
+                // Calculated on amount after coupon
+                // =====================================================
+
+                const convenienceFee =
+                    totalAfterCoupon * 0.01;
+
+
+                // =====================================================
+                // GST
+                // GST is calculated on Convenience Fee
+                // =====================================================
+
+                const gstPercentage =
+                    parseFloat('<?= $gst['gst'] ?>') || 0;
+
+                const gstValue =
+                    convenienceFee *
+                    (gstPercentage / 100);
+
+
+                // =====================================================
+                // FINAL PAYABLE AMOUNT
+                // =====================================================
+
+                const finalAmount =
+                    totalAfterCoupon +
+                    convenienceFee +
+                    gstValue;
+
+
+                // =====================================================
+                // FORMAT FINAL AMOUNT
+                // =====================================================
+
+                const formattedFinalAmount =
+                    finalAmount.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+
+
+                // =====================================================
+                // UPDATE FINAL PACKAGE PRICE
+                // =====================================================
+
+                $('#finalPackagePrice').text(
+                    '₹ ' + formattedFinalAmount
+                );
+
+                $('#finalPackagePrice1').text(
+                    '₹ ' + formattedFinalAmount
+                );
+
+                $('#finalPackagePrice2').text(
+                    '₹ ' + formattedFinalAmount
+                );
+
+
+                // =====================================================
+                // UPDATE CONVENIENCE FEE
+                // =====================================================
+
+                $('#convenienceFeee').text(
+                    '₹ ' + convenienceFee.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })
+                );
+
+
+                // =====================================================
+                // UPDATE GST VALUE
+                // =====================================================
+
+                $('#gstValue').text(
+                    '₹ ' + gstValue.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })
+                );
+
+            }
             // Guest Counter
             $('.guest-counter').each(function () {
 
@@ -1348,7 +1790,10 @@ $vehicleOptions = [
                 });
 
             });
+            // =====================================================
             // Adult Count Change
+            // =====================================================
+
             $('#adultCount').on('change', function () {
 
                 const adultCount =
@@ -1370,9 +1815,19 @@ $vehicleOptions = [
 
                 // Update room recommendation
                 updateRecommendedRooms();
+
+                // Update coupon passenger rows
+                generateCouponDropdowns();
+                
+                //update final price
+                updateFinalPackagePrice();
             });
 
+
+            // =====================================================
             // Children Count Change
+            // =====================================================
+
             $('#childrenCount').on('change', function () {
 
                 const childrenCount =
@@ -1394,6 +1849,47 @@ $vehicleOptions = [
 
                 // Update room recommendation
                 updateRecommendedRooms();
+
+                // Update coupon passenger rows
+                generateCouponDropdowns();
+
+                //update final price
+                updateFinalPackagePrice();
+
+            });
+
+            // =====================================================
+            // Children Count Change
+            // =====================================================
+
+            $('#infantCount').on('change', function () {
+
+                const infantCount =
+                    parseInt($(this).val()) || 0;
+
+                const childrenTotal =
+                    infantCount * perChildPrice;
+
+                $('#totalInfantCount').text(infantCount);
+
+                animatePrice(
+                    $('#childrenTotal'),
+                    childrenTotal,
+                    '₹ '
+                );
+
+                // Update subtotal
+                updateSubTotal();
+
+                // Update room recommendation
+                updateRecommendedRooms();
+
+                // Update coupon passenger rows
+                generateCouponDropdowns();
+
+                //update final price
+                updateFinalPackagePrice();
+
             });
             // Travel Date Update
             $('#travelStartDate').on('change', function () {
@@ -1882,6 +2378,86 @@ $vehicleOptions = [
                 if (modal) {
                     modal.hide();
                 }
+
+            });
+
+            // =====================================================
+            // COUPON CHANGE
+            // =====================================================
+
+            $(document).on('change', '.coupon-select', function () {
+                const $select = $(this);
+                const selectedOption =
+                    $select.find('option:selected');
+                const amount =
+                    parseFloat(
+                        selectedOption.data('amount')
+                    ) || 0;
+                // Update individual passenger discount
+                const row =
+                    $select.closest('.coupon-passenger-row');
+                row.find('.coupon-discount').text(
+                    '- ₹ ' + amount.toLocaleString('en-IN')
+                );
+
+                // Update coupon restrictions
+                updateCouponDropdowns();
+
+                // Update total coupon discount
+                updateTotalCouponDiscount();
+
+                //update final price
+                updateFinalPackagePrice();
+
+            });
+            
+            // =====================================================
+            // PACKAGE COUPON CHANGE
+            // =====================================================
+
+            $(document).on('change', '#packageCouponSelect', function () {
+
+                const $select = $(this);
+
+                const amount =
+                    parseFloat(
+                        $select.find('option:selected').data('amount')
+                    ) || 0;
+
+                // Individual coupon discount
+                $('#packageCouponDiscount').text(
+                    '₹ ' + amount.toLocaleString('en-IN')
+                );
+
+                // Total coupon discount
+                $('#totalCouponDiscount').text(
+                    '- ₹ ' + amount.toLocaleString('en-IN')
+                );
+
+                //update final price
+                updateFinalPackagePrice();
+
+            });
+            // =====================================================
+            // ON PAGE LOAD
+            // =====================================================
+
+            $(document).ready(function () {
+
+                // =====================================================
+                // PASSENGER COUPONS
+                // =====================================================
+
+                generateCouponDropdowns();
+
+
+                // =====================================================
+                // PACKAGE COUPON
+                // =====================================================
+
+                $('#packageCouponDiscount').text('₹ 0');
+
+                $('#totalCouponDiscount').text('- ₹ 0');
 
             });
         </script>
