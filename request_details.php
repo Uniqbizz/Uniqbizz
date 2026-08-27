@@ -660,12 +660,6 @@ $vehicleOptions = [
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="d-flex justify-content-center align-items-center">
-                                        <button id="submitRequst" class="submit-request-btn">
-                                            <p class="fs-6 text-white fw-bold">Total Estimated Price:</p>
-                                            <p class="fs-6 text-white fw-bold" id="finalPackagePrice2">&#8377; 0 /-</p>
-                                        </button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -679,6 +673,11 @@ $vehicleOptions = [
             </button>
 
             <div class="pricing-overlay" id="pricingOverlay"></div>
+            <div class="d-flex justify-content-center align-items-center">
+                <button id="submitRequst" class="submit-request-btn">
+                    <p class="fs-6 text-white fw-bold">Submit</p>
+                </button>
+            </div>
         </main>
 
         <!-- share model 30-07-2026 end-->
