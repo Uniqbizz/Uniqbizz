@@ -964,7 +964,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: 'filterSte.php',
+                    url: 'filterCte.php',
                     data: dataString,
                     cache: false,
                     success: function(data){

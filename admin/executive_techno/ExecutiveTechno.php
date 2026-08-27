@@ -852,7 +852,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: 'filterSte.php',
+                    url: 'filterEte.php',
                     data: dataString,
                     cache: false,
                     success: function(data){
