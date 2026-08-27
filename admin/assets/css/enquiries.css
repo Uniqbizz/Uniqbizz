@@ -1,0 +1,76 @@
+.rowAlignment {
+    display: flex;
+    justify-content: space-between;
+}
+.cardWidth {
+    width: 20%;
+}
+.cardHeight {
+    height: 94px;
+    justify-content: center;
+}
+.cardHover {
+    border-radius: 100%;
+    width: 50px !important;
+    height: 50px !important;
+    padding: 25px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cardHover1 {
+    background-color: #dbe6f8;
+    color: #0853e8;
+}
+.cardHover2 {
+    background-color: #f0e5d1;
+    color: #ffa500;
+}
+.cardHover3 {
+    background-color: #d5f7f7;
+    color: #06b8b8;
+}
+.cardHover4 {
+    background-color: #f5e6d8;
+    color: #ff7b00;
+}
+.cardHover5 {
+    background-color: #dbf8e2;
+    color: #08e847;
+}
+.fontSize12 {
+    font-size: 12px;
+}
+
+.faIcon:hover {
+    color: #fff !important
+}
+.dateRange {
+    border-radius: 14px !important;
+}
+@media (max-width: 1199px) {
+    .rowAlignment {
+        display: flex;
+        justify-content: start;
+    }
+    .cardWidth {
+        width: 33%;
+    }
+}
+@media only screen and (max-width: 1180px) {
+    .dateRangeAlign {
+        display: flex !important;
+        justify-content: left !important;
+    }
+}
+@media (max-width: 767px) {
+    .cardWidth {
+        width: 50%;
+    }
+}
+@media (max-width: 500px) {
+    .cardWidth {
+        width: 100%;
+    }
+}
