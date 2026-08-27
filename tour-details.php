@@ -1,9 +1,4 @@
 <?php
-// session_start();
-
-// if (!isset($_SESSION['username2']) || !isset($_SESSION['user_type_id_value']) || !isset($_SESSION['user_id'])) {
-//     echo '<script>location.href = "login";</script>';
-// }
 
 // Start the session only if it's not already started
 if (session_status() == PHP_SESSION_NONE) {
@@ -15,323 +10,16 @@ $username2 = $_SESSION['username2'] ?? null;
 $user_type_id_value = $_SESSION['user_type_id_value'] ?? null;
 $user_id = $_SESSION['user_id'] ?? null;
 
-// Now you can use these variables safely
-// Example usage:
-// if ($username2 && $user_type_id_value && $user_id) {
-//     // Logged-in user
-//     echo "Welcome, $username2!";
-// } else {
-//     // Guest user
-//     echo "Welcome, Guest!";
-// }
-
 $id = isset($_GET['pacId']) ? (int)$_GET['pacId'] : 0;
 
 if ($id <= 0) {
     die("Invalid package ID");
 }
 
-// echo $userFname = $_SESSION['username2']; //first name of user 'Ryam'.
-// echo $userLname = $_SESSION['lname']; //last name of user 'Cardoso'.
-// echo $userType = $_SESSION['user_type_id_value']; //user type id value '3'.
-// echo $userId = $_SESSION['user_id']; // user id 'TA230030'.
 $userId = $_SESSION['user_id']??'0';
 
 require 'connect.php';
-function parseFaqTxt($filePath)
-{
-    if (!file_exists($filePath)) {
-        return [];
-    }
-
-    $content = file_get_contents($filePath);
-
-    preg_match_all('/Q:\s*(.*?)\s*A:\s*(.*?)(?=\n\s*Q:|$)/is', $content, $matches, PREG_SET_ORDER);
-
-    $faqs = [];
-
-    foreach ($matches as $match) {
-        $faqs[] = [
-            'question' => trim($match[1]),
-            'answer'   => trim($match[2])
-        ];
-    }
-
-    return $faqs;
-}
-// package
-$stmt = $conn->prepare("SELECT * FROM package WHERE id = $id AND status = '1' AND visibility = 1 AND DATE(validity) >= CURRENT_DATE");
-$stmt->execute();
-$package = $stmt->fetch();
-$cat_id = $package['category_id'];
-$sub_cat_id = $package['sub_category_id'];
-$hotel_cat_id = $package['category_hotel_id'];
-$meal_cat_id = $package['category_meal_id'];
-$validity = $package['validity'] ?? 0;
-$package_keywords = $package['package_keywords'] ?? '';
-$location  = $package['location'] ?? '';
-$destination = $package['destination'] ?? '';
-
-$tour_days_total = $package['tour_days'] ?? 0;
-$tour_days = $tour_days_total - 1;
-$tour_nights = $tour_days_total - 2;
-
-// itinery 
-$data2 = $conn->prepare("SELECT * FROM package_itinerary_details WHERE package_id = $id");
-$data2->execute();
-$itinery = $data2->fetch();
-
-// package_pricing 
-$data3 = $conn->prepare("SELECT * FROM package_pricing WHERE package_id = $id");
-$data3->execute();
-$amount = $data3->fetch();
-
-// category 
-$data5 = $conn->prepare("SELECT * FROM category WHERE id = $cat_id");
-$data5->execute();
-$category = $data5->fetch();
-
-// sub_cat 
-$data6 = $conn->prepare("SELECT * FROM subcategory WHERE id = $sub_cat_id");
-$data6->execute();
-$sub_cat = $data6->fetch();
-
-// cat hotel 
-$data7 = $conn->prepare("SELECT * FROM category_hotel WHERE id = $hotel_cat_id");
-$data7->execute();
-if ($data7->rowCount() > 0) {
-    $hotel_cat = $data7->fetch();
-} else {
-    $hotel_cat = "null";
-}
-
-// cat meal 
-$data8 = $conn->prepare("SELECT * FROM category_meal WHERE id = $meal_cat_id");
-$data8->execute();
-if ($data8->rowCount() > 0) {
-    $meal_cat = $data8->fetch();
-} else {
-    $meal_cat = "null";
-}
-
-// Fetch occupancy types for a given package_id
-$data9 = $conn->prepare("SELECT * FROM `package_to_category_occupancy` WHERE package_id = :id");
-$data9->bindParam(':id', $id, PDO::PARAM_INT);
-$data9->execute();
-$occu_type = $data9->rowCount() > 0 ? $data9->fetchAll(PDO::FETCH_ASSOC) : [];
-
-// Fetch all occupancy categories
-$data10 = $conn->prepare("SELECT id, name FROM `category_occupancy`");
-$data10->execute();
-$occu_type_id = $data10->rowCount() > 0 ? $data10->fetchAll(PDO::FETCH_ASSOC) : [];
-
-// Fetch vehicle types for a given package_id
-$data11 = $conn->prepare("SELECT * FROM `package_to_category_vehicle` WHERE package_id = :id");
-$data11->bindParam(':id', $id, PDO::PARAM_INT);
-$data11->execute();
-$vehicle_type = $data11->rowCount() > 0 ? $data11->fetchAll(PDO::FETCH_ASSOC) : []; // Corrected variable name
-
-// Fetch vehicle types for a given package_id
-$data11 = $conn->prepare("
-    SELECT *
-    FROM package_pricing
-    WHERE package_id = :id
-    ORDER BY id DESC
-    LIMIT 1
-");
-
-$data11->bindParam(':id', $id, PDO::PARAM_INT);
-$data11->execute();
-
-$pricing = $data11->fetch(PDO::FETCH_ASSOC) ?: [];
-
-// Fetch all vehicle categories
-$data12 = $conn->prepare("SELECT id, name FROM `category_vehicle`");
-$data12->execute();
-$vehicle_type_id = $data12->rowCount() > 0 ? $data12->fetchAll(PDO::FETCH_ASSOC) : []; // Corrected variable name
-
-//cancellation policy
-$data9 = $conn->prepare("SELECT * FROM cancel_policy WHERE package_id = $id");
-$data9->execute();
-if ($data9->rowCount() > 0) {
-    $cancel_policy = $data9->fetch();
-} else {
-    $cancel_policy['policy_1'] = 0;
-    $cancel_policy['policy_2'] = 0;
-    $cancel_policy['policy_3'] = 0;
-}
-//ta markup
-if($user_type_id_value == '11'){
-    $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '" . $user_id . "' AND package_id = '" . $id . "' LIMIT 1");
-    $ta_markup_data->execute();
-    $ta_markup = $ta_markup_data->fetch();
-    if ($ta_markup) {
-        $ta_markup_price_val = $ta_markup['markup'] ?? 0;
-    }else {
-        $ta_markup_price_val = 0;
-    } 
-}else {
-    $ta_markup_price_val = 0;
-}
-$stmtPolicy = $conn->prepare("
-    SELECT title, file_name
-    FROM package_policy_document
-    WHERE package_id = ?
-    ORDER BY id ASC
-");
-
-$stmtPolicy->execute([$id]);
-$policies = $stmtPolicy->fetchAll(PDO::FETCH_ASSOC);
-//share model start 30-07-2026
-
-$title = "Bizzmirth Holidays Pvt Ltd";
-$description = "Get latest and best deal on holiday packages";
-$siteName = "Holiday Packages";
-
-/*
-|--------------------------------------------------------------------------
-| Replace this with your thumbnail image URL
-|--------------------------------------------------------------------------
-|
-| Recommended size: 1200x630 px
-| Must be publicly accessible.
-|
-*/
-$image = "https://ca.uniqbizz.com/admin/assets/images/fav.png";
-
-$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
-    ? "https"
-    : "http")
-    . "://"
-    . $_SERVER['HTTP_HOST']
-    . $_SERVER['REQUEST_URI'];
-
-//share model end
-//package similar list
-// Get latest 10 packages
-$sqlPack = $conn->prepare("
-    SELECT *
-    FROM package
-    WHERE status = 1 AND visibility = 1 AND DATE(validity) >= CURRENT_DATE
-    AND id != ?
-    AND (
-            package_keywords LIKE ?
-            OR destination LIKE ?
-            OR location LIKE ?
-        )
-    ORDER BY id DESC
-    LIMIT 10
-");
-
-$sqlPack->execute([
-    $id,
-    "%$package_keywords%",
-    "%$destination%",
-    "%$location%"
-]);
-
-$packages = $sqlPack->fetchAll(PDO::FETCH_ASSOC);
-
-$package_array = [];
-
-foreach ($packages as $similarPackage) {
-
-    $sqlPackPrice = $conn->prepare("
-        SELECT total_package_price_per_adult
-        FROM package_pricing
-        WHERE package_id = ?
-        ORDER BY id DESC
-        LIMIT 1
-    ");
-
-    $sqlPackPrice->execute([$similarPackage['id']]);
-
-    $packagePrice = $sqlPackPrice->fetch(PDO::FETCH_ASSOC);
-
-    $sqlPackImage = $conn->prepare("
-        SELECT image
-        FROM package_pictures
-        WHERE package_id = ?
-        AND (type IS NULL OR type IN ('cover_image', 'gallary_image'))
-        ORDER BY id ASC
-    ");
-
-    $sqlPackImage->execute([$similarPackage['id']]);
-
-    $packageImages = $sqlPackImage->fetchAll(PDO::FETCH_COLUMN);
-
-    $days = (int)$similarPackage['tour_days'];
-    $nights = max(0, $days - 1);
-
-    $package_duration = $nights . "N / " . $days . "D";
-
-    $package_array[] = [
-        "packid"   => $similarPackage['id'],
-        "title"    => $similarPackage['name'],
-        "duration" => $package_duration,
-        "price"    => $packagePrice['total_package_price_per_adult'] ?? 0,
-        'images'    => $packageImages,
-        "link"     => "tour-details.php?pacId=" . $similarPackage['id']
-    ];
-}
-//guest princinglogic
-$userType = $_SESSION['user_type_id_value'] ?? null;
-
-$showGuestPrice = !empty($userType)
-    && !in_array((int)$userType, [1, 17, 15]);
-
-$adultPrice = (float)$pricing['total_package_price_per_adult'];
-$childPrice = (float)$pricing['total_package_price_per_child'];
-
-$adultDisplayPrice = $adultPrice;
-$childDisplayPrice = $childPrice;
-
-if ($showGuestPrice) {
-
-    if (!empty($pricing['guest_amount'])) {
-
-        $guestAmount = (float)$pricing['guest_amount'];
-
-        // Remove guest fixed amount
-        $adultDisplayPrice = $adultPrice - $guestAmount;
-        $childDisplayPrice = $childPrice - $guestAmount;
-
-    } elseif (!empty($pricing['guest_percentage'])) {
-
-        $percentage = (float)$pricing['guest_percentage'];
-
-        // Remove guest percentage
-        $adultDisplayPrice =
-            $adultPrice / (1 + ($percentage / 100));
-
-        $childDisplayPrice =
-            $childPrice / (1 + ($percentage / 100));
-    }
-}
-$stmt = $conn->prepare("
-    SELECT image
-    FROM package_pictures
-    WHERE package_id = ?
-    AND type = 'video'
-    ORDER BY id ASC
-");
-
-$stmt->execute([$id]);
-
-$packageVideos = $stmt->fetchAll(PDO::FETCH_COLUMN);
-
-function safeJsonDecode($value)
-{
-    if (empty($value)) {
-        return [];
-    }
-
-    $decoded = json_decode($value, true);
-
-    return (json_last_error() === JSON_ERROR_NONE && is_array($decoded))
-        ? $decoded
-        : [];
-}
+include 'assets/submit/tour_details_data.php';
 ?>
 
 <!DOCTYPE html>
@@ -414,7 +102,6 @@ function safeJsonDecode($value)
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
-    
     <body>
         <?php include_once "header.php" ?>
         <main>
@@ -460,16 +147,6 @@ function safeJsonDecode($value)
                                     <?php echo $package['destination'] ?>
                                 </p>
                             </div>
-                            <?php
-                                $galleryImages = [];
-
-                                $galleryData = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = ? AND (type NOT IN ('video') OR type IS NULL)");
-                                $galleryData->execute([$id]);
-
-                                if ($galleryData->rowCount() > 0) {
-                                    $galleryImages = $galleryData->fetchAll(PDO::FETCH_ASSOC);
-                                }
-                            ?>
                             <div class="desktop-gallery">
                                 <div class="row">
                                     <?php if (!empty($galleryImages)) : ?>
@@ -794,20 +471,20 @@ function safeJsonDecode($value)
 
                                                                                 <hr class="my-3" style="border-top:1px solid #4b5051;">
 
-                                                                                <div class="d-flex justify-content-evenly">
+                                                                                <div class="d-flex justify-content-evenly displayMeal">
                                                                                     <div class="gap-1 d-flex">
-                                                                                        <h6 class="fw-bold">Meal:&nbsp;</h6>
-                                                                                        <p class="text-muted fontSize3"><?= $day['meal_plan']; ?></p>
+                                                                                        <h6 class="fw-bold align-content-center">Meal:&nbsp;</h6>
+                                                                                        <p class="text-muted fontSize3 align-content-center"><?= $day['meal_plan']; ?></p>
                                                                                     </div>
 
                                                                                     <div class="gap-1 d-flex">
-                                                                                        <h6 class="fw-bold">Transport:&nbsp;</h6>
-                                                                                        <p class="text-muted fontSize3"><?= $day['day_tansport']; ?></p>
+                                                                                        <h6 class="fw-bold align-content-center">Transport:&nbsp;</h6>
+                                                                                        <p class="text-muted fontSize3 align-content-center"><?= $day['day_tansport']; ?></p>
                                                                                     </div>
 
                                                                                     <div class="gap-1 d-flex">
-                                                                                        <h6 class="fw-bold">Stay:&nbsp;</h6>
-                                                                                        <p class="text-muted fontSize3"><?= $day['stay']; ?></p>
+                                                                                        <h6 class="fw-bold align-content-center">Stay:&nbsp;</h6>
+                                                                                        <p class="text-muted fontSize3 align-content-center"><?= $day['stay']; ?></p>
                                                                                     </div>
                                                                                 </div>
 
@@ -1083,10 +760,10 @@ function safeJsonDecode($value)
                                                     <i class="ri-image-line me-2"></i>
                                                     Request Details
                                                 </button>      
-                                                <button class="enquiry-btn mb-3" id="sendEnquiry" style="cursor:pointer;">
+                                                <!-- <button class="enquiry-btn mb-3" id="sendEnquiry" style="cursor:pointer;">
                                                     <i class="ri-image-line me-2"></i>
                                                     Send Enquiry
-                                                </button>  
+                                                </button>   -->
                                                 <div class="contactNum d-flex justify-content-center gap-2">
                                                     <i class="ri-phone-line"></i>
                                                     <p class="textBlue fw-bolder pb-0" href="tel:8010892265" id="callBtn" style="cursor: pointer;">+91 8010892265</p>    
@@ -1116,7 +793,7 @@ function safeJsonDecode($value)
                                                     Email Itinerary
                                                 </div>
                                             </div>
-                                            <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3" id="sendItenerary">
+                                            <div class="col-xl-4 col-lg-6 col-md-4 col-sm-4 col-4 mb-3" id="sendItenerary" onclick="openShare()">
                                                 <div class="blueCardBtn text-center rounded-4 p-3 cardShadow" style="cursor:pointer;">
                                                     <div class="goldBtn">
                                                         <i class="ri-send-plane-line"></i>
@@ -1366,27 +1043,48 @@ function safeJsonDecode($value)
                 <div class="icons">
 
                     <a class="social" target="_blank"  href="https://wa.me/?text=<?php echo urlencode("🎬 ".$title."\n\n".$description."\n\n".$url); ?>">
-                        <div class="circle whatsapp">☎</div>
+                        <div class="shareIcon">
+                            <svg xmlns="http://w3.org" viewBox="0 0 448 512" width="60" height="60" fill="#25D366" class="social">
+                                <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+                            </svg>
+                        </div>
                         <span>WhatsApp</span>
                     </a>
 
                     <a class="social" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode($url); ?>">
-                        <div class="circle facebook">f</div>
+                        <div class="shareIcon">
+                            <svg xmlns="http://w3.org" viewBox="0 0 512 512" width="60" height="60" fill="#1877F2">
+                                <path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.8 90.7 226.4 209.3 245V327.7h-63V256h63v-54.6c0-62.2 37-96.5 93.7-96.5 27.1 0 55.5 4.8 55.5 4.8v61h-31.3c-30.8 0-40.4 19.1-40.4 38.7V256h68.8l-11 71.7h-57.8V501C413.3 482.4 504 379.8 504 256z"/>
+                            </svg>
+
+                        </div>
                         <span>Facebook</span>
                     </a>
 
                     <a class="social" target="_blank" href="https://twitter.com/intent/tweet?text=<?php echo urlencode($title); ?>&url=<?php echo urlencode($url); ?>">
-                        <div class="circle x">𝕏</div>
+                        <div class="shareIcon">
+                            <svg xmlns="http://w3.org" viewBox="0 0 512 512" width="60" height="60" fill="#000000">
+                                <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/>
+                            </svg>
+                        </div>
                         <span>X</span>
                     </a>
 
                     <a class="social" target="_blank" href="https://t.me/share/url?url=<?php echo urlencode($url); ?>&text=<?php echo urlencode($title."\n".$description); ?>">
-                        <div class="circle telegram">✈</div>
+                        <div class="shareIcon">
+                            <svg xmlns="http://w3.org" viewBox="0 0 496 512" width="60" height="60" fill="#24A1DE">
+                                <path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 18.3z"/>
+                            </svg>
+                        </div>
                         <span>Telegram</span>
                     </a>
 
                     <a class="social" href="mailto:?subject=<?php echo urlencode($title); ?>&body=<?php echo urlencode($description."\n\n".$url); ?>">
-                        <div class="circle email">✉</div>
+                        <div class="shareIcon">
+                            <svg xmlns="http://w3.org" viewBox="0 0 512 512" width="60" height="60" fill="#e03d42">
+                                <path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/>
+                            </svg>
+                        </div>
                         <span>Email</span>
                     </a>
 
@@ -1517,7 +1215,7 @@ function safeJsonDecode($value)
 
                     saveWishlist(wishlist);
 
-                    console.log('Wishlist:', wishlist);
+                    // console.log('Wishlist:', wishlist);
                 });
 
             });
@@ -1563,44 +1261,45 @@ function safeJsonDecode($value)
 
         </script>
         <script>
-            // Send Enquiry and Send Itinerary
-            document.querySelectorAll('#sendEnquiry, #sendItenerary').forEach(button => {
-                button.addEventListener('click', function () {
+            // // Send Enquiry and Send Itinerary
+            // document.querySelectorAll('#sendEnquiry, #sendItenerary').forEach(button => {
+            //     button.addEventListener('click', function () {
 
-                    const phoneNumber = '919876543210';
+            //         const phoneNumber = '';
 
-                    const packageReference = `<?= htmlspecialchars($package['unique_code'] ?? '') ?>`;
-                    const packageName = `<?= htmlspecialchars($package['pack_name'] ?? '') ?>`;
+            //         const packageReference = `<?= htmlspecialchars($package['unique_code'] ?? '') ?>`;
+            //         const packageName = `<?= htmlspecialchars($package['name'] ?? '') ?>`;
 
-                    let message = '';
+            //         let message = '';
 
-                    if (this.id === 'sendEnquiry') {
+            //         if (this.id === 'sendEnquiry') {
 
-                        message = `Hello, I would like to enquire about this travel package.
+            //             message = `Hello, I would like to enquire about this travel package.
 
-                        Package Reference: ${packageReference}
-                        Package Name: ${packageName}
+            //             Package Reference: ${packageReference}
+            //             Package Name: ${packageName}
 
-                        Please share more details about this package.`;
+            //             Please share more details about this package.`;
 
-                                } else if (this.id === 'sendItenerary') {
+            //                     } else if (this.id === 'sendItenerary') {
 
-                                    message = `Hello, I would like to enquire about the itinerary of this travel package.
+            //                         message = `Hello, I would like to enquire about the itinerary of this travel package.
 
-                        Package Reference: ${packageReference}
-                        Package Name: ${packageName}
+            //             Package Reference: ${packageReference}
+            //             Package Name: ${packageName}
 
-                        Please share the detailed itinerary with me.`;
-                    }
+            //             Please share the detailed itinerary with me.
+            //             `+ "<?= html_entity_decode($url, ENT_QUOTES, 'UTF-8') ?>";
+            //         }
 
-                    const whatsappURL =
-                        `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            //         const whatsappURL =
+            //             `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
-                    window.open(whatsappURL, '_blank');
-                });
-            });
+            //         window.open(whatsappURL, '_blank');
+            //     });
+            // });
 
-            //email itinerary
+            // //email itinerary
             document.getElementById('emailItinerary').addEventListener('click', function () {
 
                 const subject = `Travel Package Enquiry - <?= htmlspecialchars($package['unique_code'] ?? '') ?>`;
@@ -1610,11 +1309,11 @@ function safeJsonDecode($value)
                 I am interested in the following travel package:
 
                 Package Reference: <?= htmlspecialchars($package['unique_code'] ?? '') ?>
-                Package Name: <?= htmlspecialchars($package['pack_name'] ?? '') ?>
+                Package Name: <?= htmlspecialchars($package['name'] ?? '') ?>
 
                 Please share more details about this package.
 
-                Thank you.`;
+                Thank you.`+ "<?= html_entity_decode($url, ENT_QUOTES, 'UTF-8') ?>";
 
                 const mailtoURL =
                     `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -1685,7 +1384,7 @@ function safeJsonDecode($value)
                                 // } else {
                                 //     couponSelect.removeAttr('multiple');
                                 // }
-                                console.log('test');
+                                // console.log('test');
                                 
                                 $('#discount_price_box').removeClass('d-none');
                                 $('#offer_price_box').removeClass('d-none');
@@ -1825,9 +1524,9 @@ function safeJsonDecode($value)
                 var initialTotal = prime_pack_price;
                 $('#get_total_offer_price').text(initialTotal);
 
-                console.log('Initial price:', total);
-                console.log('Initial offer price:', initialTotal);
-                console.log('adult added price:', added_adult_price);
+                // console.log('Initial price:', total);
+                // console.log('Initial offer price:', initialTotal);
+                // console.log('adult added price:', added_adult_price);
 
                 // Update total on count change
                 $('#b_no_adult, #b_no_child, #b_no_infants').on('change', function() {
@@ -1885,7 +1584,7 @@ function safeJsonDecode($value)
             $("#cust_id").change(function() {
                 var customerData;
                 cust_id = $("#cust_id").val();
-                console.log('customerId:'+cust_id);
+                // console.log('customerId:'+cust_id);
                 ta_id = <?php
                             $data = json_encode($ta_id ?? 0, JSON_HEX_TAG);
                             echo ($data === false) ? 0 : $data;
@@ -1911,7 +1610,7 @@ function safeJsonDecode($value)
                                 //let formattedCustomerType = customerTypeRaw.charAt(0).toUpperCase() + customerTypeRaw.slice(1); // "Premium"
 
                                 $("#specCust").text(customerTypeRaw + ' Customer');
-                                console.log('customerTypeRaw:'+customerTypeRaw);
+                                // console.log('customerTypeRaw:'+customerTypeRaw);
                                 
                                 // Check for customer coupons
                                 checkCustomerCoupons(cust_id);
@@ -2004,7 +1703,7 @@ function safeJsonDecode($value)
                 package_price_np.innerText = parseFloat(total1).toFixed(2);
                 $('#get_total_offer_price').text(parseFloat(total).toFixed(2));
                 // $("#get_total_package_price_actual").text(parseFloat(total).toFixed(2));
-                console.log('total:' + total + '--- tptal1:' + total1);
+                // console.log('total:' + total + '--- tptal1:' + total1);
             }
 
             var coupon_applied_status = 'false';
@@ -2471,7 +2170,7 @@ function safeJsonDecode($value)
                 }
 
                 $('#amountToBePaid').text(final_pack_amount);
-                console.log("modal price: " + final_pack_amount);
+                // console.log("modal price: " + final_pack_amount);
 
                 let totalAmount = parseFloat(final_pack_amount) || 0;
 
@@ -2484,8 +2183,8 @@ function safeJsonDecode($value)
                         return;
                     }
 
-                    console.log('Available Balance:', bal_amt);
-                    console.log('Amount To Be Paid:', amountToBePaidVal);
+                    // console.log('Available Balance:', bal_amt);
+                    // console.log('Amount To Be Paid:', amountToBePaidVal);
 
                     if (bal_amt < amountToBePaidVal) {
                         $('#low_bal').removeClass('d-none');
@@ -2555,7 +2254,7 @@ function safeJsonDecode($value)
 
             $('#place_order').click(async function(e) {
                 e.preventDefault();
-                console.log("in place order");
+                // console.log("in place order");
                 //product_package_payout();
                 //valiadtions
 
@@ -2687,8 +2386,8 @@ function safeJsonDecode($value)
                                         'gender': genders[i]
                                     });
                                 });
-                                console.log("formdata");
-                                console.log(formdata);
+                                // console.log("formdata");
+                                // console.log(formdata);
                                 //resolve(formdata)
                                 // Book Package
                                 let data = formdata;
@@ -2706,7 +2405,7 @@ function safeJsonDecode($value)
 
                                         //$('#book_id').val(res.bookid);
                                         if (res.status == 1) {
-                                            console.log("success payment");
+                                            // console.log("success payment");
                                             // ✅ Add invoice_no to data
                                             let secondData = {
                                                 ...formdata, // ✅ use original object
@@ -3300,7 +2999,7 @@ function safeJsonDecode($value)
             ) ?>;
 
             const track = document.getElementById("packageTrack");
-            console.log(packages);
+            // console.log(packages);
             
             if (packages && packages.length > 0) {
 

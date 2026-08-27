@@ -1,5 +1,120 @@
+<?php
 
+// Start the session only if it's not already started
+if (session_status() == PHP_SESSION_NONE) {
+    @session_start(); // Suppress warnings if headers already sent
+}
 
+// Define default values for users who are not logged in
+$username2 = $_SESSION['username2'] ?? null;
+$user_type_id_value = $_SESSION['user_type_id_value'] ?? null;
+$user_id = $_SESSION['user_id'] ?? null;
+
+$id = isset($_GET['pacId']) ? (int)$_GET['pacId'] : 0;
+
+if ($id <= 0) {
+    die("Invalid package ID");
+}
+
+$userId = $_SESSION['user_id']??'0';
+
+require 'connect.php';
+include 'assets/submit/tour_details_data.php';
+
+$vehicleOptions = [
+    [
+        'value' => 4,
+        'name'  => '4 Seater',
+        'type'  => 'Sedan',
+        'icon'  => 'ri-car-line'
+    ],
+    [
+        'value' => 6,
+        'name'  => '6 Seater',
+        'type'  => 'SUV',
+        'icon'  => 'ri-car-line'
+    ],
+    [
+        'value' => 7,
+        'name'  => '7 Seater',
+        'type'  => 'SUV / Innova',
+        'icon'  => 'ri-car-line'
+    ],
+    [
+        'value' => 9,
+        'name'  => '9 Seater',
+        'type'  => 'Luxury Van',
+        'icon'  => 'ri-bus-line'
+    ],
+    [
+        'value' => 12,
+        'name'  => '12 Seater',
+        'type'  => 'Tempo Traveller',
+        'icon'  => 'ri-bus-line'
+    ],
+    [
+        'value' => 15,
+        'name'  => '15 Seater',
+        'type'  => 'Tempo Traveller',
+        'icon'  => 'ri-bus-line'
+    ],
+    [
+        'value' => 17,
+        'name'  => '17 Seater',
+        'type'  => 'Mini Bus',
+        'icon'  => 'ri-bus-line'
+    ],
+    [
+        'value' => 20,
+        'name'  => '20 Seater',
+        'type'  => 'Mini Bus',
+        'icon'  => 'ri-bus-line'
+    ],
+    [
+        'value' => 25,
+        'name'  => '25 Seater',
+        'type'  => 'Mini Bus',
+        'icon'  => 'ri-bus-line'
+    ],
+    [
+        'value' => 27,
+        'name'  => '27 Seater',
+        'type'  => 'Bus',
+        'icon'  => 'ri-bus-line'
+    ],
+    [
+        'value' => 32,
+        'name'  => '32 Seater',
+        'type'  => 'Bus',
+        'icon'  => 'ri-bus-line'
+    ],
+    [
+        'value' => 35,
+        'name'  => '35 Seater',
+        'type'  => 'Bus',
+        'icon'  => 'ri-bus-line'
+    ],
+    [
+        'value' => 40,
+        'name'  => '40 Seater',
+        'type' => 'Bus',
+        'icon'  => 'ri-bus-line'
+    ],
+    [
+        'value' => 45,
+        'name'  => '45 Seater',
+        'type'  => 'Bus',
+        'icon'  => 'ri-bus-line'
+    ],
+    [
+        'value' => 50,
+        'name'  => '50 Seater',
+        'type'  => 'Bus',
+        'icon'  => 'ri-bus-line'
+    ]
+];
+
+?>
 <!DOCTYPE html>
 <html lang="zxx" dir="lrt">
 
@@ -8,15 +123,6 @@
     <meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 
     <head>
-        <!-- <script>
-        const setTheme = (theme) => {
-            theme ?? = localStorage.theme || "light";
-            document.documentElement.dataset.theme = theme;
-            localStorage.theme = theme;
-        };
-        setTheme();
-        </script> -->
-
         <script>
             const setTheme = (theme) => {
                 // If theme is undefined or null, set it to localStorage.theme or "light"
@@ -87,14 +193,6 @@
             <!-- Breadcrumbs S t a r t -->
             <div class="container">
                 <nav aria-label="breadcrumb" class="mt-4">
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item">
-                            <a href="index.php">Home</a>
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page">
-                            <?php //echo $package['name'] ?>
-                        </li>
-                    </ol>
                 </nav>
             </div>
             <!--/ End-of Breadcrumbs-->
@@ -105,15 +203,7 @@
                         <div class="title-section mb-3">
                             <div>
                                 <h3 class="fw-bolder" id="pack_name">Request Best Quote</h3>
-                                <p class="fw-bolder text-black" id="pack_name">Varanasi A Spiritual Journey Awaits</p>
-                            </div>
-                            <div class="d-flex gap-4">
-                                <div class="openShare" onclick="openShare()">
-                                    <i class="ri-share-line"></i>
-                                </div>
-                                <div class="wishlist-icon">
-                                    <i class="ri-heart-line"></i>
-                                </div>
+                                <p class="fw-bolder text-black" id="pack_name"><?= $package['name'] ?></p>
                             </div>
                         </div>
                         <!-- Card Section 1 -->
@@ -122,31 +212,39 @@
                                 <div class="card cardShadow">
                                     <div class="d-flex tabDisplayBlock">
                                         <div>
-                                            <img src="assets/images/package/package-7.jpg" alt="" class="requestQuotePackageImg">
+                                            <img src="<?= $galleryImages[0]['image'] ?>" alt="" class="requestQuotePackageImg">
                                         </div>
                                         <div class="p-3 widthStretch">
-                                            <p class="fw-bolder text-black mb-1 fs-5" id="pack_name">Varanasi A Spiritual Journey Awaits</p>
+                                            <p class="fw-bolder text-black mb-1 fs-5" id="pack_name"><?= $package['name'] ?></p>
                                             <div class="d-flex justify-content-between mobileDisplayBlock">
                                                 <p class="fontSize10 mb-3">
                                                     <i class="ri-map-pin-line destination-title fs-6"></i>
-                                                    Varanasi, Uttar Pradesh
+                                                    <?php echo $package['destination'] ?>
                                                 </p>
                                                 <p class="fontSize10 mb-3">
                                                     <i class="ri-time-line destination-title fs-6"></i>
-                                                    4 Nights / 5 Days
+                                                    <?= $tour_nights ?> Nights / <?= $tour_days ?> Days
                                                 </p>
                                                 <p class="fontSize10 mb-3">
                                                     <i class="ri-restaurant-line destination-title fs-6"></i>
-                                                    Meals: Breakfast & Dinner
+                                                    Meals: <?= $meal_cat['name'] ?>
                                                 </p>
                                             </div>
                                             <p class="fontSize10 mb-3">
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. At inventore adipisci, fugiat 
-                                                sunt nemo quidem hic reiciendis! Neque velit sint maiores facilis iste quas iure vero, 
-                                                deleniti culpa, alias iusto?
+                                                <?= $package['description'] ?>
                                             </p>
                                             <div class="p-2 priceGreenBtn">
-                                                <p class="text-center">Starting from <span class="priceTextGreen">&#8377;13,754 /-</span> per adult</p>
+                                                <div class="d-flex justify-content-center align-items-end">Starting from 
+                                                    <div class="d-block mx-2">
+                                                        <?php if ($showGuestPrice && $adultDisplayPrice < $adultPrice): ?>
+                                                            <p class="priceTextGreen1 fontSize10 text-center d-block">
+                                                                &#8377; <?= number_format($adultPrice, 2) ?> /-
+                                                            </p>
+                                                        <?php endif; ?>
+                                                        <p class="priceTextGreen">&#8377;<?= number_format($adultDisplayPrice, 2) ?> /-</p>
+                                                    </div>
+                                                     per adult
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -174,32 +272,49 @@
                                             <div class="mb-3">
                                                 <label for="dayInput" class="form-label fontSize10">Nights / Days</label>
                                                 <div class="icon-select-wrapper">
-                                                    <i class="ri-moon-line iconPosition iconRed"></i>
-                                                    <select class="form-select fontSize10 paddingLeft" aria-label="Default select example">
-                                                        <option selected>Select Days</option>
-                                                        <option value="1">4 Nights / 5 Days</option>
-                                                        <option value="2">2 Nights / 3 Days</option>
-                                                        <option value="3">5Nights / 6 Days</option>
-                                                    </select>
+                                                    <span class="fontSize10 paddingLeft form-control"><i class="ri-moon-line iconPosition iconRed"></i><?= $tour_nights ?> Nights / <?= $tour_days ?> Days</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                             <div class="mb-3">
                                                 <label for="pickupLocation" class="fontSize10 form-label">Pickup</label>
+
                                                 <div class="icon-select-wrapper">
                                                     <i class="ri-map-pin-line iconPosition iconRed"></i>
-                                                    <input type="email" class="fontSize10 form-control paddingLeft" id="pickupLocation" placeholder="Varanasi">
+
+                                                    <input type="text"
+                                                        class="fontSize10 form-control paddingLeft location-input"
+                                                        id="pickupLocation"
+                                                        value="<?= htmlspecialchars($package['travel_from']) ?>"
+                                                        data-old-value="<?= htmlspecialchars($package['travel_from']) ?>">
+
                                                 </div>
+
+                                                <small class="old-value-text text-muted" id="pickupOldValue" style="display:none;">
+                                                    Old Pickup: <?= htmlspecialchars($package['travel_from']) ?>
+                                                </small>
                                             </div>
                                         </div>
+
                                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                             <div class="mb-3">
                                                 <label for="dropLocation" class="fontSize10 form-label">Drop</label>
+
                                                 <div class="icon-select-wrapper">
                                                     <i class="ri-map-pin-line iconPosition iconRed"></i>
-                                                    <input type="email" class="fontSize10 form-control paddingLeft" id="dropLocation" placeholder="Mumbai">
+
+                                                    <input type="text"
+                                                        class="fontSize10 form-control paddingLeft location-input"
+                                                        id="dropLocation"
+                                                        value="<?= htmlspecialchars($package['travel_to']) ?>"
+                                                        data-old-value="<?= htmlspecialchars($package['travel_to']) ?>">
+
                                                 </div>
+
+                                                <small class="old-value-text text-muted" id="dropOldValue" style="display:none;">
+                                                    Old Drop: <?= htmlspecialchars($package['travel_to']) ?>
+                                                </small>
                                             </div>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -207,7 +322,7 @@
                                                 <label class="guest-label">Adults (12+ yrs)</label>
                                                 <div class="counter-box">
                                                     <button type="button" class="counter-btn minus">−</button>
-                                                    <input type="number" name="adults" class="counter-value" value="2" min="1">
+                                                    <input type="number" id="adultCount" name="adults" class="counter-value" value="1" min="1">
                                                     <button type="button" class="counter-btn plus">+</button>
                                                 </div>
                                             </div>
@@ -217,7 +332,7 @@
                                                 <label class="guest-label">Children (2-11 yrs)</label>
                                                 <div class="counter-box">
                                                     <button type="button" class="counter-btn minus">−</button>
-                                                    <input type="number" name="children" class="counter-value" value="0" min="0">
+                                                    <input type="number" id="childrenCount" name="children" class="counter-value" value="0" min="0">
                                                     <button type="button" class="counter-btn plus">+</button>
                                                 </div>
                                             </div>
@@ -227,20 +342,20 @@
                                                 <label class="guest-label">Infants (0-1 yrs)</label>
                                                 <div class="counter-box">
                                                     <button type="button" class="counter-btn minus">−</button>
-                                                    <input type="number" name="infants" class="counter-value" value="0" min="0">
+                                                    <input type="number" id="infantCount" name="infants" class="counter-value" value="0" min="0">
                                                     <button type="button" class="counter-btn plus">+</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card cardRoom mt-3 p-3">
+                                    <div class="card cardRoom mt-3 p-3" id="roomRecommendation">
                                         <p class="fontSize10 fw-bold">Room 1</p>
                                         <div class="row">
                                             <div class="col-xl-9 col-lg-8 col-md-8 col-sm-7 col-12 mb-3">
                                                 <div class="d-flex justify-content-between mobileDisplayBlock">
                                                     <div>
-                                                        <p class="fontSize10 fw-bold"><i class="ri-hotel-bed-fill destination-title fs-6"></i> 1 Double Bed + 1 Extra Mattress</p>
-                                                        <p class="fontSize10">3 Pax will be accommendated in 1 room with extra mattress.</p>
+                                                        <p class="fontSize10 fw-bold"><i class="ri-hotel-bed-fill destination-title fs-6"></i> 1 Double Bed</p>
+                                                        <p class="fontSize10">1 Pax will be accommendated in 1 room.</p>
                                                     </div>
                                                     <div class="py-1 px-2 text-center text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 recommendedBtn fw-bold fontSize10">
                                                         Recommended
@@ -248,11 +363,13 @@
                                                 </div>
                                             </div>
                                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-5 col-12 mb-3">
-                                                <button class="btn modifyBtn" type="submit">Modify Rooms</button>
+                                                <button class="btn modifyBtn" type="button">Modify Rooms</button>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-center">
-                                            <button class="btn addRoomBtn" type="submit">Add Room (If more travellers)</button>
+                                            <button class="btn addRoomBtn" type="button">
+                                                Add Room (If more travellers)
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -268,11 +385,36 @@
                                                 <label for="hotelCategory" class="form-label fontSize10">Hotel Category</label>
                                                 <div class="icon-select-wrapper">
                                                     <i class="ri-hotel-line iconPosition iconRed"></i>
-                                                    <select class="form-select fontSize10 paddingLeft" aria-label="Default select example">
-                                                        <option selected>Select Hotel</option>
-                                                        <option value="1">5 Star</option>
-                                                        <option value="2">4 Star</option>
-                                                        <option value="3">3 Star</option>
+                                                    <?php
+
+                                                        $sql = $conn->prepare("
+                                                            SELECT id, name
+                                                            FROM category_hotel
+                                                            WHERE status = 1
+                                                            ORDER BY id DESC
+                                                        ");
+
+                                                        $sql->execute();
+
+                                                        $hotelCategories = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+                                                    ?>
+
+                                                    <select class="form-select fontSize10 paddingLeft" aria-label="Select Hotel" name="hotel_category">
+
+                                                        <option value="">Select Hotel</option>
+                                                        
+                                                        <?php foreach ($hotelCategories as $hotel): ?>
+
+                                                            <option value="<?= htmlspecialchars($hotel['id']) ?>"
+                                                                <?= ($hotel['id'] == $hotel_cat_id) ? 'selected' : '' ?>>
+
+                                                                <?= htmlspecialchars($hotel['name']) ?>
+
+                                                            </option>
+
+                                                        <?php endforeach; ?>
+
                                                     </select>
                                                 </div>
                                             </div>
@@ -282,11 +424,27 @@
                                                 <label for="mealPreference" class="form-label fontSize10">Meal Preference</label>
                                                 <div class="icon-select-wrapper">
                                                     <i class="ri-restaurant-line iconPosition iconRed"></i>
-                                                    <select class="form-select fontSize10 paddingLeft" aria-label="Default select example">
-                                                        <option selected>Select Meal</option>
-                                                        <option value="1">Breakfast & Dinner</option>
-                                                        <option value="2">Dinner</option>
-                                                        <option value="3">Breakfast</option>
+                                                    <?php
+                                                    $sql = $conn->prepare("SELECT * FROM category_meal WHERE status = 1");
+                                                    $sql->execute();
+                                                    $mealCategories = $sql->fetchAll(PDO::FETCH_ASSOC);
+                                                    ?>
+
+                                                    <select class="form-select fontSize10 paddingLeft" aria-label="Select Meal">
+
+                                                        <option value="">Select Meal</option>
+
+                                                        <?php foreach ($mealCategories as $meal_cat): ?>
+
+                                                            <option
+                                                                value="<?= htmlspecialchars($meal_cat['id']) ?>"
+                                                                <?= (isset($meal_cat_id) && $meal_cat_id == $meal_cat['id']) ? 'selected' : '' ?>
+                                                            >
+                                                                <?= htmlspecialchars($meal_cat['name']) ?>
+                                                            </option>
+
+                                                        <?php endforeach; ?>
+
                                                     </select>
                                                 </div>
                                             </div>
@@ -296,11 +454,27 @@
                                                 <label for="transportPreference" class="form-label fontSize10">Transport Preference</label>
                                                 <div class="icon-select-wrapper">
                                                     <i class="ri-car-line iconPosition iconRed"></i>
-                                                    <select class="form-select fontSize10 paddingLeft" aria-label="Default select example">
-                                                        <option selected>Select Vehicle</option>
-                                                        <option value="1">AC Vehicle</option>
-                                                        <option value="2">Non Ac Vehicle</option>
-                                                        <option value="3">Bus</option>
+                                                    <?php
+                                                    $sql = $conn->prepare("SELECT * FROM category_vehicle WHERE status = 1");
+                                                    $sql->execute();
+                                                    $vehicleCategories = $sql->fetchAll(PDO::FETCH_ASSOC);
+                                                    ?>
+
+                                                    <select class="form-select fontSize10 paddingLeft" aria-label="Select Vehicle">
+
+                                                        <option value="">Select Vehicle</option>
+
+                                                        <?php foreach ($vehicleCategories as $vehicle_cat): ?>
+
+                                                            <option
+                                                                value="<?= htmlspecialchars($vehicle_cat['id']) ?>"
+                                                                <?= (isset($category_vehicle_id) && $category_vehicle_id == $vehicle_cat['id']) ? 'selected' : '' ?>
+                                                            >
+                                                                <?= htmlspecialchars($vehicle_cat['name']) ?>
+                                                            </option>
+
+                                                        <?php endforeach; ?>
+
                                                     </select>
                                                 </div>
                                             </div>
@@ -329,12 +503,12 @@
                                         <div class="d-flex justify-content-between">
                                             <div>
                                                 <p class="fontSize10">Adult (12+ yrs)</p>
-                                                <p class="fontSize10">Child (5-11 yrs)</p>
-                                                <p class="fontSize10">Infant (0-4 yrs)</p>
+                                                <p class="fontSize10">Child (2-11 yrs)</p>
+                                                <p class="fontSize10">Infant</p>
                                             </div>
                                             <div>
-                                                <p class="fontSize10 text-end">&#8377; 13,754</p>
-                                                <p class="fontSize10 text-end">&#8377; 11,004</p>
+                                                <p class="fontSize10 text-end">&#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
+                                                <p class="fontSize10 text-end">&#8377; <?= number_format($childDisplayPrice, 2) ?></p>
                                                 <p class="fontSize10 text-end">FREE</p>
                                             </div>
                                         </div>
@@ -344,33 +518,19 @@
                                         <p class="fw-bold">Price Based on Travelers</p>
                                         <div class="d-flex justify-content-between">
                                             <div>
-                                                <p class="fontSize10">Adult: <span class="">2 x &#8377; 13,754</span></p>
-                                                <p class="fontSize10">Children: <span class="">1 x &#8377; 11,004</span></p>
-                                                <p class="fontSize10">Infant: <span class="">0 x FREE</span></p>
+                                                <p class="fontSize10">Adult: <span class="" id="totalAdultCount">1</span> x &#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
+                                                <p class="fontSize10">Children: <span class="" id="totalChildrenCount">0</span> x &#8377; <?= number_format($childDisplayPrice, 2) ?></p>
+                                                <p class="fontSize10">Infant: <span class="" id="totalInfantCount">0</span> x FREE</p>
                                             </div>
                                             <div>
-                                                <p class="fontSize10 text-end">&#8377; 27,508</p>
-                                                <p class="fontSize10 text-end">&#8377; 11,004</p>
+                                                <p class="fontSize10 text-end" id="adultTotal">&#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
+                                                <p class="fontSize10 text-end" id="childrenTotal">&#8377; 0</p>
                                                 <p class="fontSize10 text-end">&#8377; 0</p>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-between">
                                             <p class="fw-bold">Subtotal</p>
-                                            <p class="fontSize13 fw-bold">&#8377; 38,512</p>
-                                        </div>
-                                    </div>
-                                    <hr class="my-1 border border-2 mx-3">
-                                    <div class="p-3">
-                                        <p class="fw-bold">Room & Extra Mattress</p>
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <p class="fontSize10">Room 1 (1 Double Bed)</p>
-                                                <p class="fontSize10">Extra Mattress (1) x &#8377; 1,500</p>
-                                            </div>
-                                            <div>
-                                                <p class="fontSize10 text-end">Included</p>
-                                                <p class="fontSize10 text-end">&#8377; 1,500</p>
-                                            </div>
+                                            <p class="fontSize13 fw-bold" id="subTotal">&#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
                                         </div>
                                     </div>
                                     <hr class="my-1 border border-2 mx-3">
@@ -378,8 +538,8 @@
                                         <p class="fw-bold">Transport</p>
                                         <div class="d-flex justify-content-between">
                                             <div>
-                                                <p class="fontSize10">4 Seater AC Vehicle (For 3 Pax)</p>
-                                                <a href="#" class="fontSize10 text-primary">Change Vehicle</a>
+                                                <p class="fontSize10" id="selectedVehicleText">4 Seater AC Vehicle (For 3 Pax)</p>
+                                                <a href="#" class="fontSize10 text-primary" id="changeVehicle">Change Vehicle</a>
                                             </div>
                                             <div>
                                                 <p class="fontSize10 text-end">Included</p>
@@ -392,77 +552,119 @@
                                         <div class="d-flex justify-content-between">
                                             <div>
                                                 <p class="fontSize10">Convenience Fee</p>
-                                                <p class="fontSize10">GST (18%)</p>
+                                                <p class="fontSize10">GST (<?= $gst['gst'] ?>%)</p>
                                             </div>
                                             <div>
-                                                <p class="fontSize10 text-end">&#8377; 499</p>
-                                                <p class="fontSize10 text-end">&#8377; 7,840</p>
+                                                <p class="fontSize10 text-end" id="convenienceFeee">&#8377; 0</p>
+                                                <p class="fontSize10 text-end" id="gstValue">&#8377; 0</p>
                                             </div>
                                         </div>
                                     </div>
+                                    <?php if($_SESSION['user_type_id_value'] == 10 && $_SESSION['customer_type'] == 'Neo Select'){  ?>
                                     <hr class="my-1 border border-2 mx-3">
                                     <div class="p-3 pb-0">
-                                        <p class="fontSize10 fw-bold mb-2">Apply Coupons <span class="text-muted fw-normal">(One coupon per passanger) <i class="ri-error-warning-line"></i></span></p>
-                                        <div class="d-flex justify-content-between mb-2">
-                                            <div class="d-flex gap-3 largeDisplay">
-                                                <p class="fontSize10 align-content-end">Adult 1</p>
-                                                <p>
-                                                    <select class="form-select fontSize10 selectPadding" aria-label="Default select example">
-                                                        <option selected>Select </option>
-                                                        <option value="1">Rs-3000</option>
-                                                        <option value="2">Rs-3000</option>
-                                                        <option value="3">Rs-1500</option>
-                                                    </select>
-                                                </p>
-                                            </div>
-                                            <p class="fontSize10 discountGreen fw-bold text-end align-content-end">- &#8377; 3,000</p>
-                                        </div>
-                                        <div class="d-flex justify-content-between mb-2">
-                                            <div class="d-flex gap-3 largeDisplay">
-                                                <p class="fontSize10 align-content-end">Adult 2</p>
-                                                <p>
-                                                    <select class="form-select fontSize10 selectPadding" aria-label="Default select example">
-                                                        <option selected>Select </option>
-                                                        <option value="1">Rs-3000</option>
-                                                        <option value="2">Rs-3000</option>
-                                                        <option value="3">Rs-1500</option>
-                                                    </select>
-                                                </p>
-                                            </div>
-                                            <p class="fontSize10 discountGreen fw-bold text-end align-content-end">- &#8377; 3,000</p>
-                                        </div>
-                                        <div class="d-flex justify-content-between mb-2">
-                                            <div class="d-flex gap-3 largeDisplay">
-                                                <p class="fontSize10 align-content-end">Child 1</p>
-                                                <p>
-                                                    <select class="form-select fontSize10 selectPadding" aria-label="Default select example">
-                                                        <option selected>Select </option>
-                                                        <option value="1">Rs-3000</option>
-                                                        <option value="2">Rs-3000</option>
-                                                        <option value="3">Rs-1500</option>
-                                                    </select>
-                                                </p>
-                                            </div>
-                                            <p class="fontSize10 discountGreen fw-bold text-end align-content-end">- &#8377; 1,500</p>
-                                        </div>
+
+                                        <p class="fontSize10 fw-bold mb-2">
+                                            Apply Coupons
+                                            <span class="text-muted fw-normal">
+                                                (One coupon per passenger)
+                                                <i class="ri-error-warning-line"></i>
+                                            </span>
+                                        </p>
+
+                                        <div id="couponPassengerContainer"></div>
+
                                     </div>
                                     <hr class="my-1 border border-2 mx-3">
                                     <div class="d-flex justify-content-between px-3">
-                                        <p class="fontSize10 discountGreen fw-bold">Discounts (Coupons)</p>
-                                        <p class="fontSize10 discountGreen fw-bold text-end">- &#8377; 7,500</p>
+                                        <p class="fontSize10 discountGreen fw-bold">
+                                            Discounts (Coupons)
+                                        </p>
+
+                                        <p class="fontSize10 discountGreen fw-bold text-end"
+                                        id="totalCouponDiscount">
+                                            - ₹ 0
+                                        </p>
                                     </div>
+                                    <?php } elseif ($_SESSION['user_type_id_value'] == 10 && $_SESSION['customer_type'] != 'Neo Select') {?>
+                                    <hr class="my-2 border border-2 mx-3">
+                                    <div class="p-3">
+                                        <!-- HEADER -->
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <div>
+                                                <p class="fontSize10 fw-bold mb-1">Apply Coupon</p>
+                                                <small class="text-muted fontSize10">
+                                                    Only one coupon can be applied per package
+                                                    <i class="ri-information-line"></i>
+                                                </small>
+                                            </div>
+                                            <div class="coupon-package-icon">
+                                                <i class="ri-coupon-3-line"></i>
+                                            </div>
+                                        </div>
+                                        <!-- COUPON SELECT -->
+                                        <div class="package-coupon-box">
+                                            <div class="coupon-select-wrapper">
+                                                <i class="ri-coupon-3-line"></i>
+                                                <select id="packageCouponSelect" class="form-select fontSize10 selectPadding coupon-select1">
+                                                    <option value="">Select Coupon</option>
+                                                    <?php if (!empty($cuCoupons)): ?>
+                                                        <optgroup label="Primary Coupons">
+                                                            <?php foreach ($cuCoupons as $coupon): ?>
+                                                                <option value="<?= htmlspecialchars($coupon['code']) ?>" data-type="primary" data-amount="<?= htmlspecialchars($coupon['coupon_amount']) ?>">
+                                                                    <?= htmlspecialchars($coupon['code']) ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </optgroup>
+                                                    <?php endif; ?>
+                                                    <?php if (!empty($loyaltyCoupons)): ?>
+                                                        <optgroup label="Loyalty Coupons">
+                                                            <?php foreach ($loyaltyCoupons as $coupon): ?>
+                                                                <option value="<?= htmlspecialchars($coupon['code']) ?>" data-type="loyalty" data-amount="<?= htmlspecialchars($coupon['coupon_amount']) ?>">
+                                                                    <?= htmlspecialchars($coupon['code']) ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </optgroup>
+                                                    <?php endif; ?>
+                                                </select>
+                                            </div>
+                                            <!-- DISCOUNT -->
+                                            <div class="package-discount">
+                                                <span class="text-muted fontSize10">Discount</span>
+                                                <span class="discountGreen fw-bold fontSize10" id="packageCouponDiscount"> ₹ 0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- TOTAL -->
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="d-flex justify-content-between align-items-center px-3 pb-2">
+                                        <p class="fontSize10 discountGreen fw-bold mb-0">
+                                            <i class="ri-price-tag-3-line"></i>
+                                            Discounts (Coupon)
+                                        </p>
+                                        <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="totalCouponDiscount">- ₹ 0</p>
+                                    </div>
+                                    <?php } ?>
                                     <hr class="my-1 border border-2 mx-3">
                                     <div class="p-3">
                                         <div class="d-flex justify-content-between">
                                             <div>
                                                 <p class="fs-6">Total Estimated Price</p>
-                                                <p class="fontSize10">Per Person</p>
+                                                <!-- <p class="fontSize10">Per Adult</p>
+                                                <p class="fontSize10">Per Child</p> -->
                                             </div>
                                             <div>
-                                                <p class="fs-5 text-danger fw-bolder text-end">&#8377; 40,851</p>
-                                                <p class="fontSize10 text-end">&#8377; 13,617</p>
+                                                <p class="fs-5 text-danger fw-bolder text-end" id="finalPackagePrice">&#8377; 0</p>
+                                                <!-- <p class="fontSize10 text-end">&#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
+                                                <p class="fontSize10 text-end">&#8377; <?= number_format($childDisplayPrice, 2) ?></p> -->
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <button id="submitRequst" class="submit-request-btn">
+                                            <p class="fs-6 text-white fw-bold">Total Estimated Price:</p>
+                                            <p class="fs-6 text-white fw-bold" id="finalPackagePrice2">&#8377; 0 /-</p>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -473,85 +675,213 @@
             <!-- Request Details Page End -->
             <button id="openPricingBtn" class="floating-price-btn">
                 <p class="fs-6 text-white fw-bold">Total Estimated Price:</p>
-                <p class="fs-6 text-white fw-bold">&#8377; 40,851 /-</p>
+                <p class="fs-6 text-white fw-bold" id="finalPackagePrice1">&#8377; 0 /-</p>
             </button>
 
             <div class="pricing-overlay" id="pricingOverlay"></div>
         </main>
-        
-        <!-- share model 30-07-2026 start-->
-        <div class="overlay" id="shareModal">
-            <div class="shareBox">
-                <div class="header">
-                    <h2>Share this page</h2>
-                    <div class="close" onclick="closeShare()">
-                        ×
+
+        <!-- share model 30-07-2026 end-->
+        <!-- =========================================================
+            MODIFY ROOMS MODAL
+        ========================================================= -->
+        <div class="modal fade" id="modifyRoomsModal" tabindex="-1" aria-labelledby="modifyRoomsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold" id="modifyRoomsModalLabel">Modify Rooms</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
-                </div>
-                <div class="icons">
+                    <div class="modal-body">
+                        <div class="row g-3 ms-4">
+                            <!-- Adults -->
+                            <div class="col-md-4">
+                                <label class="form-label fontSize10 fw-bold">
+                                    Adults(12+ yrs): <span id="totalAdults">1</span>
+                                </label>
+                            </div>
 
-                    <a class="social" target="_blank"  href="https://wa.me/?text=<?php echo urlencode("🎬 ".$title."\n\n".$description."\n\n".$url); ?>">
-                        <div class="shareIcon">
-                            <svg xmlns="http://w3.org" viewBox="0 0 448 512" width="60" height="60" fill="#25D366" class="social">
-                                <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
-                            </svg>
+                            <!-- Children -->
+                            <div class="col-md-4">
+                                <label class="form-label fontSize10 fw-bold">
+                                    Children (2-11 yrs): <span id="totalChildren">0</span>
+                                </label>
+                            </div>
+
+                            <!-- Infants -->
+                            <div class="col-md-4">
+                                <label class="form-label fontSize10 fw-bold">
+                                    Infants: <span id="totalInfants">0</span>
+                                </label>
+                            </div>
+
                         </div>
-                        <span>WhatsApp</span>
-                    </a>
+                        <div id="modifyRoomsContainer">
+                            <!-- ROOM 1 -->
+                            <div class="modify-room-card mb-3" data-room="1">
+                                <div class="room-content-row">
+                                    <!-- ROOM TITLE -->
+                                    <div class="room-title">
+                                        <p class="fontSize10 fw-bold mb-0">
+                                            Room 1
+                                        </p>
+                                    </div>
 
-                    <a class="social" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode($url); ?>">
-                        <div class="shareIcon">
-                            <svg xmlns="http://w3.org" viewBox="0 0 512 512" width="60" height="60" fill="#1877F2">
-                                <path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.8 90.7 226.4 209.3 245V327.7h-63V256h63v-54.6c0-62.2 37-96.5 93.7-96.5 27.1 0 55.5 4.8 55.5 4.8v61h-31.3c-30.8 0-40.4 19.1-40.4 38.7V256h68.8l-11 71.7h-57.8V501C413.3 482.4 504 379.8 504 256z"/>
-                            </svg>
+                                    <!-- ROOM OCCUPANCY -->
+                                    <div class="occupancy-section">
+
+                                        <label class="fontSize10 fw-bold mb-0">
+                                            Room Occupancy
+                                        </label>
+
+                                        <div class="occupancy-control">
+
+                                            <button type="button"
+                                                    class="occupancy-minus">
+                                                -
+                                            </button>
+
+                                            <input type="text"
+                                                class="form-control text-center room-occupancy"
+                                                value="3"
+                                                readonly>
+
+                                            <button type="button"
+                                                    class="occupancy-plus">
+                                                +
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- EXTRA MATTRESS -->
+                                    <div class="mattress-section">
+
+                                        <div class="form-check mb-0">
+
+                                            <input class="form-check-input extra-mattress"
+                                                type="checkbox"
+                                                id="extraMattress1"
+                                                checked>
+
+                                            <label class="form-check-label fontSize10"
+                                                for="extraMattress1">
+                                                With Extra Mattress
+                                            </label>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
 
                         </div>
-                        <span>Facebook</span>
-                    </a>
-
-                    <a class="social" target="_blank" href="https://twitter.com/intent/tweet?text=<?php echo urlencode($title); ?>&url=<?php echo urlencode($url); ?>">
-                        <div class="shareIcon">
-                            <svg xmlns="http://w3.org" viewBox="0 0 512 512" width="60" height="60" fill="#000000">
-                                <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/>
-                            </svg>
+                        <!-- Add Room -->
+                        <div class="text-center">
+                            <button type="button" class="btn addModifyRoom" id="addModifyRoom">
+                                <i class="ri-add-line me-1"></i>
+                                Add Room
+                            </button>
                         </div>
-                        <span>X</span>
-                    </a>
-
-                    <a class="social" target="_blank" href="https://t.me/share/url?url=<?php echo urlencode($url); ?>&text=<?php echo urlencode($title."\n".$description); ?>">
-                        <div class="shareIcon">
-                            <svg xmlns="http://w3.org" viewBox="0 0 496 512" width="60" height="60" fill="#24A1DE">
-                                <path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 18.3z"/>
-                            </svg>
-                        </div>
-                        <span>Telegram</span>
-                    </a>
-
-                    <a class="social" href="mailto:?subject=<?php echo urlencode($title); ?>&body=<?php echo urlencode($description."\n\n".$url); ?>">
-                        <div class="shareIcon">
-                            <svg xmlns="http://w3.org" viewBox="0 0 512 512" width="60" height="60" fill="#e03d42">
-                                <path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/>
-                            </svg>
-                        </div>
-                        <span>Email</span>
-                    </a>
-
-                </div>
-                <div class="line"></div>
-                    <div class="linkArea">
-                        <input id="shareLink" readonly value="<?php echo htmlspecialchars($url); ?>">
-                        <button class="copy" onclick="copyLink()">
-                            Copy
-                        </button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="applyRoomModification">Apply Changes</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="toast">
-            ✓ Link copied
-        </div>
-        <!-- share model 30-07-2026 end-->
+        <!-- vehicle modal -->
+        <div class="modal fade"
+            id="vehicleSelectionModal"
+            tabindex="-1"
+            aria-labelledby="vehicleSelectionModalLabel"
+            aria-hidden="true">
 
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+
+                        <h5 class="modal-title fw-bold"
+                            id="vehicleSelectionModalLabel">
+                            Select Vehicle
+                        </h5>
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal">
+                        </button>
+
+                    </div>
+
+
+                    <div class="modal-body">
+
+                        <div class="row g-3">
+
+                            <?php foreach ($vehicleOptions as $vehicle): ?>
+
+                                <div class="col-md-6 col-lg-4">
+
+                                    <div class="vehicle-option border rounded-3 p-3 h-100"
+                                        data-value="<?= $vehicle['value'] ?>"
+                                        data-name="<?= htmlspecialchars($vehicle['name'] . ' - ' . $vehicle['type']) ?>">
+
+                                        <div class="d-flex align-items-center">
+
+                                            <i class="<?= htmlspecialchars($vehicle['icon']) ?> fs-3 me-3"></i>
+
+                                            <div>
+
+                                                <p class="fontSize10 fw-bold mb-1">
+                                                    <?= htmlspecialchars($vehicle['name']) ?>
+                                                </p>
+
+                                                <p class="fontSize10 mb-0">
+                                                    <?= htmlspecialchars($vehicle['type']) ?>
+                                                </p>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            <?php endforeach; ?>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="modal-footer">
+
+                        <button type="button"
+                                class="btn btn-light"
+                                data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+
+                        <button type="button"
+                                class="btn btn-primary"
+                                id="applyVehicleSelection">
+                            Select Vehicle
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
         <!-- Footer S t a r t -->
         <?php include_once "footer.php" ?>
         <!--/ End-of Footer -->
@@ -568,626 +898,1567 @@
         <script src="assets/js/jquery-3.7.0.min.js"></script>
         <script src="assets/js/popper.min.js"></script>
         <script src="assets/js/bootstrap-5.3.0.min.js"></script>
+        <!-- SweetAlert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <!-- Swiper -->
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
         <!-- Plugin -->
         <script src="assets/js/plugin.js"></script>
         <!-- Main js-->
         <script src="assets/js/main.js"></script>
         <script type="text/javascript" src="logout/logout.js"></script>
-
-        <!-- New Design 17/7/26 -->
-        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
+        <!--New Design 17/7/26 -->
         <script>
-            new Swiper(".myGallery", {
-                slidesPerView: 1,
-                spaceBetween: 15,
-                loop: true,
-
-                autoplay: {
-                    delay: 3000,
-                    disableOnInteraction: false
-                },
-
-                pagination: {
-                    el: ".swiper-pagination",
-                    clickable: true
-                }
-            });
+            // Price values from PHP
+            const perAdultPrice = <?= json_encode((float)$adultDisplayPrice) ?>;
+            const perChildPrice = <?= json_encode((float)$childDisplayPrice) ?>;
+            const tourDays = <?= json_encode($tour_days_total) ?>;
+            const totalPrimaryCoupons = <?= count($cuCoupons) ?>;
+            const totalLoyaltyCoupons = <?= count($loyaltyCoupons) ?>;
         </script>
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
+            // Animate price
+            function animatePrice($element, finalValue, duration = 800) {
 
-                const thumbnails = document.querySelectorAll(".thumbnail");
-                const mainImage = document.getElementById("mainImage");
+                let currentValue = $element.data('current-price') || 0;
 
-                if (!thumbnails.length || !mainImage) return;
+                // Stop previous animation
+                $element.stop(true, false);
 
-                let currentIndex = 0;
+                $({ count: currentValue }).animate(
+                    {
+                        count: finalValue
+                    },
+                    {
+                        duration: duration,
 
-                function updateGallery(index) {
+                        step: function (now) {
 
-                    currentIndex = index;
+                            $element.text(
+                                '₹ ' +
+                                Math.round(now).toLocaleString('en-IN')
+                            );
+                        },
 
-                    mainImage.src = thumbnails[index].src;
+                        complete: function () {
 
-                    thumbnails.forEach(item => {
-                        item.classList.remove("active-thumb");
-                    });
+                            $element.text(
+                                '₹ ' +
+                                Math.round(finalValue).toLocaleString('en-IN')
+                            );
 
-                    thumbnails[index].classList.add("active-thumb");
-                }
-
-                thumbnails.forEach((thumb, index) => {
-
-                    thumb.addEventListener("click", function () {
-                        updateGallery(index);
-                    });
-
-                });
-
-                document.querySelector(".gallery-next")?.addEventListener("click", function () {
-
-                    currentIndex++;
-
-                    if (currentIndex >= thumbnails.length) {
-                        currentIndex = 0;
-                    }
-
-                    updateGallery(currentIndex);
-                });
-
-                document.querySelector(".gallery-prev")?.addEventListener("click", function () {
-
-                    currentIndex--;
-
-                    if (currentIndex < 0) {
-                        currentIndex = thumbnails.length - 1;
-                    }
-
-                    updateGallery(currentIndex);
-                });
-
-            });
-        </script>
-        <script>
-            $(document).ready(function () {
-
-                const $nav = $(".borderColor1");
-                const $placeholder = $(".nav-placeholder");
-                const $content = $(".content-sections");
-
-                let navTop = $nav.offset().top;
-
-                function updateStickyNav() {
-                    if ($(window).width() < 992) {
-                        $placeholder.hide();
-                        $nav.removeClass("nav-fixed").css("width", "");
-                        return;
-                    }
-
-                    const headerHeight = $(".sticky-bar").outerHeight() || 90;
-
-                    const contentTop = $content.offset().top;
-                    const contentBottom = contentTop + $content.outerHeight();
-
-                    const scrollTop = $(window).scrollTop();
-
-                    if (
-                        scrollTop >= navTop - headerHeight &&
-                        scrollTop < contentBottom - headerHeight - $nav.outerHeight()
-                    ) {
-
-                        $placeholder.show();
-
-                        $nav.addClass("nav-fixed");
-
-                        $nav.css({
-                            width: $(".col-xl-8").width() + "px"
-                        });
-
-                    } else {
-
-                        $placeholder.hide();
-
-                        $nav.removeClass("nav-fixed");
-
-                        $nav.css("width", "");
-
-                    }
-                }
-
-                function updatePricingSticky() {
-
-                    const $pricing = $(".pricingSection");
-                    const $wrapper = $(".pricing-wrapper");
-
-                    if ($(window).width() < 992) {
-                        $pricing
-                            .removeClass("pricing-fixed pricing-bottom")
-                            .css({
-                                width: "",
-                                top: "",
-                                left: ""
-                            });
-                        return;
-                    }
-
-                    const headerHeight = $(".sticky-bar").outerHeight() || 90;
-                    const navHeight = $(".borderColor1").outerHeight() || 76;
-
-                    const fixedTop = 90;
-
-                    const pricingHeight = $pricing.outerHeight();
-
-                    const startSticky =
-                        $(".sticky-nav-wrapper").offset().top - headerHeight;
-
-                    const contentBottom =
-                        $(".content-sections").offset().top +
-                        $(".content-sections").outerHeight();
-
-                    const stopSticky =
-                        contentBottom -
-                        pricingHeight -
-                        fixedTop;
-
-                    const scrollTop = $(window).scrollTop();
-                    const pricingWidth = $pricing[0].getBoundingClientRect().width;
-
-                    // Before sticky
-                    if (scrollTop < startSticky) {
-
-                        $pricing
-                            .removeClass("pricing-fixed pricing-bottom")
-                            .css({
-                                width: "",
-                                top: "",
-                                left: ""
-                            });
-                    }
-
-                    // Sticky state
-                    else if (scrollTop < stopSticky) {
-
-                        $pricing
-                            .removeClass("pricing-bottom")
-                            .addClass("pricing-fixed")
-                            .css({
-                                top: "90px",
-                                left: $wrapper.offset().left + "px",
-                                width: pricingWidth + "px"
-                            });
-                    }
-
-                    // Stop at bottom of left content
-                    else {
-
-                        const absoluteTop =
-                            contentBottom -
-                            $wrapper.offset().top -
-                            pricingHeight;
-
-                        $pricing
-                            .removeClass("pricing-fixed")
-                            .addClass("pricing-bottom")
-                            .css({
-                                top: absoluteTop + "px",
-                                width: "96%",
-                                left: ""
-                            });
-                    }
-                }
-
-                updateStickyNav();
-                updatePricingSticky();
-
-                $(window).on("scroll resize", function () {
-
-                    updateStickyNav();
-                    updatePricingSticky();
-
-                    const headerHeight = $(".sticky-bar").outerHeight() || 90;
-                    const navHeight = $nav.outerHeight() || 76;
-
-                    let scrollPos =
-                        $(window).scrollTop() +
-                        headerHeight +
-                        navHeight +
-                        50;
-
-                    $(".section-block").each(function () {
-
-                        let top = $(this).offset().top;
-                        let bottom = top + $(this).outerHeight();
-                        let id = $(this).attr("id");
-
-                        if (scrollPos >= top && scrollPos < bottom) {
-
-                            $(".nav-link").removeClass("active");
-
-                            $('.nav-link[href="#' + id + '"]').addClass("active");
+                            $element.data(
+                                'current-price',
+                                finalValue
+                            );
                         }
-                    });
-
-                });
-
-                $(".nav-link").on("click", function (e) {
-
-                    e.preventDefault();
-
-                    $(".nav-link").removeClass("active");
-                    $(this).addClass("active");
-
-                    const target = $(this).attr("href");
-
-                    const headerHeight = $(".sticky-bar").outerHeight() || 90;
-                    const navHeight = $nav.outerHeight() || 76;
-
-                    $("html, body").animate({
-                        scrollTop:
-                            $(target).offset().top -
-                            headerHeight -
-                            navHeight +
-                            20
-                    }, 500);
-
-                });
-
-            });
-        </script>
-        <script>
-            $(document).ready(function () {
-
-                $(".faq-header").click(function () {
-
-                    const currentItem = $(this).closest(".faq-item");
-
-                    $(".faq-item").not(currentItem).removeClass("active");
-
-                    $(".faq-item").not(currentItem)
-                        .find(".faq-icon")
-                        .removeClass("ri-eye-line")
-                        .addClass("ri-eye-off-line");
-
-                    currentItem.toggleClass("active");
-
-                    if (currentItem.hasClass("active")) {
-
-                        currentItem.find(".faq-icon")
-                            .removeClass("ri-eye-off-line")
-                            .addClass("ri-eye-line");
-
-                    } else {
-
-                        currentItem.find(".faq-icon")
-                            .removeClass("ri-eye-line")
-                            .addClass("ri-eye-off-line");
                     }
-                });
+                );
+            }
+            function updateSubTotal() {
 
-            });
-        </script>
-        <script>
-            // const packages = [
-            //     {
-            //         title: "Phuket Getaway",
-            //         duration: "4 Nights / 5 Days",
-            //         price: "22,999",
-            //         image: "assets/images/package/package-11.jpg",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Bali Bliss",
-            //         duration: "5 Nights / 6 Days",
-            //         price: "28,999",
-            //         image: "assets/images/package/package-2.png",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Singapore Explorer",
-            //         duration: "4 Nights / 5 Days",
-            //         price: "39,999",
-            //         image: "assets/images/package/package-3.png",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Dubai Dazzle",
-            //         duration: "5 Nights / 6 Days",
-            //         price: "42,999",
-            //         image: "assets/images/package/package-4.png",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Thailand Escape",
-            //         duration: "5 Nights / 6 Days",
-            //         price: "24,999",
-            //         image: "assets/images/package/package-5.jpg",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Maldives Luxury",
-            //         duration: "4 Nights / 5 Days",
-            //         price: "55,999",
-            //         image: "assets/images/package/package-6.jpg",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Vietnam Discovery",
-            //         duration: "6 Nights / 7 Days",
-            //         price: "34,999",
-            //         image: "assets/images/package/package-7.jpg",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Japan Highlights",
-            //         duration: "7 Nights / 8 Days",
-            //         price: "89,999",
-            //         image: "assets/images/package/package-8.jpg",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Europe Delight",
-            //         duration: "8 Nights / 9 Days",
-            //         price: "1,19,999",
-            //         image: "assets/images/package/package-9.jpg",
-            //         link: "#"
-            //     },
-            //     {
-            //         title: "Swiss Adventure",
-            //         duration: "6 Nights / 7 Days",
-            //         price: "99,999",
-            //         image: "assets/images/package/package-10.jpg",
-            //         link: "#"
-            //     }
-            // ];
-            const packages = <?= json_encode(
-                $package_array,
-                JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
-            ) ?>;
-            // console.log(packages);
-            
-            const track = document.getElementById("packageTrack");
+                const adultCount =
+                    parseInt($('#adultCount').val()) || 0;
 
-            packages.forEach(pkg => {
-                track.innerHTML += `
-                    <div class="package-item">
-                        <a href="${pkg.link}" class="text-decoration-none">
-                            <div class="package-card">
-                                <img src="${pkg.image}" alt="${pkg.title}">
-                                <div class="package-body">
-                                    <h5>${pkg.title}</h5>
-                                    <p>${pkg.duration}</p>
-                                    <div class="package-price">
-                                        ₹${pkg.price} <span>/ Person</span>
+                const childrenCount =
+                    parseInt($('#childrenCount').val()) || 0;
+
+                const adultTotal =
+                    adultCount * perAdultPrice;
+
+                const childrenTotal =
+                    childrenCount * perChildPrice;
+
+                const subTotal =
+                    adultTotal + childrenTotal;
+
+                animatePrice(
+                    $('#subTotal'),
+                    subTotal
+                );
+            }
+            //rooom recomendation
+            function updateRecommendedRooms() {
+                const adults = parseInt($('#adultCount').val()) || 0;
+                const children = parseInt($('#childrenCount').val()) || 0;
+                const totalPax = adults + children;
+                if (totalPax <= 0) {return;}
+                /*
+                =====================================================
+                ROOM CALCULATION
+                2 normal members per room
+                Maximum 1 extra mattress per room
+                1-2 = 1 room
+                3   = 1 room + mattress
+                4   = 2 rooms
+                5   = 2 rooms (one mattress)
+                6   = 2 rooms (both mattress)
+                7   = 3 rooms (one mattress)
+                =====================================================
+                */
+                const rooms = Math.ceil(totalPax / 3);
+                let remainingPax = totalPax;
+                let roomsHTML = '';
+                for (let i = 1; i <= rooms; i++) {
+                    let roomPax = Math.min(remainingPax, 3);
+                    remainingPax -= roomPax;
+                    const extraMattress = roomPax === 3;
+                    let bedText = '1 Double Bed';
+                    if (extraMattress) {
+                        bedText += ' + 1 Extra Mattress';
+                    }
+                    let accommodationText =
+                        roomPax + ' Pax will be accommodated in 1 room';
+                    if (extraMattress) {
+                        accommodationText += ' with extra mattress.';
+                    } else {
+                        accommodationText += '.';
+                    }
+                    roomsHTML += `
+                        <p class="fontSize10 fw-bold">Room ${i}</p>
+                        <div class="row">
+                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-7 col-12 mb-3">
+                                <div class="d-flex justify-content-between mobileDisplayBlock">
+                                    <div>
+                                        <p class="fontSize10 fw-bold">
+                                            <i class="ri-hotel-bed-fill destination-title fs-6"></i>
+                                            ${bedText}
+                                        </p>
+                                        <p class="fontSize10">
+                                            ${accommodationText}
+                                        </p>
+                                    </div>
+                                    <div class="py-1 px-2 text-center text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 recommendedBtn fw-bold fontSize10">
+                                        Recommended
                                     </div>
                                 </div>
                             </div>
-                        </a>
+                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-5 col-12 mb-3">
+                                <button class="btn modifyBtn" type="button" data-room="${i}">Modify Rooms</button>
+                            </div>
+                        </div>
+                    `;
+                }
+                /*
+                =====================================================
+                ADD ROOM BUTTON
+                KEEP IT INSIDE THE SAME CARD
+                =====================================================
+                */
+                roomsHTML += `
+                    <div class="d-flex justify-content-center">
+                        <button class="btn addRoomBtn" type="button">Add Room (If more travellers)</button>
                     </div>
                 `;
-            });
+                /*
+                =====================================================
+                IMPORTANT:
+                Do NOT replace #roomRecommendation itself.
+                Only replace its contents.
+                =====================================================
+                */
+                $('#roomRecommendation').html(roomsHTML);
+            }
+            //load modify rooms
+            function loadModifyRooms(adults, children, infants) {
+
+                const container = $('#modifyRoomsContainer');
+
+                container.empty();
+
+                // Total counts
+                $('#totalAdults').text(adults);
+                $('#totalChildren').text(children);
+                $('#totalInfants').text(infants);
 
 
-            let currentIndex = 0;
+                // Infants do not consume room occupancy
+                const totalOccupancy = adults + children;
 
 
-            function getVisibleCards() {
+                // Max 3 occupants per room
+                const rooms = Math.max(
+                    1,
+                    Math.ceil(totalOccupancy / 3)
+                );
 
-                if (window.innerWidth < 576) {
-                    return 1;
+
+                let remainingOccupancy = totalOccupancy;
+
+
+                // Create rooms
+                for (let i = 1; i <= rooms; i++) {
+
+                    const occupancy = Math.min(
+                        remainingOccupancy,
+                        3
+                    );
+
+                    remainingOccupancy -= occupancy;
+
+
+                    // Extra mattress default
+                    const extraMattress = occupancy === 3;
+
+
+                    const roomHTML = `
+                        <div class="modify-room-card mb-3" data-room="${i}">
+
+                            <div class="room-content-row">
+
+                                <!-- ROOM TITLE -->
+                                <div class="room-title">
+                                    <p class="fontSize10 fw-bold mb-0">
+                                        Room ${i}
+                                    </p>
+                                </div>
+
+
+                                <!-- ROOM OCCUPANCY -->
+                                <div class="occupancy-section">
+
+                                    <label class="fontSize10 fw-bold mb-0">
+                                        Room Occupancy
+                                    </label>
+
+                                    <div class="occupancy-control">
+
+                                        <button type="button"
+                                                class="occupancy-minus">
+                                            -
+                                        </button>
+
+                                        <input type="text"
+                                            class="form-control text-center room-occupancy"
+                                            value="${occupancy}"
+                                            readonly>
+
+                                        <button type="button"
+                                                class="occupancy-plus">
+                                            +
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- EXTRA MATTRESS -->
+                                <div class="mattress-section">
+
+                                    <div class="form-check mb-0">
+
+                                        <input class="form-check-input extra-mattress"
+                                            type="checkbox"
+                                            id="extraMattress${i}"
+                                            ${extraMattress ? 'checked' : ''}>
+
+                                        <label class="form-check-label fontSize10"
+                                            for="extraMattress${i}">
+                                            With Extra Mattress
+                                        </label>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- REMOVE ROOM -->
+                                ${i > 1 ? `
+                                    <div class="ms-auto">
+
+                                        <button type="button"
+                                                class="removeModifyRoom">
+                                            Remove
+                                        </button>
+
+                                    </div>
+                                ` : ''}
+
+                            </div>
+
+                        </div>
+                    `;
+
+                    container.append(roomHTML);
                 }
+            }
+            // =====================================================
+            // RENUMBER ROOMS
+            // =====================================================
 
-                if (window.innerWidth < 992) {
-                    return 2;
-                }
+            function renumberModifyRooms() {
+                $('#modifyRoomsContainer .modify-room-card').each(function (index) {
+                        const roomNumber = index + 1;
+                        const roomCard = $(this);
+                        // Update data-room
+                        roomCard.attr(
+                            'data-room',
+                            roomNumber
+                        );
+                        // Update Room X text
+                        roomCard
+                            .find('p.fontSize10.fw-bold.mb-0')
+                            .first()
+                            .text(
+                                'Room ' + roomNumber
+                            );
+                        // Update checkbox ID
+                        const checkbox =
+                            roomCard.find('.extra-mattress');
+                        const checkboxId =
+                            'extraMattress' + roomNumber;
+                        checkbox.attr(
+                            'id',
+                            checkboxId
+                        );
+                        // Update label's for attribute
+                        roomCard
+                            .find('label.form-check-label')
+                            .attr(
+                                'for',
+                                checkboxId
+                            );
+                        // Room 1 should not have Remove button
+                        if (roomNumber === 1) {
+                            roomCard
+                                .find('.removeModifyRoom')
+                                .remove();
+                        }
+                    });
 
-                return 4;
+            }
+            // =====================================================
+            // GET TOTAL TRAVELLERS
+            // =====================================================
+
+            function getTotalTravellers() {
+                return {
+                    adults: parseInt($('#adultCount').val()) || 0,
+                    children: parseInt($('#childrenCount').val()) || 0,
+                    infants: parseInt($('#infantCount').val()) || 0
+                };
             }
 
+            // =====================================================
+            // UPDATE EXTRA MATTRESS BASED ON OCCUPANCY
+            // =====================================================
 
-            function moveSlider() {
-
-                const card = track.querySelector(".package-item");
-
-                if (!card) return;
-
-                const gap = parseInt(
-                    getComputedStyle(track).gap
-                ) || 20;
-
-                const cardWidth = card.offsetWidth + gap;
-
-                const visibleCards = getVisibleCards();
-
-                const maxIndex = Math.max(
-                    0,
-                    packages.length - visibleCards
-                );
-
-                // Prevent going beyond the last card
-                currentIndex = Math.min(
-                    currentIndex,
-                    maxIndex
-                );
-
-                track.style.transform =
-                    `translateX(-${currentIndex * cardWidth}px)`;
-            }
-
-
-            // NEXT
-            document.querySelector(".next-btn").addEventListener("click", function () {
-                // console.log('clicked next');
-                
-                const visibleCards = getVisibleCards();
-
-                const maxIndex = Math.max(
-                    0,
-                    packages.length - visibleCards
-                );
-
-                if (currentIndex < maxIndex) {
-
-                    currentIndex++;
-
-                    moveSlider();
-                }
-            });
-
-
-            // PREVIOUS
-            document.querySelector(".prev-btn").addEventListener("click", function () {
-                // console.log('clicked prev');
-                if (currentIndex > 0) {
-
-                    currentIndex--;
-
-                    moveSlider();
-                }
-            });
-
-
-            // Resize
-            window.addEventListener("resize", function () {
-
-                updateSliderControls();
-
-            });
-            function updateSliderControls() {
-
-                const visibleCards = getVisibleCards();
-
-                const prevBtn = document.querySelector(".prev-btn");
-                const nextBtn = document.querySelector(".next-btn");
-
-                if (packages.length <= visibleCards) {
-
-                    prevBtn.style.display = "none";
-                    nextBtn.style.display = "none";
-
-                    // Reset slider position
-                    currentIndex = 0;
-                    track.style.transform = "translateX(0)";
-
+            function updateRoomExtraMattress(roomCard) {
+                const occupancy =parseInt(roomCard.find('.room-occupancy').val()) || 0;
+                const checkbox =roomCard.find('.extra-mattress');
+                /*
+                3 people = extra mattress recommended
+                1 or 2 people = no extra mattress
+                */
+                if (occupancy === 3) {
+                    checkbox.prop('checked', true);
                 } else {
-
-                    prevBtn.style.display = "flex";
-                    nextBtn.style.display = "flex";
-
-                    moveSlider();
-                }
-            }
-        </script>
-        <!-- New Design 1/8/26 -->
-
-        <!-- share option js 30-07-2026 -->
-        <script>
-
-            const modal = document.getElementById("shareModal");
-            const link = document.getElementById("shareLink");
-            const toast = document.getElementById("toast");
-
-            let timer;
-
-            function openShare(){
-                modal.style.display="flex";
-                setTimeout(()=>{
-                    link.focus();
-                    link.select();
-                },200);
-            }
-
-            function closeShare(){
-                modal.style.display="none";
-                toast.classList.remove("show");
-            }
-
-            function copyLink(){
-                navigator.clipboard.writeText(link.value)
-                .then(()=>{
-                    showToast();
-                })
-
-                .catch(()=>{
-                    link.select();
-                    document.execCommand("copy");
-                    showToast();
-                });
-            }
-
-            function showToast(){
-                toast.classList.add("show");
-                clearTimeout(timer);
-                timer = setTimeout(()=>{
-                    toast.classList.remove("show");
-                },2500);
-            }
-
-            window.onclick = function(e){
-                if(e.target===modal){
-                    closeShare();
+                    checkbox.prop('checked', false);
                 }
             }
 
-            document.addEventListener("keydown", function(e){
-                if(e.key==="Escape"){
-                    closeShare();
-                }
-            });
+            // =====================================================
+            // UPDATE RECOMMENDATION FROM USER MODIFICATION
+            // =====================================================
 
-            let visibleFaqs = 3;
+            function updateRecommendedRoomsFromModification(roomOccupancies,adults,children,infants) {
+                let roomsHTML = '';
+                roomOccupancies.forEach(function (room, index) {
+                    const roomNumber =index + 1;
+                    const occupancy =room.occupancy;
+                    const extraMattress =room.extraMattress;
 
-            $("#viewMoreFaq").on("click", function () {
+                    // =================================================
+                    // BED TEXT
+                    // =================================================
 
-                let hiddenFaqs = $(".faq-item").filter(function () {
-                    return $(this).css("display") === "none";
+                    let bedText ='1 Double Bed';
+                    if (extraMattress) {
+                        bedText +=
+                            ' + 1 Extra Mattress';
+                    }
+
+                    // =================================================
+                    // ACCOMMODATION TEXT
+                    // =================================================
+
+                    let accommodationText =occupancy +' Pax will be accommodated in 1 room';
+
+                    if (extraMattress) {
+                        accommodationText +=
+                            ' with extra mattress.';
+                    } else {
+                        accommodationText += '.';
+                    }
+
+                    // =================================================
+                    // RECOMMENDATION HTML
+                    // =================================================
+                    roomsHTML += `
+                        <p class="fontSize10 fw-bold">Room ${roomNumber}</p>
+                        <div class="row">
+                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-7 col-12 mb-3">
+                                <div class="d-flex justify-content-between mobileDisplayBlock">
+                                    <div>
+                                        <p class="fontSize10 fw-bold">
+                                            <i class="ri-hotel-bed-fill destination-title fs-6"></i>
+                                            ${bedText}
+                                        </p>
+                                        <p class="fontSize10">${accommodationText}</p>
+                                    </div>
+                                    <div class="py-1 px-2 text-center text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 userpreferenceBtn fw-bold fontSize10">
+                                        <span>User Preference</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-5 col-12 mb-3">
+                                <button class="btn modifyBtn" type="button" data-room="${roomNumber}">Modify Rooms</button>
+                            </div>
+                        </div>
+
+                    `;
                 });
 
-                if (hiddenFaqs.length > 0) {
+                // =====================================================
+                // ADD ROOM BUTTON
+                // =====================================================
 
-                    hiddenFaqs.slideDown();
+                roomsHTML += `
+                    <div class="d-flex justify-content-center">
+                        <button class="btn addRoomBtn" type="button">Add Room (If more travellers)</button>
+                    </div>
+                `;
 
-                    $(this).text("View Less");
+                // =====================================================
+                // UPDATE ONLY CONTENT
+                // =====================================================
 
-                } else {
+                $('#roomRecommendation').html(roomsHTML);
+            }
+            //coupon drop down
+            function updateCouponDropdowns() {
+                const selectedCoupons = [];
+                let selectedPrimaryCoupons = 0;
+                /*
+                |--------------------------------------------------------------------------
+                | Get all currently selected coupons
+                |--------------------------------------------------------------------------
+                */
+                $('.coupon-select').each(function () {
+                    const value = $(this).val();
+                    if (value !== '') {
+                        selectedCoupons.push(value);
+                        const type = $(this)
+                            .find('option:selected')
+                            .data('type');
+                        if (type === 'primary') {
+                            selectedPrimaryCoupons++;
+                        }
+                    }
+                });
+                /*
+                |--------------------------------------------------------------------------
+                | Primary coupons are considered exhausted
+                | when all available primary coupons are selected
+                |--------------------------------------------------------------------------
+                */
+                const primaryCouponsExhausted =
+                    totalPrimaryCoupons === 0 ||
+                    selectedPrimaryCoupons >= totalPrimaryCoupons;
+                /*
+                |--------------------------------------------------------------------------
+                | Update all dropdowns
+                |--------------------------------------------------------------------------
+                */
+                $('.coupon-select').each(function () {
+                    const $select = $(this);
+                    const currentValue = $select.val();
+                    $select.find('option').each(function () {
+                        const $option = $(this);
+                        const value = $option.val();
+                        const type = $option.data('type');
+                        // Skip placeholder
+                        if (!value) {
+                            return;
+                        }
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Disable coupon already selected in another dropdown
+                        |--------------------------------------------------------------------------
+                        */
+                        if (
+                            selectedCoupons.includes(value) &&
+                            value !== currentValue
+                        ) {
 
-                    $(".faq-item").each(function(index) {
+                            $option.prop('disabled', true);
 
-                        if (index >= 3) {
-                            $(this).slideUp();
+                            return;
+                        }
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Loyalty coupons
+                        |--------------------------------------------------------------------------
+                        */
+
+                        if (type === 'loyalty') {
+
+                            /*
+                            * Enable loyalty only when all
+                            * available primary coupons are selected
+                            */
+                            if (!primaryCouponsExhausted) {
+
+                                $option.prop('disabled', true);
+
+                            } else {
+
+                                $option.prop('disabled', false);
+
+                            }
+
+                        } else {
+
+                            /*
+                            * Primary coupon is available
+                            */
+                            $option.prop('disabled', false);
+
                         }
 
                     });
 
-                    $(this).text("View More");
+                });
 
-                }
+                // calculate total selected coupon discount
+                let totalDiscount = 0;
 
-            });
-        </script>
-        <!-- Request Details Age Incrementer And Decrementer Start -->
-        <script>
-            document.querySelectorAll('.guest-counter').forEach(counter => {
-                const minusBtn = counter.querySelector('.minus');
-                const plusBtn = counter.querySelector('.plus');
-                const input = counter.querySelector('.counter-value');
+                $('.coupon-select').each(function () {
 
-                minusBtn.addEventListener('click', () => {
-                    let value = parseInt(input.value) || 0;
+                    const selectedOption =
+                        $(this).find('option:selected');
 
-                    // Adults minimum 1, Children/Infants minimum 0
-                    const minValue = counter.querySelector('.guest-label')
-                        .textContent.includes('Adults') ? 1 : 0;
+                    const amount =
+                        parseFloat(selectedOption.data('amount')) || 0;
 
-                    if (value > minValue) {
-                        input.value = value - 1;
+                    if ($(this).val() !== '') {
+                        totalDiscount += amount;
                     }
                 });
 
-                plusBtn.addEventListener('click', () => {
-                    let value = parseInt(input.value) || 0;
-                    input.value = value + 1;
+                // Update discount display
+                $('#totalCouponDiscount').text(
+                    '- ₹ ' + totalDiscount.toLocaleString('en-IN')
+                );
+
+                // Update final package price
+                updateFinalPackagePrice();
+
+            }
+            // =====================================================
+            // GENERATE COUPON DROPDOWNS
+            // =====================================================
+
+            function generateCouponDropdowns() {
+
+                const adults =
+                    parseInt($('#adultCount').val()) || 0;
+
+                const children =
+                    parseInt($('#childrenCount').val()) || 0;
+
+                const container =
+                    $('#couponPassengerContainer');
+
+                container.empty();
+
+                // Create Adult rows
+                for (let i = 1; i <= adults; i++) {
+
+                    container.append(
+                        createCouponRow('Adult', i)
+                    );
+
+                }
+
+                // Create Child rows
+                for (let i = 1; i <= children; i++) {
+
+                    container.append(
+                        createCouponRow('Child', i)
+                    );
+
+                }
+
+                updateCouponDropdowns();
+
+                // Reset total coupon discount
+                updateTotalCouponDiscount();
+
+            }
+            //coupon row
+            function createCouponRow(type, number) {
+
+                return `
+                    <div class="d-flex justify-content-between mb-2 coupon-passenger-row">
+
+                        <div class="d-flex gap-3 largeDisplay">
+
+                            <p class="fontSize10 align-content-end mb-0">
+                                ${type} ${number}
+                            </p>
+
+                            <p class="mb-0">
+
+                                <select
+                                    class="form-select fontSize10 selectPadding coupon-select">
+
+                                    <option value="">
+                                        Select Coupon
+                                    </option>
+
+                                    <?php if (!empty($cuCoupons)): ?>
+
+                                        <optgroup label="Primary Coupons">
+
+                                            <?php foreach ($cuCoupons as $coupon): ?>
+
+                                                <option
+                                                    value="<?= htmlspecialchars($coupon['code']) ?>"
+                                                    data-type="primary"
+                                                    data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
+
+                                                    <?= htmlspecialchars($coupon['code']) ?>
+
+                                                </option>
+
+                                            <?php endforeach; ?>
+
+                                        </optgroup>
+
+                                    <?php endif; ?>
+
+
+                                    <?php if (!empty($loyaltyCoupons)): ?>
+
+                                        <optgroup label="Loyalty Coupons">
+
+                                            <?php foreach ($loyaltyCoupons as $coupon): ?>
+
+                                                <option
+                                                    value="<?= htmlspecialchars($coupon['code']) ?>"
+                                                    data-type="loyalty"
+                                                    data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
+
+                                                    <?= htmlspecialchars($coupon['code']) ?>
+
+                                                </option>
+
+                                            <?php endforeach; ?>
+
+                                        </optgroup>
+
+                                    <?php endif; ?>
+
+                                </select>
+
+                            </p>
+
+                        </div>
+
+
+                        <p class="fontSize10 discountGreen fw-bold text-end align-content-end coupon-discount mb-0">
+                            - ₹ 0
+                        </p>
+
+                    </div>
+                `;
+            }
+            // =====================================================
+            // UPDATE TOTAL COUPON DISCOUNT
+            // =====================================================
+
+            function updateTotalCouponDiscount() {
+
+                let totalDiscount = 0;
+
+                $('.coupon-select').each(function () {
+
+                    const selectedOption =
+                        $(this).find('option:selected');
+
+                    const amount =
+                        parseFloat(
+                            selectedOption.data('amount')
+                        ) || 0;
+
+                    totalDiscount += amount;
+
                 });
+
+                $('#totalCouponDiscount').text(
+                    '- ₹ ' + totalDiscount.toLocaleString('en-IN')
+                );
+
+            }
+            // =====================================================
+            // UPDATE FINAL PACKAGE PRICE
+            // =====================================================
+            function updateFinalPackagePrice() {
+
+                const adults =
+                    parseInt($('#adultCount').val()) || 0;
+
+                const children =
+                    parseInt($('#childrenCount').val()) || 0;
+
+
+                // =====================================================
+                // ADULT TOTAL
+                // =====================================================
+
+                const adultTotal =
+                    adults * perAdultPrice;
+
+
+                // =====================================================
+                // CHILD TOTAL
+                // =====================================================
+
+                const childrenTotal =
+                    children * perChildPrice;
+
+
+                // =====================================================
+                // COUPON DISCOUNT
+                // Always convert to POSITIVE amount
+                // =====================================================
+
+                const couponDiscount =
+                    Math.abs(
+                        parseFloat(
+                            $('#totalCouponDiscount')
+                                .text()
+                                .replace(/[^\d.-]/g, '')
+                        ) || 0
+                    );
+
+
+                // =====================================================
+                // TOTAL AFTER COUPON
+                // =====================================================
+
+                const totalAfterCoupon =
+                    Math.max(
+                        0,
+                        adultTotal +
+                        childrenTotal -
+                        couponDiscount
+                    );
+
+
+                // =====================================================
+                // CONVENIENCE FEE - 1%
+                // Calculated on amount after coupon
+                // =====================================================
+
+                const convenienceFee =
+                    totalAfterCoupon * 0.01;
+
+
+                // =====================================================
+                // GST
+                // GST is calculated on Convenience Fee
+                // =====================================================
+
+                const gstPercentage =
+                    parseFloat('<?= $gst['gst'] ?>') || 0;
+
+                const gstValue =
+                    convenienceFee *
+                    (gstPercentage / 100);
+
+
+                // =====================================================
+                // FINAL PAYABLE AMOUNT
+                // =====================================================
+
+                const finalAmount =
+                    totalAfterCoupon +
+                    convenienceFee +
+                    gstValue;
+
+
+                // =====================================================
+                // FORMAT FINAL AMOUNT
+                // =====================================================
+
+                const formattedFinalAmount =
+                    finalAmount.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+
+
+                // =====================================================
+                // UPDATE FINAL PACKAGE PRICE
+                // =====================================================
+
+                $('#finalPackagePrice').text(
+                    '₹ ' + formattedFinalAmount
+                );
+
+                $('#finalPackagePrice1').text(
+                    '₹ ' + formattedFinalAmount
+                );
+
+                $('#finalPackagePrice2').text(
+                    '₹ ' + formattedFinalAmount
+                );
+
+
+                // =====================================================
+                // UPDATE CONVENIENCE FEE
+                // =====================================================
+
+                $('#convenienceFeee').text(
+                    '₹ ' + convenienceFee.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })
+                );
+
+
+                // =====================================================
+                // UPDATE GST VALUE
+                // =====================================================
+
+                $('#gstValue').text(
+                    '₹ ' + gstValue.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })
+                );
+
+            }
+            // Guest Counter
+            $('.guest-counter').each(function () {
+
+                const $counter = $(this);
+
+                const $minusBtn = $counter.find('.minus');
+                const $plusBtn = $counter.find('.plus');
+                const $input = $counter.find('.counter-value');
+
+
+                // Minus button
+                $minusBtn.on('click', function () {
+
+                    let value = parseInt($input.val()) || 0;
+
+                    const minValue = $counter
+                        .find('.guest-label')
+                        .text()
+                        .includes('Adults') ? 1 : 0;
+
+
+                    if (value > minValue) {
+
+                        $input.val(value - 1);
+
+                        // Trigger price calculation
+                        $input.trigger('change');
+
+                    }
+
+                });
+
+
+                // Plus button
+                $plusBtn.on('click', function () {
+
+                    let value = parseInt($input.val()) || 0;
+
+                    $input.val(value + 1);
+
+                    // Trigger price calculation
+                    $input.trigger('change');
+
+                });
+
+            });
+            // =====================================================
+            // Adult Count Change
+            // =====================================================
+
+            $('#adultCount').on('change', function () {
+
+                const adultCount =
+                    parseInt($(this).val()) || 0;
+
+                const adultTotal =
+                    adultCount * perAdultPrice;
+
+                $('#totalAdultCount').text(adultCount);
+
+                animatePrice(
+                    $('#adultTotal'),
+                    adultTotal,
+                    '₹ '
+                );
+
+                // Update subtotal
+                updateSubTotal();
+
+                // Update room recommendation
+                updateRecommendedRooms();
+
+                // Update coupon passenger rows
+                generateCouponDropdowns();
+                
+                //update final price
+                updateFinalPackagePrice();
+            });
+
+
+            // =====================================================
+            // Children Count Change
+            // =====================================================
+
+            $('#childrenCount').on('change', function () {
+
+                const childrenCount =
+                    parseInt($(this).val()) || 0;
+
+                const childrenTotal =
+                    childrenCount * perChildPrice;
+
+                $('#totalChildrenCount').text(childrenCount);
+
+                animatePrice(
+                    $('#childrenTotal'),
+                    childrenTotal,
+                    '₹ '
+                );
+
+                // Update subtotal
+                updateSubTotal();
+
+                // Update room recommendation
+                updateRecommendedRooms();
+
+                // Update coupon passenger rows
+                generateCouponDropdowns();
+
+                //update final price
+                updateFinalPackagePrice();
+
+            });
+
+            // =====================================================
+            // Children Count Change
+            // =====================================================
+
+            $('#infantCount').on('change', function () {
+
+                const infantCount =
+                    parseInt($(this).val()) || 0;
+
+                const childrenTotal =
+                    infantCount * perChildPrice;
+
+                $('#totalInfantCount').text(infantCount);
+
+                animatePrice(
+                    $('#childrenTotal'),
+                    childrenTotal,
+                    '₹ '
+                );
+
+                // Update subtotal
+                updateSubTotal();
+
+                // Update room recommendation
+                updateRecommendedRooms();
+
+                // Update coupon passenger rows
+                generateCouponDropdowns();
+
+                //update final price
+                updateFinalPackagePrice();
+
+            });
+            // Travel Date Update
+            $('#travelStartDate').on('change', function () {
+
+                const startDate = $(this).val();
+
+                if (!startDate || !tourDays) {
+                    return;
+                }
+
+                const totalDays = parseInt(tourDays);
+
+                if (totalDays <= 0) {
+                    return;
+                }
+
+                const $endDate = $('#travelEndDate');
+
+                // Stop previous animation
+                clearInterval($endDate.data('dateAnimation'));
+
+                const start = new Date(startDate);
+
+                let currentDate = new Date(start);
+                let currentDay = 1;
+
+                // Show starting date
+                $endDate.val(
+                    currentDate.toISOString().split('T')[0]
+                );
+
+                // Day 1 means no calculation needed
+                if (totalDays === 1) {
+                    return;
+                }
+
+                const dateAnimation = setInterval(function () {
+
+                    // Add exactly one day
+                    currentDate.setDate(
+                        currentDate.getDate() + 1
+                    );
+
+                    currentDay++;
+
+                    // Update the input directly
+                    $endDate.val(
+                        currentDate.toISOString().split('T')[0]
+                    );
+
+                    // Stop at final day
+                    if (currentDay >= totalDays) {
+
+                        clearInterval(dateAnimation);
+
+                        $endDate.data(
+                            'dateAnimation',
+                            null
+                        );
+                    }
+
+                }, 120);
+
+                // Store animation
+                $endDate.data(
+                    'dateAnimation',
+                    dateAnimation
+                );
+            });
+            //pickup drop change value 
+            $('.location-input').on('blur', function () {
+
+                const $input = $(this);
+
+                const oldValue = $input.data('old-value');
+                const newValue = $.trim($input.val());
+
+                // Show old value only if changed
+                if (newValue !== oldValue) {
+
+                    if ($input.attr('id') === 'pickupLocation') {
+                        $('#pickupOldValue')
+                            .text('Old: ' + oldValue)
+                            .show();
+                    }
+
+                    if ($input.attr('id') === 'dropLocation') {
+                        $('#dropOldValue')
+                            .text('Old: ' + oldValue)
+                            .show();
+                    }
+
+                } else {
+
+                    if ($input.attr('id') === 'pickupLocation') {
+                        $('#pickupOldValue').hide();
+                    }
+
+                    if ($input.attr('id') === 'dropLocation') {
+                        $('#dropOldValue').hide();
+                    }
+                }
+            });
+            //trigger room modification modal
+            $(document).on('click', '.modifyBtn', function (e) {
+
+                e.preventDefault();
+
+                const roomNumber = parseInt($(this).data('room')) || 1;
+
+                const adults =
+                    parseInt($('#adultCount').val()) || 0;
+
+                const children =
+                    parseInt($('#childrenCount').val()) || 0;
+
+                const infants =
+                    parseInt($('#infantCount').val()) || 0;
+
+                console.log('Total Adults:', adults);
+                console.log('Total Children:', children);
+                console.log('Total Infants:', infants);
+
+                loadModifyRooms(
+                    adults,
+                    children,
+                    infants
+                );
+
+                const modalElement =
+                    document.getElementById('modifyRoomsModal');
+
+                const modal =
+                    bootstrap.Modal.getOrCreateInstance(modalElement);
+
+                modal.show();
+
+            });
+            // =====================================================
+            // APPLY ROOM MODIFICATION
+            // =====================================================
+
+            $(document).on('click', '#applyRoomModification', function () {
+                const adults =parseInt($('#adultCount').val()) || 0;
+                const children =parseInt($('#childrenCount').val()) || 0;
+                const infants =parseInt($('#infantCount').val()) || 0;
+                const totalTravellers =adults + children;
+                let roomOccupancies = [];
+                let totalRoomOccupancy = 0;
+
+                // =================================================
+                // READ ROOMS
+                // =================================================
+
+                $('#modifyRoomsContainer .modify-room-card').each(function () {
+                    const occupancy =parseInt($(this).find('.room-occupancy').val()) || 0;
+                    const extraMattress =$(this).find('.extra-mattress').is(':checked');
+                    roomOccupancies.push({
+                        occupancy: occupancy,
+                        extraMattress: extraMattress
+                    });
+                    totalRoomOccupancy += occupancy;
+                });
+
+                // =================================================
+                // VALIDATE ROOM OCCUPANCY
+                // =================================================
+
+                if (totalRoomOccupancy !== totalTravellers) {
+
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Invalid Room Occupancy',
+                        text: 'Room occupancy must match the total number of Adults and Children.',
+                        confirmButtonText: 'Okay'
+                    });
+
+                    return;
+                }
+
+                // =================================================
+                // UPDATE RECOMMENDATION
+                // USING USER'S ROOM ARRANGEMENT
+                // =================================================
+
+                updateRecommendedRoomsFromModification(
+                    roomOccupancies,
+                    adults,
+                    children,
+                    infants
+                );
+
+
+                // =================================================
+                // CLOSE MODAL
+                // =================================================
+
+                const modalElement =document.getElementById('modifyRoomsModal');
+                const modalInstance =bootstrap.Modal.getInstance(modalElement);
+                if (modalInstance) {
+                    modalInstance.hide();
+                }
+
+            });
+            // =====================================================
+            // ROOM OCCUPANCY PLUS
+            // =====================================================
+
+            $(document).on('click', '.occupancy-plus', function () {
+                const roomCard =$(this).closest('.modify-room-card');
+                const occupancyInput =roomCard.find('.room-occupancy');
+                let occupancy = parseInt(occupancyInput.val()) || 0;
+
+                // =================================================
+                // MAX 3 PEOPLE PER ROOM
+                // =================================================
+
+                if (occupancy >= 3) {
+                    return;
+                }
+
+                // =================================================
+                // TOTAL AVAILABLE OCCUPANCY
+                // ADULTS + CHILDREN
+                // =================================================
+
+                const adults =parseInt($('#adultCount').val()) || 0;
+                const children =parseInt($('#childrenCount').val()) || 0;
+                const totalTravellers =adults + children;
+
+                // =================================================
+                // CURRENT OCCUPANCY OF ALL ROOMS
+                // =================================================
+
+                let currentTotal = 0;
+                $('#modifyRoomsContainer .room-occupancy').each(function () {
+                    currentTotal +=parseInt($(this).val()) || 0;
+                });
+
+                // =================================================
+                // DON'T EXCEED TOTAL TRAVELLERS
+                // =================================================
+
+                if (currentTotal >= totalTravellers) {
+                    return;
+                }
+
+                // =================================================
+                // INCREASE
+                // =================================================
+                occupancy++;
+                occupancyInput.val(occupancy);
+
+                // =================================================
+                // UPDATE EXTRA MATTRESS
+                // =================================================
+
+                updateRoomExtraMattress(roomCard);
+            });
+            // =====================================================
+            // ROOM OCCUPANCY MINUS
+            // =====================================================
+
+            $(document).on('click', '.occupancy-minus', function () {
+                const roomCard = $(this).closest('.modify-room-card');
+                const occupancyInput =roomCard.find('.room-occupancy');
+                let occupancy =parseInt(occupancyInput.val()) || 0;
+
+                // =================================================
+                // MINIMUM 1 PERSON PER ROOM
+                // =================================================
+
+                if (occupancy <= 1) {
+                    return;
+                }
+
+                occupancy--;
+                occupancyInput.val(occupancy);
+
+                // =================================================
+                // UPDATE EXTRA MATTRESS
+                // =================================================
+
+                updateRoomExtraMattress(roomCard);
+            });
+            // =====================================================
+            // ADD ROOM
+            // =====================================================
+
+            $(document).on('click', '#addModifyRoom', function () {
+
+                const container = $('#modifyRoomsContainer');
+
+                const roomCount = container.find('.modify-room-card').length;
+
+                const newRoomNumber = roomCount + 1;
+
+
+                const roomHTML = `
+                    <div class="modify-room-card mb-3"
+                        data-room="${newRoomNumber}">
+
+                        <div class="room-content-row">
+
+                            <!-- ROOM TITLE -->
+                            <div class="room-title">
+
+                                <p class="fontSize10 fw-bold mb-0">
+                                    Room ${newRoomNumber}
+                                </p>
+
+                            </div>
+
+
+                            <!-- ROOM OCCUPANCY -->
+                            <div class="occupancy-section">
+
+                                <label class="fontSize10 fw-bold mb-0">
+                                    Room Occupancy
+                                </label>
+
+                                <div class="occupancy-control">
+
+                                    <button type="button"
+                                            class="occupancy-minus">
+                                        -
+                                    </button>
+
+                                    <input type="text"
+                                        class="form-control text-center room-occupancy"
+                                        value="1"
+                                        readonly>
+
+                                    <button type="button"
+                                            class="occupancy-plus">
+                                        +
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- EXTRA MATTRESS -->
+                            <div class="mattress-section">
+
+                                <div class="form-check mb-0">
+
+                                    <input class="form-check-input extra-mattress"
+                                        type="checkbox"
+                                        id="extraMattress${newRoomNumber}">
+
+                                    <label class="form-check-label fontSize10"
+                                        for="extraMattress${newRoomNumber}">
+                                        With Extra Mattress
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- REMOVE ROOM -->
+                            <div class="ms-auto">
+
+                                <button type="button"
+                                        class="removeModifyRoom">
+                                    Remove
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                `;
+
+                container.append(roomHTML);
+
+            });
+            // =====================================================
+            // REMOVE ROOM
+            // =====================================================
+
+            $(document).on('click', '.removeModifyRoom', function () {
+
+                $(this)
+                    .closest('.modify-room-card')
+                    .remove();
+
+                renumberModifyRooms();
+            });
+            //add button
+            $(document).on('click', '.addRoomBtn', function () {
+                const adults =parseInt($('#adultCount').val()) || 0;
+                const children =parseInt($('#childrenCount').val()) || 0;
+                const infants =parseInt($('#infantCount').val()) || 0;
+                loadModifyRooms(
+                    adults,
+                    children,
+                    infants
+                );
+                const modalElement =document.getElementById('modifyRoomsModal');
+                const modal =bootstrap.Modal.getOrCreateInstance(modalElement);
+                modal.show();
+            });
+            //vechel modal show
+            $(document).on('click', '#changeVehicle', function (e) {
+
+                e.preventDefault();
+
+                const modalElement =
+                    document.getElementById('vehicleSelectionModal');
+
+                const modal =
+                    bootstrap.Modal.getOrCreateInstance(modalElement);
+
+                modal.show();
+
+            });
+            let selectedVehicle = null;
+
+
+            // =====================================================
+            // SELECT VEHICLE
+            // =====================================================
+
+            $(document).on('click', '.vehicle-option', function () {
+
+                $('.vehicle-option').removeClass('active');
+
+                $(this).addClass('active');
+
+                selectedVehicle = {
+                    value: $(this).data('value'),
+                    name: $(this).data('name')
+                };
+
+            });
+
+
+            // =====================================================
+            // APPLY VEHICLE
+            // =====================================================
+
+            $(document).on('click', '#applyVehicleSelection', function () {
+
+                if (!selectedVehicle) {
+
+                    alert('Please select a vehicle.');
+
+                    return;
+                }
+
+                // Get total travellers
+                const adults =
+                    parseInt($('#adultCount').val()) || 0;
+
+                const children =
+                    parseInt($('#childrenCount').val()) || 0;
+
+                const infants =
+                    parseInt($('#infantCount').val()) || 0;
+
+                // Pax for vehicle
+                const totalPax = adults + children + infants;
+
+
+                // Update vehicle text
+                $('#selectedVehicleText').text(
+                    selectedVehicle.name + ' (For ' + totalPax + ' Pax)'
+                );
+
+
+                // Store selected vehicle
+                $('#vehicle_id').val(selectedVehicle.value);
+
+
+                // Close modal
+                const modalElement =
+                    document.getElementById('vehicleSelectionModal');
+
+                const modal =
+                    bootstrap.Modal.getInstance(modalElement);
+
+                if (modal) {
+                    modal.hide();
+                }
+
+            });
+
+            // =====================================================
+            // COUPON CHANGE
+            // =====================================================
+
+            $(document).on('change', '.coupon-select', function () {
+                const $select = $(this);
+                const selectedOption =
+                    $select.find('option:selected');
+                const amount =
+                    parseFloat(
+                        selectedOption.data('amount')
+                    ) || 0;
+                // Update individual passenger discount
+                const row =
+                    $select.closest('.coupon-passenger-row');
+                row.find('.coupon-discount').text(
+                    '- ₹ ' + amount.toLocaleString('en-IN')
+                );
+
+                // Update coupon restrictions
+                updateCouponDropdowns();
+
+                // Update total coupon discount
+                updateTotalCouponDiscount();
+
+                //update final price
+                updateFinalPackagePrice();
+
+            });
+            
+            // =====================================================
+            // PACKAGE COUPON CHANGE
+            // =====================================================
+
+            $(document).on('change', '#packageCouponSelect', function () {
+
+                const $select = $(this);
+
+                const amount =
+                    parseFloat(
+                        $select.find('option:selected').data('amount')
+                    ) || 0;
+
+                // Individual coupon discount
+                $('#packageCouponDiscount').text(
+                    '₹ ' + amount.toLocaleString('en-IN')
+                );
+
+                // Total coupon discount
+                $('#totalCouponDiscount').text(
+                    '- ₹ ' + amount.toLocaleString('en-IN')
+                );
+
+                //update final price
+                updateFinalPackagePrice();
+
+            });
+            // =====================================================
+            // ON PAGE LOAD
+            // =====================================================
+
+            $(document).ready(function () {
+
+                // =====================================================
+                // PASSENGER COUPONS
+                // =====================================================
+
+                generateCouponDropdowns();
+
+
+                // =====================================================
+                // PACKAGE COUPON
+                // =====================================================
+
+                $('#packageCouponDiscount').text('₹ 0');
+
+                $('#totalCouponDiscount').text('- ₹ 0');
+
             });
         </script>
         <!-- Pricing Section -->
@@ -1226,6 +2497,7 @@
             });
         </script>
         <!-- Request Details Age Incrementer And Decrementer End -->
+
     </body>
 
 </html>
