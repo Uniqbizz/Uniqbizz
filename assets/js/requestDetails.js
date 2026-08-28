@@ -63,7 +63,7 @@ function updateRecommendedRooms() {
     const adults = parseInt($('#adultCount').val()) || 0;
     const children = parseInt($('#childrenCount').val()) || 0;
     const totalPax = adults + children;
-    if (totalPax <= 0) {return;}
+    if (totalPax <= 0) { return; }
     /*
     =====================================================
     ROOM CALCULATION
@@ -270,43 +270,43 @@ function loadModifyRooms(adults, children, infants) {
 
 function renumberModifyRooms() {
     $('#modifyRoomsContainer .modify-room-card').each(function (index) {
-            const roomNumber = index + 1;
-            const roomCard = $(this);
-            // Update data-room
-            roomCard.attr(
-                'data-room',
-                roomNumber
+        const roomNumber = index + 1;
+        const roomCard = $(this);
+        // Update data-room
+        roomCard.attr(
+            'data-room',
+            roomNumber
+        );
+        // Update Room X text
+        roomCard
+            .find('p.fontSize10.fw-bold.mb-0')
+            .first()
+            .text(
+                'Room ' + roomNumber
             );
-            // Update Room X text
-            roomCard
-                .find('p.fontSize10.fw-bold.mb-0')
-                .first()
-                .text(
-                    'Room ' + roomNumber
-                );
-            // Update checkbox ID
-            const checkbox =
-                roomCard.find('.extra-mattress');
-            const checkboxId =
-                'extraMattress' + roomNumber;
-            checkbox.attr(
-                'id',
+        // Update checkbox ID
+        const checkbox =
+            roomCard.find('.extra-mattress');
+        const checkboxId =
+            'extraMattress' + roomNumber;
+        checkbox.attr(
+            'id',
+            checkboxId
+        );
+        // Update label's for attribute
+        roomCard
+            .find('label.form-check-label')
+            .attr(
+                'for',
                 checkboxId
             );
-            // Update label's for attribute
+        // Room 1 should not have Remove button
+        if (roomNumber === 1) {
             roomCard
-                .find('label.form-check-label')
-                .attr(
-                    'for',
-                    checkboxId
-                );
-            // Room 1 should not have Remove button
-            if (roomNumber === 1) {
-                roomCard
-                    .find('.removeModifyRoom')
-                    .remove();
-            }
-        });
+                .find('.removeModifyRoom')
+                .remove();
+        }
+    });
 
 }
 // =====================================================
@@ -326,8 +326,8 @@ function getTotalTravellers() {
 // =====================================================
 
 function updateRoomExtraMattress(roomCard) {
-    const occupancy =parseInt(roomCard.find('.room-occupancy').val()) || 0;
-    const checkbox =roomCard.find('.extra-mattress');
+    const occupancy = parseInt(roomCard.find('.room-occupancy').val()) || 0;
+    const checkbox = roomCard.find('.extra-mattress');
     /*
     3 people = extra mattress recommended
     1 or 2 people = no extra mattress
@@ -343,18 +343,18 @@ function updateRoomExtraMattress(roomCard) {
 // UPDATE RECOMMENDATION FROM USER MODIFICATION
 // =====================================================
 
-function updateRecommendedRoomsFromModification(roomOccupancies,adults,children,infants) {
+function updateRecommendedRoomsFromModification(roomOccupancies, adults, children, infants) {
     let roomsHTML = '';
     roomOccupancies.forEach(function (room, index) {
-        const roomNumber =index + 1;
-        const occupancy =room.occupancy;
-        const extraMattress =room.extraMattress;
+        const roomNumber = index + 1;
+        const occupancy = room.occupancy;
+        const extraMattress = room.extraMattress;
 
         // =================================================
         // BED TEXT
         // =================================================
 
-        let bedText ='1 Double Bed';
+        let bedText = '1 Double Bed';
         if (extraMattress) {
             bedText +=
                 ' + 1 Extra Mattress';
@@ -364,7 +364,7 @@ function updateRecommendedRoomsFromModification(roomOccupancies,adults,children,
         // ACCOMMODATION TEXT
         // =================================================
 
-        let accommodationText =occupancy +' Pax will be accommodated in 1 room';
+        let accommodationText = occupancy + ' Pax will be accommodated in 1 room';
 
         if (extraMattress) {
             accommodationText +=
@@ -819,7 +819,7 @@ $('#adultCount').on('change', function () {
 
     // Update coupon passenger rows
     generateCouponDropdowns();
-    
+
     //update final price
     updateFinalPackagePrice();
 });
@@ -1034,10 +1034,10 @@ $(document).on('click', '.modifyBtn', function (e) {
 // =====================================================
 
 $(document).on('click', '#applyRoomModification', function () {
-    const adults =parseInt($('#adultCount').val()) || 0;
-    const children =parseInt($('#childrenCount').val()) || 0;
-    const infants =parseInt($('#infantCount').val()) || 0;
-    const totalTravellers =adults + children;
+    const adults = parseInt($('#adultCount').val()) || 0;
+    const children = parseInt($('#childrenCount').val()) || 0;
+    const infants = parseInt($('#infantCount').val()) || 0;
+    const totalTravellers = adults + children;
     let roomOccupancies = [];
     let totalRoomOccupancy = 0;
 
@@ -1046,8 +1046,8 @@ $(document).on('click', '#applyRoomModification', function () {
     // =================================================
 
     $('#modifyRoomsContainer .modify-room-card').each(function () {
-        const occupancy =parseInt($(this).find('.room-occupancy').val()) || 0;
-        const extraMattress =$(this).find('.extra-mattress').is(':checked');
+        const occupancy = parseInt($(this).find('.room-occupancy').val()) || 0;
+        const extraMattress = $(this).find('.extra-mattress').is(':checked');
         roomOccupancies.push({
             occupancy: occupancy,
             extraMattress: extraMattress
@@ -1088,8 +1088,8 @@ $(document).on('click', '#applyRoomModification', function () {
     // CLOSE MODAL
     // =================================================
 
-    const modalElement =document.getElementById('modifyRoomsModal');
-    const modalInstance =bootstrap.Modal.getInstance(modalElement);
+    const modalElement = document.getElementById('modifyRoomsModal');
+    const modalInstance = bootstrap.Modal.getInstance(modalElement);
     if (modalInstance) {
         modalInstance.hide();
     }
@@ -1100,8 +1100,8 @@ $(document).on('click', '#applyRoomModification', function () {
 // =====================================================
 
 $(document).on('click', '.occupancy-plus', function () {
-    const roomCard =$(this).closest('.modify-room-card');
-    const occupancyInput =roomCard.find('.room-occupancy');
+    const roomCard = $(this).closest('.modify-room-card');
+    const occupancyInput = roomCard.find('.room-occupancy');
     let occupancy = parseInt(occupancyInput.val()) || 0;
 
     // =================================================
@@ -1117,9 +1117,9 @@ $(document).on('click', '.occupancy-plus', function () {
     // ADULTS + CHILDREN
     // =================================================
 
-    const adults =parseInt($('#adultCount').val()) || 0;
-    const children =parseInt($('#childrenCount').val()) || 0;
-    const totalTravellers =adults + children;
+    const adults = parseInt($('#adultCount').val()) || 0;
+    const children = parseInt($('#childrenCount').val()) || 0;
+    const totalTravellers = adults + children;
 
     // =================================================
     // CURRENT OCCUPANCY OF ALL ROOMS
@@ -1127,7 +1127,7 @@ $(document).on('click', '.occupancy-plus', function () {
 
     let currentTotal = 0;
     $('#modifyRoomsContainer .room-occupancy').each(function () {
-        currentTotal +=parseInt($(this).val()) || 0;
+        currentTotal += parseInt($(this).val()) || 0;
     });
 
     // =================================================
@@ -1156,8 +1156,8 @@ $(document).on('click', '.occupancy-plus', function () {
 
 $(document).on('click', '.occupancy-minus', function () {
     const roomCard = $(this).closest('.modify-room-card');
-    const occupancyInput =roomCard.find('.room-occupancy');
-    let occupancy =parseInt(occupancyInput.val()) || 0;
+    const occupancyInput = roomCard.find('.room-occupancy');
+    let occupancy = parseInt(occupancyInput.val()) || 0;
 
     // =================================================
     // MINIMUM 1 PERSON PER ROOM
@@ -1285,16 +1285,16 @@ $(document).on('click', '.removeModifyRoom', function () {
 });
 //add button
 $(document).on('click', '.addRoomBtn', function () {
-    const adults =parseInt($('#adultCount').val()) || 0;
-    const children =parseInt($('#childrenCount').val()) || 0;
-    const infants =parseInt($('#infantCount').val()) || 0;
+    const adults = parseInt($('#adultCount').val()) || 0;
+    const children = parseInt($('#childrenCount').val()) || 0;
+    const infants = parseInt($('#infantCount').val()) || 0;
     loadModifyRooms(
         adults,
         children,
         infants
     );
-    const modalElement =document.getElementById('modifyRoomsModal');
-    const modal =bootstrap.Modal.getOrCreateInstance(modalElement);
+    const modalElement = document.getElementById('modifyRoomsModal');
+    const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
     modal.show();
 });
 //vechel modal show
@@ -1476,16 +1476,19 @@ $(document).ready(function () {
 
 });
 
-//submit Request
+// =====================================================
+// SUBMIT REQUEST
+// =====================================================
+
 $("#submitRequst").on("click", function (e) {
     e.preventDefault();
     const submitBtn = $(this);
     // =====================================================
     // TRAVEL & TRANSPORT DETAILS
     // =====================================================
-    const travelStartDate =$("#travelStartDate").val().trim();
-    const travelEndDate =$("#travelEndDate").val().trim();
-    const transportPreference =$("#transportPreference").val() || "";
+    const travelStartDate = $("#travelStartDate").val().trim();
+    const travelEndDate = $("#travelEndDate").val().trim();
+    const transportPreference = $("#transportPreference").val() || "";
     // =====================================================
     // REQUIRED VALIDATION
     // =====================================================
@@ -1515,7 +1518,7 @@ $("#submitRequst").on("click", function (e) {
     // DATE ORDER VALIDATION
     // =====================================================
     const startDate = new Date(travelStartDate);
-    const endDate   = new Date(travelEndDate);
+    const endDate = new Date(travelEndDate);
     if (endDate < startDate) {
         Swal.fire({
             icon: "warning",
@@ -1540,46 +1543,101 @@ $("#submitRequst").on("click", function (e) {
         return;
     }
     // =====================================================
+    // GUEST DETAILS
+    // =====================================================
+    let guestFullName = "";
+    let guestPhone = "";
+    let guestEmail = "";
+    // Check whether guest fields exist in DOM
+    const guestFieldsExist =
+        $("#guestFullName").length > 0 ||
+        $("#guestPhone").length > 0 ||
+        $("#guestEmail").length > 0;
+    if (guestFieldsExist) {
+        // Get guest values
+        guestFullName = $.trim($("#guestFullName").val() || "");
+        guestPhone = $.trim($("#guestPhone").val() || "");
+        guestEmail = $.trim($("#guestEmail").val() || "");
+        // -------------------------------------------------
+        // Guest Name
+        // -------------------------------------------------
+        if (!guestFullName) {
+            Swal.fire({
+                icon: "warning",
+                title: "Guest Name Required",
+                text: "Please enter the guest full name.",
+                confirmButtonText: "OK"
+            });
+
+            $("#guestFullName").focus();
+            return;
+        }
+        // -------------------------------------------------
+        // Guest Phone
+        // -------------------------------------------------
+        if (!guestPhone) {
+
+            Swal.fire({
+                icon: "warning",
+                title: "Guest Phone Required",
+                text: "Please enter the guest phone number.",
+                confirmButtonText: "OK"
+            });
+
+            $("#guestPhone").focus();
+            return;
+        }
+        // -------------------------------------------------
+        // Guest Email
+        // -------------------------------------------------
+        if (!guestEmail) {
+            Swal.fire({
+                icon: "warning",
+                title: "Guest Email Required",
+                text: "Please enter the guest email address.",
+                confirmButtonText: "OK"
+            });
+            $("#guestEmail").focus();
+            return;
+        }
+    }
+    // =====================================================
     // PREVENT DOUBLE CLICK
     // =====================================================
-
     if (submitBtn.hasClass("loading")) {
         return;
     }
-
     submitBtn.addClass("loading");
     submitBtn.prop("disabled", true);
-
-
     // =====================================================
     // BASIC PACKAGE DETAILS
     // =====================================================
-    const packageId =$("#packageId").val() || "";
+    const packageId = $("#packageId").val() || "";
     // =====================================================
     // TRAVELLER & TRIP DETAILS
     // =====================================================
-    const pickupLocation =$("#pickupLocation").val();
-    const dropLocation =$("#dropLocation").val();
-    const adults =parseInt($("#adultCount").val()) || 0;
-    const children =parseInt($("#childrenCount").val()) || 0;
-    const infants =parseInt($("#infantCount").val()) || 0;
+    const pickupLocation = $("#pickupLocation").val();
+    const dropLocation = $("#dropLocation").val();
+    const adults = parseInt($("#adultCount").val()) || 0;
+    const children = parseInt($("#childrenCount").val()) || 0;
+    const infants = parseInt($("#infantCount").val()) || 0;
     // =====================================================
     // PREFERENCES
     // =====================================================
-    const hotelCategory =$("#hotelCategory").val() || "";
-    const mealPreference =$("#mealPreference").val() || "";
-    const specialRequirement =$("#specialRequirement").val() || "";
+    const hotelCategory = $("#hotelCategory").val() || "";
+    const mealPreference = $("#mealPreference").val() || "";
+    const specialRequirement = $("#specialRequirement").val() || "";
     // =====================================================
     // PRICING
     // =====================================================
-    const totalAdultCount =parseInt($("#totalAdultCount").text()) || 0;
-    const totalChildrenCount =parseInt($("#totalChildrenCount").text()) || 0;
-    const totalInfantCount =parseInt($("#totalInfantCount").text()) || 0;
+    const totalAdultCount = parseInt($("#totalAdultCount").text()) || 0;
+    const totalChildrenCount = parseInt($("#totalChildrenCount").text()) || 0;
+    const totalInfantCount = parseInt($("#totalInfantCount").text()) || 0;
     // =====================================================
     // GET AMOUNT
     // =====================================================
     function getAmount(selector) {
-        let value =$(selector).text() || "0";
+        let value = $(selector).text() || "0";
         value = value
             .replace(/₹/g, "")
             .replace(/,/g, "")
@@ -1587,13 +1645,13 @@ $("#submitRequst").on("click", function (e) {
             .trim();
         return parseFloat(value) || 0;
     }
-    const adultTotal =getAmount("#adultTotal");
-    const childrenTotal =getAmount("#childrenTotal");
-    const subTotal =getAmount("#subTotal");
-    const convenienceFee =getAmount("#convenienceFeee");
-    const gstValue =getAmount("#gstValue");
-    const couponDiscount =getAmount("#totalCouponDiscount");
-    const finalPackagePrice =getAmount("#finalPackagePrice");
+    const adultTotal = getAmount("#adultTotal");
+    const childrenTotal = getAmount("#childrenTotal");
+    const subTotal = getAmount("#subTotal");
+    const convenienceFee = getAmount("#convenienceFeee");
+    const gstValue = getAmount("#gstValue");
+    const couponDiscount = getAmount("#totalCouponDiscount");
+    const finalPackagePrice = getAmount("#finalPackagePrice");
     // =====================================================
     // COUPONS
     // =====================================================
@@ -1604,42 +1662,51 @@ $("#submitRequst").on("click", function (e) {
     $("#couponPassengerContainer .coupon-passenger-row").each(function () {
         const select = $(this).find(".coupon-select");
         if (select.length && select.val()) {
-            const selectedOption =select.find("option:selected");
+            const selectedOption = select.find("option:selected");
             // Get Adult 1 / Adult 2 / Child 1 etc.
-            const passenger =$(this)
+            const passenger =
+                $(this)
                     .find("p.fontSize10")
                     .first()
                     .text()
                     .trim();
             coupons.push({
-                passenger:passenger || "",
-                code:select.val(),
-                type:selectedOption.data("type") || "",
-                amount:parseFloat(selectedOption.data("amount")) || 0
+                passenger: passenger || "",
+                code: select.val(),
+                type:
+                    selectedOption.data("type") || "",
+                amount:
+                    parseFloat(
+                        selectedOption.data("amount")
+                    ) || 0
             });
         }
     });
     // -----------------------------------------------------
     // NORMAL CUSTOMER - ONE COUPON PER PACKAGE
     // -----------------------------------------------------
-    const packageCoupon =$("#packageCouponSelect").val();
+    const packageCoupon = $("#packageCouponSelect").val();
     if (packageCoupon) {
-        const selectedOption =$("#packageCouponSelect option:selected");
+        const selectedOption = $("#packageCouponSelect option:selected");
         coupons.push({
-            passenger:"package",
+            passenger: "package",
             code: packageCoupon,
-            type:selectedOption.data("type") || "",
-            amount:parseFloat(selectedOption.data("amount")) || 0
+            type:
+                selectedOption.data("type") || "",
+            amount:
+                parseFloat(
+                    selectedOption.data("amount")
+                ) || 0
         });
     }
-    // console.log("Coupons:", coupons);
     // =====================================================
     // ROOM DETAILS
     // =====================================================
     let rooms = [];
     $("#roomRecommendation").each(function () {
         const room = {
-            room_number:$(this)
+            room_number:
+                $(this)
                     .find(".fontSize10.fw-bold")
                     .first()
                     .text()
@@ -1661,74 +1728,84 @@ $("#submitRequst").on("click", function (e) {
     // =====================================================
     // CREATE FORM DATA
     // =====================================================
-    const formData =new FormData();
+    const formData = new FormData();
     // =====================================================
     // PACKAGE
     // =====================================================
-    formData.append("package_id",packageId);
+    formData.append("package_id", packageId);
     // =====================================================
     // TRIP
     // =====================================================
-    formData.append("travel_start_date",travelStartDate);
-    formData.append( "travel_end_date",travelEndDate);
-    formData.append("pickup_location",pickupLocation);
-    formData.append("drop_location",dropLocation);
+    formData.append("travel_start_date", travelStartDate);
+    formData.append("travel_end_date", travelEndDate);
+    formData.append("pickup_location", pickupLocation);
+    formData.append("drop_location", dropLocation);
     // =====================================================
     // TRAVELLERS
     // =====================================================
-    formData.append("adults",adults);
-    formData.append("children",children);
-    formData.append("infants",infants);
+    formData.append("adults", adults);
+    formData.append("children", children);
+    formData.append("infants", infants);
+    // =====================================================
+    // GUEST DETAILS
+    // =====================================================
+    formData.append("guestFullName", guestFullName);
+    formData.append("guestPhone", guestPhone);
+    formData.append("guestEmail", guestEmail);
+    formData.append("userId", userId);
+    formData.append("userTypeIdValue", userTypeIdValue);
     // =====================================================
     // PREFERENCES
     // =====================================================
-    formData.append("hotel_category",hotelCategory);
-    formData.append("meal_preference",mealPreference);
-    formData.append("transport_preference",transportPreference);
-    formData.append("special_requirement",specialRequirement);
+    formData.append("hotel_category", hotelCategory);
+    formData.append("meal_preference", mealPreference);
+    formData.append("transport_preference", transportPreference);
+    formData.append("special_requirement", specialRequirement);
     // =====================================================
     // PRICING
     // =====================================================
-    formData.append("adult_price",perAdultPrice);
-    formData.append("child_price",perChildPrice);
-    formData.append("adult_count",totalAdultCount);
-    formData.append("child_count",totalChildrenCount);
-    formData.append("infant_count",totalInfantCount);
-    formData.append("adult_total",adultTotal);
-    formData.append("children_total",childrenTotal);
-    formData.append("subtotal",subTotal);
-    formData.append("convenience_fee",convenienceFee);
-    formData.append("gst_percentage",gstPercentage);
-    formData.append("gst_value",gstValue);
-    formData.append("coupon_discount",couponDiscount);
-    formData.append("final_package_price",finalPackagePrice);
+    formData.append("adult_price", perAdultPrice);
+    formData.append("child_price", perChildPrice);
+    formData.append("adult_count", totalAdultCount);
+    formData.append("child_count", totalChildrenCount);
+    formData.append("infant_count", totalInfantCount);
+    formData.append("adult_total", adultTotal);
+    formData.append("children_total", childrenTotal);
+    formData.append("subtotal", subTotal);
+    formData.append("convenience_fee", convenienceFee);
+    formData.append("gst_percentage", gstPercentage);
+    formData.append("gst_value", gstValue);
+    formData.append("coupon_discount", couponDiscount);
+    formData.append("final_package_price", finalPackagePrice);
     // =====================================================
     // JSON ARRAYS
     // =====================================================
-    formData.append("coupons",JSON.stringify(coupons));
-    formData.append("rooms",JSON.stringify(rooms));
-    // =====================================================
-    // DEBUG
-    // =====================================================
-    // console.log("Submitting Form Data...");
-    // for (const pair of formData.entries()) {
-    //     console.log(pair[0],":",pair[1]);
-    // }
+    formData.append("coupons", JSON.stringify(coupons));
+    formData.append("rooms", JSON.stringify(rooms));
     // =====================================================
     // AJAX
     // =====================================================
     $.ajax({
-        url:"assets/submit/submit_request_quote.php",
-        type:"POST",
-        data:formData,
-        processData:false,
-        contentType:false,
-        dataType:"json",
+        url: "assets/submit/submit_request_quote.php",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: "json",
         // =================================================
         // BEFORE SEND
         // =================================================
         beforeSend: function () {
-            $("#loading-overlay").show();
+            Swal.fire({
+                title: "Submitting Request",
+                html: "Please wait while we submit your travel enquiry...",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
         },
         // =================================================
         // SUCCESS
@@ -1736,18 +1813,15 @@ $("#submitRequst").on("click", function (e) {
         success: function (response) {
             $("#loading-overlay").hide();
             submitBtn.removeClass("loading");
-            submitBtn.prop( "disabled",false);
+            submitBtn.prop("disabled", false);
             // =============================================
             // SUCCESS RESPONSE
             // =============================================
             if (response.status == 1) {
                 Swal.fire({
-                    icon:
-                        "success",
-                    title:
-                        "Request Submitted Successfully!",
-                    html: `
-                        <div class="swal-enquiry-success">
+                    icon: "success",
+                    title: "Request Submitted Successfully!",
+                    html: `<div class="swal-enquiry-success">
                             <p class="swal-thankyou">
                                 Thank you for choosing
                                 <strong>Bizzmirth Holidays.</strong>
@@ -1755,34 +1829,22 @@ $("#submitRequst").on("click", function (e) {
                             <p class="swal-message">
                                 Your travel enquiry has been
                                 submitted successfully.
-
                                 Our team will review your request
                                 and get back to you soon.
                             </p>
-                            <!-- Enquiry Number -->
                             <div class="enquiry-number-box">
                                 <span class="enquiry-number-label">Enquiry Number</span>
-                                <strong>
-                                    ${response.enquiry_no||response.enquiry_number||"N/A"}
-                                </strong>
+                                <strong>${response.enquiry_no || response.enquiry_number || "N/A"}</strong>
                             </div>
-                            <!-- Enquiry Details -->
                             <div class="enquiry-details">
                                 <div class="enquiry-details-header">
-                                    <span>
-                                        <i class="ri-file-list-3-line"></i>
-                                        Enquiry Details
-                                    </span>
+                                    <span><i class="ri-file-list-3-line"></i>Enquiry Details</span>
                                 </div>
                                 <div class="enquiry-detail-row">
                                     <span>Travel Dates</span>
                                     <strong>
                                         ${travelStartDate || "-"}
-                                        ${
-                                            travelEndDate
-                                            ? " - " + travelEndDate
-                                            : ""
-                                        }
+                                        ${travelEndDate ? " - " + travelEndDate : ""}
                                     </strong>
                                 </div>
                                 <div class="enquiry-detail-row">
@@ -1790,66 +1852,43 @@ $("#submitRequst").on("click", function (e) {
                                     <strong>
                                         ${adults}
                                         Adult${adults != 1 ? "s" : ""}
-                                        ${
-                                            children > 0
-                                            ?
-                                            ", " +
-                                            children +
-                                            " Child" +
-                                            (
-                                                children != 1
-                                                ? "ren"
-                                                : ""
-                                            )
-                                            :
-                                            ""
-                                        }
-                                        ${
-                                            infants > 0
-                                            ?
-                                            ", " +
-                                            infants +
-                                            " Infant" +
-                                            (
-                                                infants != 1
-                                                ? "s"
-                                                : ""
-                                            )
-                                            :
-                                            ""
-                                        }
+                                        ${children > 0 ? ", " + children + " Child" + (children != 1 ? "ren" : "") : ""}
+                                        ${infants > 0 ? ", " + infants + " Infant" + (infants != 1 ? "s" : "") : ""}
                                     </strong>
                                 </div>
                                 <div class="enquiry-detail-row">
-                                    <span>Pickup Location</span>
+                                    <span>
+                                        Pickup Location
+                                    </span>
                                     <strong>
                                         ${pickupLocation || "-"}
                                     </strong>
                                 </div>
                                 <div class="enquiry-detail-row">
-                                    <span>Drop Location</span>
+                                    <span>
+                                        Drop Location
+                                    </span>
                                     <strong>
                                         ${dropLocation || "-"}
                                     </strong>
                                 </div>
                                 <div class="enquiry-detail-row">
-                                    <span>Package Price</span>
+                                    <span>
+                                        Package Price
+                                    </span>
                                     <strong>
                                         ₹${Number(
-                                            finalPackagePrice
-                                        ).toLocaleString(
-                                            "en-IN",
-                                            {
-                                                minimumFractionDigits:
-                                                    2,
-                                                maximumFractionDigits:
-                                                    2
-                                            }
-                                        )}
+                        finalPackagePrice
+                    ).toLocaleString(
+                        "en-IN",
+                        {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }
+                    )}
                                     </strong>
                                 </div>
                             </div>
-                            <!-- What's Next -->
                             <div class="whats-next-box">
                                 <div class="whats-next-title">
                                     <i class="ri-checkbox-circle-fill"></i>
@@ -1868,14 +1907,14 @@ $("#submitRequst").on("click", function (e) {
                             </div>
                         </div>
                     `,
-                    confirmButtonText:"Done",
+                    confirmButtonText: "Done",
                     customClass: {
                         popup: "enquiry-success-popup",
-                        confirmButton:"enquiry-confirm-btn"
+                        confirmButton: "enquiry-confirm-btn"
                     },
-                    buttonsStyling:false,
-                    allowOutsideClick:false,
-                    allowEscapeKey:false
+                    buttonsStyling: false,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
                 }).then(function () {
                     // =====================================
                     // REFRESH AFTER DONE
@@ -1888,34 +1927,22 @@ $("#submitRequst").on("click", function (e) {
             // =============================================
             else {
                 Swal.fire({
-                    icon:"error",
-                    title:"Unable to Submit",
-                    text:response.message||"Unable to submit your request. Please try again."
+                    icon: "error",
+                    title: "Unable to Submit",
+                    text: response.message || "Unable to submit your request. Please try again."
                 });
             }
         },
         // =================================================
         // AJAX ERROR
         // =================================================
-        error: function (
-            xhr,
-            status,
-            error
-        ) {
+        error: function (xhr, status, error) {
             $("#loading-overlay").hide();
             submitBtn.removeClass("loading");
-            submitBtn.prop("disabled",false);
-            // console.log(
-            //     "AJAX Error:",
-            //     error
-            // );
-            // console.log(
-            //     "Response:",
-            //     xhr.responseText
-            // );
+            submitBtn.prop("disabled", false);
             Swal.fire({
-                icon:"error",
-                title:"Something went wrong",
+                icon: "error",
+                title: "Something went wrong",
                 text: "Unable to submit the request. Please try again."
             });
         }
@@ -1946,4 +1973,3 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-        

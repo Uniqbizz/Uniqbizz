@@ -256,6 +256,53 @@ $vehicleOptions = [
                                         <h5 class="mb-0 fw-bold">Traveller & Trip Details</h5>
                                     </div>
                                     <div class="row">
+                                            <?php if(!isset($_SESSION['user_type_id_value'])){ ?>
+                                            <!-- HEADER -->
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <div>
+                                                <p class="fontSize10 fw-bold mb-1">
+                                                    Your Contact Details
+                                                </p>
+                                                <small class="text-muted fontSize10">
+                                                    Please provide your details so our travel expert can contact you.
+                                                    <i class="ri-information-line"></i>
+                                                </small>
+                                            </div>
+                                            <div class="coupon-package-icon">
+                                                <i class="ri-user-line iconRed"></i>
+                                            </div>
+                                        </div>
+                                        <!-- FULL NAME -->
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                            <div class="mb-3">
+                                                <label for="guestFullName" class="form-label fontSize10">Full name</label>
+                                                <div class="guest-input-wrapper">
+                                                    <i class="ri-user-line iconRed"></i>
+                                                    <input type="text" id="guestFullName" class="form-control" placeholder="Enter your full name" autocomplete="name">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- PHONE -->
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                            <div class="mb-3">
+                                                <label for="guestPhone" class="form-label fontSize10">Phone</label>
+                                                <div class="guest-input-wrapper">
+                                                    <i class="ri-phone-line iconRed"></i>
+                                                    <input type="tel" id="guestPhone" class="form-control" placeholder="Enter phone number" autocomplete="tel" maxlength="15">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- EMAIL -->
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                            <div class="mb-3">
+                                                <label for="guestEmail" class="form-label fontSize10">Email</label>
+                                                <div class="guest-input-wrapper">
+                                                    <i class="ri-mail-line iconRed"></i>
+                                                    <input type="email" id="guestEmail" class="form-control" placeholder="Enter email address" autocomplete="email">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php } ?>
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
                                             <div class="mb-3">
                                                 <label for="travelStartDate" class="form-label fontSize10">Travel Start Date</label>
@@ -560,10 +607,9 @@ $vehicleOptions = [
                                             </div>
                                         </div>
                                     </div>
-                                    <?php if($_SESSION['user_type_id_value'] == 10 && $_SESSION['customer_type'] == 'Neo Select'){  ?>
+                                    <?php if(isset($_SESSION['user_type_id_value']) && $_SESSION['user_type_id_value'] == 10 && $_SESSION['customer_type'] == 'Neo Select'){  ?>
                                     <hr class="my-1 border border-2 mx-3">
                                     <div class="p-3 pb-0">
-
                                         <p class="fontSize10 fw-bold mb-2">
                                             Apply Coupons
                                             <span class="text-muted fw-normal">
@@ -571,22 +617,19 @@ $vehicleOptions = [
                                                 <i class="ri-error-warning-line"></i>
                                             </span>
                                         </p>
-
                                         <div id="couponPassengerContainer"></div>
-
                                     </div>
                                     <hr class="my-1 border border-2 mx-3">
                                     <div class="d-flex justify-content-between px-3">
                                         <p class="fontSize10 discountGreen fw-bold">
                                             Discounts (Coupons)
                                         </p>
-
                                         <p class="fontSize10 discountGreen fw-bold text-end"
                                         id="totalCouponDiscount">
                                             - ₹ 0
                                         </p>
                                     </div>
-                                    <?php } elseif ($_SESSION['user_type_id_value'] == 10 && $_SESSION['customer_type'] != 'Neo Select') {?>
+                                    <?php } elseif (isset($_SESSION['user_type_id_value']) && $_SESSION['user_type_id_value'] == 10 && $_SESSION['customer_type'] != 'Neo Select') {?>
                                     <hr class="my-2 border border-2 mx-3">
                                     <div class="p-3">
                                         <!-- HEADER -->
@@ -911,12 +954,22 @@ $vehicleOptions = [
         <!-- keep this internal js as it is dated 27-08-2026 -->
         <script>
             // Price values from PHP
-            const perAdultPrice = <?= json_encode((float)$adultDisplayPrice) ?>;
-            const perChildPrice = <?= json_encode((float)$childDisplayPrice) ?>;
-            const tourDays = <?= json_encode($tour_days_total) ?>;
-            const totalPrimaryCoupons = <?= count($cuCoupons) ?>;
-            const totalLoyaltyCoupons = <?= count($loyaltyCoupons) ?>;
-            const gstPercentage =parseFloat('<?= $gst['gst'] ?>') || 0;
+            const perAdultPrice = <?= json_encode((float)($adultDisplayPrice ?? 0)) ?>;
+            const perChildPrice = <?= json_encode((float)($childDisplayPrice ?? 0)) ?>;
+
+            // Tour information
+            const tourDays = <?= json_encode((int)($tour_days_total ?? 0)) ?>;
+
+            // Coupon counts
+            const totalPrimaryCoupons = <?= json_encode(count($cuCoupons ?? [])) ?>;
+            const totalLoyaltyCoupons = <?= json_encode(count($loyaltyCoupons ?? [])) ?>;
+
+            // User information
+            const userId = <?= json_encode($user_id ?? null) ?>;
+            const userTypeIdValue = <?= json_encode($user_type_id_value ?? null) ?>;
+
+            // GST
+            const gstPercentage = <?= json_encode((float)($gst['gst'] ?? 0)) ?>;
         </script>
         <script src="assets/js/requestDetails.js"></script>
         <script>

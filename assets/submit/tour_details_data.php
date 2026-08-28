@@ -24,7 +24,10 @@ function parseFaqTxt($filePath)
 $stmt = $conn->prepare("SELECT * FROM `gst` ORDER BY id DESC");
 $stmt->execute();
 $gst=$stmt->fetch();
-if ($_SESSION['user_type_id_value'] == 10) {
+if (
+    isset($_SESSION['user_type_id_value']) &&
+    $_SESSION['user_type_id_value'] == 10
+) {
 
     // =====================================================
     // CU PRIMARY COUPONS

@@ -56,6 +56,68 @@ try {
     $travelEndDate =$_POST['travel_end_date'] ?? null;
     $customerPickup =trim($_POST['pickup_location'] ?? '');
     $customerDrop =trim($_POST['drop_location'] ?? '');
+    $guestFullName =trim($_POST['guestFullName'] ?? '');
+    $guestPhone =trim($_POST['guestPhone'] ?? '');
+    $guestEmail =trim($_POST['guestEmail'] ?? '');
+    $userId = $_POST['userId'] ?? '';
+    $userTypeIdValue =trim($_POST['userTypeIdValue'] ?? '');
+    if (!in_array($userTypeIdValue, [15, 17, 1]) && $userTypeIdValue != 'null') {
+        $user_role_table = [
+            10 => "ca_customer",
+            11 => "ca_travelagency",
+            16 => "corporate_agency",
+            24 => "emplyees",
+            25 => "emplyees",
+            26 => "business_mentor",
+            28 => "master_franchisee",
+            29 => "sub_franchisee",
+            30 => "sponsor_franchisee",
+            32 => "institution",
+            33 => "institution_banch_manager",
+            34 => "executive_techno_enterprise",
+            35 => "super_techno_enterprise",
+            36 => "chief_techno_enterprise",
+        ];
+        $table = $user_role_table[$userTypeIdValue];
+        // =====================================================
+        // DETERMINE COLUMNS
+        // =====================================================
+        if (in_array($userTypeIdValue, [24, 25])) {
+            $columns = "name, email, contact";
+            $user_column = "employee_id";
+        } elseif ($userTypeIdValue == 32) {
+            $columns = "name, email, contact_no";
+            $user_column = $table . "_id";
+        } else {
+            $columns = "CONCAT(firstname, ' ', lastname) AS name, email, contact_no";
+            $user_column = $table . "_id";
+        }
+        // =====================================================
+        // GET USER DETAILS FROM DB
+        // =====================================================
+        $stmt = $conn->prepare("
+            SELECT $columns
+            FROM $table
+            WHERE $user_column = :user_id
+            LIMIT 1
+        ");
+        $stmt->execute([
+            'user_id' => $userId
+        ]);
+        $userDetails = $stmt->fetch(PDO::FETCH_ASSOC);
+        // =====================================================
+        // REPLACE GUEST VALUES WITH DB VALUES
+        // =====================================================
+        if ($userDetails) {
+            $guestFullName = trim($userDetails['name'] ?? '');
+            if (in_array($userTypeIdValue, [24, 25])) {
+                $guestPhone = trim($userDetails['contact'] ?? '');
+            } else {
+                $guestPhone = trim($userDetails['contact_no'] ?? '');
+            }
+            $guestEmail = trim($userDetails['email'] ?? '');
+        }
+    }
     // =====================================================
     // TRAVELLERS
     // =====================================================
@@ -216,6 +278,10 @@ try {
         (
             request_id,
             package_id,
+            userId,
+            guestFullName,
+            guestPhone,
+            guestEmail,
             travel_start_date,
             travel_end_date,
             pickup_point,
@@ -250,10 +316,15 @@ try {
             coupons,
             rooms
         )
+
         VALUES
         (
             :request_id,
             :package_id,
+            :userId,
+            :guestFullName,
+            :guestPhone,
+            :guestEmail,
             :travel_start_date,
             :travel_end_date,
             :pickup_point,
@@ -288,58 +359,95 @@ try {
             :coupons,
             :rooms
         )
+
     ");
+
     // =====================================================
     // EXECUTE INSERT
     // =====================================================
+
     $stmt->execute([
-        ":request_id" =>$requestId,
-        ":package_id" =>$packageId,
-        // Travel
-        ":travel_start_date" =>$travelStartDate,
-        ":travel_end_date" =>$travelEndDate,
-        // Pickup / Drop
-        ":pickup_point" =>$pickupPoint,
-        ":customer_pickup" =>$customerPickup,
-        ":drop_point" =>$dropPoint,
-        ":customer_drop" =>$customerDrop,
-        // Travellers
-        ":adult_count" =>$adultCount,
-        ":child_count" =>$childCount,
-        ":infant_count" =>$infantCount,
-        // Prices
-        ":adult_price" =>$adultPrice,
-        ":child_price" =>$childPrice,
-        ":adult_total" =>$adultTotal,
-        ":children_total" =>$childrenTotal,
-        // Transport
-        ":transport_type" =>$transportType,
-        ":transport_amt" =>$transportAmt,
-        // Duration
-        ":no_of_nights_days" =>$noOfNightsDays,
-        // Rooms
-        ":room_count" =>$roomCount,
-        ":mattress_count" =>$mattressCount,
-        // Preferences
-        ":hotel_category" =>$hotelCategory,
-        ":meal_preference" =>$mealPreference,
-        ":transport_preference" =>$transportPreference,
-        ":special_requirement" =>$specialRequirement,
-        // Pricing
-        ":subtotal" =>$subtotal,
-        ":convenience_fee" =>$convenienceFee,
-        ":gst_percentage" =>$gstPercentage,
-        ":gst" =>$gst,
-        // Coupons
-        ":coupon_applied_count" =>$couponAppliedCount,
-        ":coupon_discount" =>$couponDiscount,
-        // Final pricing
-        ":base_price" =>$subtotal,
-        ":gross_price" =>$grossPrice,
-        ":final_price" =>$finalPrice,
+        // -------------------------------------------------
+        // REQUEST
+        // -------------------------------------------------
+        'request_id' => $requestId,
+        'package_id' => $packageId,
+        // -------------------------------------------------
+        // USER / GUEST
+        // -------------------------------------------------
+        'userId'       => $userId,
+        'guestFullName' => $guestFullName,
+        'guestPhone'    => $guestPhone,
+        'guestEmail'    => $guestEmail,
+        // -------------------------------------------------
+        // TRAVEL
+        // -------------------------------------------------
+        'travel_start_date' => $travelStartDate,
+        'travel_end_date'   => $travelEndDate,
+        // -------------------------------------------------
+        // PICKUP / DROP
+        // -------------------------------------------------
+        'pickup_point'    => $pickupPoint,
+        'customer_pickup' => $customerPickup,
+        'drop_point'      => $dropPoint,
+        'customer_drop'   => $customerDrop,
+        // -------------------------------------------------
+        // TRAVELLERS
+        // -------------------------------------------------
+        'adult_count'  => $adultCount,
+        'child_count'  => $childCount,
+        'infant_count' => $infantCount,
+        // -------------------------------------------------
+        // PRICES
+        // -------------------------------------------------
+        'adult_price'    => $adultPrice,
+        'child_price'    => $childPrice,
+        'adult_total'    => $adultTotal,
+        'children_total' => $childrenTotal,
+        // -------------------------------------------------
+        // TRANSPORT
+        // -------------------------------------------------
+        'transport_type' => $transportType,
+        'transport_amt'  => $transportAmt,
+        // -------------------------------------------------
+        // DURATION
+        // -------------------------------------------------
+        'no_of_nights_days' => $noOfNightsDays,
+        // -------------------------------------------------
+        // ROOMS
+        // -------------------------------------------------
+        'room_count'     => $roomCount,
+        'mattress_count' => $mattressCount,
+        // -------------------------------------------------
+        // PREFERENCES
+        // -------------------------------------------------
+        'hotel_category'       => $hotelCategory,
+        'meal_preference'     => $mealPreference,
+        'transport_preference' => $transportPreference,
+        'special_requirement' => $specialRequirement,
+        // -------------------------------------------------
+        // PRICING
+        // -------------------------------------------------
+        'subtotal'        => $subtotal,
+        'convenience_fee' => $convenienceFee,
+        'gst_percentage'  => $gstPercentage,
+        'gst'             => $gst,
+        // -------------------------------------------------
+        // COUPONS
+        // -------------------------------------------------
+        'coupon_applied_count' => $couponAppliedCount,
+        'coupon_discount'      => $couponDiscount,
+        // -------------------------------------------------
+        // FINAL PRICING
+        // -------------------------------------------------
+        'base_price'  => $subtotal,
+        'gross_price' => $grossPrice,
+        'final_price' => $finalPrice,
+        // -------------------------------------------------
         // JSON
-        ":coupons" =>$couponsJson,
-        ":rooms" =>$roomsJson
+        // -------------------------------------------------
+        'coupons' => $couponsJson,
+        'rooms'   => $roomsJson
     ]);
     // =====================================================
     // SUCCESS
