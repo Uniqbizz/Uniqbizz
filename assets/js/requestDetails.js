@@ -1627,6 +1627,7 @@ $("#submitRequst").on("click", function (e) {
     const hotelCategory = $("#hotelCategory").val() || "";
     const mealPreference = $("#mealPreference").val() || "";
     const specialRequirement = $("#specialRequirement").val() || "";
+    const transportType =  $('#selectedVehicleText').text();
     // =====================================================
     // PRICING
     // =====================================================
@@ -1760,6 +1761,7 @@ $("#submitRequst").on("click", function (e) {
     formData.append("hotel_category", hotelCategory);
     formData.append("meal_preference", mealPreference);
     formData.append("transport_preference", transportPreference);
+    formData.append("transport_type", transportType);
     formData.append("special_requirement", specialRequirement);
     // =====================================================
     // PRICING

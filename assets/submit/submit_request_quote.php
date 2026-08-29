@@ -208,7 +208,7 @@ try {
     // =====================================================
     // TRANSPORT
     // =====================================================
-    $transportType =$transportPreference;
+    $transportType =trim($_POST['transport_type'] ?? '');
     $transportAmt =(float)($_POST['transport_amt'] ?? 0);
     // =====================================================
     // ROOM DETAILS
