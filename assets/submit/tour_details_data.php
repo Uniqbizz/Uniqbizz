@@ -66,47 +66,49 @@ if (
 
     $loyaltyCoupons = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
+    if (isset($_SESSION['user_type_id_value']) && $_SESSION['user_type_id_value'] == 10 && $_SESSION['customer_type'] == 'Neo Select'){
 
-    // =====================================================
-    // REFERRAL BALANCE
-    // =====================================================
+        // =====================================================
+        // REFERRAL BALANCE
+        // =====================================================
 
-    $stmt3 = $conn->prepare("
-        SELECT balance
-        FROM customer_reference_wallet_utilization
-        WHERE customer_id = :user_id
-        ORDER BY id DESC
-        LIMIT 1
-    ");
+        $stmt3 = $conn->prepare("
+            SELECT balance
+            FROM customer_reference_wallet_utilization
+            WHERE customer_id = :user_id
+            ORDER BY id DESC
+            LIMIT 1
+        ");
 
-    $stmt3->execute([
-        ':user_id' => $user_id
-    ]);
+        $stmt3->execute([
+            ':user_id' => $user_id
+        ]);
 
-    $referralWallet = $stmt3->fetch(PDO::FETCH_ASSOC);
+        $referralWallet = $stmt3->fetch(PDO::FETCH_ASSOC);
 
-    $referralBalance = (float)($referralWallet['balance'] ?? 0);
+        $referralBalance = (float)($referralWallet['balance'] ?? 0);
 
 
-    // =====================================================
-    // DISCOUNT BALANCE
-    // =====================================================
+        // =====================================================
+        // DISCOUNT BALANCE
+        // =====================================================
 
-    $stmt4 = $conn->prepare("
-        SELECT balance
-        FROM customer_discount_wallet_utilization
-        WHERE customer_id = :user_id
-        ORDER BY id DESC
-        LIMIT 1
-    ");
+        $stmt4 = $conn->prepare("
+            SELECT balance
+            FROM customer_discount_wallet_utilization
+            WHERE customer_id = :user_id
+            ORDER BY id DESC
+            LIMIT 1
+        ");
 
-    $stmt4->execute([
-        ':user_id' => $user_id
-    ]);
+        $stmt4->execute([
+            ':user_id' => $user_id
+        ]);
 
-    $discountWallet = $stmt4->fetch(PDO::FETCH_ASSOC);
+        $discountWallet = $stmt4->fetch(PDO::FETCH_ASSOC);
 
-    $discountBalance = (float)($discountWallet['balance'] ?? 0);
+        $discountBalance = (float)($discountWallet['balance'] ?? 0);
+    }
 }
 // package
 $stmt = $conn->prepare("SELECT * FROM package WHERE id = $id AND status = '1' AND visibility = 1 AND DATE(validity) >= CURRENT_DATE");

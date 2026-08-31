@@ -659,32 +659,6 @@ function updateFinalPackagePrice() {
 
 
     // =====================================================
-    // CONVENIENCE FEE - 1%
-    // =====================================================
-
-    const convenienceFee =
-        totalAfterCoupon * 0.01;
-
-
-    // =====================================================
-    // GST
-    // =====================================================
-
-    const gstValue =
-        convenienceFee * (gstPercentage / 100);
-
-
-    // =====================================================
-    // AMOUNT BEFORE WALLET
-    // =====================================================
-
-    const amountBeforeWallet =
-        totalAfterCoupon +
-        convenienceFee +
-        gstValue;
-
-
-    // =====================================================
     // APPLIED REFERRAL WALLET
     // =====================================================
 
@@ -710,15 +684,43 @@ function updateFinalPackagePrice() {
 
 
     // =====================================================
+    // AMOUNT AFTER WALLET
+    // =====================================================
+
+    const amountAfterWallet =
+        Math.max(
+            0,
+            totalAfterCoupon -
+            totalWalletDeduction
+        );
+
+
+    // =====================================================
+    // CONVENIENCE FEE - 1%
+    // CALCULATED AFTER WALLET
+    // =====================================================
+
+    const convenienceFee =
+        amountAfterWallet * 0.01;
+
+
+    // =====================================================
+    // GST
+    // CALCULATED ON CONVENIENCE FEE
+    // =====================================================
+
+    const gstValue =
+        convenienceFee * (gstPercentage / 100);
+
+
+    // =====================================================
     // FINAL PAYABLE AMOUNT
     // =====================================================
 
     const finalAmount =
-        Math.max(
-            0,
-            amountBeforeWallet -
-            totalWalletDeduction
-        );
+        amountAfterWallet +
+        convenienceFee +
+        gstValue;
 
 
     // =====================================================
@@ -772,7 +774,59 @@ function updateFinalPackagePrice() {
         })
     );
 }
+function getAmount(selector) {
 
+    const element = $(selector);
+
+    if (!element.length) {
+        return 0;
+    }
+
+    let value;
+
+    // For input fields
+    if (element.is('input, select, textarea')) {
+        value = element.val();
+    } 
+    // For normal HTML elements
+    else {
+        value = element.text();
+    }
+
+    if (value === null || value === undefined || value === '') {
+        return 0;
+    }
+
+    // Remove ₹, commas, spaces, etc.
+    value = String(value)
+        .replace(/[^\d.-]/g, '');
+
+    return parseFloat(value) || 0;
+}
+function updateSelectedVehicleText() {
+
+    const adults =
+        parseInt($('#adultCount').val()) || 0;
+
+    const children =
+        parseInt($('#childrenCount').val()) || 0;
+
+    const infants =
+        parseInt($('#infantCount').val()) || 0;
+
+    const totalPax =
+        adults + children + infants;
+
+    const currentText =
+        $('#selectedVehicleText').text();
+
+    const vehicleName =
+        currentText.replace(/\s*\(For\s+\d+\s+Pax\)/i, '');
+
+    $('#selectedVehicleText').text(
+        vehicleName + ' (For ' + totalPax + ' Pax)'
+    );
+}
 // Guest Counter
 $('.guest-counter').each(function () {
 
@@ -850,6 +904,8 @@ $('#adultCount').on('change', function () {
 
     //update final price
     updateFinalPackagePrice();
+    // Update vehicle text
+    updateSelectedVehicleText();
 });
 
 
@@ -884,6 +940,8 @@ $('#childrenCount').on('change', function () {
 
     //update final price
     updateFinalPackagePrice();
+    // Update vehicle text
+    updateSelectedVehicleText();
 
 });
 
@@ -918,6 +976,8 @@ $('#infantCount').on('change', function () {
 
     //update final price
     updateFinalPackagePrice();
+    // Update vehicle text
+    updateSelectedVehicleText();
 
 });
 // Travel Date Update

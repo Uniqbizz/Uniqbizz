@@ -710,15 +710,15 @@ $vehicleOptions = [
                                             </div>
                                         </div>
                                         <!-- COUPON SELECT -->
-                                        <div class="package-coupon-box">
+                                        <div class="package-coupon-box d-flex justify-content-between">
+                                            <i class="ri-coupon-3-line"></i>
                                             <div class="coupon-select-wrapper">
-                                                <i class="ri-coupon-3-line"></i>
                                                 <select id="packageCouponSelect" class="form-select fontSize10 selectPadding coupon-select1">
                                                     <option value="">Select Coupon</option>
                                                     <?php if (!empty($cuCoupons)): ?>
                                                         <optgroup label="Primary Coupons">
                                                             <?php foreach ($cuCoupons as $coupon): ?>
-                                                                <option value="<?= htmlspecialchars($coupon['code']) ?>" data-type="primary" data-amount="<?= htmlspecialchars($coupon['coupon_amount']) ?>">
+                                                                <option value="<?= htmlspecialchars($coupon['code']) ?>" data-type="primary" data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
                                                                     <?= htmlspecialchars($coupon['code']) ?>
                                                                 </option>
                                                             <?php endforeach; ?>
@@ -727,7 +727,7 @@ $vehicleOptions = [
                                                     <?php if (!empty($loyaltyCoupons)): ?>
                                                         <optgroup label="Loyalty Coupons">
                                                             <?php foreach ($loyaltyCoupons as $coupon): ?>
-                                                                <option value="<?= htmlspecialchars($coupon['code']) ?>" data-type="loyalty" data-amount="<?= htmlspecialchars($coupon['coupon_amount']) ?>">
+                                                                <option value="<?= htmlspecialchars($coupon['code']) ?>" data-type="loyalty" data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
                                                                     <?= htmlspecialchars($coupon['code']) ?>
                                                                 </option>
                                                             <?php endforeach; ?>
