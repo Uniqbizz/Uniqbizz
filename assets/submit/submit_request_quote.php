@@ -252,6 +252,8 @@ try {
     $gstPercentage =(float)($_POST['gst_percentage'] ?? 0);
     $gst =(float)($_POST['gst_value'] ?? 0);
     $couponDiscount =(float)($_POST['coupon_discount'] ?? 0);
+    $referralWallet =(float)($_POST['referral_wallet'] ?? 0);
+    $discountWallet =(float)($_POST['discount_wallet'] ?? 0);
     $finalPrice =(float)($_POST['final_package_price'] ?? 0);
     // =====================================================
     // GROSS PRICE
@@ -314,7 +316,9 @@ try {
             gross_price,
             final_price,
             coupons,
-            rooms
+            rooms,
+            discount_wallet_amount,
+            referral_wallet_amount
         )
 
         VALUES
@@ -357,7 +361,9 @@ try {
             :gross_price,
             :final_price,
             :coupons,
-            :rooms
+            :rooms,
+            :discount_wallet_amount,
+            :referral_wallet_amount
         )
 
     ");
@@ -447,7 +453,9 @@ try {
         // JSON
         // -------------------------------------------------
         'coupons' => $couponsJson,
-        'rooms'   => $roomsJson
+        'rooms'   => $roomsJson,
+        ':discount_wallet_amount' =>$discountWallet,
+        ':referral_wallet_amount' =>$referralWallet
     ]);
     // =====================================================
     // SUCCESS

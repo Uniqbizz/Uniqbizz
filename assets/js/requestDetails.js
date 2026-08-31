@@ -611,6 +611,7 @@ function updateTotalCouponDiscount() {
 // =====================================================
 // UPDATE FINAL PACKAGE PRICE
 // =====================================================
+
 function updateFinalPackagePrice() {
 
     const adults =
@@ -638,17 +639,10 @@ function updateFinalPackagePrice() {
 
     // =====================================================
     // COUPON DISCOUNT
-    // Always convert to POSITIVE amount
     // =====================================================
 
     const couponDiscount =
-        Math.abs(
-            parseFloat(
-                $('#totalCouponDiscount')
-                    .text()
-                    .replace(/[^\d.-]/g, '')
-            ) || 0
-        );
+        getAmount("#totalCouponDiscount");
 
 
     // =====================================================
@@ -666,7 +660,6 @@ function updateFinalPackagePrice() {
 
     // =====================================================
     // CONVENIENCE FEE - 1%
-    // Calculated on amount after coupon
     // =====================================================
 
     const convenienceFee =
@@ -675,12 +668,45 @@ function updateFinalPackagePrice() {
 
     // =====================================================
     // GST
-    // GST is calculated on Convenience Fee
     // =====================================================
 
     const gstValue =
-        convenienceFee *
-        (gstPercentage / 100);
+        convenienceFee * (gstPercentage / 100);
+
+
+    // =====================================================
+    // AMOUNT BEFORE WALLET
+    // =====================================================
+
+    const amountBeforeWallet =
+        totalAfterCoupon +
+        convenienceFee +
+        gstValue;
+
+
+    // =====================================================
+    // APPLIED REFERRAL WALLET
+    // =====================================================
+
+    const referralWallet =
+        getAmount("#appliedReferralWallet");
+
+
+    // =====================================================
+    // APPLIED DISCOUNT WALLET
+    // =====================================================
+
+    const discountWallet =
+        getAmount("#appliedDiscountWallet");
+
+
+    // =====================================================
+    // TOTAL WALLET DEDUCTION
+    // =====================================================
+
+    const totalWalletDeduction =
+        referralWallet +
+        discountWallet;
 
 
     // =====================================================
@@ -688,9 +714,11 @@ function updateFinalPackagePrice() {
     // =====================================================
 
     const finalAmount =
-        totalAfterCoupon +
-        convenienceFee +
-        gstValue;
+        Math.max(
+            0,
+            amountBeforeWallet -
+            totalWalletDeduction
+        );
 
 
     // =====================================================
@@ -734,7 +762,7 @@ function updateFinalPackagePrice() {
 
 
     // =====================================================
-    // UPDATE GST VALUE
+    // UPDATE GST
     // =====================================================
 
     $('#gstValue').text(
@@ -743,8 +771,8 @@ function updateFinalPackagePrice() {
             maximumFractionDigits: 2
         })
     );
-
 }
+
 // Guest Counter
 $('.guest-counter').each(function () {
 
@@ -1474,8 +1502,118 @@ $(document).ready(function () {
     // Prevent previous dates and next 2 days
     $('#travelStartDate').attr('min', minDate);
 
-});
+    setupWalletInput(
+        'referralWalletBalance',
+        'appliedReferralWallet'
+    );
 
+    setupWalletInput(
+        'discountWalletBalance',
+        'appliedDiscountWallet'
+    );
+
+});
+//referral and discount wallet logic 
+function setupWalletInput(balanceElementId, inputElementId) {
+
+    const balanceElement = document.getElementById(balanceElementId);
+    const inputElement = document.getElementById(inputElementId);
+
+    if (!balanceElement || !inputElement) {
+        return;
+    }
+
+    function getBalance() {
+
+        // Example text: "- ₹ 1,500"
+        let balanceText = balanceElement.textContent || '';
+
+        // Remove everything except numbers and decimal
+        balanceText = balanceText.replace(/[^0-9.]/g, '');
+
+        return parseFloat(balanceText) || 0;
+    }
+
+    function updateWalletInput() {
+
+        const balance = getBalance();
+
+        inputElement.max = balance;
+
+        if (balance <= 0) {
+
+            inputElement.value = 0;
+            inputElement.disabled = true;
+
+        } else {
+
+            inputElement.disabled = false;
+
+            let currentValue = parseFloat(inputElement.value) || 0;
+
+            if (currentValue > balance) {
+                currentValue = balance;
+            }
+
+            if (currentValue < 0) {
+                currentValue = 0;
+            }
+
+            inputElement.value = currentValue;
+        }
+
+        // Trigger your subtotal/price calculation here
+        if (typeof updateFinalPackagePrice === 'function') {
+            updateFinalPackagePrice();
+        }
+    }
+
+    // Prevent value greater than balance
+    inputElement.addEventListener('input', function () {
+
+        const balance = getBalance();
+
+        let value = parseFloat(this.value) || 0;
+
+        if (value < 0) {
+            value = 0;
+        }
+
+        if (value > balance) {
+            value = balance;
+        }
+
+        this.value = value;
+
+        if (typeof updateFinalPackagePrice === 'function') {
+            updateFinalPackagePrice();
+        }
+    });
+
+    // Also validate when user leaves the field
+    inputElement.addEventListener('blur', function () {
+
+        const balance = getBalance();
+
+        let value = parseFloat(this.value) || 0;
+
+        if (value < 0) {
+            value = 0;
+        }
+
+        if (value > balance) {
+            value = balance;
+        }
+
+        this.value = value;
+
+        if (typeof updateFinalPackagePrice === 'function') {
+            updateFinalPackagePrice();
+        }
+    });
+
+    updateWalletInput();
+}
 // =====================================================
 // SUBMIT REQUEST
 // =====================================================
@@ -1652,6 +1790,8 @@ $("#submitRequst").on("click", function (e) {
     const convenienceFee = getAmount("#convenienceFeee");
     const gstValue = getAmount("#gstValue");
     const couponDiscount = getAmount("#totalCouponDiscount");
+    const referralWallet = getAmount("#appliedReferralWallet");
+    const discountWallet = getAmount("#appliedDiscountWallet");
     const finalPackagePrice = getAmount("#finalPackagePrice");
     // =====================================================
     // COUPONS
@@ -1778,6 +1918,8 @@ $("#submitRequst").on("click", function (e) {
     formData.append("gst_percentage", gstPercentage);
     formData.append("gst_value", gstValue);
     formData.append("coupon_discount", couponDiscount);
+    formData.append("referral_wallet", referralWallet);
+    formData.append("discount_wallet", discountWallet);
     formData.append("final_package_price", finalPackagePrice);
     // =====================================================
     // JSON ARRAYS

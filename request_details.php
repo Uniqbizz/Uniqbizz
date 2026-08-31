@@ -629,6 +629,70 @@ $vehicleOptions = [
                                             - ₹ 0
                                         </p>
                                     </div>
+                                    <?php
+                                    $referralWalletBalance = $referralBalance ?? 0;
+                                    $discountWalletBalance = $discountBalance ?? 0;
+                                    ?>
+
+                                    <hr class="my-1 border border-2 mx-3">
+
+                                    <div class="d-flex justify-content-between align-items-center px-3">
+
+                                        <p class="fontSize10 discountGreen fw-bold mb-0">
+                                            Referral Wallet
+                                        </p>
+
+                                        <p class="fontSize10 discountGreen fw-bold text-end mb-0"
+                                        id="referralWalletBalance">
+                                            - ₹ <?= number_format($referralWalletBalance, 2) ?>
+                                        </p>
+
+                                        <div class="d-flex align-items-center">
+                                            <span class="fontSize10 discountGreen fw-bold me-1">
+                                                - ₹
+                                            </span>
+
+                                            <input type="number"
+                                                class="form-control form-control-sm walletInput"
+                                                id="appliedReferralWallet"
+                                                value="0"
+                                                min="0"
+                                                step="1"
+                                                disabled
+                                                style="width: 80px;">
+                                        </div>
+
+                                    </div>
+
+                                    <hr class="my-1 border border-2 mx-3">
+
+                                    <div class="d-flex justify-content-between align-items-center px-3">
+
+                                        <p class="fontSize10 discountGreen fw-bold mb-0">
+                                            Discount Wallet
+                                        </p>
+
+                                        <p class="fontSize10 discountGreen fw-bold text-end mb-0"
+                                        id="discountWalletBalance">
+                                            - ₹ <?= number_format($discountWalletBalance, 2) ?>
+                                        </p>
+
+                                        <div class="d-flex align-items-center">
+                                            <span class="fontSize10 discountGreen fw-bold me-1">
+                                                - ₹
+                                            </span>
+
+                                            <input type="number"
+                                                class="form-control form-control-sm walletInput"
+                                                id="appliedDiscountWallet"
+                                                value="0"
+                                                min="0"
+                                                step="1"
+                                                disabled
+                                                style="width: 80px;">
+                                        </div>
+
+                                    </div>
                                     <?php } elseif (isset($_SESSION['user_type_id_value']) && $_SESSION['user_type_id_value'] == 10 && $_SESSION['customer_type'] != 'Neo Select') {?>
                                     <hr class="my-2 border border-2 mx-3">
                                     <div class="p-3">
