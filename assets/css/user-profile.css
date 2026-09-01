@@ -124,3 +124,21 @@
 .header-area .mobile_menu .slicknav_menu .slicknav_nav .stickyBtnDisplay{
     display: block !important;
 }
+/* added by SV on 1-09-2026 */
+.user-avatar-SVZ {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.initials-avatar-SVZ {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+/* added by SV on 1-09-2026 */
