@@ -205,6 +205,9 @@ try {
     $mealPreference =trim($_POST['meal_preference'] ?? '');
     $transportPreference =trim($_POST['transport_preference'] ?? '');
     $specialRequirement =trim($_POST['special_requirement'] ?? '');
+    $old_hotel_category=trim($_POST['old_hotel_category']??'');
+    $old_meal_preference=trim($_POST['old_meal_preference']??'');
+    $old_transport_preference=trim($_POST['old_transport_preference']??'');
     // =====================================================
     // TRANSPORT
     // =====================================================
@@ -318,7 +321,10 @@ try {
             coupons,
             rooms,
             discount_wallet_amount,
-            referral_wallet_amount
+            referral_wallet_amount,
+            old_hotel_category,
+            old_meal_preference,
+            old_transport_preference
         )
 
         VALUES
@@ -363,7 +369,10 @@ try {
             :coupons,
             :rooms,
             :discount_wallet_amount,
-            :referral_wallet_amount
+            :referral_wallet_amount,
+            :old_hotel_category,
+            :old_meal_preference,
+            :old_transport_preference
         )
 
     ");
@@ -431,6 +440,9 @@ try {
         'meal_preference'     => $mealPreference,
         'transport_preference' => $transportPreference,
         'special_requirement' => $specialRequirement,
+        ':old_hotel_category' =>$old_hotel_category,
+        ':old_meal_preference' =>$old_meal_preference,
+        ':old_transport_preference'=>$old_transport_preference,
         // -------------------------------------------------
         // PRICING
         // -------------------------------------------------

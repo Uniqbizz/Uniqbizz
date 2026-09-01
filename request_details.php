@@ -427,109 +427,104 @@ $vehicleOptions = [
                                         <h5 class="mb-0 fw-bold">Preferences (Optional)</h5>
                                     </div>
                                     <div class="row">
+                                        <!-- HOTEL CATEGORY -->
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
                                             <div class="mb-3">
-                                                <label for="hotelCategory" class="form-label fontSize10">Hotel Category</label>
+                                                <label for="hotelCategory" class="form-label fontSize10">
+                                                    Hotel Category
+                                                </label>
                                                 <div class="icon-select-wrapper">
                                                     <i class="ri-hotel-line iconPosition iconRed"></i>
                                                     <?php
-
-                                                        $sql = $conn->prepare("
-                                                            SELECT id, name
-                                                            FROM category_hotel
-                                                            WHERE status = 1
-                                                            ORDER BY id DESC
-                                                        ");
-
-                                                        $sql->execute();
-
-                                                        $hotelCategories = $sql->fetchAll(PDO::FETCH_ASSOC);
-
+                                                    $sql = $conn->prepare("
+                                                        SELECT id, name
+                                                        FROM category_hotel
+                                                        WHERE status = 1
+                                                        ORDER BY id DESC
+                                                    ");
+                                                    $sql->execute();
+                                                    $hotelCategories = $sql->fetchAll(PDO::FETCH_ASSOC);
                                                     ?>
-
-                                                    <select id="hotelCategory" class="form-select fontSize10 paddingLeft" aria-label="Select Hotel" name="hotel_category">
-
+                                                    <select id="hotelCategory" class="form-select fontSize10 paddingLeft" name="hotel_category">
                                                         <option value="">Select Hotel</option>
-                                                        
                                                         <?php foreach ($hotelCategories as $hotel): ?>
-
-                                                            <option value="<?= htmlspecialchars($hotel['id']) ?>"
-                                                                <?= ($hotel['id'] == $hotel_cat_id) ? 'selected' : '' ?>>
-
+                                                            <option value="<?= htmlspecialchars($hotel['id']) ?>" <?= ($hotel['id'] == $hotel_cat_id) ? 'selected' : '' ?>>
                                                                 <?= htmlspecialchars($hotel['name']) ?>
-
                                                             </option>
-
                                                         <?php endforeach; ?>
-
                                                     </select>
                                                 </div>
+                                                <!-- OLD VALUE -->
+                                                <div id="oldHotelCategory" class="text-muted fontSize10 d-none mt-2"></div>
                                             </div>
                                         </div>
+                                        <!-- MEAL PREFERENCE -->
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
                                             <div class="mb-3">
-                                                <label for="mealPreference" class="form-label fontSize10">Meal Preference</label>
+                                                <label for="mealPreference" class="form-label fontSize10">
+                                                    Meal Preference
+                                                </label>
                                                 <div class="icon-select-wrapper">
                                                     <i class="ri-restaurant-line iconPosition iconRed"></i>
                                                     <?php
-                                                    $sql = $conn->prepare("SELECT * FROM category_meal WHERE status = 1");
+                                                    $sql = $conn->prepare("
+                                                        SELECT id, name
+                                                        FROM category_meal
+                                                        WHERE status = 1
+                                                        ORDER BY id DESC
+                                                    ");
                                                     $sql->execute();
                                                     $mealCategories = $sql->fetchAll(PDO::FETCH_ASSOC);
                                                     ?>
-
-                                                    <select id="mealPreference" class="form-select fontSize10 paddingLeft" aria-label="Select Meal">
-
+                                                    <select id="mealPreference" class="form-select fontSize10 paddingLeft" name="meal_preference">
                                                         <option value="">Select Meal</option>
-
                                                         <?php foreach ($mealCategories as $meal_cat): ?>
-
-                                                            <option
-                                                                value="<?= htmlspecialchars($meal_cat['id']) ?>"
-                                                                <?= (isset($meal_cat_id) && $meal_cat_id == $meal_cat['id']) ? 'selected' : '' ?>
-                                                            >
+                                                            <option value="<?= htmlspecialchars($meal_cat['id']) ?>" <?= (isset($meal_cat_id) && $meal_cat_id == $meal_cat['id']) ? 'selected' : '' ?>>
                                                                 <?= htmlspecialchars($meal_cat['name']) ?>
                                                             </option>
-
                                                         <?php endforeach; ?>
-
                                                     </select>
                                                 </div>
+                                                <!-- OLD VALUE -->
+                                                <div id="oldMealPreference" class="text-muted fontSize10 d-none mt-2"></div>
                                             </div>
                                         </div>
+                                        <!-- TRANSPORT -->
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
                                             <div class="mb-3">
-                                                <label for="transportPreference" class="form-label fontSize10">Transport Preference</label>
+                                                <label for="transportPreference" class="form-label fontSize10">
+                                                    Transport Preference
+                                                </label>
                                                 <div class="icon-select-wrapper">
                                                     <i class="ri-car-line iconPosition iconRed"></i>
                                                     <?php
-                                                    $sql = $conn->prepare("SELECT * FROM category_vehicle WHERE status = 1");
+                                                    $sql = $conn->prepare("
+                                                        SELECT id, name
+                                                        FROM category_vehicle
+                                                        WHERE status = 1
+                                                        ORDER BY id DESC
+                                                    ");
                                                     $sql->execute();
                                                     $vehicleCategories = $sql->fetchAll(PDO::FETCH_ASSOC);
                                                     ?>
-
-                                                    <select id="transportPreference" class="form-select fontSize10 paddingLeft" aria-label="Select Vehicle">
-
+                                                    <select id="transportPreference" class="form-select fontSize10 paddingLeft" name="transport_preference">
                                                         <option value="">Select Vehicle</option>
-
                                                         <?php foreach ($vehicleCategories as $vehicle_cat): ?>
-
-                                                            <option
-                                                                value="<?= htmlspecialchars($vehicle_cat['id']) ?>"
-                                                                <?= (isset($category_vehicle_id) && $category_vehicle_id == $vehicle_cat['id']) ? 'selected' : '' ?>
-                                                            >
+                                                            <option value="<?= htmlspecialchars($vehicle_cat['id']) ?>" <?= (isset($category_vehicle_id) && $category_vehicle_id == $vehicle_cat['id']) ? 'selected' : '' ?>>
                                                                 <?= htmlspecialchars($vehicle_cat['name']) ?>
                                                             </option>
-
                                                         <?php endforeach; ?>
-
                                                     </select>
                                                 </div>
+                                                <!-- OLD VALUE -->
+                                                <div id="oldTransportPreference" class="text-muted fontSize10 d-none mt-2"></div>
                                             </div>
                                         </div>
+                                        <!-- SPECIAL REQUIREMENT -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                             <div class="mb-0">
                                                 <label for="specialRequirement" class="form-label fontSize10">Special Requirements (Optional)</label>
-                                                <textarea class="form-control fontSize10" id="specialRequirement" placeholder="Eg. Wheelchair, extra bed, high floor, adjoining rooms, etc."></textarea>
+                                                <textarea  class="form-control fontSize10" id="specialRequirement" name="special_requirement" placeholder="Eg. Wheelchair, extra bed, high floor, adjoining rooms, etc."></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -593,20 +588,7 @@ $vehicleOptions = [
                                             </div>
                                         </div>
                                     </div>
-                                    <hr class="my-1 border border-2 mx-3">
-                                    <div class="p-3">
-                                        <p class="fw-bold">Other Charges</p>
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <p class="fontSize10">Convenience Fee</p>
-                                                <p class="fontSize10">GST (<span id="gstPercentage"><?= $gst['gst'] ?></span>%)</p>
-                                            </div>
-                                            <div>
-                                                <p class="fontSize10 text-end" id="convenienceFeee">&#8377; 0</p>
-                                                <p class="fontSize10 text-end" id="gstValue">&#8377; 0</p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                     <?php if(isset($_SESSION['user_type_id_value']) && $_SESSION['user_type_id_value'] == 10 && $_SESSION['customer_type'] == 'Neo Select'){  ?>
                                     <hr class="my-1 border border-2 mx-3">
                                     <div class="p-3 pb-0">
@@ -651,47 +633,24 @@ $vehicleOptions = [
                                             <span class="fontSize10 discountGreen fw-bold me-1">
                                                 - ₹
                                             </span>
-
-                                            <input type="number"
-                                                class="form-control form-control-sm walletInput"
-                                                id="appliedReferralWallet"
-                                                value="0"
-                                                min="0"
-                                                step="1"
-                                                disabled
-                                                style="width: 80px;">
+                                            <input type="number" class="form-control form-control-sm walletInput" id="appliedReferralWallet" value="0" min="0" step="1" disabled style="width: 80px;">
                                         </div>
-
                                     </div>
-
                                     <hr class="my-1 border border-2 mx-3">
-
                                     <div class="d-flex justify-content-between align-items-center px-3">
-
                                         <p class="fontSize10 discountGreen fw-bold mb-0">
                                             Discount Wallet
                                         </p>
-
                                         <p class="fontSize10 discountGreen fw-bold text-end mb-0"
                                         id="discountWalletBalance">
                                             - ₹ <?= number_format($discountWalletBalance, 2) ?>
                                         </p>
-
                                         <div class="d-flex align-items-center">
                                             <span class="fontSize10 discountGreen fw-bold me-1">
                                                 - ₹
                                             </span>
-
-                                            <input type="number"
-                                                class="form-control form-control-sm walletInput"
-                                                id="appliedDiscountWallet"
-                                                value="0"
-                                                min="0"
-                                                step="1"
-                                                disabled
-                                                style="width: 80px;">
+                                            <input type="number" class="form-control form-control-sm walletInput" id="appliedDiscountWallet" value="0" min="0" step="1" disabled style="width: 80px;">
                                         </div>
-
                                     </div>
                                     <?php } elseif (isset($_SESSION['user_type_id_value']) && $_SESSION['user_type_id_value'] == 10 && $_SESSION['customer_type'] != 'Neo Select') {?>
                                     <hr class="my-2 border border-2 mx-3">
@@ -752,6 +711,20 @@ $vehicleOptions = [
                                         <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="totalCouponDiscount">- ₹ 0</p>
                                     </div>
                                     <?php } ?>
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="p-3">
+                                        <p class="fw-bold">Other Charges</p>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="fontSize10">Convenience Fee</p>
+                                                <p class="fontSize10">GST (<span id="gstPercentage"><?= $gst['gst'] ?></span>%)</p>
+                                            </div>
+                                            <div>
+                                                <p class="fontSize10 text-end" id="convenienceFeee">&#8377; 0</p>
+                                                <p class="fontSize10 text-end" id="gstValue">&#8377; 0</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <hr class="my-1 border border-2 mx-3">
                                     <div class="p-3">
                                         <div class="d-flex justify-content-between">

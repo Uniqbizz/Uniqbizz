@@ -1061,13 +1061,13 @@ $('.location-input').on('blur', function () {
 
         if ($input.attr('id') === 'pickupLocation') {
             $('#pickupOldValue')
-                .text('Old: ' + oldValue)
+                .html('Previous Pickup: </br>' + oldValue)
                 .show();
         }
 
         if ($input.attr('id') === 'dropLocation') {
             $('#dropOldValue')
-                .text('Old: ' + oldValue)
+                .html('Previous Drop: </br>' + oldValue)
                 .show();
         }
 
@@ -1572,6 +1572,90 @@ $(document).ready(function () {
         'appliedDiscountWallet'
     );
 
+    // =====================================================
+    // STORE ORIGINAL VALUES
+    // =====================================================
+
+    let oldHotelCategory = $('#hotelCategory').val();
+    let oldMealPreference = $('#mealPreference').val();
+    let oldTransportPreference = $('#transportPreference').val();
+
+
+    // =====================================================
+    // HOTEL CATEGORY CHANGE
+    // =====================================================
+
+    $('#hotelCategory').on('change', function () {
+
+        let newValue = $(this).val();
+
+        if (newValue !== oldHotelCategory) {
+
+            let oldText = $('#hotelCategory option[value="' + oldHotelCategory + '"]').text().trim();
+
+            $('#oldHotelCategory')
+                .removeClass('d-none')
+                .html('Previous: <strong>' + oldText + '</strong>');
+
+        } else {
+
+            $('#oldHotelCategory')
+                .addClass('d-none')
+                .html('');
+        }
+    });
+
+
+    // =====================================================
+    // MEAL CHANGE
+    // =====================================================
+
+    $('#mealPreference').on('change', function () {
+
+        let newValue = $(this).val();
+
+        if (newValue !== oldMealPreference) {
+
+            let oldText = $('#mealPreference option[value="' + oldMealPreference + '"]').text().trim();
+
+            $('#oldMealPreference')
+                .removeClass('d-none')
+                .html('Previous: <strong>' + oldText + '</strong>');
+
+        } else {
+
+            $('#oldMealPreference')
+                .addClass('d-none')
+                .html('');
+        }
+    });
+
+
+    // =====================================================
+    // TRANSPORT CHANGE
+    // =====================================================
+
+    $('#transportPreference').on('change', function () {
+
+        let newValue = $(this).val();
+
+        if (newValue !== oldTransportPreference) {
+
+            let oldText = $('#transportPreference option[value="' + oldTransportPreference + '"]').text().trim();
+
+            $('#oldTransportPreference')
+                .removeClass('d-none')
+                .html('Previous: <strong>' + oldText + '</strong>');
+
+        } else {
+
+            $('#oldTransportPreference')
+                .addClass('d-none')
+                .html('');
+        }
+    });
+
+
 });
 //referral and discount wallet logic 
 function setupWalletInput(balanceElementId, inputElementId) {
@@ -1826,6 +1910,9 @@ $("#submitRequst").on("click", function (e) {
     const mealPreference = $("#mealPreference").val() || "";
     const specialRequirement = $("#specialRequirement").val() || "";
     const transportType =  $('#selectedVehicleText').text();
+    const oldHotelCategory = $("#hotelCategory").val() || "";
+    const oldMealPreference = $("#mealPreference").val() || "";
+    const oldTransportPreference = $("#transportPreference").val() || "";
     // =====================================================
     // PRICING
     // =====================================================
@@ -1963,6 +2050,9 @@ $("#submitRequst").on("click", function (e) {
     formData.append("transport_preference", transportPreference);
     formData.append("transport_type", transportType);
     formData.append("special_requirement", specialRequirement);
+    formData.append("old_hotel_category", oldHotelCategory);
+    formData.append("old_meal_preference", oldMealPreference);
+    formData.append("old_transport_preference", oldTransportPreference);
     // =====================================================
     // PRICING
     // =====================================================
