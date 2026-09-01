@@ -843,7 +843,7 @@ $vehicleOptions = [
                                             <input class="form-check-input extra-mattress"
                                                 type="checkbox"
                                                 id="extraMattress1"
-                                                checked>
+                                                checked disabled>
 
                                             <label class="form-check-label fontSize10"
                                                 for="extraMattress1">

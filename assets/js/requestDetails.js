@@ -232,7 +232,7 @@ function loadModifyRooms(adults, children, infants) {
                             <input class="form-check-input extra-mattress"
                                 type="checkbox"
                                 id="extraMattress${i}"
-                                ${extraMattress ? 'checked' : ''}>
+                                ${extraMattress ? 'checked' : ''} disabled>
 
                             <label class="form-check-label fontSize10"
                                 for="extraMattress${i}">
@@ -1329,7 +1329,7 @@ $(document).on('click', '#addModifyRoom', function () {
 
                         <input class="form-check-input extra-mattress"
                             type="checkbox"
-                            id="extraMattress${newRoomNumber}">
+                            id="extraMattress${newRoomNumber}" disabled>
 
                         <label class="form-check-label fontSize10"
                             for="extraMattress${newRoomNumber}">
