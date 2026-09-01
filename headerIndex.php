@@ -182,16 +182,27 @@
                                                         // Default dashboard folder
                                                         $dashboardFolder = "dashboard";
 
-                                                        if($userId == "CU260052" && $userType == "10"){
+                                                        if( $userType == "10"){
+                                                            if ($_SESSION['customer_type'] == 'Neo Select') {
+                                                                $dashboardFolder = "dashboard/customer_dashboard";
 
-                                                            $dashboardFolder = "dashboard/customer_dashboard";
+                                                                echo '<li class="d-flex">
+                                                                        <i class="ri-dashboard-line align-content-center"></i>
+                                                                        <a class="dropdown-item" href="' . $dashboardFolder . '/customer_dashboard.php">
+                                                                            Dashboard
+                                                                        </a>
+                                                                    </li>';
+                                                            }else{
+                                                                $dashboardFolder = "dashboard/";
 
-                                                            echo '<li class="d-flex">
-                                                                    <i class="ri-dashboard-line align-content-center"></i>
-                                                                    <a class="dropdown-item" href="' . $dashboardFolder . '/customer_dashboard.php">
-                                                                        Dashboard
-                                                                    </a>
-                                                                </li>';
+                                                                echo '<li class="d-flex">
+                                                                        <i class="ri-dashboard-line align-content-center"></i>
+                                                                        <a class="dropdown-item" href="' . $dashboardFolder . 'index.php">
+                                                                            Dashboard
+                                                                        </a>
+                                                                    </li>';
+                                                            }
+                                                            
 
                                                         }
                                                         else if($userType == "33"){
@@ -418,16 +429,27 @@
                                             // Default dashboard folder
                                             $dashboardFolder = "dashboard";
 
-                                            if($userId == "CU260052" && $userType == "10"){
+                                            if( $userType == "10"){
+                                                if ($_SESSION['customer_type'] == 'Neo Select') {
+                                                    $dashboardFolder = "dashboard/customer_dashboard";
 
-                                                $dashboardFolder = "dashboard/customer_dashboard";
+                                                    echo '<li class="d-flex">
+                                                            <i class="ri-dashboard-line align-content-center"></i>
+                                                            <a class="dropdown-item" href="' . $dashboardFolder . '/customer_dashboard.php">
+                                                                Dashboard
+                                                            </a>
+                                                        </li>';
+                                                }else{
+                                                    $dashboardFolder = "dashboard/";
 
-                                                echo '<li class="d-flex">
-                                                        <i class="ri-dashboard-line align-content-center"></i>
-                                                        <a class="dropdown-item" href="dashboard/customer_dashboard/customer_dashboard.php">
-                                                            Dashboard
-                                                        </a>
-                                                    </li>';
+                                                    echo '<li class="d-flex">
+                                                            <i class="ri-dashboard-line align-content-center"></i>
+                                                            <a class="dropdown-item" href="' . $dashboardFolder . 'index.php">
+                                                                Dashboard
+                                                            </a>
+                                                        </li>';
+                                                }
+                                                
 
                                             }
                                             else if($userType == "33"){

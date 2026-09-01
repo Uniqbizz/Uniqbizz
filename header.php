@@ -197,7 +197,25 @@
 
                                                         <div class="profileScetion">
                                                             <div class="profilePic">
-                                                                <img src="uploading/<?= $_SESSION['profile_pic'] ?>" alt="">
+                                                                <!-- <img src="uploading/<?= $_SESSION['profile_pic'] ?>" alt=""> -->
+                                                                 <?php if (!empty($_SESSION['profile_pic'])): ?>
+
+                                                                    <img
+                                                                        src="uploading/<?= $_SESSION['profile_pic'] ?>"
+                                                                        class="user-avatar-SVZ"
+                                                                        alt="<?= htmlspecialchars($firstname . ' ' . $lastname) ?>"
+                                                                    >
+
+                                                                <?php else: ?>
+
+                                                                    <div
+                                                                        class="user-avatar-SVZ initials-avatar-SVZ"
+                                                                        style="background-color: <?= htmlspecialchars($_SESSION['avatar_color']) ?>"
+                                                                    >
+                                                                        <?= htmlspecialchars($_SESSION['initials']) ?>
+                                                                    </div>
+
+                                                                <?php endif; ?>
                                                             </div>
 
                                                             <div class="dropdown alignContent">
@@ -225,12 +243,14 @@
                                                                         // Default values
                                                                         $dashboardLink = "dashboard/";
                                                                         $dashboardFolder = "dashboard";
-
-                                                                        if($userId == "CU260052" && $userType == "10"){
-
-                                                                            $dashboardLink = "dashboard/customer_dashboard/customer_dashboard.php";
-                                                                            $dashboardFolder = "dashboard/customer_dashboard";
-
+                                                                        if ($userType == "10") {
+                                                                            if ($_SESSION['customer_type'] == 'Neo Select') {
+                                                                                $dashboardLink = "dashboard/customer_dashboard/customer_dashboard.php";
+                                                                                $dashboardFolder = "dashboard/customer_dashboard";
+                                                                            }else{
+                                                                                $dashboardLink = "dashboard/index.php";
+                                                                                $dashboardFolder = "dashboard/";
+                                                                            }
                                                                         }
                                                                         else if($userType == "33"){
 
@@ -403,67 +423,122 @@
                         <?php if(isset($_SESSION['username2'])): ?>
                             <div class="dropdown me-2">
                                 <div class="profilePic mobileProfile1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="uploading/<?= $_SESSION['profile_pic'] ?>" alt="">
+                                    <!-- <img src="uploading/<?= $_SESSION['profile_pic'] ?>" alt=""> -->
+                                    <?php if (!empty($profile_pic)): ?>
+
+                                        <img
+                                            src="<?= htmlspecialchars($profile_pic) ?>"
+                                            class="user-avatar"
+                                            alt="<?= htmlspecialchars($firstname . ' ' . $lastname) ?>"
+                                        >
+
+                                    <?php else: ?>
+
+                                        <div
+                                            class="user-avatar initials-avatar"
+                                            style="background-color: <?= htmlspecialchars($avatarColor) ?>;"
+                                        >
+                                            <?= htmlspecialchars($initials) ?>
+                                        </div>
+
+                                    <?php endif; ?>
                                 </div>
 
                                 <ul class="dropdown-menu dropdown-menu-end px-3">
 
                                     <?php
 
-                                        if (isset($_SESSION['user_id']) && isset($_SESSION['user_type_id_value'])) {
+                                        if(isset($_SESSION['user_id']) && isset($_SESSION['user_type_id_value'])){
 
                                             $userId   = $_SESSION['user_id'];
                                             $userType = $_SESSION['user_type_id_value'];
 
-                                            // Default dashboard folder
+                                            // Default values
+                                            $dashboardLink = "dashboard/";
                                             $dashboardFolder = "dashboard";
-
-                                            if ($userId == "CU260052" && $userType == "10") {
-                                                $dashboardFolder = "dashboard/customer_dashboard";
+                                            if ($userType == "10") {
+                                                if ($_SESSION['customer_type'] == 'Neo Select') {
+                                                    $dashboardLink = "dashboard/customer_dashboard/customer_dashboard.php";
+                                                    $dashboardFolder = "dashboard/customer_dashboard";
+                                                }else{
+                                                    $dashboardLink = "dashboard/index.php";
+                                                    $dashboardFolder = "dashboard/";
+                                                }
                                             }
-                                            else if ($userType == "33") {
+                                            else if($userType == "33"){
+
+                                                $dashboardLink = "dashboard/institute_branch_manager/index.php";
                                                 $dashboardFolder = "dashboard/institute_branch_manager";
+
                                             }
-                                            else if ($userType == "35") {
+                                            else if($userType == "35"){
+
+                                                $dashboardLink = "dashboard/super_techno_enterprise/super_techno_dashboard.php";
                                                 $dashboardFolder = "dashboard/super_techno_enterprise";
+
                                             }
-                                            else if ($userType == "34") {
+                                            else if($userType == "34"){
+
+                                                $dashboardLink = "dashboard/executive_techno_enterprise/executive_techno_dashboard.php";
                                                 $dashboardFolder = "dashboard/executive_techno_enterprise";
+
                                             }
-                                            else if ($userType == "16") {
+                                            else if($userType == "16"){
+
+                                                $dashboardLink = "dashboard/techno_enterprise/techno_dashboard.php";
                                                 $dashboardFolder = "dashboard/techno_enterprise";
+
                                             }
-                                            else if ($userType == "36") {
+                                            else if($userType == "36"){
+
+                                                $dashboardLink = "dashboard/chief_techno_enterprise/chief_techno_dashboard.php";
                                                 $dashboardFolder = "dashboard/chief_techno_enterprise";
+
                                             }
-                                            else if ($userType == "11") {
+                                            else if($userType == "11"){
+
+                                                $dashboardLink = "dashboard/travel_consultant/travel_consultant_dashboard.php";
                                                 $dashboardFolder = "dashboard/travel_consultant";
+
                                             }
-                                            else if ($userType == "29") {
+                                            else if($userType == "29"){
+
+                                                $dashboardLink = "dashboard/franchisee/franchisee_dashboard.php";
                                                 $dashboardFolder = "dashboard/franchisee";
+
                                             }
-                                            else if ($userType == "26") {
+                                            else if($userType == "26"){
+
+                                                $dashboardLink = "dashboard/business_mentor/business_mentor_dashboard.php";
                                                 $dashboardFolder = "dashboard/business_mentor";
+
                                             }
-                                            else if ($userType == "30") {
+                                            else if($userType == "30"){
+
+                                                $dashboardLink = "dashboard/sponsor_franchisee/sponsor_franchisee_dashboard.php";
                                                 $dashboardFolder = "dashboard/sponsor_franchisee";
+
                                             }
-                                            else if ($userType == "28") {
+                                            else if($userType == "28"){
+
+                                                $dashboardLink = "dashboard/master_franchisee/master_franchisee_dashboard.php";
                                                 $dashboardFolder = "dashboard/master_franchisee";
+
                                             }
-                                            else if ($userType == "25") {
+                                            else if($userType == "25"){
+
+                                                $dashboardLink = "dashboard/business_development_manager/business_development_manager_dashboard.php";
                                                 $dashboardFolder = "dashboard/business_development_manager";
+
+                                            }
+                                            else{
+
+                                                $dashboardLink = "dashboard/";
+                                                $dashboardFolder = "dashboard";
+
                                             }
 
-                                            // Dashboard page
-                                            $dashboardLink = $dashboardFolder . "/index.php";
-
-                                            // Profile page
-                                            $profileLink = $dashboardFolder . "/profile.php";
-
-                                            // Order / booking details page
-                                            $orderDetailsLink = $dashboardFolder . "/order_history.php";
-                                    ?>
+                                        ?>
 
                                     <!-- Dashboard -->
                                     <li class="d-flex">
