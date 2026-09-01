@@ -1,3 +1,9 @@
+// =====================================================
+// CURRENT MODIFIED ROOM CONFIGURATION
+// =====================================================
+
+let modifiedRoomConfiguration = null;
+
 // Animate price
 function animatePrice($element, finalValue, duration = 800) {
 
@@ -147,27 +153,154 @@ function loadModifyRooms(adults, children, infants) {
 
     container.empty();
 
-    // Total counts
+    // =====================================================
+    // TOTAL COUNTS
+    // =====================================================
+
     $('#totalAdults').text(adults);
     $('#totalChildren').text(children);
     $('#totalInfants').text(infants);
 
+    // =====================================================
+    // IF USER ALREADY MODIFIED ROOMS
+    // USE THAT CONFIGURATION
+    // =====================================================
 
-    // Infants do not consume room occupancy
+    if (
+        Array.isArray(modifiedRoomConfiguration) &&
+        modifiedRoomConfiguration.length > 0
+    ) {
+
+        modifiedRoomConfiguration.forEach(function (room, index) {
+
+            const roomNumber = index + 1;
+
+            const occupancy = parseInt(room.occupancy) || 1;
+
+            const extraMattress = room.extraMattress === true;
+
+            const roomHTML = `
+                <div class="modify-room-card mb-3"
+                    data-room="${roomNumber}">
+
+                    <div class="room-content-row">
+
+                        <!-- ROOM TITLE -->
+                        <div class="room-title">
+
+                            <p class="fontSize10 fw-bold mb-0">
+                                Room ${roomNumber}
+                            </p>
+
+                        </div>
+
+
+                        <!-- ROOM OCCUPANCY -->
+                        <div class="occupancy-section">
+
+                            <label class="fontSize10 fw-bold mb-0">
+                                Room Occupancy
+                            </label>
+
+                            <div class="occupancy-control">
+
+                                <button
+                                    type="button"
+                                    class="occupancy-minus">
+                                    -
+                                </button>
+
+                                <input
+                                    type="text"
+                                    class="form-control text-center room-occupancy"
+                                    value="${occupancy}"
+                                    readonly
+                                >
+
+                                <button
+                                    type="button"
+                                    class="occupancy-plus">
+                                    +
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- EXTRA MATTRESS -->
+                        <div class="mattress-section">
+
+                            <div class="form-check mb-0">
+
+                                <input
+                                    class="form-check-input extra-mattress"
+                                    type="checkbox"
+                                    id="extraMattress${roomNumber}"
+                                    ${extraMattress ? 'checked' : ''}
+                                    disabled
+                                >
+
+                                <label
+                                    class="form-check-label fontSize10"
+                                    for="extraMattress${roomNumber}">
+                                    With Extra Mattress
+                                </label>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- REMOVE ROOM -->
+                        ${roomNumber > 1 ? `
+
+                            <div class="ms-auto">
+
+                                <button
+                                    type="button"
+                                    class="removeModifyRoom">
+
+                                    Remove
+
+                                </button>
+
+                            </div>
+
+                        ` : ''}
+
+                    </div>
+
+                </div>
+            `;
+
+            container.append(roomHTML);
+
+        });
+
+        return;
+    }
+
+
+    // =====================================================
+    // NO PREVIOUS MODIFICATION
+    // CREATE RECOMMENDED ROOMS
+    // =====================================================
+
     const totalOccupancy = adults + children;
 
-
-    // Max 3 occupants per room
     const rooms = Math.max(
         1,
         Math.ceil(totalOccupancy / 3)
     );
 
-
     let remainingOccupancy = totalOccupancy;
 
 
-    // Create rooms
+    // =====================================================
+    // CREATE RECOMMENDED ROOMS
+    // =====================================================
+
     for (let i = 1; i <= rooms; i++) {
 
         const occupancy = Math.min(
@@ -177,21 +310,22 @@ function loadModifyRooms(adults, children, infants) {
 
         remainingOccupancy -= occupancy;
 
-
-        // Extra mattress default
         const extraMattress = occupancy === 3;
 
 
         const roomHTML = `
-            <div class="modify-room-card mb-3" data-room="${i}">
+            <div class="modify-room-card mb-3"
+                data-room="${i}">
 
                 <div class="room-content-row">
 
                     <!-- ROOM TITLE -->
                     <div class="room-title">
+
                         <p class="fontSize10 fw-bold mb-0">
                             Room ${i}
                         </p>
+
                     </div>
 
 
@@ -204,18 +338,22 @@ function loadModifyRooms(adults, children, infants) {
 
                         <div class="occupancy-control">
 
-                            <button type="button"
-                                    class="occupancy-minus">
+                            <button
+                                type="button"
+                                class="occupancy-minus">
                                 -
                             </button>
 
-                            <input type="text"
+                            <input
+                                type="text"
                                 class="form-control text-center room-occupancy"
                                 value="${occupancy}"
-                                readonly>
+                                readonly
+                            >
 
-                            <button type="button"
-                                    class="occupancy-plus">
+                            <button
+                                type="button"
+                                class="occupancy-plus">
                                 +
                             </button>
 
@@ -229,14 +367,20 @@ function loadModifyRooms(adults, children, infants) {
 
                         <div class="form-check mb-0">
 
-                            <input class="form-check-input extra-mattress"
+                            <input
+                                class="form-check-input extra-mattress"
                                 type="checkbox"
                                 id="extraMattress${i}"
-                                ${extraMattress ? 'checked' : ''} disabled>
+                                ${extraMattress ? 'checked' : ''}
+                                disabled
+                            >
 
-                            <label class="form-check-label fontSize10"
+                            <label
+                                class="form-check-label fontSize10"
                                 for="extraMattress${i}">
+
                                 With Extra Mattress
+
                             </label>
 
                         </div>
@@ -246,14 +390,19 @@ function loadModifyRooms(adults, children, infants) {
 
                     <!-- REMOVE ROOM -->
                     ${i > 1 ? `
+
                         <div class="ms-auto">
 
-                            <button type="button"
-                                    class="removeModifyRoom">
+                            <button
+                                type="button"
+                                class="removeModifyRoom">
+
                                 Remove
+
                             </button>
 
                         </div>
+
                     ` : ''}
 
                 </div>
@@ -954,19 +1103,7 @@ $('#infantCount').on('change', function () {
     const infantCount =
         parseInt($(this).val()) || 0;
 
-    const childrenTotal =
-        infantCount * perChildPrice;
-
     $('#totalInfantCount').text(infantCount);
-
-    animatePrice(
-        $('#childrenTotal'),
-        childrenTotal,
-        '₹ '
-    );
-
-    // Update subtotal
-    updateSubTotal();
 
     // Update room recommendation
     updateRecommendedRooms();
@@ -1158,6 +1295,18 @@ $(document).on('click', '#applyRoomModification', function () {
 
         return;
     }
+    // =================================================
+    // SAVE USER'S ROOM CONFIGURATION
+    // =================================================
+
+    modifiedRoomConfiguration = roomOccupancies.map(function (room) {
+
+        return {
+            occupancy: parseInt(room.occupancy) || 1,
+            extraMattress: room.extraMattress === true
+        };
+
+    });
 
     // =================================================
     // UPDATE RECOMMENDATION
@@ -1373,17 +1522,36 @@ $(document).on('click', '.removeModifyRoom', function () {
 });
 //add button
 $(document).on('click', '.addRoomBtn', function () {
-    const adults = parseInt($('#adultCount').val()) || 0;
-    const children = parseInt($('#childrenCount').val()) || 0;
-    const infants = parseInt($('#infantCount').val()) || 0;
+
+    const adults =
+        parseInt($('#adultCount').val()) || 0;
+
+    const children =
+        parseInt($('#childrenCount').val()) || 0;
+
+    const infants =
+        parseInt($('#infantCount').val()) || 0;
+
+
+    // =====================================================
+    // OPEN MODAL WITH CURRENT CONFIGURATION
+    // =====================================================
+
     loadModifyRooms(
         adults,
         children,
         infants
     );
-    const modalElement = document.getElementById('modifyRoomsModal');
-    const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+
+
+    const modalElement =
+        document.getElementById('modifyRoomsModal');
+
+    const modal =
+        bootstrap.Modal.getOrCreateInstance(modalElement);
+
     modal.show();
+
 });
 //vechel modal show
 $(document).on('click', '#changeVehicle', function (e) {

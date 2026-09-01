@@ -626,7 +626,7 @@ $vehicleOptions = [
 
                                         <p class="fontSize10 discountGreen fw-bold text-end mb-0"
                                         id="referralWalletBalance">
-                                            - ₹ <?= number_format($referralWalletBalance, 2) ?>
+                                            ₹ <?= number_format($referralWalletBalance, 2) ?>
                                         </p>
 
                                         <div class="d-flex align-items-center">
@@ -643,7 +643,7 @@ $vehicleOptions = [
                                         </p>
                                         <p class="fontSize10 discountGreen fw-bold text-end mb-0"
                                         id="discountWalletBalance">
-                                            - ₹ <?= number_format($discountWalletBalance, 2) ?>
+                                            ₹ <?= number_format($discountWalletBalance, 2) ?>
                                         </p>
                                         <div class="d-flex align-items-center">
                                             <span class="fontSize10 discountGreen fw-bold me-1">
