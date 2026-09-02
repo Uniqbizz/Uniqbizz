@@ -514,14 +514,113 @@ if($stmt->rowCount()>0){
 				setcookie('pass',''); // 86400 = 1 day
 			}
 		// echo '1';
-		$response = [
-			"status" => 1,
-			"message" => "Login Successful",
-			"user_type" => $user_type,
-			"user_id" => $_SESSION["user_id"],
-			"customer_type" => $_SESSION["customer_type"] ?? '',
-			"profile_pic" => $_SESSION["profile_pic"] ?? ''
+
+		// =====================================================
+		// PROFILE AVATAR
+		// =====================================================
+
+		$fullName = trim(
+			($_SESSION["username2"] ?? '') . ' ' . ($_SESSION["lname"] ?? '')
+		);
+
+		$fullName = preg_replace('/\s+/', ' ', $fullName);
+
+		$nameParts = array_values(
+			array_filter(
+				explode(' ', $fullName)
+			)
+		);
+
+
+		// =====================================================
+		// GENERATE INITIALS
+		// =====================================================
+
+		if (count($nameParts) >= 2) {
+
+			// Example: John Doe = JD
+			$initials =
+				mb_substr($nameParts[0], 0, 1, 'UTF-8') .
+				mb_substr($nameParts[1], 0, 1, 'UTF-8');
+
+		} elseif (count($nameParts) === 1) {
+
+			// Example: John = JO
+			$initials =
+				mb_substr($nameParts[0], 0, 2, 'UTF-8');
+
+		} else {
+
+			$initials = 'NA';
+		}
+
+		$initials = mb_strtoupper(
+			$initials,
+			'UTF-8'
+		);
+
+
+		// =====================================================
+		// AVATAR COLORS
+		// =====================================================
+
+		$avatarColors = [
+
+			'#5E5CE6',
+			'#AF52DE',
+			'#FF2D55',
+			'#FF3B30',
+			'#FF9500',
+			'#FFCC00',
+			'#34C759',
+			'#00C7BE',
+			'#30B0C7',
+			'#007AFF',
+			'#5856D6',
+			'#8E8E93'
+
 		];
+
+
+		// =====================================================
+		// CONSISTENT COLOR BASED ON NAME
+		// =====================================================
+
+		$colorIndex =
+			abs(
+				crc32(
+					strtolower($fullName)
+				)
+			) % count($avatarColors);
+
+		$avatarColor = $avatarColors[$colorIndex];
+
+
+		// =====================================================
+		// RESPONSE
+		// =====================================================
+
+		$response = [
+
+			"status" => 1,
+
+			"message" => "Login Successful",
+
+			"user_type" => $user_type,
+
+			"user_id" => $_SESSION["user_id"],
+
+			"customer_type" =>
+				$_SESSION["customer_type"] ?? '',
+
+			"profile_pic" =>
+				$_SESSION["profile_pic"] ?? '',
+
+		];
+		// NEW
+		$_SESSION["initials"] = $initials;
+
+		$_SESSION["avatar_color"] = $avatarColor;
 
 		echo json_encode($response);
 	}else{

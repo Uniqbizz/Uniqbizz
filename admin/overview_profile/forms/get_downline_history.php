@@ -31,7 +31,7 @@ try {
             payout_holiday_booking_tc,
             payout_holiday_booking_ibr,
             DATE(create_date) AS create_date,
-            deleted_date,
+            DATE(deleted_date) AS deleted_date,
             status
         FROM institute_downline_details
         WHERE institution_id = :institution_id

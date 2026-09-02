@@ -21,7 +21,24 @@
     font-size: 15px;
     opacity: 0.8;
 }
+/* added by SV on 1-09-2026 */
+.user-avatar-SVZ {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+.initials-avatar-SVZ {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+/* added by SV on 1-09-2026 */
 /* sidebar menu ul li list text hover */
 .navbar-nav .menu-link span:hover{
     color: #000000;
@@ -377,7 +394,7 @@ input::file-selector-button:hover {
     left: -50%;
 }
 #progressbar li:nth-child(2)::after,
-#progressbar li:nth-child(3)::after,{
+#progressbar li:nth-child(3)::after{
     left: -50%;
 }
 #progressbar li:first-child::after{

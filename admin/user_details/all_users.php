@@ -166,6 +166,18 @@
                                                                     else if ( $userType == 31 ) {
                                                                         $users = $conn->prepare("SELECT name FROM employees where employee_id='".$userId."' AND user_type = '31' AND status='1'");
                                                                     } 
+                                                                    //CTE
+                                                                    else if ( $userType == 36 ) {
+                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM chief_techno_enterprise where chief_techno_enterprise_id='".$userId."' AND user_type = '36' AND status='1'");
+                                                                    }
+                                                                    //ETE
+                                                                    else if ( $userType == 34 ) {
+                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM executive_techno_enterprise where executive_techno_enterprise_id='".$userId."' AND user_type = '34' AND status='1'");
+                                                                    }
+                                                                    //STE
+                                                                    else if ( $userType == 35 ) {
+                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM super_techno_enterprise where super_techno_enterprise_id='".$userId."' AND user_type = '35' AND status='1'");
+                                                                    }
                                                                     $users->execute();
                                                                     $users->setFetchMode(PDO::FETCH_ASSOC);
                                                                     if($users->rowCount()>0){
