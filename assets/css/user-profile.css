@@ -142,3 +142,120 @@
     text-transform: uppercase;
 }
 /* added by SV on 1-09-2026 */
+.package-img .wishlist-icon {
+    position: absolute !important;
+    top: 10px !important;
+    right: 10px !important;
+    width: 35px;
+    height: 35px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background: #fff;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.package-img .wishlist-icon i {
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+.package-img .wishlist-icon:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.package-img .wishlist-icon.active i {
+    color: #e03d42;
+}
+
+/* Share */
+.package-img .openShare1 {
+    position: absolute !important;
+    top: 55px !important;
+    right: 10px !important;
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    background: #fff;
+    /* color: #e03d42; */
+    border: 1px solid #fff;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.package-img .openShare1:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(255, 0, 0, 0.35);
+    background: #fff;
+    color: #e03d42;
+    border: 1px solid #e03d42;
+}
+/* tite view share and wishlist icon */
+.parent-container-badge .wishlist-icon {
+    position: absolute !important;
+    top: 10px !important;
+    right: 25px !important;
+    width: 35px;
+    height: 35px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background: #fff;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.parent-container-badge .wishlist-icon i {
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+.parent-container-badge .wishlist-icon:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.parent-container-badge .wishlist-icon.active i {
+    color: #e03d42;
+}
+
+/* Share */
+.parent-container-badge .openShare1 {
+    position: absolute !important;
+    top: 55px !important;
+    right: 25px !important;
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    background: #fff;
+    /* color: #e03d42; */
+    border: 1px solid #fff;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.parent-container-badge .openShare1:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(255, 0, 0, 0.35);
+    background: #fff;
+    color: #e03d42;
+    border: 1px solid #e03d42;
+}
+/* tite view share and wishlist icon */
+/* added by sv on 2-09-2026 */
