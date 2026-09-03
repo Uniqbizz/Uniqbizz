@@ -44,7 +44,6 @@
         <!-- Begin page -->
         <div id="layout-wrapper">
             <?php include_once(__DIR__ . '/../customer_header.php'); ?>
-
             <!-- removeNotificationModal -->
             <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -65,7 +64,6 @@
                                 <button type="button" class="btn w-sm btn-danger" id="delete-notification">Yes, Delete It!</button>
                             </div>
                         </div>
-
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
@@ -80,321 +78,155 @@
                     <div class="container-fluid ps-0">
                         <!-- customer reference wallet -->
                         <section class="wallet-wrapper">
-
                             <!-- PAGE TITLE -->
                             <div class="wallet-topbar">
                                 <div>
-                                <h2><i class="fa-solid fa-users"></i> Referral Customer Wallet</h2>
-                                <p>View all transactions and earnings from your referred customers.</p>
+                                    <h2><i class="fa-solid fa-users"></i> Referral Customer Wallet</h2>
+                                    <p>View all transactions and earnings from your referred customers.</p>
                                 </div>
-
                                 <button class="benefit-btn" id="openReferralModal">
-                                <i class="fa-regular fa-circle-question"></i>
-                                How Referral Benefits Work?
+                                    <i class="fa-regular fa-circle-question"></i>
+                                    How Referral Benefits Work?
                                 </button>
                             </div>
-
-
                             <!-- STATS CARDS -->
                             <div class="stats-grid">
-
                                 <div class="stats-card orange">
                                 <div class="stats-icon">
                                     <i class="fa-solid fa-hand-holding-dollar"></i>
                                 </div>
-
                                 <div>
                                     <h4>Total Earnings</h4>
-                                    <h2>₹<?= (($refWalletData['ref_total_earning'] ?? 0) + ($refWalletCurBalData['ref_booking_total'] ?? 0)) ?></h2>
+                                    <h2>₹<?= preg_replace(
+                                                '/(\d)(?=(\d\d)+\d$)/',
+                                                '$1,',
+                                                number_format(
+                                                    ($refWalletData['ref_total_earning'] ?? 0) +
+                                                    ($refWalletCurBalData['ref_booking_total'] ?? 0),
+                                                    2,
+                                                    '.',
+                                                    ''
+                                                )
+                                            ) 
+                                         ?>
+                                    </h2>
                                 </div>
-
-                                <!--<div class="card-footer-data">-->
-                                <!--    <div>-->
-                                <!--    <span>This Year</span>-->
-                                <!--    <strong>₹3,400</strong>-->
-                                <!--    </div>-->
-
-                                <!--    <div>-->
-                                <!--    <span>Last Year</span>-->
-                                <!--    <strong>₹700</strong>-->
-                                <!--    </div>-->
-                                <!--</div>-->
                                 </div>
-
-
                                 <div class="stats-card green">
                                 <div class="stats-icon">
                                     <i class="fa-solid fa-arrow-trend-up"></i>
                                 </div>
-
                                 <div>
                                     <h4>Available Balance</h4>
-                                    <h2>₹<?= $refWalletCurBalData['balance'] ?? 0?></h2>
+                                    <h2>₹<?= preg_replace('/(\d)(?=(\d\d)+\d$)/', '$1,', number_format($refWalletCurBalData['balance'] ?? 0, 2, '.', '')) ?></h2>
                                 </div>
-
-                                <!--<div class="card-footer-data">-->
-                                <!--    <div>-->
-                                <!--    <span>Withdrawable</span>-->
-                                <!--    <strong>₹1,800</strong>-->
-                                <!--    </div>-->
-
-                                <!--    <div>-->
-                                <!--    <span>On Hold</span>-->
-                                <!--    <strong>₹500</strong>-->
-                                <!--    </div>-->
-                                <!--</div>-->
                                 </div>
-
-
                                 <div class="stats-card blue">
                                 <div class="stats-icon">
                                     <i class="fa-solid fa-gift"></i>
                                 </div>
-
                                 <div>
                                     <h4>Total Referrals</h4>
                                     <h2><?= $refWalletData['ref_count'] ?? 0 ?></h2>
                                 </div>
-
-                                <!--<div class="card-footer-data">-->
-                                <!--    <div>-->
-                                <!--    <span>Active Referrals</span>-->
-                                <!--    <strong>6</strong>-->
-                                <!--    </div>-->
-
-                                <!--    <div>-->
-                                <!--    <span>Completed Trips</span>-->
-                                <!--    <strong>10</strong>-->
-                                <!--    </div>-->
-                                <!--</div>-->
                                 </div>
-
-
                                 <div class="stats-card purple">
                                 <div class="stats-icon">
                                     <i class="fa-solid fa-wallet"></i>
                                 </div>
-
                                 <div>
                                     <h4>Total Withdrawn</h4>
                                     <h2>₹<?= $refWalletEncashData['total_earning_echased'] ?? 0 ?></h2>
                                 </div>
-
-                                <!--<div class="card-footer-data">-->
-                                <!--    <div>-->
-                                <!--    <span>This Year</span>-->
-                                <!--    <strong>₹1,300</strong>-->
-                                <!--    </div>-->
-
-                                <!--    <div>-->
-                                <!--    <span>Last Year</span>-->
-                                <!--    <strong>₹500</strong>-->
-                                <!--    </div>-->
-                                <!--</div>-->
                                 </div>
-
                             </div>
-
-
                             <!-- INFO STRIP -->
                             <div class="info-strip">
                                 <div><i class="fa-solid fa-coins"></i> Earn ₹1,000 on successful membership activation by your referral</div>
                                 <div><i class="fa-solid fa-plane-departure"></i> Earn additional benefits on trip completion</div>
                                 <div><i class="fa-solid fa-circle-check"></i> Benefits applicable on all travel services</div>
                             </div>
-
-
                             <!-- FILTER SECTION -->
                             <!-- search -->
                             <div class="card-header bg-white border-0 p-2">
-
                                 <div class="row align-items-center">
-
                                     <div class="col-lg-4">
                                         <h5 class="mb-1">Referral Customer Wallet Management</h5>
                                         <small class="text-muted">
                                             Search and manage referral customer entries
                                         </small>
                                     </div>
-
                                     <div class="col-lg-8 text-lg-end mt-3 mt-lg-0">
-
                                         <div class="ref-wallet-search ms-lg-auto">
                                             <i class="fa-solid fa-magnifying-glass "></i>
-
-                                            <input type="text" id="tableSearch"
-                                                placeholder="Search anything...">
-
-                                            <span type="button" id="clearSearch">
-                                                <i class="fa-solid fa-xmark"></i>
-                                            </span>
+                                            <input type="text" id="tableSearch" placeholder="Search anything...">
+                                            <span type="button" id="clearSearch"><i class="fa-solid fa-xmark"></i></span>
                                         </div>
-
                                     </div>
-
                                 </div>
-
                             </div>
                             <!-- FILTER BOX -->
                             <div class="filter-box">
-
                                 <div class="row g-4 align-items-end">
-
                                     <!-- TRANSACTION TYPE -->
-
                                     <div class="col-lg-3 col-md-6">
-
                                         <div class="input-group-custom">
-
-                                            <label>
-                                                Transaction Type
-                                            </label>
-
-                                            <select
-                                                class="form-select"
-                                                id="transactionFilter"
-                                            >
-
+                                            <label>Transaction Type</label>
+                                            <select class="form-select" id="transactionFilter">
                                                 <option value="all">All</option>
-
-                                                <option value="membership activation bonus">
-                                                    Holiday Account Activation
-                                                </option>
-
-                                                <option value="trip completed bonus">
-                                                    Trip Completed 
-                                                </option>
-
-                                                <option value="withdrawal request">
-                                                    Withdrawal Request
-                                                </option>
-
-                                                <option value="pending clearance">
-                                                    Pending Clearance
-                                                </option>
-
+                                                <option value="membership activation bonus">Holiday Account Activation</option>
+                                                <option value="trip completed bonus">Trip Completed</option>
+                                                <option value="withdrawal request">Withdrawal Request</option>
+                                                <option value="pending clearance">Pending Clearance</option>
                                             </select>
-
                                         </div>
-
                                     </div>
-
                                     <!-- STATUS -->
-
                                     <div class="col-lg-3 col-md-6">
-
                                         <div class="input-group-custom">
-
-                                            <label>
-                                                Status
-                                            </label>
-
-                                            <select
-                                                class="form-select"
-                                                id="statusFilter"
-                                            >
-
+                                            <label>Status</label>
+                                            <select class="form-select" id="statusFilter">
                                                 <option value="all">All</option>
-
-                                                <option value="credited">
-                                                    Credited
-                                                </option>
-
-                                                <option value="pending">
-                                                    Pending
-                                                </option>
-
-                                                <option value="processed">
-                                                    Processed
-                                                </option>
-
-                                                <option value="cancelled">
-                                                    Cancelled
-                                                </option>
-
-                                                <option value="rejected">
-                                                    Rejected
-                                                </option>
-
+                                                <option value="credited">Credited</option>
+                                                <option value="pending">Pending</option>
+                                                <option value="processed">Processed</option>
+                                                <option value="cancelled">Cancelled</option>
+                                                <option value="rejected">Rejected</option>
                                             </select>
-
                                         </div>
-
                                     </div>
-
                                     <!-- DATE -->
-
                                     <div class="col-lg-3 col-md-6">
-
                                         <div class="input-group-custom">
-
-                                            <label>
-                                                Date
-                                            </label>
-
-                                            <input
-                                                type="date"
-                                                class="form-control"
-                                                id="dateFilter"
-                                            >
-
+                                            <label>Date</label>
+                                            <input type="date" class="form-control" id="dateFilter">
                                         </div>
-
                                     </div>
-
                                     <!-- DOWNLOAD -->
-
                                     <div class="col-lg-3 col-md-6">
-
                                         <div class="download-area">
-
-                                            <button
-                                                class="download-btn w-100"
-                                                id="downloadBtn"
-                                            >
-
+                                            <button class="download-btn w-100" id="downloadBtn">
                                                 <i class="fa-solid fa-download me-2"></i>
-
                                                 Download Statement
-
                                             </button>
-
                                         </div>
-
                                     </div>
-
                                 </div>
-
                             </div>
-
-
                             <!-- TRANSACTION TABLE -->
                             <!-- ========================= -->
                             <!-- TABLE CONTAINER -->
                             <!-- ========================= -->
-
                             <div class="table-container">
-
                                 <!-- TITLE -->
-
                                 <div class="table-title d-flex justify-content-between align-items-center mb-4">
-
-                                    <h3 class="mb-0">
-                                        All Transactions (<span id="totalTransactions">0</span>)
-                                    </h3>
-
+                                    <h3 class="mb-0">All Transactions (<span id="totalTransactions">0</span>)</h3>
                                 </div>
-
                                 <!-- TABLE -->
-
                                 <div class="table-responsive">
-
                                     <table class="wallet-table table align-middle transaction-table" id="transactionTable">
-
                                         <thead>
-
                                             <tr>
-
                                                 <th>Date & Time</th>
                                                 <th>Description</th>
                                                 <th>Referred Customer</th>
@@ -405,74 +237,50 @@
                                                 <th>Status</th>
                                                 <!--<th>Balance</th>-->
                                                 <th>Action</th>
-
                                             </tr>
-
                                         </thead>
-
                                         <tbody id="transactionTableBody">
 
-                                            
-
                                         </tbody>
-
                                     </table>
-
                                 </div>
-
                             </div>
-
-
                             <!-- NOTE -->
                             <div class="note-box">
                                 <i class="fa-solid fa-circle-info"></i>
                                 Referral benefits are credited after successful membership activation or trip completion by your referred customer. Withdrawals are subject to verification and company policy.
                             </div>
-
-
                             <!-- HOW YOU EARN -->
                             <div class="earn-grid">
-
                                 <div class="earn-card">
                                 <div class="earn-icon orange-bg">
                                     <i class="fa-solid fa-user-plus"></i>
                                 </div>
-
                                 <div>
                                     <h4>₹1,000 on Membership Activation</h4>
                                     <p>When your referred customer joins Neo Select Membership successfully.</p>
                                 </div>
                                 </div>
-
-
                                 <div class="earn-card">
                                 <div class="earn-icon blue-bg">
                                     <i class="fa-solid fa-plane"></i>
                                 </div>
-
                                 <div>
                                     <h4>Earn on Trip Completion</h4>
                                     <p>Earn commission for each passenger when your referred customer completes a trip.</p>
                                 </div>
                             </div>
-
-
                             <div class="earn-card">
                             <div class="earn-icon green-bg">
                                 <i class="fa-solid fa-repeat"></i>
                             </div>
-
                             <div>
                                 <h4>More Benefits on Repeated Bookings</h4>
                                 <p>Earn additional benefits when your referred customer travels repeatedly.</p>
                             </div>
                             </div>
-
                         </div>
-
                         </section>
-
-                        
                     </div>
                 </div>
                 <?php include_once (__DIR__ . '/../customer_footer.php') ?>
@@ -501,24 +309,17 @@
         <script src="<?= $base_url ?>assets/libs/node-waves/waves.min.js"></script>
         <script src="<?= $base_url ?>assets/libs/feather-icons/feather.min.js"></script>
         <script src="<?= $base_url ?>assets/js/jquery/jquery-3.7.1.min.js"></script>
-
         <!-- !-- materialdesign remix icon js- -->
         <script src="<?= $base_url ?>assets/js/pages/remix-icons-listing.js"></script>
-
         <!-- Vector map-->
         <script src="<?= $base_url ?>assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
         <script src="<?= $base_url ?>assets/libs/jsvectormap/maps/world-merc.js"></script>
-
         <!--Swiper slider js-->
         <script src="<?= $base_url ?>assets/libs/swiper/swiper-bundle.min.js"></script>
-
         <!-- App js -->
         <script src="<?= $base_url ?>assets/js/app.js"></script>
-
         <script src="<?= $base_url ?>assets/libs/chart.js/Chart-2.5.0.min.js"></script>
-
         <script src="<?= $base_url ?>assets/js/js-confetti.js"></script>
-        
         <script>
             document.addEventListener("DOMContentLoaded", function () {
 
@@ -545,7 +346,6 @@
 
             });
         </script>
-
         <script>
             var modal = document.getElementById('staticBackdrop');
 
@@ -566,143 +366,91 @@
                 }
             });
         </script>
-
         <!-- dialer logic -->
-
         <!-- table tabs -->
         <script>
-
             document.addEventListener("DOMContentLoaded", function () {
-
-                const tableBody =
-                    document.getElementById(
-                        "transactionTableBody"
-                    );
-
-                const totalTransactions =
-                    document.getElementById(
-                        "totalTransactions"
-                    );
-
-                const transactionFilter =
-                    document.getElementById(
-                        "transactionFilter"
-                    );
-
-                const statusFilter =
-                    document.getElementById(
-                        "statusFilter"
-                    );
-
-                const dateFilter =
-                    document.getElementById(
-                        "dateFilter"
-                    );
-
-                let allRows = [];
-
+                const tableBody =document.getElementById("transactionTableBody");
+                const totalTransactions = document.getElementById("totalTransactions");
+                const transactionFilter =document.getElementById("transactionFilter");
+                const statusFilter =document.getElementById("statusFilter");
+                const dateFilter =document.getElementById("dateFilter");
+                const tableSearch = document.getElementById("tableSearch");
+                const clearSearch =
+                    document.getElementById("clearSearch");
                 // =========================
                 // FETCH DATA
                 // =========================
-
                 fetch(
                     "<?= $base_url_cust ?>ajax/reference_wallet_history.php"
                 )
-
                 .then(response => response.json())
-
                 .then(res => {
-
                     if (!res.status) {
                         return;
                     }
-
                     let html = '';
-
                     res.data.forEach((row, index) => {
-
-                        const detailId =
-                            'details-' + index;
-
-                        const statusLower =
-                            (
-                                row.status || ''
-                            ).toLowerCase();
-
-                        const transactionLower =
-                            (
-                                row.entry_type || ''
-                            ).toLowerCase();
-
-                        const amount =
-                            parseFloat(
-                                row.amount.replace(/,/g,'')
-                            );
-
+                        const detailId ='details-' + index;
+                        const statusLower =(row.status || '').toLowerCase();
+                        const transactionLower = (row.entry_type || '').toLowerCase();
+                        const amount = parseFloat(row.amount.replace(/,/g, ''));
                         const amountHtml =
                             row.entry_type != 'Withdrawal Request'
-                            ?
-                            `<span class="text-success fw-bold">
-                                +₹${row.amount}
-                            </span>`
-                            :
-                            `<span class="text-danger fw-bold">
-                                -₹${row.amount}
-                            </span>`;
-
-                        let badgeClass =
-                            'bg-secondary';
-
-                        if (
-                            statusLower === 'credited'
-                        ) {
+                                ?
+                                `<span class="text-success fw-bold">
+                                    +₹${row.amount}
+                                </span>`
+                                :
+                                `<span class="text-danger fw-bold">
+                                    -₹${row.amount}
+                                </span>`;
+                        // =========================
+                        // STATUS BADGE
+                        // =========================
+                        let badgeClass ='bg-secondary';
+                        if (statusLower === 'credited') {
                             badgeClass = 'bg-success';
                         }
 
-                        if (
-                            statusLower === 'processed'
-                        ) {
+                        if (statusLower === 'processed') {
                             badgeClass = 'bg-info';
                         }
 
-                        if (
-                            statusLower === 'pending'
-                        ) {
+                        if (statusLower === 'pending') {
                             badgeClass = 'bg-warning';
                         }
 
-                        if (
-                            statusLower === 'cancelled'
-                            ||
-                            statusLower === 'rejected'
-                        ) {
+                        if (statusLower === 'cancelled' || statusLower === 'rejected') {
                             badgeClass = 'bg-danger';
                         }
-
+                        // =========================
+                        // PAX
+                        // =========================
                         const paxCount =
                             row.members &&
                             row.members.length > 0
-                            ? row.members.length
-                            : '-';
-
+                                ?
+                                row.members.length
+                                :
+                                '-';
+                        // =========================
+                        // PER PAX BENEFIT
+                        // =========================
                         const perPaxBenefit =
                             paxCount !== '-'
-                            ?
-                            (
-                                amount / paxCount
-                            ).toFixed(2)
-                            :
-                            '-';
-
+                                ?
+                                (
+                                    amount / paxCount
+                                ).toFixed(2)
+                                :
+                                '-';
+                        // =========================
+                        // MEMBER ROWS
+                        // =========================
                         let memberRows = '';
-
-                        if (
-                            row.members &&
-                            row.members.length > 0
-                        ) {
-
+                        if (row.members && row.members.length > 0) {
                             row.members.forEach(member => {
-
                                 memberRows += `
                                     <tr>
                                         <td>${member.name}</td>
@@ -711,467 +459,364 @@
                                     </tr>
                                 `;
                             });
-
                             memberRows += `
                                 <tr>
                                     <td colspan="2">
                                         Total Amount Earned
                                     </td>
-
                                     <td>
                                         ₹${row.amount}
                                     </td>
                                 </tr>
                             `;
                         }
-
                         // =========================
                         // ONLY TRIP COMPLETED BONUS
                         // SHOULD EXPAND
                         // =========================
-
-                        const isTripCompleted =
-                            transactionLower ===
-                            'trip completed bonus';
-
+                        const isTripCompleted =transactionLower ==='trip completed bonus';
+                        // =========================
+                        // MAIN ROW
+                        // =========================
                         html += `
+                            <tr
+                                ${
+                                    isTripCompleted
+                                        ?
+                                        `
+                                        class="clickable-row transaction-row main-row"
+                                        data-target="${detailId}"
+                                        `
+                                        :
+                                        `
+                                        class="transaction-row main-row"
+                                        `
+                                }
 
-                        <!-- MAIN ROW -->
+                                data-transaction="${transactionLower}"
+                                data-status="${statusLower}"
+                                data-date="${row.raw_date}"
+                            >
 
-                        <tr
+                                <td>${row.created_date}</td>
+                                <td><strong>${row.entry_type}</strong><br>${row.message ?? '-'}</td>
+                                <td>
+                                    ${
+                                        isTripCompleted
+                                            ? row.booked_cust_name ?? '-'
+                                            : row.cust_name
+                                    }
+                                    <br>
+
+                                    <small>
+                                        (
+                                        ${
+                                            isTripCompleted
+                                                ? row.booked_cust_id ?? '-'
+                                                : row.reference_id
+                                        }
+                                        )
+                                    </small>
+                                </td>
+
+                                <td>
+                                    ${row.trip_name ?? '-'}
+                                    <br>
+
+                                    <small>
+                                        ${
+                                            isTripCompleted
+                                                ? row.reference_id ?? '-'
+                                                : ''
+                                        }
+                                    </small>
+                                </td>
+                                <td>${paxCount}</td>
+                                <td>
+                                    ${
+                                        perPaxBenefit !== '-'
+                                            ?
+                                            '₹' + perPaxBenefit
+                                            :
+                                            '-'
+                                    }
+                                </td>
+                                <td>${amountHtml}</td>
+                                <td>
+                                    <span class="badge ${badgeClass}">
+                                        ${row.status ?? '-'}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    ${
+                                        isTripCompleted
+                                            ?
+                                            `
+                                            <button
+                                                type="button"
+                                                class="toggle-btn btn btn-sm btn-light"
+                                            >
+                                                <i class="fa-solid fa-chevron-down"></i>
+                                            </button>
+                                            `
+                                            :
+                                            `
+                                            <button
+                                                type="button"
+                                                class="toggle-btn btn btn-sm btn-light"
+                                            >
+                                                <i class="fa-solid fa-minus"></i>
+                                            </button>
+                                            `
+                                    }
+                                </td>
+                            </tr>
 
                             ${
                                 isTripCompleted
-                                ?
-                                `
-                                class="clickable-row transaction-row main-row"
-                                data-target="${detailId}"
-                                `
-                                :
-                                'Class="transaction-row main-row'
+                                    ?
+                                    `
+                                    <!-- DETAILS ROW -->
+
+                                    <tr
+                                        class="details-row child-row"
+                                        id="${detailId}"
+                                        style="display:none;"
+                                    >
+                                        <td colspan="10">
+                                            <div class="details-wrapper p-4 bg-light rounded">
+                                                <div class="row g-4">
+                                                    <!-- TRIP DETAILS -->
+                                                    <div class="col-lg-6">
+                                                        <div class="detail-card">
+                                                            <h5 class="mb-3">
+                                                                <i class="fa-solid fa-suitcase me-2"></i>
+                                                                Trip Details
+                                                            </h5>
+                                                            <div class="mb-2">
+                                                                <strong>Tour Name:</strong>
+                                                                ${row.trip_name ?? '-'}
+                                                            </div>
+                                                            <div class="mb-2">
+                                                                <strong>Destination:</strong>
+                                                                ${row.trip_destination ?? '-'}
+                                                            </div>
+                                                            <div class="mb-2">
+                                                                <strong>Travel Date:</strong>
+                                                                ${row.trip_start_date ?? '-'}
+                                                            </div>
+                                                            <div class="mb-2">
+                                                                <strong>Booking ID:</strong>
+                                                                ${row.reference_id ?? '-'}
+                                                            </div>
+                                                            <div class="mb-2">
+                                                                <strong>Booking Date:</strong>${row.booking_date ?? '-'}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- PASSENGER DETAILS -->
+                                                    <div class="col-lg-6">
+                                                        <div class="detail-card">
+                                                            <h5 class="mb-3">
+                                                                <i class="fa-solid fa-users me-2"></i>
+                                                                Passenger Details
+                                                            </h5>
+                                                            <table class="table table-bordered">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Name/th>
+                                                                        <th>Age</th>
+                                                                        <th>Gender</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>${memberRows}</tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    `
+                                    :
+                                    ''
                             }
-
-                            data-transaction="${transactionLower}"
-                            data-status="${statusLower}"
-                            data-date="${row.raw_date}"
-                        >
-
-                            <td>
-                                ${row.created_date}
-                            </td>
-
-                            <td>
-                                <strong>
-                                    ${row.entry_type}
-                                </strong><br>
-
-                                ${row.message ?? '-'}
-                            </td>
-
-                            <td>
-                                ${row.booked_cust_name ?? '-'}<br>
-
-                                <small>
-                                    (${row.booked_cust_id ?? '-'})
-                                </small>
-                            </td>
-
-                            <td>
-                                ${row.trip_name ?? '-'}<br>
-
-                                <small>
-                                    ${row.reference_id ?? '-'}
-                                </small>
-                            </td>
-
-                            <td>
-                                ${paxCount}
-                            </td>
-
-                            <td>
-                                ${
-                                    perPaxBenefit !== '-'
-                                    ?
-                                    '₹' + perPaxBenefit
-                                    :
-                                    '-'
-                                }
-                            </td>
-
-                            <td>
-                                ${amountHtml}
-                            </td>
-
-                            <td>
-                                <span class="badge ${badgeClass}">
-                                    ${row.status ?? '-'}
-                                </span>
-                            </td>
-
-                            <td>
-
-                                ${
-                                    isTripCompleted
-                                    ?
-                                    `
-                                    <button class="toggle-btn btn btn-sm btn-light">
-
-                                        <i class="fa-solid fa-chevron-down"></i>
-
-                                    </button>
-                                    `
-                                    :
-                                    `
-                                    <button class="toggle-btn btn btn-sm btn-light">
-
-                                        <i class="fa-solid fa-minus"></i>
-
-                                    </button>
-                                    `
-                                }
-
-                            </td>
-
-                        </tr>
-
-                        ${
-                            isTripCompleted
-                            ?
-                            `
-
-                            <!-- DETAILS ROW -->
-
-                            <tr
-                                class="details-row child-row"
-                                id="${detailId}"
-                                style="display:none;"
-                            >
-
-                                <td colspan="10">
-
-                                    <div class="details-wrapper p-4 bg-light rounded">
-
-                                        <div class="row g-4">
-
-                                            <div class="col-lg-6">
-
-                                                <div class="detail-card">
-
-                                                    <h5 class="mb-3">
-
-                                                        <i class="fa-solid fa-suitcase me-2"></i>
-
-                                                        Trip Details
-
-                                                    </h5>
-
-                                                    <div class="mb-2">
-                                                        <strong>Tour Name:</strong>
-                                                        ${row.trip_name ?? '-'}
-                                                    </div>
-
-                                                    <div class="mb-2">
-                                                        <strong>Destination:</strong>
-                                                        ${row.trip_destination ?? '-'}
-                                                    </div>
-
-                                                    <div class="mb-2">
-                                                        <strong>Travel Date:</strong>
-                                                        ${row.trip_start_date ?? '-'}
-                                                    </div>
-
-                                                    <div class="mb-2">
-                                                        <strong>Booking ID:</strong>
-                                                        ${row.reference_id ?? '-'}
-                                                    </div>
-
-                                                    <div class="mb-2">
-                                                        <strong>Booking Date:</strong>
-                                                        ${row.booking_date ?? '-'}
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-                                            <div class="col-lg-6">
-
-                                                <div class="detail-card">
-
-                                                    <h5 class="mb-3">
-
-                                                        <i class="fa-solid fa-users me-2"></i>
-
-                                                        Passenger Details
-
-                                                    </h5>
-
-                                                    <table class="table table-bordered">
-
-                                                        <thead>
-
-                                                            <tr>
-
-                                                                <th>Name</th>
-                                                                <th>Age</th>
-                                                                <th>Gender</th>
-
-                                                            </tr>
-
-                                                        </thead>
-
-                                                        <tbody>
-
-                                                            ${memberRows}
-
-                                                        </tbody>
-
-                                                    </table>
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-                            `
-                            :
-                            ''
-                        }
-
                         `;
                     });
 
+                    // =========================
+                    // INSERT TABLE
+                    // =========================
                     tableBody.innerHTML = html;
-
                     totalTransactions.textContent =
                         res.data.length;
-
-                    initFilters();
+                    // =========================
+                    // INITIALIZE
+                    // =========================
                     initExpandableRows();
-
+                    initFilters();
                 });
 
-                // =========================
+                // =====================================================
                 // EXPANDABLE ROWS
-                // =========================
-
+                // =====================================================
                 function initExpandableRows() {
-
-                    const clickableRows =
-                        document.querySelectorAll(
-                            '.clickable-row'
-                        );
-
+                    const clickableRows =document.querySelectorAll('.clickable-row');
                     clickableRows.forEach(row => {
 
-                        row.addEventListener(
-                            'click',
-                            function () {
-
-                                const target =
-                                    row.dataset.target;
-
-                                const details =
-                                    document.getElementById(
-                                        target
-                                    );
-
-                                const icon =
-                                    row.querySelector(
-                                        '.toggle-btn i'
-                                    );
-
-                                if (
-                                    details.style.display
-                                    === 'table-row'
-                                ) {
-
-                                    details.style.display =
-                                        'none';
-
-                                    icon.classList.remove(
-                                        'fa-chevron-up'
-                                    );
-
-                                    icon.classList.add(
-                                        'fa-chevron-down'
-                                    );
-
+                        row.addEventListener('click', function () {
+                                const target = row.dataset.target;
+                                const details =document.getElementById(target);
+                                if (!details) {
+                                    return;
+                                }
+                                const icon =row.querySelector( '.toggle-btn i');
+                                if (details.style.display ==='table-row') {
+                                    details.style.display ='none';
+                                    if (icon) {
+                                        icon.classList.remove('fa-chevron-up');
+                                        icon.classList.add('fa-chevron-down');
+                                    }
                                 } else {
-
-                                    details.style.display =
-                                        'table-row';
-
-                                    icon.classList.remove(
-                                        'fa-chevron-down'
-                                    );
-
-                                    icon.classList.add(
-                                        'fa-chevron-up'
-                                    );
+                                    details.style.display ='table-row';
+                                    if (icon) {
+                                        icon.classList.remove('fa-chevron-down');
+                                        icon.classList.add('fa-chevron-up');
+                                    }
                                 }
                             }
                         );
                     });
                 }
-
-                // =========================
-                // FILTERS
-                // =========================
-
+                // =====================================================
+                // INITIALIZE FILTERS + SEARCH
+                // =====================================================
                 function initFilters() {
-
-                    allRows =
-                        Array.from(
-                            document.querySelectorAll(
-                                '#transactionTableBody tr'
-                            )
-                        );
-
-                    transactionFilter.addEventListener(
-                        'change',
-                        applyFilters
+                    // =========================
+                    // DROPDOWN FILTERS
+                    // =========================
+                    transactionFilter.addEventListener('change',applyFilters);
+                    statusFilter.addEventListener('change',applyFilters);
+                    dateFilter.addEventListener('change',applyFilters);
+                    // =========================
+                    // SEARCH
+                    // =========================
+                    $('#tableSearch').on(
+                        'input',
+                        function () {
+                            applyFilters();
+                        }
                     );
-
-                    statusFilter.addEventListener(
-                        'change',
-                        applyFilters
-                    );
-
-                    dateFilter.addEventListener(
-                        'change',
-                        applyFilters
+                    // =========================
+                    // CLEAR SEARCH
+                    // =========================
+                    $('#clearSearch').on(
+                        'click',
+                        function () {
+                            $('#tableSearch').val('');
+                            transactionFilter.value ='all';
+                            statusFilter.value ='all';
+                            dateFilter.value ='';
+                            applyFilters();
+                            $('#tableSearch').focus();
+                        }
                     );
                 }
 
+                // =====================================================
+                // APPLY ALL FILTERS + SEARCH
+                // =====================================================
                 function applyFilters() {
-
-                    const transactionValue =
-                        transactionFilter.value.toLowerCase();
-
-                    const statusValue =
-                        statusFilter.value.toLowerCase();
-
-                    const dateValue =
-                        dateFilter.value;
-
+                    const transactionValue =transactionFilter.value.toLowerCase();
+                    const statusValue =statusFilter.value.toLowerCase();
+                    const dateValue =dateFilter.value;
+                    const searchValue =$('#tableSearch').val().trim().toLowerCase();
                     let visibleCount = 0;
-
-                    const mainRows =
-                        document.querySelectorAll(
-                            '#transactionTableBody tr[data-transaction]'
-                        );
-
-                    mainRows.forEach(row => {
-
+                    // =========================
+                    // ONLY MAIN TRANSACTION ROWS
+                    // =========================
+                    const mainRows =document.querySelectorAll('#transactionTableBody tr[data-transaction]');
+                    mainRows.forEach(function (row) {
+                        // =========================
+                        // DETAIL ROW
+                        // =========================
                         const detailsRow =
                             row.dataset.target
-                            ?
-                            document.getElementById(
-                                row.dataset.target
-                            )
-                            :
-                            null;
+                                ?
+                                document.getElementById(
+                                    row.dataset.target
+                                )
+                                :
+                                null;
 
-                        const transaction =
-                            row.dataset.transaction;
-
-                        const status =
-                            row.dataset.status;
-
-                        const rowDate =
-                            row.dataset.date;
-
+                        // =========================
+                        // DATA VALUES
+                        // =========================
+                        const transaction =(row.dataset.transaction ||'').toLowerCase();
+                        const status = (row.dataset.status ||'').toLowerCase();
+                        const rowDate =row.dataset.date ||'';
+                        // =========================
+                        // COMPLETE MAIN ROW TEXT
+                        // =========================
+                        const rowText =(row.textContent ||'').toLowerCase();
                         let show = true;
-
-                        if (
-                            transactionValue !== 'all'
-                            &&
-                            transaction !== transactionValue
-                        ) {
+                        // =================================================
+                        // TRANSACTION TYPE
+                        // =================================================
+                        if (transactionValue !== 'all' && transaction !== transactionValue ) {
                             show = false;
                         }
-
-                        if (
-                            statusValue !== 'all'
-                            &&
-                            status !== statusValue
-                        ) {
+                        // =================================================
+                        // STATUS
+                        // =================================================
+                        if (show && statusValue !== 'all' && status !== statusValue) {
                             show = false;
                         }
-
-                        if (
-                            dateValue
-                            &&
-                            rowDate !== dateValue
-                        ) {
+                        // =================================================
+                        // DATE
+                        // =================================================
+                        if (show && dateValue && rowDate !== dateValue) {
                             show = false;
                         }
-
-                        row.style.display =
-                            show
-                            ? ''
-                            : 'none';
-
+                        // =================================================
+                        // SEARCH
+                        // =================================================
+                        if (show && searchValue && !rowText.includes(searchValue)) {
+                            show = false;
+                        }
+                        // =================================================
+                        // SHOW / HIDE MAIN ROW
+                        // =================================================
+                        row.style.display =show? '': 'none';
+                        // =================================================
+                        // ALWAYS CLOSE DETAILS WHEN FILTERING
+                        // =================================================
                         if (detailsRow) {
-
-                            detailsRow.style.display =
-                                'none';
+                            detailsRow.style.display ='none';
+                            const icon =row.querySelector('.toggle-btn i');
+                            if (icon) {
+                                icon.classList.remove('fa-chevron-up');
+                                icon.classList.add('fa-chevron-down');
+                            }
                         }
-
+                        // =================================================
+                        // COUNT
+                        // =================================================
                         if (show) {
                             visibleCount++;
                         }
                     });
-
-                    totalTransactions.textContent =
-                        visibleCount;
+                    // =====================================================
+                    // UPDATE COUNT
+                    // =====================================================
+                    totalTransactions.textContent =visibleCount;
                 }
 
             });
-            //search feature
-            $('#tableSearch').on('keyup', function () {
-
-                let search = $(this).val().toLowerCase();
-
-                $('.main-row').each(function () {
-
-                    let found = false;
-
-                    $(this).find('td').each(function () {
-
-                        if ($(this).text().toLowerCase().includes(search)) {
-                            found = true;
-                            return false;
-                        }
-
-                    });
-
-                    if (found) {
-                        $(this).show();
-                        // $(this).next('.child-row').show();
-                    } else {
-                        $(this).hide();
-                        $(this).next('.child-row').hide();
-                    }
-                });
-
-            });
-            $('#clearSearch').on('click', function () {
-                $('#tableSearch').val('').trigger('keyup').focus();
-            });
-            //search feature end
         </script>
         <!-- download logic -->
         <script>
-
             /*
             DOWNLOAD TABLE CSV
             */
