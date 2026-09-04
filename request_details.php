@@ -1007,6 +1007,9 @@ $vehicleOptions = [
 
             // GST
             const gstPercentage = <?= json_encode((float)($gst['gst'] ?? 0)) ?>;
+            // validity
+            const packValidity = <?= json_encode($validity) ?>;
+            
         </script>
         <script src="assets/js/requestDetails.js"></script>
         <script>

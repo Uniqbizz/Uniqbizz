@@ -1726,9 +1726,12 @@ $(document).ready(function () {
         today.getFullYear() + "-" +
         String(today.getMonth() + 1).padStart(2, "0") + "-" +
         String(today.getDate()).padStart(2, "0");
-
+    const maxDate = new Date(packValidity);
+    const formattedMaxDate = maxDate.toISOString().split('T')[0];
     // Prevent previous dates and next 2 days
     $('#travelStartDate').attr('min', minDate);
+    $('#travelStartDate').attr('max', formattedMaxDate);
+    // packValidity
 
     setupWalletInput(
         'referralWalletBalance',
