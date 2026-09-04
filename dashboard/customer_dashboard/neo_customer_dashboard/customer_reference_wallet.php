@@ -38,6 +38,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="<?= $base_url ?>assets/css/neo_select/customer_reference_wallet.css" />
         <link rel="stylesheet" href="<?= $base_url ?>assets/css/neo_select/customer_reference_modal.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     </head>
 
     <body class="twocolumn-panel">
@@ -229,7 +230,7 @@
                                             <tr>
                                                 <th>Date & Time</th>
                                                 <th>Description</th>
-                                                <th>Referred Customer</th>
+                                                <th>Referred Customer / Transaction Id</th>
                                                 <th>Trip Details</th>
                                                 <th>Pax</th>
                                                 <th>Per Pax Benefit</th>
@@ -290,17 +291,42 @@
             <!-- End of Customer Dashboard here -->
             <!-- ============================================================== -->
         </div>
-        <!--start back-to-top-->
-        <button onclick="topFunction()" class="scrollToTop scroll-btn show btn" id="back-to-top">
+        <!-- Referral Wallet Withdrawal -->
+        <button
+            type="button"
+            class="withdrawWalletBtn btn"
+            data-bs-toggle="modal"
+            data-bs-target="#withdrawWalletModal"
+            title="Withdraw Referral Wallet"
+        >
+            <i class="ri-wallet-3-line"></i>
+        </button>
+
+        <!-- Start back-to-top -->
+        <button
+            onclick="topFunction()"
+            class="scrollToTop scroll-btn show btn"
+            id="back-to-top"
+            title="Back to Top"
+        >
             <i class="ri-arrow-up-line"></i>
         </button>
-        <!--end back-to-top-->
-        <!-- contact card pop up  start-->
-        <button type="button" class="contactBtn btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        <!-- End back-to-top -->
+
+        <!-- Contact card pop up -->
+        <button
+            type="button"
+            class="contactBtn btn"
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop"
+            title="Contact Us"
+        >
             <i class="ri-phone-fill"></i>
         </button>
+        
         <?php include (__DIR__ .'/../../contact_modal.php') ?>
         <?= include 'customer_reference_modal.php' ?>
+        <?php include 'referral_wallet_withdraw_modal.php'; ?>
         <!-- contact card pop up end-->
 
         <!-- JAVASCRIPT -->
@@ -320,6 +346,7 @@
         <script src="<?= $base_url ?>assets/js/app.js"></script>
         <script src="<?= $base_url ?>assets/libs/chart.js/Chart-2.5.0.min.js"></script>
         <script src="<?= $base_url ?>assets/js/js-confetti.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
 
@@ -1030,5 +1057,345 @@
             });
         </script>
         <!-- Sidebar End -->
+        <script>
+            // =========================================================
+            // REFERRAL WALLET BALANCE
+            // =========================================================
+
+            let availableReferralBalance = <?= (float)$refWalletCurBalData['balance'] ?>;
+
+            // =========================================================
+            // SET WALLET BALANCE
+            // =========================================================
+
+            function setReferralWalletBalance(balance) {
+                availableReferralBalance = parseFloat(balance) || 0;
+                $('#availableReferralBalance').text(
+                    availableReferralBalance.toFixed(2)
+                );
+                $('#withdrawAvailableAmount').text(
+                    availableReferralBalance.toFixed(2)
+                );
+                $('#withdrawAmount').attr(
+                    'max',
+                    availableReferralBalance
+                );
+                // Revalidate current amount
+                $('#withdrawAmount').trigger('input');
+            }
+
+            // =========================================================
+            // MAX BUTTON
+            // =========================================================
+
+            $('#withdrawMaxBtn').on('click', function () {
+                if (availableReferralBalance <= 0) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'No Balance Available',
+                        text: 'You do not have any available referral balance to withdraw.',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+                $('#withdrawAmount')
+                    .val(availableReferralBalance.toFixed(2))
+                    .trigger('input');
+            });
+
+            // =========================================================
+            // AMOUNT VALIDATION
+            // =========================================================
+
+            $('#withdrawAmount').on('input', function () {
+                const amount = parseFloat($(this).val()) || 0;
+                const $error = $('#withdrawAmountError');
+                const $summary = $('#withdrawSummary');
+                const $submit = $('#submitWithdrawalBtn');
+
+                // Reset
+                $error
+                    .addClass('d-none')
+                    .text('');
+
+                $summary.addClass('d-none');
+                $submit.prop('disabled', true);
+
+                // -----------------------------------------------------
+                // EMPTY / ZERO
+                // -----------------------------------------------------
+
+                if (!$(this).val() || amount <= 0) {
+                    return;
+                }
+
+                // -----------------------------------------------------
+                // INVALID NUMBER
+                // -----------------------------------------------------
+
+                if (!isFinite(amount)) {
+                    $error
+                        .removeClass('d-none')
+                        .text('Please enter a valid withdrawal amount.');
+                    return;
+                }
+
+                // -----------------------------------------------------
+                // MORE THAN BALANCE
+                // -----------------------------------------------------
+
+                if (amount > availableReferralBalance) {
+                    $error
+                        .removeClass('d-none')
+                        .text(
+                            'Withdrawal amount cannot exceed your available balance of ₹' +
+                            availableReferralBalance.toFixed(2) +
+                            '.'
+                        );
+                    return;
+                }
+
+                // -----------------------------------------------------
+                // MINIMUM AMOUNT
+                // -----------------------------------------------------
+
+                const minimumWithdrawal = 1;
+                if (amount < minimumWithdrawal) {
+                    $error
+                        .removeClass('d-none')
+                        .text(
+                            'Minimum withdrawal amount is ₹' +
+                            minimumWithdrawal.toFixed(2) +
+                            '.'
+                        );
+                    return;
+                }
+
+                // -----------------------------------------------------
+                // REMAINING BALANCE
+                // -----------------------------------------------------
+
+                const remainingBalance =
+                    availableReferralBalance - amount;
+
+                // -----------------------------------------------------
+                // SUMMARY
+                // -----------------------------------------------------
+                $('#summaryWithdrawAmount').text(
+                     amount.toFixed(2)
+                );
+                $('#summaryRemainingBalance').text(
+                     remainingBalance.toFixed(2)
+                );
+                $summary.removeClass('d-none');
+
+                // -----------------------------------------------------
+                // ENABLE SUBMIT
+                // -----------------------------------------------------
+
+                $submit.prop('disabled', false);
+            });
+
+
+            // =========================================================
+            // MODAL RESET
+            // =========================================================
+
+            $('#withdrawWalletModal').on('show.bs.modal', function () {
+                $('#withdrawAmount').val('');
+                $('#withdrawAmountError')
+                    .addClass('d-none')
+                    .text('');
+                $('#withdrawSummary')
+                    .addClass('d-none');
+                $('#submitWithdrawalBtn')
+                    .prop('disabled', true);
+            });
+
+            // =========================================================
+            // SUBMIT WITHDRAWAL
+            // =========================================================
+
+            $('#submitWithdrawalBtn').on('click', function () {
+                const $button = $(this);
+                const amount =
+                    parseFloat($('#withdrawAmount').val()) || 0;
+
+                // -----------------------------------------------------
+                // CLIENT SIDE VALIDATION
+                // -----------------------------------------------------
+
+                if (amount <= 0) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Invalid Amount',
+                        text: 'Please enter a valid withdrawal amount.',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+
+
+                if (amount > availableReferralBalance) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Insufficient Balance',
+                        text:
+                            'Withdrawal amount cannot exceed your available balance of ₹' +
+                            availableReferralBalance.toFixed(2) +
+                            '.',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+
+                const minimumWithdrawal = 1;
+                if (amount < minimumWithdrawal) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Minimum Withdrawal',
+                        text:
+                            'Minimum withdrawal amount is ₹' +
+                            minimumWithdrawal.toFixed(2) +
+                            '.',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+
+
+                // -----------------------------------------------------
+                // CONFIRMATION
+                // -----------------------------------------------------
+
+                Swal.fire({
+                    icon: 'question',
+                    title: 'Confirm Withdrawal',
+                    html:
+                        'Are you sure you want to withdraw ' +
+                        '<strong>₹' + amount.toFixed(2) + '</strong>?' +
+                        '<br><br>' +
+                        'Remaining balance: ' +
+                        '<strong>₹' +
+                        (availableReferralBalance - amount).toFixed(2) +
+                        '</strong>',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, Withdraw',
+                    cancelButtonText: 'Cancel',
+                    reverseButtons: true
+
+                }).then(function (result) {
+                    if (!result.isConfirmed) {
+                        return;
+                    }
+
+                    // -------------------------------------------------
+                    // DISABLE BUTTON
+                    // -------------------------------------------------
+
+                    $button
+                        .prop('disabled', true)
+                        .html(
+                            '<span class="spinner-border spinner-border-sm me-2"></span>' +
+                            'Processing...'
+                        );
+
+                    // -------------------------------------------------
+                    // AJAX
+                    // -------------------------------------------------
+
+                    $.ajax({
+                        url: '../ajax/withdraw_referral_wallet.php',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            customer_id: '<?= $userId ?>',
+                            amount: amount
+                        },
+
+                        // ---------------------------------------------
+                        // SUCCESS
+                        // ---------------------------------------------
+
+                        success: function (response) {
+                            if (response.status === true) {
+                                // Update balance returned by PHP
+                                if (
+                                    response.balance !== undefined &&
+                                    response.balance !== null
+                                ) {
+                                    setReferralWalletBalance(
+                                        response.balance
+                                    );
+                                }
+
+                                // Close modal
+                                $('#withdrawWalletModal').modal('hide');
+
+                                // Success alert
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Withdrawal Submitted',
+                                    html:
+                                        response.message ||
+                                        'Your withdrawal request has been submitted successfully.',
+                                    confirmButtonText: 'OK'
+
+                                }).then(() => {
+                                    location.reload();
+                                });
+
+                                // Reset form
+                                $('#withdrawAmount').val('');
+                                $('#withdrawSummary')
+                                    .addClass('d-none');
+
+                            } else {
+
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Withdrawal Failed',
+                                    text:
+                                        response.message ||
+                                        'Unable to process your withdrawal request.',
+                                    confirmButtonText: 'OK'
+
+                                });
+                            }
+                        },
+
+                        // ---------------------------------------------
+                        // AJAX ERROR
+                        // ---------------------------------------------
+                        error: function (xhr, status, error) {
+                            console.error(
+                                'Withdrawal AJAX Error:',
+                                xhr.responseText
+                            );
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Something Went Wrong',
+                                text:
+                                    'Unable to process your withdrawal request. Please try again.',
+                                confirmButtonText: 'OK'
+
+                            });
+                        },
+
+                        // ---------------------------------------------
+                        // COMPLETE
+                        // ---------------------------------------------
+                        complete: function () {
+                            $button
+                                .prop('disabled', false)
+                                .html(
+                                    '<i class="ri-wallet-3-line me-1"></i> Withdraw'
+                                );
+                        }
+                    });
+                });
+            });
+        </script>
+
     </body>
 </html>

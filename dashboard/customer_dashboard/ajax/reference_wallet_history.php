@@ -10,76 +10,228 @@
         // MAIN QUERY
         // =========================================
 
+        // $sqlRefEntries = $conn->prepare("
+        //     SELECT 
+        //         ru.created_date,
+        //         CASE 
+        //             WHEN ru.used_on IS NULL 
+        //                 OR ru.used_on = ''
+        //             THEN ru.earned_on
+        //             ELSE ru.used_on
+        //         END AS message,
+        //         CASE 
+        //             WHEN ru.used_amount IS NULL
+        //             THEN ru.earned_amount
+        //             ELSE ru.used_amount
+        //         END AS amount,
+        //         ru.transaction_id AS enchased_id,
+        //         ru.balance,
+        //         CASE 
+        //             WHEN SUBSTRING(ru.transaction_id, 1, 2) = 'CU' THEN
+        //                 'Membership Activation Bonus'
+        //             WHEN SUBSTRING(ru.transaction_id, 1, 2) = 'WD' THEN
+        //                 'Withdrawal Request'
+        //             ELSE
+        //                 'Trip Completed Bonus'
+        //         END AS entry_type,
+        //         CASE 
+        //             WHEN SUBSTRING(ru.transaction_id, 1, 2) = 'CU' THEN
+        //                 (
+        //                     SELECT status 
+        //                     FROM customer_reference_payout 
+        //                     WHERE ru.transaction_id = refered_customer_id
+        //                     LIMIT 1
+        //                 )
+        //             WHEN SUBSTRING(ru.transaction_id, 1, 2) = 'WD' THEN
+        //                 (
+        //                     SELECT status 
+        //                     FROM customer_reference_wallet_encashed 
+        //                     WHERE ru.transaction_id = transaction_id
+        //                     LIMIT 1
+        //                 )
+        //             ELSE
+        //                 (
+        //                     SELECT cu1_status 
+        //                     FROM product_payout 
+        //                     WHERE ru.transaction_id = order_id
+        //                     LIMIT 1
+        //                 )
+        //         END AS status,
+        //         b.order_id,
+        //         b.customer_id AS booked_cust_id,
+        //         b.name AS booked_cust_name,
+        //         pg.name AS trip_name,
+        //         pg.destination AS trip_destination,
+        //         b.date AS trip_start_date,
+        //         DATE_ADD(
+        //             b.date,
+        //             INTERVAL pg.tour_days DAY
+        //         ) AS trip_end_date,
+        //         b.created_date AS booking_date,
+        //         b.id AS book_ref_id,
+        //         CONCAT(cu.firstname, ' ', cu.lastname) AS cust_name
+        //     FROM customer_reference_wallet_utilization ru
+        //     LEFT JOIN ca_customer cu
+        //         ON cu.ca_customer_id = ru.transaction_id
+        //         AND SUBSTRING(ru.transaction_id, 1, 2) = 'CU'
+        //     LEFT JOIN bookings b
+        //         ON ru.transaction_id = b.order_id
+        //     LEFT JOIN package pg
+        //         ON b.package_id = pg.id
+        //     WHERE ru.customer_id = :user_id
+        //     ORDER BY ru.created_date DESC
+
+        // ");
         $sqlRefEntries = $conn->prepare("
-            SELECT 
-                ru.created_date,
-                CASE 
-                    WHEN ru.used_on IS NULL 
-                        OR ru.used_on = ''
-                    THEN ru.earned_on
-                    ELSE ru.used_on
-                END AS message,
-                CASE 
-                    WHEN ru.used_amount IS NULL
-                    THEN ru.earned_amount
-                    ELSE ru.used_amount
-                END AS amount,
-                ru.transaction_id AS enchased_id,
-                ru.balance,
-                CASE 
-                    WHEN SUBSTRING(ru.transaction_id, 1, 2) = 'CU' THEN
-                        'Membership Activation Bonus'
-                    WHEN SUBSTRING(ru.transaction_id, 1, 2) = 'WD' THEN
-                        'Withdrawal Request'
-                    ELSE
-                        'Trip Completed Bonus'
-                END AS entry_type,
-                CASE 
-                    WHEN SUBSTRING(ru.transaction_id, 1, 2) = 'CU' THEN
-                        (
-                            SELECT status 
-                            FROM customer_reference_payout 
-                            WHERE ru.transaction_id = refered_customer_id
-                            LIMIT 1
-                        )
-                    WHEN SUBSTRING(ru.transaction_id, 1, 2) = 'WD' THEN
-                        (
-                            SELECT status 
-                            FROM customer_reference_wallet_encashed 
-                            WHERE ru.transaction_id = transaction_id
-                            LIMIT 1
-                        )
-                    ELSE
-                        (
-                            SELECT cu1_status 
-                            FROM product_payout 
-                            WHERE ru.transaction_id = order_id
-                            LIMIT 1
-                        )
-                END AS status,
-                b.order_id,
-                b.customer_id AS booked_cust_id,
-                b.name AS booked_cust_name,
-                pg.name AS trip_name,
-                pg.destination AS trip_destination,
-                b.date AS trip_start_date,
-                DATE_ADD(
-                    b.date,
-                    INTERVAL pg.tour_days DAY
-                ) AS trip_end_date,
-                b.created_date AS booking_date,
-                b.id AS book_ref_id,
-                CONCAT(cu.firstname, ' ', cu.lastname) AS cust_name
-            FROM customer_reference_wallet_utilization ru
-            LEFT JOIN ca_customer cu
-                ON cu.ca_customer_id = ru.transaction_id
-                AND SUBSTRING(ru.transaction_id, 1, 2) = 'CU'
-            LEFT JOIN bookings b
-                ON ru.transaction_id = b.order_id
-            LEFT JOIN package pg
-                ON b.package_id = pg.id
-            WHERE ru.customer_id = :user_id
-            ORDER BY ru.created_date DESC
+            (
+                SELECT 
+                    ru.created_date,
+
+                    CASE 
+                        WHEN ru.used_on IS NULL OR ru.used_on = ''
+                            THEN ru.earned_on
+                        ELSE ru.used_on
+                    END AS message,
+
+                    CASE 
+                        WHEN ru.used_amount IS NULL
+                            THEN ru.earned_amount
+                        ELSE ru.used_amount
+                    END AS amount,
+
+                    ru.transaction_id AS enchased_id,
+
+                    ru.balance,
+
+                    CASE 
+                        WHEN SUBSTRING(ru.transaction_id, 1, 2) = 'CU' THEN
+                            'Membership Activation Bonus'
+
+                        WHEN SUBSTRING(ru.transaction_id, 1, 2) = 'WD' THEN
+                            'Withdrawal Request'
+
+                        ELSE
+                            'Trip Completed Bonus'
+                    END AS entry_type,
+
+                    CASE 
+                        WHEN SUBSTRING(ru.transaction_id, 1, 2) = 'CU' THEN
+                            (
+                                SELECT crp.status
+                                FROM customer_reference_payout crp
+                                WHERE ru.transaction_id = crp.refered_customer_id
+                                LIMIT 1
+                            )
+
+                        WHEN SUBSTRING(ru.transaction_id, 1, 2) = 'WD' THEN
+                            (
+                                SELECT cre.status
+                                FROM customer_reference_wallet_encashed cre
+                                WHERE ru.transaction_id = cre.enchased_id
+                                LIMIT 1
+                            )
+
+                        ELSE
+                            (
+                                SELECT pp.cu1_status
+                                FROM product_payout pp
+                                WHERE ru.transaction_id = pp.order_id
+                                LIMIT 1
+                            )
+                    END AS status,
+
+                    b.order_id,
+                    b.customer_id AS booked_cust_id,
+                    b.name AS booked_cust_name,
+                    pg.name AS trip_name,
+                    pg.destination AS trip_destination,
+                    b.date AS trip_start_date,
+
+                    DATE_ADD(
+                        b.date,
+                        INTERVAL pg.tour_days DAY
+                    ) AS trip_end_date,
+
+                    b.created_date AS booking_date,
+                    b.id AS book_ref_id,
+
+                    CONCAT(cu.firstname, ' ', cu.lastname) AS cust_name
+
+                FROM customer_reference_wallet_utilization ru
+
+                LEFT JOIN ca_customer cu
+                    ON cu.ca_customer_id = ru.transaction_id
+                    AND SUBSTRING(ru.transaction_id, 1, 2) = 'CU'
+
+                LEFT JOIN bookings b
+                    ON ru.transaction_id = b.order_id
+
+                LEFT JOIN package pg
+                    ON b.package_id = pg.id
+
+                WHERE ru.customer_id = :user_id
+
+                -- IMPORTANT:
+                -- WD entries will come from encashed table instead
+                AND SUBSTRING(ru.transaction_id, 1, 2) <> 'WD'
+            )
+
+
+            UNION ALL
+
+
+            (
+                SELECT
+
+                    cre.created_date,
+
+                    cre.message,
+
+                    cre.encashed_amount AS amount,
+
+                    cre.enchased_id,
+
+                    /*
+                    * If the withdrawal is paid and exists in utilization,
+                    * use the utilization balance.
+                    *
+                    * Otherwise there is no utilization balance yet.
+                    */
+                    CASE
+                        WHEN cre.status = 1 THEN
+                            (
+                                SELECT ru.balance
+                                FROM customer_reference_wallet_utilization ru
+                                WHERE ru.transaction_id = cre.enchased_id
+                                AND ru.customer_id = cre.customer_id
+                                ORDER BY ru.created_date DESC
+                                LIMIT 1
+                            )
+                        ELSE
+                            NULL
+                    END AS balance,
+
+                    'Withdrawal Request' AS entry_type,
+
+                    cre.status AS status,
+
+                    NULL AS order_id,
+                    NULL AS booked_cust_id,
+                    NULL AS booked_cust_name,
+                    NULL AS trip_name,
+                    NULL AS trip_destination,
+                    NULL AS trip_start_date,
+                    NULL AS trip_end_date,
+                    NULL AS booking_date,
+                    NULL AS book_ref_id,
+                    NULL AS cust_name
+
+                FROM customer_reference_wallet_encashed cre
+
+                WHERE cre.customer_id = :user_id
+            )
+
+            ORDER BY created_date DESC
 
         ");
 
