@@ -1,0 +1,116 @@
+.rowAlignment {
+    display: flex;
+    justify-content: space-between;
+}
+.cardWidth {
+    width: 20%;
+}
+.cardHeight {
+    height: 94px;
+    justify-content: center;
+}
+.cardHover {
+    border-radius: 100%;
+    width: 50px !important;
+    height: 50px !important;
+    padding: 25px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cardHover1 {
+    background-color: #dbe6f8;
+    color: #0853e8;
+}
+.cardHover2 {
+    background-color: #f0e5d1;
+    color: #ffa500;
+}
+.cardHover3 {
+    background-color: #d5f7f7;
+    color: #06b8b8;
+}
+.cardHover4 {
+    background-color: #f5e6d8;
+    color: #ff7b00;
+}
+.cardHover5 {
+    background-color: #dbf8e2;
+    color: #06b638;
+}
+.fontSize12 {
+    font-size: 12px;
+}
+.dateRange {
+    border-radius: 14px !important;
+}
+.enquiryStatusBtn {
+    padding: 5px 10px;
+    border-radius: 6px;
+    text-align: center;
+    width: fit-content;
+}
+.enquiryStatusBtn1 {
+    border: 1px solid #0853e8;
+    background-color: #dbe6f8;
+    color: #0853e8;
+}
+.enquiryStatusBtn2 {
+    border: 1px solid #ffa500;
+    background-color: #f0e5d1;
+    color: #ffa500;
+}
+.enquiryStatusBtn3 {
+    border: 1px solid #06b8b8;
+    background-color: #d5f7f7;
+    color: #06b8b8;
+}
+.enquiryStatusBtn4 {
+    border: 1px solid #ff7b00;
+    background-color: #f5e6d8;
+    color: #ff7b00;
+}
+.enquiryStatusBtn5 {
+    border: 1px solid #06b638;
+    background-color: #dbf8e2;
+    color: #06b638;
+}
+.enquiryStatusBtn6 {
+    border: 1px solid #3d3d3d;
+    background-color: #cccecd;
+    color: #3d3d3d;
+}
+.enquiryEditBtn {
+    background-color: #030f5c;
+    color: #fff;
+    padding: 5px;
+    border-radius: 6px;
+    text-align: center;
+    cursor: pointer;
+}
+@media (max-width: 1199px) {
+    .rowAlignment {
+        display: flex;
+        justify-content: start;
+    }
+    .cardWidth {
+        width: 33%;
+    }
+}
+@media only screen and (max-width: 1180px) {
+    .dateRangeAlign {
+        display: flex !important;
+        justify-content: left !important;
+    }
+}
+@media (max-width: 767px) {
+    .cardWidth {
+        width: 50%;
+    }
+}
+@media (max-width: 500px) {
+    .cardWidth {
+        width: 100%;
+    }
+}

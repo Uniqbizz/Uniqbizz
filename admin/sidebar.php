@@ -183,6 +183,7 @@
                         </a>
                         <ul class="sub-menu" aria-expanded="true">
                             <li><a href="../packages/all_packages.php" class=" waves-effect"><i class="bx bxs-user-detail"></i><span key="t-contacts">Packages</span></a></li>
+                            <li><a href="../enquiries/enquiries.php" class=" waves-effect"><i class="bx bxs-user-detail"></i><span key="t-contacts">Enquiries</span></a></li>
                             <li><a href="../orders/order_history.php" class=" waves-effect"><i class="bx bxs-user-detail"></i><span key="t-contacts">Order History</span></a></li>
                             <li><a href="../package_markup/markup.php" class=" waves-effect"><i class="bx bxs-user-detail"></i><span key="t-contacts">Package Markup</span></a></li>
                             <li><a href="../amenities/manage_amenities.php" class=" waves-effect"><i class="bx bxs-user-detail"></i><span key="t-contacts">Amenities</span></a></li>
