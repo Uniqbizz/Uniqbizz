@@ -115,7 +115,7 @@
                                                             <option value="master_franchisee">Master Franchisee</option>
                                                             <option value="corporate_agency">Techno Enterprise</option>
                                                             <option value="sub_franchisee">Franchisee</option>
-                                                            <option value="institution">Institution</option>
+                                                            <option value="institutiontc">Institution</option>
                                                         </select>
                                                         <select id="designation2" class="form-select d-none">
                                                             <option value="" selected>--Select Designation--</option>
