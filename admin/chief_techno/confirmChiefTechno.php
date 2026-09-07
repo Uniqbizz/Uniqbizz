@@ -1,7 +1,7 @@
 <?php
 require "../connect.php";
 include('../../e-mail/phpmailer_smtp/smtp/PHPMailerAutoload.php'); // phpmailer smtp 
-include('../assets/submit/mail_trap_cred.php');
+include('../assets/submit/mail_trap_cred.php'); //mailtrap cred
 
 date_default_timezone_set('Asia/Calcutta'); //set default timeZone
 $todayYear = date('Y'); // year for Custom Id genaration
