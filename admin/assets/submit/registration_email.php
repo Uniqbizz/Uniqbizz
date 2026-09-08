@@ -28,7 +28,7 @@
             padding:0;
             width:100%;
             background-color:#f3f6f9;
-            font-family:Arial,Helvetica,sans-serif;
+            font-family: sans-serif;
             -webkit-text-size-adjust:100%;
             -ms-text-size-adjust:100%;
         ">
@@ -76,7 +76,7 @@
                             <td
                                 align="center"
                                 style="
-                                    background-color:#0b2742;
+                                    background-color:#1c3963;
                                     padding:42px 40px 40px 40px;
                                     text-align:center;
                                 "
@@ -98,7 +98,7 @@
                                         >
 
                                             <img
-                                                src="https://ca.uniqbizz.com/assets/images/bizz_logo.png"
+                                                src="https://ca.uniqbizz.com/assets/images/logos_bizzmirth_holidays.png"
                                                 alt="Bizzmirth Holidays"
                                                 width="190"
                                                 style="
@@ -116,34 +116,6 @@
                                         </td>
                                     </tr>
                                 </table>
-
-
-                                <!-- TAGLINE -->
-
-                                <table
-                                    width="100%"
-                                    cellpadding="0"
-                                    cellspacing="0"
-                                    border="0"
-                                    role="presentation"
-                                >
-                                    <tr>
-                                        <td
-                                            align="center"
-                                            style="
-                                                padding-top:6px;
-                                                color:#aebdca;
-                                                font-size:10px;
-                                                line-height:16px;
-                                                letter-spacing:2.5px;
-                                                text-transform:uppercase;
-                                            "
-                                        >
-                                            PVT. LTD.
-                                        </td>
-                                    </tr>
-                                </table>
-
 
                                 <!-- DIVIDER -->
 
@@ -340,7 +312,7 @@
                                         <td
                                             style="
                                                 padding:19px 22px;
-                                                background-color:#0b2742;
+                                                background-color:#1c3963;
                                             "
                                         >
 
@@ -496,7 +468,7 @@
                                                                         background-color:#ffffff;
                                                                         border:1px solid #dce3e9;
                                                                         color:#263b4d;
-                                                                        font-family:Courier New,Courier,monospace;
+                                                                        font-family: sans-serif;
                                                                         font-size:13px;
                                                                         line-height:18px;
                                                                         font-weight:600;
@@ -555,7 +527,7 @@
                                                                         background-color:#ffffff;
                                                                         border:1px solid #dce3e9;
                                                                         color:#263b4d;
-                                                                        font-family:Courier New,Courier,monospace;
+                                                                        font-family: sans-serif;
                                                                         font-size:13px;
                                                                         line-height:18px;
                                                                         font-weight:600;
@@ -707,7 +679,7 @@
                                                 <w:anchorlock/>
                                                 <center style="
                                                     color:#102b43;
-                                                    font-family:Arial,sans-serif;
+                                                    font-family: sans-serif;
                                                     font-size:14px;
                                                     font-weight:bold;
                                                 ">
@@ -726,7 +698,7 @@
                                                     background-color:#f5b72f;
                                                     border:1px solid #e4a91f;
                                                     color:#102b43;
-                                                    font-family:Arial,Helvetica,sans-serif;
+                                                    font-family: sans-serif;
                                                     font-size:14px;
                                                     line-height:20px;
                                                     font-weight:700;
@@ -918,10 +890,44 @@
                                 align="center"
                                 style="
                                     padding:30px 35px;
-                                    background-color:#0b2742;
+                                    background-color:#1c3963;
                                     text-align:center;
                                 "
                             >
+                            	<!-- LOGO -->
+
+                                <table
+                                    width="100%"
+                                    cellpadding="0"
+                                    cellspacing="0"
+                                    border="0"
+                                    role="presentation"
+                                >
+                                    <tr>
+                                        <td
+                                            align="center"
+                                            style="text-align:center;"
+                                        >
+
+                                            <img
+                                                src="https://ca.uniqbizz.com/assets/images/logos_Uniqbizz.png"
+                                                alt="Bizzmirth Holidays"
+                                                width="190"
+                                                style="
+                                                    display:block;
+                                                    width:190px;
+                                                    max-width:190px;
+                                                    height:auto;
+                                                    margin:0 auto;
+                                                    border:0;
+                                                    outline:none;
+                                                    text-decoration:none;
+                                                "
+                                            >
+
+                                        </td>
+                                    </tr>
+                                </table>
 
                                 <table
                                     width="100%"
