@@ -18,7 +18,7 @@ try {
 
     $sqlUserDetails = $conn->prepare("
         SELECT
-            12 AS total_documents,
+            6 AS total_documents,
             (
                 CASE WHEN ste.profile_pic IS NOT NULL AND ste.profile_pic <> '' THEN 1 ELSE 0 END +
                 CASE WHEN ste.aadhar_card IS NOT NULL AND ste.aadhar_card <> '' THEN 1 ELSE 0 END +
