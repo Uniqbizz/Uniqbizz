@@ -2502,8 +2502,10 @@ if ($result) {
 					//level2
 					//for redeemable amount
 					$referral_message = "{$level2['name']} (ID: {$level2['id']}) has earned Rs.500 as a Level 2 referrer for referring {$referred_name} (ID: {$referred_customer_id}) through {$level1['name']} (ID: {$level1['id']}).";
-					$sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
-									VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 0)";
+					$sqlCustRef = "INSERT INTO customer_extended_wallet (customer_id, customer_type, refered_customer_id, 
+									refered_customer_type, referral_level, earn_amount, earn_message, status) 
+								   VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, 
+									:referral_level, :earn_amount, :earn_message, 0)";
 					$stmtCustRef2 = $conn->prepare($sqlCustRef);
 					$stmtCustRef2->execute([
 						':customer_id' => $level2['id'],
@@ -2511,8 +2513,8 @@ if ($result) {
 						':refered_customer_id' => $referred_customer_id,
 						':refered_customer_type' => $referred_type,
 						':referral_level' => 'Level2',
-						':referral_amount' => 500,
-						':referral_message' => $referral_message
+						':earn_amount' => 500,
+						':earn_message' => $referral_message
 					]);
 					
 					
@@ -2524,7 +2526,7 @@ if ($result) {
 					// -------- 1. Wallet Balance Entry --------
 
 					// Get last wallet balance
-					$wallet_balance_check_sql = "SELECT balance FROM customer_reference_wallet_utilization 
+					$wallet_balance_check_sql = "SELECT balance FROM customer_extended_wallet_utilization 
 												WHERE customer_id = :customer_id 
 												ORDER BY id DESC LIMIT 1";
 					$wallet_balance_check_stmt = $conn->prepare($wallet_balance_check_sql);
@@ -2536,8 +2538,8 @@ if ($result) {
 						: $credit_amount;
 
 					// Insert into wallet utilization
-					$wallet_insert_sql = "INSERT INTO customer_reference_wallet_utilization 
-						(transaction_id, customer_id, earned_amount,earned_on, balance) 
+					$wallet_insert_sql = "INSERT INTO customer_extended_wallet_utilization 
+						(transaction_id, customer_id, earn_amount,earned_on, balance) 
 						VALUES (:transaction_id, :customer_id, :credit_amount,:earned_on, :balance)";
 					$wallet_insert_stmt = $conn->prepare($wallet_insert_sql);
 
