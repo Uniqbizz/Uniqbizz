@@ -99,132 +99,410 @@
                                                     <tbody>
                                                         <?php
                                                             require '../connect.php';
-                                                            
-                                                            $stmt = $conn->prepare("SELECT * FROM login WHERE (user_type_id ='10' || user_type_id ='11' || user_type_id ='16' || user_type_id ='24' || user_type_id ='25' || user_type_id ='26' || user_type_id ='27' || user_type_id ='28' || user_type_id ='29' || user_type_id ='30' || user_type_id ='31' || user_type_id ='32'|| user_type_id ='33' || user_type_id ='34' || user_type_id ='35' || user_type_id ='36')  AND status='1'");
-                                                            $stmt->execute();
-                                                            $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                                            $firstname='';
-                                                            $lastneam='';
-                                                            if($stmt->rowCount()>0){
-                                                                foreach (($stmt->fetchAll()) as $key => $row) {
-                                                                    // $quotation_id =$row['id'];
-                                                                    $username= $row['username'];
-                                                                    $password= $row['password'];
-                                                                    $userId= $row['user_id'];
-                                                                    $userType= $row['user_type_id'];
+                                                            /*
+                                                            |--------------------------------------------------------------------------
+                                                            | GET LOGIN USERS
+                                                            |--------------------------------------------------------------------------
+                                                            */
+                                                            $stmt = $conn->prepare("
+                                                                SELECT *
+                                                                FROM login
+                                                                WHERE user_type_id IN (
+                                                                    10, 11, 16, 24, 25, 26, 27, 28,
+                                                                    29, 30, 31, 32, 33, 34, 35, 36
+                                                                )
+                                                                AND status = '1'
+                                                            ");
 
-                                                                    // //get users
-                                                                    //customer
-                                                                    if ( $userType == 10 ) {
-                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM ca_customer where ca_customer_id='".$userId."' AND status='1'  ");
+                                                            $stmt->execute();
+                                                            $allUsers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                                            /*
+                                                            |--------------------------------------------------------------------------
+                                                            | CHECK IF LOGIN USERS EXIST
+                                                            |--------------------------------------------------------------------------
+                                                            */
+                                                            if (count($allUsers) > 0) {
+                                                                /*
+                                                                |--------------------------------------------------------------------------
+                                                                | DISPLAY COUNTER
+                                                                |--------------------------------------------------------------------------
+                                                                | Do not use $key + 1 because invalid users are skipped.
+                                                                |--------------------------------------------------------------------------
+                                                                */
+                                                                $serialNo = 1;
+                                                                foreach ($allUsers as $row) {
+                                                                    /*
+                                                                    |--------------------------------------------------------------------------
+                                                                    | RESET VARIABLES FOR EVERY LOOP
+                                                                    |--------------------------------------------------------------------------
+                                                                    */
+                                                                    $firstname  = '';
+                                                                    $lastname   = '';
+                                                                    $name       = 'Unknown';
+                                                                    $userExists = false;
+                                                                    $users      = null;
+                                                                    /*
+                                                                    |--------------------------------------------------------------------------
+                                                                    | LOGIN DETAILS
+                                                                    |--------------------------------------------------------------------------
+                                                                    */
+                                                                    $username = $row['username'];
+                                                                    $password = $row['password'];
+                                                                    $userId   = $row['user_id'];
+                                                                    $userType = $row['user_type_id'];
+                                                                    /*
+                                                                    |--------------------------------------------------------------------------
+                                                                    | GET USER FROM RESPECTIVE TABLE
+                                                                    |--------------------------------------------------------------------------
+                                                                    */
+                                                                    // CUSTOMER
+                                                                    if ($userType == 10) {
+                                                                        $users = $conn->prepare("
+                                                                            SELECT firstname, lastname
+                                                                            FROM ca_customer
+                                                                            WHERE ca_customer_id = ?
+                                                                            AND status = '1'
+                                                                        ");
+                                                                        $users->execute([$userId]);
                                                                     }
-                                                                    //Travel consultant 
-                                                                    else if ( $userType == 11 ) {
-                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM ca_travelagency where ca_travelagency_id='".$userId."' AND status='1'  ");
+                                                                    // TRAVEL CONSULTANT
+                                                                    else if ($userType == 11) {
+                                                                        $users = $conn->prepare("
+                                                                            SELECT firstname, lastname
+                                                                            FROM ca_travelagency
+                                                                            WHERE ca_travelagency_id = ?
+                                                                            AND status = '1'
+                                                                        ");
+                                                                        $users->execute([$userId]);
                                                                     }
-                                                                    //Techno Enterprise
-                                                                     else if ( $userType == 16 ) {
-                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM corporate_agency where corporate_agency_id='".$userId."' AND status='1' ");
-                                                                    } 
-                                                                    //BCM/BCH
-                                                                    else if ( $userType == 24 ) {
-                                                                        $users = $conn->prepare("SELECT name FROM employees where employee_id='".$userId."' AND user_type = '24' AND status='1'  ");
-                                                                    } 
-                                                                    //BDM
-                                                                    else if ( $userType == 25 ) {
-                                                                        $users = $conn->prepare("SELECT name FROM employees where employee_id='".$userId."' AND user_type = '25' AND status='1' ");
-                                                                    } 
-                                                                    //BM
-                                                                    else if ( $userType == 26 ) {
-                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM business_mentor where business_mentor_id='".$userId."' AND status='1' ");
-                                                                    } 
-                                                                    //ZM
-                                                                    else if ( $userType == 27 ) {
-                                                                        $users = $conn->prepare("SELECT name FROM zonal_manager where zonal_manager_id='".$userId."' AND status='1' ");
-                                                                    } 
-                                                                    //MF
-                                                                    else if ( $userType == 28 ) {
-                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM master_franchisee where master_franchisee_id='".$userId."' AND status='1' ");
+                                                                    // TECHNO ENTERPRISE
+                                                                    else if ($userType == 16) {
+                                                                        $users = $conn->prepare("
+                                                                            SELECT firstname, lastname
+                                                                            FROM corporate_agency
+                                                                            WHERE corporate_agency_id = ?
+                                                                            AND status = '1'
+                                                                        ");
+                                                                        $users->execute([$userId]);
                                                                     }
-                                                                    //Franchisee 
-                                                                    else if ( $userType == 29 ) {
-                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM sub_franchisee where sub_franchisee_id='".$userId."' AND status='1' ");
-                                                                    }  
-                                                                    //SF
-                                                                    else if ( $userType == 30 ) {
-                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM sponsor_franchisee where sponsor_franchisee_id='".$userId."' AND status='1' ");
+                                                                    // BCM / BCH
+                                                                    else if ($userType == 24) {
+                                                                        $users = $conn->prepare("
+                                                                            SELECT name
+                                                                            FROM employees
+                                                                            WHERE employee_id = ?
+                                                                            AND user_type = '24'
+                                                                            AND status = '1'
+                                                                        ");
+                                                                        $users->execute([$userId]);
                                                                     }
-                                                                    //I
-                                                                    else if ( $userType == 32 ) {
-                                                                        $users = $conn->prepare("SELECT name FROM institution where institution_id='".$userId."' AND status='1' ");
+                                                                    // BDM
+                                                                    else if ($userType == 25) {
+                                                                        $users = $conn->prepare("
+                                                                            SELECT name
+                                                                            FROM employees
+                                                                            WHERE employee_id = ?
+                                                                            AND user_type = '25'
+                                                                            AND status = '1'
+                                                                        ");
+                                                                        $users->execute([$userId]);
                                                                     }
-                                                                    //IBR
-                                                                    else if ( $userType == 33 ) {
-                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM institution_branch_manager where institution_branch_manager_id='".$userId."' AND status='1' ");
+                                                                    // BUSINESS MENTOR
+                                                                    else if ($userType == 26) {
+                                                                        $users = $conn->prepare("
+                                                                            SELECT firstname, lastname
+                                                                            FROM business_mentor
+                                                                            WHERE business_mentor_id = ?
+                                                                            AND status = '1'
+                                                                        ");
+                                                                        $users->execute([$userId]);
                                                                     }
-                                                                    //RM
-                                                                    else if ( $userType == 31 ) {
-                                                                        $users = $conn->prepare("SELECT name FROM employees where employee_id='".$userId."' AND user_type = '31' AND status='1'");
-                                                                    } 
-                                                                    //CTE
-                                                                    else if ( $userType == 36 ) {
-                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM chief_techno_enterprise where chief_techno_enterprise_id='".$userId."' AND user_type = '36' AND status='1'");
+                                                                    // ZONAL MANAGER
+                                                                    else if ($userType == 27) {
+                                                                        $users = $conn->prepare("
+                                                                            SELECT name
+                                                                            FROM zonal_manager
+                                                                            WHERE zonal_manager_id = ?
+                                                                            AND status = '1'
+                                                                        ");
+                                                                        $users->execute([$userId]);
                                                                     }
-                                                                    //ETE
-                                                                    else if ( $userType == 34 ) {
-                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM executive_techno_enterprise where executive_techno_enterprise_id='".$userId."' AND user_type = '34' AND status='1'");
+                                                                    // MASTER FRANCHISEE
+                                                                    else if ($userType == 28) {
+                                                                        $users = $conn->prepare("
+                                                                            SELECT firstname, lastname
+                                                                            FROM master_franchisee
+                                                                            WHERE master_franchisee_id = ?
+                                                                            AND status = '1'
+                                                                        ");
+                                                                        $users->execute([$userId]);
                                                                     }
-                                                                    //STE
-                                                                    else if ( $userType == 35 ) {
-                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM super_techno_enterprise where super_techno_enterprise_id='".$userId."' AND user_type = '35' AND status='1'");
+                                                                    // FRANCHISEE
+                                                                    else if ($userType == 29) {
+                                                                        $users = $conn->prepare("
+                                                                            SELECT firstname, lastname
+                                                                            FROM sub_franchisee
+                                                                            WHERE sub_franchisee_id = ?
+                                                                            AND status = '1'
+                                                                        ");
+                                                                        $users->execute([$userId]);
                                                                     }
-                                                                    $users->execute();
-                                                                    $users->setFetchMode(PDO::FETCH_ASSOC);
-                                                                    if($users->rowCount()>0){
-                                                                        $user = $users->fetch();
-                                                                        if($userType == 24 || $userType == 25 || $userType == 27 || $userType == 31 || $userType == 32){
-                                                                            $firstname = $user['name'] ;
-                                                                            $lastneam =  '';
-                                                                        } else{
-                                                                            $firstname = $user['firstname'] ;
-                                                                            $lastneam =  $user['lastname'];
-                                                                        }
+                                                                    // SPONSOR FRANCHISEE
+                                                                    else if ($userType == 30) {
+                                                                        $users = $conn->prepare("
+                                                                            SELECT firstname, lastname
+                                                                            FROM sponsor_franchisee
+                                                                            WHERE sponsor_franchisee_id = ?
+                                                                            AND status = '1'
+                                                                        ");
+                                                                        $users->execute([$userId]);
                                                                     }
-                                                                    
-                                                                    //get user type
-                                                                    $users_types = $conn->prepare("SELECT name FROM user_type where id='".$userType."' AND status='1' ");
-                                                                    $users_types->execute();
-                                                                    $users_types->setFetchMode(PDO::FETCH_ASSOC);
-                                                                    if($users_types->rowCount()>0){
-                                                                        $users_type = $users_types->fetch();
+                                                                    // REGIONAL MANAGER
+                                                                    else if ($userType == 31) {
+                                                                        $users = $conn->prepare("
+                                                                            SELECT name
+                                                                            FROM employees
+                                                                            WHERE employee_id = ?
+                                                                            AND user_type = '31'
+                                                                            AND status = '1'
+                                                                        ");
+                                                                        $users->execute([$userId]);
+                                                                    }
+                                                                    // INSTITUTION
+                                                                    else if ($userType == 32) {
+                                                                        $users = $conn->prepare("
+                                                                            SELECT name
+                                                                            FROM institution
+                                                                            WHERE institution_id = ?
+                                                                            AND status = '1'
+                                                                        ");
+                                                                        $users->execute([$userId]);
+                                                                    }
+                                                                    // INSTITUTION BRANCH MANAGER
+                                                                    else if ($userType == 33) {
+                                                                        $users = $conn->prepare("
+                                                                            SELECT firstname, lastname
+                                                                            FROM institution_branch_manager
+                                                                            WHERE institution_branch_manager_id = ?
+                                                                            AND status = '1'
+                                                                        ");
+                                                                        $users->execute([$userId]);
+                                                                    }
+                                                                    // EXECUTIVE TECHNO ENTERPRISE
+                                                                    else if ($userType == 34) {
+                                                                        $users = $conn->prepare("
+                                                                            SELECT firstname, lastname
+                                                                            FROM executive_techno_enterprise
+                                                                            WHERE executive_techno_enterprise_id = ?
+                                                                            AND user_type = '34'
+                                                                            AND status = '1'
+                                                                        ");
+                                                                        $users->execute([$userId]);
+                                                                    }
+                                                                    // SUPER TECHNO ENTERPRISE
+                                                                    else if ($userType == 35) {
+
+                                                                        $users = $conn->prepare("
+                                                                            SELECT firstname, lastname
+                                                                            FROM super_techno_enterprise
+                                                                            WHERE super_techno_enterprise_id = ?
+                                                                            AND user_type = '35'
+                                                                            AND status = '1'
+                                                                        ");
+
+                                                                        $users->execute([$userId]);
+                                                                    }
+                                                                    // CHIEF TECHNO ENTERPRISE
+                                                                    else if ($userType == 36) {
+                                                                        $users = $conn->prepare("
+                                                                            SELECT firstname, lastname
+                                                                            FROM chief_techno_enterprise
+                                                                            WHERE chief_techno_enterprise_id = ?
+                                                                            AND user_type = '36'
+                                                                            AND status = '1'
+                                                                        ");
+
+                                                                        $users->execute([$userId]);
+                                                                    }
+                                                                    /*
+                                                                    |--------------------------------------------------------------------------
+                                                                    | CHECK USER EXISTS
+                                                                    |--------------------------------------------------------------------------
+                                                                    |
+                                                                    | IMPORTANT:
+                                                                    | If login.user_id does not exist in the respective table,
+                                                                    | skip this login record completely.
+                                                                    |--------------------------------------------------------------------------
+                                                                    */
+                                                                    if ($users === null) {
+                                                                        continue;
+                                                                    }
+
+                                                                    $user = $users->fetch(PDO::FETCH_ASSOC);
+                                                                    /*
+                                                                    |--------------------------------------------------------------------------
+                                                                    | USER NOT FOUND
+                                                                    |--------------------------------------------------------------------------
+                                                                    |
+                                                                    | Do not display the login record.
+                                                                    |--------------------------------------------------------------------------
+                                                                    */
+                                                                    if (!$user) {
+                                                                        continue;
+                                                                    }
+                                                                    /*
+                                                                    |--------------------------------------------------------------------------
+                                                                    | USER EXISTS
+                                                                    |--------------------------------------------------------------------------
+                                                                    */
+                                                                    $userExists = true;
+                                                                    /*
+                                                                    |--------------------------------------------------------------------------
+                                                                    | GET USER NAME
+                                                                    |--------------------------------------------------------------------------
+                                                                    */
+                                                                    // Tables having only "name"
+                                                                    if (
+                                                                        $userType == 24 ||
+                                                                        $userType == 25 ||
+                                                                        $userType == 27 ||
+                                                                        $userType == 31 ||
+                                                                        $userType == 32
+                                                                    ) {
+                                                                        $firstname = $user['name'] ?? '';
+                                                                        $lastname  = '';
+                                                                    } else {
+
+                                                                        $firstname = $user['firstname'] ?? '';
+                                                                        $lastname  = $user['lastname'] ?? '';
+                                                                    }
+                                                                    /*
+                                                                    |--------------------------------------------------------------------------
+                                                                    | GET USER TYPE NAME
+                                                                    |--------------------------------------------------------------------------
+                                                                    */
+                                                                    $users_types = $conn->prepare("
+                                                                        SELECT name
+                                                                        FROM user_type
+                                                                        WHERE id = ?
+                                                                        AND status = '1'
+                                                                    ");
+                                                                    $users_types->execute([$userType]);
+                                                                    $users_type = $users_types->fetch(PDO::FETCH_ASSOC);
+                                                                    if ($users_type) {
                                                                         $name = $users_type['name'];
                                                                     }
-
-                                                                    echo '<tr>
-                                                                            <td style="text-align: center;">'.++$key.'</td>
-                                                                            <td>'. $name.' </td>
-                                                                            <td>'.$firstname.' '.$lastneam.' </td>
-                                                                            <td>'.$username.' </td>
-                                                                            <td>'.$password.' </td>';
-                                                                            if($row['status']==1){
-                                                                            echo '<td style="text-align: center;"><span class="badge text-bg-success">Active</span> </td>';
-                                                                            }else if($row['status']==3){
-                                                                                echo '<td style="text-align: center;"><span class="badge text-bg-warning">Inactive</span> </td>';
-                                                                            }else{
-                                                                                echo '<td style="text-align: center;"><span class="badge text-bg-danger">Delete</span> </td>';
-                                                                            }
-                                                                            
+                                                                    /*
+                                                                    |--------------------------------------------------------------------------
+                                                                    | DISPLAY USER
+                                                                    |--------------------------------------------------------------------------
+                                                                    |
+                                                                    | Since invalid users were already skipped above,
+                                                                    | every row displayed here is a valid user.
+                                                                    |--------------------------------------------------------------------------
+                                                                    */
+                                                                    echo '<tr>';
+                                                                    /*
+                                                                    |--------------------------------------------------------------------------
+                                                                    | SERIAL NUMBER
+                                                                    |--------------------------------------------------------------------------
+                                                                    */
+                                                                    echo '
+                                                                        <td style="text-align:center;">
+                                                                            ' . $serialNo . '
+                                                                        </td>
+                                                                    ';
+                                                                    /*
+                                                                    |--------------------------------------------------------------------------
+                                                                    | USER TYPE
+                                                                    |--------------------------------------------------------------------------
+                                                                    */
+                                                                    echo '
+                                                                        <td>
+                                                                            ' . htmlspecialchars($name) . '
+                                                                        </td>
+                                                                    ';
+                                                                    /*
+                                                                    |--------------------------------------------------------------------------
+                                                                    | USER NAME
+                                                                    |--------------------------------------------------------------------------
+                                                                    */
+                                                                    echo '
+                                                                        <td>
+                                                                            ' . htmlspecialchars(
+                                                                                trim($firstname . ' ' . $lastname)
+                                                                            ) . '
+                                                                        </td>
+                                                                    ';
+                                                                    /*
+                                                                    |--------------------------------------------------------------------------
+                                                                    | USERNAME
+                                                                    |--------------------------------------------------------------------------
+                                                                    */
+                                                                    echo '
+                                                                        <td>
+                                                                            ' . htmlspecialchars($username) . '
+                                                                        </td>
+                                                                    ';
+                                                                    /*
+                                                                    |--------------------------------------------------------------------------
+                                                                    | PASSWORD
+                                                                    |--------------------------------------------------------------------------
+                                                                    */
+                                                                    echo '
+                                                                        <td>
+                                                                            ' . htmlspecialchars($password) . '
+                                                                        </td>
+                                                                    ';
+                                                                    /*
+                                                                    |--------------------------------------------------------------------------
+                                                                    | LOGIN STATUS
+                                                                    |--------------------------------------------------------------------------
+                                                                    */
+                                                                    echo '<td style="text-align:center;">';
+                                                                    if ($row['status'] == 1) {
+                                                                        echo '
+                                                                            <span class="badge text-bg-success">
+                                                                                Active
+                                                                            </span>
+                                                                        ';
+                                                                    } else if ($row['status'] == 3) {
+                                                                        echo '
+                                                                            <span class="badge text-bg-warning">
+                                                                                Inactive
+                                                                            </span>
+                                                                        ';
+                                                                    } else {
+                                                                        echo '
+                                                                            <span class="badge text-bg-danger">
+                                                                                Delete
+                                                                            </span>
+                                                                        ';
+                                                                    }
+                                                                    echo '</td>';
                                                                     echo '</tr>';
-
-                                                                } 
+                                                                    /*
+                                                                    |--------------------------------------------------------------------------
+                                                                    | INCREMENT SERIAL NUMBER
+                                                                    |--------------------------------------------------------------------------
+                                                                    */
+                                                                    $serialNo++;
+                                                                }
+                                                            } else {
+                                                                /*
+                                                                |--------------------------------------------------------------------------
+                                                                | NO LOGIN USERS
+                                                                |--------------------------------------------------------------------------
+                                                                */
+                                                                echo '
+                                                                    <tr>
+                                                                        <td style="text-align:center;" colspan="6">
+                                                                            No Users Found
+                                                                        </td>
+                                                                    </tr>
+                                                                ';
                                                             }
-                                                            else
-                                                            {
-                                                                echo '<tr>
-                                                                        <td style="text-align:center;" colspan="8">No Users Found</td>
-                                                                    <tr>';
-                                                            }
-                                                        ?>   
+                                                        ?>
 
                                                     </tbody>
                                                 </table>
