@@ -1,6 +1,7 @@
 <?php
 require "../connect.php";
-include('../../e-mail/phpmailer_smtp/smtp/PHPMailerAutoload.php');
+include('../../e-mail/phpmailer_smtp/smtp/PHPMailerAutoload.php'); // phpmailer smtp 
+include('../assets/submit/mail_trap_cred.php'); //mailtrap cred
 
 date_default_timezone_set('Asia/Calcutta'); //set default timeZone
 $todayYear = date('Y'); // year for Custom Id genaration
@@ -553,229 +554,16 @@ if ($user_type_id == '32') { //institution
 
 				//email
 				$fromEmail = 'support@uniqbizz.com';
-				$toEmail = $uname;
-				$subjectName = 'Login Details';
-				$to = $toEmail;
-				$subject = $subjectName;
-				$message3 = '
-					<!DOCTYPE html>
-						<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
-						<head>
-							<meta charset="UTF-8">
-							<meta name="viewport" content="width=device-width, initial-scale=1.0">
-							<meta name="x-apple-disable-message-reformatting">
-							<title>Welcome Email</title>
+				$to = $uname; //$uname contains email of user which is now registering 
+				$subject = 'Login Credentials - Bizzmirth Holidays Pvt ltd';
+				$userTypeName = 'Institution';
+				
+				// html design for registration email 
+				include('../assets/submit/registration_email.php');
+				
+				// php mailer structure
+				include('../assets/submit/php_mailer_structure.php');
 
-							<!--[if mso]>
-								<noscript>
-									<xml>
-										<o:OfficeDocumentSettings>
-										<o:PixelsPerInch>96</o:PixelsPerInch>
-										</o:OfficeDocumentSettings>
-									</xml>
-								</noscript>
-							<![endif]-->
-
-							<style>
-								body{
-									margin:0;
-									padding:0;
-									background:#f5f5f5;
-									font-family:Arial,Helvetica,sans-serif;
-								}
-								table{
-									border-collapse:collapse;
-								}
-								.container{
-									width:650px;
-									max-width:650px;
-									margin:20px auto;
-									background:#ffffff;
-									border:1px solid #e5e5e5;
-								}
-								.content{
-									padding:35px;
-									color:#333333;
-									font-size:15px;
-									line-height:24px;
-								}
-								.heading{
-									font-size:28px;
-									font-weight:bold;
-									color:#1f2937;
-								}
-								.subtext{
-									color:#555;
-								}
-								.credential-box{
-									background:#fafafa;
-									border:1px solid #e6e6e6;
-									border-radius:8px;
-									padding:20px;
-								}
-								.credential-box ul{
-									padding-left:20px;
-									margin:10px 0;
-								}
-								.credential-box li{
-									margin-bottom:14px;
-								}
-								hr{
-									border:none;
-									border-top:1px solid #dddddd;
-									margin:30px 0;
-								}
-								.footer{
-									color:#555;
-								}
-								.label{
-									font-weight:bold;
-								}
-								.link{
-									color:#0d6efd;
-									text-decoration:none;
-								}
-								.logo{
-									text-align:center;
-									padding-top:25px;
-								}
-
-								@media only screen and (max-width:680px){
-									.container{
-										width:100% !important;
-									}
-									.content{
-										padding:20px !important;
-									}
-								}
-							</style>
-						</head>
-
-						<body>
-
-							<table width="100%" bgcolor="#f5f5f5">
-								<tr>
-									<td align="center">
-
-										<table class="container" cellpadding="0" cellspacing="0">
-
-											<tr>
-												<td class="content">
-
-													<p><strong>Dear '. $name .',</strong></p>
-
-													<p class="subtext">
-													Greetings from <strong>Bizzmirth Holidays Pvt. Ltd.</strong>
-													🌍✈️
-													</p>
-
-													<p>
-													We’re delighted to welcome you as <strong>'. $name .'</strong>.
-													Your onboarding marks the beginning of a promising collaboration,
-													and we look forward to building success together.
-													</p>
-
-													<br>
-
-													<div class="credential-box">
-
-														<p style="margin-top:0;">
-														🔐 <strong>Your Access Credentials:</strong>
-														</p>
-
-														<ul>
-
-														<li>
-														🌐
-														<span class="label">Portal URL:</span>
-														<a href="https://ca.uniqbizz.com" class="link">
-														https://ca.uniqbizz.com
-														</a>
-														</li>
-
-														<li>
-														🆔
-														<span class="label">Login ID:</span>
-														' . $uname . '
-														</li>
-
-														<li>
-														🔑
-														<span class="label">Password:</span>
-														' . $password . '
-														</li>
-
-														<li>
-														👉
-														<span class="label">Login As:</span>
-														Institution
-														</li>
-
-														</ul>
-
-													</div>
-
-													<hr>
-
-													<h3 style="margin-bottom:10px;">📞 Need Help?</h3>
-
-													<p>
-													Our Support Team is always available to assist you at every step.
-													Feel free to reach out for training, assistance, or business guidance.
-													</p>
-
-													<hr>
-
-													<p class="footer">
-													Thank you for choosing to be part of the
-													<strong>Bizzmirth Holidays</strong> family.
-													Let’s work together to deliver memorable travel experiences
-													to customers across the globe.
-													</p>
-
-													<p style="margin-top:35px;">
-													<strong>Warm regards,</strong><br>
-													<strong>Team Bizzmirth Holidays Pvt. Ltd.</strong><br>
-													<em>In association with UNIQBIZZ</em>
-													</p>
-
-												</td>
-											</tr>
-
-										</table>
-
-									</td>
-								</tr>
-							</table>
-
-						</body>
-					</html>
-				';
-				$mail = new PHPMailer(); 
-				$mail->IsSMTP(); 
-				$mail->SMTPAuth = true; 
-				$mail->SMTPSecure = 'tls'; 
-				$mail->Host = "mail.uniqbizz.com";
-				$mail->Port = 587; 
-				$mail->IsHTML(true);
-				$mail->CharSet = 'UTF-8';
-				// $mail->SMTPDebug = 2; 
-				$mail->Username = "support@uniqbizz.com";
-				$mail->Password = "NCaB6f^jkm^~";
-				$mail->SetFrom("support@uniqbizz.com");
-				$mail->Subject = $subject;
-				$mail->Body =$message3;
-				$mail->AddAddress($to);
-				$mail->SMTPOptions=array('ssl'=>array(
-					'verify_peer'=>false,
-					'verify_peer_name'=>false,
-					'allow_self_signed'=>false
-				));
-				if (!$mail->Send()) {
-					echo $mail->ErrorInfo;
-				} else {
-					echo 1;
-				}
 			} else {
 				echo 0;
 			}
