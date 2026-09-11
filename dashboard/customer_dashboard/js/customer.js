@@ -1227,23 +1227,16 @@ async function loadPin(cityID) {
 
 }
 async function initializeCustomer() {
-
+    console.log("id:"+id)
+    console.log("edittype: 10")
     const res = await ajaxPromise({
-
         url: "customer/edit_cu_load_data.php",
-
-        type: "GET",
-
+        type: "POST",
         dataType: "json",
-
         data: {
-
             id: id,
-
             edittype: 10
-
         }
-
     });
 
     if (!res.status) {

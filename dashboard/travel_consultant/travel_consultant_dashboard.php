@@ -148,7 +148,7 @@
                                                         <p class="mb-0 fs-5 fw-bolder" id="trip_amount">&#8377; 6,000</p>
                                                     </div>
                                                 </div>
-                                                <a href="#" class="text-decoration-none text-reset">
+                                                <a href="product_payout.php" class="text-decoration-none text-reset">
                                                     <div class="earnedBtn fw-bolder">
                                                         View Commission <i class="fa-solid fa-arrow-right"></i>
                                                     </div>
@@ -184,7 +184,7 @@
                                             Recent Neo Select Customers
                                         </p>
                                         <p class="viewLink">
-                                            <a href="#">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <a href="customers_list.php">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </p>
                                     </div>
                                     <div class="cardDetails table-responsive">
@@ -299,7 +299,7 @@
                                     Recent Bookings from Customers
                                 </p>
                                 <p class="viewLink">
-                                    <a href="#">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                    <a href="order_history.php">View All <i class="fa-solid fa-arrow-right"></i></a>
                                 </p>
                             </div>
                             <div class="cardDetails table-responsive">
@@ -328,9 +328,9 @@
                                         <p class="commission-title fs-5 mb-0">
                                             Recent Activities
                                         </p>
-                                        <!-- <a href="#" class="fs-6 fw-bold">
+                                        <a href="recent_activities.php" class="fs-6 fw-bold">
                                             View All
-                                        </a> -->
+                                        </a>
                                     </div>
                                     <div class="cardDetails" id="recentActivities">
                                         <!-- kept the code for future  scope -->
@@ -1419,7 +1419,7 @@
 
                                             </div>
 
-                                            <p class="text-muted mb-0 align-content-center text-nowrap">
+                                            <p class="text-muted mb-0 align-content-center text-nowrap text-end">
                                                 ${activityTime}
                                             </p>
 
@@ -1468,32 +1468,56 @@
                     const activityDate = new Date(dateString);
                     const now = new Date();
 
-                    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-                    const activityDay = new Date(activityDate.getFullYear(), activityDate.getMonth(), activityDate.getDate());
+                    const today = new Date(
+                        now.getFullYear(),
+                        now.getMonth(),
+                        now.getDate()
+                    );
 
-                    const diffDays = Math.floor((today - activityDay) / (1000 * 60 * 60 * 24));
+                    const activityDay = new Date(
+                        activityDate.getFullYear(),
+                        activityDate.getMonth(),
+                        activityDate.getDate()
+                    );
 
-                    if (diffDays === 0) {
+                    const diffDays = Math.floor(
+                        (today - activityDay) / (1000 * 60 * 60 * 24)
+                    );
 
-                        return activityDate.toLocaleTimeString('en-IN', {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            hour12: true
-                        });
-
-                    }
-
-                    if (diffDays === 1) {
-
-                        return 'Yesterday';
-
-                    }
-
-                    return activityDate.toLocaleDateString('en-IN', {
-                        day: '2-digit',
-                        month: 'short'
+                    const time = activityDate.toLocaleTimeString('en-IN', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: true
                     });
 
+                    if (diffDays === 0) {
+                        return `Today<br><small>${time}</small>`;
+                    }
+
+                    if (
+                        diffDays === 1 &&
+                        activityDate.getFullYear() === now.getFullYear()
+                    ) {
+                        return `Yesterday<br><small>${time}</small>`;
+                    }
+
+                    if (activityDate.getFullYear() === now.getFullYear()) {
+
+                        const date = activityDate.toLocaleDateString('en-IN', {
+                            day: '2-digit',
+                            month: 'short'
+                        });
+
+                        return `${date}<br><small>${time}</small>`;
+                    }
+
+                    const date = activityDate.toLocaleDateString('en-IN', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric'
+                    });
+
+                    return `${date}<br><small>${time}</small>`;
                 }
 
 

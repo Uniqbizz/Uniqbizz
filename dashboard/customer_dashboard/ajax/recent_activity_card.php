@@ -3,12 +3,10 @@
     $coupon_card_type = $_POST['card_type'];
     header('Content-Type: application/json');
     if($coupon_card_type == 'pcw'){
-
         /*
         GET USED ENTRIES FIRST
         */
         $sqlUsedCoupons = $conn->prepare("
-
             SELECT
                 cu.transaction_id,
                 COUNT(c.code) AS coupon_count,
@@ -18,52 +16,37 @@
                 MAX(cu.used_on) AS used_on,
                 c.user_id,
                 1 AS usage_status
-
             FROM cu_coupons c
-
             INNER JOIN coupon_utilization cu
                 ON c.code = cu.coupon_code
-
             WHERE c.user_id = :user_id
             AND c.usage_status = 1
-
             GROUP BY
                 cu.transaction_id,
                 c.user_id
-
             ORDER BY MAX(c.used_date) DESC
-
             LIMIT 3
         ");
-
         $sqlUsedCoupons->execute([
             ":user_id" => $userId
         ]);
-
         $usedCoupons = $sqlUsedCoupons->fetchAll(PDO::FETCH_ASSOC);
-
-
         /*
         TOTAL COUPON DATA
         */
         $sqlCouponTotal = $conn->prepare("
-
             SELECT
-
                 COUNT(*) AS total_coupon_count,
-
                 COALESCE(
                     SUM(coupon_amt),
                     0
                 ) AS total_coupon_amount,
-
                 COUNT(
                     CASE
                         WHEN usage_status = 1
                         THEN 1
                     END
                 ) AS used_coupon_count,
-
                 COALESCE(
                     SUM(
                         CASE
@@ -73,98 +56,68 @@
                         END
                     ),
                     0
-                ) AS used_coupon_amount
-
+                ) AS used_coupon_amount, 
+                DATE(created_date) as created_date
             FROM cu_coupons
-
             WHERE user_id = :user_id
+            GROUP BY DATE(created_date)
         ");
-
         $sqlCouponTotal->execute([
             ":user_id" => $userId
         ]);
-
         $couponTotals = $sqlCouponTotal->fetch(PDO::FETCH_ASSOC);
-
-
         /*
         FINAL ARRAY
         */
         $allCoupons = [];
-
         foreach ($usedCoupons as $coupon) {
-
             $coupon['entry_type'] = 'used_coupon';
-
             $allCoupons[] = $coupon;
         }
-
-
         /*
         IF LESS THAN 3 ENTRIES
         ADD MEMBERSHIP ENTRY
         */
         if (count($allCoupons) < 3) {
-
             $allCoupons[] = [
-
                 "transaction_id" => null,
-
                 "coupon_count" =>
                     $couponTotals['total_coupon_count'],
-
                 "coupon_amt" =>
                     $couponTotals['total_coupon_amount'],
-
                 "usage_status" => 0,
-
                 "created_date" =>
                     !empty($usedCoupons)
-                        ? $usedCoupons[0]['created_date']
-                        : date("Y-m-d H:i:s"),
-
+                        ? $usedCoupons[0]['used_on']
+                        : $couponTotals['created_date'],
                 "used_date" => null,
-
                 "user_id" => $userId,
-
                 "used_on" => null,
-
                 "entry_type" => "membership_activation",
-
                 "code" => "MEMBERSHIP"
             ];
         }
-
         $allCoupons = array_slice($allCoupons, 0, 3);
-
-
         /*
         FINAL RESPONSE
         */
         echo json_encode([
-
             "status" => true,
-
             "data" => [
-
                 "all_coupons" => $allCoupons,
-
                 "total_coupon_amount" =>
                     $couponTotals['total_coupon_amount'],
-
                 "used_coupon_amount" =>
                     $couponTotals['used_coupon_amount']
             ]
         ]);
     }elseif ($coupon_card_type == 'lcw') {
-
         /*
         GET LATEST COUPONS
         USED + UNUSED
         EACH COUPON IS A SEPARATE ENTRY
         */
         $sqlCoupons = $conn->prepare("
-
             SELECT
                 c.code,
                 c.coupon_amt,
@@ -175,14 +128,10 @@
                 cu.used_on,
                 cu.transaction_id,
                 1 AS coupon_count
-
             FROM loyalty_coupon c
-
             LEFT JOIN loyalty_coupon_utilization cu
                 ON c.code = cu.coupon_code
-
             WHERE c.user_id = :user_id
-
             ORDER BY
                 CASE
                     WHEN c.usage_status = 1 THEN c.used_date
@@ -191,76 +140,50 @@
 
             LIMIT 3
         ");
-
         $sqlCoupons->execute([
             ":user_id" => $userId
         ]);
-
         $coupons = $sqlCoupons->fetchAll(PDO::FETCH_ASSOC);
-
-
         /*
         FINAL ARRAY
         */
         $allCoupons = [];
-
-
         /*
         FORMAT ENTRIES
         */
         foreach ($coupons as $coupon) {
-
             $coupon['entry_type'] =
                 ($coupon['usage_status'] == 1)
                 ? 'used_coupon'
                 : 'credited';
-
             $allCoupons[] = $coupon;
         }
-
-
         /*
         IF TOTAL ENTRIES ARE LESS THAN 3
         FILL REMAINING WITH PLACEHOLDER
         */
         if ($allCoupons) {
             while (count($allCoupons) < 3) {
-    
                 $allCoupons[] = [
-    
                     "code" => "Credited",
-    
                     "coupon_amt" => null,
-    
                     "usage_status" => 0,
-    
                     "created_date" => date("Y-m-d H:i:s"),
-    
                     "used_date" => null,
-    
                     "user_id" => $userId,
-    
                     "used_on" => null,
-    
                     "transaction_id" => null,
-    
                     "coupon_count" => 1,
-    
                     "entry_type" => "credited"
                 ];
             }
         }
-
-
         /*
         FINAL RESPONSE
         */
         echo json_encode([
-
             "status" => true,
-
             "data" => [
-
                 "all_coupons" => $allCoupons
             ]
         ]);
