@@ -161,7 +161,25 @@
 
                                     <div class="profileScetion">
                                         <div class="profilePic">
-                                            <img src="uploading/<?= $_SESSION['profile_pic'] ?>" alt="">
+                                            <!-- <img src="uploading/<?= $_SESSION['profile_pic'] ?>" alt=""> -->
+                                                <?php if (!empty($_SESSION['profile_pic'])): ?>
+
+                                                <img
+                                                    src="uploading/<?= $_SESSION['profile_pic'] ?>"
+                                                    class="user-avatar-SVZ"
+                                                    alt=""
+                                                >
+
+                                            <?php else: ?>
+
+                                                <div
+                                                    class="user-avatar-SVZ initials-avatar-SVZ"
+                                                    style="background-color: <?= htmlspecialchars($_SESSION['avatar_color']) ?>"
+                                                >
+                                                    <?= htmlspecialchars($_SESSION['initials']) ?>
+                                                </div>
+
+                                            <?php endif; ?>
                                         </div>
 
                                         <div class="dropdown alignContent">
@@ -350,13 +368,14 @@
                                                         }
                                                     }
                                                 ?>
-
-                                                <li class="d-flex">
-                                                    <i class="ri-calendar-line align-content-center stickyTextBlack"></i>
-                                                    <a class="dropdown-item stickyTextBlack" href="<?php echo $dashboardFolder; ?>/order_history.php">
-                                                        My Bookings
-                                                    </a>
-                                                </li>
+                                                <?php if (in_array($userType,[10,11,16,29])) {?>
+                                                    <li class="d-flex">
+                                                        <i class="ri-calendar-line align-content-center stickyTextBlack"></i>
+                                                        <a class="dropdown-item stickyTextBlack" href="<?php echo $dashboardFolder; ?>/order_history.php">
+                                                            My Bookings
+                                                        </a>
+                                                    </li>
+                                                <?php } ?>
 
                                                 <li class="d-flex">
                                                     <i class="ri-user-line align-content-center stickyTextBlack"></i>
@@ -414,8 +433,26 @@
                         <?php if(isset($_SESSION['username2'])): ?>
 
                             <div class="dropdown">
-                                <div class="profilePic mobileProfile" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="uploading/<?= $_SESSION['profile_pic'] ?>" alt="">
+                                <div class="profilePic mobileProfile1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <!-- <img src="uploading/<?= $_SESSION['profile_pic'] ?>" alt=""> -->
+                                    <?php if (!empty($_SESSION['profile_pic'])): ?>
+
+                                        <img
+                                            src="uploading/<?= htmlspecialchars($_SESSION['profile_pic']) ?>"
+                                            class="user-avatar"
+                                            alt=""
+                                        >
+
+                                    <?php else: ?>
+
+                                        <div
+                                            class="user-avatar initials-avatar"
+                                            style="background-color: <?= htmlspecialchars($_SESSION['avatar_color']) ?>;"
+                                        >
+                                            <?= htmlspecialchars($_SESSION['initials']) ?>
+                                        </div>
+
+                                    <?php endif; ?>
                                 </div>
 
                                 <ul class="dropdown-menu dropdown-menu-end px-3">
@@ -597,13 +634,14 @@
                                             }
                                         }
                                     ?>
-
-                                    <li class="d-flex">
-                                        <i class="ri-calendar-line align-content-center stickyTextBlack"></i>
-                                        <a class="dropdown-item stickyTextBlack" href="<?php echo $dashboardFolder; ?>/order_history.php">
-                                            My Bookings
-                                        </a>
-                                    </li>
+                                    <?php if (in_array($userType,[10,11,16,29])) {?>
+                                        <li class="d-flex">
+                                            <i class="ri-calendar-line align-content-center stickyTextBlack"></i>
+                                            <a class="dropdown-item stickyTextBlack" href="<?php echo $dashboardFolder; ?>/order_history.php">
+                                                My Bookings
+                                            </a>
+                                        </li>
+                                    <?php } ?>
 
                                     <li class="d-flex">
                                         <i class="ri-user-line align-content-center stickyTextBlack"></i>

@@ -28,7 +28,7 @@
             AND st.status IN (1,3)
             AND ete.status IN (1,3)
             ORDER BY ca.register_date DESC
-            LIMIT 2
+            
         ");
 
         $sqlTE->execute([
@@ -62,7 +62,7 @@
             AND i.status IN (1,3)
             AND ete.status IN (1,3)
             ORDER BY i.register_date DESC
-            LIMIT 2
+            
         ");
 
         $sqlF->execute([
@@ -101,7 +101,7 @@
             WHERE ete.reference_no = :user_id
             AND cu.status IN (1,3)
             ORDER BY cu.register_date DESC
-            LIMIT 2
+            
         ");
 
         $sqlCU->execute([
@@ -131,7 +131,7 @@
             FROM techno_enterprise_payout
             WHERE cte_id = :user_id
             ORDER BY created_date DESC
-            LIMIT 2
+            
         ");
 
         $sqlRecruitment->execute([
@@ -160,7 +160,7 @@
             FROM ca_cu_payout
             WHERE cte_id = :user_id
             ORDER BY created_date DESC
-            LIMIT 2
+            
         ");
 
         $sqlCRecruitment->execute([
@@ -170,7 +170,7 @@
         foreach($sqlCRecruitment->fetchAll(PDO::FETCH_ASSOC) as $row){
 
             $activities[] = [
-                'type' => 'customer',
+                'type' => 'customer_comm',
                 'title' => 'Holiday Account Commission Credited',
                 'description' => '+ ₹ '.number_format($row['commission_cte']),
                 'date' => $row['created_date']
@@ -189,7 +189,7 @@
             FROM institution_payout
             WHERE employees = :user_id
             ORDER BY created_date DESC
-            LIMIT 2
+            
         ");
 
         $sqlFRecruitment->execute([
@@ -218,7 +218,7 @@
             FROM product_payout
             WHERE bch_id = :user_id
             ORDER BY created_date DESC
-            LIMIT 2
+            
         ");
 
         $sqlBooking->execute([
@@ -244,8 +244,6 @@
         usort($activities, function ($a, $b) {
             return strtotime($b['date']) <=> strtotime($a['date']);
         });
-
-        $activities = array_slice($activities, 0, 5);
 
         echo json_encode([
             'status' => true,

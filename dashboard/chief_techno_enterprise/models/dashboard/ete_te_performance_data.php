@@ -74,8 +74,7 @@
 
                 GROUP BY
                     ca.institution_id,
-                    ca.firstname,
-                    ca.lastname
+                    ca.name
 
             ) AS combined
 
