@@ -1,0 +1,61 @@
+<?php
+
+    include_once(__DIR__.'/../../../dashboard_user_details.php');
+
+    header('Content-Type: application/json');
+
+    try {
+
+        $sql = $conn->prepare("
+            SELECT
+                sf.id,
+                sf.name AS firstname,
+                '' AS lastname,
+                sf.contact_no,
+                sf.email,
+                sf.added_on AS register_date,
+                sf.status,
+                sf.user_type,
+                'I' AS userTypeStr,
+
+                ste.firstname AS ref_firstname,
+                ste.lastname AS ref_lastname,
+                ste.executive_techno_enterprise_id AS reference_id,
+
+                'institution' AS source_table
+
+            FROM institution sf
+
+            INNER JOIN executive_techno_enterprise ste
+                ON sf.reference_no = ste.executive_techno_enterprise_id
+
+            WHERE sf.reference_no = :user_id
+            AND sf.status IN (2,4)
+            AND ste.status IN (1,3)
+
+            ORDER BY id DESC;
+        ");
+
+        $sql->execute([
+            ':user_id' => $userId
+        ]);
+
+        $data = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode([
+            'status' => true,
+            'message' => 'Data fetched successfully',
+            'data' => $data
+        ]);
+
+    } catch (Exception $e) {
+
+        echo json_encode([
+            'status' => false,
+            'message' => $e->getMessage(),
+            'data' => []
+        ]);
+    }
+
+    exit;
+?>

@@ -123,7 +123,10 @@
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">TE | I</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="teCount">0</h4>
-                                            <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <div class="d-flex justify-content-between">
+                                                <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">View All TE<i class="fa-solid fa-arrow-right"></i></a>
+                                                <a href="institution_list.php" class="mb-1 fs-6 fw-bold ms-4">View All I<i class="fa-solid fa-arrow-right"></i></a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
