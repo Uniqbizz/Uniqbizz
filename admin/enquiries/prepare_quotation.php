@@ -25,8 +25,8 @@ $date = date('Y');
         <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
         <!-- Css-->
         <link href="../assets/css/loadingScreen.css" id="app-style" rel="stylesheet" type="text/css" />
-        <!-- Enquiries Css-->
-        <link href="../assets/css/enquiries.css" id="app-style" rel="stylesheet" type="text/css" />
+        <!-- Prepare Quotation Css-->
+        <link href="../assets/css/prepareQuotation.css" id="app-style" rel="stylesheet" type="text/css" />
         <!-- App js -->
         <!-- <script src="assets/js/plugin.js"></script> -->
         <!-- DataTables -->
@@ -59,11 +59,27 @@ $date = date('Y');
                     <div class="container-fluid">
                         <!-- start page title -->
                         <div class="row">
-                            <div class="col-12">
-                                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                            <div class="col-9">
+                                <div class="page-title-box">
                                     <h4 class="mb-sm-0 font-size-18">Prepare Quotation</h4>
+                                    <p class="fontSize12">Review customer request, customize the package and prepare the best quotation.</p>
                                 </div>
                             </div>
+                            <div class="col-3 d-flex justify-content-end gap-3">
+                                <div class="shareLinksBtn">
+                                    <i class="fa-regular fa-envelope"></i>
+                                </div>
+                                <div class="shareLinksBtn">
+                                    <i class="fa-brands fa-whatsapp"></i>
+                                </div>
+                                <div class="shareLinksBtn">
+                                    <i class="fa-solid fa-print"></i>
+                                </div>
+                                <div class="shareLinksBtn2">
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                </div>
+                            </div>
+
                         </div>
                         <!-- end page title -->
                         <div class="row rowAlignment">
