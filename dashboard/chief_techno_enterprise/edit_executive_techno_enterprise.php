@@ -2,7 +2,7 @@
     include_once (__DIR__.'/../dashboard_user_details.php');
     $id = $_POST['id'] ?? '';
     $status = $_POST['status'] ?? '';
-    $edittype = $_POST['tc_type'] ?? '';
+    $edittype = $_POST['edittype'] ?? '';
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -1493,7 +1493,7 @@
                 const edittype = '<?= $edittype ?>';
                 $.ajax({
                     url: 'models/executive_techno_enterprise/edit_te_load_data.php',
-                    type: 'GET',
+                    type: 'POST',
                     data: {
                         id: id,
                         edittype: edittype

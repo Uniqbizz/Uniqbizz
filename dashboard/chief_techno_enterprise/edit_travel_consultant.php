@@ -873,7 +873,7 @@
                 const edittype = '<?= $edittype ?>';
                 const res = await ajaxPromise({
                     url: "models/travel_consultant/edit_tc_load_data.php",
-                    type: "GET",
+                    type: "POST",
                     data: {
                         id: id,
                         edittype: edittype

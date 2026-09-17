@@ -3,8 +3,8 @@
 
     header('Content-Type: application/json');
 
-    $id = $_GET['id'] ?? '';
-    $edittype = $_GET['edittype'] ?? '';
+    $id = $_POST['id'] ?? '';
+    $edittype = $_POST['edittype'] ?? '';
 
     if (empty($id) || empty($edittype)) {
         echo json_encode([

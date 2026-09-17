@@ -1143,7 +1143,7 @@ async function initializeCustomer() {
 
         url: "models/customer/edit_cu_load_data.php",
 
-        type: "GET",
+        type: "POST",
 
         dataType: "json",
 
