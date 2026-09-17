@@ -282,10 +282,9 @@
                                         <p class="commission-title fs-5 mb-0">
                                             Recent Activities
                                         </p>
-                                        <!-- 
-                                        <a href="#" class="fs-6 fw-bold">
+                                        <a href="recent_activities.php" class="fs-6 fw-bold">
                                             View All
-                                        </a> -->
+                                        </a>
 
                                     </div>
 
@@ -1300,13 +1299,7 @@
 
                             }
 
-                            let activityTime = new Date(row.date).toLocaleTimeString(
-                                'en-IN',
-                                {
-                                    hour: '2-digit',
-                                    minute: '2-digit'
-                                }
-                            );
+                            let activityTime = formatActivityTime(row.date);
 
                             html += `
                                 <div class="d-flex justify-content-between mb-3">
@@ -1358,6 +1351,132 @@
 
                     }
                 });
+            }
+            /*
+            |--------------------------------------------------------------------------
+            | Format Time
+            |--------------------------------------------------------------------------
+            */
+            function formatActivityTime(dateString) {
+
+                if (!dateString) {
+                    return 'Invalid Date';
+                }
+
+                // Convert to string and remove any accidental whitespace
+                dateString = String(dateString).trim();
+
+                /*
+                |--------------------------------------------------------------------------
+                | Parse MySQL DATETIME manually
+                | Expected format:
+                | YYYY-MM-DD HH:mm:ss
+                |--------------------------------------------------------------------------
+                */
+
+                const match = dateString.match(
+                    /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2}):(\d{2})$/
+                );
+
+                if (!match) {
+                    console.log('Invalid date format received:', dateString);
+                    return 'Invalid Date';
+                }
+
+                const year = parseInt(match[1], 10);
+                const month = parseInt(match[2], 10) - 1; // JS months are 0-11
+                const day = parseInt(match[3], 10);
+                const hour = parseInt(match[4], 10);
+                const minute = parseInt(match[5], 10);
+                const second = parseInt(match[6], 10);
+
+                const activityDate = new Date(
+                    year,
+                    month,
+                    day,
+                    hour,
+                    minute,
+                    second
+                );
+
+                // Extra validation
+                if (isNaN(activityDate.getTime())) {
+                    console.log('Could not create date:', dateString);
+                    return 'Invalid Date';
+                }
+
+                const now = new Date();
+
+                const today = new Date(
+                    now.getFullYear(),
+                    now.getMonth(),
+                    now.getDate()
+                );
+
+                const activityDay = new Date(
+                    activityDate.getFullYear(),
+                    activityDate.getMonth(),
+                    activityDate.getDate()
+                );
+
+                const diffDays = Math.floor(
+                    (today - activityDay) / (1000 * 60 * 60 * 24)
+                );
+
+                const time = activityDate.toLocaleTimeString('en-IN', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                });
+
+                /*
+                |--------------------------------------------------------------------------
+                | Today
+                |--------------------------------------------------------------------------
+                */
+                if (diffDays === 0) {
+                    return `Today<br><small>${time}</small>`;
+                }
+
+                /*
+                |--------------------------------------------------------------------------
+                | Yesterday
+                |--------------------------------------------------------------------------
+                */
+                if (
+                    diffDays === 1 &&
+                    activityDate.getFullYear() === now.getFullYear()
+                ) {
+                    return `Yesterday<br><small>${time}</small>`;
+                }
+
+                /*
+                |--------------------------------------------------------------------------
+                | Same Year
+                |--------------------------------------------------------------------------
+                */
+                if (activityDate.getFullYear() === now.getFullYear()) {
+
+                    const date = activityDate.toLocaleDateString('en-IN', {
+                        day: '2-digit',
+                        month: 'short'
+                    });
+
+                    return `${date}<br><small>${time}</small>`;
+                }
+
+                /*
+                |--------------------------------------------------------------------------
+                | Previous Years
+                |--------------------------------------------------------------------------
+                */
+                const date = activityDate.toLocaleDateString('en-IN', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                });
+
+                return `${date}<br><small>${time}</small>`;
             }
             $(document).on(
                 'change',
