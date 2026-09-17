@@ -599,12 +599,11 @@ try {
         // ========================================================
 
         $action = '
-            <div
-                class="enquiryEditBtn"
-                data-request-id="' . $requestId . '"
-            >
-                Edit
-            </div>
+            <a href="prepare_quotation.php">
+                <div class="enquiryEditBtn" data-request-id="' . $requestId . '">
+                    Edit
+                </div>
+            </a>
         ';
         $isGuestUser = (
             $row['userId'] === null ||
