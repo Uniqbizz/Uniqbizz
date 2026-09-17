@@ -25,7 +25,7 @@
                 /* Recruitment Commission */
                 (
                     (
-                        SELECT COALESCE(SUM(ete_amount),0)
+                        SELECT COALESCE(SUM(cte_amount),0)
                         FROM techno_enterprise_payout
                         WHERE cte_id = :user_id
                         AND MONTH(created_date)=:current_month
@@ -83,7 +83,7 @@
 
                 (
                     (
-                        SELECT COALESCE(SUM(ete_amount),0)
+                        SELECT COALESCE(SUM(cte_amount),0)
                         FROM techno_enterprise_payout
                         WHERE cte_id = :user_id
                         AND MONTH(created_date)=:prev_month

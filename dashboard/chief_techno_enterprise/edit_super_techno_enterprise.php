@@ -1298,7 +1298,7 @@
 
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
-        <script src="js/executive_techno_enterprise.js"></script>
+        <script src="js/super_techno_enterprise.js"></script>
         <script src="../../uploading/uploadTechnoDashboard.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!-- dialer logic scripts -->
@@ -1493,8 +1493,8 @@
                 const id = '<?= $id ?>';
                 const edittype = '<?= $edittype ?>';
                 $.ajax({
-                    url: 'models/executive_techno_enterprise/edit_te_load_data.php',
-                    type: 'GET',
+                    url: 'models/super_techno_enterprise/edit_te_load_data.php',
+                    type: 'POST',
                     data: {
                         id: id,
                         edittype: edittype

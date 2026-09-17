@@ -455,7 +455,7 @@ if($userType = "institution"){
 
      if($stmt2->rowCount()>0){
         foreach (($stmt2->fetchAll()) as $key => $row2) {
-        	echo $row2['firstname'].' '.$row2['lastname'];
+        	echo $row2['name'];
         	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
         	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
             

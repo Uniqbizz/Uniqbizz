@@ -1,6 +1,7 @@
 <?php
 require "../connect.php";
-include('../../e-mail/phpmailer_smtp/smtp/PHPMailerAutoload.php');
+include('../../e-mail/phpmailer_smtp/smtp/PHPMailerAutoload.php'); // phpmailer smtp
+include('../assets/submit/mail_trap_cred.php'); //mailtrap cred
 
 date_default_timezone_set('Asia/Calcutta'); //set default timeZone
 $todayYear = date('Y'); // year for Custom Id genaration
@@ -818,8 +819,8 @@ if ($result) {
 					// DEBUG OUTPUT
 
 				}
-				$insertCALSql = "INSERT INTO `ca_cu_payout` (business_development_manager, message_bdm, commision_bdm,business_mentor, message_bm, commision_bm, techno_enterprise, message_te, commision_te, travel_consultant, message_tc, commision_tc, customer, message_cu, cu_amount_paid, status) 
-								VALUES (:business_development_manager, :message_bdm, :commision_bdm,:business_mentor, :message_bm, :commision_bm,  :techno_enterprise, :message_te, :commision_te, :travel_consultant, :message_tc, :commision_tc, :customer, :message_cu, :cu_amount_paid, :status) ";
+				$insertCALSql = "INSERT INTO `ca_cu_payout` (cte_id,message_cte,commision_cte,business_development_manager, message_bdm, commision_bdm,business_mentor, message_bm, commision_bm, techno_enterprise, message_te, commision_te, travel_consultant, message_tc, commision_tc, customer, message_cu, cu_amount_paid, status) 
+								VALUES (:cte_id,:message_cte,:commision_cte,:business_development_manager, :message_bdm, :commision_bdm,:business_mentor, :message_bm, :commision_bm,  :techno_enterprise, :message_te, :commision_te, :travel_consultant, :message_tc, :commision_tc, :customer, :message_cu, :cu_amount_paid, :status) ";
 				$insertCAL = $conn -> prepare($insertCALSql);
 				$result4 = $insertCAL -> execute(array(
 		
@@ -2461,73 +2462,11 @@ if ($result) {
 						':referral_message' => $referral_message
 					]);
 
-					//for booking points
-					// $booking_message = "{$level1['name']} (ID: {$level1['id']}) has gained 500 booking points for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
-					// $sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, booking_points, booking_message, status) 
-					// 							VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :booking_points, :booking_message, 3)";
-					// $stmtCustRef = $conn->prepare($sqlCustRef);
-					// $stmtCustRef->execute([
-					// 	':customer_id' => $level1['id'],
-					// 	':customer_type' => $level1['customer_type'],
-					// 	':refered_customer_id' => $referred_customer_id,
-					// 	':refered_customer_type' => $referred_type,
-					// 	':referral_level' => 'Level1',
-					// 	':booking_points' => 500,
-					// 	':booking_message' => $booking_message
-					// ]);
-					//customer_reference_payout get the id of last 2 entries
-					$select_sql = "SELECT id FROM customer_reference_payout 
-								   WHERE customer_id= :customer_id 
-								   AND refered_customer_id=:refered_customer_id 
-								   ORDER BY id DESC LIMIT 1";
-					$stmt_select = $conn->prepare($select_sql);
-					$stmt_select->execute([
-						':customer_id' => $level1['id'],
-						':refered_customer_id' => $uid
-					]);
 					
-					$ids = [];
-					while ($row = $stmt_select->fetch(PDO::FETCH_ASSOC)) {
-						$ids[] = $row['id'];
-					}
-					// //wallet enrty 
-					// $wallet_sql='INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, redeemable_amt) 
-					// 			VALUES (:transaction_id, :customer_id, :customer_type, :redeemable_amt)';
-					// $wallet_stmt = $conn->prepare($wallet_sql);
-
-					// $data1 = [
-					// 	'transaction_id' => $ids[1],
-					// 	'customer_id' => $level1['id'],
-					// 	'customer_type' => $level1['customer_type'],
-					// 	'redeemable_amt' => 500
-					// ];
-					// $wallet_stmt->execute($data1);
-					// //booking entry in wallet
-					// $wallet_sql='INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, booking_points) 
-					// 			VALUES (:transaction_id, :customer_id, :customer_type, :booking_points)';
-					// $wallet_stmt = $conn->prepare($wallet_sql);
-
-					// $data2 = [
-					// 	'transaction_id' => $ids[0],
-					// 	'customer_id' => $level1['id'],
-					// 	'customer_type' => $level1['customer_type'],
-					// 	'booking_points' => 500
-					// ];
-					// $wallet_stmt->execute($data2);
-					//balance update for wallet and booking points
-					//customer_reference_wallet get the id of last 2 entries
-					$select_wallet_sql = "SELECT id FROM customer_reference_wallet ORDER BY id DESC LIMIT 2";
-					$stmt_wallet_select = $conn->prepare($select_wallet_sql);
-					$stmt_wallet_select->execute();
-					
-					$wallet_ids = [];
-					while ($row = $stmt_wallet_select->fetch(PDO::FETCH_ASSOC)) {
-						$wallet_ids[] = $row['id'];
-					}
 					//balance enrty 
 					$customer_id = $level1['id'];
 					$customer_type = $level1['customer_type'];
-					$credit_amount = 500; // Amount to credit
+					$credit_amount = 1000; // Amount to credit
 
 					// -------- 1. Wallet Balance Entry --------
 
@@ -2545,52 +2484,29 @@ if ($result) {
 
 					// Insert into wallet utilization
 					$wallet_insert_sql = "INSERT INTO customer_reference_wallet_utilization 
-						(transaction_id, customer_id, earned_amount, balance) 
-						VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
+						(transaction_id, customer_id, earned_amount,earned_on, balance) 
+						VALUES (:transaction_id, :customer_id, :credit_amount,:earned_on, :balance)";
 					$wallet_insert_stmt = $conn->prepare($wallet_insert_sql);
 
 					$wallet_insert_stmt->execute([
-						'transaction_id' => $wallet_ids[1],
+						// 'transaction_id' => $wallet_ids[1],
+						'transaction_id' => $uid,
 						'customer_id' => $customer_id,
 						'credit_amount' => $credit_amount,
+						'earned_on' => $referral_message,
 						'balance' => $current_wallet_balance
 					]);
 
-
-					// -------- 2. Booking Points Entry --------
-
-					// Get last booking balance
-					$booking_balance_check_sql = "SELECT balance FROM customer_reference_booking_points_utilization 
-												WHERE customer_id = :customer_id 
-												ORDER BY id DESC LIMIT 1";
-					$booking_balance_check_stmt = $conn->prepare($booking_balance_check_sql);
-					$booking_balance_check_stmt->execute(['customer_id' => $customer_id]);
-					$previous_booking_balance = $booking_balance_check_stmt->fetchColumn();
-
-					$current_booking_balance = ($previous_booking_balance !== false) 
-						? $previous_booking_balance + $credit_amount 
-						: $credit_amount;
-
-					// Insert into booking points utilization
-					$booking_insert_sql = "INSERT INTO customer_reference_booking_points_utilization 
-						(transaction_id, customer_id, earned_amount, balance) 
-						VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
-					$booking_insert_stmt = $conn->prepare($booking_insert_sql);
-
-					$booking_insert_stmt->execute([
-						'transaction_id' => $wallet_ids[0],
-						'customer_id' => $customer_id,
-						'credit_amount' => $credit_amount,
-						'balance' => $current_booking_balance
-					]);
 				}
 				//l2 Neo Select
 				if ($l2_type == 'Neo Select') {
 					//level2
 					//for redeemable amount
-					$referral_message = "{$level2['name']} (ID: {$level2['id']}) has earned Rs.250 as a Level 2 referrer for referring {$referred_name} (ID: {$referred_customer_id}) through {$level1['name']} (ID: {$level1['id']}).";
-					$sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
-									VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 0)";
+					$referral_message = "{$level2['name']} (ID: {$level2['id']}) has earned Rs.500 as a Level 2 referrer for referring {$referred_name} (ID: {$referred_customer_id}) through {$level1['name']} (ID: {$level1['id']}).";
+					$sqlCustRef = "INSERT INTO customer_extended_wallet (customer_id, customer_type, refered_customer_id, 
+									refered_customer_type, referral_level, earn_amount, earn_message, status) 
+								   VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, 
+									:referral_level, :earn_amount, :earn_message, 0)";
 					$stmtCustRef2 = $conn->prepare($sqlCustRef);
 					$stmtCustRef2->execute([
 						':customer_id' => $level2['id'],
@@ -2598,76 +2514,20 @@ if ($result) {
 						':refered_customer_id' => $referred_customer_id,
 						':refered_customer_type' => $referred_type,
 						':referral_level' => 'Level2',
-						':referral_amount' => 250,
-						':referral_message' => $referral_message
+						':earn_amount' => 500,
+						':earn_message' => $referral_message
 					]);
-
-					//for booking points
-					$booking_message = "{$level2['name']} (ID: {$level2['id']}) has gained 250 booking points as a Level 2 referrer for referring {$referred_name} (ID: {$referred_customer_id}) through {$level1['name']} (ID: {$level1['id']}).";
-					$sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, booking_points, booking_message, status) 
-									VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :booking_points, :booking_message, 3)";
-					$stmtCustRef2 = $conn->prepare($sqlCustRef);
-					$stmtCustRef2->execute([
-						':customer_id' => $level2['id'],
-						':customer_type' => $level2['customer_type'],
-						':refered_customer_id' => $referred_customer_id,
-						':refered_customer_type' => $referred_type,
-						':referral_level' => 'Level2',
-						':booking_points' => 250,
-						':booking_message' => $booking_message
-					]);
-					//customer_reference_payout get the id of last 2 entries
-					$select_sql = "SELECT id FROM customer_reference_payout ORDER BY id DESC LIMIT 2";
-					$stmt_select = $conn->prepare($select_sql);
-					$stmt_select->execute();
 					
-					$ids = [];
-					while ($row = $stmt_select->fetch(PDO::FETCH_ASSOC)) {
-						$ids[] = $row['id'];
-					}
-					//wallet enrty 
-					$wallet_sql='INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, redeemable_amt) 
-								VALUES (:transaction_id, :customer_id, :customer_type, :redeemable_amt)';
-					$wallet_stmt = $conn->prepare($wallet_sql);
-
-					$data1 = [
-						'transaction_id' => $ids[1],
-						'customer_id' => $level2['id'],
-						'customer_type' => $level2['customer_type'],
-						'redeemable_amt' => 250
-					];
-					$wallet_stmt->execute($data1);
-					//booking entry in wallet
-					$wallet_sql='INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, booking_points) 
-								VALUES (:transaction_id, :customer_id, :customer_type, :booking_points)';
-					$wallet_stmt = $conn->prepare($wallet_sql);
-
-					$data2 = [
-						'transaction_id' => $ids[0],
-						'customer_id' => $level2['id'],
-						'customer_type' => $level2['customer_type'],
-						'booking_points' => 250
-					];
-					$wallet_stmt->execute($data2);
-					//balance update for wallet and booking points
-					//customer_reference_wallet get the id of last 2 entries
-					$select_wallet_sql = "SELECT id FROM customer_reference_wallet ORDER BY id DESC LIMIT 2";
-					$stmt_wallet_select = $conn->prepare($select_wallet_sql);
-					$stmt_wallet_select->execute();
 					
-					$wallet_ids = [];
-					while ($row = $stmt_wallet_select->fetch(PDO::FETCH_ASSOC)) {
-						$wallet_ids[] = $row['id'];
-					}
 					//balance enrty 
 					$customer_id = $level2['id'];
 					$customer_type = $level2['customer_type'];
-					$credit_amount = 250; // Amount to credit
+					$credit_amount = 500; // Amount to credit
 
 					// -------- 1. Wallet Balance Entry --------
 
 					// Get last wallet balance
-					$wallet_balance_check_sql = "SELECT balance FROM customer_reference_wallet_utilization 
+					$wallet_balance_check_sql = "SELECT balance FROM customer_extended_wallet_utilization 
 												WHERE customer_id = :customer_id 
 												ORDER BY id DESC LIMIT 1";
 					$wallet_balance_check_stmt = $conn->prepare($wallet_balance_check_sql);
@@ -2679,47 +2539,19 @@ if ($result) {
 						: $credit_amount;
 
 					// Insert into wallet utilization
-					$wallet_insert_sql = "INSERT INTO customer_reference_wallet_utilization 
-						(transaction_id, customer_id, earned_amount, balance) 
-						VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
+					$wallet_insert_sql = "INSERT INTO customer_extended_wallet_utilization 
+						(transaction_id, customer_id, earn_amount,earned_on, balance) 
+						VALUES (:transaction_id, :customer_id, :credit_amount,:earned_on, :balance)";
 					$wallet_insert_stmt = $conn->prepare($wallet_insert_sql);
 
 					$wallet_insert_stmt->execute([
-						'transaction_id' => $wallet_ids[1],
+						// 'transaction_id' => $wallet_ids[1],
+						'transaction_id' => $uid,
 						'customer_id' => $customer_id,
 						'credit_amount' => $credit_amount,
+						'earned_on' => $referral_message,
 						'balance' => $current_wallet_balance
 					]);
-
-
-					// -------- 2. Booking Points Entry --------
-
-					// Get last booking balance
-					$booking_balance_check_sql = "SELECT balance FROM customer_reference_booking_points_utilization 
-												WHERE customer_id = :customer_id 
-												ORDER BY id DESC LIMIT 1";
-					$booking_balance_check_stmt = $conn->prepare($booking_balance_check_sql);
-					$booking_balance_check_stmt->execute(['customer_id' => $customer_id]);
-					$previous_booking_balance = $booking_balance_check_stmt->fetchColumn();
-
-					$current_booking_balance = ($previous_booking_balance !== false) 
-						? $previous_booking_balance + $credit_amount 
-						: $credit_amount;
-
-					// Insert into booking points utilization
-					$booking_insert_sql = "INSERT INTO customer_reference_booking_points_utilization 
-						(transaction_id, customer_id, earned_amount, balance) 
-						VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
-					$booking_insert_stmt = $conn->prepare($booking_insert_sql);
-
-					$booking_insert_stmt->execute([
-						'transaction_id' => $wallet_ids[0],
-						'customer_id' => $customer_id,
-						'credit_amount' => $credit_amount,
-						'balance' => $current_booking_balance
-					]);
-
-					//$commissionGiven = true;
 				}
 				//l1 Neo Select ultra
 				if ($l1_type == 'Neo Select Ultra' ) {
@@ -3043,146 +2875,16 @@ if ($result) {
 
 			//email
 			$fromEmail = 'support@uniqbizz.com';
-			$toEmail = $uname;
-			$subjectName = 'Login Details';
-			$to = $toEmail;
-			$subject = $subjectName;
-			$message3 = '<!DOCTYPE html>
-				<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
-				<head>
-				<meta charset="UTF-8">
-				<meta name="viewport" content="width=device-width,initial-scale=1">
-				<meta name="x-apple-disable-message-reformatting">
-				<title></title>
-				<!--[if mso]>
-				<noscript>
-					<xml>
-					<o:OfficeDocumentSettings>
-						<o:PixelsPerInch>96</o:PixelsPerInch>
-					</o:OfficeDocumentSettings>
-					</xml>
-				</noscript>
-				<![endif]-->
-				<style>
-					table, td, div, h1, p {font-family: Arial, sans-serif;}
-				</style>
-				</head>
-				<body style="margin:0;padding:0;">
-				<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;background:#ffffff;">
-					<tr>
-					<td align="center" style="padding:0;">
-						<table role="presentation" style="width:602px;border-collapse:collapse;border:1px solid #cccccc;border-spacing:0;text-align:left;">
-						<tr>
-							<td style="padding:30px;background:#a5a5a5;">
-							<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;font-size:9px;font-family:Arial,sans-serif;">
-								<tr>
-								<td style="padding:0;width:50%;" align="left">
-									<img src="https://uniqbizz.com/uploading/uniqbizz_logo.png" alt="" width="100" style="height:auto;display:block; position: absolute; top: 37px;" />
-									<img src="https://uniqbizz.com/uploading/bizzmirth.png" alt="" width="100" style="height:auto;display:block;" /></p>
-								</td>
-								<td style="padding:0;width:50%;" align="right">
-									<table role="presentation" style="border-collapse:collapse;border:0;border-spacing:0;">
-									<tr>
-									<p style="font-size:14px;line-height:20px;font-family:Arial,sans-serif; color: white;">
-										Uniqbizz<br>
-										306 Ambrosia Corporate Park EDC Patto Plaza Panjim Goa 403001<br>
-										Contact No: 0832 2438500 / 8080785714<br>
-										Email ID: support@uniqbizz.com<br>
-										URL: uniqbizz.com
-									</p>
-									
-									</tr>
-									</table>
-								</td>
-								</tr>
-							</table>
-							</td>
-						</tr>
-						<tr>
-							<td style="padding:36px 30px 42px 30px;">
-							<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
-								<tr>
-								<td style="padding:0;">
-									<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
-									<tr>
-										
-										<td style="width:20px;padding:0;font-size:0;line-height:0;">&nbsp;</td>
-										<td style="width:260px;padding:0;vertical-align:top;color:#153643;">
-										<!-- <p style="margin:0 0 25px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><img src="https://assets.codepen.io/210284/right.gif" alt="" width="260" style="height:auto;display:block;" /></p> -->
-										<p style="margin:0 0 12px 0;font-size:16px;font-family:Arial,sans-serif;">Dear ' . $name . '  <br>
-										ID: - ' . $uid . '<br>
-										DOJ: - ' . $doj . '<br>
-										Address: - ' . $address . '<br>
-										Username: - ' . $toEmail . '<br>
-										Password: - ' . $password . '<br><br>
-										<hr><br><br>
-										</p>
-										<p style="margin:0 0 12px 0;font-size:16px;font-family:Arial,sans-serif; color: #a5a5a5;"> 
-											Congratulations on your decision! </p>
+			$to = $uname; //$uname contains email of user which is now registering
+			$subject = 'Login Credentials - Bizzmirth Holidays Pvt ltd';
+			$userTypeName = 'Customer';
+		
+			// html design for registration email
+			include('../assets/submit/registration_email.php');
+			
+			// php mailer structure
+			include('../assets/submit/php_mailer_structure.php');
 
-											<p style="margin:0 0 12px 0;font-size:16px;font-family:Arial,sans-serif; ">
-											A journey of a thousand miles must begin with a single step. Id like to welcome you to Uniqbizz. We are excited that you have accepted our business offer and agreed upon your start date. I trust that this letter finds you mutually excited about your new opportunity with Uniqbizz.
-											<br><br>
-
-											Each of is will play a role to ensure your successful integration into the company. Your agenda will involve planning your orientation with company and setting some intial work goals so that you feel immediately productive in your new role. And to earn money which is optional, your earnings will depend directly in the amount of questions prior to your start date, please call me anytime, or send email if that is more convenient. We look forward to having you come onboard. The secret of success is constancy to purpose.
-
-											</p>
-											<p style="margin:0 0 12px 0;font-size:16px;font-family:Arial,sans-serif; color: #a5a5a5;"> 
-											Best Regards,<br>
-											Uniqbizz</p>
-										</td>
-									</tr>
-									</table>
-								</td>
-								</tr>
-							</table>
-							</td>
-						</tr>
-						<tr>
-							<td style="padding:30px;background:#a5a5a5;">
-							<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;font-size:9px;font-family:Arial,sans-serif;">
-								<tr>
-								<td style="padding:0;width:50%;" align="left">
-									<p style="margin:0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;color:#ffffff;">
-									Uniqbizz.<br/>
-									</p>
-								</td>
-								
-								</tr>
-							</table>
-							</td>
-						</tr>
-						</table>
-					</td>
-					</tr>
-				</table>
-				</body>
-				</html>';
-			$mail = new PHPMailer();
-			$mail->IsSMTP();
-			$mail->SMTPAuth = true;
-			$mail->SMTPSecure = 'tls';
-			$mail->Host = "mail.uniqbizz.com";
-			$mail->Port = 587;
-			$mail->IsHTML(true);
-			$mail->CharSet = 'UTF-8';
-			// $mail->SMTPDebug = 2; 
-			$mail->Username = "support@uniqbizz.com";
-			$mail->Password = "NCaB6f^jkm^~";
-			$mail->SetFrom("support@uniqbizz.com");
-			$mail->Subject = $subject;
-			$mail->Body = $message3;
-			$mail->AddAddress($to);
-			$mail->SMTPOptions = array('ssl' => array(
-				'verify_peer' => false,
-				'verify_peer_name' => false,
-				'allow_self_signed' => false
-			));
-			if (!$mail->Send()) {
-				echo $mail->ErrorInfo;
-			} else {
-				echo 1;
-			}
 		} else {
 			echo 0;
 		}

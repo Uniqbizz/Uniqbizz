@@ -155,7 +155,7 @@
 
         $sqlCRecruitment = $conn->prepare("
             SELECT
-                commission_cte,
+                commision_cte,
                 created_date
             FROM ca_cu_payout
             WHERE cte_id = :user_id

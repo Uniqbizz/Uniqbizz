@@ -20,6 +20,7 @@ try {
     $stmt = $conn->prepare("
         SELECT *
         FROM package
+        WHERE status = '1' AND visibility = 1 AND DATE(validity) >= CURRENT_DATE
         ORDER BY id DESC
         LIMIT 12
     ");

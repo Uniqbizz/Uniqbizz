@@ -409,6 +409,13 @@ $showGuestPrice = !empty($userType);
                                 <a href="#" onclick='viewPackage("<?= $row["id"] ?>")'>
                                     <img src="<?=$value['image'] ?>" alt="BizzMirth">
                                 </a>
+                                <div class="wishlist-icon"
+                                    data-package-id="<?= htmlspecialchars($row['id']) ?> ">
+                                    <i class="ri-heart-line"></i>
+                                </div>
+                                <div class="openShare1" onclick="openShare()">
+                                    <i class="ri-share-line"></i>
+                                </div>
                                 <?php
 
                                     $packageType = trim((string)($row['highlight_type'] ?? ''));
@@ -514,11 +521,8 @@ $showGuestPrice = !empty($userType);
                                             '
                                             : '';
                                         ?>
+                                        
                                     </div>
-                                    <!-- <div class="rating">
-                                            <i class="ri-star-s-fill"></i>
-                                            <p class="pera">4.7 (20 Reviews)</p>
-                                        </div> -->
                                 </div>
                             </div>
                         </div>
@@ -624,6 +628,13 @@ $showGuestPrice = !empty($userType);
                                 <a href="#" onclick='viewPackage("<?= $row["id"] ?>")'>
                                     <img src="<?=$value['image']?>" alt="BizzMirth" class="rounded-start imageSize">
                                 </a>
+                                <div class="wishlist-icon"
+                                    data-package-id="<?= htmlspecialchars($row['id']) ?> ">
+                                    <i class="ri-heart-line"></i>
+                                </div>
+                                <div class="openShare1" onclick="openShare()">
+                                    <i class="ri-share-line"></i>
+                                </div>
                                 <?php
 
                                     $packageType = trim((string)($row['highlight_type'] ?? ''));

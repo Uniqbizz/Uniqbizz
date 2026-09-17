@@ -800,38 +800,72 @@ try {
 
         $uploadDir = "../../../uploading/package_policy_attachments/";
 
+        // =====================================================
+        // GET FILE NAME
+        // =====================================================
+
+        $fileStmt = $conn->prepare("
+            SELECT file_name
+            FROM package_policy_document
+            WHERE id = :id
+            AND package_id = :package_id
+            LIMIT 1
+        ");
+
+        // =====================================================
+        // DELETE DATABASE RECORD
+        // =====================================================
+
         $deleteStmt = $conn->prepare("
             DELETE FROM package_policy_document
             WHERE id = :id
             AND package_id = :package_id
         ");
 
-        foreach ($mydata['policy']['deletedDocuments'] as $doc) {
+        // =====================================================
+        // DELETE SELECTED DOCUMENTS
+        // =====================================================
 
-            // delete physical file
-            if (!empty($doc['fileName'])) {
+        foreach ($mydata['policy']['deletedDocuments'] as $documentId) {
 
-                $path = $uploadDir . $doc['fileName'];
-
-                if (file_exists($path)) {
-
-                    unlink($path);
-
-                }
-
+            // Make sure we have a valid ID
+            if (empty($documentId)) {
+                continue;
             }
 
-            // delete database record
-            $deleteStmt->execute([
+            // =================================================
+            // GET EXISTING FILE NAME FROM DATABASE
+            // =================================================
 
-                ':id' => $doc['id'],
-
-                ':package_id' => $get_id
-
+            $fileStmt->execute([
+                'id' => $documentId,
+                'package_id' => $get_id
             ]);
 
-        }
+            $fileName = $fileStmt->fetchColumn();
 
+            // =================================================
+            // DELETE PHYSICAL FILE
+            // =================================================
+
+            if (!empty($fileName)) {
+
+                $path = $uploadDir . $fileName;
+
+                if (file_exists($path)) {
+                    unlink($path);
+                }
+            }
+
+            // =================================================
+            // DELETE DATABASE RECORD
+            // =================================================
+
+            $deleteStmt->execute([
+                'id' => $documentId,
+                'package_id' => $get_id
+            ]);
+        }
     }
     /*
     |--------------------------------------------------------------------------

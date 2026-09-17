@@ -65,8 +65,16 @@ require '../connect.php';
                                     SELECT employee_id,name AS name FROM employees WHERE status=1
                                 )as all_users
                                 ORDER BY id");
+    }else if($table == "institutiontc"){
+        $user = $conn->prepare("SELECT i.name,i.institution_id FROM institution i 
+                                INNER JOIN institute_downline_details id 
+                                    ON id.institution_id=i.institution_id AND id.downline_tc=1 AND id.status=1
+                                WHERE i.status = '1'  ORDER BY i.institution_id");
     }else if($table == "institution"){
-        $user = $conn->prepare("SELECT * FROM institution WHERE status = '1' ORDER BY institution_id");
+        $user = $conn->prepare("SELECT i.name,i.institution_id FROM institution i 
+                                INNER JOIN institute_downline_details id 
+                                    ON id.institution_id=i.institution_id AND id.downline_ibr=1 AND id.status=1
+                                WHERE i.status = '1'  ORDER BY i.institution_id");
     }else if($table == "institution_branch_manager"){
         $user = $conn->prepare("SELECT * FROM institution_branch_manager WHERE status = '1' ORDER BY institution_branch_manager_id");
     }else if($table == "executive_techno_enterprise"){
@@ -174,7 +182,7 @@ require '../connect.php';
             }else if ($table == "BM_BDM_MF_SF_RM") {
                 echo '<option value="'.$value['id'].'">'.$value['id'].' - '.$value['name'].'</option>';
             }else if ( $table == "institution" ) {
-                echo '<option value="'.$value['institution_id'].'">'.$value['institution_id'].' - '.$value['firstname'].' '.$value['lastname'].'</option>';
+                echo '<option value="'.$value['institution_id'].'">'.$value['institution_id'].' - '.$value['name'].'</option>';
             }else if ( $table == "institution_branch_manager" ) {
                 echo '<option value="'.$value['institution_branch_manager_id'].'">'.$value['institution_branch_manager_id'].' - '.$value['firstname'].' '.$value['lastname'].'</option>';
             }else if ( $table == "executive_techno_enterprise" ) {

@@ -67,74 +67,133 @@ $date = date('Y');
                         </div>
                         <!-- end page title -->
                         <div class="row rowAlignment">
+                            <!-- NEW ENQUIRIES -->
                             <div class="cardWidth">
                                 <div class="card rounded-4 p-3 cardHeight">
                                     <div class="d-flex align-items-center">
+
                                         <span class="cardHover cardHover1">
                                             <i class="fa-solid fa-user-plus fa-xl faIcon"></i>
                                         </span>
+
                                         <div class="ms-4">
                                             <h6 class="fontSize12 mb-1">New Enquiries</h6>
-                                            <p class="fs-4 fw-bold mb-0">28</p>
+
+                                            <p
+                                                class="fs-4 fw-bold mb-0"
+                                                id="newEnquiriesCount"
+                                            >
+                                                0
+                                            </p>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
+
+
+                            <!-- IN PROGRESS -->
                             <div class="cardWidth">
                                 <div class="card rounded-4 p-3 cardHeight">
                                     <div class="d-flex align-items-center">
+
                                         <span class="cardHover cardHover2">
                                             <i class="fa-solid fa-spinner fa-xl faIcon"></i>
                                         </span>
+
                                         <div class="ms-4">
                                             <h6 class="fontSize12 mb-1">In Progress</h6>
-                                            <p class="fs-4 fw-bold mb-0">28</p>
+
+                                            <p
+                                                class="fs-4 fw-bold mb-0"
+                                                id="inProgressCount"
+                                            >
+                                                0
+                                            </p>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
+
+
+                            <!-- QUOTATION SENT -->
                             <div class="cardWidth">
                                 <div class="card rounded-4 p-3 cardHeight">
                                     <div class="d-flex align-items-center">
+
                                         <span class="cardHover cardHover3">
                                             <i class="fa-solid fa-paper-plane fa-xl faIcon"></i>
                                         </span>
+
                                         <div class="ms-4">
                                             <h6 class="fontSize12 mb-1">Quotation Sent</h6>
-                                            <p class="fs-4 fw-bold mb-0">28</p>
+
+                                            <p
+                                                class="fs-4 fw-bold mb-0"
+                                                id="quotationSentCount"
+                                            >
+                                                0
+                                            </p>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
+
+
+                            <!-- AWAITING RESPONSE -->
                             <div class="cardWidth">
                                 <div class="card rounded-4 p-3 cardHeight">
                                     <div class="d-flex align-items-center">
+
                                         <span class="cardHover cardHover4">
                                             <i class="fa-solid fa-clock fa-xl faIcon"></i>
                                         </span>
+
                                         <div class="ms-4">
                                             <h6 class="fontSize12 mb-1">Awaiting Response</h6>
-                                            <p class="fs-4 fw-bold mb-0">28</p>
+
+                                            <p
+                                                class="fs-4 fw-bold mb-0"
+                                                id="awaitingResponseCount"
+                                            >
+                                                0
+                                            </p>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
+
+
+                            <!-- CLOSED -->
                             <div class="cardWidth">
                                 <div class="card rounded-4 p-3 cardHeight">
                                     <div class="d-flex align-items-center">
+
                                         <span class="cardHover cardHover5">
                                             <i class="fa-solid fa-circle-check fa-xl faIcon"></i>
                                         </span>
+
                                         <div class="ms-4">
                                             <h6 class="fontSize12 mb-1">Closed</h6>
-                                            <p class="fs-4 fw-bold mb-0">28</p>
+
+                                            <p
+                                                class="fs-4 fw-bold mb-0"
+                                                id="closedCount"
+                                            >
+                                                0
+                                            </p>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                         <!-- Enquiries Start -->
-                        <div class="row d-flex justify-content-between">
+                        <!-- <div class="row d-flex justify-content-between">
                             <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 pb-3">
                                 <nav role="navigation">
                                     <ul class="nav nav-underline border-bottom border-1 border-secondary-subtle d-flex justify-content-around" role="tablist">
@@ -167,13 +226,93 @@ $date = date('Y');
                                     </div>
                                 </div>
                             </div>
+                        </div> -->
+                        <div class="row d-flex justify-content-between">
+                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 pb-3">
+
+                                <nav role="navigation">
+
+                                    <ul class="nav nav-underline border-bottom border-1 border-secondary-subtle d-flex justify-content-around"
+                                        role="tablist">
+
+                                        <li class="nav-item">
+                                            <a class="nav-link active enquiryFilter"
+                                            href="javascript:void(0)"
+                                            data-status="">
+                                                All Enquiries
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link enquiryFilter"
+                                            href="javascript:void(0)"
+                                            data-status="New Enquiry">
+                                                New
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link enquiryFilter"
+                                            href="javascript:void(0)"
+                                            data-status="In Progress">
+                                                In Progress
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link enquiryFilter"
+                                            href="javascript:void(0)"
+                                            data-status="Quotation Sent">
+                                                Quotation Sent
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link enquiryFilter"
+                                            href="javascript:void(0)"
+                                            data-status="Awaiting Response">
+                                                Awaiting Response
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link enquiryFilter"
+                                            href="javascript:void(0)"
+                                            data-status="Closed">
+                                                Closed
+                                            </a>
+                                        </li>
+
+                                    </ul>
+
+                                </nav>
+
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-7 col-7 pb-3 ps-0">
+
+                                <div class="d-flex justify-content-end dateRangeAlign">
+
+                                    <div id="reportrange"
+                                        class="bg-primary text-white px-3 py-2 w-100 text-center dateRange">
+
+                                        <i class="fa fa-calendar"></i>&nbsp;
+
+                                        <span id="selectedDate"></span>
+
+                                        <i class="fa-solid fa-angle-down"></i>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
                         </div>
                         <!-- Enquiries end -->
                         <div class="tab-content" id='tableList'>
                             <div class="tab-pane fade card show active px-3 rounded-4" id="allHistory" role="tabpanel">
                                 <div class="col-lg-12 py-3">
                                     <div class="table-responsive table-desi">
-                                        <table class="table table-hover" id="user_table1">
+                                        <!-- <table class="table table-hover" id="user_table1">
                                             <thead>
                                                 <tr>
                                                     <th class="ceterText fw-bolder font-size-13">Enquiry ID</th>
@@ -444,6 +583,21 @@ $date = date('Y');
                                                     </td>
                                                 </tr>
                                             </tbody>
+                                        </table> -->
+                                        <table class="table table-hover" id="user_table1">
+                                            <thead>
+                                                <tr>
+                                                    <th class="ceterText fw-bolder font-size-13">Enquiry ID</th>
+                                                    <th class="ceterText fw-bolder font-size-13">Customer Details</th>
+                                                    <th class="ceterText fw-bolder font-size-13">Destination & Dates</th>
+                                                    <th class="ceterText fw-bolder font-size-13">Submitted On</th>
+                                                    <th class="ceterText fw-bolder font-size-13">Updated On</th>
+                                                    <th class="ceterText fw-bolder font-size-13">Status</th>
+                                                    <th class="ceterText fw-bolder font-size-13">Action</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody></tbody>
                                         </table>
                                         <!-- pegination start -->
                                         <div class="center text-center" id="pagination_row"></div>
@@ -504,34 +658,268 @@ $date = date('Y');
         </script>
         <!-- Date Range Script -->
         <script type="text/javascript">
+            // $(function() {
+
+            //     // var start = moment().subtract(29, 'days');
+            //     // var end = moment();
+            //     var start = moment("<?= $mindate ?>", "YYYY-MM-DD");
+            //     var end = moment("<?= $maxdate ?>", "YYYY-MM-DD");
+
+            //     function cb(start, end) {
+            //         $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            //     }
+
+            //     $('#reportrange').daterangepicker({
+            //         startDate: start,
+            //         endDate: end,
+            //         ranges: {
+            //             'Today': [moment(), moment()],
+            //             'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            //             'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            //             'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            //             'This Month': [moment().startOf('month'), moment().endOf('month')],
+            //             'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            //         }
+            //     }, cb);
+
+            //     cb(start, end);
+
+            // });
             $(function() {
 
-                // var start = moment().subtract(29, 'days');
-                // var end = moment();
                 var start = moment("<?= $mindate ?>", "YYYY-MM-DD");
+
                 var end = moment("<?= $maxdate ?>", "YYYY-MM-DD");
 
+
                 function cb(start, end) {
-                    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+
+                    /*
+                    =====================================
+                    DISPLAY DATE
+                    =====================================
+                    */
+
+                    $('#reportrange span').html(
+
+                        start.format('MMMM D, YYYY') +
+                        ' - ' +
+                        end.format('MMMM D, YYYY')
+
+                    );
+
+
+                    /*
+                    =====================================
+                    STORE MYSQL FORMAT
+                    =====================================
+                    */
+
+                    selectedStartDate = start.format('YYYY-MM-DD');
+
+                    selectedEndDate = end.format('YYYY-MM-DD');
+
+
+                    /*
+                    =====================================
+                    RELOAD DATATABLE
+                    =====================================
+                    */
+
+                    if ($.fn.DataTable.isDataTable('#user_table1')) {
+
+                        $('#user_table1')
+                            .DataTable()
+                            .ajax
+                            .reload();
+
+                    }
+
                 }
 
+
                 $('#reportrange').daterangepicker({
+
                     startDate: start,
+
                     endDate: end,
+
                     ranges: {
-                        'Today': [moment(), moment()],
-                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                        'This Month': [moment().startOf('month'), moment().endOf('month')],
-                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+
+                        'Today': [
+                            moment(),
+                            moment()
+                        ],
+
+                        'Yesterday': [
+                            moment().subtract(1, 'days'),
+                            moment().subtract(1, 'days')
+                        ],
+
+                        'Last 7 Days': [
+                            moment().subtract(6, 'days'),
+                            moment()
+                        ],
+
+                        'Last 30 Days': [
+                            moment().subtract(29, 'days'),
+                            moment()
+                        ],
+
+                        'This Month': [
+                            moment().startOf('month'),
+                            moment().endOf('month')
+                        ],
+
+                        'Last Month': [
+                            moment()
+                                .subtract(1, 'month')
+                                .startOf('month'),
+
+                            moment()
+                                .subtract(1, 'month')
+                                .endOf('month')
+                        ]
+
                     }
+
                 }, cb);
+
+
+                /*
+                =====================================
+                INITIAL DATE DISPLAY
+                =====================================
+                */
 
                 cb(start, end);
 
             });
         </script>
         <!-- Date Range Script -->
+        <script>
+            let selectedStatus = '';
+            let startDate = '';
+            let endDate = '';
+            //table data with filters
+            let enquiryTable = $('#user_table1').DataTable({
+
+                processing: true,
+
+                serverSide: true,
+
+                responsive: true,
+
+                pageLength: 10,
+
+                ajax: {
+
+                    url: 'ajax/get_enquiries.php',
+
+                    type: 'POST',
+
+                    data: function (d) {
+
+                        d.status = selectedStatus;
+
+                        d.start_date = startDate;
+
+                        d.end_date = endDate;
+
+                    }
+
+                },
+
+                columns: [
+
+                    {
+                        data: 'enquiry_id'
+                    },
+
+                    {
+                        data: 'customer_details',
+                        orderable: false
+                    },
+
+                    {
+                        data: 'destination_details',
+                        orderable: false
+                    },
+
+                    {
+                        data: 'submitted_on'
+                    },
+                    {
+                        data: 'updated_on'
+                    },
+
+                    {
+                        data: 'status',
+                        orderable: false
+                    },
+
+                    {
+                        data: 'action',
+                        orderable: false,
+                        searchable: false
+                    }
+
+                ],
+                columnDefs: [
+                    {
+                        targets: '_all',
+                        createdCell: function (td) {
+                            $(td).addClass('align-content-center');
+                        }
+                    }
+                ],
+                order: [
+                    [3, 'desc']
+                ]
+
+            });
+
+            $(document).on('click', '.enquiryFilter', function () {
+
+                $('.enquiryFilter').removeClass('active');
+
+                $(this).addClass('active');
+
+                selectedStatus = $(this).data('status');
+
+                enquiryTable.ajax.reload();
+
+                loadEnquiryCounts();
+
+            });
+            //load card data
+            function loadEnquiryCounts() {
+                $.ajax({
+                    url: 'ajax/get_enquiry_counts.php',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status) {
+                            $('#newEnquiriesCount').text(response.data.new_enquiries);
+                            $('#inProgressCount').text(response.data.in_progress);
+                            $('#quotationSentCount').text(response.data.quotation_sent);
+                            $('#awaitingResponseCount').text(response.data.awaiting_response);
+                            $('#closedCount').text(response.data.closed );
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(
+                            'Error loading enquiry counts:',
+                            error
+                        );
+                    }
+                });
+            }
+            $(document).ready(function () {
+
+                loadEnquiryCounts();
+
+            });
+        </script>
     </body>
 </html>

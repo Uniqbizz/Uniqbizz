@@ -168,13 +168,13 @@
                 }
             }else if($reference_id == "I"){
                 // corporate agency name
-                $corporate_agencys = $conn->prepare("SELECT firstname, lastname FROM institution where institution_id='".$reference_no."'");
+                $corporate_agencys = $conn->prepare("SELECT name FROM institution where institution_id='".$reference_no."'");
                 $corporate_agencys ->execute();
                 $corporate_agencys ->setFetchMode(PDO::FETCH_ASSOC);
                 if(  $corporate_agencys->rowCount()>0 ){
                     $corporate_agencys = $corporate_agencys->fetch();
-                    $reference_no_fname = $corporate_agencys['firstname'];
-                    $reference_no_lname = $corporate_agencys['lastname'];
+                    $reference_no_fname = $corporate_agencys['name'];
+                    $reference_no_lname = "";
                 }
             }else if($reference_id == "MF"){
                 // corporate agency name
@@ -411,7 +411,9 @@
                                                         <label class="col-form-label">Branch <span class="text-danger">*</span></label>
                                                         <select class="form-select" id="branch">
                                                             <?php if($user_type == '33'){ ?>
-                                                                <option value="<?php echo $branch_id;?>"><?php echo $branch_name.' (Already Selected)' ; ?></option>
+                                                                <option value="<?= $branch_id ?? ''; ?>">
+                                                                    <?= !empty($branch_name) ? $branch_name . ' (Already Selected)' : 'No Branch Selected (Select Branch)'; ?>
+                                                                </option>
                                                             <?php } ?>    
                                                             <option value=""> ---- Select Branch ---- </option>
                                                             <?php

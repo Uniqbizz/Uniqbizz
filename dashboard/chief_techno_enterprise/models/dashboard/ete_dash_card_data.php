@@ -117,7 +117,7 @@
                 )
                 +
                 (
-                    SELECT COALESCE(SUM(commission_cte),0)
+                    SELECT COALESCE(SUM(commision_cte),0)
                     FROM ca_cu_payout
                     WHERE cte_id = :user_id
                 )
@@ -142,7 +142,7 @@
                 )
                 +
                 (
-                    SELECT COALESCE(SUM(commission_cte),0)
+                    SELECT COALESCE(SUM(commision_cte),0)
                     FROM ca_cu_payout
                     WHERE cte_id = :user_id AND status_cte=2
                 )
@@ -167,7 +167,7 @@
                 )
                 +
                 (
-                    SELECT COALESCE(SUM(commission_cte),0)
+                    SELECT COALESCE(SUM(commision_cte),0)
                     FROM ca_cu_payout
                     WHERE cte_id = :user_id AND status_cte=1
                 )

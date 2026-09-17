@@ -855,8 +855,8 @@
                                         </h5>
 
                                         <select class="form-select yearSelect" id="yearFilter">
-                                            <option value="this">This Year</option>
-                                            <option value="last">Last Year</option>
+                                            <!-- <option value="this">This Year</option>
+                                            <option value="last">Last Year</option> -->
                                         </select>
                                     </div>
 
@@ -1484,41 +1484,136 @@
                         return;
                     }
 
-                    // Jan-Dec default
-                    let monthlyData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                    // =========================================
+                    // CURRENT YEAR
+                    // =========================================
 
-                    let years = [...new Set(
-                        response.data.map(item => item.year)
-                    )];
+                    const currentYear = new Date().getFullYear();
+
+
+                    // =========================================
+                    // RESET YEARLY DATA
+                    // =========================================
+
+                    yearlySpendingData = {};
+
+
+                    // =========================================
+                    // GROUP DATA BY YEAR
+                    // =========================================
+
+                    response.data.forEach(function(item) {
+
+                        const year = parseInt(item.year);
+
+                        if (!yearlySpendingData[year]) {
+                            yearlySpendingData[year] = [];
+                        }
+
+                        yearlySpendingData[year].push(item);
+
+                    });
+
+
+                    // =========================================
+                    // GET YEARS FROM DATABASE
+                    // =========================================
+
+                    let years = [
+                        ...new Set(
+                            response.data.map(function(item) {
+                                return parseInt(item.year);
+                            })
+                        )
+                    ];
+
+
+                    // =========================================
+                    // ALWAYS ADD CURRENT YEAR
+                    // =========================================
+
+                    if (!years.includes(currentYear)) {
+                        years.push(currentYear);
+                    }
+
+
+                    // =========================================
+                    // SORT YEARS DESCENDING
+                    // =========================================
+
+                    years.sort(function(a, b) {
+                        return b - a;
+                    });
+
+
+                    // =========================================
+                    // ADD CURRENT YEAR WITH 12 ZERO MONTHS
+                    // IF IT DOES NOT EXIST
+                    // =========================================
+
+                    if (!yearlySpendingData[currentYear]) {
+
+                        yearlySpendingData[currentYear] = [];
+
+                        for (let month = 1; month <= 12; month++) {
+
+                            yearlySpendingData[currentYear].push({
+                                year: currentYear,
+                                month_number: month,
+                                month_name: new Date(
+                                    currentYear,
+                                    month - 1,
+                                    1
+                                ).toLocaleString('en-US', {
+                                    month: 'long'
+                                }),
+                                total_amount: 0
+                            });
+
+                        }
+                    }
+
+
+                    // =========================================
+                    // UPDATE YEAR DROPDOWN
+                    // =========================================
 
                     $('#yearFilter').empty();
 
-                    years.forEach(function(year){
+                    years.forEach(function(year) {
 
                         $('#yearFilter').append(
-                            '<option value="' + year + '">' +
-                            year +
-                            '</option>'
+                            $('<option>', {
+                                value: year,
+                                text: year
+                            })
                         );
 
                     });
 
-                    response.data.forEach(function(row) {
 
-                        let monthIndex = parseInt(row.month_number) - 1;
+                    // =========================================
+                    // ALWAYS SELECT CURRENT YEAR
+                    // =========================================
 
-                        monthlyData[monthIndex] =
-                            parseFloat(row.total_amount) || 0;
-                    });
+                    $('#yearFilter').val(currentYear);
 
-                    spendingChart.data.datasets[0].data = monthlyData;
 
-                    spendingChart.update();
+                    // =========================================
+                    // UPDATE CHART FOR CURRENT YEAR
+                    // =========================================
+
+                    updateSpendingChart(currentYear);
+
                 },
 
                 error: function(xhr, status, error) {
 
-                    console.log('Chart Load Error:', error);
+                    console.log(
+                        'Chart Load Error:',
+                        error
+                    );
+
                 }
             });
 

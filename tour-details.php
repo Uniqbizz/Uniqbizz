@@ -756,7 +756,7 @@ include 'assets/submit/tour_details_data.php';
                                                         </span>
                                                     </p>
                                                 </div>
-                                                <button class="request-btn mb-3" id="requestDetails" style="cursor:pointer;">
+                                                <button class="request-btn mb-3" id="requestDetails" style="cursor:pointer;" onclick="window.location.href='request_details.php?pacId=<?= $id ?>';">
                                                     <i class="ri-image-line me-2"></i>
                                                     Request Details
                                                 </button>      

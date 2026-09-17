@@ -3471,48 +3471,57 @@
             let deletedGalleryImages = [];
             $(document).ready(function () {
 
-                <?php foreach($packagePictures as $picture): ?>
+                <?php
+                $isFirstPicture = true;
 
-                    <?php if($picture['type'] == 'cover_image'): ?>
+                foreach ($packagePictures as $picture):
+                ?>
+                    <?php if (
+                        $picture['type'] == 'cover_image' ||
+                        ($isFirstPicture && empty($picture['type']))
+                    ): ?>
+                            $("#packageCoverImage")
+                                .attr("src", "../../<?= htmlspecialchars($picture['image']) ?>")
+                                .removeClass("d-none");
+                            $("#coverImageUrl")
+                                .val("<?= htmlspecialchars($picture['image']) ?>");
 
-                        // Cover Image
-                        $("#packageCoverImage").attr("src", "../../<?= $picture['image'] ?>").removeClass("d-none");
-                        $("#coverImageUrl").val("<?= $picture['image'] ?>");
-                        $("#deleteImageBtn").show();
+                            $("#deleteImageBtn").show();
 
-                    <?php elseif($picture['type'] == 'gallery_image'): ?>
-
-                        // Existing Gallery Image
-                        galleryImages.push({
-                            id: <?= $picture['id'] ?>,          // DB id
-                            src: "../../<?= $picture['image'] ?>",
-                            url: "<?= $picture['image'] ?>",
-                            file: null,
-                            deleted: false,
-                            existing: true
-                        });
-
-                    <?php elseif($picture['type'] == 'video'): ?>
-
-                        // Existing Video
-                        $("#videoPreviewList").append(`
-                            <div class="video-preview-item">
-                                <div class="video-link-content">
-                                    <i class="fa-solid fa-play play-video"
-                                        data-url="../../<?= $picture['image'] ?>"
+                    <?php elseif (
+                        $picture['type'] == 'gallery_image' ||
+                        (!$isFirstPicture && empty($picture['type']))
+                    ): ?>
+                            galleryImages.push({
+                                id: <?= (int)$picture['id'] ?>,
+                                src: "../../<?= htmlspecialchars($picture['image']) ?>",
+                                url: "<?= htmlspecialchars($picture['image']) ?>",
+                                file: null,
+                                deleted: false,
+                                existing: true
+                            });
+                    <?php elseif ($picture['type'] == 'video'): ?>
+                            $("#videoPreviewList").append(`
+                                <div class="video-preview-item">
+                                    <div class="video-link-content">
+                                        <i class="fa-solid fa-play play-video"
+                                        data-url="../../<?= htmlspecialchars($picture['image']) ?>"
                                         title="Play Video"></i>
-
-                                    <span class="video-url"><?= $picture['image'] ?></span>
-                                </div>
-
-                                <i class="fa-solid fa-trash-can delete-video"
+                                        <span class="video-url">
+                                            <?= htmlspecialchars($picture['image']) ?>
+                                        </span>
+                                    </div>
+                                    <i class="fa-solid fa-trash-can delete-video"
                                     title="Delete"></i>
-                            </div>
-                        `);
-
-                        $(".video-example").hide();
-
+                                </div>
+                            `);
+                            $(".video-example").hide();
                     <?php endif; ?>
+
+                    <?php
+                    // First picture has now been processed
+                    $isFirstPicture = false;
+                    ?>
 
                 <?php endforeach; ?>
 

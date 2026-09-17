@@ -19,7 +19,7 @@ try {
             CONCAT(firstname,' ',lastname) AS name,
             added_on AS activity_date
         FROM ca_customer
-        WHERE reference_no = :user_id
+        WHERE ta_reference_no = :user_id
         AND status = 2
         ORDER BY added_on DESC
         LIMIT 6
@@ -51,7 +51,7 @@ try {
             CONCAT(firstname,' ',lastname) AS name,
             register_date AS activity_date
         FROM ca_customer
-        WHERE reference_no = :user_id
+        WHERE ta_reference_no = :user_id
         AND status = 1
         ORDER BY register_date DESC
         LIMIT 6

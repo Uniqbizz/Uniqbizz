@@ -423,7 +423,24 @@ include_once 'dashboard_user_details.php';
                 <div class="dropdown ms-sm-3 header-item topbar-user">
                     <button type="button" class="btn shadow-none" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
-                            <img class="rounded-circle header-profile-user" src="<?php echo '../uploading/' . $profile_pic; ?>" alt="Header Avatar">
+                            <!-- <img class="rounded-circle header-profile-user" src="<?php echo '../uploading/' . $profile_pic; ?>" alt="Header Avatar"> -->
+                            <?php if (!empty($_SESSION['profile_pic'])): ?>
+                                <img
+                                    src="../../uploading/<?= $_SESSION['profile_pic'] ?>"
+                                    class="rounded-circle header-profile-user"
+                                    alt="<?= htmlspecialchars($firstname . ' ' . $lastname) ?>"
+                                >
+
+                            <?php else: ?>
+
+                                <div
+                                    class="user-avatar-SVZ initials-avatar-SVZ"
+                                    style="background-color: <?= htmlspecialchars($_SESSION['avatar_color']) ?>"
+                                >
+                                    <?= htmlspecialchars($_SESSION['initials']) ?>
+                                </div>
+
+                            <?php endif; ?>
                             <span class="text-start ms-xl-2">
                                 <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"><?php echo $userFname . ' ' . $userLname; ?></span>
                                 <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text"><?php echo $designation; ?></span>
