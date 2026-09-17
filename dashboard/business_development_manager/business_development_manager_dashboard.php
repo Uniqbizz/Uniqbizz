@@ -321,10 +321,9 @@
                                         <p class="commission-title fs-5 mb-0">
                                             Recent Activities
                                         </p>
-                                        <!-- 
-                                        <a href="#" class="fs-6 fw-bold">
+                                        <a href="recent_activities.php" class="fs-6 fw-bold">
                                             View All
-                                        </a> -->
+                                        </a>
 
                                     </div>
 
