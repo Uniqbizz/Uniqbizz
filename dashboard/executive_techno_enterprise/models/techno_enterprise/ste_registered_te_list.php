@@ -65,34 +65,6 @@
                 $whereDateCA
             )
 
-            UNION ALL
-
-            (
-                SELECT
-                    i.institution_id AS teuser_id,
-                    i.firstname,
-                    i.lastname,
-                    i.contact_no,
-                    i.email,
-                    i.register_date,
-                    i.status,
-                    i.amount,
-                    i.user_type,
-
-                    ste.firstname AS ref_firstname,
-                    ste.lastname AS ref_lastname,
-                    ste.executive_techno_enterprise_id AS reference_id
-
-                FROM institution i
-
-                INNER JOIN executive_techno_enterprise ste
-                    ON i.reference_no = ste.executive_techno_enterprise_id
-
-                WHERE i.reference_no = :user_id
-                AND i.status IN (1,3)
-
-                $whereDateI
-            )
             ORDER BY register_date DESC
         ";
 
