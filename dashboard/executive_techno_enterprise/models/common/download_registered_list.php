@@ -23,6 +23,7 @@
 
             case 'te':
             case 'st':
+            case 'i':
                 $alias = 'ca';
                 break;
 
@@ -185,13 +186,30 @@
 
                     $whereDate
 
-                    UNION ALL
+                ) x
+
+                ORDER BY x.row_id DESC
+            ";
+
+            $fileName = 'Registered_TE_Franchise_Institution_List.xlsx';
+        }
+        /*
+        |--------------------------------------------------------------------------
+        | Institution
+        |--------------------------------------------------------------------------
+        */
+
+        elseif ($type == 'i') {
+
+            $sql = "
+                SELECT *
+                FROM (
 
                     SELECT
                         ca.id AS row_id,
                         ca.institution_id AS id,
 
-                        CONCAT(ca.firstname,' ',ca.lastname) AS full_name,
+                        CONCAT(ca.name) AS full_name,
 
                         CONCAT(
                             COALESCE(ste.firstname,''),

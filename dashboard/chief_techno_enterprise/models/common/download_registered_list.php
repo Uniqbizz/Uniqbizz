@@ -23,6 +23,7 @@
 
             case 'st':
             case 'te':
+            case 'i':
                 $alias = 'ca';
                 break;
 
@@ -253,6 +254,61 @@
                         ca.institution_id AS id,
 
                         CONCAT(ca.firstname,' ',ca.lastname) AS full_name,
+
+                        CONCAT(
+                            COALESCE(ste.firstname,''),
+                            ' ',
+                            COALESCE(ste.lastname,'')
+                        ) AS reference_name,
+
+                        ste.executive_techno_enterprise_id AS reference_id,
+
+                        ca.contact_no,
+                        ca.email,
+                        ca.register_date,
+                        ca.amount,
+
+                        CASE
+                            WHEN ca.status = 1 THEN 'Active'
+                            WHEN ca.status = 3 THEN 'Inactive'
+                            ELSE 'Rejected'
+                        END AS status
+
+                    FROM institution ca
+
+                    LEFT JOIN executive_techno_enterprise ste
+                        ON ca.reference_no = ste.executive_techno_enterprise_id
+
+                    WHERE ste.reference_no = :user_id
+                    AND ca.status IN (1,3)
+
+                    $whereDate
+
+                ) x
+
+                ORDER BY x.row_id DESC
+            ";
+
+            $fileName = 'Registered_TE_Franchise_Institution_List.xlsx';
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Institution
+        |--------------------------------------------------------------------------
+        */
+
+        elseif ($type == 'i') {
+
+            $sql = "
+                SELECT *
+                FROM (
+
+                    SELECT
+                        ca.id AS row_id,
+                        ca.institution_id AS id,
+
+                        CONCAT(ca.name) AS full_name,
 
                         CONCAT(
                             COALESCE(ste.firstname,''),

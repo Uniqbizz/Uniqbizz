@@ -748,12 +748,14 @@
                 loadRegisteredTEList();
 
             });
-            $('#exportte').on('click', function(){
+            $('#exportte').on('click', function () {
+
                 window.location.href =
-                'models/common/download_registered_list.php?' +
-                'type=te' +
-                '&start_date=' + startDate +
-                '&end_date=' + endDate;
+                    'models/common/download_registered_list.php?' +
+                    'type=i' +
+                    '&start_date=' + encodeURIComponent(startDate) +
+                    '&end_date=' + encodeURIComponent(endDate);
+
             });
         </script>
         <!-- dialer logic scripts -->
