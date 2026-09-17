@@ -667,7 +667,7 @@ function submitAddForm(actionType) {
     $("#loading-overlay").show(); //loading screen
     $.ajax({
         type: "POST",
-        url: "customer/add_customer_data.php",
+        url: "models/customer/add_customer_data.php",
         data: dataObj,
         cache: false,
         success: function (data) {
@@ -962,7 +962,7 @@ function submitEditForm(actionType) {
     $.ajax({
 
         type: "POST",
-        url: "customer/edit_customer_data.php",
+        url: "models/customer/edit_customer_data.php",
         data: dataObj,
         cache: false,
 
@@ -1230,7 +1230,7 @@ async function initializeCustomer() {
     console.log("id:"+id)
     console.log("edittype: 10")
     const res = await ajaxPromise({
-        url: "customer/edit_cu_load_data.php",
+        url: "models/customer/edit_cu_load_data.php",
         type: "POST",
         dataType: "json",
         data: {
