@@ -41,18 +41,17 @@
                     sf.amount,
                     sf.user_type,
 
-                    bm.firstname AS ref_firstname,
-                    bm.lastname AS ref_lastname,
-                    bm.executive_techno_enterprise_id AS reference_id
+                    emp.firstname AS ref_firstname,
+                    emp.lastname AS ref_lastname,
+                    emp.executive_techno_enterprise_id AS reference_id
 
                 FROM institution sf
 
-                INNER JOIN executive_techno_enterprise bm
-                    ON sf.reference_no = bm.executive_techno_enterprise_id
+                INNER JOIN executive_techno_enterprise emp
+                    ON sf.reference_no = emp.executive_techno_enterprise_id
 
-                WHERE bm.reference_no = :user_id
+                WHERE sf.reference_no = :user_id
                 AND sf.status IN (1,3)
-                AND bm.status IN (1,3)
 
                 $whereDateSF
             )

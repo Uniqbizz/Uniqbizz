@@ -19,23 +19,19 @@
                 i.user_type,
                 'I' AS userTypeStr,
 
-                bm.firstname AS ref_firstname,
-                bm.lastname AS ref_lastname,
-                bm.executive_techno_enterprise_id AS ref_id,
+                e.firstname AS ref_firstname,
+                e.lastname AS ref_lastname,
+                e.executive_techno_enterprise_id AS ref_id,
 
                 'institution' AS source_table
 
             FROM institution i
 
-            INNER JOIN executive_techno_enterprise bm
-                ON i.reference_no = bm.executive_techno_enterprise_id
+            INNER JOIN executive_techno_enterprise e
+                ON i.reference_no = e.executive_techno_enterprise_id
 
-            INNER JOIN chief_techno_enterprise e
-                ON bm.reference_no = e.chief_techno_enterprise_id
-
-            WHERE e.chief_techno_enterprise_id = :user_id
+            WHERE e.executive_techno_enterprise_id = :user_id
             AND i.status IN (0,2,4)
-            AND bm.status = 1
             AND e.status = 1
 
             ORDER BY id DESC;

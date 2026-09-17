@@ -173,7 +173,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Edit Institution | Admin Dashboard </title>
+        <title>Edit Institution</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -192,7 +192,7 @@
         <link rel="stylesheet" href="../assets/css/custom.css" />
         <!-- Form CSS -->
         <link href="../assets/css/form.css" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" href="../assets/css/business_development_manager.css" />
+        <link rel="stylesheet" href="../assets/css/chief_techno_enterprise.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
         <link rel="stylesheet" href="../assets/css/validation.css" />
@@ -204,7 +204,7 @@
         <div id="layout-wrapper">
             <?php 
                 // top header logo, hamberger menu, fullscreen icon, profile
-                include_once 'business_development_manager_header.php';
+                include_once 'chief_techno_header.php';
             ?>
             <!-- removeNotificationModal -->
             <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
@@ -232,7 +232,7 @@
             </div><!-- /.modal -->
             <?php
                 // sidebar navigation menu 
-                include_once 'business_development_manager_sidebar.php'; 
+                include_once 'chief_techno_sidebar.php'; 
             ?>
             <!-- ============================================================== -->
             <!-- Start right Content here -->
@@ -750,7 +750,7 @@
                 <!-- container-fluid -->
                 </div>
                 <!-- End Page-content -->
-                <?php include_once "business_development_manager_footer.php" ?>
+                <?php include_once "chief_techno_footer.php" ?>
             </div>
             <!-- end main content-->
 

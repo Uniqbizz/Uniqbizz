@@ -38,7 +38,7 @@
         <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css" />
         
         <!-- Customer Dashboard CSS -->
-        <link rel="stylesheet" href="../assets/css/chief_techno_enterprise.css" />
+        <link rel="stylesheet" href="../assets/css/executive_techno_enterprise.css" />
         <!-- Lists CSS -->
         <link rel="stylesheet" href="../assets/css/lists.css" />
         <!-- FontAwesome -->
@@ -54,7 +54,7 @@
         <div id="layout-wrapper">
 
             <?php 
-                    include_once 'chief_techno_header.php'; 
+                    include_once 'executive_techno_header.php'; 
             ?>
 
             <!-- removeNotificationModal -->
@@ -83,7 +83,7 @@
             </div><!-- /.modal -->
             <!-- ========== App Menu ========== -->
             <?php
-                    include_once 'chief_techno_sidebar.php'; 
+                    include_once 'executive_techno_sidebar.php'; 
             ?>
 
             <!-- ============================================================== -->
@@ -97,12 +97,12 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0"> Institution</h4>
+                                    <h4 class="mb-sm-0">Institution </h4>
 
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="chief_techno_dashboard.php">Dashboard</a></li>
-                                            <li class="breadcrumb-item active">View  Institution</li>
+                                            <li class="breadcrumb-item"><a href="executive_techno_dashboard.php">Dashboard</a></li>
+                                            <li class="breadcrumb-item active">View Institution </li>
                                         </ol>
                                     </div>
 
@@ -123,8 +123,8 @@
                                                         <i class="fa-solid fa-hourglass-half fa-xl"></i>
                                                     </div>
                                                     <div class="align-content-end">
-                                                        <h5 class="card-title text-dark mb-0">Pending  Institution List</h5>
-                                                        <p class="text-muted fs-6 mb-0"> Institution pending for approval</p>
+                                                        <h5 class="card-title text-dark mb-0">Pending Institution  List</h5>
+                                                        <p class="text-muted fs-6 mb-0">Institution  pending for approval</p>
                                                     </div>
                                                 </div>    
                                                 <div class="card-body">
@@ -158,8 +158,8 @@
                                                                     <i class="ri-verified-badge-line" style="font-size: 30px;"></i>
                                                                 </div>
                                                                 <div class="align-content-end">
-                                                                    <h5 class="card-title text-dark mb-0">Registered  Institution List</h5>
-                                                                    <p class="text-muted fs-6 mb-0">All approved and active Techno Enterprises | Institution</p>
+                                                                    <h5 class="card-title text-dark mb-0">Registered Institution  List</h5>
+                                                                    <p class="text-muted fs-6 mb-0">All approved and active Institutions </p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -196,7 +196,7 @@
                                                     <table id="example-dataTable-2" class="table table-striped table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                                         <thead>
                                                             <tr class="table-primary">
-                                                                <th data-ordering="false">TE | I ID & Full Name</th>
+                                                                <th data-ordering="false">I ID & Full Name</th>
                                                                 <th data-ordering="false">Reference ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Amt (&#8377;)</th>
@@ -216,12 +216,17 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="btn" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 35px; border-radius: 50%;">
+                            <a href="add_institution.php" style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
+                                <i class="fa-solid fa-circle-plus fa-beat-fade fa-3x" style="color: #4b38b3;"></i>
+                            </a>
+                        </div>
 
                     </div> <!-- container-fluid -->
 
                 </div><!-- End Page-content -->
                 <?php 
-                        include_once "chief_techno_footer.php"; 
+                        include_once "executive_techno_footer.php"; 
                 ?>
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
@@ -287,9 +292,12 @@
 
                                 badge = '<span class="badge bg-primary ms-1">TE</span>';
 
-                            } else if (data.user_type == 32) {
+                            } else if (data.user_type == 29) {
 
-                                badge = '<span class="badge bg-success ms-1">I</span>';
+                                badge = '<span class="badge bg-success ms-1">F</span>';
+                            }else if (data.user_type == 32) {
+
+                                badge = '<span class="badge bg-info ms-1">I</span>';
                             }
 
                             return `
@@ -311,7 +319,7 @@
                                     </p>
 
                                     <p class="fs-6 mb-0">
-                                        ${data.reference_id || '-'}
+                                        ${data.ref_id || '-'}
                                     </p>
                                 </div>
                             `;
@@ -339,7 +347,7 @@
                     },
 
                     {
-                        data: 'register_date',
+                        data: 'added_on',
                         render: function(data){
 
                             if(!data) return '-';
@@ -374,11 +382,6 @@
                                     </p>
                                 `;
                             }
-                            return `
-                                    <p class="teDeletedBtn rounded-pill text-center mb-0">
-                                        Deleted
-                                    </p>
-                                `;
                         }
                     },
                     {
@@ -398,7 +401,7 @@
                                     <input
                                         type="hidden"
                                         name="status"
-                                        value="2"
+                                        value="${data.status}"
                                     >
                                     <input
                                         type="hidden"
@@ -420,7 +423,7 @@
                     }
                 ],
                 language: {
-                    emptyTable: "No Pending  Institution Found"
+                    emptyTable: "No Pending Institution Found"
                 }
             });
             function loadPendingTEList(){
@@ -476,9 +479,12 @@
 
                                 badge = '<span class="badge bg-primary ms-1">TE</span>';
 
-                            } else if (data.user_type == 32) {
+                            } else if (data.user_type == 29) {
 
-                                badge = '<span class="badge bg-success ms-1">I</span>';
+                                badge = '<span class="badge bg-success ms-1">F</span>';
+                            }else if (data.user_type == 32) {
+
+                                badge = '<span class="badge bg-info ms-1">I</span>';
                             }
                             return `
                                 <p class="fs-6 mb-0">
@@ -623,7 +629,7 @@
                     }
                 ],
                 language: {
-                    emptyTable: 'No  Institution Found'
+                    emptyTable: 'No Institution Found'
                 }
             });
 
@@ -657,7 +663,7 @@
                                     teRegTable.rows({ search: 'applied' }).count()
                                 );
                             });
-                            // $('#rowCount').val(res.data.length);
+                            //$('#rowCount').val(res.data.length);
 
                         }
 
@@ -751,7 +757,7 @@
             $('#exportte').on('click', function(){
                 window.location.href =
                 'models/common/download_registered_list.php?' +
-                'type=te' +
+                'type=i' +
                 '&start_date=' + startDate +
                 '&end_date=' + endDate;
             });
