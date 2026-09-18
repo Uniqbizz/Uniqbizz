@@ -118,7 +118,32 @@ $date = date('Y');
                             </div>
                         </div>
                         <!-- Card Section 1 End -->
-                        
+                        <!-- Card Section 2 Start -->
+                        <div class="row">
+                            <div class="col-xl-8">
+                                <!-- Card Section 2 subsection 1 Start -->
+                                <div class="card p-3">
+                                    <h5 class="fw-bold text-black">
+                                        <i class="fa-solid fa-clipboard-list fa-xl me-3"></i>
+                                        Enquiry Information
+                                    </h5>
+                                    <div class="row">
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-0">Enquiry ID:</p>
+                                            <p class="fs-6 mb-0 fw-bold">ENQ-20260908-001</p>
+                                        </div>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-0">Received On:</p>
+                                            <p class="fs-6 mb-0 fw-bold">08 Sep 2026, 10:35 AM</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Section 2 subsection 1 End -->
+                            </div>
+                            <div class="col-xl-4"></div>
+                        </div>
+                        <!-- Card Section 2 End -->
+
                     </div>
                 </div>
                 <?php include_once "../footer.php" ?>
