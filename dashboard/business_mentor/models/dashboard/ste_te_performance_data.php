@@ -80,9 +80,7 @@
                     ca.institution_id AS te_id,
 
                     CONCAT(
-                        COALESCE(ca.firstname,''),
-                        ' ',
-                        COALESCE(ca.lastname,'')
+                        COALESCE(ca.name,'')
                     ) AS te_name,
 
                     COUNT(DISTINCT ta.institution_branch_manager_id) AS tc_count,
@@ -104,8 +102,7 @@
 
                 GROUP BY
                     ca.institution_id,
-                    ca.firstname,
-                    ca.lastname
+                    ca.name
 
                 
             ) AS combined

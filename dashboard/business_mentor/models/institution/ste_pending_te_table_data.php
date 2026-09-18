@@ -9,29 +9,31 @@
         $sql = $conn->prepare("
         
             SELECT
-                ca.id,
-                ca.firstname,
-                ca.lastname,
-                ca.contact_no,
-                ca.email,
-                ca.added_on,
-                ca.status,
-                ca.user_type,
+                i.id,
+                i.name AS firstname,
+                '' AS lastname,
+                i.contact_no,
+                i.email,
+                i.added_on,
+                i.status,
+                i.user_type,
                 'I' AS userTypeStr,
 
-                ste.firstname AS ref_firstname,
-                ste.lastname AS ref_lastname,
-                ste.business_mentor_id,
+                bm.firstname AS ref_firstname,
+                bm.lastname AS ref_lastname,
+                bm.business_mentor_id AS ref_id,
 
                 'institution' AS source_table
 
-            FROM institution ca
+            FROM institution i
 
-            INNER JOIN business_mentor ste
-                ON ca.reference_no = ste.business_mentor_id
+            INNER JOIN business_mentor bm
+                ON i.reference_no = bm.business_mentor_id
 
-            WHERE ca.reference_no = :user_id
-            AND ca.status IN (0,2,4)
+            WHERE bm.business_mentor_id= :user_id
+            AND i.status IN (0,2,4)
+            AND bm.status = 1
+
             ORDER BY id DESC;
         ");
 

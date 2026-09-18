@@ -683,7 +683,7 @@
 
                                     preview.innerHTML = `
                                         <img src="${e.target.result}" id="img_path${index}">
-                                        <input type="hidden" id="img_path${index}" value="../../uploading/${filePath}">
+                                        <input type="hidden" id="img_path${index}" value="../../uploading/${file.name}">
                                         <div class="file-title">
                                             ${title}
                                         </div>

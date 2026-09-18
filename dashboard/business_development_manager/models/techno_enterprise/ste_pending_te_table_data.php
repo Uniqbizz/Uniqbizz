@@ -96,7 +96,7 @@
             FROM sub_franchisee sf
             INNER JOIN employees bm
                 ON sf.reference_no = bm.employee_id
-            WHERE bm.reference_no = :user_id
+            WHERE sf.reference_no = :user_id
             AND sf.status IN (0,2,4)
             AND bm.status IN (1,3)
 

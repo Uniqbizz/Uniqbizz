@@ -7,7 +7,7 @@ $("#email").keyup(function () {
 var emailtest = (emailtest, testValue) => {
     $.ajax({
         type: "POST",
-        url: "../../test_data/emailtest.php",
+        url: "../test_data/emailtest.php",
         data: "email=" + emailtest + "&tablename=" + testValue,
         success: function (response) {
             if (response == 1) {
@@ -32,7 +32,115 @@ $("#saveDraftAdd").on("click", function (e) {
     e.preventDefault();
     submitAddForm('draft');
 });
+//validations
+$("#chequeDate").on("input", function () {
 
+    let value = $(this).val().replace(/\D/g, "");
+
+    if (value.length > 4) value = value.slice(0, 4) + "-" + value.slice(4);
+    if (value.length > 7) value = value.slice(0, 7) + "-" + value.slice(7);
+
+    $(this).val(value.substring(0, 10));
+});
+function isValidDate(dateString) {
+
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+        return false;
+    }
+
+    const [year, month, day] = dateString.split('-').map(Number);
+
+    const date = new Date(year, month - 1, day);
+
+    return (
+        date.getFullYear() === year &&
+        date.getMonth() + 1 === month &&
+        date.getDate() === day
+    );
+}
+function showError(fieldId, message) {
+
+    $("#" + fieldId)
+        .addClass("is-invalid")
+        .focus();
+
+    $("#" + fieldId + "_error").text(message);
+}
+
+function clearError(fieldId) {
+
+    $("#" + fieldId)
+        .removeClass("is-invalid");
+
+    $("#" + fieldId + "_error").text("");
+}
+
+function clearAllErrors() {
+
+    $(".form-control, .form-select").removeClass("is-invalid");
+    $(".error-message").text("");
+}
+function showGenderError(message){
+
+    $("#gender_wrapper")
+        .addClass("error")
+        .attr("tabindex","-1")
+        .focus();
+
+    $("#gender_error").text(message);
+}
+
+function clearGenderError(){
+
+    $("#gender_wrapper").removeClass("error");
+
+    $("#gender_error").text("");
+}
+
+$(".gender").on("change",function(){
+
+    clearGenderError();
+
+});
+function showPaymentError(message){
+
+    $("#payment-mode_wrapper")
+        .addClass("error")
+        .attr("tabindex","-1")
+        .focus();
+
+    $("#payment-mode_error").text(message);
+}
+
+function clearPaymentError(){
+
+    $("#payment-mode_wrapper").removeClass("error");
+
+    $("#payment-mode_error").text("");
+}
+
+$(".payment").on("change",function(){
+
+    clearPaymentError();
+
+});
+function showFileError(fileId, message) {
+
+    const input = $("#" + fileId);
+
+    input.closest(".upload-card").addClass("error");
+
+    $("#" + fileId + "_error").text(message);
+
+    input.trigger("click"); // Opens file selector
+}
+function clearFileError(fileId) {
+
+    $("#" + fileId)
+        .closest(".upload-card")
+        .removeClass("error");
+}
+//---------------------------------------------------------------
 // @@@@****#### executive_techno_enterprise start by admin @@@@****####
 // Add executive_techno_enterprise by admin
 function submitAddForm(actionType) {
@@ -86,141 +194,134 @@ function submitAddForm(actionType) {
     var userType = $('#userType').val();
 
     // Attachments
-    var profile_pic = aadhar_card = pan_card = passbook = voting_card = payment_proof = '';
-    var profile_pic_file = $("#upload_file1").val().trim();
-    var aadhar_card_file = $("#upload_file2").val().trim();
-    var pan_card_file = $("#upload_file3").val().trim();
-    var passbook_file = $("#upload_file4").val().trim();
-    var voting_card_file = $("#upload_file11").val().trim();
-    var payment_proof_file = $("#upload_file12").val().trim();
+    function getFilePath(id) {
+        return $(id).length
+            ? $(id).val().replace('../../uploading/', '').trim()
+            : "";
+    }
 
+    var profile_pic   = getFilePath("#img_path1");
+    var aadhar_card   = getFilePath("#img_path2");
+    var pan_card      = getFilePath("#img_path3");
+    var passbook      = getFilePath("#img_path4");
+    var voting_card   = getFilePath("#img_path11");
+    var payment_proof = getFilePath("#img_path12");
     // var note = $("#note").val().trim();
 
 
 
     var dob_year = dob.substring(0, 4);
     var age = current_year - dob_year;
-    
+    clearAllErrors();
     // ======================
     // VALIDATION ONLY FOR SUBMIT
     // ======================
     if (actionType === 'submit') {
         
         if(registerAs === ''){
-            alert("Select Register As First");
-            return;
-        }
-        else if (user_id_name == '') {
-            alert("Select Id");
+            showError("registerAs","Select Register As First.");
             return;
         } else if (firstname === '') {
-            alert("Enter Proper First Name");
+            showError("firstname","First Name is required.");
             return;
         } else if (lastname === '') {
-            alert("Enter Proper Last Name");
+            showError("lastname","Last Name is required.");
             return;
         } else if (email == '') {
-            alert("Enter Email");
+            showError("email","Email is required.");
             return;
         } else if (!emailReg.test(email)) {
-            alert("Enter Proper Email");
+            showError("email","Enter proper email.");
             return;
         } else if (testE == '1') {
-            alert("Email already exists");
+            showError("email","Email already exists.");
             return;
         } else if (dob === '') {
-            alert('Please Select Birthdate');
+            showError("dob","Please Select Birthdate.");
             return;
-        } else if (age <= 18) {
-            alert('Age must be more than or equal to 18 Years');
+        } else if (age <= 20) {
+            showError("dob","Age must be more than or equal to 20 Years.");
             return;
         } else if (gender !== 'male' && gender !== 'female' && gender !== 'others') {
-            alert('Please Select Gender');
+            showError("gender","Please Select Gender.");
             return;
         } else if (country_cd == '') {
-            alert("Select Country Code");
+            showError("country_cd","Select Country Code.");
             return;
         } else if (phone == '') {
-            alert("Enter Phone number");
+            showError("phone","Enter Phone number.");
             return;
         } else if (!mobileRegex.test(phone)) {
-            alert("Enter Proper Phone Number");
+            showError("phone","Enter Proper Phone Number.");
             return;
         } else if (country === '') {
-            alert("Select Country");
+            showError("country","Select Country.");
             return;
         } else if (mystate === '') {
-            alert("Select State");
+            showError("mystate","Select State.");
             return;
         } else if (city === '') {
-            alert("Select City");
+            showError("city","Select City.");
             return;
         } else if (address === '' || specialChar.test(address) || address.length <= 7) {
-            alert("Enter Proper Address");
+            showError("address","Enter Proper Address.");
             return;
         } else if (paymentMode !== 'cash' && paymentMode !== 'cheque' && paymentMode !== 'online') {
-            alert("Select payment Mode");
+            showPaymentError("Select payment Mode");
             return;
-        } else if (profile_pic_file === '') {
-            alert('Please Upload profile Picture');
+        } else if(paymentMode == 'cheque' && chequeNo ==''){
+            showError("chequeNo","Please enter Cheque No.");
             return;
-        } else if (aadhar_card_file === '') {
-            alert('Please Upload Aadhar Card Picture');
+        } else if(paymentMode == 'cheque' && chequeDate ==''){
+            showError("chequeDate","Please enter Cheque Date.");
             return;
-        } else if (payment_proof_file == '') {
-            alert("Add Payment Proof");
+        } else if (paymentMode == 'cheque' && !isValidDate(chequeDate)) {
+            showError("chequeDate", "Please enter the valid date in YYYY-MM-DD format.");
+            return;
+        } else if(paymentMode == 'cheque' && bankName ==''){
+            showError("bankName","Please enter Bank Name.");
+            return;
+        } else if(paymentMode == 'online' && transactionNo ==''){
+            showError("transactionNo","Please enter Transaction No/Id.");
+            return;
+        } else if (profile_pic === '') {
+            showFileError("upload_file1", "Please upload Profile Photo.");
+            return;
+        } else if (aadhar_card === '') {
+            showFileError("upload_file2", "Please upload Aadhaar Card.");
+            return;
+        } else if (payment_proof == '') {
+            showFileError("upload_file12", "Please upload Payment Proof.");
             return;
         }
     } 
     if(registerAs === ''){
-        alert("Select Register As First");
+        showError("registerAs","Select Register As First.");
         return;
     }
     else if (firstname === '') {
-        alert("Enter Proper First Name");
+        showError("firstname","First Name is required.");
         return;
     } else if (lastname === '') {
-        alert("Enter Proper Last Name");
+        showError("lastname","Last Name is required.");
         return;
     } else if (email == '') {
-        alert("Enter Email");
+        showError("email","Email is required.");
         return;
     } else if (!emailReg.test(email)) {
-        alert("Enter Proper Email");
+        showError("email","Enter proper email.");
         return;
     } else if (testE == '1') {
-        alert("Email already exists");
+        showError("email","Email already exists.");
         return;
     } else if (phone == '') {
-        alert("Enter Phone number");
+        showError("phone","Enter Phone number.");
         return;
     } else if (!mobileRegex.test(phone)) {
-        alert("Enter Proper Phone Number");
+        showError("phone","Enter Proper Phone Number.");
         return;
     }
-    //get img url only if file exist
-    if (profile_pic_file !== '') {
-        profile_pic = $("#img_path1").val().trim();
-    }
-    if (aadhar_card_file !== '') {
-        aadhar_card = $("#img_path2").val().trim();
-    } 
-    if (pan_card_file !== '') {
-        pan_card = $("#img_path3").val().trim();
-    }
-    if (passbook_file !== '') {
-        passbook = $("#img_path4").val().trim();
-    } 
-    if (payment_proof_file !== '') {
-        payment_proof = $("#img_path12").val().trim();
-    }
-    if (voting_card_file !== '') {
-        voting_card = $("#img_path11").val().trim();
-    }
-    
-    
-    
-    
+   
 
     var dataObj = {
         action_type: actionType, // draft or submit
@@ -229,7 +330,7 @@ function submitAddForm(actionType) {
         email: email,
         dob: dob,
         gender: gender,
-        country_code: country_cd,
+        country_cd: country_cd,
         phone: phone,
         business_package,
         gst_no:gst_no,
@@ -266,13 +367,36 @@ function submitAddForm(actionType) {
         cache: false,
         success: function (data) {
             console.log(data);
-            if (data == 1) {
-                $("#loading-overlay").hide(); //loading screen
-                alert("Added Successfuly");
-                location.href = "techno_enterprise_list.php";
+            if ($.trim(data) == "1") {
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Add Successful!',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    location.href = "techno_enterprise_list.php";
+                });
+
+            }else if (data == 2) {
+
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Draft Saved',
+                    text: 'Franchisee details have been saved as a draft.',
+                    confirmButtonColor: '#0dcaf0'
+                }).then(() => {
+                    location.href = "techno_enterprise_list.php";
+                });
+
             } else {
-                $("#loading-overlay").hide(); //loading screen
-                alert("Failed");
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: 'Something went wrong.' //data || 
+                });
+
             }
         },
     });
@@ -341,127 +465,127 @@ function submitEditForm(actionType) {
     var userType = $('#userType').val();
 
     // Attachments
-    var profile_pic = aadhar_card = pan_card = passbook = voting_card = payment_proof = '';
-    var profile_pic_file = $("#upload_file1").val().trim();
-    var aadhar_card_file = $("#upload_file2").val().trim();
-    var pan_card_file = $("#upload_file3").val().trim();
-    var passbook_file = $("#upload_file4").val().trim();
-    var voting_card_file = $("#upload_file11").val().trim();
-    var payment_proof_file = $("#upload_file12").val().trim();
+    function getFilePath(id) {
+        return $(id).length
+            ? $(id).val().replace('../../uploading/', '').trim()
+            : "";
+    }
+
+    var profile_pic   = getFilePath("#img_path1");
+    var aadhar_card   = getFilePath("#img_path2");
+    var pan_card      = getFilePath("#img_path3");
+    var passbook      = getFilePath("#img_path4");
+    var voting_card   = getFilePath("#img_path11");
+    var payment_proof = getFilePath("#img_path12");
     // var note = $("#note").val().trim();
 
     var dob_year = dob.substring(0, 4);
     var age = current_year - dob_year;
     
-
+    clearAllErrors();
     // ======================
     // VALIDATION ONLY FOR SUBMIT
     // ======================
     if (actionType === 'submit') {
         
         if (firstname === '') {
-            alert("Enter Proper First Name");
+            showError("firstname","First Name is required.");
             return;
         } else if (lastname === '') {
-            alert("Enter Proper Last Name");
+            showError("lastname","Last Name is required.");
             return;
         } else if (email == '') {
-            alert("Enter Email");
+            showError("email","Email is required.");
             return;
         } else if (!emailReg.test(email)) {
-            alert("Enter Proper Email");
+            showError("email","Enter proper email.");
             return;
         } else if (testE == '1') {
-            alert("Email already exists");
+            showError("email","Email already exists.");
             return;
         } else if (dob === '') {
-            alert('Please Select Birthdate');
+            showError("dob","Please Select Birthdate.");
             return;
         } else if (age <= 18) {
-            alert('Age must be more than or equal to 18 Years');
+            showError("dob","Age must be more than or equal to 20 Years.");
             return;
         } else if (gender !== 'male' && gender !== 'female' && gender !== 'others') {
-            alert('Please Select Gender');
+            showError("gender","Please Select Gender.");
             return;
         } else if (country_cd == '') {
-            alert("Select Country Code");
+            showError("country_cd","Select Country Code.");
             return;
         } else if (phone == '') {
-            alert("Enter Phone number");
+            showError("phone","Enter Phone number.");
             return;
         } else if (!mobileRegex.test(phone)) {
-            alert("Enter Proper Phone Number");
+            showError("phone","Enter Proper Phone Number.");
             return;
         } else if (country === '') {
-            alert("Select Country");
+            showError("country","Select Country.");
             return;
         } else if (mystate === '') {
-            alert("Select State");
+            showError("mystate","Select State.");
             return;
         } else if (city === '') {
-            alert("Select City");
+            showError("city","Select City.");
             return;
         } else if (address === '' || specialChar.test(address) || address.length <= 7) {
-            alert("Enter Proper Address");
+            showError("address","Enter Proper Address.");
             return;
         } else if (paymentMode !== 'cash' && paymentMode !== 'cheque' && paymentMode !== 'online') {
-            alert("Select payment Mode");
+            showPaymentError("Select payment Mode");
             return;
-        } else if (profile_pic_file === '') {
-            alert('Please Upload profile Picture');
+        } else if(paymentMode == 'cheque' && chequeNo ==''){
+            showError("chequeNo","Please enter Cheque No.");
             return;
-        } else if (aadhar_card_file === '') {
-            alert('Please Upload Aadhar Card Picture');
+        } else if(paymentMode == 'cheque' && chequeDate ==''){
+            showError("chequeDate","Please enter Cheque Date.");
             return;
-        } else if (payment_proof_file == '') {
-            alert("Add Payment Proof");
+        } else if (paymentMode == 'cheque' && !isValidDate(chequeDate)) {
+            showError("chequeDate", "Please enter the valid date in YYYY-MM-DD format.");
+            return;
+        } else if(paymentMode == 'cheque' && bankName ==''){
+            showError("bankName","Please enter Bank Name.");
+            return;
+        } else if(paymentMode == 'online' && transactionNo ==''){
+            showError("transactionNo","Please enter Transaction No/Id.");
+            return;
+        } else if (profile_pic=== '') {
+            showFileError("upload_file1", "Please upload Profile Photo.");
+            return;
+        } else if (aadhar_card=== '') {
+            showFileError("upload_file2", "Please upload Aadhaar Card.");
+            return;
+        } else if (payment_proof== '') {
+            showFileError("upload_file12", "Please upload Payment Proof.");
             return;
         }
     } 
 
     if (firstname === '') {
-        alert("Enter Proper First Name");
+        showError("firstname","First Name is required.");
         return;
     } else if (lastname === '') {
-        alert("Enter Proper Last Name");
+        showError("lastname","Last Name is required.");
         return;
     } else if (email == '') {
-        alert("Enter Email");
+        showError("email","Email is required.");
         return;
     } else if (!emailReg.test(email)) {
-        alert("Enter Proper Email");
+        showError("email","Enter proper email.");
         return;
     } else if (testE == '1') {
-        alert("Email already exists");
+        showError("email","Email already exists.");
         return;
     } else if (phone == '') {
-        alert("Enter Phone number");
+        showError("phone","Enter Phone number.");
         return;
     } else if (!mobileRegex.test(phone)) {
-        alert("Enter Proper Phone Number");
+        showError("phone","Enter Proper Phone Number.");
         return;
     }
-
-    //get img url only if file exist
-    if (profile_pic_file !== '') {
-        profile_pic = $("#img_path1").val().trim();
-    }
-    if (aadhar_card_file !== '') {
-        aadhar_card = $("#img_path2").val().trim();
-    } 
-    if (pan_card_file !== '') {
-        pan_card = $("#img_path3").val().trim();
-    }
-    if (passbook_file !== '') {
-        passbook = $("#img_path4").val().trim();
-    } 
-    if (payment_proof_file !== '') {
-        payment_proof = $("#img_path12").val().trim();
-    }
-    if (voting_card_file !== '') {
-        voting_card = $("#img_path11").val().trim();
-    }
-
+    
     var dataObj = {
         action_type: actionType, // draft or submit
         editfor:editfor,
@@ -471,7 +595,7 @@ function submitEditForm(actionType) {
         email: email,
         dob: dob,
         gender: gender,
-        country_code: country_cd,
+        country_cd: country_cd,
         phone: phone,
         business_package,
         gst_no:gst_no,
@@ -508,13 +632,36 @@ function submitEditForm(actionType) {
         cache: false,
         success: function (data) {
             console.log(data);
-            if (data == 1) {
-                $("#loading-overlay").hide(); //loading screen
-                alert("Edit Successfuly");
-                location.href = "techno_enterprise_list.php";
+            if ($.trim(data) == "1") {
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Add Successful!',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    location.href = "techno_enterprise_list.php";
+                });
+
+            }else if (data == 2) {
+
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Draft Saved',
+                    text: 'Franchisee details have been saved as a draft.',
+                    confirmButtonColor: '#0dcaf0'
+                }).then(() => {
+                    location.href = "techno_enterprise_list.php";
+                });
+
             } else {
-                $("#loading-overlay").hide(); //loading screen
-                alert("Failed");
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: 'Something went wrong.' //data || 
+                });
+
             }
         },
     });

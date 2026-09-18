@@ -38,7 +38,7 @@
         <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css" />
         
         <!-- Customer Dashboard CSS -->
-        <link rel="stylesheet" href="../assets/css/super_techno_enterprise.css" />
+        <link rel="stylesheet" href="../assets/css/business_mentor.css" />
         <!-- Lists CSS -->
         <link rel="stylesheet" href="../assets/css/lists.css" />
         <!-- FontAwesome -->
@@ -164,7 +164,7 @@
         <div id="layout-wrapper">
 
             <?php 
-                    include_once 'super_techno_header.php'; 
+                    include_once 'business_mentor_header.php'; 
             ?>
 
             <!-- removeNotificationModal -->
@@ -193,7 +193,7 @@
             </div><!-- /.modal -->
             <!-- ========== App Menu ========== -->
             <?php 
-                    include_once 'super_techno_sidebar.php'; 
+                    include_once 'business_mentor_sidebar.php'; 
             ?>
 
             <!-- ============================================================== -->
@@ -210,7 +210,7 @@
                                     <h4 class="mb-sm-0">Recent Activities</h4>
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="super_techno_dashboard.php">Dashboard</a></li>
+                                            <li class="breadcrumb-item"><a href="business_mentor_dashboard.php">Dashboard</a></li>
                                             <li class="breadcrumb-item active">Recent Activities</li>
                                         </ol>
                                     </div>
@@ -278,7 +278,7 @@
 
                 </div><!-- End Page-content -->
                 <?php 
-                        include_once "super_techno_footer.php"; 
+                        include_once "business_mentor_footer.php"; 
                 ?>
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
@@ -352,12 +352,14 @@
                                         type = 'Customer';
                                         break;
                                         
-                                    case 'customer_comm':
+                                    case 'customerc':
                                         type = 'Customer Commission';
                                         break;
 
                                     case 'te':
                                     case 'I':
+                                    case 'f':
+                                    case 'tc':
                                         type = 'Recruitment';
                                         break;
 

@@ -22,7 +22,7 @@
             WHERE reference_no = :user_id
             AND status IN (1,3)
             ORDER BY register_date DESC
-            LIMIT 2
+            
         ");
 
         $sqlTE->execute([
@@ -52,7 +52,7 @@
             WHERE reference_no = :user_id
             AND status IN (1,3)
             ORDER BY register_date DESC
-            LIMIT 2
+            
         ");
 
         $sqlF->execute([
@@ -82,7 +82,7 @@
             WHERE reference_no = :user_id
             AND status IN (1,3)
             ORDER BY register_date DESC
-            LIMIT 2
+            
         ");
 
         $sqlI->execute([
@@ -159,7 +159,7 @@
             AND cu.status IN (1,3)
         ) AS customers
         ORDER BY register_date DESC
-        LIMIT 2
+        
         ");
 
         $sqlCU->execute([
@@ -189,7 +189,7 @@
             FROM goa_bm_payout
             WHERE bm_id = :user_id
             ORDER BY created_date DESC
-            LIMIT 2
+            
         ");
 
         $sqlRecruitment->execute([
@@ -218,7 +218,7 @@
             FROM sub_franchisee_payout
             WHERE master_franchisee = :user_id
             ORDER BY created_date DESC
-            LIMIT 2
+            
         ");
 
         $sqlFRecruitment->execute([
@@ -247,7 +247,7 @@
             FROM ca_cu_payout
             WHERE business_mentor = :user_id
             ORDER BY created_date DESC
-            LIMIT 2
+            
         ");
 
         $sqlCRecruitment->execute([
@@ -276,7 +276,7 @@
             FROM product_payout
             WHERE bm_id = :user_id
             ORDER BY created_date DESC
-            LIMIT 2
+            
         ");
 
         $sqlBooking->execute([
@@ -302,8 +302,6 @@
         usort($activities, function ($a, $b) {
             return strtotime($b['date']) <=> strtotime($a['date']);
         });
-
-        $activities = array_slice($activities, 0, 5);
 
         echo json_encode([
             'status' => true,
