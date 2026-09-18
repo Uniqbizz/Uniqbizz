@@ -60,7 +60,7 @@ $date = date('Y');
                         <!-- start page title -->
                         <div class="row">
                             <div class="col-9">
-                                <div class="page-title-box">
+                                <div class="page-title-box pb-2">
                                     <h4 class="mb-sm-0 font-size-18">Prepare Quotation</h4>
                                     <p class="fontSize12">Review customer request, customize the package and prepare the best quotation.</p>
                                 </div>
@@ -79,12 +79,46 @@ $date = date('Y');
                                     <i class="fa-solid fa-ellipsis"></i>
                                 </div>
                             </div>
-
                         </div>
                         <!-- end page title -->
+                        <!-- Card Section 1 Start -->
                         <div class="row rowAlignment">
-                            
+                            <div class="col-12">
+                                <div class="card cardShadow">
+                                    <div class="d-flex tabDisplayBlock">
+                                        <div class="p-2 imageWrapper">
+                                            <img src="../assets/images/andaman_nicobar.jpg" alt="" class="prepareQuotationImg">
+                                        </div>
+                                        <div class="p-3 widthStretch">
+                                            <div class="packageIDBtn">
+                                                PKG-AN001
+                                            </div>
+                                            <p class="fw-bolder text-black mb-1 fs-4" id="">Andaman and Nicobar Island</p>
+                                            <p class="fw-bold text-black mb-1 fs-5" id="">The Jewel of the Indian Ocean</p>
+                                            <div class="d-flex gap-4 redIcons laptopDisplay">
+                                                <p class="fontSize10 mb-3">
+                                                    <i class="fa-solid fa-location-dot me-2"></i>
+                                                    Andaman and Nicobar Island
+                                                </p>
+                                                <p class="fontSize10 mb-3">
+                                                    <i class="fa-regular fa-calendar me-2"></i>
+                                                    4 Nights / 5 Days
+                                                </p>
+                                                <p class="fontSize10 mb-3">
+                                                    <i class="fa-solid fa-utensils me-2"></i>
+                                                    Meals: Breakfast
+                                                </p>
+                                            </div>
+                                            <p class="fontSize12 mb-3">
+                                                The Andaman and Nicobar Island are a tropical haven in the Bay of Bengal, known for its immaculate beaches, crystal-clear turquoise waters, and abundant marine life.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        <!-- Card Section 1 End -->
+                        
                     </div>
                 </div>
                 <?php include_once "../footer.php" ?>
