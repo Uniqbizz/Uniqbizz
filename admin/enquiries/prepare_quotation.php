@@ -129,16 +129,60 @@ $date = date('Y');
                                     </h5>
                                     <div class="row">
                                         <div class="col-xl-6 d-flex gap-2">
-                                            <p class="fs-6 mb-0">Enquiry ID:</p>
+                                            <p class="fs-6 mb-0">Enquiry ID :</p>
                                             <p class="fs-6 mb-0 fw-bold">ENQ-20260908-001</p>
                                         </div>
                                         <div class="col-xl-6 d-flex gap-2">
-                                            <p class="fs-6 mb-0">Received On:</p>
+                                            <p class="fs-6 mb-0">Received On :</p>
                                             <p class="fs-6 mb-0 fw-bold">08 Sep 2026, 10:35 AM</p>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- Card Section 2 subsection 1 End -->
+                                <!-- Card Section 2 subsection 2 Start -->
+                                <div class="card p-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <h5 class="fw-bold text-black">
+                                            <i class="fa-solid fa-clipboard-list fa-xl me-3"></i>
+                                            Customer Information
+                                        </h5>
+                                        <a class="">
+                                            <i class="fa-solid fa-pen me-1"></i>
+                                            Edit
+                                        </a>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Full Name :</p>
+                                            <p class="fs-6 mb-2 fw-bold">Pratiksha Patil</p>
+                                        </div>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Mobile :</p>
+                                            <p class="fs-6 mb-2 fw-bold">+91 9876543210</p>
+                                        </div>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Email :</p>
+                                            <p class="fs-6 mb-2 fw-bold">pratiksha.patil@gmail.com</p>
+                                        </div>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Address :</p>
+                                            <p class="fs-6 mb-2 fw-bold">Mumbai, Maharashtra</p>
+                                        </div>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Customer Type :</p>
+                                            <p class="fs-6 mb-2 fw-bold">Regular Customer</p>
+                                        </div>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Neo Select Member :</p>
+                                            <p class="fs-6 mb-2 fw-bold">Yes (ID: NS12345)</p>
+                                        </div>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Travel Consultant :</p>
+                                            <p class="fs-6 mb-2 fw-bold">-</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Section 2 subsection 2 End -->
                             </div>
                             <div class="col-xl-4"></div>
                         </div>
