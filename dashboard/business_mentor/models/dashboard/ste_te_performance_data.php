@@ -111,7 +111,7 @@
                 cu_count DESC,
                 tc_count DESC
 
-            LIMIT 12
+            LIMIT 5
         ");
 
         $sql->execute([

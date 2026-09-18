@@ -199,8 +199,8 @@
                                                         <span>Recruitment Commission</span>
                                                     </div>
                                                     <div class="d-flex gap-3 recruitmentMargin">
-                                                        <div class="amount" id="recruitmentAmount"> &#8377; 100000</div>
-                                                        <div class="percent" id="recruitmentPercent">55%</div>
+                                                        <div class="amount" id="recruitmentAmount"> &#8377; 0</div>
+                                                        <div class="percent" id="recruitmentPercent">0%</div>
                                                     </div>
                                                 </div>
                                                 <div class="legend-item">
@@ -209,8 +209,8 @@
                                                         <span>Holiday account </br> activation Commission</span>
                                                     </div>
                                                     <div class="d-flex gap-3 recruitmentMargin">
-                                                        <div class="amount" id="neoAmount"> &#8377; 100000</div>
-                                                        <div class="percent" id="neoPercent">55%</div>
+                                                        <div class="amount" id="neoAmount"> &#8377; 0</div>
+                                                        <div class="percent" id="neoPercent">0%</div>
                                                     </div>
                                                 </div>
                                                 <div class="legend-item">

@@ -217,7 +217,7 @@
                             </div>
                         </div>
                         <div class="btn" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 35px; border-radius: 50%;">
-                            <a href="add_techno_enterprise.php" style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
+                            <a href="add_institution.php" style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
                                 <i class="fa-solid fa-circle-plus fa-beat-fade fa-3x" style="color: #4b38b3;"></i>
                             </a>
                         </div>
@@ -319,7 +319,7 @@
                                     </p>
 
                                     <p class="fs-6 mb-0">
-                                        ${data.sponsor_franchisee_id || '-'}
+                                        ${data.ref_id || '-'}
                                     </p>
                                 </div>
                             `;
@@ -392,7 +392,7 @@
                             
 
                             return `
-                                <form action="edit_techno_enterprise.php" method="POST" class="m-0">
+                                <form action="edit_institution.php" method="POST" class="m-0">
                                     <input
                                         type="hidden"
                                         name="id"
@@ -446,6 +446,7 @@
                         teTable.rows.add(res.data);
                         teTable.draw();
                         teTable.columns.adjust().responsive.recalc();
+                        
                     },
 
                     error: function(){
@@ -504,7 +505,7 @@
                                         ${data.ref_firstname || '-'} ${data.ref_lastname || ''}
                                     </p>
                                     <p class="fs-6 mb-0">
-                                        ${data.sponsor_franchisee_id || '-'}
+                                        ${data.reference_id || '-'}
                                     </p>
                                 </div>
                             `;
@@ -597,7 +598,7 @@
                         render: function(data) {
 
                             return `
-                                <form action="edit_techno_enterprise.php" method="POST" class="m-0">
+                                <form action="edit_institution.php" method="POST" class="m-0">
                                     
                                     <input
                                         type="hidden"
@@ -756,7 +757,7 @@
             $('#exportte').on('click', function(){
                 window.location.href =
                 'models/common/download_registered_list.php?' +
-                'type=te' +
+                'type=i' +
                 '&start_date=' + startDate +
                 '&end_date=' + endDate;
             });

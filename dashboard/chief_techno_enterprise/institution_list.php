@@ -311,7 +311,7 @@
                                     </p>
 
                                     <p class="fs-6 mb-0">
-                                        ${data.reference_id || '-'}
+                                        ${data.ref_id || '-'}
                                     </p>
                                 </div>
                             `;

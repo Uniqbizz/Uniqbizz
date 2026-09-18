@@ -400,7 +400,7 @@ function submitAddForm(actionType) {
                     }
                 });
 
-            } else if (data == 2) {
+            } else if (data == 4) {
                 $("#loading-overlay").hide(); // Hide loading screen
 
                 Swal.fire({
@@ -720,7 +720,7 @@ function submitEditForm(actionType) {
                     window.location.href = "institution_list.php";
                 });
 
-            } else if (data == 2) {
+            } else if (data == 4) {
                 $("#loading-overlay").hide(); // Hide loading screen
 
                 Swal.fire({

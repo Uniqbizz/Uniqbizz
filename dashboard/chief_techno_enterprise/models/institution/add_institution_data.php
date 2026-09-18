@@ -171,7 +171,7 @@
         ));
 
         if($result){
-            echo 1;
+            echo $status;
         }else{
             echo 0	;
         }

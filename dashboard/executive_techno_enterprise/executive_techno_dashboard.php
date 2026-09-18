@@ -173,10 +173,15 @@
                         </div>
                         <!-- Card section 3 -->
                         <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-2">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-3">
                                 <div class="commission-card px-2">
-                                    <div class="commission-title">
-                                        Commission Earned This Month
+                                    <div class="card-title d-flex justify-content-between p-2">
+                                        <p class="commission-title fs-5">Overall Commission Earned</p>
+                                        <p class="">
+                                            <select class="form-select yearSelect py-1" id="pyearFilter">
+                                                
+                                            </select>
+                                        </p>
                                     </div>
                                     <div class="commission-wrapper gap-2">
                                         <div class="chart-container">
@@ -193,24 +198,30 @@
                                                         <span class="dot" style="background:#5B2EFF"></span>
                                                         <span>Recruitment Commission</span>
                                                     </div>
-                                                    <div class="amount" id="recruitmentAmount"> &#8377; 0</div>
-                                                    <div class="percent" id="recruitmentPercent">0%</div>
+                                                    <div class="d-flex gap-3 recruitmentMargin">
+                                                        <div class="amount" id="recruitmentAmount"> &#8377; 0</div>
+                                                        <div class="percent" id="recruitmentPercent">0%</div>
+                                                    </div>
                                                 </div>
                                                 <div class="legend-item">
                                                     <div class="legend-left">
                                                         <span class="dot" style="background:#2563EB"></span>
-                                                        <span>Neo Select Commission</span>
+                                                        <span>Holiday account activation Commission</span>
                                                     </div>
-                                                    <div class="amount" id="neoAmount"> &#8377; 0</div>
-                                                    <div class="percent" id="neoPercent">0%</div>
+                                                    <div class="d-flex gap-3 recruitmentMargin">
+                                                        <div class="amount" id="neoAmount"> &#8377; 0</div>
+                                                        <div class="percent" id="neoPercent">0%</div>
+                                                    </div>
                                                 </div>
                                                 <div class="legend-item">
                                                     <div class="legend-left">
                                                         <span class="dot" style="background:#00C46A"></span>
-                                                        <span>Booking Commission</span>
+                                                        <span>Tour Booking Commission</span>
                                                     </div>
-                                                    <div class="amount" id="bookingAmount"> &#8377; 0</div>
-                                                    <div class="percent" id="bookingPercent">0%</div>
+                                                    <div class="d-flex gap-3 recruitmentMargin">
+                                                        <div class="amount" id="bookingAmount"> &#8377; 0</div>
+                                                        <div class="percent" id="bookingPercent">0%</div>
+                                                    </div>
                                                 </div>
                                                 <!-- <div class="report-link">
                                                     <a href="#">
@@ -549,6 +560,120 @@
             
             let commissionChart = null;
             let customerTrendChart;
+            function loadYearDropdown() {
+
+                const currentYear = new Date().getFullYear();
+                const startYear = 2023; // change if required
+
+                let options = '';
+
+                for (let year = currentYear; year >= startYear; year--) {
+
+                    options += `
+                        <option value="${year}" ${year === currentYear ? 'selected' : ''}>
+                            ${year}
+                        </option>
+                    `;
+
+                }
+
+                $('#pyearFilter').html(options);
+
+            }
+
+            loadYearDropdown();
+            function loadCommissionChart() {
+
+                let selectedYear = $('#pyearFilter').val();
+
+                $.ajax({
+
+                    url: 'models/dashboard/ete_com_piechart_data.php',
+                    type: 'POST',
+                    dataType: 'json',
+
+                    data: {
+                        selectedYear: selectedYear
+                    },
+
+                    success: function (res) {
+
+                        if (!res.status) {
+
+                            return;
+
+                        }
+
+                        const recruitmentAmount = Number(res.data.recruitment.amount || 0);
+                        const neoAmount = Number(res.data.neo_select.amount || 0);
+                        const bookingAmount = Number(res.data.booking.amount || 0);
+
+                        const totalEarnings = Number(res.data.total_earnings || 0);
+
+                        $('#recruitmentAmount').text('₹' + recruitmentAmount.toLocaleString('en-IN'));
+                        $('#neoAmount').text('₹' + neoAmount.toLocaleString('en-IN'));
+                        $('#bookingAmount').text('₹' + bookingAmount.toLocaleString('en-IN'));
+                        $('#paidEarnings').text('₹' + totalEarnings.toLocaleString('en-IN'));
+
+                        const recruitmentPercent = Number(res.data.recruitment.percentage || 0);
+                        const neoPercent = Number(res.data.neo_select.percentage || 0);
+                        const bookingPercent = Number(res.data.booking.percentage || 0);
+
+                        $('#recruitmentPercent').text(recruitmentPercent.toFixed(1) + '%');
+                        $('#neoPercent').text(neoPercent.toFixed(1) + '%');
+                        $('#bookingPercent').text(bookingPercent.toFixed(1) + '%');
+
+                        if (totalEarnings > 0) {
+
+                            $('.center-text p').text('Total Earnings');
+
+                        } else {
+
+                            $('.center-text p').text('No Earnings Yet');
+
+                        }
+
+                        if (commissionChart) {
+
+                            if (totalEarnings == 0) {
+
+                                commissionChart.data.datasets[0].data = [100];
+
+                                commissionChart.data.datasets[0].backgroundColor = [
+                                    '#E5E7EB'
+                                ];
+
+                            } else {
+
+                                commissionChart.data.datasets[0].data = [
+                                    recruitmentPercent,
+                                    neoPercent,
+                                    bookingPercent
+                                ];
+
+                                commissionChart.data.datasets[0].backgroundColor = [
+                                    '#5B2EFF',
+                                    '#2563EB',
+                                    '#00C46A'
+                                ];
+
+                            }
+
+                            commissionChart.update();
+
+                        }
+
+                    },
+
+                    error: function () {
+
+                        console.log('Unable to load chart.');
+
+                    }
+
+                });
+
+            }
 
             function initializeCustomerTrendChart() {
 
@@ -1524,6 +1649,11 @@
 
                 }
             );
+            $('#pyearFilter').on('change', function () {
+
+                loadCommissionChart();
+
+            });
             $(document).on(
                 'change',
                 '#yearFilter',

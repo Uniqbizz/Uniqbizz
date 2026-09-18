@@ -233,7 +233,7 @@
                 tc_count DESC,
                 te_name ASC
 
-            LIMIT 7
+            LIMIT 5
         ");
 
         $sql->execute([

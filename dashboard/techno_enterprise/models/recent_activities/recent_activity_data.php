@@ -10,19 +10,59 @@
 
         /*
         |--------------------------------------------------------------------------
-        | New F Added
+        | New TE Added
+        |--------------------------------------------------------------------------
+        */
+
+        $sqlTE = $conn->prepare("
+            SELECT
+                CONCAT(ca.firstname,' ',ca.lastname) AS name,
+                ca.register_date AS activity_date
+            FROM corporate_agency ca
+            INNER JOIN super_techno_enterprise st
+                ON ca.reference_no = st.super_techno_enterprise_id
+            INNER JOIN executive_techno_enterprise ete
+                ON st.reference_no = ete.executive_techno_enterprise_id
+            WHERE ete.reference_no = :user_id
+            AND ca.status IN (1,3)
+            AND st.status IN (1,3)
+            AND ete.status IN (1,3)
+            ORDER BY ca.register_date DESC
+            
+        ");
+
+        $sqlTE->execute([
+            ':user_id' => $userId
+        ]);
+
+        foreach($sqlTE->fetchAll(PDO::FETCH_ASSOC) as $row){
+
+            $activities[] = [
+                'type' => 'te',
+                'title' => 'New Techno Enterprise Added',
+                'description' => $row['name'],
+                'date' => $row['activity_date']
+            ];
+        }
+        
+        /*
+        |--------------------------------------------------------------------------
+        | New I Added
         |--------------------------------------------------------------------------
         */
 
         $sqlF = $conn->prepare("
             SELECT
-                CONCAT(firstname,' ',lastname) AS name,
-                register_date AS activity_date
-            FROM sub_franchisee
-            WHERE reference_no = :user_id
-            AND status IN (1,3)
-            ORDER BY register_date DESC
-            LIMIT 2
+                CONCAT(i.name) AS name,
+                i.register_date AS activity_date
+            FROM institution i
+            INNER JOIN executive_techno_enterprise ete
+                ON i.reference_no=ete.executive_techno_enterprise_id
+            WHERE ete.reference_no = :user_id
+            AND i.status IN (1,3)
+            AND ete.status IN (1,3)
+            ORDER BY i.register_date DESC
+            
         ");
 
         $sqlF->execute([
@@ -32,37 +72,7 @@
         foreach($sqlF->fetchAll(PDO::FETCH_ASSOC) as $row){
 
             $activities[] = [
-                'type' => 'f',
-                'title' => 'New Franchisee Added',
-                'description' => $row['name'],
-                'date' => $row['activity_date']
-            ];
-        }
-        /*
-        |--------------------------------------------------------------------------
-        | New I Added
-        |--------------------------------------------------------------------------
-        */
-
-        $sqlI = $conn->prepare("
-            SELECT
-                CONCAT(name) AS name,
-                register_date AS activity_date
-            FROM institution
-            WHERE reference_no = :user_id
-            AND status IN (1,3)
-            ORDER BY register_date DESC
-            LIMIT 2
-        ");
-
-        $sqlI->execute([
-            ':user_id' => $userId
-        ]);
-
-        foreach($sqlI->fetchAll(PDO::FETCH_ASSOC) as $row){
-
-            $activities[] = [
-                'type' => 'i',
+                'type' => 'I',
                 'title' => 'New Institution Added',
                 'description' => $row['name'],
                 'date' => $row['activity_date']
@@ -76,34 +86,22 @@
         */
 
         $sqlCU = $conn->prepare("
-            SELECT *
-            FROM (
-                SELECT
-                    CONCAT(cu.firstname, ' ', cu.lastname) AS customer_name,
-                    cu.register_date
-                FROM ca_customer cu
-                INNER JOIN ca_travelagency ta
-                    ON cu.ta_reference_no = ta.ca_travelagency_id
-                INNER JOIN sub_franchisee ca
-                    ON ta.reference_no = ca.sub_franchisee_id
-                WHERE ca.reference_no = :user_id
-                AND cu.status IN (1,3)
-
-                UNION ALL
-
-                SELECT
-                    CONCAT(cu.firstname, ' ', cu.lastname) AS customer_name,
-                    cu.register_date
-                FROM ca_customer cu
-                INNER JOIN institution_branch_manager ta
-                    ON cu.ta_reference_no = ta.institution_branch_manager_id
-                INNER JOIN institution ca
-                    ON ta.reference_no = ca.institution_id
-                WHERE ca.reference_no = :user_id
-                AND cu.status IN (1,3)
-            ) AS customers
-            ORDER BY register_date DESC
-            LIMIT 2
+            SELECT
+                CONCAT(cu.firstname,' ',cu.lastname) AS customer_name,
+                cu.register_date
+            FROM ca_customer cu
+            INNER JOIN ca_travelagency ta
+                ON cu.ta_reference_no = ta.ca_travelagency_id
+            INNER JOIN corporate_agency ca
+                ON ta.reference_no = ca.corporate_agency_id
+            INNER JOIN super_techno_enterprise st
+                ON ca.reference_no = st.super_techno_enterprise_id
+            INNER JOIN executive_techno_enterprise ete
+                ON st.reference_no = ete.executive_techno_enterprise_id
+            WHERE ete.reference_no = :user_id
+            AND cu.status IN (1,3)
+            ORDER BY cu.register_date DESC
+            
         ");
 
         $sqlCU->execute([
@@ -122,59 +120,30 @@
 
         /*
         |--------------------------------------------------------------------------
-        | Francisee Recruitment Commission
+        | TE Recruitment Commission
         |--------------------------------------------------------------------------
         */
 
-        $sqlFRecruitment = $conn->prepare("
+        $sqlRecruitment = $conn->prepare("
             SELECT
-                commission_mf,
+                cte_amount,
                 created_date
-            FROM sub_franchisee_payout
-            WHERE master_franchisee = :user_id
+            FROM techno_enterprise_payout
+            WHERE cte_id = :user_id
             ORDER BY created_date DESC
-            LIMIT 2
+            
         ");
 
-        $sqlFRecruitment->execute([
+        $sqlRecruitment->execute([
             ':user_id' => $userId
         ]);
 
-        foreach($sqlFRecruitment->fetchAll(PDO::FETCH_ASSOC) as $row){
+        foreach($sqlRecruitment->fetchAll(PDO::FETCH_ASSOC) as $row){
 
             $activities[] = [
                 'type' => 'recruitment',
-                'title' => 'Franchisee Recruitment Commission Credited',
-                'description' => '+ ₹ '.number_format($row['commission_mf']),
-                'date' => $row['created_date']
-            ];
-        }
-        /*
-        |--------------------------------------------------------------------------
-        | Institution Recruitment Commission
-        |--------------------------------------------------------------------------
-        */
-
-        $sqlIRecruitment = $conn->prepare("
-            SELECT
-                commission_bm_mf_sf,
-                created_date
-            FROM institution_payout
-            WHERE bm_mf_sf = :user_id
-            ORDER BY created_date DESC
-            LIMIT 2
-        ");
-
-        $sqlIRecruitment->execute([
-            ':user_id' => $userId
-        ]);
-
-        foreach($sqlIRecruitment->fetchAll(PDO::FETCH_ASSOC) as $row){
-
-            $activities[] = [
-                'type' => 'recruitment',
-                'title' => 'Institution Recruitment Commission Credited',
-                'description' => '+ ₹ '.number_format($row['commission_bm_mf_sf']),
+                'title' => 'TE Recruitment Commission Credited',
+                'description' => '+ ₹ '.number_format($row['cte_amount']),
                 'date' => $row['created_date']
             ];
         }
@@ -186,12 +155,12 @@
 
         $sqlCRecruitment = $conn->prepare("
             SELECT
-                commision_bm,
+                commision_cte,
                 created_date
             FROM ca_cu_payout
-            WHERE business_mentor = :user_id
+            WHERE cte_id = :user_id
             ORDER BY created_date DESC
-            LIMIT 2
+            
         ");
 
         $sqlCRecruitment->execute([
@@ -201,9 +170,38 @@
         foreach($sqlCRecruitment->fetchAll(PDO::FETCH_ASSOC) as $row){
 
             $activities[] = [
-                'type' => 'customerc',
+                'type' => 'customer_comm',
                 'title' => 'Holiday Account Commission Credited',
-                'description' => '+ ₹ '.number_format($row['commision_bm']),
+                'description' => '+ ₹ '.number_format($row['commission_cte']),
+                'date' => $row['created_date']
+            ];
+        }
+        /*
+        |--------------------------------------------------------------------------
+        | Institution Recruitment Commission
+        |--------------------------------------------------------------------------
+        */
+
+        $sqlFRecruitment = $conn->prepare("
+            SELECT
+                commission_emp,
+                created_date
+            FROM institution_payout
+            WHERE employees = :user_id
+            ORDER BY created_date DESC
+            
+        ");
+
+        $sqlFRecruitment->execute([
+            ':user_id' => $userId
+        ]);
+
+        foreach($sqlFRecruitment->fetchAll(PDO::FETCH_ASSOC) as $row){
+
+            $activities[] = [
+                'type' => 'recruitment',
+                'title' => 'Institution Recruitment Commission Credited',
+                'description' => '+ ₹ '.number_format($row['commission_emp']),
                 'date' => $row['created_date']
             ];
         }
@@ -215,12 +213,12 @@
 
         $sqlBooking = $conn->prepare("
             SELECT
-                bm_amt,
+                bch_amt,
                 created_date
             FROM product_payout
-            WHERE bm_id = :user_id
+            WHERE bch_id = :user_id
             ORDER BY created_date DESC
-            LIMIT 2
+            
         ");
 
         $sqlBooking->execute([
@@ -232,7 +230,7 @@
             $activities[] = [
                 'type' => 'booking',
                 'title' => 'Booking Commission Credited',
-                'description' => '+ ₹ '.number_format($row['bm_amt']),
+                'description' => '+ ₹ '.number_format($row['bch_amt']),
                 'date' => $row['created_date']
             ];
         }
@@ -246,8 +244,6 @@
         usort($activities, function ($a, $b) {
             return strtotime($b['date']) <=> strtotime($a['date']);
         });
-
-        $activities = array_slice($activities, 0, 5);
 
         echo json_encode([
             'status' => true,

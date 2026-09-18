@@ -9,29 +9,31 @@
         $sql = $conn->prepare("
         
             SELECT
-                ca.id,
-                ca.firstname,
-                ca.lastname,
-                ca.contact_no,
-                ca.email,
-                ca.added_on,
-                ca.status,
-                ca.user_type,
+                i.id,
+                i.name AS firstname,
+                '' AS lastname,
+                i.contact_no,
+                i.email,
+                i.added_on,
+                i.status,
+                i.user_type,
                 'I' AS userTypeStr,
 
-                ste.firstname AS ref_firstname,
-                ste.lastname AS ref_lastname,
-                ste.sponsor_franchisee_id,
+                bm.firstname AS ref_firstname,
+                bm.lastname AS ref_lastname,
+                bm.sponsor_franchisee_id AS ref_id,
 
                 'institution' AS source_table
 
-            FROM institution ca
+            FROM institution i
 
-            INNER JOIN sponsor_franchisee ste
-                ON ca.reference_no = ste.sponsor_franchisee_id
+            INNER JOIN sponsor_franchisee bm
+                ON i.reference_no = bm.sponsor_franchisee_id
 
-            WHERE ca.reference_no = :user_id
-            AND ca.status IN (0,2,4)
+            WHERE bm.sponsor_franchisee_id= :user_id
+            AND i.status IN (0,2,4)
+            AND bm.status = 1
+
             ORDER BY id DESC;
         ");
 
@@ -57,31 +59,4 @@
     }
 
     exit;
-
-    // UNION ALL
-
-    //         SELECT
-    //             sf.id,
-    //             sf.firstname,
-    //             sf.lastname,
-    //             sf.contact_no,
-    //             sf.email,
-    //             sf.added_on,
-    //             sf.status,
-    //             sf.user_type,
-    //             'SF' AS userTypeStr,
-
-    //             ste.firstname AS ref_firstname,
-    //             ste.lastname AS ref_lastname,
-    //             ste.sponsor_franchisee_id,
-
-    //             'sub_franchisee' AS source_table
-
-    //         FROM sub_franchisee sf
-
-    //         INNER JOIN sponsor_franchisee ste
-    //             ON sf.reference_no = ste.sponsor_franchisee_id
-
-    //         WHERE sf.reference_no = :user_id
-    //         AND sf.status IN (0,2,4)
 ?>

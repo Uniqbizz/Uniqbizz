@@ -541,7 +541,7 @@
             return strtotime($b['date']) <=> strtotime($a['date']);
         });
 
-        $activities = array_slice($activities, 0, 7);
+        $activities = array_slice($activities, 0, 5);
 
         echo json_encode([
             'status' => true,
