@@ -5,6 +5,9 @@
 .fontSize12 {
     font-size: 12px;
 }
+.textDarkBlue {
+    color: #05054b !important;
+}
 .shareLinksBtn {
     border: 1px solid #aeadad;
     background-color: #ebebf7;
@@ -33,19 +36,19 @@
     align-items: center;
 }
 .tabDisplayBlock{
-    display:flex;
-    align-items:stretch; 
+    display: flex;
+    align-items: stretch; 
 }
 .imageWrapper{
-    width:250px;
-    min-width:250px;
+    width: 250px;
+    min-width: 250px;
 }
 .prepareQuotationImg{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    border-radius:6px;
-    display:block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
 }
 .packageIDBtn {
     border: 1px solid #b4b4ee;
@@ -58,6 +61,18 @@
 }
 .redIcons i {
     color: #e03d42;
+}
+.paxCol {
+    position: relative;
+}
+.paxCol:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    right: 0;
+    width: 1px;
+    background: #dee2e6;
 }
 @media (max-width: 1102px) {
     .laptopDisplay {
