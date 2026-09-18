@@ -187,7 +187,14 @@
                             </a>
                         </div>
                         <a class="dropdown-item" href="profile.php"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
-                        <!-- <a class="dropdown-item" href="../reset_password.php"><i class="fa-solid fa-key"></i></i> <span class="align-middle">Reset Password</span></a> -->
+                        <!-- Wishlist -->
+                         
+                        <button type="button" class="dropdown-item stickyTextBlack" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas" aria-controls="wishlistOffcanvas">
+                            <i class="ri-heart-line align-content-center stickyTextBlack"></i>
+                            My Wishlist
+                            <span class="wishlistCount ms-1">0</span>
+                        </button>
+                        
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="../logout.php" class="mylogout"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
                     </div>
@@ -196,3 +203,13 @@
         </div>
     </div>
 </header>
+<?php include __DIR__ . '/../../wishlist_offcanvas.php'; ?>
+<?php
+
+$isLoggedIn = !empty($_SESSION['username2']);
+
+?>
+<script>
+    const isWishlistUserLoggedIn =<?= $isLoggedIn ? 'true' : 'false' ?>;
+</script>
+<script src="../assets/js/wishlist.js"></script>

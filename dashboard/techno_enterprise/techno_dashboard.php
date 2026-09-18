@@ -1585,7 +1585,7 @@
 
                 }
             );
-             $('#pyearFilter').on('change', function () {
+            $('#pyearFilter').on('change', function () {
 
                 loadCommissionChart();
 
