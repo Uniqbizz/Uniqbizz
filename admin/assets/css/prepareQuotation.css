@@ -84,6 +84,18 @@
 .paxColor {
     color: #0088ff;
 }
+.editCustomerBtn {
+    background-color: #fff;
+    color: #556ee6;
+    border: 1px solid #556ee6;
+    border-radius: 6px;
+    padding: 4px 8px;
+}
+.editCustomerBtn:hover {
+    background-color: #556ee6;
+    color: #fff;
+    border: 1px solid #556ee6;
+}
 @media (max-width: 1102px) {
     .laptopDisplay {
         display: block !important;

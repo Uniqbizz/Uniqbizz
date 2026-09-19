@@ -146,7 +146,7 @@ $date = date('Y');
                                             <i class="fa-solid fa-user fa-xl me-3"></i>
                                             Customer Information
                                         </h5>
-                                        <a class="">
+                                        <a class="editCustomerBtn">
                                             <i class="fa-solid fa-pen me-1"></i>
                                             Edit
                                         </a>
@@ -204,48 +204,48 @@ $date = date('Y');
                                         </div>
                                         <div class="col-xl-4">
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput1" class="form-label">Nights / Days</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput1" placeholder="4 Nights / 5 Days">
+                                                <label for="exampleFormControlInput3" class="form-label">Nights / Days</label>
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput3" placeholder="4 Nights / 5 Days">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-xl-4">
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput1" class="form-label">Pickup</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput1" placeholder="Port Blair">
+                                                <label for="exampleFormControlInput4" class="form-label">Pickup</label>
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput4" placeholder="Port Blair">
                                             </div>
                                         </div>
                                         <div class="col-xl-4">
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput1" class="form-label">Drop</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput1" placeholder="Port Blair">
+                                                <label for="exampleFormControlInput5" class="form-label">Drop</label>
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput5" placeholder="Port Blair">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row paxRow">
                                         <div class="col-xl-3 paxCol">
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput1" class="form-label">Adults (12+ yrs)</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput1" placeholder="2">
+                                                <label for="exampleFormControlInput6" class="form-label">Adults (12+ yrs)</label>
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput6" placeholder="2">
                                             </div>
                                         </div>
                                         <div class="col-xl-3 paxCol">
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput1" class="form-label">Children (2-11 yrs)</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput1" placeholder="1">
+                                                <label for="exampleFormControlInput7" class="form-label">Children (2-11 yrs)</label>
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput7" placeholder="1">
                                             </div>
                                         </div>
                                         <div class="col-xl-3 paxCol">
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput1" class="form-label">Infants (0-1 yrs)</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput1" placeholder="0">
+                                                <label for="exampleFormControlInput8" class="form-label">Infants (0-1 yrs)</label>
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput8" placeholder="0">
                                             </div>
                                         </div>
                                         <div class="col-xl-3 paxCol">
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput1" class="form-label">Total Pax</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput1" placeholder="3">
+                                                <label for="exampleFormControlInput9" class="form-label">Total Pax</label>
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput9" placeholder="3">
                                             </div>
                                         </div>
                                     </div>
@@ -285,6 +285,46 @@ $date = date('Y');
                                     </div>
                                 </div>
                                 <!-- Card Section 2 subsection 4 End -->
+                                <!-- Card Section 2 subsection 5 Start -->
+                                <div class="card p-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <h5 class="fw-bold textDarkBlue">
+                                            <i class="fa-solid fa-calendar-days fa-xl me-3"></i>
+                                            Customer Preferences <span class="fw-normal">(Submitted by Customer)</span>
+                                        </h5>
+                                        <a class="editCustomerBtn">
+                                            <i class="fa-solid fa-pen me-1"></i>
+                                            Edit
+                                        </a>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-4">
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput10" class="form-label">Hotel Category</label>
+                                                <input type="text" class="form-control" id="exampleFormControlInput10" placeholder="3 Star">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput11" class="form-label">Meal Preference</label>
+                                                <input type="text" class="form-control" id="exampleFormControlInput11" placeholder="Breakfast">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput12" class="form-label">Transport Preference</label>
+                                                <input type="text" class="form-control" id="exampleFormControlInput12" placeholder="AC Vehicle">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-8">
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput13" class="form-label">Special Requirements</label>
+                                                <input type="text" class="form-control" id="exampleFormControlInput13" placeholder="Sea-facing room if available. Wheelchair access required.">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Section 2 subsection 5 End -->
                             </div>
                             <div class="col-xl-4"></div>
                         </div>
