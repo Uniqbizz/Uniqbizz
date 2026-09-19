@@ -251,6 +251,40 @@ $date = date('Y');
                                     </div>
                                 </div>
                                 <!-- Card Section 2 subsection 3 End -->
+                                <!-- Card Section 2 subsection 4 Start -->
+                                <div class="card p-3">
+                                    <h5 class="fw-bold textDarkBlue">
+                                        <i class="fa-solid fa-bed fa-xl me-3"></i>
+                                        Room Allocation <span class="fw-normal">(Requested by Customer)</span>
+                                    </h5>
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                            <table class="table table-bordered mb-0">
+                                                <thead>
+                                                    <tr class="table-active">
+                                                        <th scope="col">Room No.</th>
+                                                        <th scope="col">Travellers</th>
+                                                        <th scope="col">Room Type</th>
+                                                        <th scope="col">Extra Mattress</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Room 1</td>
+                                                        <td>3(2 Adults + 1 Child)</td>
+                                                        <td>1 Double Bed</td>
+                                                        <td>1 Extra Mattress</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="paxDescriptionBtn d-flex">
+                                                <i class="fa-solid fa-circle-user paxColor fa-lg align-content-center me-2"></i>
+                                                3 Pax will be accommodated in 1 room with extra mattress.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Section 2 subsection 4 End -->
                             </div>
                             <div class="col-xl-4"></div>
                         </div>

@@ -74,6 +74,16 @@
     width: 1px;
     background: #dee2e6;
 }
+.paxDescriptionBtn {
+    background-color: #cde3f6;
+    color: #121261;
+    border: 1px solid #bfe0fc;
+    padding: 12px;
+    border-radius: 4px;
+}
+.paxColor {
+    color: #0088ff;
+}
 @media (max-width: 1102px) {
     .laptopDisplay {
         display: block !important;
