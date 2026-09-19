@@ -514,7 +514,7 @@
                         }
                     },
                     {
-                        data: 'amount',
+                        data: 'paid_amount',
                         render: function(data) {
 
                             if(!data || data == 0) {

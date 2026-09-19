@@ -324,7 +324,7 @@
                     },
 
                     {
-                        data: 'register_date',
+                        data: 'added_on',
                         render: function(data){
 
                             if(!data) return '-';

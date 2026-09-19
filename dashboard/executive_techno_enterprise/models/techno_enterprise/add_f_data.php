@@ -33,18 +33,41 @@
     $bankName=$_POST['bankName'];
     $transactionNo=$_POST['transactionNo'];
     $message2='';
-    $user_type="16"; 
+    $user_type="29"; 
     $register_by=$userType;
+    //commission and incentive 
+    $comm_per=0;
+    $ins_per=0;
+    //amount = 2,00,000
+    if ($amount == '200000') {
+        $comm_per=10;
+        $ins_per=10;
+    } 
+    //amount = 3,00,000
+    else if($amount == '300000') {
+        $comm_per=15;
+        $ins_per=15;
+    }
+    //amount = 4,00,000
+    else if($amount == '400000') {
+        $comm_per=20;
+        $ins_per=20;
+    }
+    //amount = 5,00,000
+    else if($amount >= '500000') {
+        $comm_per=30;
+        $ins_per=20;
+    }
 
     if($actionType == 'draft'){
         // data insertion for logs tables
         $status= '4';
-        $message="Techno Enterprise form saved as draft by $userId($userFname' '$userLname) from Add Page";
+        $message="Franchisee form saved as draft by $userId($userFname' '$userLname) from Add Page";
     }else{
         // data insertion for logs tables
         $status= '2';
-        $message="Added new Techno Enterprise. TE name - " .$fname." ".$lname;
-        $message2="Added new Techno Enterprise by Super Techno Eenterprise";
+        $message="Added new Franchisee. TE name - " .$fname." ".$lname;
+        $message2="Added new Franchisee by Super Techno Eenterprise";
     }
 
     // get age of the user
@@ -53,17 +76,17 @@
     $age = $current_year - $birth_year;
 
     // data insertion for logs tables 
-    $title="Techno Enterprise";
+    $title="Franchisee";
     
     $fromWhom=$userType;
     $operation="Add";
 
-    $sql= "INSERT INTO `corporate_agency` (firstname, lastname, nominee_name, nominee_relation, email, country_code, 
-            contact_no , date_of_birth, age, gender, gst_no, amount, profile_pic, pan_card, aadhar_card, voting_card, 
+    $sql= "INSERT INTO `sub_franchisee` (firstname, lastname, nominee_name, nominee_relation, email, country_code, 
+            current_commission_per,current_incentive_per,contact_no , date_of_birth, age, gender, gst_no, amount, profile_pic, pan_card, aadhar_card, voting_card, 
             bank_passbook, payment_proof,country, state, city, pincode, address, payment_mode, cheque_no, cheque_date, 
             bank_name, transaction_no, user_type, registrant, reference_no, register_by, status) 
-            VALUES (:firstname ,:lastname, :nominee_name, :nominee_relation, :email, :country_code, :contact_no, :bdate, 
-            :age, :gender , :gst_no, :amount, :profile_pic, :pan_card, :aadhar_card, :voting_card, :bank_passbook, 
+            VALUES (:firstname ,:lastname, :nominee_name, :nominee_relation, :email, :country_code,:current_commission_per,:current_incentive_per,
+            :contact_no, :bdate, :age, :gender , :gst_no, :amount, :profile_pic, :pan_card, :aadhar_card, :voting_card, :bank_passbook, 
             :payment_proof, :country, :state, :city, :pincode,:address, :payment_mode, :cheque_no, :cheque_date, :bank_name, 
             :transaction_no, :user_type,:registrant,  :reference_no, :register_by, :status)";
     $stmt3 =$conn->prepare($sql);
@@ -91,6 +114,8 @@
         ':gender' => $gender,
         ':gst_no' => $gst_no,
         ':amount' => $amount,
+        ':current_commission_per' => $comm_per,
+        ':current_incentive_per' => $ins_per,
         ':profile_pic' => $profile_pic,
         ':pan_card' => $pan_card,
         ':aadhar_card' => $aadhar_card,
