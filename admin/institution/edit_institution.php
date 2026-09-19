@@ -305,7 +305,7 @@
                                         <div class="form-control">
                                             <div class="row">
                                                 <div class="col-lg-4 col-4 col-sm-6 col-12">
-                                                    <label class="radio-inline mb-0 ms-3" for="test3"><input type="radio" id="test3" class="form-check-input instituteType me-3" name="instituteType" value="bank" <?= ($types_of_institution == "Bank") ? 'checked' : ''; ?> disabled>Bank</label>
+                                                    <label class="radio-inline mb-0 ms-3" for="test3"><input type="radio" id="test3" class="form-check-input instituteType me-3" name="instituteType" value="bank" <?= ($types_of_institution == "bank") ? 'checked' : ''; ?> disabled>Bank</label>
                                                 </div>
                                                 <div class="col-lg-4 col-4 col-sm-6 col-12">
                                                     <label class="radio-inline mb-0 ms-3" for="test4"><input type="radio" id="test4" class="form-check-input instituteType me-3" name="instituteType" value="nbfc" <?= ($types_of_institution == "nbfc") ? 'checked' : ''; ?> disabled>NBFC</label>
