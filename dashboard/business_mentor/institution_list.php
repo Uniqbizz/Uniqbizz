@@ -319,7 +319,7 @@
                                     </p>
 
                                     <p class="fs-6 mb-0">
-                                        ${data.business_mentor_id || '-'}
+                                        ${data.ref_id || '-'}
                                     </p>
                                 </div>
                             `;
@@ -505,7 +505,7 @@
                                         ${data.ref_firstname || '-'} ${data.ref_lastname || ''}
                                     </p>
                                     <p class="fs-6 mb-0">
-                                        ${data.business_mentor_id || '-'}
+                                        ${data.reference_id || '-'}
                                     </p>
                                 </div>
                             `;

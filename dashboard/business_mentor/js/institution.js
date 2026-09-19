@@ -386,7 +386,7 @@ function submitAddForm(actionType) {
         success: function (data) {
             Swal.close();
             console.log(data);
-            if (data == 1) {
+            if (data == 2) {
                 $("#loading-overlay").hide(); // Hide loading screen
 
                 Swal.fire({
@@ -709,7 +709,7 @@ function submitEditForm(actionType) {
 
             Swal.close();
 
-            if (data == 1) {
+            if (data == 2) {
 
                 Swal.fire({
                     icon: "success",
