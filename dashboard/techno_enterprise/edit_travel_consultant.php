@@ -130,13 +130,13 @@
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="user_id_name">User Id & Name<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="user_id_name" placeholder="Enter Reference ID" value="<?php echo $userId; ?>" readonly>
+                                        <input type="text" class="form-control" id="user_id_name" placeholder="Enter Reference ID" value="" readonly>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="input-block mb-3">
                                         <label class="col-form-label" for="reference_name">Reference Name<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="reference_name" placeholder="Enter Reference Name" value="<?php echo $userFname.' '.$userLname; ?>" readonly>
+                                        <input type="text" class="form-control" id="reference_name" placeholder="Enter Reference Name" value="" readonly>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
