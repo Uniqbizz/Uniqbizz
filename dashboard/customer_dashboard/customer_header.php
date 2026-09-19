@@ -313,7 +313,7 @@
         </div>
     </div>
 </header>
-<?php include __DIR__ . $base_url.'wishlist_offcanvas.php'; ?>
+<?php include __DIR__ . '/../../wishlist_offcanvas.php'; ?>
 <?php
 
 $isLoggedIn = !empty($_SESSION['username2']);
@@ -322,4 +322,4 @@ $isLoggedIn = !empty($_SESSION['username2']);
 <script>
     const isWishlistUserLoggedIn =<?= $isLoggedIn ? 'true' : 'false' ?>;
 </script>
-<script src="<?= $base_url ?>assets/js/wishlist.js"></script>
+<script src="js/wishlist.js"></script>
