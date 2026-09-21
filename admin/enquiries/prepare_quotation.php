@@ -325,8 +325,48 @@ $date = date('Y');
                                     </div>
                                 </div>
                                 <!-- Card Section 2 subsection 5 End -->
+                                <!-- Card Section 2 subsection 6 Start -->
+                                <div class="card p-3">
+                                    <h5 class="fw-bold textDarkBlue">
+                                        <i class="fa-solid fa-file-lines fa-xl me-3"></i>
+                                        Package Information <span class="fw-normal">(From Package Master)</span>
+                                    </h5>
+                                    <div class="row paxRow mt-1">
+                                        <div class="col-xl-2 paxCol">
+                                            <p class="fs-6 mb-1">Package ID</p>
+                                            <p class="fs-6 fw-bold mb-2">PKG-AN001</p>
+                                        </div>
+                                        <div class="col-xl-10">
+                                            <div class="row paxRow">
+                                                <div class="col-xl-4 paxCol">
+                                                    <p class="fs-6 mb-1">Destination</p>
+                                                    <p class="fs-6 fw-bold mb-2">Andaman and Nicobar Island</p>
+                                                </div>
+                                                <div class="col-xl-4 paxCol">
+                                                    <p class="fs-6 mb-1">Duration</p>
+                                                    <p class="fs-6 fw-bold mb-2">4 Nights / 5 Days</p>
+                                                </div>
+                                                <div class="col-xl-4">
+                                                    <p class="fs-6 mb-1">Package Type</p>
+                                                    <p class="fs-6 fw-bold mb-2">Leisure</p>
+                                                </div>
+                                                <div class="col-xl-6 paxCol">
+                                                    <p class="fs-6 mb-1">Pacakge Category</p>
+                                                    <p class="fs-6 fw-bold mb-2">Beach Holidays</p>
+                                                </div>
+                                                <div class="col-xl-6 paxCol">
+                                                    <p class="fs-6 mb-1">Valid Travel Period</p>
+                                                    <p class="fs-6 fw-bold mb-2">01 Apr 2026 - 31 Mar 2027</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Section 2 subsection 6 End -->
                             </div>
-                            <div class="col-xl-4"></div>
+                            <div class="col-xl-4">
+                                
+                            </div>
                         </div>
                         <!-- Card Section 2 End -->
 
