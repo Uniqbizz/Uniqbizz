@@ -555,21 +555,22 @@
                         }
                     },
                     {
-                        data: 'status',
-                        render: function(status) {
+                        data: null,
+                        render: function(data) {
 
                             let badge = 'tePendingBtn';
                             let text = 'Pending';
 
-                            if(status == 1){
+                            if(data.status == 1){
 
                                 badge = 'teActiveBtn';
                                 text = 'Active';
 
-                            }else if(status == 2){
+                            }else if(data.status == 3){
 
-                                badge = 'tePendingBtn';
+                                badge = 'teDeletedBtn';
                                 text = 'Inactive';
+                                deldate='<p>Deleted On:'+data.deleted_date ?? ''+'</p>';
 
                             }else{
 
@@ -582,6 +583,7 @@
                                 <p class="${badge} rounded-pill text-center mb-0">
                                     ${text}
                                 </p>
+                                
                             `;
                         }
                     },

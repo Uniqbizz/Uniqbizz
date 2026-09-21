@@ -40,6 +40,7 @@
                     sf.status,
                     sf.amount,
                     sf.user_type,
+                    sf.deleted_date,
 
                     bm.firstname AS ref_firstname,
                     bm.lastname AS ref_lastname,
