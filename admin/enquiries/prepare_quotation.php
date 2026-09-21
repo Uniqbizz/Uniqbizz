@@ -365,11 +365,164 @@ $date = date('Y');
                                 <!-- Card Section 2 subsection 6 End -->
                             </div>
                             <div class="col-xl-4">
-                                
+                                <div class="card cardShadow">
+                                    <div class="quick-header p-3">
+                                        <div class="d-flex gap-2">
+                                            <i class="fa-solid fa-location-dot fa-xl align-content-center quickIcon"></i>
+                                            <h5 class="fw-bold mb-0 textDarkBlue align-content-center">Quick Action</h5>
+                                        </div>
+                                        <button type="button" class="recalculate-btn" id="#">
+                                            <i class="fa-solid fa-rotate-right"></i>
+                                            Recalculate
+                                        </button>
+                                    </div>
+                                    <div class="px-3">
+                                        <p class="mb-2 fw-bold blueDiv">Base Price (Per Person)</p>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="mb-1">Adult (12+ yrs)</p>
+                                                <p class="mb-1">Child (2-11 yrs)</p>
+                                                <p class="mb-1">Infant (0-1 yrs)</p>
+                                            </div>
+                                            <div>
+                                                <p class="mb-1 text-end">&#8377; 18,199.00</p>
+                                                <p class="mb-1 text-end">&#8377; 11,900.00</p>
+                                                <p class="mb-1 text-end">FREE</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-3 pb-0">
+                                        <p class="mb-2 fw-bold blueDiv">Price Based on Travelers</p>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="mb-1">Adult: <span class="" id="totalAdultCount">2</span> x &#8377; 18,199.00</p>
+                                                <p class="mb-1">Children: <span class="" id="totalChildrenCount">1</span> x &#8377; 11,900.00</p>
+                                                <p class="mb-1">Infant: <span class="" id="totalInfantCount">0</span> x FREE</p>
+                                            </div>
+                                            <div>
+                                                <p class="mb-1 text-end" id="adultTotal">&#8377; 36,398.00</p>
+                                                <p class="mb-1 text-end" id="childrenTotal">&#8377; 11,900.00</p>
+                                                <p class="mb-1 text-end">&#8377; 0.00</p>
+                                            </div>
+                                        </div>
+                                        <hr class="my-1 border border-2 mx-0">
+                                        <div class="d-flex justify-content-between">
+                                            <p class="fw-bold fs-5 textDarkBlue mb-0">Subtotal</p>
+                                            <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="subTotal">&#8377; 48,298.00</p>
+                                        </div>
+                                    </div>
+                                    <div class="p-3">
+                                        <p class="fw-bold blueDiv">Adjustments</p>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="mb-1">Discount / Markup</p>
+                                                <p class="mb-1">Extra Mattress (1 x &#8377; 1,500)</p>
+                                                <p class="mb-1">Convenience Fee </p>
+                                                <p class="mb-1">GST (5%) </p>
+                                            </div>
+                                            <div>
+                                                <p class="mb-1 text-end text-success" id="#">- &#8377; 0.00</p>
+                                                <p class="mb-1 text-end" id="#">&#8377; 1,500.00</p>
+                                                <p class="mb-1 text-end" id="#">&#8377; 181.99</p>
+                                                <p class="mb-1 text-end">&#8377; 2,499.00</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="p-3 pb-0">
+                                        <p class="fw-bold mb-2">
+                                            Apply Coupons
+                                            <span class="text-muted fw-normal">
+                                                (One coupon per passenger)
+                                                <i class="ri-error-warning-line"></i>
+                                            </span>
+                                        </p>
+                                        <div id="#" class="d-flex justify-content-between">
+                                            <div class="d-flex gap-3">
+                                                <p class="align-content-center">Adult 1</p>
+                                                <p class="">
+                                                    <select class="form-select fontSize12 selectCoupon py-0" aria-label="Default select example">
+                                                        <option selected>Select Coupon</option>
+                                                        <option value="1">One</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option>
+                                                    </select>
+                                                </p>
+                                            </div>
+                                            <p class="mb-1 text-end text-success" id="#">- &#8377; 0.00</p>
+                                        </div>
+                                    </div>
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="d-flex justify-content-between px-3">
+                                        <p class="discountGreen fw-bold mb-1">
+                                            Discounts (Coupons)
+                                        </p>
+                                        <p class="discountGreen fw-bold mb-1 text-end" id="totalCouponDiscount">
+                                            - ₹ 0
+                                        </p>
+                                    </div>
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="d-flex justify-content-between align-items-center px-3">
+                                        <p class="discountGreen fw-bold mb-0">
+                                            Referral Wallet
+                                        </p>
+                                        <p class="discountGreen fw-bold text-end mb-0" id="referralWalletBalance">
+                                            ₹ 
+                                        </p>
+                                        <div class="d-flex align-items-center">
+                                            <span class="discountGreen fw-bold me-1">
+                                                - ₹
+                                            </span>
+                                            <input type="number" class="form-control form-control-sm walletInput" id="appliedReferralWallet" value="0" min="0" step="1" disabled style="width: 80px;">
+                                        </div>
+                                    </div>
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="d-flex justify-content-between align-items-center px-3">
+                                        <p class="discountGreen fw-bold mb-0">
+                                            Discount Wallet
+                                        </p>
+                                        <p class="discountGreen fw-bold text-end mb-0"
+                                        id="discountWalletBalance">
+                                            ₹ 
+                                        </p>
+                                        <div class="d-flex align-items-center">
+                                            <span class="discountGreen fw-bold me-1">
+                                                - ₹
+                                            </span>
+                                            <input type="number" class="form-control form-control-sm walletInput" id="appliedDiscountWallet" value="0" min="0" step="1" disabled style="width: 80px;">
+                                        </div>
+                                    </div>
+                                    
+                                    <hr class="my-2 border border-2 mx-3">
+                                    <div class="px-3">
+                                        <p class="fw-bold mb-1">Other Charges</p>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="mb-1">Convenience Fee</p>
+                                                <p class="mb-1">GST (<span id="gstPercentage"></span>%)</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-end mb-1" id="convenienceFeee">&#8377; 0</p>
+                                                <p class="text-end mb-1" id="gstValue">&#8377; 0</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="p-3 pb-0">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="fs-6">Total Estimated Price</p>
+                                            </div>
+                                            <div>
+                                                <p class="fs-5 text-danger fw-bolder text-end" id="finalPackagePrice">&#8377; 52,478.00</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!-- Card Section 2 End -->
-
                     </div>
                 </div>
                 <?php include_once "../footer.php" ?>
