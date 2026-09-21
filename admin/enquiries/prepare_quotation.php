@@ -361,6 +361,219 @@ $date = date('Y');
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="sticky-nav-wrapper">
+                                        <div class="borderColor1 pt-3">
+                                            <ul class="nav nav-underline justify-content-between">
+                                                <li class="nav-item navItem">
+                                                    <a class="nav-link pt-0 active" aria-current="page" href="#overview">
+                                                        <div class="text-center">
+                                                            <i class="ri-dashboard-line"></i>
+                                                        </div>
+                                                        Overview
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item navItem">
+                                                    <a class="nav-link pt-0" href="#highlights">
+                                                        <div class="text-center">
+                                                            <i class="ri-mark-pen-line"></i>
+                                                        </div>
+                                                        Highlights
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item navItem">
+                                                    <a class="nav-link pt-0" href="#itinerary">
+                                                        <div class="text-center">
+                                                            <i class="ri-route-line"></i>
+                                                        </div>
+                                                        Itinerary
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item navItem">
+                                                    <a class="nav-link pt-0" href="#inclusion">
+                                                        <div class="text-center">
+                                                            <i class="ri-dashboard-line"></i>
+                                                        </div>
+                                                        Inclusion
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item navItem">
+                                                    <a class="nav-link pt-0" href="#inclusion">
+                                                        <div class="text-center">
+                                                            <i class="ri-dashboard-line"></i>
+                                                        </div>
+                                                        Exclusion
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item navItem">
+                                                    <a class="nav-link pt-0" href="#policies">
+                                                        <div class="text-center">
+                                                            <i class="ri-dashboard-line"></i>
+                                                        </div>
+                                                        Policies
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item navItem">
+                                                    <a class="nav-link pt-0" href="#faqs">
+                                                        <div class="text-center">
+                                                            <i class="ri-question-answer-line"></i>
+                                                        </div>
+                                                        FAQs
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="content-sections">
+                                        <div id="overview" class="section-block">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
+                                                <h5 class="fw-bolder">Overview</h5>
+                                                <p class="text-muted fw-bold fontSize2 mt-2"></p>
+                                                <div class="packageCode mt-2">
+                                                    <div class="d-flex gap-2">
+                                                        <div class="iconColor align-content-center">
+                                                            <i class="ri-barcode-box-fill"></i>
+                                                        </div>
+                                                        <div class="fontSize1">
+                                                            <p class="fw-bolder">Package Code</p>
+                                                            <p class="text-muted"></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="highlights" class="section-block">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
+                                                <h5 class="fw-bolder">Highlights</h5>
+                                                <div class="d-flex gap-3 mt-2">
+                                                    <div class="highlightIcon" style="background-color: #b2e0b1;">
+                                                        <i class="ri-arrow-right-up-box-line text-success"></i>
+                                                    </div>
+                                                    <p class="text-muted fontSize3 align-content-center mb-0"></p>
+                                                </div>
+                                                <div class="d-flex gap-3 mt-2">
+                                                    <div class="highlightIcon" style="background-color: #b2e0b1;">
+                                                        <i class="ri-arrow-right-up-box-line text-success"></i>
+                                                    </div>
+                                                    <p class="text-muted fontSize3 align-content-center mb-0">
+                                                        No highlights available.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="itinerary" class="section-block">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 pb-4 cardShadow">
+                                                <h5 class="fw-bolder">Itinerary</h5>
+                                                <div class="tour-details-content">
+                                                    <div class="destination-accordion mt-2">
+                                                        <div class="accordion" id="accordionItinerary">
+                                                            <div class="timeline-number">
+                                                                    
+                                                            </div>
+                                                            <div class="accordion-item">
+                                                                <h2 class="accordion-header" id="panelsStayOpen-heading">
+                                                                    <button class="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse" aria-expanded="" aria-controls="panelsStayOpen-collapse">
+                                                                        Day  - 
+                                                                    </button>
+                                                                </h2>
+                                                                <div id="panelsStayOpen-collapse" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-heading" data-bs-parent="#accordionItinerary">
+                                                                    <div class="accordion-body">
+                                                                        <ul class="listing">
+                                                                            <li class="list">
+                                                                                
+                                                                            </li>
+                                                                        </ul>
+                                                                        <hr class="my-3" style="border-top:1px solid #4b5051;">
+                                                                        <div class="d-flex justify-content-evenly displayMeal">
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center">Meal:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center"></p>
+                                                                            </div>
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center">Transport:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center"></p>
+                                                                            </div>
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center">Stay:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center"></p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="inclusion" class="section-block">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
+                                                <h5 class="fw-bolder">Inclusion & Exclusion</h5>
+                                                <div class="row">
+                                                    <!-- Inclusions -->
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="checkIcon">
+                                                                <i class="ri-checkbox-circle-fill text-success"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center mb-0"></p>
+                                                        </div>
+                                                        <p class="text-muted mt-2 mb-0">No inclusions available.</p>
+                                                    </div>
+                                                    <!-- Exclusions -->
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="closeIcon">
+                                                                <i class="ri-close-circle-fill text-danger"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center mb-0"></p>
+                                                        </div>
+                                                        <p class="text-muted mt-2 mb-0">No exclusions available.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="policies" class="section-block">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
+                                                <h5 class="fw-bolder mb-3">Policies</h5>
+                                                <div class="policyItem">
+                                                    <div class="d-flex align-items-center gap-3">
+                                                        <div class="highlightIcon" style="background-color: #b2e0b1;">
+                                                            <i class="ri-file-pdf-line text-success"></i>
+                                                        </div>
+                                                        <p class="mb-0"></p>
+                                                    </div>
+                                                    <a href="#" download class="downloadBtn">
+                                                        <i class="ri-download-line"></i>
+                                                    </a>
+                                                </div>
+                                                <p class="text-muted mb-0">
+                                                    No policy documents available.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div id="faqs" class="section-block">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
+                                                <h5 class="fw-bolder">Frequently Asked Questions</h5>
+                                                <div class="faq-wrapper mt-2">
+                                                    <div class="faq-item ">
+                                                        <div class="faq-header">
+                                                            <h5></h5>
+                                                            <i class=" faq-icon"></i>
+                                                        </div>
+                                                        <div class="faq-body">
+                                                            <p></p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-center mt-3 mb-3">
+                                                        <button id="viewMoreFaq" class="btn viewMoreFaq">
+                                                            View More
+                                                        </button>
+                                                    </div>
+                                                    <p class="text-muted">No FAQs available.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <!-- Card Section 2 subsection 6 End -->
                             </div>
