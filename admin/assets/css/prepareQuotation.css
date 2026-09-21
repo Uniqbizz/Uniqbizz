@@ -127,6 +127,9 @@
     width: 100%;
     height: 25px;
 }
+.discountGreen {
+    color: #008000;
+}
 @media (max-width: 1102px) {
     .laptopDisplay {
         display: block !important;

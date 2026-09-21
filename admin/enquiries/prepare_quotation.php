@@ -96,15 +96,15 @@ $date = date('Y');
                                             <p class="fw-bolder textDarkBlue mb-1 fs-4" id="">Andaman and Nicobar Island</p>
                                             <p class="fw-bold textDarkBlue mb-1 fs-5" id="">The Jewel of the Indian Ocean</p>
                                             <div class="d-flex gap-4 redIcons laptopDisplay">
-                                                <p class="fontSize10 mb-3">
+                                                <p class="fontSize12 mb-3">
                                                     <i class="fa-solid fa-location-dot me-2"></i>
                                                     Andaman and Nicobar Island
                                                 </p>
-                                                <p class="fontSize10 mb-3">
+                                                <p class="fontSize12 mb-3">
                                                     <i class="fa-regular fa-calendar me-2"></i>
                                                     4 Nights / 5 Days
                                                 </p>
-                                                <p class="fontSize10 mb-3">
+                                                <p class="fontSize12 mb-3">
                                                     <i class="fa-solid fa-utensils me-2"></i>
                                                     Meals: Breakfast
                                                 </p>
@@ -421,7 +421,7 @@ $date = date('Y');
                                                 <p class="mb-1">GST (5%) </p>
                                             </div>
                                             <div>
-                                                <p class="mb-1 text-end text-success" id="#">- &#8377; 0.00</p>
+                                                <p class="mb-1 text-end discountGreen" id="#">- &#8377; 0.00</p>
                                                 <p class="mb-1 text-end" id="#">&#8377; 1,500.00</p>
                                                 <p class="mb-1 text-end" id="#">&#8377; 181.99</p>
                                                 <p class="mb-1 text-end">&#8377; 2,499.00</p>
@@ -431,9 +431,9 @@ $date = date('Y');
                                     
                                     <hr class="my-1 border border-2 mx-3">
                                     <div class="p-3 pb-0">
-                                        <p class="fw-bold mb-2">
+                                        <p class="fw-bold mb-2 textDarkBlue blueDiv">
                                             Apply Coupons
-                                            <span class="text-muted fw-normal">
+                                            <span class="text-muted fw-normal fontSize12">
                                                 (One coupon per passenger)
                                                 <i class="ri-error-warning-line"></i>
                                             </span>
@@ -450,7 +450,7 @@ $date = date('Y');
                                                     </select>
                                                 </p>
                                             </div>
-                                            <p class="mb-1 text-end text-success" id="#">- &#8377; 0.00</p>
+                                            <p class="mb-1 text-end discountGreen" id="#">- &#8377; 0.00</p>
                                         </div>
                                     </div>
                                     <hr class="my-1 border border-2 mx-3">
@@ -496,7 +496,7 @@ $date = date('Y');
                                     
                                     <hr class="my-2 border border-2 mx-3">
                                     <div class="px-3">
-                                        <p class="fw-bold mb-1">Other Charges</p>
+                                        <p class="fw-bold mb-1 blueDiv">Other Charges</p>
                                         <div class="d-flex justify-content-between">
                                             <div>
                                                 <p class="mb-1">Convenience Fee</p>
@@ -512,7 +512,7 @@ $date = date('Y');
                                     <div class="p-3 pb-0">
                                         <div class="d-flex justify-content-between">
                                             <div>
-                                                <p class="fs-6">Total Estimated Price</p>
+                                                <p class="fs-5 textDarkBlue fw-bold">Total Estimated Price</p>
                                             </div>
                                             <div>
                                                 <p class="fs-5 text-danger fw-bolder text-end" id="finalPackagePrice">&#8377; 52,478.00</p>
