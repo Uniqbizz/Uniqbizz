@@ -25,7 +25,7 @@ if($commission == "null"){
     
 $date = date('F,Y', strtotime($dateCA));
 
-$bcNames = $conn -> prepare("SELECT * FROM super_techno_enterprise WHERE super_techno_enterprise_id = '".$bc."' AND status = 1");
+$bcNames = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$bc."' AND status = 1");
 $bcNames -> execute();
 $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
 if($bcNames -> rowCount()>0){
@@ -125,8 +125,8 @@ if($caNames -> rowCount()>0){
                                         </td>
                                         <td class="col-md-5 col-sm-5 pt-3">
                                             <h6 style="padding:2px 0; font-weight: 700;">Pay For : TE Contracting </h6>
-                                            <h6 style="padding:2px 0; font-weight: 700;">Designation : Super Techno Dashboard</h6>
-                                            <h6 style="padding:2px 0; font-weight: 700;">Payout status : <?php echo $message_status == 0 ? 'Pending' : 'Paid' ; ?></h6>
+                                            <h6 style="padding:2px 0; font-weight: 700;">Designation : Business Mentor</h6>
+                                            <h6 style="padding:2px 0; font-weight: 700;">Payout status : <?php echo $message_status == 2 ? 'Pending' : 'Paid' ; ?></h6>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -152,7 +152,7 @@ if($caNames -> rowCount()>0){
                                                 <td class="ps-2 pe-2 pt-3 pb-3">₹<?php echo $commission; ?>/-</td>
                                                 <td class="ps-2 pe-2 pt-3 pb-3">₹<?php echo $commissionTDS; ?>/-</td>
                                                 <td class="ps-2 pe-2 pt-3 pb-3">₹<?php echo $totalAmt; ?>/-</td>
-                                                <td class="ps-2 pe-2 pt-3 pb-3"><?php echo $message_status == 0 ? 'Pending' : 'Paid' ; ?></td>
+                                                <td class="ps-2 pe-2 pt-3 pb-3"><?php echo $message_status == 2 ? 'Pending' : 'Paid' ; ?></td>
                                             </tr>
                                         </tbody>
                                     </table>

@@ -43,7 +43,7 @@
                     ca.status,
                     ca.amount,
                     ca.user_type,
-
+                    DATE_FORMAT(ca.deleted_date, '%d %b %Y') AS deleted_date,
                     ste.firstname AS ref_firstname,
                     ste.lastname AS ref_lastname,
                     ste.business_mentor_id
@@ -71,7 +71,7 @@
                     sf.status,
                     sf.amount,
                     sf.user_type,
-
+                    DATE_FORMAT(sf.deleted_date, '%d %b %Y') AS deleted_date,
                     ste.firstname AS ref_firstname,
                     ste.lastname AS ref_lastname,
                     ste.business_mentor_id

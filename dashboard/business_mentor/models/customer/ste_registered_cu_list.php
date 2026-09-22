@@ -53,7 +53,7 @@
                             ELSE '-'
                         END
                     ) AS type,
-
+                    DATE_FORMAT(cu.deleted_date, '%d %b %Y') AS deleted_date,
                     'TE' AS ref_type
 
                 FROM ca_customer cu
@@ -94,7 +94,7 @@
                             ELSE '-'
                         END
                     ) AS type,
-
+                    DATE_FORMAT(cu.deleted_date, '%d %b %Y') AS deleted_date,
                     'BM' AS ref_type
 
                 FROM ca_customer cu
@@ -135,7 +135,7 @@
                             ELSE '-'
                         END
                     ) AS type,
-
+                    DATE_FORMAT(cu.deleted_date, '%d %b %Y') AS deleted_date,
                     'I' AS ref_type
 
                 FROM ca_customer cu
@@ -176,7 +176,7 @@
                             ELSE '-'
                         END
                     ) AS type,
-
+                    DATE_FORMAT(cu.deleted_date, '%d %b %Y') AS deleted_date,
                     'F' AS ref_type
 
                 FROM ca_customer cu

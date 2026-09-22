@@ -18,12 +18,12 @@
     // echo "prev Date ".$prevdate.' ;';
     // echo "prev Month ".$prevDateMonth.' ;';
     // echo "prev year ".$prevDateYear.' ;';
-    $columnDesignation = 'ste_id';
-    $columnMessage = 'ste_message';
-    $columnCommision = 'ste_amount';
-    $columnStatus = 'ste_status';
-    $tablename='techno_enterprise_payout';
-    $tablename_paid='techno_enterprise_payout_paid';
+    $columnDesignation = 'bm_id';
+    $columnMessage = 'message';
+    $columnCommision = 'comm_amt';
+    $columnStatus = 'status';
+    $tablename='goa_bm_payout';
+    $tablename_paid='goa_bm_payout';
 ?>
 
 <!doctype html>
@@ -263,7 +263,7 @@
                                                                                         $dt = $dt->format('Y-m-d');
 
                                                                                         // replace dot at end of the line with break statement
-                                                                                        $message1 = $row['ste_message'];
+                                                                                        $message1 = $row['message'];
                                                                                         $message1 =  str_replace('.','<br>',$message1);  
 
                                                                                         if($row[$columnCommision] == "null"){
@@ -282,7 +282,7 @@
                                                                                                 <td class="text-end">'.$CommAmt.'</td>
                                                                                                 <td class="text-end">'.$tds.'</td>
                                                                                                 <td class="text-end">'.$totalAmt.'
-                                                                                                    <a href="payout/forms/contracting_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row[$columnDesignation].'&ca='.$row['te_id'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row[$columnCommision].'">
+                                                                                                    <a href="payout/forms/contracting_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row[$columnDesignation].'&ca='.$row['techno_enterprise'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row[$columnCommision].'">
                                                                                                         <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                                                     </a>
                                                                                                 </td>';
@@ -428,7 +428,7 @@
                                                             $dt = $dt->format('Y-m-d');
 
                                                             // replace dot at end of the line with break statement
-                                                            $message1 = $row['ste_message'];
+                                                            $message1 = $row['message'];
                                                             $message1 =  str_replace('.','<br>',$message1);  
 
                                                             // total Amt Cal for BC 
@@ -448,14 +448,14 @@
                                                                     <td class="text-end">'.$CommAmt.'</td>
                                                                     <td class="text-end">'.$tds.'</td>
                                                                     <td class="text-end">'.$totalAmt.'
-                                                                        <a href="payout/forms/contracting_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row[$columnDesignation].'&ca='.$row['te_id'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row[$columnCommision].'">
+                                                                        <a href="payout/forms/contracting_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row[$columnDesignation].'&ca='.$row['techno_enterprise'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row[$columnCommision].'">
                                                                             <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                         </a>
                                                                     </td>';
                                                                     if($row['status'] == '1'){
                                                                         echo'<td><span class="badge bg-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                     }else{
-                                                                        echo'<td><span class="badge bg-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row[$columnDesignation].'","'.$row['ste_message'].'","'.$row[$columnCommision].'","'.$row['status'].'","PrevPayout")\'>Pending</span></td>';
+                                                                        echo'<td><span class="badge bg-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row[$columnDesignation].'","'.$row['message'].'","'.$row[$columnCommision].'","'.$row['status'].'","PrevPayout")\'>Pending</span></td>';
                                                                     }
                                                             echo'</tr>';
 
@@ -581,7 +581,7 @@
                                                             $dt = $dt->format('Y-m-d');
 
                                                             // replace dot at end of the line with break statement
-                                                            $message1 = $row['ste_message'];
+                                                            $message1 = $row['message'];
                                                             $message1 =  str_replace('.','<br>',$message1);  
 
                                                             // total Amt Cal for BC 
@@ -601,14 +601,14 @@
                                                                     <td class="text-end">'.$CommAmt.'</td>
                                                                     <td class="text-end">'.$tds.'</td>
                                                                     <td class="text-end">'.$totalAmt.'
-                                                                        <a href="payout/forms/contracting_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row[$columnDesignation].'&ca='.$row['te_id'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row[$columnCommision].'">
+                                                                        <a href="payout/forms/contracting_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row[$columnDesignation].'&ca='.$row['techno_enterprise'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row[$columnCommision].'">
                                                                             <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                         </a>
                                                                     </td>';
                                                                     if($row['status'] == '1'){
                                                                         echo'<td><span class="badge bg-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                     }else{
-                                                                        echo'<td><span class="badge bg-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row[$columnDesignation].'","'.$row['ste_message'].'","'.$row[$columnCommision].'","'.$row['status'].'","NextPayout")\'>Pending</span></td>';
+                                                                        echo'<td><span class="badge bg-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row[$columnDesignation].'","'.$row['message'].'","'.$row[$columnCommision].'","'.$row['status'].'","NextPayout")\'>Pending</span></td>';
                                                                     }
                                                             echo'</tr>';
 
@@ -738,7 +738,7 @@
                                                             $dt = $dt->format('Y-m-d');
 
                                                             // replace dot at end of the line with break statement
-                                                            $message1 = $row['ste_message'];
+                                                            $message1 = $row['message'];
                                                             $message1 =  str_replace('.','<br>',$message1);  
                                                             $message_details = $row['message_details'];
                                                             $message_details =  str_replace('.','<br>',$message_details);  
@@ -762,14 +762,14 @@
                                                                     <td class="text-end">'.$CommAmt.'</td>
                                                                     <td class="text-end">'.$tds.'</td>
                                                                     <td class="text-end">'.$totalAmt.'
-                                                                        <a href="payout/forms/contracting_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row[$columnDesignation].'&ca='.$row['te_id'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row[$columnCommision].'">
+                                                                        <a href="payout/forms/contracting_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row[$columnDesignation].'&ca='.$row['techno_enterprise'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row[$columnCommision].'">
                                                                             <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                         </a>
                                                                     </td>';
                                                                     if($row['status'] == '1'){
                                                                         echo'<td><span class="badge bg-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                     }else{
-                                                                        echo'<td><span class="badge bg-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row[$columnDesignation].'","'.$row['ste_message'].'","'.$row[$columnCommision].'","'.$row['status'].'","TotalPayout")\'>Pending</span></td>';
+                                                                        echo'<td><span class="badge bg-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row[$columnDesignation].'","'.$row['message'].'","'.$row[$columnCommision].'","'.$row['status'].'","TotalPayout")\'>Pending</span></td>';
                                                                     }
                                                             echo'</tr>';
 
