@@ -14,23 +14,35 @@ $tdsPer = 2/100;
         
         if($designation == 'business_development_manager'){
 
-            $sqlId = "SELECT id, bdm_id as userId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'goaBdm' as identity FROM goa_bdm_payout WHERE bdm_id = '".$cap_id."' AND status = '1' order by created_date DESC";
+            $sqlId = "SELECT id, bdm_id as userId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'goaBdm' as identity FROM goa_bdm_payout WHERE bdm_id = '".$cap_id."'  order by created_date DESC";
 
         }else if($designation == 'business_mentor'){
 
-            $sqlId = "SELECT id, bm_id as userId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'goaBm' as identity FROM `goa_bm_payout` WHERE bm_id = '".$cap_id."'  AND status = '1' UNION ALL
-                    SELECT id, business_mentor as userId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'caPayout' as identity FROM `ca_payout`  WHERE business_mentor = '".$cap_id."'  AND status = '1' UNION ALL
-                    SELECT id, bm_user_id as userId, message_bm as message, payment_message as message_details, payout_amount as comm_amt, ca_user_id as techno_enterprise, payout_date as created_date, payout_status as status, 'bmPayoutHistory' as identity FROM `bm_payout_history` WHERE bm_user_id = '".$cap_id."' AND payout_status = '1'
+            $sqlId = "SELECT id, bm_id as userId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'goaBm' as identity FROM `goa_bm_payout` WHERE bm_id = '".$cap_id."'   UNION ALL
+                    SELECT id, business_mentor as userId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'caPayout' as identity FROM `ca_payout`  WHERE business_mentor = '".$cap_id."'   UNION ALL
+                    SELECT id, bm_user_id as userId, message_bm as message, payment_message as message_details, payout_amount as comm_amt, ca_user_id as techno_enterprise, payout_date as created_date, payout_status as status, 'bmPayoutHistory' as identity FROM `bm_payout_history` WHERE bm_user_id = '".$cap_id."' 
                     order by created_date desc";
 
         }else if($designation == 'corporate_agency'){
 
-            $sqlId = "SELECT id, bdm_id as userId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'goaBdm' as identity FROM `goa_bdm_payout` WHERE techno_enterprise = '".$cap_id."'  AND status = '1' UNION ALL
-                    SELECT id, bm_id as userId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'goaBm' as identity FROM `goa_bm_payout` WHERE techno_enterprise = '".$cap_id."'  AND status = '1' UNION ALL
-                    SELECT id, business_mentor as userId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE techno_enterprise = '".$cap_id."'  AND status = '1' UNION ALL
-                    SELECT id, bm_user_id as userId, message_bm as message, payment_message as message_details, payout_amount as comm_amt, ca_user_id as techno_enterprise, payout_date as created_date, payout_status as status, 'bmPayoutHistory' as identity FROM `bm_payout_history` WHERE ca_user_id = '".$cap_id."' AND payout_status = '1'
+            $sqlId = "SELECT id, bdm_id as userId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'goaBdm' as identity FROM `goa_bdm_payout` WHERE techno_enterprise = '".$cap_id."'   UNION ALL
+                    SELECT id, bm_id as userId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'goaBm' as identity FROM `goa_bm_payout` WHERE techno_enterprise = '".$cap_id."'   UNION ALL
+                    SELECT id, business_mentor as userId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE techno_enterprise = '".$cap_id."'   UNION ALL
+                    SELECT id, bm_user_id as userId, message_bm as message, payment_message as message_details, payout_amount as comm_amt, ca_user_id as techno_enterprise, payout_date as created_date, payout_status as status, 'bmPayoutHistory' as identity FROM `bm_payout_history` WHERE ca_user_id = '".$cap_id."' 
                     order by created_date desc ";
                     
+        }else if($designation == 'chief_techno_enterprise'){
+
+            $sqlId = "SELECT id, cte_id as userId, cte_message as message, '' as message_details, cte_amount as comm_amt, te_id as techno_enterprise, created_date, cte_status as status, 'Chief Techno Enterprise' as identity FROM techno_enterprise_payout WHERE cte_id = '".$cap_id."' order by created_date DESC";
+
+        }else if($designation == 'executive_techno_enterprise'){
+
+            $sqlId = "SELECT id, ete_id as userId, ete_message as message, '' as message_details, ete_amount as comm_amt, te_id as techno_enterprise, created_date, ete_status as status, 'executive Techno Enterprise' as identity FROM techno_enterprise_payout WHERE ete_id = '".$cap_id."' order by created_date DESC";
+
+        }else if($designation == 'super_techno_enterprise'){
+
+            $sqlId = "SELECT id, ste_id as userId, ste_message as message, '' as message_details, ste_amount as comm_amt, te_id as techno_enterprise, created_date, ste_status as status, 'Super Techno Enterprise' as identity FROM techno_enterprise_payout WHERE ste_id = '".$cap_id."' order by created_date DESC";
+
         }
 
         echo'<div class="table-responsive table-desi" id="filterTable">
@@ -115,6 +127,18 @@ $tdsPer = 2/100;
                     SELECT id, business_mentor as userId, message, comm_amt, techno_enterprise, created_date, status, 'caPayout' as identity FROM `ca_payout` UNION ALL
                     SELECT id, bm_user_id as userId, message_bm as message, payout_amount as comm_amt, ca_user_id as techno_enterprise, payout_date as created_date, payout_status as status, 'bmPayoutHistory' as identity FROM `bm_payout_history` 
                     order by created_date desc ";
+        }else if($designation == 'chief_techno_enterprise'){
+
+            $sqlId = "SELECT id, cte_id as userId, cte_message as message, cte_amount as comm_amt, te_id as techno_enterprise, created_date, cte_status as status, 'Chief Techno Enterprise' as identity FROM techno_enterprise_payout order by created_date DESC";
+
+        }else if($designation == 'executive_techno_enterprise'){
+
+            $sqlId = "SELECT id, ete_id as userId, ete_message as message, ete_amount as comm_amt, te_id as techno_enterprise, created_date, ete_status as status, 'executive Techno Enterprise' as identity FROM techno_enterprise_payout order by created_date DESC";
+
+        }else if($designation == 'super_techno_enterprise'){
+
+            $sqlId = "SELECT id, ste_id as userId, ste_message as message,  ste_amount as comm_amt, te_id as techno_enterprise, created_date, ste_status as status, 'Super Techno Enterprise' as identity FROM techno_enterprise_payout order by created_date DESC";
+
         }
 
         echo'<div class="table-responsive table-desi" id="filterTable">
@@ -196,6 +220,18 @@ $tdsPer = 2/100;
                     SELECT id, business_mentor as userId, message, comm_amt, techno_enterprise, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE techno_enterprise = '".$cap_id."' UNION ALL
                     SELECT id, bm_user_id as userId, message_bm as message, payout_amount as comm_amt, ca_user_id as techno_enterprise, payout_date as created_date, payout_status as status, 'bmPayoutHistory' as identity FROM `bm_payout_history` WHERE ca_user_id = '".$cap_id."'
                     order by created_date desc ";
+        }else if($designation == 'chief_techno_enterprise'){
+
+            $sqlId = "SELECT id, cte_id as userId, cte_message as message, cte_amount as comm_amt, te_id as techno_enterprise, created_date, cte_status as status, 'Chief Techno Enterprise' as identity FROM techno_enterprise_payout WHERE cte_id = '".$cap_id."' order by created_date DESC";
+
+        }else if($designation == 'executive_techno_enterprise'){
+
+            $sqlId = "SELECT id, ete_id as userId, ete_message as message, ete_amount as comm_amt, te_id as techno_enterprise, created_date, ete_status as status, 'executive Techno Enterprise' as identity FROM techno_enterprise_payout WHERE ete_id = '".$cap_id."' order by created_date DESC";
+
+        }else if($designation == 'super_techno_enterprise'){
+
+            $sqlId = "SELECT id, ste_id as userId, ste_message as message,  ste_amount as comm_amt, te_id as techno_enterprise, created_date, ste_status as status, 'Super Techno Enterprise' as identity FROM techno_enterprise_payout WHERE ste_id = '".$cap_id."' order by created_date DESC";
+
         }
 
         echo'<div class="table-responsive table-desi" id="filterTable">
@@ -276,6 +312,18 @@ $tdsPer = 2/100;
                     SELECT id, business_mentor as userId, message, comm_amt, techno_enterprise, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' UNION ALL
                     SELECT id, bm_user_id as userId, message_bm as message, payout_amount as comm_amt, ca_user_id as techno_enterprise, payout_date as created_date, payout_status as status, 'bmPayoutHistory' as identity FROM `bm_payout_history` WHERE YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."'
                     order by created_date desc ";
+        }else if($designation == 'chief_techno_enterprise'){
+
+            $sqlId = "SELECT id, cte_id as userId, cte_message as message, cte_amount as comm_amt, te_id as techno_enterprise, created_date, cte_status as status, 'Chief Techno Enterprise' as identity FROM techno_enterprise_payout WHERE YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by created_date DESC";
+
+        }else if($designation == 'executive_techno_enterprise'){
+
+            $sqlId = "SELECT id, ete_id as userId, ete_message as message, ete_amount as comm_amt, te_id as techno_enterprise, created_date, ete_status as status, 'executive Techno Enterprise' as identity FROM techno_enterprise_payout WHERE YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by created_date DESC";
+
+        }else if($designation == 'super_techno_enterprise'){
+
+            $sqlId = "SELECT id, ste_id as userId, ste_message as message,  ste_amount as comm_amt, te_id as techno_enterprise, created_date, ste_status as status, 'Super Techno Enterprise' as identity FROM techno_enterprise_payout WHERE YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by created_date DESC";
+
         }
 
         echo'<div class="table-responsive table-desi" id="filterTable">
@@ -356,6 +404,18 @@ $tdsPer = 2/100;
                     SELECT id, business_mentor as userId, message, comm_amt, techno_enterprise, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' UNION ALL
                     SELECT id, bm_user_id as userId, message_bm as message, payout_amount as comm_amt, ca_user_id as techno_enterprise, payout_date as created_date, payout_status as status, 'bmPayoutHistory' as identity FROM `bm_payout_history` WHERE YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."'
                     order by created_date desc ";
+        }else if($designation == 'chief_techno_enterprise'){
+
+            $sqlId = "SELECT id, cte_id as userId, cte_message as message, cte_amount as comm_amt, te_id as techno_enterprise, created_date, cte_status as status, 'Chief Techno Enterprise' as identity FROM techno_enterprise_payout WHERE YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by created_date DESC";
+
+        }else if($designation == 'executive_techno_enterprise'){
+
+            $sqlId = "SELECT id, ete_id as userId, ete_message as message, ete_amount as comm_amt, te_id as techno_enterprise, created_date, ete_status as status, 'executive Techno Enterprise' as identity FROM techno_enterprise_payout WHERE YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by created_date DESC";
+
+        }else if($designation == 'super_techno_enterprise'){
+
+            $sqlId = "SELECT id, ste_id as userId, ste_message as message,  ste_amount as comm_amt, te_id as techno_enterprise, created_date, ste_status as status, 'Super Techno Enterprise' as identity FROM techno_enterprise_payout WHERE YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by created_date DESC";
+
         }
 
         echo'<div class="table-responsive table-desi" id="filterTable">
@@ -436,6 +496,18 @@ $tdsPer = 2/100;
                     SELECT id, business_mentor as userId, message, comm_amt, techno_enterprise, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE techno_enterprise = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' UNION ALL
                     SELECT id, bm_user_id as userId, message_bm as message, payout_amount as comm_amt, ca_user_id as techno_enterprise, payout_date as created_date, payout_status as status, 'bmPayoutHistory' as identity FROM `bm_payout_history` WHERE bm_user_id = '".$cap_id."' AND YEAR(payout_date) = '".$cap_year."' AND MONTH(payout_date) = '".$cap_month."'
                     order by created_date desc ";
+        }else if($designation == 'chief_techno_enterprise'){
+
+            $sqlId = "SELECT id, cte_id as userId, cte_message as message, cte_amount as comm_amt, te_id as techno_enterprise, created_date, cte_status as status, 'Chief Techno Enterprise' as identity FROM techno_enterprise_payout WHERE cte_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by created_date DESC";
+
+        }else if($designation == 'executive_techno_enterprise'){
+
+            $sqlId = "SELECT id, ete_id as userId, ete_message as message, ete_amount as comm_amt, te_id as techno_enterprise, created_date, ete_status as status, 'executive Techno Enterprise' as identity FROM techno_enterprise_payout WHERE ete_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by created_date DESC";
+
+        }else if($designation == 'super_techno_enterprise'){
+
+            $sqlId = "SELECT id, ste_id as userId, ste_message as message,  ste_amount as comm_amt, te_id as techno_enterprise, created_date, ste_status as status, 'Super Techno Enterprise' as identity FROM techno_enterprise_payout WHERE ste_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by created_date DESC";
+
         }
 
         echo'<div class="table-responsive table-desi" id="filterTable">

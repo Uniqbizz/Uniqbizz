@@ -107,6 +107,8 @@
                                                             SELECT SUM(comm_amt) as payout FROM ca_payout WHERE YEAR(created_date) = :year AND MONTH(created_date) = :month
                                                             UNION ALL
                                                             SELECT SUM(payout_amount) as payout FROM bm_payout_history WHERE YEAR(payout_date) = :year AND MONTH(payout_date) = :month
+                                                            UNION ALL
+                                                            SELECT SUM(cte_amount + ete_amount + ste_amount) as payout FROM techno_enterprise_payout WHERE YEAR(created_date) = :year AND MONTH(created_date) = :month
                                                         ";
 
                                                         $stmt = $conn->prepare($query);
@@ -146,6 +148,8 @@
                                                             SELECT SUM(comm_amt) as payout FROM ca_payout WHERE YEAR(created_date) = :year AND MONTH(created_date) = :month
                                                             UNION ALL
                                                             SELECT SUM(payout_amount) as payout FROM bm_payout_history WHERE YEAR(payout_date) = :year AND MONTH(payout_date) = :month
+                                                            UNION ALL
+                                                            SELECT SUM(cte_amount + ete_amount + ste_amount) as payout FROM techno_enterprise_payout WHERE YEAR(created_date) = :year AND MONTH(created_date) = :month
                                                         ";
 
                                                         $stmt = $conn->prepare($query);
@@ -192,17 +196,19 @@
                                                 
                                                 <?php
                                                     $query = "
-                                                        SELECT SUM(comm_amt) as payout FROM goa_bdm_payout WHERE status = :status
+                                                        SELECT SUM(comm_amt) as payout FROM goa_bdm_payout 
                                                         UNION ALL
-                                                        SELECT SUM(comm_amt) as payout FROM goa_bm_payout WHERE status = :status
+                                                        SELECT SUM(comm_amt) as payout FROM goa_bm_payout
                                                         UNION ALL
-                                                        SELECT SUM(comm_amt) as payout FROM ca_payout WHERE status = :status
+                                                        SELECT SUM(comm_amt) as payout FROM ca_payout
                                                         UNION ALL
-                                                        SELECT SUM(payout_amount) as payout FROM bm_payout_history WHERE payout_status = :status
+                                                        SELECT SUM(payout_amount) as payout FROM bm_payout_history 
+                                                        UNION ALL
+                                                        SELECT SUM(cte_amount + ete_amount + ste_amount) as payout FROM techno_enterprise_payout 
                                                     ";
 
                                                     $stmt = $conn->prepare($query);
-                                                    $stmt->execute(['status' => '1']);
+                                                    $stmt->execute();
                                                     $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
                                                     $totalPayout = 0;
@@ -213,7 +219,7 @@
                                                     if ($totalPayout > 0) {
                                                         $tds = $totalPayout * 0.02;
                                                         $netPayout = $totalPayout - $tds;
-                                                        echo'<p class="fs-5 fw-bolder mt-n2 content1" id="TotalPayoutAmountDate">Rs.'.$netPayout.'/-</p>';
+                                                        echo'<p class="fs-5 fw-bolder mt-n2 content1" id="TotalPayoutAmountDate">Rs.'.$totalPayout.'/-</p>';
                                                     }else{
                                                         echo'<p class="fs-5 fw-bolder mt-n2 content1" id="TotalPayoutAmountDate">Rs. 0/-</p>';
                                                     }
@@ -241,7 +247,9 @@
                                                     <option value="business_development_manager">Business Development Manager</option>
                                                     <option value="business_mentor">Business Mentor</option>
                                                     <option value="corporate_agency">Techno Enterprise</option>
-                                                    <!-- <option value="base_agency">Base Agency</option> -->
+                                                    <option value="chief_techno_enterprise">Chief Techno Enterprise</option> 
+                                                    <option value="executive_techno_enterprise">Executive Techno Enterprise</option> 
+                                                    <option value="super_techno_enterprise">Super Techno Enterprise</option> 
                                                 </select>
                                             </div>
                                             <div class="name-filter no-space col-md-2 col-sm-12 " >
@@ -308,7 +316,10 @@
                                                             $sql = "SELECT id, bdm_id as userId, message,  comm_amt, techno_enterprise, created_date, status, 'goaBdm' as identity FROM `goa_bdm_payout` UNION ALL
                                                                     SELECT id, bm_id as userId, message,  comm_amt, techno_enterprise, created_date, status, 'goaBm' as identity FROM `goa_bm_payout` UNION ALL
                                                                     SELECT id, business_mentor as userId, message,  comm_amt, techno_enterprise, created_date, status, 'caPayout' as identity FROM `ca_payout` UNION ALL
-                                                                    SELECT id, bm_user_id as userId, message_bm as message, payout_amount as comm_amt, ca_user_id as techno_enterprise, payout_date as created_date, payout_status as status, 'bmPayoutHistory' as identity FROM `bm_payout_history`
+                                                                    SELECT id, bm_user_id as userId, message_bm as message, payout_amount as comm_amt, ca_user_id as techno_enterprise, payout_date as created_date, payout_status as status, 'bmPayoutHistory' as identity FROM `bm_payout_history` UNION ALL
+                                                                    SELECT id, cte_id as userId, cte_message as message,  cte_amount as comm_amt, te_id as techno_enterprise, created_date, cte_status as status, 'CTE' as identity FROM `techno_enterprise_payout` UNION ALL
+                                                                    SELECT id, ete_id as userId, ete_message as message,  ete_amount as comm_amt, te_id as techno_enterprise, created_date, ete_status as status, 'ETE' as identity FROM `techno_enterprise_payout` UNION ALL
+                                                                    SELECT id, ste_id as userId, ste_message as message,  ste_amount as comm_amt, te_id as techno_enterprise, created_date, ste_status as status, 'STE' as identity FROM `techno_enterprise_payout` 
                                                                     order by created_date desc ";
                                                             $stmt = $conn -> prepare($sql);
                                                             $stmt -> execute();
@@ -321,7 +332,7 @@
                                                                     $dt = $dt->format('Y-m-d');
 
                                                                     // replace dot at end of the line with break statement
-                                                                    $message1 = $row['message'];
+                                                                    $message1 = $row['message'] ?? '';
                                                                     $message1 =  str_replace('.','<br>',$message1);  
 
                                                                     // total Amt Cal for BC 
@@ -348,7 +359,7 @@
                                                                             if($row['status'] == '1'){
                                                                                 echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                             }else{
-                                                                                echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row['userId'].'","'.$message1.'","'.$row['comm_amt'].'","'.$row['status'].'","'.$row['identity'].'")\'>Pending</span></td>';
+                                                                                echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row['userId'].'","'.$message1.'","'.$row['comm_amt'].'","'.$row['status'].'","'.$row['identity'].'","'.$row['techno_enterprise'].'")\'>Pending</span></td>';
                                                                             }
                                                                     echo'</tr>';
 
@@ -424,6 +435,8 @@
                                                 SELECT SUM(comm_amt) as payout FROM goa_bm_payout WHERE YEAR(created_date) = :year AND MONTH(created_date) = :month
                                                 UNION ALL
                                                 SELECT SUM(comm_amt) as payout FROM ca_payout WHERE YEAR(created_date) = :year AND MONTH(created_date) = :month
+                                                UNION ALL
+                                                SELECT SUM(cte_amount + ete_amount + ste_amount) as payout FROM techno_enterprise_payout WHERE YEAR(created_date) = :year AND MONTH(created_date) = :month
                                             ";
 
                                             $stmt = $conn->prepare($query);
@@ -464,7 +477,9 @@
                                             <option value="business_development_manager">Business Development Manager</option>
                                             <option value="business_mentor">Business Mentor</option>
                                             <option value="corporate_agency">Techno Enterprise</option>
-                                            <!-- <option value="base_agency">Base Agency</option> -->
+                                            <option value="chief_techno_enterprise">Chief Techno Enterprise</option> 
+                                            <option value="executive_techno_enterprise">Executive Techno Enterprise</option> 
+                                            <option value="super_techno_enterprise">Super Techno Enterprise</option> 
                                         </select>
                                     </div>
                                     <div class="name-filter no-space1 col-md-5 col-sm-12 " >
@@ -530,7 +545,10 @@
                                                     $sql = "SELECT id, bdm_id as userId, message,  comm_amt, techno_enterprise, created_date, status, 'goaBdm' as identity FROM `goa_bdm_payout` WHERE YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' UNION ALL
                                                             SELECT id, bm_id as userId, message,  comm_amt, techno_enterprise, created_date, status, 'goaBm' as identity FROM `goa_bm_payout` WHERE YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' UNION ALL
                                                             SELECT id, business_mentor as userId, message,  comm_amt, techno_enterprise, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' UNION ALL
-                                                            SELECT id, bm_user_id as userId, message_bm as message, payout_amount as comm_amt, ca_user_id as techno_enterprise, payout_date as created_date, payout_status as status, 'bmPayoutHistory' as identity FROM `bm_payout_history` WHERE YEAR(payout_date) = '".$prevDateYear."' AND MONTH(payout_date) = '".$prevDateMonth."'
+                                                            SELECT id, bm_user_id as userId, message_bm as message, payout_amount as comm_amt, ca_user_id as techno_enterprise, payout_date as created_date, payout_status as status, 'bmPayoutHistory' as identity FROM `bm_payout_history` WHERE YEAR(payout_date) = '".$prevDateYear."' AND MONTH(payout_date) = '".$prevDateMonth."' UNION ALL
+                                                            SELECT id, cte_id as userId, cte_message as message,  cte_amount as comm_amt, te_id as techno_enterprise, created_date, cte_status as status, 'CTE' as identity FROM `techno_enterprise_payout` WHERE YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' UNION ALL
+                                                            SELECT id, ete_id as userId, ete_message as message,  ete_amount as comm_amt, te_id as techno_enterprise, created_date, ete_status as status, 'ETE' as identity FROM `techno_enterprise_payout` WHERE YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' UNION ALL
+                                                            SELECT id, ste_id as userId, ste_message as message,  ste_amount as comm_amt, te_id as techno_enterprise, created_date, ste_status as status, 'STE' as identity FROM `techno_enterprise_payout` WHERE YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."'
                                                             order by created_date desc ";
                                                     $stmt = $conn -> prepare($sql);
                                                     $stmt -> execute();
@@ -543,7 +561,7 @@
                                                             $dt = $dt->format('Y-m-d');
 
                                                             // replace dot at end of the line with break statement
-                                                            $message1 = $row['message'];
+                                                            $message1 = $row['message'] ?? '';
                                                             $message1 =  str_replace('.','<br>',$message1);  
 
                                                             // total Amt Cal for BC 
@@ -630,6 +648,8 @@
                                                 SELECT SUM(comm_amt) as payout FROM goa_bm_payout WHERE YEAR(created_date) = :year AND MONTH(created_date) = :month
                                                 UNION ALL
                                                 SELECT SUM(comm_amt) as payout FROM ca_payout WHERE YEAR(created_date) = :year AND MONTH(created_date) = :month
+                                                UNION ALL
+                                                SELECT SUM(cte_amount + ete_amount + ste_amount) as payout FROM techno_enterprise_payout WHERE YEAR(created_date) = :year AND MONTH(created_date) = :month
                                             ";
 
                                             $stmt = $conn->prepare($query);
@@ -671,7 +691,9 @@
                                             <option value="business_development_manager">Business Development Manager</option>
                                             <option value="business_mentor">Business Mentor</option>
                                             <option value="corporate_agency">Techno Enterprise</option>
-                                            <!-- <option value="base_agency">Base Agency</option> -->
+                                            <option value="chief_techno_enterprise">Chief Techno Enterprise</option> 
+                                            <option value="executive_techno_enterprise">Executive Techno Enterprise</option> 
+                                            <option value="super_techno_enterprise">Super Techno Enterprise</option> 
                                         </select>
                                     </div>
                                     <div class="name-filter no-space1 col-md-5 col-sm-12" >
@@ -737,7 +759,10 @@
                                                     $sql = "SELECT id, bdm_id as userId, message,  comm_amt, techno_enterprise, created_date, status, 'goaBdm' as identity FROM `goa_bdm_payout` WHERE YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' UNION ALL
                                                             SELECT id, bm_id as userId, message,  comm_amt, techno_enterprise, created_date, status, 'goaBm' as identity FROM `goa_bm_payout` WHERE YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' UNION ALL
                                                             SELECT id, business_mentor as userId, message,  comm_amt, techno_enterprise, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' UNION ALL
-                                                            SELECT id, bm_user_id as userId, message_bm as message, payout_amount as comm_amt, ca_user_id as techno_enterprise, payout_date as created_date, payout_status as status, 'bmPayoutHistory' as identity FROM `bm_payout_history` WHERE YEAR(payout_date) = '".$nextDateYear."' AND MONTH(payout_date) = '".$nextDateMonth."'
+                                                            SELECT id, bm_user_id as userId, message_bm as message, payout_amount as comm_amt, ca_user_id as techno_enterprise, payout_date as created_date, payout_status as status, 'bmPayoutHistory' as identity FROM `bm_payout_history` WHERE YEAR(payout_date) = '".$nextDateYear."' AND MONTH(payout_date) = '".$nextDateMonth."' UNION ALL
+                                                            SELECT id, cte_id as userId, cte_message as message,  cte_amount as comm_amt, te_id as techno_enterprise, created_date, cte_status as status, 'CTE' as identity FROM `techno_enterprise_payout` WHERE YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' UNION ALL
+                                                            SELECT id, ete_id as userId, ete_message as message,  ete_amount as comm_amt, te_id as techno_enterprise, created_date, ete_status as status, 'ETE' as identity FROM `techno_enterprise_payout` WHERE YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' UNION ALL
+                                                            SELECT id, ste_id as userId, ste_message as message,  ste_amount as comm_amt, te_id as techno_enterprise, created_date, ste_status as status, 'STE' as identity FROM `techno_enterprise_payout` WHERE YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."'
                                                             order by created_date desc ";
                                                     $stmt = $conn -> prepare($sql);
                                                     $stmt -> execute();
@@ -750,7 +775,7 @@
                                                             $dt = $dt->format('Y-m-d');
 
                                                             // replace dot at end of the line with break statement
-                                                            $message1 = $row['message'];
+                                                            $message1 = $row['message'] ?? '';
                                                             $message1 =  str_replace('.','<br>',$message1);  
 
                                                             // total Amt Cal for BC 
@@ -822,15 +847,19 @@
                                         
                                         <?php
                                             $query = "
-                                                SELECT SUM(comm_amt) as payout FROM goa_bdm_payout WHERE status = :status
+                                                SELECT SUM(comm_amt) as payout FROM goa_bdm_payout 
                                                 UNION ALL
-                                                SELECT SUM(comm_amt) as payout FROM goa_bm_payout WHERE status = :status
+                                                SELECT SUM(comm_amt) as payout FROM goa_bm_payout
                                                 UNION ALL
-                                                SELECT SUM(comm_amt) as payout FROM ca_payout WHERE status = :status
+                                                SELECT SUM(comm_amt) as payout FROM ca_payout
+                                                UNION ALL
+                                                SELECT SUM(payout_amount) as payout FROM bm_payout_history 
+                                                UNION ALL
+                                                SELECT SUM(cte_amount + ete_amount + ste_amount) as payout FROM techno_enterprise_payout 
                                             ";
 
                                             $stmt = $conn->prepare($query);
-                                            $stmt->execute(['status' => '1']);
+                                            $stmt->execute();
                                             $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
                                             $totalPayout = 0;
@@ -841,7 +870,7 @@
                                             if ($totalPayout > 0) {
                                                 $tds = $totalPayout * 0.02;
                                                 $netTotalPayout = $totalPayout - $tds;
-                                                echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.'.$netTotalPayout.'/- </p>
+                                                echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.'.$totalPayout.'/- </p>
                                                     <span class="badge badge-pill badge-soft-success font-size-10 fw-bold status1" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
                                             }else{
                                                 echo'<p class="fs-5 fw-bolder mt-n2 content1" id="TotalPayoutAmountDate">Rs. 0/-</p>';
@@ -862,8 +891,10 @@
                                             <option value="none">--Select Filter Option--</option>
                                             <option value="business_development_manager">Business Development Manager</option>
                                             <option value="business_mentor">Business Mentor</option>
-                                            <option value="corporate_agency">Techno Enterprise</option>gency">Corporate Agency</option>
-                                            <!-- <option value="base_agency">Base Agency</option> -->
+                                            <option value="corporate_agency">Techno Enterprise</option>
+                                            <option value="chief_techno_enterprise">Chief Techno Enterprise</option> 
+                                            <option value="executive_techno_enterprise">Executive Techno Enterprise</option> 
+                                            <option value="super_techno_enterprise">Super Techno Enterprise</option> 
                                         </select>
                                     </div>
                                     <div class="name-filter no-space1 col-md-5 col-sm-12" >
@@ -927,10 +958,13 @@
                                                     //         SELECT id, business_mentor as userId, message, business_package, business_package_amount, message_details, comm_amt, comm_amtTDS, comm_amtTotal, techno_enterprise, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE status = '1' 
                                                     //         order by created_date desc ";
 
-                                                    $sql = "SELECT id, bdm_id as userId, message, message_details,  comm_amt, techno_enterprise, created_date, status, 'goaBdm' as identity FROM `goa_bdm_payout` WHERE status = '1' UNION ALL
-                                                            SELECT id, bm_id as userId, message, message_details,  comm_amt, techno_enterprise, created_date, status, 'goaBm' as identity FROM `goa_bm_payout` WHERE status = '1' UNION ALL
-                                                            SELECT id, business_mentor as userId, message, message_details,  comm_amt, techno_enterprise, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE status = '1' UNION ALL
-                                                            SELECT id, bm_user_id as userId, message_bm as message, payment_message as message_details, payout_amount as comm_amt, ca_user_id as techno_enterprise, payout_date as created_date, payout_status as status, 'bmPayoutHistory' as identity FROM `bm_payout_history` WHERE payout_status = '1'
+                                                    $sql = "SELECT id, bdm_id as userId, message, message_details,  comm_amt, techno_enterprise, created_date, status, 'goaBdm' as identity FROM `goa_bdm_payout` UNION ALL
+                                                            SELECT id, bm_id as userId, message, message_details,  comm_amt, techno_enterprise, created_date, status, 'goaBm' as identity FROM `goa_bm_payout` UNION ALL
+                                                            SELECT id, business_mentor as userId, message, message_details,  comm_amt, techno_enterprise, created_date, status, 'caPayout' as identity FROM `ca_payout` UNION ALL
+                                                            SELECT id, bm_user_id as userId, message_bm as message, payment_message as message_details, payout_amount as comm_amt, ca_user_id as techno_enterprise, payout_date as created_date, payout_status as status, 'bmPayoutHistory' as identity FROM `bm_payout_history` UNION ALL
+                                                            SELECT id, cte_id as userId, cte_message as message, '' as message_details,  cte_amount as comm_amt, te_id as techno_enterprise, created_date, cte_status as status, 'CTE' as identity FROM `techno_enterprise_payout` UNION ALL
+                                                            SELECT id, ete_id as userId, ete_message as message, '' as message_details, ete_amount as comm_amt, te_id as techno_enterprise, created_date, ete_status as status, 'ETE' as identity FROM `techno_enterprise_payout` UNION ALL
+                                                            SELECT id, ste_id as userId, ste_message as message, '' as message_details, ste_amount as comm_amt, te_id as techno_enterprise, created_date, ste_status as status, 'STE' as identity FROM `techno_enterprise_payout` 
                                                             order by created_date desc ";
                                                     $stmt = $conn -> prepare($sql);
                                                     $stmt -> execute();
@@ -943,11 +977,11 @@
                                                             $dt = $dt->format('Y-m-d');
 
                                                             // replace dot at end of the line with break statement
-                                                            $message1 = $row['message'];
+                                                            $message1 = $row['message'] ?? '';
                                                             $message1 =  str_replace('.','<br>',$message1);  
 
                                                             // replace dot at end of the line with break statement
-                                                            $message2 = $row['message_details'];
+                                                            $message2 = $row['message_details'] ?? '';
                                                             $message2 =  str_replace('.','<br>',$message2);  
 
                                                             // total Amt Cal for BC 

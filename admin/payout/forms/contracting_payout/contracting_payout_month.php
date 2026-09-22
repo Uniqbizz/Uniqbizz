@@ -9,10 +9,11 @@ $totalTableMessage = $_POST['totalTableMessage'] ?? '';
 
 if($totalAmountMessage){
 
-    $sqlIdAmt = "SELECT SUM(comm_amt) as payout FROM `goa_bdm_payout` WHERE YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."' AND status = '1' UNION ALL
-                SELECT SUM(comm_amt) as payout FROM `goa_bm_payout` WHERE YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."' AND status = '1' UNION ALL
-                SELECT SUM(comm_amt) as payout FROM `ca_payout` WHERE YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."' AND status = '1' UNION ALL
-                SELECT SUM(payout_amount) as payout FROM `bm_payout_history` WHERE YEAR(payout_date) = '".$TotalYear."' AND MONTH(payout_date) = '".$TotalMonth."' AND payout_status = '1' ";
+    $sqlIdAmt = "SELECT SUM(comm_amt) as payout FROM `goa_bdm_payout` WHERE YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."'  UNION ALL
+                SELECT SUM(comm_amt) as payout FROM `goa_bm_payout` WHERE YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."'  UNION ALL
+                SELECT SUM(comm_amt) as payout FROM `ca_payout` WHERE YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."'  UNION ALL
+                SELECT SUM(payout_amount) as payout FROM `bm_payout_history` WHERE YEAR(payout_date) = '".$TotalYear."' AND MONTH(payout_date) = '".$TotalMonth."' UNION ALL
+                SELECT SUM(cte_amount + ete_amount + ste_amount) as payout FROM `techno_enterprise_payout` WHERE YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."' ";
 
     $stmt = $conn->prepare($sqlIdAmt);
     $stmt->execute();
@@ -47,10 +48,13 @@ if($totalTableMessage){
         </thead>
         <tbody >';
            
-            $model_2 = "SELECT id, bdm_id as userId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'goaBdm' as identity FROM `goa_bdm_payout` WHERE YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."'   AND status = '1' UNION ALL
-                    SELECT id, bm_id as userId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'goaBm' as identity FROM `goa_bm_payout` WHERE YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."'   AND status = '1' UNION ALL
-                    SELECT id, business_mentor as userId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."'   AND status = '1' UNION ALL
-                    SELECT id, bm_user_id as userId, message_bm as message, payment_message as message_details, payout_amount as comm_amt, ca_user_id as techno_enterprise, payout_date as created_date, payout_status as status, 'bmPayoutHistory' as identity FROM `bm_payout_history` WHERE YEAR(payout_date) = '".$TotalYear."' AND MONTH(payout_date) = '".$TotalMonth."'  AND payout_status = '1'
+            $model_2 = "SELECT id, bdm_id as userId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'goaBdm' as identity FROM `goa_bdm_payout` WHERE YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."'  UNION ALL
+                    SELECT id, bm_id as userId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'goaBm' as identity FROM `goa_bm_payout` WHERE YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."'   UNION ALL
+                    SELECT id, business_mentor as userId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."'   UNION ALL
+                    SELECT id, bm_user_id as userId, message_bm as message, payment_message as message_details, payout_amount as comm_amt, ca_user_id as techno_enterprise, payout_date as created_date, payout_status as status, 'bmPayoutHistory' as identity FROM `bm_payout_history` WHERE YEAR(payout_date) = '".$TotalYear."' AND MONTH(payout_date) = '".$TotalMonth."'  UNION ALL
+                    SELECT id, cte_id as userId, cte_message as message, '' as message_details,  cte_amount as comm_amt, te_id as techno_enterprise, created_date, cte_status as status, 'CTE' as identity FROM `techno_enterprise_payout` WHERE YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."' UNION ALL
+                    SELECT id, ete_id as userId, ete_message as message, '' as message_details, ete_amount as comm_amt, te_id as techno_enterprise, created_date, ete_status as status, 'ETE' as identity FROM `techno_enterprise_payout` WHERE YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."' UNION ALL
+                    SELECT id, ste_id as userId, ste_message as message, '' as message_details, ste_amount as comm_amt, te_id as techno_enterprise, created_date, ste_status as status, 'STE' as identity FROM `techno_enterprise_payout` WHERE YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."' 
                     order by created_date desc ";
             $model2 = $conn -> prepare($model_2);
             $model2 -> execute();
