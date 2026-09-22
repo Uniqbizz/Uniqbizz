@@ -19,7 +19,7 @@
                     cu.email,
                     cu.added_on AS register_date,
                     cu.status,
-
+                    DATE_FORMAT(cu.deleted_date, '%d %b %Y') AS deleted_date,
                     ta.ca_travelagency_id AS ref_id,
                     ta.firstname AS ref_firstname,
                     ta.lastname AS ref_lastname,
@@ -54,7 +54,7 @@
                     cu.email,
                     cu.added_on AS register_date,
                     cu.status,
-
+                    DATE_FORMAT(cu.deleted_date, '%d %b %Y') AS deleted_date,
                     ta.institution_branch_manager_id AS ref_id,
                     ta.firstname AS ref_firstname,
                     ta.lastname AS ref_lastname,

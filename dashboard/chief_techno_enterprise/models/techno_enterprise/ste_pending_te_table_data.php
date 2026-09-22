@@ -17,7 +17,7 @@
                 ca.status,
                 ca.user_type,
                 'TE' AS userTypeStr,
-
+                DATE_FORMAT(ca.deleted_date, '%d %b %Y') AS deleted_date,
                 ste.firstname AS ref_firstname,
                 ste.lastname AS ref_lastname,
                 ste.super_techno_enterprise_id AS reference_id,
