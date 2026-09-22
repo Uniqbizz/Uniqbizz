@@ -50,7 +50,7 @@
                 ca.amount,
                 ca.user_type,
                 ca.converted,
-
+                DATE_FORMAT(ca.deleted_date, '%d %b %Y') AS deleted_date,
                 bm.name AS ref_firstname,
                 '' AS ref_lastname,
                 bm.employee_id AS reference_id
@@ -79,7 +79,7 @@
                 ca.amount,
                 ca.user_type,
                 ca.converted,
-
+                DATE_FORMAT(ca.deleted_date, '%d %b %Y') AS deleted_date,
                 bm.firstname AS ref_firstname,
                 bm.lastname AS ref_lastname,
                 bm.business_mentor_id AS reference_id
@@ -111,7 +111,7 @@
                 i.amount,
                 i.user_type,
                 i.converted,
-
+                DATE_FORMAT(i.deleted_date, '%d %b %Y') AS deleted_date,
                 bm.name AS ref_firstname,
                 '' AS ref_lastname,
                 bm.employee_id AS reference_id
@@ -140,7 +140,7 @@
                 i.amount,
                 i.user_type,
                 i.converted,
-
+                DATE_FORMAT(i.deleted_date, '%d %b %Y') AS deleted_date,
                 bm.firstname AS ref_firstname,
                 bm.lastname AS ref_lastname,
                 bm.business_mentor_id AS reference_id

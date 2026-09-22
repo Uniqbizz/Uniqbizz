@@ -38,7 +38,7 @@
                 ca.register_date,
                 ca.status,
                 ca.user_type,
-
+                DATE_FORMAT(ca.deleted_date, '%d %b %Y') AS deleted_date,
                 ste.name AS ref_name,
                 ste.employee_id
 

@@ -20,6 +20,7 @@
                     ta.added_on,
                     ta.status,
                     ta.user_type,
+                    DATE_FORMAT(ta.deleted_date, '%d %b %Y') AS deleted_date,
                     ca.corporate_agency_id AS reference_id,
                     ca.firstname AS ref_firstname,
                     ca.lastname AS ref_lastname
@@ -44,6 +45,7 @@
                     ta.added_on,
                     ta.status,
                     ta.user_type,
+                    DATE_FORMAT(ta.deleted_date, '%d %b %Y') AS deleted_date,
                     ca.corporate_agency_id AS reference_id,
                     ca.firstname AS ref_firstname,
                     ca.lastname AS ref_lastname
@@ -71,6 +73,7 @@
                     ta.added_on,
                     ta.status,
                     ta.user_type,
+                    DATE_FORMAT(ta.deleted_date, '%d %b %Y') AS deleted_date,
                     ca.sub_franchisee_id AS reference_id,
                     ca.firstname AS ref_firstname,
                     ca.lastname AS ref_lastname
@@ -95,6 +98,7 @@
                     ta.added_on,
                     ta.status,
                     ta.user_type,
+                    DATE_FORMAT(ta.deleted_date, '%d %b %Y') AS deleted_date,
                     ca.sub_franchisee_id AS reference_id,
                     ca.firstname AS ref_firstname,
                     ca.lastname AS ref_lastname
@@ -123,6 +127,7 @@
                     ta.added_on,
                     ta.status,
                     ta.user_type,
+                    DATE_FORMAT(ta.deleted_date, '%d %b %Y') AS deleted_date,
                     ca.institution_id AS reference_id,
                     ca.name AS ref_firstname,
                     '' AS ref_lastname
@@ -148,6 +153,7 @@
                     ta.added_on,
                     ta.status,
                     ta.user_type,
+                    DATE_FORMAT(ta.deleted_date, '%d %b %Y') AS deleted_date,
                     ca.institution_id AS reference_id,
                     ca.name AS ref_firstname,
                     '' AS ref_lastname
