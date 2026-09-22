@@ -40,7 +40,7 @@
                     sf.status,
                     sf.amount,
                     sf.user_type,
-
+                    DATE_FORMAT(sf.deleted_date, '%d %b %Y') AS deleted_date,
                     emp.firstname AS ref_firstname,
                     emp.lastname AS ref_lastname,
                     emp.executive_techno_enterprise_id AS reference_id

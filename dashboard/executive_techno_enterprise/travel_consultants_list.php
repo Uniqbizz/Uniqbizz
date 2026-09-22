@@ -350,10 +350,10 @@
                     },
 
                     {
-                        data: 'status',
-                        render: function(status){
+                        data: null,
+                        render: function(data){
 
-                            if(status == 2){
+                            if(data.status == 2){
 
                                 return `
                                     <p class="tePendingBtn rounded-pill text-center mb-0">
@@ -362,7 +362,7 @@
                                 `;
                             }
 
-                            else if(status == 4){
+                            else if(data.status == 4){
 
                                 return `
                                     <p class="teDraftBtn rounded-pill text-center mb-0">
@@ -370,11 +370,14 @@
                                     </p>
                                 `;
                             }
-                            return `
-                                    <p class="teDeletedBtn rounded-pill text-center mb-0">
-                                        Deleted
-                                    </p>
-                                `;
+                            if(data.status == 0){
+                                return `
+                                        <p class="teDeletedBtn rounded-pill text-center mb-0">
+                                            Deleted
+                                        </p>
+                                        <p>Deleted On:${data.deleted_date ?? ''}</p>
+                                    `;
+                            }
                         }
                     },
                     {

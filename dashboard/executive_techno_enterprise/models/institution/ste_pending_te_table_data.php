@@ -18,7 +18,7 @@
                 i.status,
                 i.user_type,
                 'I' AS userTypeStr,
-
+                DATE_FORMAT(i.deleted_date, '%d %b %Y') AS deleted_date,
                 e.firstname AS ref_firstname,
                 e.lastname AS ref_lastname,
                 e.executive_techno_enterprise_id AS ref_id,
