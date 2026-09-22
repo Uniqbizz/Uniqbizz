@@ -132,7 +132,7 @@
                                                         <thead>
                                                             <tr class="table-primary">
                                                                 <th data-ordering="false">Full Name</th>
-                                                                <th data-ordering="false">Reference ID & Name</th>
+                                                                <!-- <th data-ordering="false">Reference ID & Name</th> -->
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
@@ -197,7 +197,7 @@
                                                         <thead>
                                                             <tr class="table-primary">
                                                                 <th data-ordering="false">TE ID & Full Name</th>
-                                                                <th data-ordering="false">Reference ID & Name</th>
+                                                                <!-- <th data-ordering="false">Reference ID & Name</th> -->
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Amt (&#8377;)</th>
                                                                 <th data-ordering="false">Joining Date</th>
@@ -305,23 +305,23 @@
                         }
                     },
 
-                    {
-                        data: null,
-                        render: function(data){
+                    // {
+                    //     data: null,
+                    //     render: function(data){
 
-                            return `
-                                <div>
-                                    <p class="fs-6 mb-0">
-                                        ${data.ref_firstname || ''} ${data.ref_lastname || ''}
-                                    </p>
+                    //         return `
+                    //             <div>
+                    //                 <p class="fs-6 mb-0">
+                    //                     ${data.ref_firstname || ''} ${data.ref_lastname || ''}
+                    //                 </p>
 
-                                    <p class="fs-6 mb-0">
-                                        ${data.super_techno_enterprise_id || '-'}
-                                    </p>
-                                </div>
-                            `;
-                        }
-                    },
+                    //                 <p class="fs-6 mb-0">
+                    //                     ${data.super_techno_enterprise_id || '-'}
+                    //                 </p>
+                    //             </div>
+                    //         `;
+                    //     }
+                    // },
 
                     {
                         data: null,
@@ -359,10 +359,10 @@
                     },
 
                     {
-                        data: 'status',
-                        render: function(status){
+                        data: null,
+                        render: function(data){
 
-                            if(status == 2){
+                            if(data.status == 2){
 
                                 return `
                                     <p class="tePendingBtn rounded-pill text-center mb-0">
@@ -371,12 +371,21 @@
                                 `;
                             }
 
-                            else if(status == 4){
+                            else if(data.status == 4){
 
                                 return `
                                     <p class="teDraftBtn rounded-pill text-center mb-0">
                                         Draft
                                     </p>
+                                `;
+                            }
+                            else if(data.status == 0){
+
+                                return `
+                                    <p class="teDeletedBtn rounded-pill text-center mb-0">
+                                        Deleted
+                                    </p>
+                                    <p>Deleted On:${data.deleted_date ?? ''}</p>
                                 `;
                             }
                         }

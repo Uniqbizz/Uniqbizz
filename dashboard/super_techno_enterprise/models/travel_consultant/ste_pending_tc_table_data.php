@@ -19,7 +19,7 @@
                     ta.email,
                     ta.added_on,
                     ta.status,
-
+                    DATE_FORMAT(ta.deleted_date, '%d %b %Y') AS deleted_date,
                     ca.corporate_agency_id AS reference_id,
                     ca.firstname AS ref_firstname,
                     ca.lastname AS ref_lastname

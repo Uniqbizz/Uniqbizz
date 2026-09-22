@@ -53,7 +53,7 @@
                     ta.ca_travelagency_id,
                     ta.firstname AS ref_firstname,
                     ta.lastname AS ref_lastname,
-
+                    DATE_FORMAT(cu.deleted_date, '%d %b %Y') AS deleted_date,
                     'TE' AS ref_type
 
                 FROM ca_customer cu
