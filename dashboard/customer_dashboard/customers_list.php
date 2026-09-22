@@ -431,18 +431,19 @@
                     },
 
                     {
-                        data: 'status',
-                        render: function(status){
-                            if(status == 0){
+                        data: null,
+                        render: function(data){
+                            if(data.status == 0){
 
                                return `
                                     <p class="teDeletedBtn rounded-pill text-center mb-0">
                                         Deleted
                                     </p>
+                                    <p>Deleted On:${data.deleted_date ?? ''}</p>
                                 `;
                             }
 
-                            if(status == 2){
+                            if(data.status == 2){
 
                                 return `
                                     <p class="tePendingBtn rounded-pill text-center mb-0">
@@ -450,11 +451,13 @@
                                     </p>
                                 `;
                             }
-                            return `
-                                    <p class="teDraftBtn rounded-pill text-center mb-0">
-                                        Draft
-                                    </p>
-                                `;
+                            if(data.status == 4){
+                                return `
+                                        <p class="teDraftBtn rounded-pill text-center mb-0">
+                                            Draft
+                                        </p>
+                                    `;
+                            }
 
                             
                         }
@@ -644,21 +647,23 @@
                         }
                     },
                     {
-                        data: 'status',
-                        render: function(status) {
+                        data: null,
+                        render: function(data) {
 
                             let badge = 'tePendingBtn';
                             let text = 'Pending';
+                            let deldate ='';
 
-                            if(status == 1){
+                            if(data.status == 1){
 
                                 badge = 'teActiveBtn';
                                 text = 'Active';
 
-                            }else if(status == 3){
+                            }else if(data.status == 3){
 
-                                badge = 'tePendingBtn';
-                                text = 'Inactive';
+                                badge = 'teDeletedBtn';
+                                text = 'Deactivated';
+                                deldate='<p>Deleted On:'+data.deleted_date ?? ''+'</p>';
 
                             }else{
 
@@ -671,6 +676,7 @@
                                 <p class="${badge} rounded-pill text-center mb-0">
                                     ${text}
                                 </p>
+                                ${deldate}
                             `;
                         }
                     },
