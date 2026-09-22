@@ -331,7 +331,7 @@ $date = date('Y');
                                         <i class="fa-solid fa-file-lines fa-xl me-3"></i>
                                         Package Information <span class="fw-normal">(From Package Master)</span>
                                     </h5>
-                                    <div class="row paxRow mt-1">
+                                    <div class="row paxRow mt-1 mb-2">
                                         <div class="col-xl-2 paxCol">
                                             <p class="fs-6 mb-1">Package ID</p>
                                             <p class="fs-6 fw-bold mb-2">PKG-AN001</p>
@@ -361,8 +361,9 @@ $date = date('Y');
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="nav-placeholder"></div>
                                     <div class="sticky-nav-wrapper">
-                                        <div class="borderColor1 pt-3">
+                                        <div class="borderColor1 cardShadow p-2">
                                             <ul class="nav nav-underline justify-content-between">
                                                 <li class="nav-item navItem">
                                                     <a class="nav-link pt-0 active" aria-current="page" href="#overview">
@@ -370,14 +371,6 @@ $date = date('Y');
                                                             <i class="ri-dashboard-line"></i>
                                                         </div>
                                                         Overview
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item navItem">
-                                                    <a class="nav-link pt-0" href="#highlights">
-                                                        <div class="text-center">
-                                                            <i class="ri-mark-pen-line"></i>
-                                                        </div>
-                                                        Highlights
                                                     </a>
                                                 </li>
                                                 <li class="nav-item navItem">
@@ -393,7 +386,7 @@ $date = date('Y');
                                                         <div class="text-center">
                                                             <i class="ri-dashboard-line"></i>
                                                         </div>
-                                                        Inclusion
+                                                        Inclusions
                                                     </a>
                                                 </li>
                                                 <li class="nav-item navItem">
@@ -401,7 +394,7 @@ $date = date('Y');
                                                         <div class="text-center">
                                                             <i class="ri-dashboard-line"></i>
                                                         </div>
-                                                        Exclusion
+                                                        Exclusions
                                                     </a>
                                                 </li>
                                                 <li class="nav-item navItem">
@@ -409,7 +402,7 @@ $date = date('Y');
                                                         <div class="text-center">
                                                             <i class="ri-dashboard-line"></i>
                                                         </div>
-                                                        Policies
+                                                        Terms & Conditions
                                                     </a>
                                                 </li>
                                                 <li class="nav-item navItem">
@@ -417,7 +410,7 @@ $date = date('Y');
                                                         <div class="text-center">
                                                             <i class="ri-question-answer-line"></i>
                                                         </div>
-                                                        FAQs
+                                                        Cancellation Policy
                                                     </a>
                                                 </li>
                                             </ul>
@@ -426,75 +419,192 @@ $date = date('Y');
                                     <div class="content-sections">
                                         <div id="overview" class="section-block">
                                             <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
-                                                <h5 class="fw-bolder">Overview</h5>
-                                                <p class="text-muted fw-bold fontSize2 mt-2"></p>
-                                                <div class="packageCode mt-2">
-                                                    <div class="d-flex gap-2">
-                                                        <div class="iconColor align-content-center">
-                                                            <i class="ri-barcode-box-fill"></i>
-                                                        </div>
-                                                        <div class="fontSize1">
-                                                            <p class="fw-bolder">Package Code</p>
-                                                            <p class="text-muted"></p>
-                                                        </div>
+                                                <h5 class="fw-bolder textDarkBlue">Overview</h5>
+                                                <div class="d-flex gap-3">
+                                                    <div class="overviewImageWrapper">
+                                                        <img src="../assets/images/andaman_nicobar.jpg" alt="" class="overviewImg">
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="highlights" class="section-block">
-                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
-                                                <h5 class="fw-bolder">Highlights</h5>
-                                                <div class="d-flex gap-3 mt-2">
-                                                    <div class="highlightIcon" style="background-color: #b2e0b1;">
-                                                        <i class="ri-arrow-right-up-box-line text-success"></i>
+                                                    <div class="fontSize1">
+                                                        <p class="fw-normal fontSize12">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, explicabo molestias aspernatur 
+                                                            qui doloribus necessitatibus porro voluptates animi ipsum, est veritatis quaerat aperiam praesentium sequi, nemo 
+                                                            vel delectus eius tempore? Aliquam adipisci dolor ducimus atque veniam repellendus omnis iure similique obcaecati iusto, 
+                                                            sint aspernatur, quaerat rem hic dignissimos asperiores, molestias voluptatem quae? 
+                                                        </p>
                                                     </div>
-                                                    <p class="text-muted fontSize3 align-content-center mb-0"></p>
-                                                </div>
-                                                <div class="d-flex gap-3 mt-2">
-                                                    <div class="highlightIcon" style="background-color: #b2e0b1;">
-                                                        <i class="ri-arrow-right-up-box-line text-success"></i>
-                                                    </div>
-                                                    <p class="text-muted fontSize3 align-content-center mb-0">
-                                                        No highlights available.
-                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div id="itinerary" class="section-block">
                                             <div class="card cardBackgroundColor rounded-3 p-3 pb-4 cardShadow">
-                                                <h5 class="fw-bolder">Itinerary</h5>
+                                                <h5 class="fw-bolder textDarkBlue">Itinerary</h5>
                                                 <div class="tour-details-content">
                                                     <div class="destination-accordion mt-2">
                                                         <div class="accordion" id="accordionItinerary">
                                                             <div class="timeline-number">
-                                                                    
+                                                                 01 
                                                             </div>
                                                             <div class="accordion-item">
-                                                                <h2 class="accordion-header" id="panelsStayOpen-heading">
-                                                                    <button class="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse" aria-expanded="" aria-controls="panelsStayOpen-collapse">
-                                                                        Day  - 
+                                                                <h2 class="accordion-header" id="panelsStayOpen-heading1">
+                                                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse1" aria-expanded="true" aria-controls="panelsStayOpen-collapse1">
+                                                                        Day 1 - Arrival in Bali
                                                                     </button>
                                                                 </h2>
-                                                                <div id="panelsStayOpen-collapse" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-heading" data-bs-parent="#accordionItinerary">
+                                                                <div id="panelsStayOpen-collapse1" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-heading1" data-bs-parent="#accordionItinerary" style="">
                                                                     <div class="accordion-body">
                                                                         <ul class="listing">
                                                                             <li class="list">
-                                                                                
+                                                                                On arrival at Bali Airport, you will be met by our representative and transferred to your hotel. Check in and relax after your journey. The rest of the day is at leisure to explore the surroundings or enjoy hotel amenities. Overnight stay in Bali                                                                                    
                                                                             </li>
                                                                         </ul>
                                                                         <hr class="my-3" style="border-top:1px solid #4b5051;">
                                                                         <div class="d-flex justify-content-evenly displayMeal">
                                                                             <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center">Meal:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center"></p>
+                                                                                <h6 class="fw-bold align-content-center mb-0">Meal:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Lunch and Dinner</p>
                                                                             </div>
                                                                             <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center">Transport:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center"></p>
+                                                                                <h6 class="fw-bold align-content-center mb-0">Transport:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Bus</p>
                                                                             </div>
                                                                             <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center">Stay:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center"></p>
+                                                                                <h6 class="fw-bold align-content-center mb-0">Stay:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0"></p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="timeline-number">
+                                                                02                                                                    
+                                                            </div>
+                                                            <div class="accordion-item">
+                                                                <h2 class="accordion-header" id="panelsStayOpen-heading2">
+                                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse2" aria-expanded="false" aria-controls="panelsStayOpen-collapse2">
+                                                                        Day 2 - Full-Day Ubud and Kintamani Tour
+                                                                    </button>
+                                                                </h2>
+                                                                <div id="panelsStayOpen-collapse2" class="accordion-collapse collapse " aria-labelledby="panelsStayOpen-heading2" data-bs-parent="#accordionItinerary">
+                                                                    <div class="accordion-body">
+                                                                        <ul class="listing">
+                                                                            <li class="list">
+                                                                                After breakfast, proceed for a full-day customized tour covering the cultural hub of Ubud and the scenic Kintamani region. Enjoy breathtaking views of Mount Batur and its lake, explore local art villages, and experience Baliâ€™s rich heritage. Return to the hotel for an overnight stay                                                                                    
+                                                                            </li>
+                                                                        </ul>
+                                                                        <hr class="my-3" style="border-top:1px solid #4b5051;">
+                                                                        <div class="d-flex justify-content-evenly displayMeal">
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Meal:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Breakfast, Lunch and Dinner</p>
+                                                                            </div>
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Transport:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Bus</p>
+                                                                            </div>
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Stay:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0"></p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="timeline-number">
+                                                                03                                                               
+                                                            </div>
+                                                            <div class="accordion-item">
+                                                                <h2 class="accordion-header" id="panelsStayOpen-heading3">
+                                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse3" aria-expanded="false" aria-controls="panelsStayOpen-collapse3">
+                                                                        Day 3 - Nusa Penida Island Day Trip
+                                                                    </button>
+                                                                </h2>
+                                                                <div id="panelsStayOpen-collapse3" class="accordion-collapse collapse " aria-labelledby="panelsStayOpen-heading3" data-bs-parent="#accordionItinerary">
+                                                                    <div class="accordion-body">
+                                                                        <ul class="listing">
+                                                                            <li class="list">
+                                                                                After an early breakfast, head to the harbour for a boat transfer to Nusa Penida Island. Explore its pristine beaches, dramatic coastal cliffs, and crystal-clear waters. Enjoy a packed or local lunch during the tour before returning to Bali in the evening. Overnight stay at the hotel                                                                                    
+                                                                            </li>
+                                                                        </ul>
+                                                                        <hr class="my-3" style="border-top:1px solid #4b5051;">
+                                                                        <div class="d-flex justify-content-evenly displayMeal">
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Meal:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Breakfast, Lunch and Dinner</p>
+                                                                            </div>
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Transport:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Bus</p>
+                                                                            </div>
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Stay:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0"></p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="timeline-number">
+                                                                04                                                                    
+                                                            </div>
+                                                            <div class="accordion-item">
+                                                                <h2 class="accordion-header" id="panelsStayOpen-heading4">
+                                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse4" aria-expanded="false" aria-controls="panelsStayOpen-collapse4">
+                                                                        Day 4 - Water Sports &amp; Tanah Lot Temple
+                                                                    </button>
+                                                                </h2>
+                                                                <div id="panelsStayOpen-collapse4" class="accordion-collapse collapse " aria-labelledby="panelsStayOpen-heading4" data-bs-parent="#accordionItinerary">
+                                                                    <div class="accordion-body">
+                                                                        <ul class="listing">
+                                                                            <li class="list">
+                                                                                After breakfast, enjoy a half-day water sports adventure with activities such as banana boat rides, parasailing, or jet skiing (as per package or own expense). In the afternoon, visit the iconic Tanah Lot Temple, a beautiful sea temple perched on a rocky outcrop, best known for its stunning sunset views. Return to the hotel for an overnight stay                                                                                    
+                                                                            </li>
+                                                                        </ul>
+                                                                        <hr class="my-3" style="border-top:1px solid #4b5051;">
+                                                                        <div class="d-flex justify-content-evenly displayMeal">
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Meal:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Breakfast, Lunch and Dinner</p>
+                                                                            </div>
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Transport:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Bus</p>
+                                                                            </div>
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Stay:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0"></p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="timeline-number">
+                                                                05                                                                    
+                                                            </div>
+                                                            <div class="accordion-item">
+                                                                <h2 class="accordion-header" id="panelsStayOpen-heading5">
+                                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse5" aria-expanded="false" aria-controls="panelsStayOpen-collapse5">
+                                                                        Day 5 - Departure from Bali
+                                                                    </button>
+                                                                </h2>
+                                                                <div id="panelsStayOpen-collapse5" class="accordion-collapse collapse " aria-labelledby="panelsStayOpen-heading5" data-bs-parent="#accordionItinerary">
+                                                                    <div class="accordion-body">
+                                                                        <ul class="listing">
+                                                                            <li class="list">
+                                                                                After breakfast, check out from the hotel and transfer to Bali Airport in time for your flight. Depart with unforgettable memories of your Bali holiday                                                                                    
+                                                                            </li>
+                                                                        </ul>
+                                                                        <hr class="my-3" style="border-top:1px solid #4b5051;">
+                                                                        <div class="d-flex justify-content-evenly displayMeal">
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Meal:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Breakfast</p>
+                                                                            </div>
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Transport:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Bus</p>
+                                                                            </div>
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Stay:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0"></p>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -507,69 +617,146 @@ $date = date('Y');
                                         </div>
                                         <div id="inclusion" class="section-block">
                                             <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
-                                                <h5 class="fw-bolder">Inclusion & Exclusion</h5>
+                                                <h5 class="fw-bolder textDarkBlue">Inclusion & Exclusion</h5>
                                                 <div class="row">
                                                     <!-- Inclusions -->
                                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                                                         <div class="d-flex gap-3 mt-2">
                                                             <div class="checkIcon">
-                                                                <i class="ri-checkbox-circle-fill text-success"></i>
+                                                                <i class="fa-solid fa-circle-check"></i>
                                                             </div>
-                                                            <p class="text-muted fontSize3 align-content-center mb-0"></p>
+                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque autem quis commodi?</p>
                                                         </div>
-                                                        <p class="text-muted mt-2 mb-0">No inclusions available.</p>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="checkIcon">
+                                                                <i class="fa-solid fa-circle-check"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque autem quis commodi?</p>
+                                                        </div>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="checkIcon">
+                                                                <i class="fa-solid fa-circle-check"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque autem quis commodi?</p>
+                                                        </div>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="checkIcon">
+                                                                <i class="fa-solid fa-circle-check"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque autem quis commodi?</p>
+                                                        </div>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="checkIcon">
+                                                                <i class="fa-solid fa-circle-check"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque autem quis commodi?</p>
+                                                        </div>
+                                                        <p class="text-muted mt-2 mb-0 d-none">No inclusions available.</p>
                                                     </div>
                                                     <!-- Exclusions -->
                                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                                                         <div class="d-flex gap-3 mt-2">
                                                             <div class="closeIcon">
-                                                                <i class="ri-close-circle-fill text-danger"></i>
+                                                                <i class="fa-solid fa-circle-xmark"></i>
                                                             </div>
-                                                            <p class="text-muted fontSize3 align-content-center mb-0"></p>
+                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui amet sequi itaque?</p>
                                                         </div>
-                                                        <p class="text-muted mt-2 mb-0">No exclusions available.</p>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="closeIcon">
+                                                                <i class="fa-solid fa-circle-xmark"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui amet sequi itaque?</p>
+                                                        </div>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="closeIcon">
+                                                                <i class="fa-solid fa-circle-xmark"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui amet sequi itaque?</p>
+                                                        </div>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="closeIcon">
+                                                                <i class="fa-solid fa-circle-xmark"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui amet sequi itaque?</p>
+                                                        </div>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="closeIcon">
+                                                                <i class="fa-solid fa-circle-xmark"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui amet sequi itaque?</p>
+                                                        </div>
+                                                        <p class="text-muted mt-2 mb-0 d-none">No exclusions available.</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div id="policies" class="section-block">
                                             <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
-                                                <h5 class="fw-bolder mb-3">Policies</h5>
+                                                <h5 class="fw-bolder mb-3 textDarkBlue">Terms & Conditions</h5>
                                                 <div class="policyItem">
                                                     <div class="d-flex align-items-center gap-3">
-                                                        <div class="highlightIcon" style="background-color: #b2e0b1;">
-                                                            <i class="ri-file-pdf-line text-success"></i>
+                                                        <div class="highlightIcon">
+                                                            <i class="fa-solid fa-file-pdf"></i>
                                                         </div>
-                                                        <p class="mb-0"></p>
+                                                        <p class="mb-0">Kasainath</p>
                                                     </div>
                                                     <a href="#" download class="downloadBtn">
-                                                        <i class="ri-download-line"></i>
+                                                        <i class="fa-solid fa-download"></i>
                                                     </a>
                                                 </div>
-                                                <p class="text-muted mb-0">
+                                                <p class="text-muted mb-0 d-none">
                                                     No policy documents available.
                                                 </p>
                                             </div>
                                         </div>
                                         <div id="faqs" class="section-block">
                                             <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
-                                                <h5 class="fw-bolder">Frequently Asked Questions</h5>
-                                                <div class="faq-wrapper mt-2">
-                                                    <div class="faq-item ">
-                                                        <div class="faq-header">
-                                                            <h5></h5>
-                                                            <i class=" faq-icon"></i>
+                                                <h5 class="fw-bolder textDarkBlue">Cancellation Policy</h5>
+                                                <div class="row borderHighlight mx-0">
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 py-3">
+                                                        <div class="text-center mb-2">
+                                                            <label for="mrpPerAdult" class="mb-0">Cancellation Before Travel</label>
                                                         </div>
-                                                        <div class="faq-body">
-                                                            <p></p>
+                                                        <div class="inputFieldAlignment">
+                                                            <input type="number" value="" id="mrpPerAdult" placeholder="30+ Days" class="form-control inputWidth" readOnly>
+                                                            <input type="number" value="" id="mrpPerAdult" placeholder="15 - 30 Days" class="form-control inputWidth" readOnly>
+                                                            <input type="number" value="" id="mrpPerAdult" placeholder="7 - 15 Days" class="form-control inputWidth" readOnly>
+                                                            <input type="number" value="" id="mrpPerAdult" placeholder="0 - 7 Days" class="form-control inputWidth" readOnly>
+                                                            <input type="number" value="" id="mrpPerAdult" placeholder="No Show" class="form-control inputWidth" readOnly>
                                                         </div>
                                                     </div>
-                                                    <div class="text-center mt-3 mb-3">
-                                                        <button id="viewMoreFaq" class="btn viewMoreFaq">
-                                                            View More
-                                                        </button>
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 py-3">
+                                                        <div class="text-center mb-2">
+                                                            <label for="mrpPerChild" class="mb-0">Cancellation Charges</label>
+                                                        </div>
+                                                        <div class="inputFieldAlignment">
+                                                            <div class="input-group inputWidth">
+                                                                <input type="number" class="form-control" id="cancellationPercentage1" name="cancellationPercentage1" placeholder="0" value="<?= $CancelPolicy['policy_1']??0 ?>">
+                                                                <span class="input-group-text">%</span>
+                                                                <small class="error-message" id="cancellationPercentage1_error"></small>
+                                                            </div>
+                                                            <div class="input-group inputWidth">
+                                                                <input type="number" class="form-control" id="cancellationPercentage2" name="cancellationPercentage2" placeholder="0" value="<?= $CancelPolicy['policy_2']??0 ?>">
+                                                                <span class="input-group-text">%</span>
+                                                                <small class="error-message" id="cancellationPercentage2_error"></small>
+                                                            </div>
+                                                            <div class="input-group inputWidth">
+                                                                <input type="number" class="form-control" id="cancellationPercentage3" name="cancellationPercentage3" placeholder="0" value="<?= $CancelPolicy['policy_3']??0 ?>">
+                                                                <span class="input-group-text">%</span>
+                                                                <small class="error-message" id="cancellationPercentage3_error"></small>
+                                                            </div>
+                                                            <div class="input-group inputWidth">
+                                                                <input type="number" class="form-control" id="cancellationPercentage4" name="cancellationPercentage4" placeholder="0" value="<?= $CancelPolicy['policy_4']??0 ?>">
+                                                                <span class="input-group-text">%</span>
+                                                                <small class="error-message" id="cancellationPercentage4_error"></small>
+                                                            </div>
+                                                            <div class="input-group inputWidth">
+                                                                <input type="number" class="form-control" id="cancellationPercentage5" name="cancellationPercentage5" placeholder="0" value="<?= $CancelPolicy['policy_5']??0 ?>">
+                                                                <span class="input-group-text">%</span>
+                                                                <small class="error-message" id="cancellationPercentage5_error"></small>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <p class="text-muted">No FAQs available.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -785,6 +972,102 @@ $date = date('Y');
             }
             mybutton && (window.onscroll = function() {
                 scrollFunction()
+            });
+        </script>
+        <script>
+            $(document).ready(function () {
+
+                const $nav = $(".borderColor1");
+                const $wrapper = $(".sticky-nav-wrapper");
+                const $placeholder = $(".nav-placeholder");
+                const $content = $(".content-sections");
+
+                let navTop = $wrapper.offset().top;
+
+                function updateStickyNav() {
+
+                    if ($(window).width() < 992) {
+                        $nav.removeClass("nav-fixed");
+                        $placeholder.hide();
+                        return;
+                    }
+
+                    const headerHeight = $(".sticky-bar").outerHeight() || 90;
+
+                    const contentTop = $content.offset().top;
+                    const contentBottom = contentTop + $content.outerHeight();
+
+                    const scrollTop = $(window).scrollTop();
+
+                    const navHeight = $nav.outerHeight();
+
+                    if (
+                        scrollTop >= navTop - headerHeight &&
+                        scrollTop <= contentBottom - navHeight - headerHeight
+                    ) {
+
+                        $placeholder.height(navHeight).show();
+
+                        $nav.addClass("nav-fixed").css({
+                            width: $wrapper.outerWidth() + "px"
+                        });
+
+                    } else {
+
+                        $placeholder.hide();
+
+                        $nav.removeClass("nav-fixed").css({
+                            width: ""
+                        });
+                    }
+                }
+
+                $(window).on("scroll resize", function () {
+
+                    navTop = $wrapper.offset().top;
+
+                    updateStickyNav();
+
+                    updateActiveNav();
+                });
+
+                updateStickyNav();
+            });
+
+            function updateActiveNav() {
+
+                const scrollPos = $(window).scrollTop() + 200;
+
+                $(".section-block").each(function () {
+
+                    const id = $(this).attr("id");
+
+                    const top = $(this).offset().top;
+                    const bottom = top + $(this).outerHeight();
+
+                    if (scrollPos >= top && scrollPos < bottom) {
+
+                        $(".nav-link").removeClass("active");
+
+                        $('.nav-link[href="#' + id + '"]')
+                            .addClass("active");
+                    }
+                });
+            }
+
+            $(".nav-link").on("click", function (e) {
+
+                e.preventDefault();
+
+                const target = $(this).attr("href");
+
+                const headerHeight = $(".sticky-bar").outerHeight() || 90;
+
+                $("html, body").animate({
+
+                    scrollTop: $(target).offset().top - headerHeight - 70
+
+                }, 500);
             });
         </script>
     </body>

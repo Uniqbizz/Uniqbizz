@@ -130,11 +130,191 @@
 .discountGreen {
     color: #008000;
 }
+.nav-placeholder{
+    display: none;
+}
+.borderColor1{
+    background: #fff;
+    border-radius: 6px;
+    transition: all .3s ease;
+    border: 1px solid #6a69691a !important
+}
+.borderColor1.nav-fixed{
+    position: fixed;
+    top: 70px; /* sticky header height */
+    z-index: 999;
+    background: #fff;
+    box-shadow: 0 4px 15px rgba(0,0,0,.08);
+}
+.nav-link{
+    color: #878a99;
+    transition: .3s;
+}
+.nav-link.active{
+    color: #4b38b3 !important;
+    font-weight: 600;
+}
+.section-block{
+    scroll-margin-top: 180px;
+}
+.overviewImageWrapper {
+    width: 200px !important;
+    min-width: 200px !important;
+}
+.cardShadow {
+    border: 1px solid #6a69691a !important;
+}
+.overviewImg{
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
+}
+/* ITINERARY TIMELINE */
+.destination-accordion .accordion {
+    position: relative;
+    display: grid;
+    grid-template-columns: 54px minmax(0, 1fr);
+    column-gap: 26px;
+    row-gap: 18px;
+    padding-left: 0;
+}
+/* CONTINUOUS VERTICAL TIMELINE */
+.destination-accordion .accordion::before {
+    content: "";
+    position: absolute;
+    top: 27px;
+    bottom: 27px;
+    left: 26px;
+    width: 2px;
+    background: #e3e7eb;
+    z-index: 0;
+}
+/* TIMELINE NUMBER */
+.timeline-number {
+    position: relative;
+    z-index: 2;
+    width: 54px;
+    min-width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border: 2px solid #e03d42;
+    color: #e03d42;
+    border-radius: 50%;
+    font-weight: 800;
+    font-size: 13px;
+    box-sizing: border-box;
+}
+/* ACCORDION ITEM */
+.destination-accordion .accordion-item {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    border: 1px solid #edf0f2 !important;
+    border-radius: 16px !important;
+    overflow: hidden;
+    background: #fff;
+    margin: 0 !important;
+}
+/* ACCORDION BUTTON */
+.destination-accordion .accordion-button {
+    min-height: 54px;
+    padding: 15px 20px !important;
+    background: #fff !important;
+    color: #1f2933;
+    font-weight: 700;
+    border-radius: 16px !important;
+    box-shadow: none;
+}
+.destination-accordion .accordion-button:focus {
+    box-shadow: none;
+}
+.destination-accordion .accordion-button:not(.collapsed) {
+    background: #fff;
+    color: #1f2933;
+    box-shadow: none;
+}
+.checkIcon i {
+    color: #008000;
+    font-size: 20px;
+}
+.closeIcon i {
+    color: #e03d42;
+    font-size: 20px;
+}
+.policyItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #eef1f4;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    transition: all .3s ease;
+}
+.policyItem:last-child {
+    margin-bottom: 0;
+}
+.policyItem p {
+    margin-bottom: 0;
+    font-size: 15px;
+    font-weight: 500;
+    color: #343a40;
+}
+.highlightIcon {
+    background-color: #baecba;
+    width: 35px !important;
+    height: 35px !important;
+    padding: 5px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.highlightIcon i {
+    color: #008000;
+    font-size: 20px;
+}
+.downloadBtn {
+    width: 38px;
+    height: 38px;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #03033e;
+    background: #fff;
+    transition: all .3s ease;
+}
+.downloadBtn:hover {
+    background: #03033e;
+    border-color: #03033e;
+    color: #fff;
+}
 @media (max-width: 1102px) {
     .laptopDisplay {
         display: block !important;
     }
     .laptopDisplay p {
         margin-bottom: 5px !important;
+    }
+}
+@media(max-width:991px){
+
+    .borderColor1.nav-fixed{
+        position:static;
+        width:100% !important;
+        box-shadow:none;
+    }
+
+    .nav-placeholder{
+        display:none !important;
     }
 }
