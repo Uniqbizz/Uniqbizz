@@ -568,7 +568,7 @@
                                 badge = 'teActiveBtn';
                                 text = 'Active';
 
-                            }else if(data.status == 2){
+                            }else if(data.status == 3){
 
                                 badge = 'tePendingBtn';
                                 text = 'Deactivated';
