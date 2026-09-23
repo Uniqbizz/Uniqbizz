@@ -704,13 +704,46 @@ $date = date('Y');
                                                         <i class="fa-solid fa-download"></i>
                                                     </a>
                                                 </div>
+                                                <div class="policyItem">
+                                                    <div class="d-flex align-items-center gap-3">
+                                                        <div class="highlightIcon">
+                                                            <i class="fa-solid fa-file-pdf"></i>
+                                                        </div>
+                                                        <p class="mb-0">Kasainath</p>
+                                                    </div>
+                                                    <a href="#" download class="downloadBtn">
+                                                        <i class="fa-solid fa-download"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="policyItem">
+                                                    <div class="d-flex align-items-center gap-3">
+                                                        <div class="highlightIcon">
+                                                            <i class="fa-solid fa-file-pdf"></i>
+                                                        </div>
+                                                        <p class="mb-0">Kasainath</p>
+                                                    </div>
+                                                    <a href="#" download class="downloadBtn">
+                                                        <i class="fa-solid fa-download"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="policyItem">
+                                                    <div class="d-flex align-items-center gap-3">
+                                                        <div class="highlightIcon">
+                                                            <i class="fa-solid fa-file-pdf"></i>
+                                                        </div>
+                                                        <p class="mb-0">Kasainath</p>
+                                                    </div>
+                                                    <a href="#" download class="downloadBtn">
+                                                        <i class="fa-solid fa-download"></i>
+                                                    </a>
+                                                </div>
                                                 <p class="text-muted mb-0 d-none">
                                                     No policy documents available.
                                                 </p>
                                             </div>
                                         </div>
                                         <div id="faqs" class="section-block">
-                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow mb-0">
                                                 <h5 class="fw-bolder textDarkBlue">Cancellation Policy</h5>
                                                 <div class="row borderHighlight mx-0">
                                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12 py-3">
