@@ -45,6 +45,7 @@
                     ta.status,
                     ta.amount,
                     ta.user_type,
+                    DATE_FORMAT(ta.deleted_date, '%d %b %Y') AS deleted_date,
                     sf.firstname AS ref_firstname,
                     sf.lastname AS ref_lastname,
                     sf.sub_franchisee_id AS reference_id,
@@ -65,6 +66,36 @@
 
                 SELECT
                     ta.id,
+                    ta.ca_travelagency_id,
+                    ta.firstname,
+                    ta.lastname,
+                    ta.contact_no,
+                    ta.email,
+                    ta.register_date,
+                    ta.status,
+                    ta.amount,
+                    ta.user_type,
+                    DATE_FORMAT(ta.deleted_date, '%d %b %Y') AS deleted_date,
+                    sf.firstname AS ref_firstname,
+                    sf.lastname AS ref_lastname,
+                    sf.master_franchisee_id AS reference_id,
+
+                    'F' AS ref_type
+
+                FROM ca_travelagency ta
+
+                INNER JOIN master_franchisee sf
+                    ON ta.reference_no = sf.master_franchisee_id
+
+                WHERE ta.reference_no = :user_id
+                AND ta.status IN (1,3)
+
+                $whereDateSF
+                
+                UNION ALL
+
+                SELECT
+                    ta.id,
                     ta.institution_branch_manager_id,
                     ta.firstname,
                     ta.lastname,
@@ -74,8 +105,9 @@
                     ta.status,
                     ta.amount,
                     ta.user_type,
-                    sf.firstname AS ref_firstname,
-                    sf.lastname AS ref_lastname,
+                    DATE_FORMAT(ta.deleted_date, '%d %b %Y') AS deleted_date,
+                    sf.name AS ref_firstname,
+                    '' AS ref_lastname,
                     sf.institution_id AS reference_id,
 
                     'I' AS ref_type
