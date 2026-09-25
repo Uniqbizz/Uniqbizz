@@ -45,6 +45,7 @@
                     ta.status,
                     ta.amount,
                     ta.user_type,
+                    DATE_FORMAT(ta.deleted_date, '%d %b %Y') AS deleted_date,
                     sf.firstname AS ref_firstname,
                     sf.lastname AS ref_lastname,
                     sf.sub_franchisee_id AS reference_id,
@@ -74,8 +75,9 @@
                     ta.status,
                     ta.amount,
                     ta.user_type,
-                    sf.firstname AS ref_firstname,
-                    sf.lastname AS ref_lastname,
+                    DATE_FORMAT(ta.deleted_date, '%d %b %Y') AS deleted_date,
+                    sf.name AS ref_firstname,
+                    '' AS ref_lastname,
                     sf.institution_id AS reference_id,
 
                     'I' AS ref_type

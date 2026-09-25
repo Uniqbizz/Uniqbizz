@@ -358,15 +358,6 @@
                         data: null,
                         render: function(data){
 
-                            if(data.status == 1){
-
-                                return `
-                                    <p class="teApprovedBtn rounded-pill text-center mb-0">
-                                        Active
-                                    </p>
-                                `;
-                            }
-
                             if(data.status == 2){
 
                                 return `
@@ -375,11 +366,22 @@
                                     </p>
                                 `;
                             }
-                            if(data.status == 0){
+
+                            else if(data.status == 4){
+
+                                return `
+                                    <p class="teDraftBtn rounded-pill text-center mb-0">
+                                        Draft
+                                    </p>
+                                `;
+                            }
+                            else if(data.status == 0){
+
                                 return `
                                     <p class="teDeletedBtn rounded-pill text-center mb-0">
                                         Deleted
                                     </p>
+                                    <p>Deleted On:${data.deleted_date ?? ''}</p>
                                 `;
                             }
                         }
