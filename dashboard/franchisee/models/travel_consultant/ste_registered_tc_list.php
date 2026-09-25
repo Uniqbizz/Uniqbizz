@@ -40,7 +40,7 @@
                     ta.register_date,
                     ta.status,
                     ta.amount,
-
+                    DATE_FORMAT(ta.deleted_date, '%d %b %Y') AS deleted_date,
                     ca.firstname AS ref_firstname,
                     ca.lastname AS ref_lastname,
                     ca.sub_franchisee_id AS reference_id,
