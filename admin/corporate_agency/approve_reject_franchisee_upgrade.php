@@ -64,7 +64,7 @@ if ($id_str == 'F') {
             $registrant  = $result1['registrant'] ?? 'Not Applicable';
             $f_name  = $result1['name'] ?? 'Not Applicable';
             $ref_str=substr($referenceNo,0,2);
-            $mf_sf_commis=$new_amount * 0.05;
+            $mf_sf_commis=floatval($new_amount) * 0.05;
 
             $message_mf = $ref_str.' - '.$registrant.'(ID:'.$referenceNo.') earned Rs '.$mf_sf_commis.'/- on Franchisee upgrade.Franchisee Name - '.$f_name.' (ID:'.$id.'). Franchisee Upgrade Amount: Rs '.$new_amount ;
             $message_f = 'Franchisee Name - '.$f_name.' (ID:'.$id.'). Franchisee Upgraded Amount: Rs '.$new_amount ;
@@ -177,16 +177,16 @@ if ($id_str == 'F') {
             $CTE_id = '';
             $CTE_name = "";
             $CTE_message = '';
-            $CTECommiAmt = '';
+            $CTECommiAmt = 0;
             $ETE_id = '';
             $ETE_name = "";
             $ETE_message = '';
-            $ETECommiAmt = '';
+            $ETECommiAmt = 0;
             $STE_id = '';
             $STE_name = "";
             $STE_message = '';
             $TE_message = '';
-            $STECommiAmt = '';
+            $STECommiAmt = 0;
             $result1 = $stmt1->fetch(PDO::FETCH_ASSOC);
 
             $referenceNo = $result1['reference_no'] ?? 'Not Applicable';
@@ -214,7 +214,7 @@ if ($id_str == 'F') {
                 $stmt = $conn->prepare("SELECT business_mentor_id,CONCAT(firstname, ' ' lastname) AS name,registrant,reference_no FROM business_mentor WHERE status = '1'");
                 $stmt->execute();
                 $bm_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                $ETECommiAmt=$new_amount * 0.025;
+                $ETECommiAmt=floatval($new_amount) * 0.025;
                 $STE_id=$bm_data['business_mentor_id'];
                 $STE_name=$bm_data['name'];
                 $registrant=$bm_data['registrant'];
@@ -265,9 +265,9 @@ if ($id_str == 'F') {
                     }
                 }
 
-                $CTECommiAmt = $new_amount * 0.0125; // 1.25%
+                $CTECommiAmt = floatval($new_amount) * 0.0125; // 1.25%
 
-                $ETECommiAmt = $new_amount * 0.025; // 2.5%
+                $ETECommiAmt = floatval($new_amount) * 0.025; // 2.5%
 
                 $STECommiAmt = floatval($new_amount) * 0.05; // 5%
 
@@ -304,7 +304,7 @@ if ($id_str == 'F') {
             }else if ($ref_str == "BDM") { 
                 $STE_id = '';
                 $STE_message = '';
-                $STECommiAmt = '';
+                $STECommiAmt = 0;
                 $ETECommiAmt=floatval($new_amount) * 0.05;
                 $ETE_id = $referenceNo;
 
@@ -323,7 +323,7 @@ if ($id_str == 'F') {
             $result = $sqlTEPayout->execute([
                 ":cte_id"			=>	$CTE_id ?? '',
                 ":cte_message"		=>	$CTE_message ?? '',
-                ":cte_amount" 		=>	$CTECommiAmt ?? '',
+                ":cte_amount" 		=>	$CTECommiAmt ,
                 ":cte_status" 		=>	2,
                 ":ete_id" 			=>	$ETE_id,
                 ":ete_message" 		=>	$ETE_message,
