@@ -211,7 +211,7 @@ if ($id_str == 'F') {
                 $TE_message = 'Techno Enterprise Name - '.$f_name.' (ID:'.$id.'). Techno Enterprise Upgraded Amount: Rs '.$new_amount ;
 
                 // Get BM ref
-                $stmt = $conn->prepare("SELECT business_mentor_id,CONCAT(firstname, ' ' lastname) AS name,registrant,reference_no FROM business_mentor WHERE status = '1'");
+                $stmt = $conn->prepare("SELECT business_mentor_id,CONCAT(firstname, ' ', lastname) AS name,registrant,reference_no FROM business_mentor WHERE status = '1'");
                 $stmt->execute();
                 $bm_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $ETECommiAmt=floatval($new_amount) * 0.025;
