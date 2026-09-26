@@ -369,10 +369,12 @@ include 'config/overview.php';
                                     <?php 
                                         } 
                                     ?>
-                                    <?php if ($DBtable == 'sub_franchisee' || $DBtable == 'institution') { ?>
+                                    <?php if ($DBtable == 'sub_franchisee' || $DBtable == 'institution' || $DBtable == 'corporate_agency') { ?>
                                         <li class="nav-item">
                                             <a class="nav-link" data-bs-toggle="tab" role="tab" href="#s_p">Upgrade History</a>
                                         </li>
+                                    <?php } ?>
+                                    <?php if ($DBtable == 'institution'){?>
                                         <li class="nav-item">
                                             <a class="nav-link" data-bs-toggle="tab" role="tab" href="#ins_downline">Assign Downline</a>
                                         </li>
@@ -456,7 +458,7 @@ include 'config/overview.php';
                             </div>
                             <!-- Payout End -->
                             <?php 
-                                if($DBtable == 'sub_franchisee' || $DBtable == 'institution'){
+                                if($DBtable == 'sub_franchisee' || $DBtable == 'institution' || $DBtable == 'corporate_agency'){
                             ?>
                             <!-- upgarde History Start -->
                             <div class="tab-pane fade card px-3 rounded-4" id="s_p" role="tabpanel">
@@ -473,6 +475,10 @@ include 'config/overview.php';
                                             }else if($DBtable == 'institution'){
                                                 $sql101= "SELECT old_investment_amt,new_investment_amt,upgrade_amt as upgrade_amt  FROM institution_upgrade
                                                                 WHERE institution_id='".$id."' and upgrade_status=1
+                                                                ORDER BY upgrade_approval_date DESC limit 1";
+                                            }else if($DBtable == 'corporate_agency'){
+                                                $sql101= "SELECT old_investment_amt,new_investment_amt,upgrade_amt as upgrade_amt  FROM techno_enterprise_upgrade
+                                                                WHERE techno_enterprise_id='".$id."' and upgrade_status=1
                                                                 ORDER BY upgrade_approval_date DESC limit 1";
                                             }
                                         
@@ -509,8 +515,10 @@ include 'config/overview.php';
                                             <tr>
                                                 <th class="ceterText fw-semibold fs-6">Investment Date</th>
                                                 <th class="ceterText fw-semibold fs-6">Invested Amount</th>
+                                                <?php if($DBtable != 'corporate_agency'){?>
                                                 <th class="ceterText fw-semibold fs-6">Commission Percentage</th>
                                                 <th class="ceterText fw-semibold fs-6">Incentive Percentage</th>
+                                                <?php } ?>
                                                 <th class="ceterText fw-semibold fs-6">Payment mode</th>
                                                 <th class="ceterText fw-semibold fs-6">Note</th>
                                                 <th class="ceterText fw-semibold fs-6">Approved date</th>
@@ -535,6 +543,13 @@ include 'config/overview.php';
                                                                 FROM institution_upgrade
                                                                 WHERE institution_id='".$id."'
                                                                 ORDER BY upgrade_request_date ASC ";
+                                            }else if($DBtable == 'corporate_agency'){
+                                                $sqlUnion = "SELECT id,new_investment_amt,upgrade_amt,upgrade_request_date,upgrade_approval_date,
+                                                                payment_mode,cheque_no,cheque_date,bank_name,transaction_no,payment_proof,rejection_reason,
+                                                                approved_by,note,upgrade_status, 'I' as user_type
+                                                                FROM techno_enterprise_upgrade
+                                                                WHERE techno_enterprise_id='".$id."'
+                                                                ORDER BY upgrade_request_date ASC ";
                                             }
                                             
                                             $stmtUnion = $conn->prepare($sqlUnion);
@@ -553,9 +568,11 @@ include 'config/overview.php';
 
                                                     $tamount = $row['upgrade_amt'];
                                                     $amount = $row['new_investment_amt'];
-                                                    $comm = $row['new_commission_per'];
-                                                    $inc = $row['new_incentive_per'];
-                                                    $pay_mode = $row['payment_mode'];
+                                                    if($DBtable != 'corporate_agency'){
+                                                        $comm = $row['new_commission_per'];
+                                                        $inc = $row['new_incentive_per'];
+                                                    }
+                                                        $pay_mode = $row['payment_mode'];
                                                     $aproved_by = $row['approved_by'];
                                                     $note = $row['note'];
                                                     $row_id=$row['id'];
@@ -568,14 +585,16 @@ include 'config/overview.php';
                                                     $status = $row['upgrade_status'];
                                                     echo '<tr>
                                                                 <td>' . $udate . '</td>
-                                                                <td>' . $amount . '</td>
-                                                                <td>' . $comm . '</td>
-                                                                <td>' . $inc . '</td>
-                                                                <td>' . $pay_mode . '</td>
-                                                                <td style="width: 350px;">' . $note . '</td>
-                                                                <td>' . $adate . '</td>
-                                                                <td>' . $rejection_reason . '</td>
-                                                                <td>';
+                                                                <td>' . $amount . '</td>';
+                                                    if($DBtable != 'corporate_agency'){
+                                                        echo'<td>' . $comm . '</td>
+                                                        <td>' . $inc . '</td>';
+                                                    }
+                                                    echo'<td>' . $pay_mode . '</td>
+                                                        <td style="width: 350px;">' . $note . '</td>
+                                                        <td>' . $adate . '</td>
+                                                        <td>' . $rejection_reason . '</td>
+                                                        <td>';
                                                     if ($status == 0) {
                                                         echo '<span class="badge badge-pill badge-soft-info font-size-10 fw-bold ms-4">Requested</span>';
                                                     }
