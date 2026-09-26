@@ -91,6 +91,10 @@
 
         <!--Swiper slider css-->
         <link href="../assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+        <!-- DataTables -->
+        <link href="../assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <!-- Responsive datatable examples -->
+        <link href="../assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />  
 
         <!-- Layout config Js -->
         <script src="../assets/js/layout.js"></script>
@@ -403,7 +407,6 @@
                                                                     <th>Coupon</th>
                                                                     <th>Coupon Amt</th>
                                                                     <th>Date</th>
-                                                                    <th>Expiry Date</th>
                                                                     <th>Status</th>
                                                                 </tr>
                                                             </thead>
@@ -411,7 +414,6 @@
                                                             <?php foreach ($coupons as $coupon): ?>
                                                                 <?php
                                                                     $createdDate = new DateTime($coupon['created_date']);
-                                                                    $expiryDate = new DateTime($coupon['expiry_date']);
                                                                     $now = new DateTime();
                                                                 ?>
                                                                 <tr>
@@ -429,13 +431,11 @@
 
                                                                     <td>&#8377;<?= $coupon['coupon_amt']?></td>
                                                                     <td><?= date('d-m-Y', strtotime($coupon['created_date'])) ?></td>
-                                                                    <td><?= date('d-m-Y', strtotime($coupon['expiry_date'])) ?></td>
+                                                                    <!-- <td><?= date('d-m-Y', strtotime($coupon['expiry_date'])) ?></td> -->
                                                                     <td>
                                                                         <?php
                                                                         if ($coupon['usage_status'] == 1) {
                                                                             echo '<span class="badge bg-danger">Used</span> on ' . date('d-m-Y', strtotime($coupon['used_date']));
-                                                                        } elseif  ($now > $expiryDate) {
-                                                                            echo '<span class="badge bg-secondary">Expired</span> on ' . $expiryDate->format('d-m-Y');
                                                                         } else {
                                                                             echo '<span class="badge bg-success">Unused</span>';
                                                                         }
@@ -724,6 +724,13 @@
         <script src="../assets/libs/node-waves/waves.min.js"></script>
         <script src="../assets/libs/feather-icons/feather.min.js"></script>
         <script src="../assets/js/jquery/jquery-3.7.1.min.js"></script>
+        <!-- Required datatable js -->
+        <script src="../assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="../assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+        
+        <!-- Responsive examples -->
+        <script src="../assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
         <?php 
             if ($userType == 10 && $customer_type== 'Neo Select') {
         ?>
@@ -743,7 +750,7 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
-        
+        $("#couponsTable").DataTable();
         $('#edit_profile').on('click', function (event) {
                 event.preventDefault();
 
