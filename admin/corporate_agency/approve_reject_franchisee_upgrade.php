@@ -64,7 +64,7 @@ if ($id_str == 'F') {
             $registrant  = $result1['registrant'] ?? 'Not Applicable';
             $f_name  = $result1['name'] ?? 'Not Applicable';
             $ref_str=substr($referenceNo,0,2);
-            $mf_sf_commis=floatval($new_amount) * 0.05;
+            $mf_sf_commis=$new_amount * 0.05;
 
             $message_mf = $ref_str.' - '.$registrant.'(ID:'.$referenceNo.') earned Rs '.$mf_sf_commis.'/- on Franchisee upgrade.Franchisee Name - '.$f_name.' (ID:'.$id.'). Franchisee Upgrade Amount: Rs '.$new_amount ;
             $message_f = 'Franchisee Name - '.$f_name.' (ID:'.$id.'). Franchisee Upgraded Amount: Rs '.$new_amount ;
@@ -205,24 +205,24 @@ if ($id_str == 'F') {
             
             //identify the TE Upper chain
             if ($ref_str == "BM") { 
-                $STECommiAmt=floatval($new_amount) * 0.05;
+                $STECommiAmt=$new_amount * 0.05;
 
-                $STE_message = $ref_str.' - '.$registrant.'(ID:'.$referenceNo.') earned Rs '.$STECommiAmt.'/- on Techno Enterprise upgrade.Techno Enterprise Name - '.$f_name.' (ID:'.$id.'). Techno Enterprise Upgrade Amount: Rs '.$new_amount ;
-                $TE_message = 'Techno Enterprise Name - '.$f_name.' (ID:'.$id.'). Techno Enterprise Upgraded Amount: Rs '.$new_amount ;
-
+                
                 // Get BM ref
                 $stmt = $conn->prepare("SELECT business_mentor_id,CONCAT(firstname, ' ', lastname) AS name,registrant,reference_no FROM business_mentor WHERE status = '1'");
                 $stmt->execute();
                 $bm_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                $ETECommiAmt=floatval($new_amount) * 0.025;
+                $ETECommiAmt=$new_amount * 0.025;
                 $STE_id=$bm_data['business_mentor_id'];
                 $STE_name=$bm_data['name'];
                 $registrant=$bm_data['registrant'];
                 $ETE_id=$referenceNo=$bm_data['referenceNo'];
+                $STE_message = $ref_str.' - '.$STE_name.'(ID:'.$STE_id.') earned Rs '.$STECommiAmt.'/- on Techno Enterprise upgrade.Techno Enterprise Name - '.$f_name.' (ID:'.$id.'). Techno Enterprise Upgrade Amount: Rs '.$new_amount ;
+                $TE_message = 'Techno Enterprise Name - '.$f_name.' (ID:'.$id.'). Techno Enterprise Upgraded Amount: Rs '.$new_amount ;
                 $ETE_message = $ref_str.' - '.$registrant.'(ID:'.$referenceNo.') earned Rs '.$ETECommiAmt.'/- on Techno Enterprise upgrade.Techno Enterprise Name - '.$f_name.' (ID:'.$id.'). Techno Enterprise Upgrade Amount: Rs '.$new_amount.". With Reference of Business Developement Manager ".$STE_name." ".$STE_id."." ;
                 
             } else if($ref_str == "STE"){ //new TE payout table to handle for STE->ETE->CTE
-                $STECommiAmt=floatval($new_amount) * 0.05;
+                $STECommiAmt=$new_amount * 0.05;
 
                 $STE_message = $ref_str.' - '.$registrant.'(ID:'.$referenceNo.') earned Rs '.$STECommiAmt.'/- on Techno Enterprise upgrade.Techno Enterprise Name - '.$f_name.' (ID:'.$id.'). Techno Enterprise Upgrade Amount: Rs '.$new_amount ;
                 $TE_message = 'Techno Enterprise Name - '.$f_name.' (ID:'.$id.'). Techno Enterprise Upgraded Amount: Rs '.$new_amount ;
@@ -265,11 +265,11 @@ if ($id_str == 'F') {
                     }
                 }
 
-                $CTECommiAmt = floatval($new_amount) * 0.0125; // 1.25%
+                $CTECommiAmt = $new_amount * 0.0125; // 1.25%
 
-                $ETECommiAmt = floatval($new_amount) * 0.025; // 2.5%
+                $ETECommiAmt = $new_amount * 0.025; // 2.5%
 
-                $STECommiAmt = floatval($new_amount) * 0.05; // 5%
+                $STECommiAmt = $new_amount * 0.05; // 5%
 
                 // $STE_message = 
                 //     "STE - " . $STE_name .
@@ -305,7 +305,7 @@ if ($id_str == 'F') {
                 $STE_id = '';
                 $STE_message = '';
                 $STECommiAmt = 0;
-                $ETECommiAmt=floatval($new_amount) * 0.05;
+                $ETECommiAmt=$new_amount * 0.05;
                 $ETE_id = $referenceNo;
 
                 $ETE_message = $ref_str.' - '.$registrant.'(ID:'.$referenceNo.') earned Rs '.$ETECommiAmt.'/- on Techno Enterprise upgrade.Techno Enterprise Name - '.$f_name.' (ID:'.$id.'). Techno Enterprise Upgrade Amount: Rs '.$new_amount ;
