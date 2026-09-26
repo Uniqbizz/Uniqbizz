@@ -165,7 +165,7 @@ if ($id_str == 'F') {
 
             $result0 = $stmt0->fetch(PDO::FETCH_ASSOC);
 
-            $new_amount = $result0['new_investment_amt'] ?? 'Not Applicable';
+            $new_amount = floatval($result0['new_investment_amt']);
 
             $sql1 = "SELECT reference_no, registrant, CONCAT(firstname,' ',lastname) AS name FROM corporate_agency WHERE corporate_agency_id = :id";
             $stmt1 = $conn->prepare($sql1);
