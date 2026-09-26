@@ -165,7 +165,7 @@ if ($id_str == 'F') {
 
             $result0 = $stmt0->fetch(PDO::FETCH_ASSOC);
 
-            $new_amount = floatval($result0['new_investment_amt']);
+            $new_amount = (float) $result0['new_investment_amt'];
 
             $sql1 = "SELECT reference_no, registrant, CONCAT(firstname,' ',lastname) AS name FROM corporate_agency WHERE corporate_agency_id = :id";
             $stmt1 = $conn->prepare($sql1);
@@ -339,8 +339,8 @@ if ($id_str == 'F') {
             ]);
             if ($result) {
                 $message=$message2=$id.' Upgaded investment amount';
-                $sql4 = "INSERT INTO logs (user_id,title,message,message2,reference_no, operation) 
-                            VALUES (:user_id,:title ,:message, :message2, :reference_no, :operation)";
+                $sql4 = "INSERT INTO logs (user_id,title,message,message2,reference_no, operation,from_whom) 
+                            VALUES (:user_id,:title ,:message, :message2, :reference_no, :operation,:from_whom)";
                 $stmt4 = $conn->prepare($sql4);
 
                 $result3 = $stmt4->execute(array(
@@ -349,7 +349,8 @@ if ($id_str == 'F') {
                     ':message' => $message,
                     ':message2' => $message2,
                     ':reference_no' => $referenceNo,
-                    ':operation' => 'Upgrade Techno Enterprise'
+                    ':operation' => 'Upgrade Techno Enterprise',
+                    ':from_whom' => 1
                 ));
                 if($result3){
                     $sql = "UPDATE corporate_agency 
