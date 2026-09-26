@@ -269,7 +269,7 @@ if ($id_str == 'F') {
 
                 $ETECommiAmt = $new_amount * 0.025; // 2.5%
 
-                $STECommiAmt = $new_amount * 0.05; // 5%
+                $STECommiAmt = floatval($new_amount) * 0.05; // 5%
 
                 // $STE_message = 
                 //     "STE - " . $STE_name .
@@ -305,7 +305,7 @@ if ($id_str == 'F') {
                 $STE_id = '';
                 $STE_message = '';
                 $STECommiAmt = '';
-                $ETECommiAmt=$new_amount * 0.05;
+                $ETECommiAmt=floatval($new_amount) * 0.05;
                 $ETE_id = $referenceNo;
 
                 $ETE_message = $ref_str.' - '.$registrant.'(ID:'.$referenceNo.') earned Rs '.$ETECommiAmt.'/- on Techno Enterprise upgrade.Techno Enterprise Name - '.$f_name.' (ID:'.$id.'). Techno Enterprise Upgrade Amount: Rs '.$new_amount ;
