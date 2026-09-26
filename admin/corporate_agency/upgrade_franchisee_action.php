@@ -145,6 +145,65 @@ if ($id_str == 'F') {
                 ]);
                 echo $result1 ? 1 : 0;
             }
+}else if ($id_str == 'T' || $id_str == 'C') {
+    $sql0 = "INSERT INTO techno_enterprise_upgrade (
+                techno_enterprise_id,
+                old_investment_amt,
+                new_investment_amt,
+                upgrade_amt,
+                payment_mode,
+                cheque_no,
+                cheque_date,
+                bank_name,
+                transaction_no,
+                payment_proof,
+                note,
+                upgrade_status
+            ) VALUES (
+                :sub_id,
+                :old_amt,
+                :new_amt,
+                :upgrade_amt,
+                :pay_mode,
+                :cheque_no,
+                :cheque_date,
+                :bank_name,
+                :txn_no,
+                :pay_pf,
+                :note,
+                :status
+            )";
+
+            $stmt0 = $conn->prepare($sql0);
+
+            $result = $stmt0->execute([
+                ':sub_id'     => $_POST['id'],
+                ':old_amt'    => $_POST['prev_amount'],
+                ':new_amt'    => $_POST['new_amount'],
+                ':upgrade_amt'=> $_POST['update_amount'],
+                ':pay_mode'   => $_POST['payment_mode'],
+                ':cheque_no'  => $_POST['cheque_no'] ?? 'NA',
+                ':cheque_date'=> $_POST['cheque_date'] ?? 'NA',
+                ':bank_name'  => $_POST['bank_name'] ?? 'NA',
+                ':txn_no'     => $_POST['transaction_no'] ?? 'NA',
+                ':pay_pf'     => $_POST['payment_proof'] ?? 'NA',
+                ':note'       => $_POST['note'],
+                ':status'     => 0   // 0 = Pending / Not applicable
+            ]);
+            
+            if($result){
+
+                $sql = "UPDATE corporate_agency 
+                        SET upgrade_status=:upgrade_status
+                        WHERE corporate_agency_id=:id";
+                
+                $stmt = $conn->prepare($sql);
+                $result1 = $stmt->execute([
+                    ':upgrade_status' => 1,
+                    ':id' => $id
+                ]);
+                echo $result1 ? 1 : 0;
+            }
 }else{
     echo 'Invalid ID';
 }

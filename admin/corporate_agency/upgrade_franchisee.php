@@ -98,10 +98,43 @@
                 }
             }
         }
-    }
-    
-    
+    }else if (in_array($id_str, ['T', 'C'])) {
+        $sql1 = "SELECT corporate_agency_id, CONCAT(firstname,' ',lastname) AS fname,amount,upgrade_status 
+         FROM corporate_agency 
+         WHERE corporate_agency_id = :id";
 
+        $stmt = $conn->prepare($sql1);
+
+        $stmt->bindParam(':id', $id, PDO::PARAM_STR);  // $id must have the value before execute
+
+        $stmt->execute();
+
+        $franchisee = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // get fname and techno_enterprise_id
+        if ($franchisee) {
+            $subId = $franchisee['corporate_agency_id'];
+            $frname = $franchisee['fname'];
+            $amount = $franchisee['amount'];
+            $prev_upgrade=$franchisee['upgrade_status'];
+            if($prev_upgrade == 2){
+                $sql2 = "SELECT upgrade_amt 
+                    FROM techno_enterprise_upgrade 
+                    WHERE techno_enterprise_id = :id and upgrade_status=1 ORDER BY id DESC limit 1";
+
+                $stmt = $conn->prepare($sql2);
+
+                $stmt->bindParam(':id', $id, PDO::PARAM_STR);  // $id must have the value before execute
+
+                $stmt->execute();
+
+                $franchisee_upgrade = $stmt->fetch(PDO::FETCH_ASSOC);
+                if ($franchisee_upgrade) {
+                    $amount = $franchisee_upgrade['upgrade_amt'];
+                }
+            }
+        }
+    }
 
 ?>
 <!doctype html>
@@ -209,6 +242,7 @@
                                                         <input type="text" class="form-control" id="update_amount" placeholder="Enter Updated Amount" readonly>
                                                     </div>
                                                 </div>
+                                                <?php if (!in_array($id_str, ['T', 'C'])){ ?>
                                                 <div class="col-md-3 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="commission">New Commission<span class="text-danger">*</span></label>
@@ -221,6 +255,7 @@
                                                         <input type="text" class="form-control" id="incentive" placeholder="Enter New Incentive" readonly>
                                                     </div>
                                                 </div>
+                                                <?php } ?>
                                                 <div class="col-md-12 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="flex_amount">Extra Notes<span class="text-danger">*</span></label>
@@ -340,6 +375,14 @@
 
        
         <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
+         <?php
+            $upgradeType = match ($id_str) {
+                'TE', 'CA' => 'Techno Enterprise',
+                'F'        => 'Franchisee',
+                'I'        => 'Institution',
+                default    => ''
+            };
+        ?>
         <script>
             $("#new_select_amount").on('change', function () {
                 var prev = parseInt($("#prev_amount").val()) || 0;
@@ -352,23 +395,26 @@
             $("#clear").on('click',function(){
                 window.location.reload();
             })
-            $('#update_amount').on('input', function () {
-                var amount = parseInt($(this).val()) || 0;
+            <?php if (!in_array($id_str, ['T', 'C'])) {?>
+                $('#update_amount').on('input', function () {
+                    var amount = parseInt($(this).val()) || 0;
 
-                if (amount == 300000) {
-                    $("#commission").val('15');
-                    $("#incentive").val('15');
-                } else if (amount == 400000) {
-                    $("#commission").val('20');
-                    $("#incentive").val('20');
-                } else if (amount >= 500000) {
-                    $("#commission").val('30');
-                    $("#incentive").val('20');
-                } else {
-                    $("#commission").val('');
-                    $("#incentive").val('');
-                }
-            });
+                    if (amount == 300000) {
+                        $("#commission").val('15');
+                        $("#incentive").val('15');
+                    } else if (amount == 400000) {
+                        $("#commission").val('20');
+                        $("#incentive").val('20');
+                    } else if (amount >= 500000) {
+                        $("#commission").val('30');
+                        $("#incentive").val('20');
+                    } else {
+                        $("#commission").val('');
+                        $("#incentive").val('');
+                    }
+                });
+            <?php } ?>
+            
 
 
             $('#paymentMode').on('click', function(){
@@ -443,8 +489,14 @@
                 formData.append("prev_amount", $("#prev_amount").val());
                 formData.append("new_amount", $("#new_select_amount").val());
                 formData.append("update_amount", $("#update_amount").val());
-                formData.append("commission", $("#commission").val());
-                formData.append("incentive", $("#incentive").val());
+                <?php if (!in_array($id_str, ['T', 'C'])) { ?>
+
+                    formData.append("commission", $("#commission").val());
+                    formData.append("incentive", $("#incentive").val());
+                    formData.append("prev_commission", <?= $prev_comm ?>);
+                    formData.append("prev_incentive", <?= $prev_ins ?>);
+
+                <?php } ?>
                 formData.append("note", $("#floatingTextarea").val());
 
                 
@@ -456,8 +508,7 @@
                 formData.append("transaction_no", $("#transactionNo").val());
 
                 formData.append("payment_proof", $(":hidden#img_path6").val().trim());
-                formData.append("prev_commission", <?= $prev_comm ?>);
-                formData.append("prev_incentive", <?= $prev_ins ?>);
+                
                 
                 console.log(formData);
                 
@@ -472,12 +523,17 @@
                     },
                     success: function(res){
                         $("#loading-overlay").hide();
+                        
+                        if (res == 1) {
 
-                        if(res == 1){
-                            alert("Franchisee Upgrade Requested Successfully!");
+                            alert('<?= $upgradeType ?> Upgrade Requested Successfully!');
+
                             window.location.href = "view_corporate_agency.php";
-                        }else{
-                            alert("Franchisee Upgrade Request Failed!");
+
+                        } else {
+
+                            alert('<?= $upgradeType ?> Upgrade Request Failed!');
+
                         }
                     },
                     error: function(){

@@ -129,8 +129,8 @@ if ($id_str == 'F') {
         }
         
     }
-} else if ($id_str == 'I') {
-    $sql0 ="UPDATE institution_upgrade SET
+} else if ($id_str == 'T' || $id_str == 'C' ) {
+    $sql0 ="UPDATE techno_enterprise_upgrade SET
             upgrade_status = :status,
             approved_by = :approved_by,
             upgrade_approval_date = :upgrade_approval_date,
@@ -154,8 +154,8 @@ if ($id_str == 'F') {
             //on upgrade MF/SF payout
             //get the upgrade amount
             $sql0 ="SELECT new_investment_amt 
-                    FROM institution_upgrade 
-                    WHERE institution_id = :id AND id = :upgrade_id";
+                    FROM techno_enterprise_upgrade 
+                    WHERE techno_enterprise_id = :id AND id = :upgrade_id";
             $stmt0 = $conn->prepare($sql0);
 
             $stmt0->execute([
@@ -167,39 +167,175 @@ if ($id_str == 'F') {
 
             $new_amount = $result0['new_investment_amt'] ?? 'Not Applicable';
 
-            $sql1 = "SELECT reference_no, registrant, CONCAT(firstname,' ',lastname) AS name FROM institution WHERE institution_id = :id";
+            $sql1 = "SELECT reference_no, registrant, CONCAT(firstname,' ',lastname) AS name FROM corporate_agency WHERE corporate_agency_id = :id";
             $stmt1 = $conn->prepare($sql1);
 
             $stmt1->execute([
                 ':id' => $id
             ]);
-
+            //defaults
+            $CTE_id = '';
+            $CTE_name = "";
+            $CTE_message = '';
+            $CTECommiAmt = '';
+            $ETE_id = '';
+            $ETE_name = "";
+            $ETE_message = '';
+            $ETECommiAmt = '';
+            $STE_id = '';
+            $STE_name = "";
+            $STE_message = '';
+            $TE_message = '';
+            $STECommiAmt = '';
             $result1 = $stmt1->fetch(PDO::FETCH_ASSOC);
 
             $referenceNo = $result1['reference_no'] ?? 'Not Applicable';
             $registrant  = $result1['registrant'] ?? 'Not Applicable';
             $f_name  = $result1['name'] ?? 'Not Applicable';
             $ref_str=substr($referenceNo,0,2);
-            $mf_sf_commis=$new_amount * 0.05;
-
-            $message_mf = $ref_str.' - '.$registrant.'(ID:'.$referenceNo.') earned Rs '.$mf_sf_commis.'/- on Institution upgrade.Institution Name - '.$f_name.' (ID:'.$id.'). Institution Upgrade Amount: Rs '.$new_amount ;
-            $message_f = 'Institution Name - '.$f_name.' (ID:'.$id.'). Institution Upgraded Amount: Rs '.$new_amount ;
-
-            $sql = "INSERT INTO institution_payout (employees,message_emp,commission_emp,bm_mf_sf, message_bm_mf_sf, commission_bm_mf_sf, institution, 
-                    message_institution, institution_amt_paid) 
-                    VALUES (:employees,:message_emp,:commission_emp,:bm_mf_sf, :message_bm_mf_sf, :commission_bm_mf_sf, :institution,:message_institution, :institution_amt_paid) ";
+            $ref_str = ($ref_str == 'BM')
+                        ? 'BM'
+                        : (($ref_str == 'BH')
+                            ? 'BDM'
+                            : (($ref_str == 'ST')
+                                ? 'STE'
+                                : $ref_str
+                            )
+                        );
             
-            $stmt = $conn->prepare($sql);
-            $result = $stmt->execute([
-                ':employees' => 'NA',
-                ':message_emp'=>'Not Applicable',
-                ':commission_emp' => 0,
-                ':bm_mf_sf' => $referenceNo, 
-                ':message_bm_mf_sf' => $message_mf, 
-                ':commission_bm_mf_sf' => $mf_sf_commis, 
-                ':institution' => $id, 
-                ':message_institution' => $message_f, 
-                ':institution_amt_paid' => $new_amount
+            //identify the TE Upper chain
+            if ($ref_str == "BM") { 
+                $STECommiAmt=floatval($new_amount) * 0.05;
+
+                $STE_message = $ref_str.' - '.$registrant.'(ID:'.$referenceNo.') earned Rs '.$STECommiAmt.'/- on Techno Enterprise upgrade.Techno Enterprise Name - '.$f_name.' (ID:'.$id.'). Techno Enterprise Upgrade Amount: Rs '.$new_amount ;
+                $TE_message = 'Techno Enterprise Name - '.$f_name.' (ID:'.$id.'). Techno Enterprise Upgraded Amount: Rs '.$new_amount ;
+
+                // Get BM ref
+                $stmt = $conn->prepare("SELECT business_mentor_id,CONCAT(firstname, ' ' lastname) AS name,registrant,reference_no FROM business_mentor WHERE status = '1'");
+                $stmt->execute();
+                $bm_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $ETECommiAmt=$new_amount * 0.025;
+                $STE_id=$bm_data['business_mentor_id'];
+                $STE_name=$bm_data['name'];
+                $registrant=$bm_data['registrant'];
+                $ETE_id=$referenceNo=$bm_data['referenceNo'];
+                $ETE_message = $ref_str.' - '.$registrant.'(ID:'.$referenceNo.') earned Rs '.$ETECommiAmt.'/- on Techno Enterprise upgrade.Techno Enterprise Name - '.$f_name.' (ID:'.$id.'). Techno Enterprise Upgrade Amount: Rs '.$new_amount.". With Reference of Business Developement Manager ".$STE_name." ".$STE_id."." ;
+                
+            } else if($ref_str == "STE"){ //new TE payout table to handle for STE->ETE->CTE
+                $STECommiAmt=floatval($new_amount) * 0.05;
+
+                $STE_message = $ref_str.' - '.$registrant.'(ID:'.$referenceNo.') earned Rs '.$STECommiAmt.'/- on Techno Enterprise upgrade.Techno Enterprise Name - '.$f_name.' (ID:'.$id.'). Techno Enterprise Upgrade Amount: Rs '.$new_amount ;
+                $TE_message = 'Techno Enterprise Name - '.$f_name.' (ID:'.$id.'). Techno Enterprise Upgraded Amount: Rs '.$new_amount ;
+
+                $sql10 = $conn->prepare("SELECT * FROM super_techno_enterprise WHERE super_techno_enterprise_id = '" . $referenceNo . "'");
+                $sql10->execute();
+                $sql10->setFetchMode(PDO::FETCH_ASSOC);
+                if ($sql10->rowCount() > 0) {
+                    foreach (($sql10->fetchAll()) as $key10 => $row10) {
+                        $STE_id = $row10['super_techno_enterprise_id'];
+                        $STE_name = $row10['firstname'] . ' ' . $row10['lastname'];
+                        $STE_ref = $row10['reference_no']??'';
+                    }
+                }
+                if ($STE_ref) {
+                    $sql11 = $conn->prepare("SELECT * FROM executive_techno_enterprise WHERE executive_techno_enterprise_id = '" . $STE_ref . "'");
+                    $sql11->execute();
+                    $sql11->setFetchMode(PDO::FETCH_ASSOC);
+                    if ($sql11->rowCount() > 0) {
+                        foreach (($sql11->fetchAll()) as $key11 => $row11) {
+                            $ETE_id = $row11['executive_techno_enterprise_id'];
+                            $ETE_name = $row11['firstname'] . ' ' . $row11['lastname'];
+                            $ETE_ref = $row11['reference_no']??'';
+                            // $ETE_user_type_id = $row11['user_type'];
+                            // $ETE_ref = $row11['reporting_manager'];
+                        }
+                    }
+                }
+                if ($ETE_ref) {
+                    $sql12 = $conn->prepare("SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '" . $ETE_ref . "'");
+                    $sql12->execute();
+                    $sql12->setFetchMode(PDO::FETCH_ASSOC);
+                    if ($sql12->rowCount() > 0) {
+                        foreach (($sql12->fetchAll()) as $key12 => $row12) {
+                            $CTE_id = $row12['chief_techno_enterprise_id'];
+                            $CTE_name = $row12['firstname'] . ' ' . $row12['lastname'];
+                            // $bdm_user_type_id = $row11['user_type'];
+                            // $bdm_ref = $row11['reporting_manager'];
+                        }
+                    }
+                }
+
+                $CTECommiAmt = $new_amount * 0.0125; // 1.25%
+
+                $ETECommiAmt = $new_amount * 0.025; // 2.5%
+
+                $STECommiAmt = $new_amount * 0.05; // 5%
+
+                // $STE_message = 
+                //     "STE - " . $STE_name .
+                //     " (ID: " . $STE_id . ") earned Rs " . $STECommiAmt .
+                //     "/- on Techno Enterprise upgrade. " .
+                //     "Techno Enterprise Name - " . $f_name .
+                //     " (ID: " . $id . "). " .
+                //     "Techno Enterprise Upgrade Amount: Rs " . $new_amount . ".";
+
+
+                $ETE_message = 
+                    "ETE - " . $ETE_name .
+                    " (ID: " . $ETE_id . ") earned Rs " . $ETECommiAmt .
+                    "/- on Techno Enterprise upgrade. " .
+                    "Techno Enterprise Name - " . $f_name .
+                    " (ID: " . $id . "). " .
+                    "Techno Enterprise Upgrade Amount: Rs " . $new_amount .
+                    ". With Reference of Super Techno Enterprise " .
+                    $STE_name . " (" . $STE_id . ").";
+
+
+                $CTE_message = 
+                    "CTE - " . $CTE_name .
+                    " (ID: " . $CTE_id . ") earned Rs " . $CTECommiAmt .
+                    "/- on Techno Enterprise upgrade. " .
+                    "Techno Enterprise Name - " . $f_name .
+                    " (ID: " . $id . "). " .
+                    "Techno Enterprise Upgrade Amount: Rs " . $new_amount .
+                    ". With Reference of Executive Techno Enterprise " .
+                    $ETE_name . " (" . $ETE_id . ").";
+
+            }else if ($ref_str == "BDM") { 
+                $STE_id = '';
+                $STE_message = '';
+                $STECommiAmt = '';
+                $ETECommiAmt=$new_amount * 0.05;
+                $ETE_id = $referenceNo;
+
+                $ETE_message = $ref_str.' - '.$registrant.'(ID:'.$referenceNo.') earned Rs '.$ETECommiAmt.'/- on Techno Enterprise upgrade.Techno Enterprise Name - '.$f_name.' (ID:'.$id.'). Techno Enterprise Upgrade Amount: Rs '.$new_amount ;
+                $TE_message = 'Techno Enterprise Name - '.$f_name.' (ID:'.$id.'). Techno Enterprise Upgraded Amount: Rs '.$new_amount ;
+  
+            }
+            $sqlTEPayout=$conn->prepare("
+                                INSERT INTO techno_enterprise_payout (cte_id, cte_message, cte_amount, cte_status, ete_id, 
+                                            ete_message, ete_amount, ete_status, ste_id, ste_message, ste_amount, ste_status, 
+                                            te_id, te_message, te_amount) 
+                                VALUES (:cte_id, :cte_message, :cte_amount, :cte_status, :ete_id, 
+                                            :ete_message, :ete_amount, :ete_status, :ste_id, :ste_message, :ste_amount, :ste_status, 
+                                            :te_id, :te_message, :te_amount)
+                                ");
+            $result = $sqlTEPayout->execute([
+                ":cte_id"			=>	$CTE_id ?? '',
+                ":cte_message"		=>	$CTE_message ?? '',
+                ":cte_amount" 		=>	$CTECommiAmt ?? '',
+                ":cte_status" 		=>	2,
+                ":ete_id" 			=>	$ETE_id,
+                ":ete_message" 		=>	$ETE_message,
+                ":ete_amount" 		=>	$ETECommiAmt,
+                ":ete_status" 		=>	2,
+                ":ste_id" 			=>	$STE_id,
+                ":ste_message" 		=>	$STE_message,
+                ":ste_amount" 		=>	$STECommiAmt,
+                ":ste_status" 		=>	2,
+                ":te_id" 			=>	$id,
+                ":te_message" 		=>	$TE_message,
+                ":te_amount"		=>	$new_amount
             ]);
             if ($result) {
                 $message=$message2=$id.' Upgaded investment amount';
@@ -209,16 +345,16 @@ if ($id_str == 'F') {
 
                 $result3 = $stmt4->execute(array(
                     ':user_id' => $id,
-                    ':title' => 'Franchisee Upgraded',
+                    ':title' => 'Techno Enterprise Upgraded',
                     ':message' => $message,
                     ':message2' => $message2,
                     ':reference_no' => $referenceNo,
-                    ':operation' => 'Upgrade Franchisee'
+                    ':operation' => 'Upgrade Techno Enterprise'
                 ));
                 if($result3){
-                    $sql = "UPDATE institution 
+                    $sql = "UPDATE corporate_agency 
                             SET upgrade_status=:upgrade_status
-                            WHERE institution_id=:id";
+                            WHERE corporate_agency_id=:id";
                     
                     $stmt = $conn->prepare($sql);
                     $result1 = $stmt->execute([
@@ -231,9 +367,9 @@ if ($id_str == 'F') {
             }
         }else{
             
-            $sql = "UPDATE institution 
+            $sql = "UPDATE corporate_agency 
                     SET upgrade_status=:upgrade_status
-                    WHERE institution_id=:id";
+                    WHERE corporate_agency_id=:id";
             
             $stmt = $conn->prepare($sql);
             $result1 = $stmt->execute([
