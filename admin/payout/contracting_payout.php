@@ -341,7 +341,7 @@
                                                                         $tds = "null";
                                                                         $totalAmt = "null";
                                                                     }else{
-                                                                        $CommAmt = $row['comm_amt'];
+                                                                        $CommAmt = (float) $row['comm_amt'];
                                                                         $tds = $CommAmt * $tdsPer;
                                                                         $totalAmt = $CommAmt - $tds;
                                                                     }
@@ -570,7 +570,7 @@
                                                                 $tds = "null";
                                                                 $totalAmt = "null";
                                                             }else{
-                                                                $CommAmt = $row['comm_amt'];
+                                                                $CommAmt = (float)$row['comm_amt'];
                                                                 $tds = $CommAmt * $tdsPer;
                                                                 $totalAmt = $CommAmt - $tds;
                                                             }
@@ -784,7 +784,7 @@
                                                                 $tds = "null";
                                                                 $totalAmt = "null";
                                                             }else{
-                                                                $CommAmt = $row['comm_amt'];
+                                                                $CommAmt = (float)$row['comm_amt'];
                                                                 $tds = $CommAmt * $tdsPer;
                                                                 $totalAmt = $CommAmt - $tds;
                                                             }
@@ -990,7 +990,7 @@
                                                                 $tds = "null";
                                                                 $totalAmt = "null";
                                                             }else{
-                                                                $CommAmt = $row['comm_amt'];
+                                                                $CommAmt = (float)$row['comm_amt'];
                                                                 $tds = $CommAmt * $tdsPer;
                                                                 $totalAmt = $CommAmt - $tds;
                                                             }

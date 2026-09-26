@@ -1,4 +1,6 @@
 <?php
+// Need to add payout calculation and payout message for BM, MF and SF
+// currently added only for ETE 
 require "../connect.php";
 
 $id = $_POST['id'];
@@ -60,14 +62,31 @@ if ($id_str == 'I') {
 
             $result1 = $stmt1->fetch(PDO::FETCH_ASSOC);
 
-            $referenceNo = $result1['reference_no'] ?? 'Not Applicable';
-            $registrant  = $result1['registrant'] ?? 'Not Applicable';
-            $f_name  = $result1['name'] ?? 'Not Applicable';
-            $ref_str=substr($referenceNo,0,2);
-            $mf_sf_commis=$new_amount * 0.05;
+            $f_name  = $result1['name'] ?? 'Not Applicable'; // Institution Name 
 
-            $message_mf = $ref_str.' - '.$registrant.'(ID:'.$referenceNo.') earned Rs '.$mf_sf_commis.'/- on Institution upgrade.Institution Name - '.$f_name.' (ID:'.$id.'). Institution Upgrade Amount: Rs '.$new_amount ;
-            $message_f = 'Institution Name - '.$f_name.' (ID:'.$id.'). Institution Upgraded Amount: Rs '.$new_amount ;
+            ///////// ETE Information ////////
+            $referenceNoETE = $result1['reference_no'] ?? 'Not Applicable'; // ETE Ref ID
+            $registrantETE  = $result1['registrant'] ?? 'Not Applicable';  // ETE Ref Name
+            $ref_strETE = substr($referenceNoETE,0,2); // ETE Ref ID 1st 2 letters "ET"
+            $mf_sf_commis = $new_amount * 0.05; // Commission calculate for ETE 
+
+            ///////// CTE Information ///////
+            $sql2 = "SELECT reference_no, registrant, firstname, lastname FROM executive_techno_enterprise WHERE executive_techno_enterprise_id = :id";
+            $stmt2 = $conn->prepare($sql2);
+            $stmt2->execute([
+                ':id' => $referenceNoETE
+            ]);
+            $result2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+            
+            $referenceNoCTE = $result2['reference_no'] ?? 'Not Applicable'; // CTE Ref ID
+            $registrantCTE  = $result2['registrant'] ?? 'Not Applicable';  // CTE Ref Name
+
+            $ref_strCTE = substr($referenceNoCTE,0,2); // CTE Ref ID 1st 2 letters "CT"
+            $emp_commis = $new_amount * 0.025; // Commission calculate for CTE
+
+            $message_emp = $ref_strCTE.' - '.$registrantCTE.'(ID:'.$referenceNoCTE.') earned Rs '.$emp_commis.'/- on Institution upgrade With Reference of executive Techno Enterprise ' .$registrantETE . ' (ID:'.$referenceNoETE.'). Institution Name - '.$f_name.' (ID:'.$id.'). Institution Upgrade Amount: Rs '.$new_amount ; // CTE message
+            $message_mf = $ref_strETE.' - '.$registrantETE.'(ID:'.$referenceNoETE.') earned Rs '.$mf_sf_commis.'/- on Institution upgrade.Institution Name - '.$f_name.' (ID:'.$id.'). Institution Upgrade Amount: Rs '.$new_amount ; //ETE message
+            $message_f = 'Institution Name - '.$f_name.' (ID:'.$id.'). Institution Upgraded Amount: Rs '.$new_amount ; // Institution Message
 
             $sql = "INSERT INTO institution_payout (employees,message_emp,commission_emp,bm_mf_sf, message_bm_mf_sf, commission_bm_mf_sf, institution, 
                     message_institution, institution_amt_paid) 
@@ -75,10 +94,10 @@ if ($id_str == 'I') {
             
             $stmt = $conn->prepare($sql);
             $result = $stmt->execute([
-                ':employees' => 'NA',
-                ':message_emp'=>'Not Applicable',
-                ':commission_emp' => 0,
-                ':bm_mf_sf' => $referenceNo, 
+                ':employees' => $referenceNoCTE,
+                ':message_emp'=> $message_emp, 
+                ':commission_emp' => $emp_commis,
+                ':bm_mf_sf' => $referenceNoETE, 
                 ':message_bm_mf_sf' => $message_mf, 
                 ':commission_bm_mf_sf' => $mf_sf_commis, 
                 ':institution' => $id, 
@@ -97,7 +116,7 @@ if ($id_str == 'I') {
                     ':message' => $message,
                     ':message2' => $message2,
                     ':from_whom' => '1',
-                    ':reference_no' => $referenceNo,
+                    ':reference_no' => $referenceNoETE,
                     ':operation' => 'Upgrade Franchisee'
                 ));
                 if($result3){
