@@ -271,24 +271,54 @@ const recalculateFields = [
 	"#travelConsultant"
 ];
 
-$(document).on("input change", recalculateFields.join(","), function () {
-    calculateEverything();
-});
+// $(document).on("input change blur", recalculateFields.join(","), function () {
+//     calculateEverything();
+// });
 
+// let previousValues = {};
+
+// $(document).on("input change blur", recalculateFields.join(","), function () {
+
+//     const id = this.id;
+//     const value = $(this).val();
+
+//     if (previousValues[id] === value) {
+//         return;
+//     }
+
+//     previousValues[id] = value;
+
+//     calculateEverything();
+// });
 let previousValues = {};
+let calculationTimer = null;
 
-$(document).on("input change", recalculateFields.join(","), function () {
+$(document).on(
+    "input change blur",
+    recalculateFields.join(","),
+    function () {
 
-    const id = this.id;
-    const value = $(this).val();
+        const id = this.id;
+        const value = $(this).val();
 
-    if (previousValues[id] === value) {
-        return;
+        // Store the latest value
+        previousValues[id] = value;
+
+        // Clear previous pending calculation
+        clearTimeout(calculationTimer);
+
+        // Calculate using the latest value
+        calculationTimer = setTimeout(function () {
+            calculateEverything();
+        }, 50);
     }
-
-    previousValues[id] = value;
-
-    calculateEverything();
+);
+// Prevent mouse wheel from changing number inputs
+$(document).on("wheel", 'input[type="number"]', function (e) {
+    if ($(this).is(":focus")) {
+        e.preventDefault();
+        $(this).blur();
+    }
 });
 
 function calculateEverything() {
