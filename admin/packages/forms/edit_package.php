@@ -410,7 +410,7 @@ try {
 
             ':ca_incentive' => amount($mydata['pricing']['teBmIns']),
 
-            ':bm_mark_up_total' => amount($mydata['pricing']['teBmComInsTotal']),
+            ':bm_mark_up_total' => amount($mydata['pricing']['bmTeCommInsTotal']),
 
             ':bm_direct_commission' => amount($mydata['pricing']['bmTeComm']),
 
