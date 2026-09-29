@@ -192,7 +192,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Franchisee</h4>
+                                    <h4 class="mb-sm-0 font-size-18"><?= $id_str == 'F'?'Franchisee':($id_str == 'I'?'Institution':(($id_str == 'T' || $id_str == 'C')? 'Techno Enterprise':'' )) ?></h4>
                                 </div>
                             </div>
                         </div>
@@ -203,11 +203,11 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <form id="upgradeForm">
-                                            <h3>Upgrade Franchisee</h3>
+                                            <h3>Upgrade <?= $id_str == 'F'?'Franchisee':($id_str == 'I'?'Institution':(($id_str == 'T' || $id_str == 'C')? 'Techno Enterprise':'' )) ?></h3>
                                             <div class="row">
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
-                                                        <label class="col-form-label" for="franchiseeID">Franchisee ID<span class="text-danger">*</span></label>
+                                                        <label class="col-form-label" for="franchiseeID"><?= $id_str == 'F'?'Franchisee':($id_str == 'I'?'Institution':(($id_str == 'T' || $id_str == 'C')? 'Techno Enterprise':'' )) ?> ID<span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="franchiseeID" placeholder="Enter Franchisee ID" value="<?= $subId ?>" readonly>
                                                     </div>
                                                 </div>

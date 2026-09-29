@@ -546,7 +546,7 @@ include 'config/overview.php';
                                             }else if($DBtable == 'corporate_agency'){
                                                 $sqlUnion = "SELECT id,new_investment_amt,upgrade_amt,upgrade_request_date,upgrade_approval_date,
                                                                 payment_mode,cheque_no,cheque_date,bank_name,transaction_no,payment_proof,rejection_reason,
-                                                                approved_by,note,upgrade_status, 'I' as user_type
+                                                                approved_by,note,upgrade_status, 'TE' as user_type
                                                                 FROM techno_enterprise_upgrade
                                                                 WHERE techno_enterprise_id='".$id."'
                                                                 ORDER BY upgrade_request_date ASC ";
@@ -610,14 +610,43 @@ include 'config/overview.php';
                                                                     <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                                         <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                     </a>
+
                                                                     <ul class="dropdown-menu">
-                                                                        <li><a href="#" onclick=\'upgradeHistoryPage("' . $row_id . '","' .$id. '","' .$user_type. '")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i>View Details</a></li>
-                                                                        <li><a href="#" onclick=\'upgradePage("' . $id . '","' .$reference_no. '")\'  class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-arrow-up-bold text-success me-1"></i> Upgrade Franchisee</a></li>
+
+                                                                        <li>
+                                                                            <a href="#"
+                                                                            onclick=\'upgradeHistoryPage("' . $row_id . '","' . $id . '","' . $user_type . '")\'
+                                                                            class="dropdown-item"
+                                                                            data-bs-toggle="modal">
+                                                                                <i class="mdi mdi-eye font-size-16 text-info me-1"></i>
+                                                                                View Details
+                                                                            </a>
+                                                                        </li>
+
+                                                                        <li>
+                                                                            <a href="#"
+                                                                            onclick=\'upgradePage("' . $id . '","' . $reference_no . '")\'
+                                                                            class="dropdown-item"
+                                                                            data-bs-toggle="modal">
+                                                                                <i class="mdi mdi-arrow-up-bold text-success me-1"></i>
+                                                                                Upgrade ' . (
+                                                                                    $DBtable == "sub_franchisee"
+                                                                                        ? "Franchisee"
+                                                                                        : ($DBtable == "institution"
+                                                                                            ? "Institution"
+                                                                                            : ($DBtable == "corporate_agency"
+                                                                                                ? "Techno Enterprise"
+                                                                                                : ""
+                                                                                            )
+                                                                                        )
+                                                                                ) . '
+                                                                            </a>
+                                                                        </li>
+
                                                                     </ul>
                                                                 </div>
                                                             </td>
-                                                            </tr>
-                                                            ';
+                                                        </tr>';
                                                 }
                                             }
                                             

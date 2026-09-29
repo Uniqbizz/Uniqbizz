@@ -31,8 +31,8 @@
         $sql1 = "SELECT institution_id as user_id, name AS fname,amount,current_commission_per,current_incentive_per,upgrade_status, user_type
          FROM institution 
          WHERE institution_id = :id";
-    }else if($user_type == 'TE' || $user_type == 'CA' ){
-        $sql1 = "SELECT corporate_agency_id as user_id, CONCAT(firstname,' ',lastname) AS fname,amount,current_commission_per,current_incentive_per,upgrade_status,user_type 
+    }else if(in_array($user_type,['TE','CA'])){
+        $sql1 = "SELECT corporate_agency_id as user_id, CONCAT(firstname,' ',lastname) AS fname,amount,upgrade_status,user_type 
          FROM corporate_agency 
          WHERE corporate_agency_id = :id";
     }
@@ -51,8 +51,10 @@
         $subId = $franchisee['user_id'];
         $frname = $franchisee['fname'];
         $amount = $franchisee['amount'];
-        $prev_comm = $franchisee['current_commission_per'];
-        $prev_ins = $franchisee['current_incentive_per'];
+        if(!in_array($user_type,['TE','CA'])){
+            $prev_comm = $franchisee['current_commission_per'];
+            $prev_ins = $franchisee['current_incentive_per'];
+        }
         $prev_upgrade=$franchisee['upgrade_status'];
         $user_type=$franchisee['user_type'];
         if($prev_upgrade == 2){
@@ -70,6 +72,13 @@
                 SELECT COUNT(id) AS id_count
                 FROM institution_upgrade
                 WHERE institution_id = :id 
+                AND upgrade_status = 1
+            ";
+        }else if($user_type == "16"){
+            $sql2_1 = "
+                SELECT COUNT(id) AS id_count
+                FROM techno_enterprise_upgrade
+                WHERE techno_enterprise_id = :id 
                 AND upgrade_status = 1
             ";
         }
@@ -91,18 +100,15 @@
                 if($user_type == "29"){
                     $sql2_2 = "SELECT * 
                         FROM sub_franchisee_upgrade 
-                        WHERE sub_franchisee_id = :id AND id < :row_id 
-                        ORDER BY id DESC LIMIT 1";
+                        WHERE sub_franchisee_id = :id AND id = :row_id ";
                 }else if($user_type == "32"){
                     $sql2_2 = "SELECT * 
                         FROM institution_upgrade 
-                        WHERE institution_id = :id AND id < :row_id 
-                        ORDER BY id DESC LIMIT 1";
+                        WHERE institution_id = :id AND id = :row_id ";
                 }else if($user_type == "16"){
                     $sql2_2 = "SELECT * 
                         FROM techno_enterprise_upgrade 
-                        WHERE techno_enterprise_id = :id AND id < :row_id 
-                        ORDER BY id DESC LIMIT 1";
+                        WHERE techno_enterprise_id = :id AND id = :row_id ";
                 }
                 
 
@@ -130,8 +136,7 @@
             }else if($user_type == "16"){
                 $sql2 = "SELECT * 
                     FROM techno_enterprise_upgrade 
-                    WHERE techno_enterprise_id = :id AND id < :row_id 
-                    ORDER BY id DESC LIMIT 1";
+                    WHERE techno_enterprise_id = :id AND id = :row_id ";
             }
             
 
@@ -146,7 +151,7 @@
             if ($franchisee_upgrade) {
                 $new_amount = $franchisee_upgrade['new_investment_amt'];
                 $total_amount = $franchisee_upgrade['upgrade_amt'];
-                if (!in_array($user_type,['TE','CA'])) {
+                if (!in_array($user_type,[16])) {
                     $commision = $franchisee_upgrade['new_commission_per'];
                     $incentive = $franchisee_upgrade['new_incentive_per'];
                 }else{
@@ -277,7 +282,7 @@
                                                         <input type="text" class="form-control" id="update_amount" placeholder="Enter Updated Amount" value="<?= $total_amount ?>" readonly>
                                                     </div>
                                                 </div>
-                                                <?php if (!in_array($user_type,['TE','CA'])) {?>
+                                                <?php if (!in_array($user_type,[16])) {?>
                                                     <div class="col-md-3 col-sm-6">
                                                         <div class="input-block mb-3">
                                                             <label class="col-form-label" for="commission">New Commission<span class="text-danger">*</span></label>
