@@ -150,7 +150,8 @@ if ($result) {
 			$ta_te_id = 'N/A';
 			$ta_te_name = 'N/A';
 		}
-
+		//identify TC/Ibr
+		$tc_str=substr($tc_id,0,2);
 		//identify TC ref TE/BM/MF/F/I
 		$reference_id = (substr($ta_te_id, 0, 1) == 'F' || substr($ta_te_id, 0, 1) == 'I') 
 							? substr($ta_te_id, 0, 1) 
@@ -318,7 +319,7 @@ if ($result) {
 					if(substr($BmId,0,2) == 'BH'){
 						$message_cte = "";
 						$commision_cte = 0;
-						
+
 						$message_bm = "BDM - ".$BdmName." ".$BdmId." earned Rs.".$bm_commi."/- on onboarding Customer . Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-. With Reference of Techno Enterprise ".$te_name." ".$te_id.".";
 						$commision_bm = $bm_commi;	
 
@@ -736,14 +737,54 @@ if ($result) {
 					| COMMISSION
 					|--------------------------------------------------------------------------
 					*/
+					$tc_desig = '';
+					$commissionRates = [];
+					$ibrHolidayAccount = 500;
+					$tcHolidayAccount  = 500;
 
-					$commissionRates = [
-						'Neo Select' => [
-							'ibr' => 500,
-							'i'   => 3000,
-							'bm'  => 150
-						]
-					];
+					$sql = "SELECT *
+							FROM institute_downline_details
+							WHERE institution_id = :institution_id
+							AND status = 1";
+
+					$stmtIns = $conn->prepare($sql);
+
+					$stmtIns->execute([
+						':institution_id' => $reference_id
+					]);
+
+					$instituteDownline = $stmtIns->fetch(PDO::FETCH_ASSOC);
+
+					if ($instituteDownline) {
+
+						$ibrHolidayAccount = (int) ($instituteDownline['payout_holiday_account_ibr'] ?? 500);
+
+						$tcHolidayAccount = (int) ($instituteDownline['payout_holiday_account_tc'] ?? 500);
+					}
+
+					if ($tc_str == 'IB') {
+
+						$tc_desig = 'IBR';
+
+						$commissionRates = [
+							'Neo Select' => [
+								'ibr' => $ibrHolidayAccount,
+								'i'   => 3000
+							]
+						];
+
+					} elseif ($tc_str == 'TA') {
+
+						$tc_desig = 'TC';
+
+						$commissionRates = [
+							'Neo Select' => [
+								'tc' => $tcHolidayAccount,
+								'i'  => 3000
+							]
+						];
+					}
+					
 
 					$designation = [
 						"BM" => "BM",
@@ -766,7 +807,7 @@ if ($result) {
 					|--------------------------------------------------------------------------
 					*/
 
-					if ($bm_desig == "BM") {
+					if ($bm_desig == "BDM") {
 
 						$message_bdm =
 							"BDM - ".$BdmName." ".$BdmId.
