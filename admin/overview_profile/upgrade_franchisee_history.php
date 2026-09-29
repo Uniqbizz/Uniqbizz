@@ -229,7 +229,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Franchisee</h4>
+                                    <h4 class="mb-sm-0 font-size-18"><?= $user_type == 29 ?'Franchisee': ($user_type == 32 ? 'Institution':($user_type == 16 ? 'Techno Enterprise':'' )) ?></h4>
                                 </div>
                             </div>
                         </div>
@@ -241,13 +241,13 @@
                                     <div class="card-body">
                                         <form id="upgradeForm">
                                             <div class=" d-flex justify-content-between">
-                                                <h3>Upgrade Franchisee History</h3>
+                                                <h3>Upgrade <?= $user_type == 29 ?'Franchisee': ($user_type == 32 ? 'Institution':($user_type == 16 ? 'Techno Enterprise':'' )) ?> History</h3>
                                                 <span class="badge badge-pill<?= $upgrade_status_val == 1 ? ' badge-soft-success':($upgrade_status_val == 2?' badge-soft-danger':'') ?>  font-size-10 fw-bold ms-4" style="height: fit-content;"><?= $upgrade_status_val == 1 ? 'Approved' : ($upgrade_status_val == 2 ? 'Rejected':'') ?></span>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
-                                                        <label class="col-form-label" for="franchiseeID">Franchisee ID<span class="text-danger">*</span></label>
+                                                        <label class="col-form-label" for="franchiseeID"><?= $user_type == 29 ?'Franchisee': ($user_type == 32 ? 'Institution':($user_type == 16 ? 'Techno Enterprise':'' )) ?> ID<span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="franchiseeID" placeholder="Enter Franchisee ID" value="<?= $subId ?>" readonly>
                                                     </div>
                                                 </div>
