@@ -52,13 +52,17 @@
 
             const response =
                 await fetch(
-                    'submit/get_user_wishlist.php',
+                    base_url_cust+'submit/get_user_wishlist.php',
                     {
                         method: 'POST',
                         cache: 'no-store'
                     }
                 );
-
+            console.log('base_url_cust:', base_url_cust);
+            console.log(
+                'URL:',
+                base_url_cust + 'submit/get_user_wishlist.php'
+            );
 
             if (!response.ok) {
 
@@ -414,7 +418,7 @@
 
             const response =
                 await fetch(
-                    'submit/get_wishlist.php',
+                    base_url_cust+'submit/get_wishlist.php',
                     {
                         method: 'POST',
                         body: formData,
@@ -1172,7 +1176,7 @@
 
                     const response =
                         await fetch(
-                            'submit/save_wishlist.php',
+                            base_url_cust+'submit/save_wishlist.php',
                             {
                                 method: 'POST',
                                 body: formData,
@@ -1335,7 +1339,7 @@
 
 
                 window.location.href =
-                    `tour-details.php?pacId=${encodeURIComponent(packageId)}`;
+                    home_url+`tour-details.php?pacId=${encodeURIComponent(packageId)}`;
 
 
                 return;

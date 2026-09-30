@@ -321,5 +321,7 @@ $isLoggedIn = !empty($_SESSION['username2']);
 ?>
 <script>
     const isWishlistUserLoggedIn =<?= $isLoggedIn ? 'true' : 'false' ?>;
+    const base_url_cust = <?= json_encode($base_url_cust) ?>;
+    const home_url = <?= json_encode($home_url) ?>;
 </script>
-<script src="js/wishlist.js"></script>
+<script src="<?= $base_url_cust ?>js/wishlist.js"></script>
