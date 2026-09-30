@@ -13,74 +13,95 @@
         $sqlRefEntries = $conn->prepare("
             SELECT 
                 ru.created_date,
+            
                 CASE 
-                    WHEN ru.used_on IS NULL 
-                        OR ru.used_on = ''
+                    WHEN ru.used_on IS NULL OR ru.used_on = ''
                     THEN ru.earned_on
                     ELSE ru.used_on
                 END AS message,
+            
                 CASE 
                     WHEN ru.used_amount IS NULL
                     THEN ru.earned_amount
                     ELSE ru.used_amount
                 END AS amount,
+            
                 ru.transaction_id AS enchased_id,
+            
                 ru.balance,
+            
                 CASE 
-                    WHEN SUBSTRING(ru.transaction_id, 1, 2) = 'CU' THEN
+                    WHEN LEFT(ru.transaction_id, 2) = 'CU' THEN
                         'Membership Activation Bonus'
-                    WHEN SUBSTRING(ru.transaction_id, 1, 2) = 'WD' THEN
+            
+                    WHEN LEFT(ru.transaction_id, 2) = 'WD' THEN
                         'Withdrawal Request'
+            
                     ELSE
                         'Trip Completed Bonus'
                 END AS entry_type,
+            
                 CASE 
-                    WHEN SUBSTRING(ru.transaction_id, 1, 2) = 'CU' THEN
+                    WHEN LEFT(ru.transaction_id, 2) = 'CU' THEN
+                        crp.status
+            
+                    WHEN LEFT(ru.transaction_id, 2) = 'WD' THEN
                         (
-                            SELECT status 
-                            FROM customer_reference_payout 
-                            WHERE ru.transaction_id = refered_customer_id
+                            SELECT crwe.status
+                            FROM customer_reference_wallet_encashed crwe
+                            WHERE crwe.enchased_id = ru.transaction_id
                             LIMIT 1
                         )
-                    WHEN SUBSTRING(ru.transaction_id, 1, 2) = 'WD' THEN
-                        (
-                            SELECT status 
-                            FROM customer_reference_wallet_encashed 
-                            WHERE ru.transaction_id = transaction_id
-                            LIMIT 1
-                        )
+            
                     ELSE
                         (
-                            SELECT cu1_status 
-                            FROM product_payout 
-                            WHERE ru.transaction_id = order_id
+                            SELECT pp.cu1_status
+                            FROM product_payout pp
+                            WHERE pp.order_id = ru.transaction_id
                             LIMIT 1
                         )
                 END AS status,
+            
                 b.order_id,
                 b.customer_id AS booked_cust_id,
                 b.name AS booked_cust_name,
+            
                 pg.name AS trip_name,
                 pg.destination AS trip_destination,
+            
                 b.date AS trip_start_date,
+            
                 DATE_ADD(
                     b.date,
                     INTERVAL pg.tour_days DAY
                 ) AS trip_end_date,
+            
                 b.created_date AS booking_date,
+            
                 b.id AS book_ref_id,
+            
                 CONCAT(cu.firstname, ' ', cu.lastname) AS cust_name
+            
             FROM customer_reference_wallet_utilization ru
+            
+            LEFT JOIN customer_reference_payout crp
+                ON crp.customer_id = ru.customer_id
+                AND crp.refered_customer_id = ru.transaction_id
+                AND crp.referral_level = 'Level1'
+            
             LEFT JOIN ca_customer cu
                 ON cu.ca_customer_id = ru.transaction_id
-                AND SUBSTRING(ru.transaction_id, 1, 2) = 'CU'
+                AND LEFT(ru.transaction_id, 2) = 'CU'
+            
             LEFT JOIN bookings b
                 ON ru.transaction_id = b.order_id
+            
             LEFT JOIN package pg
                 ON b.package_id = pg.id
+            
             WHERE ru.customer_id = :user_id
-            AND ru.earned_on LIKE '%Level 1%'
-            ORDER BY ru.created_date DESC
+            
+            ORDER BY ru.created_date DESC;
 
         ");
 
