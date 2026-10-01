@@ -499,10 +499,7 @@ switch ($user_type) {
         // CTE -> ETE
         // ============================================================
 
-        $etes = array_filter(
-            fetchReferrals($conn,'executive_techno_enterprise','reference_no',$userId),
-            fn($e) => $e['user_type'] == 34
-        );
+        $etes = array_filter(fetchReferrals($conn,'executive_techno_enterprise','reference_no',$userId),fn($e) => $e['user_type'] == 34);
         if (empty($etes)) {
             noReferralsFoundMessage();
         } else {
@@ -512,7 +509,7 @@ switch ($user_type) {
                 $steCount = fetchReferralCount($conn,'super_techno_enterprise','reference_no',$eteId);
                 $institutionCount = fetchReferralCount($conn,'institution','reference_no',$eteId);
                 $eteCount = $steCount + $institutionCount;
-                renderAccordionItemFull("ETE",$ete,'executive_techno_enterprise_id',$eteCount,true);
+                renderAccordionItemFull("ETE",$ete,'executive_techno_enterprise_id',$eteCount,false);
 
                 // ====================================================
                 // ETE -> STE
@@ -890,7 +887,7 @@ switch ($user_type) {
         }
 
         break;
-        case '35': // STE
+    case '35': // STE
 
             // ============================================================
             // STE -> TE
