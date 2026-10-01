@@ -246,7 +246,7 @@
                                                     <option value="">--Select Filter Option--</option>
                                                     <option value="business_development_manager">Business Development Manager</option>
                                                     <option value="business_mentor">Business Mentor</option>
-                                                    <option value="corporate_agency">Techno Enterprise</option>
+                                                    <!-- <option value="corporate_agency">Techno Enterprise</option> -->
                                                     <option value="chief_techno_enterprise">Chief Techno Enterprise</option> 
                                                     <option value="executive_techno_enterprise">Executive Techno Enterprise</option> 
                                                     <option value="super_techno_enterprise">Super Techno Enterprise</option> 
