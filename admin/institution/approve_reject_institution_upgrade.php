@@ -22,9 +22,7 @@ if ($id_str == 'I') {
             upgrade_approval_date = :upgrade_approval_date,
             rejection_reason = :rejection_reason
         WHERE id = :upgrade_id";
-
     $stmt0 = $conn->prepare($sql0);
-
     $result = $stmt0->execute([
         ':status' => $status,   // 0 = Pending, 1 = Approved, 2 = Rejected
         ':approved_by' => 1,
@@ -33,60 +31,74 @@ if ($id_str == 'I') {
         ':upgrade_id' => $upgrade_id
     ]);
 
-
     if($result){
         if($status == 1){
-                
             //on upgrade MF/SF payout
             //get the upgrade amount
             $sql0 ="SELECT new_investment_amt 
                     FROM institution_upgrade 
                     WHERE institution_id = :id AND id = :upgrade_id";
             $stmt0 = $conn->prepare($sql0);
-
             $stmt0->execute([
                 ':id' => $id,
                 ':upgrade_id' => $upgrade_id
             ]);
-
             $result0 = $stmt0->fetch(PDO::FETCH_ASSOC);
-
             $new_amount = $result0['new_investment_amt'] ?? 'Not Applicable';
 
             $sql1 = "SELECT reference_no, registrant, name FROM institution WHERE institution_id = :id";
             $stmt1 = $conn->prepare($sql1);
-
             $stmt1->execute([
                 ':id' => $id
             ]);
-
             $result1 = $stmt1->fetch(PDO::FETCH_ASSOC);
-
             $f_name  = $result1['name'] ?? 'Not Applicable'; // Institution Name 
 
-            ///////// ETE Information ////////
-            $referenceNoETE = $result1['reference_no'] ?? 'Not Applicable'; // ETE Ref ID
-            $registrantETE  = $result1['registrant'] ?? 'Not Applicable';  // ETE Ref Name
-            $ref_strETE = substr($referenceNoETE,0,2); // ETE Ref ID 1st 2 letters "ET"
-            $mf_sf_commis = $new_amount * 0.05; // Commission calculate for ETE 
+            ///////// ETE / BM / SF / MF Information ////////
+            $referenceNoETE = $result1['reference_no'] ?? 'Not Applicable'; // ETE / BM / SF / MF Ref ID
+            $registrantETE  = $result1['registrant'] ?? 'Not Applicable';  // ETE / BM / SF / MF Ref Name
+            $ref_strETE_BM_SF_MF = substr($referenceNoETE,0,2); // ETE / BM / SF / MF Ref id 1st 2 letters "ET" / "BM" / "SF" / "MF"
+            $mf_sf_commis = $new_amount * 0.05; // Commission calculate for ETE / BM / SF / MF
+            if($ref_strETE_BM_SF_MF == "ET"){
+                ///////// CTE Information ///////
+                $sql2 = "SELECT reference_no, registrant, firstname, lastname FROM executive_techno_enterprise WHERE executive_techno_enterprise_id = :id";
+                $stmt2 = $conn->prepare($sql2);
+                $stmt2->execute([
+                    ':id' => $referenceNoETE
+                ]);
+                $result2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+                $referenceNoCTE = $result2['reference_no'] ?? 'Not Applicable'; // CTE Ref ID
+                $registrantCTE  = $result2['registrant'] ?? 'Not Applicable';  // CTE Ref Name
 
-            ///////// CTE Information ///////
-            $sql2 = "SELECT reference_no, registrant, firstname, lastname FROM executive_techno_enterprise WHERE executive_techno_enterprise_id = :id";
-            $stmt2 = $conn->prepare($sql2);
-            $stmt2->execute([
-                ':id' => $referenceNoETE
-            ]);
-            $result2 = $stmt2->fetch(PDO::FETCH_ASSOC);
-            
-            $referenceNoCTE = $result2['reference_no'] ?? 'Not Applicable'; // CTE Ref ID
-            $registrantCTE  = $result2['registrant'] ?? 'Not Applicable';  // CTE Ref Name
+                $ref_strCTE = substr($referenceNoCTE,0,2); // CTE Ref ID 1st 2 letters "CT"
+                $emp_commis = $new_amount * 0.025; // Commission calculate for CTE
 
-            $ref_strCTE = substr($referenceNoCTE,0,2); // CTE Ref ID 1st 2 letters "CT"
-            $emp_commis = $new_amount * 0.025; // Commission calculate for CTE
+            }else if($ref_strETE_BM_SF_MF == "BM"){
+                $referenceNoCTE = 'Not Applicable'; // BDM Ref ID
+                $registrantCTE  = 'Not Applicable';  // BDM Ref Name
 
+                $ref_strCTE = 'BDM'; // BDM Ref ID 1st 2 letters "BD"
+                $emp_commis = '0'; // Commission calculate for BDM
+
+            }else if($ref_strETE_BM_SF_MF == "SF"){
+                $referenceNoCTE = 'Not Applicable'; // BDM Ref ID
+                $registrantCTE  = 'Not Applicable';  // BDM Ref Name
+
+                $ref_strCTE = 'SF'; // BDM Ref ID 1st 2 letters "BD"
+                $emp_commis = '0'; // Commission calculate for BDM
+
+            }else if($ref_strETE_BM_SF_MF == "MF"){
+                $referenceNoCTE = 'Not Applicable'; // BDM Ref ID
+                $registrantCTE  = 'Not Applicable';  // BDM Ref Name
+
+                $ref_strCTE = 'MF'; // BDM Ref ID 1st 2 letters "BD"
+                $emp_commis = '0'; // Commission calculate for BDM
+
+            }
             $message_emp = $ref_strCTE.' - '.$registrantCTE.'(ID:'.$referenceNoCTE.') earned Rs '.$emp_commis.'/- on Institution upgrade With Reference of executive Techno Enterprise ' .$registrantETE . ' (ID:'.$referenceNoETE.'). Institution Name - '.$f_name.' (ID:'.$id.'). Institution Upgrade Amount: Rs '.$new_amount ; // CTE message
-            $message_mf = $ref_strETE.' - '.$registrantETE.'(ID:'.$referenceNoETE.') earned Rs '.$mf_sf_commis.'/- on Institution upgrade.Institution Name - '.$f_name.' (ID:'.$id.'). Institution Upgrade Amount: Rs '.$new_amount ; //ETE message
+            $message_mf = $ref_strETE_BM_SF_MF.' - '.$registrantETE.'(ID:'.$referenceNoETE.') earned Rs '.$mf_sf_commis.'/- on Institution upgrade.Institution Name - '.$f_name.' (ID:'.$id.'). Institution Upgrade Amount: Rs '.$new_amount ; //ETE / BM / SF / MF message
             $message_f = 'Institution Name - '.$f_name.' (ID:'.$id.'). Institution Upgraded Amount: Rs '.$new_amount ; // Institution Message
+            
 
             $sql = "INSERT INTO institution_payout (employees,message_emp,commission_emp,bm_mf_sf, message_bm_mf_sf, commission_bm_mf_sf, institution, 
                     message_institution, institution_amt_paid) 
