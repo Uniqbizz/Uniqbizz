@@ -9,7 +9,7 @@ if (session_status() == PHP_SESSION_NONE) {
 $username2 = $_SESSION['username2'] ?? null;
 $user_type_id_value = $_SESSION['user_type_id_value'] ?? null;
 $user_id = $_SESSION['user_id'] ?? null;
-
+$checkVisibility = false;
 $id = isset($_GET['pacId']) ? (int)$_GET['pacId'] : 0;
 
 if ($id <= 0) {

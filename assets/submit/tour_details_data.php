@@ -111,8 +111,17 @@ if (
     }
 }
 // package
-$stmt = $conn->prepare("SELECT * FROM package WHERE id = $id AND status = '1' AND visibility = 1 AND DATE(validity) >= CURRENT_DATE");
-$stmt->execute();
+$sql = "SELECT * 
+        FROM package 
+        WHERE id = :id ";
+
+if ($checkVisibility) {
+    $sql .= "AND status = '1' AND DATE(validity) >= CURRENT_DATE AND visibility = 1";
+}
+$stmt = $conn->prepare($sql);
+$stmt->execute([
+    ':id' => $id
+]);
 $package = $stmt->fetch();
 $cat_id = $package['category_id'];
 $sub_cat_id = $package['sub_category_id'];
