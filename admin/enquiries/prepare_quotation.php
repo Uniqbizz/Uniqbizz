@@ -1,0 +1,1107 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['username'])) {
+    echo '<script>location.href = "../login.php";</script>';
+}
+$date = date('Y'); 
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Enquiries</title>
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="../assets/images/fav.png">
+        <!-- custom css file -->
+        <!-- <link href="../assets/css/styles.css" rel="stylesheet" type="text/css" /> -->
+        <!-- Bootstrap Css -->
+        <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <!-- Icons Css -->
+        <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <!-- App Css-->
+        <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+        <!-- Css-->
+        <link href="../assets/css/loadingScreen.css" id="app-style" rel="stylesheet" type="text/css" />
+        <!-- Prepare Quotation Css-->
+        <link href="../assets/css/prepareQuotation.css" id="app-style" rel="stylesheet" type="text/css" />
+        <!-- App js -->
+        <!-- <script src="assets/js/plugin.js"></script> -->
+        <!-- DataTables -->
+        <link href="../assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+        <!-- Responsive datatable examples -->
+        <link href="../assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <!-- Font Awesome Icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- Date Range Picker CSS Start -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+        <!-- Date Range Picker CSS End -->
+    </head>
+    <body data-sidebar="dark">
+        <div class="layout-wrapper">
+            <?php
+                // top header logo, hamberger menu, fullscreen icon, profile
+                include_once '../header.php';
+
+                // sidebar navigation menu 
+                include_once '../sidebar.php';
+
+                $today = date('Y-m-d'); // Get today's date as a string
+
+                $mindate= "01-01-2022";
+                $maxdate=$today;
+            ?>
+            <div class="main-content">
+                <div class="page-content">
+                    <div class="container-fluid">
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-9">
+                                <div class="page-title-box pb-2">
+                                    <h4 class="mb-sm-0 font-size-18">Prepare Quotation</h4>
+                                    <p class="fontSize12">Review customer request, customize the package and prepare the best quotation.</p>
+                                </div>
+                            </div>
+                            <div class="col-3 d-flex justify-content-end gap-3">
+                                <div class="shareLinksBtn">
+                                    <i class="fa-regular fa-envelope"></i>
+                                </div>
+                                <div class="shareLinksBtn">
+                                    <i class="fa-brands fa-whatsapp"></i>
+                                </div>
+                                <div class="shareLinksBtn">
+                                    <i class="fa-solid fa-print"></i>
+                                </div>
+                                <div class="shareLinksBtn2">
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end page title -->
+                        <!-- Card Section 1 Start -->
+                        <div class="row rowAlignment">
+                            <div class="col-12">
+                                <div class="card cardShadow">
+                                    <div class="d-flex tabDisplayBlock">
+                                        <div class="p-2 imageWrapper">
+                                            <img src="../assets/images/andaman_nicobar.jpg" alt="" class="prepareQuotationImg">
+                                        </div>
+                                        <div class="p-3 widthStretch">
+                                            <div class="packageIDBtn">
+                                                PKG-AN001
+                                            </div>
+                                            <p class="fw-bolder textDarkBlue mb-1 fs-4" id="">Andaman and Nicobar Island</p>
+                                            <p class="fw-bold textDarkBlue mb-1 fs-5" id="">The Jewel of the Indian Ocean</p>
+                                            <div class="d-flex gap-4 redIcons laptopDisplay">
+                                                <p class="fontSize12 mb-3">
+                                                    <i class="fa-solid fa-location-dot me-2"></i>
+                                                    Andaman and Nicobar Island
+                                                </p>
+                                                <p class="fontSize12 mb-3">
+                                                    <i class="fa-regular fa-calendar me-2"></i>
+                                                    4 Nights / 5 Days
+                                                </p>
+                                                <p class="fontSize12 mb-3">
+                                                    <i class="fa-solid fa-utensils me-2"></i>
+                                                    Meals: Breakfast
+                                                </p>
+                                            </div>
+                                            <p class="fontSize12 mb-3">
+                                                The Andaman and Nicobar Island are a tropical haven in the Bay of Bengal, known for its immaculate beaches, crystal-clear turquoise waters, and abundant marine life.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card Section 1 End -->
+                        <!-- Card Section 2 Start -->
+                        <div class="row">
+                            <div class="col-xl-8">
+                                <!-- Card Section 2 subsection 1 Start -->
+                                <div class="card p-3">
+                                    <h5 class="fw-bold textDarkBlue">
+                                        <i class="fa-solid fa-clipboard-list fa-xl me-3"></i>
+                                        Enquiry Information
+                                    </h5>
+                                    <div class="row">
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-0">Enquiry ID :</p>
+                                            <p class="fs-6 mb-0 fw-bold">ENQ-20260908-001</p>
+                                        </div>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-0">Received On :</p>
+                                            <p class="fs-6 mb-0 fw-bold">08 Sep 2026, 10:35 AM</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Section 2 subsection 1 End -->
+                                <!-- Card Section 2 subsection 2 Start -->
+                                <div class="card p-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <h5 class="fw-bold textDarkBlue">
+                                            <i class="fa-solid fa-user fa-xl me-3"></i>
+                                            Customer Information
+                                        </h5>
+                                        <a class="editCustomerBtn">
+                                            <i class="fa-solid fa-pen me-1"></i>
+                                            Edit
+                                        </a>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Full Name :</p>
+                                            <p class="fs-6 mb-2 fw-bold">Pratiksha Patil</p>
+                                        </div>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Mobile :</p>
+                                            <p class="fs-6 mb-2 fw-bold">+91 9876543210</p>
+                                        </div>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Email :</p>
+                                            <p class="fs-6 mb-2 fw-bold">pratiksha.patil@gmail.com</p>
+                                        </div>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Address :</p>
+                                            <p class="fs-6 mb-2 fw-bold">Mumbai, Maharashtra</p>
+                                        </div>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Customer Type :</p>
+                                            <p class="fs-6 mb-2 fw-bold">Regular Customer</p>
+                                        </div>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Neo Select Member :</p>
+                                            <p class="fs-6 mb-2 fw-bold">Yes (ID: NS12345)</p>
+                                        </div>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Travel Consultant :</p>
+                                            <p class="fs-6 mb-2 fw-bold">-</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Section 2 subsection 2 End -->
+                                <!-- Card Section 2 subsection 3 Start -->
+                                <div class="card p-3">
+                                    <h5 class="fw-bold textDarkBlue">
+                                        <i class="fa-solid fa-calendar-days fa-xl me-3"></i>
+                                        Trip Request <span class="fw-normal">(Submitted by Customer)</span>
+                                    </h5>
+                                    <div class="row">
+                                        <div class="col-xl-4">
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput1" class="form-label">Travel Start Date</label>
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput1" placeholder="20 Jul 2026">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput2" class="form-label">Travel End Date</label>
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput2" placeholder="24 Jul 2026 (Auto)">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput3" class="form-label">Nights / Days</label>
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput3" placeholder="4 Nights / 5 Days">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-4">
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput4" class="form-label">Pickup</label>
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput4" placeholder="Port Blair">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput5" class="form-label">Drop</label>
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput5" placeholder="Port Blair">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row paxRow">
+                                        <div class="col-xl-3 paxCol">
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput6" class="form-label">Adults (12+ yrs)</label>
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput6" placeholder="2">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 paxCol">
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput7" class="form-label">Children (2-11 yrs)</label>
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput7" placeholder="1">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 paxCol">
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput8" class="form-label">Infants (0-1 yrs)</label>
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput8" placeholder="0">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 paxCol">
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput9" class="form-label">Total Pax</label>
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput9" placeholder="3">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Section 2 subsection 3 End -->
+                                <!-- Card Section 2 subsection 4 Start -->
+                                <div class="card p-3">
+                                    <h5 class="fw-bold textDarkBlue">
+                                        <i class="fa-solid fa-bed fa-xl me-3"></i>
+                                        Room Allocation <span class="fw-normal">(Requested by Customer)</span>
+                                    </h5>
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                            <table class="table table-bordered mb-0">
+                                                <thead>
+                                                    <tr class="table-active">
+                                                        <th scope="col">Room No.</th>
+                                                        <th scope="col">Travellers</th>
+                                                        <th scope="col">Room Type</th>
+                                                        <th scope="col">Extra Mattress</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Room 1</td>
+                                                        <td>3(2 Adults + 1 Child)</td>
+                                                        <td>1 Double Bed</td>
+                                                        <td>1 Extra Mattress</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="paxDescriptionBtn d-flex">
+                                                <i class="fa-solid fa-circle-user paxColor fa-lg align-content-center me-2"></i>
+                                                3 Pax will be accommodated in 1 room with extra mattress.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Section 2 subsection 4 End -->
+                                <!-- Card Section 2 subsection 5 Start -->
+                                <div class="card p-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <h5 class="fw-bold textDarkBlue">
+                                            <i class="fa-solid fa-calendar-days fa-xl me-3"></i>
+                                            Customer Preferences <span class="fw-normal">(Submitted by Customer)</span>
+                                        </h5>
+                                        <a class="editCustomerBtn">
+                                            <i class="fa-solid fa-pen me-1"></i>
+                                            Edit
+                                        </a>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-4">
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput10" class="form-label">Hotel Category</label>
+                                                <input type="text" class="form-control" id="exampleFormControlInput10" placeholder="3 Star">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput11" class="form-label">Meal Preference</label>
+                                                <input type="text" class="form-control" id="exampleFormControlInput11" placeholder="Breakfast">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput12" class="form-label">Transport Preference</label>
+                                                <input type="text" class="form-control" id="exampleFormControlInput12" placeholder="AC Vehicle">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-8">
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput13" class="form-label">Special Requirements</label>
+                                                <input type="text" class="form-control" id="exampleFormControlInput13" placeholder="Sea-facing room if available. Wheelchair access required.">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Section 2 subsection 5 End -->
+                                <!-- Card Section 2 subsection 6 Start -->
+                                <div class="card p-3">
+                                    <h5 class="fw-bold textDarkBlue">
+                                        <i class="fa-solid fa-file-lines fa-xl me-3"></i>
+                                        Package Information <span class="fw-normal">(From Package Master)</span>
+                                    </h5>
+                                    <div class="row paxRow mt-1 mb-2">
+                                        <div class="col-xl-2 paxCol">
+                                            <p class="fs-6 mb-1">Package ID</p>
+                                            <p class="fs-6 fw-bold mb-2">PKG-AN001</p>
+                                        </div>
+                                        <div class="col-xl-10">
+                                            <div class="row paxRow">
+                                                <div class="col-xl-4 paxCol">
+                                                    <p class="fs-6 mb-1">Destination</p>
+                                                    <p class="fs-6 fw-bold mb-2">Andaman and Nicobar Island</p>
+                                                </div>
+                                                <div class="col-xl-4 paxCol">
+                                                    <p class="fs-6 mb-1">Duration</p>
+                                                    <p class="fs-6 fw-bold mb-2">4 Nights / 5 Days</p>
+                                                </div>
+                                                <div class="col-xl-4">
+                                                    <p class="fs-6 mb-1">Package Type</p>
+                                                    <p class="fs-6 fw-bold mb-2">Leisure</p>
+                                                </div>
+                                                <div class="col-xl-6 paxCol">
+                                                    <p class="fs-6 mb-1">Pacakge Category</p>
+                                                    <p class="fs-6 fw-bold mb-2">Beach Holidays</p>
+                                                </div>
+                                                <div class="col-xl-6 paxCol">
+                                                    <p class="fs-6 mb-1">Valid Travel Period</p>
+                                                    <p class="fs-6 fw-bold mb-2">01 Apr 2026 - 31 Mar 2027</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="nav-placeholder"></div>
+                                    <div class="sticky-nav-wrapper">
+                                        <div class="borderColor1 cardShadow p-2">
+                                            <ul class="nav nav-underline justify-content-between">
+                                                <li class="nav-item navItem">
+                                                    <a class="nav-link pt-0 active" aria-current="page" href="#overview">
+                                                        <div class="text-center">
+                                                            <i class="ri-dashboard-line"></i>
+                                                        </div>
+                                                        Overview
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item navItem">
+                                                    <a class="nav-link pt-0" href="#itinerary">
+                                                        <div class="text-center">
+                                                            <i class="ri-route-line"></i>
+                                                        </div>
+                                                        Itinerary
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item navItem">
+                                                    <a class="nav-link pt-0" href="#inclusion">
+                                                        <div class="text-center">
+                                                            <i class="ri-dashboard-line"></i>
+                                                        </div>
+                                                        Inclusions
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item navItem">
+                                                    <a class="nav-link pt-0" href="#inclusion">
+                                                        <div class="text-center">
+                                                            <i class="ri-dashboard-line"></i>
+                                                        </div>
+                                                        Exclusions
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item navItem">
+                                                    <a class="nav-link pt-0" href="#policies">
+                                                        <div class="text-center">
+                                                            <i class="ri-dashboard-line"></i>
+                                                        </div>
+                                                        Terms & Conditions
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item navItem">
+                                                    <a class="nav-link pt-0" href="#faqs">
+                                                        <div class="text-center">
+                                                            <i class="ri-question-answer-line"></i>
+                                                        </div>
+                                                        Cancellation Policy
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="content-sections">
+                                        <div id="overview" class="section-block">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
+                                                <h5 class="fw-bolder textDarkBlue">Overview</h5>
+                                                <div class="d-flex gap-3">
+                                                    <div class="overviewImageWrapper">
+                                                        <img src="../assets/images/andaman_nicobar.jpg" alt="" class="overviewImg">
+                                                    </div>
+                                                    <div class="fontSize1">
+                                                        <p class="fw-normal fontSize12">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, explicabo molestias aspernatur 
+                                                            qui doloribus necessitatibus porro voluptates animi ipsum, est veritatis quaerat aperiam praesentium sequi, nemo 
+                                                            vel delectus eius tempore? Aliquam adipisci dolor ducimus atque veniam repellendus omnis iure similique obcaecati iusto, 
+                                                            sint aspernatur, quaerat rem hic dignissimos asperiores, molestias voluptatem quae? 
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="itinerary" class="section-block">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 pb-4 cardShadow">
+                                                <h5 class="fw-bolder textDarkBlue">Itinerary</h5>
+                                                <div class="tour-details-content">
+                                                    <div class="destination-accordion mt-2">
+                                                        <div class="accordion" id="accordionItinerary">
+                                                            <div class="timeline-number">
+                                                                 01 
+                                                            </div>
+                                                            <div class="accordion-item">
+                                                                <h2 class="accordion-header" id="panelsStayOpen-heading1">
+                                                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse1" aria-expanded="true" aria-controls="panelsStayOpen-collapse1">
+                                                                        Day 1 - Arrival in Bali
+                                                                    </button>
+                                                                </h2>
+                                                                <div id="panelsStayOpen-collapse1" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-heading1" data-bs-parent="#accordionItinerary" style="">
+                                                                    <div class="accordion-body">
+                                                                        <ul class="listing">
+                                                                            <li class="list">
+                                                                                On arrival at Bali Airport, you will be met by our representative and transferred to your hotel. Check in and relax after your journey. The rest of the day is at leisure to explore the surroundings or enjoy hotel amenities. Overnight stay in Bali                                                                                    
+                                                                            </li>
+                                                                        </ul>
+                                                                        <hr class="my-3" style="border-top:1px solid #4b5051;">
+                                                                        <div class="d-flex justify-content-evenly displayMeal">
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Meal:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Lunch and Dinner</p>
+                                                                            </div>
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Transport:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Bus</p>
+                                                                            </div>
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Stay:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0"></p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="timeline-number">
+                                                                02                                                                    
+                                                            </div>
+                                                            <div class="accordion-item">
+                                                                <h2 class="accordion-header" id="panelsStayOpen-heading2">
+                                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse2" aria-expanded="false" aria-controls="panelsStayOpen-collapse2">
+                                                                        Day 2 - Full-Day Ubud and Kintamani Tour
+                                                                    </button>
+                                                                </h2>
+                                                                <div id="panelsStayOpen-collapse2" class="accordion-collapse collapse " aria-labelledby="panelsStayOpen-heading2" data-bs-parent="#accordionItinerary">
+                                                                    <div class="accordion-body">
+                                                                        <ul class="listing">
+                                                                            <li class="list">
+                                                                                After breakfast, proceed for a full-day customized tour covering the cultural hub of Ubud and the scenic Kintamani region. Enjoy breathtaking views of Mount Batur and its lake, explore local art villages, and experience Baliâ€™s rich heritage. Return to the hotel for an overnight stay                                                                                    
+                                                                            </li>
+                                                                        </ul>
+                                                                        <hr class="my-3" style="border-top:1px solid #4b5051;">
+                                                                        <div class="d-flex justify-content-evenly displayMeal">
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Meal:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Breakfast, Lunch and Dinner</p>
+                                                                            </div>
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Transport:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Bus</p>
+                                                                            </div>
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Stay:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0"></p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="timeline-number">
+                                                                03                                                               
+                                                            </div>
+                                                            <div class="accordion-item">
+                                                                <h2 class="accordion-header" id="panelsStayOpen-heading3">
+                                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse3" aria-expanded="false" aria-controls="panelsStayOpen-collapse3">
+                                                                        Day 3 - Nusa Penida Island Day Trip
+                                                                    </button>
+                                                                </h2>
+                                                                <div id="panelsStayOpen-collapse3" class="accordion-collapse collapse " aria-labelledby="panelsStayOpen-heading3" data-bs-parent="#accordionItinerary">
+                                                                    <div class="accordion-body">
+                                                                        <ul class="listing">
+                                                                            <li class="list">
+                                                                                After an early breakfast, head to the harbour for a boat transfer to Nusa Penida Island. Explore its pristine beaches, dramatic coastal cliffs, and crystal-clear waters. Enjoy a packed or local lunch during the tour before returning to Bali in the evening. Overnight stay at the hotel                                                                                    
+                                                                            </li>
+                                                                        </ul>
+                                                                        <hr class="my-3" style="border-top:1px solid #4b5051;">
+                                                                        <div class="d-flex justify-content-evenly displayMeal">
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Meal:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Breakfast, Lunch and Dinner</p>
+                                                                            </div>
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Transport:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Bus</p>
+                                                                            </div>
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Stay:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0"></p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="timeline-number">
+                                                                04                                                                    
+                                                            </div>
+                                                            <div class="accordion-item">
+                                                                <h2 class="accordion-header" id="panelsStayOpen-heading4">
+                                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse4" aria-expanded="false" aria-controls="panelsStayOpen-collapse4">
+                                                                        Day 4 - Water Sports &amp; Tanah Lot Temple
+                                                                    </button>
+                                                                </h2>
+                                                                <div id="panelsStayOpen-collapse4" class="accordion-collapse collapse " aria-labelledby="panelsStayOpen-heading4" data-bs-parent="#accordionItinerary">
+                                                                    <div class="accordion-body">
+                                                                        <ul class="listing">
+                                                                            <li class="list">
+                                                                                After breakfast, enjoy a half-day water sports adventure with activities such as banana boat rides, parasailing, or jet skiing (as per package or own expense). In the afternoon, visit the iconic Tanah Lot Temple, a beautiful sea temple perched on a rocky outcrop, best known for its stunning sunset views. Return to the hotel for an overnight stay                                                                                    
+                                                                            </li>
+                                                                        </ul>
+                                                                        <hr class="my-3" style="border-top:1px solid #4b5051;">
+                                                                        <div class="d-flex justify-content-evenly displayMeal">
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Meal:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Breakfast, Lunch and Dinner</p>
+                                                                            </div>
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Transport:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Bus</p>
+                                                                            </div>
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Stay:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0"></p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="timeline-number">
+                                                                05                                                                    
+                                                            </div>
+                                                            <div class="accordion-item">
+                                                                <h2 class="accordion-header" id="panelsStayOpen-heading5">
+                                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse5" aria-expanded="false" aria-controls="panelsStayOpen-collapse5">
+                                                                        Day 5 - Departure from Bali
+                                                                    </button>
+                                                                </h2>
+                                                                <div id="panelsStayOpen-collapse5" class="accordion-collapse collapse " aria-labelledby="panelsStayOpen-heading5" data-bs-parent="#accordionItinerary">
+                                                                    <div class="accordion-body">
+                                                                        <ul class="listing">
+                                                                            <li class="list">
+                                                                                After breakfast, check out from the hotel and transfer to Bali Airport in time for your flight. Depart with unforgettable memories of your Bali holiday                                                                                    
+                                                                            </li>
+                                                                        </ul>
+                                                                        <hr class="my-3" style="border-top:1px solid #4b5051;">
+                                                                        <div class="d-flex justify-content-evenly displayMeal">
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Meal:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Breakfast</p>
+                                                                            </div>
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Transport:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Bus</p>
+                                                                            </div>
+                                                                            <div class="gap-1 d-flex">
+                                                                                <h6 class="fw-bold align-content-center mb-0">Stay:&nbsp;</h6>
+                                                                                <p class="text-muted fontSize3 align-content-center mb-0"></p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="inclusion" class="section-block">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
+                                                <h5 class="fw-bolder textDarkBlue">Inclusion & Exclusion</h5>
+                                                <div class="row">
+                                                    <!-- Inclusions -->
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="checkIcon">
+                                                                <i class="fa-solid fa-circle-check"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque autem quis commodi?</p>
+                                                        </div>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="checkIcon">
+                                                                <i class="fa-solid fa-circle-check"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque autem quis commodi?</p>
+                                                        </div>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="checkIcon">
+                                                                <i class="fa-solid fa-circle-check"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque autem quis commodi?</p>
+                                                        </div>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="checkIcon">
+                                                                <i class="fa-solid fa-circle-check"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque autem quis commodi?</p>
+                                                        </div>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="checkIcon">
+                                                                <i class="fa-solid fa-circle-check"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque autem quis commodi?</p>
+                                                        </div>
+                                                        <p class="text-muted mt-2 mb-0 d-none">No inclusions available.</p>
+                                                    </div>
+                                                    <!-- Exclusions -->
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="closeIcon">
+                                                                <i class="fa-solid fa-circle-xmark"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui amet sequi itaque?</p>
+                                                        </div>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="closeIcon">
+                                                                <i class="fa-solid fa-circle-xmark"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui amet sequi itaque?</p>
+                                                        </div>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="closeIcon">
+                                                                <i class="fa-solid fa-circle-xmark"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui amet sequi itaque?</p>
+                                                        </div>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="closeIcon">
+                                                                <i class="fa-solid fa-circle-xmark"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui amet sequi itaque?</p>
+                                                        </div>
+                                                        <div class="d-flex gap-3 mt-2">
+                                                            <div class="closeIcon">
+                                                                <i class="fa-solid fa-circle-xmark"></i>
+                                                            </div>
+                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui amet sequi itaque?</p>
+                                                        </div>
+                                                        <p class="text-muted mt-2 mb-0 d-none">No exclusions available.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="policies" class="section-block">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
+                                                <h5 class="fw-bolder mb-3 textDarkBlue">Terms & Conditions</h5>
+                                                <div class="policyItem">
+                                                    <div class="d-flex align-items-center gap-3">
+                                                        <div class="highlightIcon">
+                                                            <i class="fa-solid fa-file-pdf"></i>
+                                                        </div>
+                                                        <p class="mb-0">Kasainath</p>
+                                                    </div>
+                                                    <a href="#" download class="downloadBtn">
+                                                        <i class="fa-solid fa-download"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="policyItem">
+                                                    <div class="d-flex align-items-center gap-3">
+                                                        <div class="highlightIcon">
+                                                            <i class="fa-solid fa-file-pdf"></i>
+                                                        </div>
+                                                        <p class="mb-0">Kasainath</p>
+                                                    </div>
+                                                    <a href="#" download class="downloadBtn">
+                                                        <i class="fa-solid fa-download"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="policyItem">
+                                                    <div class="d-flex align-items-center gap-3">
+                                                        <div class="highlightIcon">
+                                                            <i class="fa-solid fa-file-pdf"></i>
+                                                        </div>
+                                                        <p class="mb-0">Kasainath</p>
+                                                    </div>
+                                                    <a href="#" download class="downloadBtn">
+                                                        <i class="fa-solid fa-download"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="policyItem">
+                                                    <div class="d-flex align-items-center gap-3">
+                                                        <div class="highlightIcon">
+                                                            <i class="fa-solid fa-file-pdf"></i>
+                                                        </div>
+                                                        <p class="mb-0">Kasainath</p>
+                                                    </div>
+                                                    <a href="#" download class="downloadBtn">
+                                                        <i class="fa-solid fa-download"></i>
+                                                    </a>
+                                                </div>
+                                                <p class="text-muted mb-0 d-none">
+                                                    No policy documents available.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div id="faqs" class="section-block">
+                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow mb-0">
+                                                <h5 class="fw-bolder textDarkBlue">Cancellation Policy</h5>
+                                                <div class="row borderHighlight mx-0">
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 py-3">
+                                                        <div class="text-center mb-2">
+                                                            <label for="mrpPerAdult" class="mb-0">Cancellation Before Travel</label>
+                                                        </div>
+                                                        <div class="inputFieldAlignment">
+                                                            <input type="number" value="" id="mrpPerAdult" placeholder="30+ Days" class="form-control inputWidth" readOnly>
+                                                            <input type="number" value="" id="mrpPerAdult" placeholder="15 - 30 Days" class="form-control inputWidth" readOnly>
+                                                            <input type="number" value="" id="mrpPerAdult" placeholder="7 - 15 Days" class="form-control inputWidth" readOnly>
+                                                            <input type="number" value="" id="mrpPerAdult" placeholder="0 - 7 Days" class="form-control inputWidth" readOnly>
+                                                            <input type="number" value="" id="mrpPerAdult" placeholder="No Show" class="form-control inputWidth" readOnly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 py-3">
+                                                        <div class="text-center mb-2">
+                                                            <label for="mrpPerChild" class="mb-0">Cancellation Charges</label>
+                                                        </div>
+                                                        <div class="inputFieldAlignment">
+                                                            <div class="input-group inputWidth">
+                                                                <input type="number" class="form-control" id="cancellationPercentage1" name="cancellationPercentage1" placeholder="0" value="<?= $CancelPolicy['policy_1']??0 ?>">
+                                                                <span class="input-group-text">%</span>
+                                                                <small class="error-message" id="cancellationPercentage1_error"></small>
+                                                            </div>
+                                                            <div class="input-group inputWidth">
+                                                                <input type="number" class="form-control" id="cancellationPercentage2" name="cancellationPercentage2" placeholder="0" value="<?= $CancelPolicy['policy_2']??0 ?>">
+                                                                <span class="input-group-text">%</span>
+                                                                <small class="error-message" id="cancellationPercentage2_error"></small>
+                                                            </div>
+                                                            <div class="input-group inputWidth">
+                                                                <input type="number" class="form-control" id="cancellationPercentage3" name="cancellationPercentage3" placeholder="0" value="<?= $CancelPolicy['policy_3']??0 ?>">
+                                                                <span class="input-group-text">%</span>
+                                                                <small class="error-message" id="cancellationPercentage3_error"></small>
+                                                            </div>
+                                                            <div class="input-group inputWidth">
+                                                                <input type="number" class="form-control" id="cancellationPercentage4" name="cancellationPercentage4" placeholder="0" value="<?= $CancelPolicy['policy_4']??0 ?>">
+                                                                <span class="input-group-text">%</span>
+                                                                <small class="error-message" id="cancellationPercentage4_error"></small>
+                                                            </div>
+                                                            <div class="input-group inputWidth">
+                                                                <input type="number" class="form-control" id="cancellationPercentage5" name="cancellationPercentage5" placeholder="0" value="<?= $CancelPolicy['policy_5']??0 ?>">
+                                                                <span class="input-group-text">%</span>
+                                                                <small class="error-message" id="cancellationPercentage5_error"></small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Section 2 subsection 6 End -->
+                            </div>
+                            <div class="col-xl-4">
+                                <div class="card cardShadow">
+                                    <div class="quick-header p-3">
+                                        <div class="d-flex gap-2">
+                                            <i class="fa-solid fa-location-dot fa-xl align-content-center quickIcon"></i>
+                                            <h5 class="fw-bold mb-0 textDarkBlue align-content-center">Quick Action</h5>
+                                        </div>
+                                        <button type="button" class="recalculate-btn" id="#">
+                                            <i class="fa-solid fa-rotate-right"></i>
+                                            Recalculate
+                                        </button>
+                                    </div>
+                                    <div class="px-3">
+                                        <p class="mb-2 fw-bold blueDiv">Base Price (Per Person)</p>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="mb-1">Adult (12+ yrs)</p>
+                                                <p class="mb-1">Child (2-11 yrs)</p>
+                                                <p class="mb-1">Infant (0-1 yrs)</p>
+                                            </div>
+                                            <div>
+                                                <p class="mb-1 text-end">&#8377; 18,199.00</p>
+                                                <p class="mb-1 text-end">&#8377; 11,900.00</p>
+                                                <p class="mb-1 text-end">FREE</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-3 pb-0">
+                                        <p class="mb-2 fw-bold blueDiv">Price Based on Travelers</p>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="mb-1">Adult: <span class="" id="totalAdultCount">2</span> x &#8377; 18,199.00</p>
+                                                <p class="mb-1">Children: <span class="" id="totalChildrenCount">1</span> x &#8377; 11,900.00</p>
+                                                <p class="mb-1">Infant: <span class="" id="totalInfantCount">0</span> x FREE</p>
+                                            </div>
+                                            <div>
+                                                <p class="mb-1 text-end" id="adultTotal">&#8377; 36,398.00</p>
+                                                <p class="mb-1 text-end" id="childrenTotal">&#8377; 11,900.00</p>
+                                                <p class="mb-1 text-end">&#8377; 0.00</p>
+                                            </div>
+                                        </div>
+                                        <hr class="my-1 border border-2 mx-0">
+                                        <div class="d-flex justify-content-between">
+                                            <p class="fw-bold fs-5 textDarkBlue mb-0">Subtotal</p>
+                                            <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="subTotal">&#8377; 48,298.00</p>
+                                        </div>
+                                    </div>
+                                    <div class="p-3">
+                                        <p class="fw-bold blueDiv">Adjustments</p>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="mb-1">Discount / Markup</p>
+                                                <p class="mb-1">Extra Mattress (1 x &#8377; 1,500)</p>
+                                                <p class="mb-1">Convenience Fee </p>
+                                                <p class="mb-1">GST (5%) </p>
+                                            </div>
+                                            <div>
+                                                <p class="mb-1 text-end discountGreen" id="#">- &#8377; 0.00</p>
+                                                <p class="mb-1 text-end" id="#">&#8377; 1,500.00</p>
+                                                <p class="mb-1 text-end" id="#">&#8377; 181.99</p>
+                                                <p class="mb-1 text-end">&#8377; 2,499.00</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="p-3 pb-0">
+                                        <p class="fw-bold mb-2 textDarkBlue blueDiv">
+                                            Apply Coupons
+                                            <span class="text-muted fw-normal fontSize12">
+                                                (One coupon per passenger)
+                                                <i class="ri-error-warning-line"></i>
+                                            </span>
+                                        </p>
+                                        <div id="#" class="d-flex justify-content-between">
+                                            <div class="d-flex gap-3">
+                                                <p class="align-content-center">Adult 1</p>
+                                                <p class="">
+                                                    <select class="form-select fontSize12 selectCoupon py-0" aria-label="Default select example">
+                                                        <option selected>Select Coupon</option>
+                                                        <option value="1">One</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option>
+                                                    </select>
+                                                </p>
+                                            </div>
+                                            <p class="mb-1 text-end discountGreen" id="#">- &#8377; 0.00</p>
+                                        </div>
+                                    </div>
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="d-flex justify-content-between px-3">
+                                        <p class="discountGreen fw-bold mb-1">
+                                            Discounts (Coupons)
+                                        </p>
+                                        <p class="discountGreen fw-bold mb-1 text-end" id="totalCouponDiscount">
+                                            - ₹ 0
+                                        </p>
+                                    </div>
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="d-flex justify-content-between align-items-center px-3">
+                                        <p class="discountGreen fw-bold mb-0">
+                                            Referral Wallet
+                                        </p>
+                                        <p class="discountGreen fw-bold text-end mb-0" id="referralWalletBalance">
+                                            ₹ 
+                                        </p>
+                                        <div class="d-flex align-items-center">
+                                            <span class="discountGreen fw-bold me-1">
+                                                - ₹
+                                            </span>
+                                            <input type="number" class="form-control form-control-sm walletInput" id="appliedReferralWallet" value="0" min="0" step="1" disabled style="width: 80px;">
+                                        </div>
+                                    </div>
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="d-flex justify-content-between align-items-center px-3">
+                                        <p class="discountGreen fw-bold mb-0">
+                                            Discount Wallet
+                                        </p>
+                                        <p class="discountGreen fw-bold text-end mb-0"
+                                        id="discountWalletBalance">
+                                            ₹ 
+                                        </p>
+                                        <div class="d-flex align-items-center">
+                                            <span class="discountGreen fw-bold me-1">
+                                                - ₹
+                                            </span>
+                                            <input type="number" class="form-control form-control-sm walletInput" id="appliedDiscountWallet" value="0" min="0" step="1" disabled style="width: 80px;">
+                                        </div>
+                                    </div>
+                                    
+                                    <hr class="my-2 border border-2 mx-3">
+                                    <div class="px-3">
+                                        <p class="fw-bold mb-1 blueDiv">Other Charges</p>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="mb-1">Convenience Fee</p>
+                                                <p class="mb-1">GST (<span id="gstPercentage"></span>%)</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-end mb-1" id="convenienceFeee">&#8377; 0</p>
+                                                <p class="text-end mb-1" id="gstValue">&#8377; 0</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="p-3 pb-0">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="fs-5 textDarkBlue fw-bold">Total Estimated Price</p>
+                                            </div>
+                                            <div>
+                                                <p class="fs-5 text-danger fw-bolder text-end" id="finalPackagePrice">&#8377; 52,478.00</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card Section 2 End -->
+                    </div>
+                </div>
+                <?php include_once "../footer.php" ?>
+            </div>
+        </div>
+        <!-- END layout-wrapper -->
+        <!--start back-to-top-->
+        <button onclick="topFunction()" class="scrollToTop scroll-btn show btn" id="back-to-top">
+            <i class="mdi mdi-arrow-up"></i>
+        </button>
+        <!--end back-to-top-->
+        <!-- JAVASCRIPT -->
+        <script src="../assets/libs/jquery/jquery.min.js"></script>
+        <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../assets/libs/metismenu/metisMenu.min.js"></script>
+        <script src="../assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="../assets/libs/node-waves/waves.min.js"></script>
+        <!-- Required datatable js -->
+        <script src="../assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="../assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+
+        
+        <!-- Responsive examples -->
+        <script src="../assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+        <!-- Calendar init -->
+        <script src="../assets/libs/fullcalendar/index.global.min.js"></script>
+
+        <!-- Date Range Picker Script Start -->
+        <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script> -->
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <!-- Date Range Picker Script End -->
+
+        <!-- App js -->
+        <script src="../assets/js/app.js"></script>
+        <script>
+            var mybutton = document.getElementById("back-to-top");
+
+            function scrollFunction() {
+                100 < document.body.scrollTop || 100 < document.documentElement.scrollTop ? mybutton.style.display = "block" : mybutton.style.display = "none"
+            }
+
+            function topFunction() {
+                document.body.scrollTop = 0,
+                    document.documentElement.scrollTop = 0
+            }
+            mybutton && (window.onscroll = function() {
+                scrollFunction()
+            });
+        </script>
+        <script>
+            $(document).ready(function () {
+
+                const $nav = $(".borderColor1");
+                const $wrapper = $(".sticky-nav-wrapper");
+                const $placeholder = $(".nav-placeholder");
+                const $content = $(".content-sections");
+
+                let navTop = $wrapper.offset().top;
+
+                function updateStickyNav() {
+
+                    if ($(window).width() < 992) {
+                        $nav.removeClass("nav-fixed");
+                        $placeholder.hide();
+                        return;
+                    }
+
+                    const headerHeight = $(".sticky-bar").outerHeight() || 90;
+
+                    const contentTop = $content.offset().top;
+                    const contentBottom = contentTop + $content.outerHeight();
+
+                    const scrollTop = $(window).scrollTop();
+
+                    const navHeight = $nav.outerHeight();
+
+                    if (
+                        scrollTop >= navTop - headerHeight &&
+                        scrollTop <= contentBottom - navHeight - headerHeight
+                    ) {
+
+                        $placeholder.height(navHeight).show();
+
+                        $nav.addClass("nav-fixed").css({
+                            width: $wrapper.outerWidth() + "px"
+                        });
+
+                    } else {
+
+                        $placeholder.hide();
+
+                        $nav.removeClass("nav-fixed").css({
+                            width: ""
+                        });
+                    }
+                }
+
+                $(window).on("scroll resize", function () {
+
+                    navTop = $wrapper.offset().top;
+
+                    updateStickyNav();
+
+                    updateActiveNav();
+                });
+
+                updateStickyNav();
+            });
+
+            function updateActiveNav() {
+
+                const scrollPos = $(window).scrollTop() + 200;
+
+                $(".section-block").each(function () {
+
+                    const id = $(this).attr("id");
+
+                    const top = $(this).offset().top;
+                    const bottom = top + $(this).outerHeight();
+
+                    if (scrollPos >= top && scrollPos < bottom) {
+
+                        $(".nav-link").removeClass("active");
+
+                        $('.nav-link[href="#' + id + '"]')
+                            .addClass("active");
+                    }
+                });
+            }
+
+            $(".nav-link").on("click", function (e) {
+
+                e.preventDefault();
+
+                const target = $(this).attr("href");
+
+                const headerHeight = $(".sticky-bar").outerHeight() || 90;
+
+                $("html, body").animate({
+
+                    scrollTop: $(target).offset().top - headerHeight - 70
+
+                }, 500);
+            });
+        </script>
+    </body>
+</html>
