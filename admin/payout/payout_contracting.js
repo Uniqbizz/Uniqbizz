@@ -481,17 +481,33 @@ function totalPayoutExel(){
 }
 
 // All Payout filter option download in exel 
-function allPayoutExel(){
+function allPayoutExel() {
+
     var designation = $('#designation').val();
     var user_id = $('#user_id_name').val();
     var date = $('#cap_date').val();
     var payoutmessage = 'allPayout';
-    
-    const myArray = date.split('-');  //split date on '-' sign and store it in array
-    const payoutYear = myArray[0]; // store splited year in new variable
-    const payoutMonth = myArray[1]; // store splited month in new variable
-    // console.log(designation + user_id + date + payoutmessage);
-    window.location.href='forms/contracting_payout/download_exel_ca.php?payoutYear='+payoutYear+'&payoutMonth='+payoutMonth+'&payoutmessage='+payoutmessage+'&designation='+designation+'&user_id='+user_id;
+
+    // Declare outside the if/else
+    var payoutYear = '';
+    var payoutMonth = '';
+
+    if (date && date.trim() !== '') {
+
+        const myArray = date.split('-');
+
+        payoutYear = myArray[0];
+        payoutMonth = myArray[1];
+
+    }
+
+    window.location.href =
+        'forms/contracting_payout/download_exel_ca.php' +
+        '?payoutYear=' + encodeURIComponent(payoutYear) +
+        '&payoutMonth=' + encodeURIComponent(payoutMonth) +
+        '&payoutmessage=' + encodeURIComponent(payoutmessage) +
+        '&designation=' + encodeURIComponent(designation) +
+        '&user_id=' + encodeURIComponent(user_id);
 }
 
 // **** contracting_payout Javascript End ****
