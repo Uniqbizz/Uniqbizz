@@ -552,7 +552,7 @@
                                         <!-- My Bookings -->
                                         <li class="d-flex">
                                             <i class="ri-calendar-line align-content-center stickyTextBlack"></i>
-                                            <a class="dropdown-item stickyTextBlack" href="<?php echo $orderDetailsLink; ?>">
+                                            <a class="dropdown-item stickyTextBlack" href="<?php echo $dashboardFolder; ?>/order_history.php">
                                                 My Bookings
                                             </a>
                                         </li>
@@ -561,7 +561,7 @@
                                     <!-- My Profile -->
                                     <li class="d-flex">
                                         <i class="ri-user-line align-content-center stickyTextBlack"></i>
-                                        <a class="dropdown-item stickyTextBlack" href="<?php echo $profileLink; ?>">
+                                        <a class="dropdown-item stickyTextBlack" href="<?php echo $dashboardFolder; ?>/profile.php">
                                             My Profile
                                         </a>
                                     </li>
