@@ -6,9 +6,27 @@ $(document).ready(function(){
         ], 
         // Assuming 'id' is the first column and 'timestamp_column' is the second column
     });
-    $("#previous_payout_table").DataTable();
-    $("#next_payout_table").DataTable();
-    $("#total_payout_table").DataTable();
+    $("#previous_payout_table").DataTable({
+        order: [
+            [0, 'desc'], 
+            [1, 'desc']
+        ], 
+        // Assuming 'id' is the first column and 'timestamp_column' is the second column
+    });
+    $("#next_payout_table").DataTable({
+        order: [
+            [0, 'desc'], 
+            [1, 'desc']
+        ], 
+        // Assuming 'id' is the first column and 'timestamp_column' is the second column
+    });
+    $("#total_payout_table").DataTable({
+        order: [
+            [0, 'desc'], 
+            [1, 'desc']
+        ], 
+        // Assuming 'id' is the first column and 'timestamp_column' is the second column
+    });
    
 });
 
@@ -384,7 +402,7 @@ $('#month_year').on('change', function(){
 // **** Total Payout Pop up model data filteration end****
 
 //get payment details to save in table. 
-function paymentId(id, userID, message, amt, status, identity){
+function paymentId(id, userID, message, amt, status, identity, techno_enterprise){
 
     var id = id;
     var userID = userID;
@@ -392,19 +410,20 @@ function paymentId(id, userID, message, amt, status, identity){
     var amt = amt;
     var status = status;
     var identity = identity;
+    var techno_enterprise = techno_enterprise;
 
     // var paymentIds = document.querySelector("#paymentIds"); 
     var paymentMessage = document.querySelector("#paymentMessage");  
     var paymentMessageDetails = document.querySelector("#paymentMessageDetails");  
     var submitPayment = document.querySelector("#submitPayment"); 
     // paymentIds.value = id +' '+ userID + ' ' + message1;
-    paymentMessageDetails.value = id +'\n'+ userID + '\n' + message + '\n' + amt + '\n' + status + '\n' + identity;
+    paymentMessageDetails.value = id +'\n'+ userID + '\n' + message + '\n' + amt + '\n' + status + '\n' + identity + '\n' + techno_enterprise;
 
     $('#submitPayment').click(function(e){
         e.preventDefault();
         paymentMessage = $('#paymentMessage').val();
         dataString = {
-            id, paymentMessage, amt, status, identity
+            id, paymentMessage, amt, status, identity, techno_enterprise, userID
         }
         // console.log(dataString);
 

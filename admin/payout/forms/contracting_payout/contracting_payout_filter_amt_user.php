@@ -20,6 +20,12 @@
             $sqlId = "SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$cap_id."' ";
         }else if($designation == 'business_development_manager'){
             $sqlId = "SELECT * FROM employees WHERE employee_id = '".$cap_id."' AND user_type = '25' ";
+        }else if($designation == 'chief_techno_enterprise'){
+            $sqlId = "SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '".$cap_id."' AND user_type = '36' ";
+        }else if($designation == 'executive_techno_enterprise'){
+            $sqlId = "SELECT * FROM executive_techno_enterprise WHERE executive_techno_enterprise_id = '".$cap_id."' AND user_type = '34' ";
+        }else if($designation == 'super_techno_enterprise'){
+            $sqlId = "SELECT * FROM super_techno_enterprise WHERE super_techno_enterprise_id = '".$cap_id."' AND user_type = '35' ";
         }
 
         $stmt = $conn -> prepare($sqlId);
@@ -30,7 +36,7 @@
 
                 if($designation == 'business_development_manager'){
                     $fullName = $row['name'];
-                }else if($designation == 'business_mentor' || $designation == 'corporate_agency'){
+                }else if($designation == 'business_mentor' || $designation == 'corporate_agency' || $designation == 'chief_techno_enterprise' || $designation == 'executive_techno_enterprise' || $designation == 'super_techno_enterprise'){
                     $fullName = $row['firstname']. ' ' .$row['lastname'];
                 }
                 
@@ -47,6 +53,18 @@
                             SELECT SUM(comm_amt) as payout FROM `ca_payout` WHERE techno_enterprise = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' UNION ALL
                             SELECT SUM(payout_amount) as payout FROM `bm_payout_history` WHERE ca_user_id = '".$cap_id."' AND YEAR(payout_amount) = '".$cap_year."' AND MONTH(payout_amount) = '".$cap_month."'
                              ";
+                }else if($designation == 'chief_techno_enterprise'){
+
+                    $sqlIdAmt = "SELECT SUM(cte_amount) as payout FROM techno_enterprise_payout WHERE cte_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ";
+        
+                }else if($designation == 'executive_techno_enterprise'){
+        
+                    $sqlIdAmt = "SELECT SUM(ete_amount) as payout FROM techno_enterprise_payout WHERE ete_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ";
+        
+                }else if($designation == 'super_techno_enterprise'){
+        
+                    $sqlIdAmt = "SELECT SUM(ste_amount) as payout FROM techno_enterprise_payout WHERE ste_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ";
+        
                 }
 
                 $stmt = $conn->prepare($sqlIdAmt);
@@ -84,6 +102,12 @@
             $sqlId = "SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$cap_id."' ";
         }else if($designation == 'business_development_manager'){
             $sqlId = "SELECT * FROM employees WHERE employee_id = '".$cap_id."' AND user_type = '25' ";
+        }else if($designation == 'chief_techno_enterprise'){
+            $sqlId = "SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '".$cap_id."' AND user_type = '36' ";
+        }else if($designation == 'executive_techno_enterprise'){
+            $sqlId = "SELECT * FROM executive_techno_enterprise WHERE executive_techno_enterprise_id = '".$cap_id."' AND user_type = '34' ";
+        }else if($designation == 'super_techno_enterprise'){
+            $sqlId = "SELECT * FROM super_techno_enterprise WHERE super_techno_enterprise_id = '".$cap_id."' AND user_type = '35' ";
         }
 
         $stmt = $conn -> prepare($sqlId);
@@ -94,23 +118,35 @@
 
                 if($designation == 'business_development_manager'){
                     $fullName = $row['name'];
-                }else if($designation == 'business_mentor' || $designation == 'corporate_agency'){
+                }else if($designation == 'business_mentor' || $designation == 'corporate_agency' || $designation == 'chief_techno_enterprise' || $designation == 'executive_techno_enterprise' || $designation == 'super_techno_enterprise'){
                     $fullName = $row['firstname']. ' ' .$row['lastname'];
                 }
                 
                 if($designation == 'business_development_manager'){
-                    $sqlIdAmt = "SELECT SUM(comm_amt) as payout FROM goa_bdm_payout WHERE bdm_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND status = '1' ";
+                    $sqlIdAmt = "SELECT SUM(comm_amt) as payout FROM goa_bdm_payout WHERE bdm_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."'   ";
                 }else if($designation == 'business_mentor'){
-                    $sqlIdAmt = "SELECT SUM(comm_amt) as payout FROM `goa_bm_payout` WHERE bm_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND status = '1' UNION ALL
-                            SELECT SUM(comm_amt) as payout FROM `ca_payout`  WHERE business_mentor = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND status = '1' UNION ALL
+                    $sqlIdAmt = "SELECT SUM(comm_amt) as payout FROM `goa_bm_payout` WHERE bm_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."'   UNION ALL
+                            SELECT SUM(comm_amt) as payout FROM `ca_payout`  WHERE business_mentor = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."'   UNION ALL
                             SELECT SUM(payout_amount) as payout FROM `bm_payout_history` WHERE bm_user_id = '".$cap_id."' AND YEAR(payout_amount) = '".$cap_year."' AND MONTH(payout_amount) = '".$cap_month."' AND payout_status = '1'
                             ";
                 }else if($designation == 'corporate_agency'){
-                    $sqlIdAmt = "SELECT SUM(comm_amt) as payout FROM `goa_bdm_payout` WHERE techno_enterprise = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND status = '1' UNION ALL
-                            SELECT SUM(comm_amt) as payout FROM `goa_bm_payout` WHERE techno_enterprise = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND status = '1' UNION ALL
-                            SELECT SUM(comm_amt) as payout FROM `ca_payout` WHERE techno_enterprise = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND status = '1' UNION ALL
+                    $sqlIdAmt = "SELECT SUM(comm_amt) as payout FROM `goa_bdm_payout` WHERE techno_enterprise = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."'   UNION ALL
+                            SELECT SUM(comm_amt) as payout FROM `goa_bm_payout` WHERE techno_enterprise = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."'   UNION ALL
+                            SELECT SUM(comm_amt) as payout FROM `ca_payout` WHERE techno_enterprise = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."'   UNION ALL
                             SELECT SUM(payout_amount) as payout FROM `bm_payout_history` WHERE ca_user_id = '".$cap_id."' AND YEAR(payout_amount) = '".$cap_year."' AND MONTH(payout_amount) = '".$cap_month."' AND payout_status = '1'
                              ";
+                }else if($designation == 'chief_techno_enterprise'){
+
+                    $sqlIdAmt = "SELECT SUM(cte_amount) as payout FROM techno_enterprise_payout WHERE cte_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by created_date DESC";
+        
+                }else if($designation == 'executive_techno_enterprise'){
+        
+                    $sqlIdAmt = "SELECT SUM(ete_amount) as payout FROM techno_enterprise_payout WHERE ete_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by created_date DESC";
+        
+                }else if($designation == 'super_techno_enterprise'){
+        
+                    $sqlIdAmt = "SELECT SUM(ste_amount) as payout FROM techno_enterprise_payout WHERE ste_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by created_date DESC";
+        
                 }
 
                 $stmt = $conn->prepare($sqlIdAmt);
