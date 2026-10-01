@@ -390,9 +390,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control {
     min-width:0;
 }
 .legend-item{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+    display: block;
     gap:10px;
     margin-bottom:15px;
 }
@@ -409,6 +407,9 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control {
     overflow:hidden;
     text-overflow:ellipsis;
 }
+.recruitmentMargin {
+    margin-left: 24px;
+}
 .dot{
     width:12px;
     height:12px;
@@ -416,7 +417,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control {
     flex-shrink:0;
 }
 .amount{
-    font-size:12px;
+    font-size:14px;
     font-weight:700;
     color:#18204a;
     white-space:nowrap;
@@ -425,7 +426,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control {
     min-width:50px;
     text-align:right;
     color:#4a4f65;
-    font-size:12px;
+    font-size:14px;
     font-weight:600;
 }
 .report-link{

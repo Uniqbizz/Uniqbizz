@@ -2,7 +2,7 @@
     include_once (__DIR__.'/../dashboard_user_details.php');
     $id = $_POST['id'] ?? '';
     $status = $_POST['status'] ?? '';
-    $edittype = $_POST['tc_type'] ?? '';
+    $edittype = $_POST['edittype'] ?? '';
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -41,7 +41,7 @@
         <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css" />
         
         <!-- Customer Dashboard CSS -->
-        <link rel="stylesheet" href="../assets/css/executive_techno_enterprise.css" />
+        <link rel="stylesheet" href="../assets/css/chief_techno_enterprise.css" />
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="../assets/css/verification.css"/>
@@ -1493,7 +1493,7 @@
                 const edittype = '<?= $edittype ?>';
                 $.ajax({
                     url: 'models/executive_techno_enterprise/edit_te_load_data.php',
-                    type: 'GET',
+                    type: 'POST',
                     data: {
                         id: id,
                         edittype: edittype

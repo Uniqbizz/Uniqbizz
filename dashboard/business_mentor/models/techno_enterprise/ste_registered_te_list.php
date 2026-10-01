@@ -43,7 +43,7 @@
                     ca.status,
                     ca.amount,
                     ca.user_type,
-
+                    DATE_FORMAT(ca.deleted_date, '%d %b %Y') AS deleted_date,
                     ste.firstname AS ref_firstname,
                     ste.lastname AS ref_lastname,
                     ste.business_mentor_id
@@ -71,40 +71,12 @@
                     sf.status,
                     sf.amount,
                     sf.user_type,
-
+                    DATE_FORMAT(sf.deleted_date, '%d %b %Y') AS deleted_date,
                     ste.firstname AS ref_firstname,
                     ste.lastname AS ref_lastname,
                     ste.business_mentor_id
 
                 FROM sub_franchisee sf
-
-                INNER JOIN business_mentor ste
-                    ON sf.reference_no = ste.business_mentor_id
-
-                WHERE sf.reference_no = :user_id
-                AND sf.status IN (1,3)
-
-                $whereDateSF
-            )
-                UNION ALL
-
-            (
-                SELECT
-                    sf.institution_id AS teuser_id,
-                    sf.firstname,
-                    sf.lastname,
-                    sf.contact_no,
-                    sf.email,
-                    sf.register_date,
-                    sf.status,
-                    sf.amount,
-                    sf.user_type,
-
-                    ste.firstname AS ref_firstname,
-                    ste.lastname AS ref_lastname,
-                    ste.business_mentor_id
-
-                FROM institution sf
 
                 INNER JOIN business_mentor ste
                     ON sf.reference_no = ste.business_mentor_id

@@ -494,21 +494,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Card Section 6 -->
-                        <!-- <div class="card rounded-4 p-3 border-1">
-                            <div class="d-flex gap-2">
-                                <p class="fw-bolder addTENum">06</p>
-                                <h4 class="fw-bolder text-dark align-content-center">Additional Notes</h4>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="mb-3">
-                                        <label for="note" class="form-label fw-bold">Extra Notes</label>
-                                        <textarea class="form-control" id="note" rows="3" placeholder="Enter any additional note"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
                         <input type="hidden" id="testValue" name="testValue" value="16"> <!-- CA -->
                         <div class="row">
                             <div class="col-lg-12">

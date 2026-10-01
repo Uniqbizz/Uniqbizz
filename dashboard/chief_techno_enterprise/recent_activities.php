@@ -401,13 +401,13 @@
 
                         } else {
 
-                            html = `
-                                <tr>
-                                    <td colspan="4" class="text-center py-4">
-                                        No Recent Activities
-                                    </td>
-                                </tr>
-                            `;
+                            // html = `
+                            //     <tr>
+                            //         <td colspan="4" class="text-center py-4">
+                            //             No Recent Activities
+                            //         </td>
+                            //     </tr>
+                            // `;
 
                         }
 
@@ -443,7 +443,27 @@
                                     orderable: false,
                                     targets: [0, 1, 2]
                                 }
-                            ]
+                            ],
+                            language: {
+                                emptyTable: `
+                                    <div class="text-center py-4">
+                                        <i class="ri-inbox-line fs-2 text-muted d-block mb-2"></i>
+                                        <div class="fw-semibold text-muted">No data available</div>
+                                        <small class="text-muted">
+                                            There are no records to display.
+                                        </small>
+                                    </div>
+                                `,
+                                zeroRecords: `
+                                    <div class="text-center py-4">
+                                        <i class="ri-search-line fs-2 text-muted d-block mb-2"></i>
+                                        <div class="fw-semibold text-muted">No matching records found</div>
+                                        <small class="text-muted">
+                                            Try changing your search criteria.
+                                        </small>
+                                    </div>
+                                `
+                            }
                         });
 
                         // Move DataTables search box into card header

@@ -509,7 +509,7 @@
 						// }
 
 						//end of slab log
-					} else if($reference_id == "ST"){
+					} else if($reference_id == "ST"){ //new TE payout table to handle for STE->ETE->CTE
 						$STE_message="STE - " . $STE_name . " " . $STE_id . " earned " . $STECommiAmt . "/- on recruiting Techno Enterprise. Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " ".$convertedMark.". ";
 						$ETE_message="ETE - " . $ETE_name . " " . $ETE_id . " earned " . $ETECommiAmt . "/- on recruiting Techno Enterprise. Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " ".$convertedMark.". With Reference of Super Techno Enterprise ".$STE_name." ".$STE_id.".";
 						$CTE_message="CTE - " . $CTE_name . " " . $CTE_id . " earned " . $CTECommiAmt . "/- on recruiting Techno Enterprise. Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " ".$convertedMark.". With Reference of Executive Techno Enterprise ".$ETE_name." ".$ETE_id.".";

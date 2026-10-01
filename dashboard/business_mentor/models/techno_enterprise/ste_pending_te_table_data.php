@@ -18,7 +18,7 @@
                 ca.status,
                 ca.user_type,
                 'TE' AS userTypeStr,
-
+                DATE_FORMAT(ca.deleted_date, '%d %b %Y') AS deleted_date,
                 ste.firstname AS ref_firstname,
                 ste.lastname AS ref_lastname,
                 ste.business_mentor_id,
@@ -43,7 +43,7 @@
                 ca.status,
                 ca.user_type,
                 'SF' AS userTypeStr,
-
+                DATE_FORMAT(ca.deleted_date, '%d %b %Y') AS deleted_date,
                 ste.firstname AS ref_firstname,
                 ste.lastname AS ref_lastname,
                 ste.business_mentor_id,
@@ -51,31 +51,6 @@
                 'sub_franchisee' AS source_table
 
             FROM sub_franchisee ca
-
-            INNER JOIN business_mentor ste
-                ON ca.reference_no = ste.business_mentor_id
-
-            WHERE ca.reference_no = :user_id
-            AND ca.status IN (0,2,4)
-            UNION ALL
-            SELECT
-                ca.id,
-                ca.firstname,
-                ca.lastname,
-                ca.contact_no,
-                ca.email,
-                ca.added_on,
-                ca.status,
-                ca.user_type,
-                'I' AS userTypeStr,
-
-                ste.firstname AS ref_firstname,
-                ste.lastname AS ref_lastname,
-                ste.business_mentor_id,
-
-                'institution' AS source_table
-
-            FROM institution ca
 
             INNER JOIN business_mentor ste
                 ON ca.reference_no = ste.business_mentor_id

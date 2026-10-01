@@ -28,9 +28,13 @@
          FROM sub_franchisee 
          WHERE sub_franchisee_id = :id";
     }else if($user_type == 'I'){
-        $sql1 = "SELECT institution_id as user_id, CONCAT(firstname,' ',lastname) AS fname,amount,current_commission_per,current_incentive_per,upgrade_status, user_type
+        $sql1 = "SELECT institution_id as user_id, name AS fname,amount,current_commission_per,current_incentive_per,upgrade_status, user_type
          FROM institution 
          WHERE institution_id = :id";
+    }else if(in_array($user_type,['TE','CA'])){
+        $sql1 = "SELECT corporate_agency_id as user_id, CONCAT(firstname,' ',lastname) AS fname,amount,upgrade_status,user_type 
+         FROM corporate_agency 
+         WHERE corporate_agency_id = :id";
     }
     
 
@@ -47,8 +51,10 @@
         $subId = $franchisee['user_id'];
         $frname = $franchisee['fname'];
         $amount = $franchisee['amount'];
-        $prev_comm = $franchisee['current_commission_per'];
-        $prev_ins = $franchisee['current_incentive_per'];
+        if(!in_array($user_type,['TE','CA'])){
+            $prev_comm = $franchisee['current_commission_per'];
+            $prev_ins = $franchisee['current_incentive_per'];
+        }
         $prev_upgrade=$franchisee['upgrade_status'];
         $user_type=$franchisee['user_type'];
         if($prev_upgrade == 2){
@@ -66,6 +72,13 @@
                 SELECT COUNT(id) AS id_count
                 FROM institution_upgrade
                 WHERE institution_id = :id 
+                AND upgrade_status = 1
+            ";
+        }else if($user_type == "16"){
+            $sql2_1 = "
+                SELECT COUNT(id) AS id_count
+                FROM techno_enterprise_upgrade
+                WHERE techno_enterprise_id = :id 
                 AND upgrade_status = 1
             ";
         }
@@ -87,13 +100,15 @@
                 if($user_type == "29"){
                     $sql2_2 = "SELECT * 
                         FROM sub_franchisee_upgrade 
-                        WHERE sub_franchisee_id = :id AND id < :row_id 
-                        ORDER BY id DESC LIMIT 1";
+                        WHERE sub_franchisee_id = :id AND id = :row_id ";
                 }else if($user_type == "32"){
                     $sql2_2 = "SELECT * 
                         FROM institution_upgrade 
-                        WHERE institution_id = :id AND id < :row_id 
-                        ORDER BY id DESC LIMIT 1";
+                        WHERE institution_id = :id AND id = :row_id ";
+                }else if($user_type == "16"){
+                    $sql2_2 = "SELECT * 
+                        FROM techno_enterprise_upgrade 
+                        WHERE techno_enterprise_id = :id AND id = :row_id ";
                 }
                 
 
@@ -118,6 +133,10 @@
                 $sql2 = "SELECT * 
                 FROM institution_upgrade 
                 WHERE institution_id = :id and id= :row_id";
+            }else if($user_type == "16"){
+                $sql2 = "SELECT * 
+                    FROM techno_enterprise_upgrade 
+                    WHERE techno_enterprise_id = :id AND id = :row_id ";
             }
             
 
@@ -132,8 +151,14 @@
             if ($franchisee_upgrade) {
                 $new_amount = $franchisee_upgrade['new_investment_amt'];
                 $total_amount = $franchisee_upgrade['upgrade_amt'];
-                $commision = $franchisee_upgrade['new_commission_per'];
-                $incentive = $franchisee_upgrade['new_incentive_per'];
+                if (!in_array($user_type,[16])) {
+                    $commision = $franchisee_upgrade['new_commission_per'];
+                    $incentive = $franchisee_upgrade['new_incentive_per'];
+                }else{
+                    $commision = 'NA';
+                    $incentive = 'NA';
+                }
+
                 $payment_mode = $franchisee_upgrade['payment_mode'];
                 $cheque_no = $franchisee_upgrade['cheque_no'];
                 $cheque_date = $franchisee_upgrade['cheque_date'];
@@ -204,7 +229,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Franchisee</h4>
+                                    <h4 class="mb-sm-0 font-size-18"><?= $user_type == 29 ?'Franchisee': ($user_type == 32 ? 'Institution':($user_type == 16 ? 'Techno Enterprise':'' )) ?></h4>
                                 </div>
                             </div>
                         </div>
@@ -216,13 +241,13 @@
                                     <div class="card-body">
                                         <form id="upgradeForm">
                                             <div class=" d-flex justify-content-between">
-                                                <h3>Upgrade Franchisee History</h3>
+                                                <h3>Upgrade <?= $user_type == 29 ?'Franchisee': ($user_type == 32 ? 'Institution':($user_type == 16 ? 'Techno Enterprise':'' )) ?> History</h3>
                                                 <span class="badge badge-pill<?= $upgrade_status_val == 1 ? ' badge-soft-success':($upgrade_status_val == 2?' badge-soft-danger':'') ?>  font-size-10 fw-bold ms-4" style="height: fit-content;"><?= $upgrade_status_val == 1 ? 'Approved' : ($upgrade_status_val == 2 ? 'Rejected':'') ?></span>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
-                                                        <label class="col-form-label" for="franchiseeID">Franchisee ID<span class="text-danger">*</span></label>
+                                                        <label class="col-form-label" for="franchiseeID"><?= $user_type == 29 ?'Franchisee': ($user_type == 32 ? 'Institution':($user_type == 16 ? 'Techno Enterprise':'' )) ?> ID<span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="franchiseeID" placeholder="Enter Franchisee ID" value="<?= $subId ?>" readonly>
                                                     </div>
                                                 </div>
@@ -257,18 +282,20 @@
                                                         <input type="text" class="form-control" id="update_amount" placeholder="Enter Updated Amount" value="<?= $total_amount ?>" readonly>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3 col-sm-6">
-                                                    <div class="input-block mb-3">
-                                                        <label class="col-form-label" for="commission">New Commission<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="commission" placeholder="Enter New Commission" value="<?= $commision ?>" readonly>
+                                                <?php if (!in_array($user_type,[16])) {?>
+                                                    <div class="col-md-3 col-sm-6">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label" for="commission">New Commission<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control" id="commission" placeholder="Enter New Commission" value="<?= $commision ?>" readonly>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-3 col-sm-6">
-                                                    <div class="input-block mb-3">
-                                                        <label class="col-form-label" for="incentive">New Incentive<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="incentive" placeholder="Enter New Incentive" value="<?= $incentive ?>" readonly>
+                                                    <div class="col-md-3 col-sm-6">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label" for="incentive">New Incentive<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control" id="incentive" placeholder="Enter New Incentive" value="<?= $incentive ?>" readonly>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                <?php } ?>
                                                 <div class="col-md-12 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="flex_amount">Extra Notes<span class="text-danger">*</span></label>

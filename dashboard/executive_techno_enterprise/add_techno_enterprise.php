@@ -6,7 +6,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title> Institution List</title>
+        <title> Techno Enterprise | Franchisee List</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -42,6 +42,7 @@
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <link rel="stylesheet" href="../assets/css/validation.css" />
     </head>
     <body>
         <div id="testemails"></div>
@@ -93,11 +94,11 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Add Institution</h4>
+                                    <h4 class="mb-sm-0">Add Techno Enterprise | Franchisee</h4>
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="techno_enterprise_list.php">Institution</a></li>
-                                            <li class="breadcrumb-item active">Add Institution</li>
+                                            <li class="breadcrumb-item"><a href="techno_enterprise_list.php">Techno Enterprise | Franchisee</a></li>
+                                            <li class="breadcrumb-item active">Add Techno Enterprise | Franchisee</li>
                                         </ol>
                                     </div>
                                 </div>
@@ -112,8 +113,8 @@
                                             <i class="fa-solid fa-user-group addTEIcon"></i>
                                         </div>
                                         <div class="align-content-center">
-                                            <h1 class="fw-bolder text-white">Add Institution</h1>
-                                            <p class="fs-5 text-white mb-0">Fill in the details below to register a new Institution under your network.</p>
+                                            <h1 class="fw-bolder text-white">Add Techno Enterprise | Franchisee</h1>
+                                            <p class="fs-5 text-white mb-0">Fill in the details below to register a new Techno Enterprise | Franchisee under your network.</p>
                                         </div>
                                     </div>
                                     <img src="../assets/images/addTechnoFileImage.png" alt="" class="addTEImage">
@@ -131,7 +132,9 @@
                                     <div class="mb-3">
                                         <label for="gender" class="form-label fw-bold">Register As <span class="text-danger fw-bolder">*</span></label>
                                         <select class="form-select genderSelect" id="registerAs" required>
-                                            <option value="32" selected>Institution</option>
+                                            <option value="16" selected>--Register As--</option>
+                                            <option value="16">Techno Enterprise</option>
+                                            <option value="29">Franchisee</option>
                                         </select>
                                     </div>
                                 </div>
@@ -491,7 +494,7 @@
                                     <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftAdd">Save Draft</button>
                                     <button type="submit" class="btn actionBtn submitBtn mb-2" id="addTechnoEnterprise">
                                         <i class="fa-regular fa-paper-plane me-2"></i>
-                                        Submit Institution
+                                        Submit Techno Enterprise | Franchisee
                                     </button>
 
                                 </div>

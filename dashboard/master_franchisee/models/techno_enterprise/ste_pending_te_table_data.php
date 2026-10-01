@@ -18,7 +18,7 @@
                 ca.status,
                 ca.user_type,
                 'SF' AS userTypeStr,
-
+                DATE_FORMAT(ca.deleted_date, '%d %b %Y') AS deleted_date,
                 ste.firstname AS ref_firstname,
                 ste.lastname AS ref_lastname,
                 ste.master_franchisee_id,

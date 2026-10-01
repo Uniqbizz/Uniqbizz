@@ -20,6 +20,7 @@
                     ta.added_on,
                     ta.status,
                     ta.user_type,
+                    DATE_FORMAT(ta.deleted_date, '%d %b %Y') AS deleted_date,
                     ca.sub_franchisee_id AS reference_id,
                     ca.firstname AS ref_firstname,
                     ca.lastname AS ref_lastname
@@ -44,14 +45,15 @@
                     ta.added_on,
                     ta.status,
                     ta.user_type,
-                    ca.business_mentor_id AS reference_id,
+                    DATE_FORMAT(ta.deleted_date, '%d %b %Y') AS deleted_date,
+                    ca.master_franchisee_id AS reference_id,
                     ca.firstname AS ref_firstname,
                     ca.lastname AS ref_lastname
 
                 FROM ca_travelagency ta
 
-                INNER JOIN business_mentor ca
-                    ON ta.reference_no = ca.business_mentor_id
+                INNER JOIN master_franchisee ca
+                    ON ta.reference_no = ca.master_franchisee_id
 
                 WHERE ta.reference_no = :user_id
                 AND ta.status IN (0,4,2)
@@ -67,10 +69,11 @@
                     ta.email,
                     ta.added_on,
                     ta.status,
-
+                    ta.user_type,
+                    DATE_FORMAT(ta.deleted_date, '%d %b %Y') AS deleted_date,
                     ca.institution_id AS reference_id,
-                    ca.firstname AS ref_firstname,
-                    ca.lastname AS ref_lastname
+                    ca.name AS ref_firstname,
+                    '' AS ref_lastname
 
                 FROM institution_branch_manager ta
 

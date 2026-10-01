@@ -109,7 +109,7 @@
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Total Institute</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="iCount">0</h4>
-                                            <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <a href="institution_list" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -123,7 +123,7 @@
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Total Travel Consultant</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="tcCount">0</h4>
-                                            <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <a href="travel_consultants_list" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -199,8 +199,8 @@
                                                         <span>Recruitment Commission</span>
                                                     </div>
                                                     <div class="d-flex gap-3 recruitmentMargin">
-                                                        <div class="amount" id="recruitmentAmount"> &#8377; 100000</div>
-                                                        <div class="percent" id="recruitmentPercent">55%</div>
+                                                        <div class="amount" id="recruitmentAmount"> &#8377; 0</div>
+                                                        <div class="percent" id="recruitmentPercent">0%</div>
                                                     </div>
                                                 </div>
                                                 <div class="legend-item">
@@ -209,8 +209,8 @@
                                                         <span>Holiday account activation Commission</span>
                                                     </div>
                                                     <div class="d-flex gap-3 recruitmentMargin">
-                                                        <div class="amount" id="neoAmount"> &#8377; 100000</div>
-                                                        <div class="percent" id="neoPercent">55%</div>
+                                                        <div class="amount" id="neoAmount"> &#8377; 0</div>
+                                                        <div class="percent" id="neoPercent">0%</div>
                                                     </div>
                                                 </div>
                                                 <div class="legend-item">
@@ -244,7 +244,7 @@
                                                 <div class="d-flex justify-content-between">
                                                     <div class="">
                                                         <p class="mb-1 fs-6 fw-bold">Paid Earnings</p>
-                                                        <h4 class="fw-bolder text-dark mb-1" id="total_paid_earning">&#8377; 9,18,000</h4>
+                                                        <h4 class="fw-bolder text-dark mb-1" id="total_paid_earning">&#8377; 0</h4>
                                                     </div>
                                                     <div class="stWalletIcon1">
                                                         <i class="fa-solid fa-wallet"></i>
@@ -257,7 +257,7 @@
                                                 <div class="d-flex justify-content-between">
                                                     <div class="">
                                                         <p class="mb-1 fs-6 fw-bold">Pending Earnings</p>
-                                                        <h4 class="fw-bolder text-dark mb-1" id="total_pending_earning">&#8377; 45,000</h4>
+                                                        <h4 class="fw-bolder text-dark mb-1" id="total_pending_earning">&#8377; 0</h4>
                                                     </div>
                                                     <div class="stWalletIcon2">
                                                         <i class="fa-regular fa-hourglass"></i>
@@ -298,7 +298,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-3">
                                 <div class="cardChart mb-0 card border-1">
                                     <div class="card-title d-flex justify-content-between p-2">
-                                        <p class="commission-title fs-5">TE | F | I Enrollment Count (Yearly)</p>
+                                        <p class="commission-title fs-5"> F | I Enrollment Count (Yearly)</p>
                                         <p class="">
                                             <select class="form-select yearSelect py-1" id="enrollmentYearFilter">
                                             </select>
@@ -318,10 +318,9 @@
                                         <p class="commission-title fs-5 mb-0">
                                             Recent Activities
                                         </p>
-                                        <!-- 
-                                        <a href="#" class="fs-6 fw-bold">
+                                        <a href="recent_activities.php" class="fs-6 fw-bold">
                                             View All
-                                        </a> -->
+                                        </a>
                                     </div>
                                     <div class="cardDetails mt-3" id="recentActivitiesContainer">
                                         <div class="text-center py-4">
@@ -334,14 +333,14 @@
                                 <div class="card mb-0 rounded-4 border-1 p-3">
                                     <div class="card-title d-flex justify-content-start">
                                         <p class="commission-title fs-5 mb-1">
-                                            TE | I Performance
+                                            F | I Performance
                                         </p>
                                     </div>
                                     <div class="cardDetails">
                                         <table class="table">
                                             <thead>
                                                 <tr class="table-active">
-                                                    <th scope="col">TE|I Name</th>
+                                                    <th scope="col">F|I Name</th>
                                                     <th scope="col">No. of TC/IBR</th>
                                                     <th scope="col">Neo Select Members</th>
                                                 </tr>
@@ -826,96 +825,6 @@
                 });
 
             }
-            function loadCommissionChart() {
-
-                const selectedYear = $('#pyearFilter').val();
-
-                $.ajax({
-
-                    url: 'models/dashboard/ste_com_piechart_data.php',
-
-                    type: 'POST',
-
-                    dataType: 'json',
-
-                    data: {
-                        selectedYear: selectedYear
-                    },
-
-                    success: function (res) {
-
-                        // console.log(res);
-
-                        if (!res.status) return;
-
-                        const recruitmentAmount = Number(res.data.recruitment.amount || 0);
-                        const neoAmount = Number(res.data.neo_select.amount || 0);
-                        const bookingAmount = Number(res.data.booking.amount || 0);
-
-                        const recruitmentPercent = Number(res.data.recruitment.percentage || 0);
-                        const neoPercent = Number(res.data.neo_select.percentage || 0);
-                        const bookingPercent = Number(res.data.booking.percentage || 0);
-
-                        const totalEarnings = Number(res.data.total_earnings || 0);
-
-                        $('#recruitmentAmount').text('₹' + recruitmentAmount.toLocaleString('en-IN'));
-                        $('#neoAmount').text('₹' + neoAmount.toLocaleString('en-IN'));
-                        $('#bookingAmount').text('₹' + bookingAmount.toLocaleString('en-IN'));
-                        $('#paidEarnings').text('₹' + totalEarnings.toLocaleString('en-IN'));
-
-                        $('#recruitmentPercent').text(recruitmentPercent.toFixed(1) + '%');
-                        $('#neoPercent').text(neoPercent.toFixed(1) + '%');
-                        $('#bookingPercent').text(bookingPercent.toFixed(1) + '%');
-
-                        $('.center-text p').text(
-                            totalEarnings > 0 ? 'Total Earnings' : 'No Earnings Yet'
-                        );
-
-                        if (!commissionChart) return;
-
-                        commissionChart.data.labels = [
-                            'Recruitment',
-                            'Holiday Activation',
-                            'Tour Booking'
-                        ];
-
-                        if (totalEarnings > 0) {
-
-                            commissionChart.data.datasets[0].data = [
-                                recruitmentAmount,
-                                neoAmount,
-                                bookingAmount
-                            ];
-
-                            commissionChart.data.datasets[0].backgroundColor = [
-                                '#5B2EFF',
-                                '#2563EB',
-                                '#00C46A'
-                            ];
-
-                        } else {
-
-                            commissionChart.data.datasets[0].data = [100];
-
-                            commissionChart.data.datasets[0].backgroundColor = [
-                                '#E5E7EB'
-                            ];
-
-                        }
-
-                        commissionChart.update();
-
-                    },
-
-                    error: function (xhr) {
-
-                        // console.log(xhr.responseText);
-
-                    }
-
-                });
-
-            }
             function initializeChart() {
 
                 const canvas = document.getElementById('commissionChart');
@@ -1048,46 +957,6 @@
 
                         datasets: [
 
-                                {
-                                    label: 'TE',
-                                    data: Array(12).fill(0),
-                                    borderColor: '#1DB56C',
-                                    backgroundColor: '#1DB56C',
-                                    backgroundColor: function(context) {
-
-                                        const chart = context.chart;
-                                        const ctx = chart.ctx;
-                                        const chartArea = chart.chartArea;
-
-                                        if (!chartArea) {
-                                            return null;
-                                        }
-
-                                        const gradient = ctx.createLinearGradient(
-                                            0,
-                                            chartArea.top,
-                                            0,
-                                            chartArea.bottom
-                                        );
-
-                                        gradient.addColorStop(
-                                            0,
-                                            'rgba(47, 255, 64, 0.3)'
-                                        );
-
-                                        gradient.addColorStop(
-                                            1,
-                                            'rgba(47, 255, 71, 0.02)'
-                                        );
-
-                                        return gradient;
-                                    },
-                                    fill: true,
-                                    tension: 0.4,
-                                    pointRadius: 4,
-                                    pointHoverRadius: 6,
-                                    pointBackgroundColor: '#1DB56C'
-                                },
                                 {
                                     label: 'F',
                                     data: Array(12).fill(0),
@@ -1259,13 +1128,13 @@
 
                         let teData = Array(12).fill(0);
 
-                        $.each(res.data.te_trend, function(i, row) {
+                        $.each(res.data.sf_trend, function(i, row) {
 
                             let monthIndex =
                                 parseInt(row.month_no) - 1;
 
                             teData[monthIndex] =
-                                parseInt(row.te_count) || 0;
+                                parseInt(row.sf_count) || 0;
 
                         });
 

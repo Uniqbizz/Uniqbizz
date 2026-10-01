@@ -300,6 +300,11 @@
                             </a>
                         </div>
                         <a class="dropdown-item" href="<?= $base_url_cust ?>profile.php"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
+                        <button type="button" class="dropdown-item stickyTextBlack" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas" aria-controls="wishlistOffcanvas">
+                            <i class="ri-heart-line align-content-center stickyTextBlack"></i>
+                            My Wishlist
+                            <span class="wishlistCount ms-1">0</span>
+                        </button>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="<?= $base_url ?>logout.php" class="mylogout"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
                     </div>
@@ -308,3 +313,15 @@
         </div>
     </div>
 </header>
+<?php include __DIR__ . '/../../wishlist_offcanvas.php'; ?>
+<?php
+
+$isLoggedIn = !empty($_SESSION['username2']);
+
+?>
+<script>
+    const isWishlistUserLoggedIn =<?= $isLoggedIn ? 'true' : 'false' ?>;
+    const base_url_cust = <?= json_encode($base_url_cust) ?>;
+    const home_url = <?= json_encode($home_url) ?>;
+</script>
+<script src="<?= $base_url_cust ?>js/wishlist.js"></script>

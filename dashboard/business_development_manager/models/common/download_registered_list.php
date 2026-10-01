@@ -270,7 +270,7 @@
                         ca.id AS row_id,
                         ca.institution_id AS id,
 
-                        CONCAT(ca.firstname,' ',ca.lastname) AS full_name,
+                        CONCAT(ca.name) AS full_name,
 
                         CONCAT(
                             COALESCE(ste.firstname,''),

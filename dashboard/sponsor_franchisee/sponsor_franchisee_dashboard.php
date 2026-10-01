@@ -109,7 +109,7 @@
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Total Institute</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="iCount">0</h4>
-                                            <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <a href="institution_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -123,7 +123,7 @@
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Total Travel Consultant</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="tcCount">0</h4>
-                                            <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <a href="travel_consultants_list" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -199,8 +199,8 @@
                                                         <span>Recruitment Commission</span>
                                                     </div>
                                                     <div class="d-flex gap-3 recruitmentMargin">
-                                                        <div class="amount" id="recruitmentAmount"> &#8377; 100000</div>
-                                                        <div class="percent" id="recruitmentPercent">55%</div>
+                                                        <div class="amount" id="recruitmentAmount"> &#8377; 0</div>
+                                                        <div class="percent" id="recruitmentPercent">0%</div>
                                                     </div>
                                                 </div>
                                                 <div class="legend-item">
@@ -209,8 +209,8 @@
                                                         <span>Holiday account activation Commission</span>
                                                     </div>
                                                     <div class="d-flex gap-3 recruitmentMargin">
-                                                        <div class="amount" id="neoAmount"> &#8377; 100000</div>
-                                                        <div class="percent" id="neoPercent">55%</div>
+                                                        <div class="amount" id="neoAmount"> &#8377; 0</div>
+                                                        <div class="percent" id="neoPercent">0%</div>
                                                     </div>
                                                 </div>
                                                 <div class="legend-item">
@@ -298,7 +298,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-3">
                                 <div class="cardChart mb-0 card border-1">
                                     <div class="card-title d-flex justify-content-between p-2">
-                                        <p class="commission-title fs-5">TE | F | I Enrollment Count (Yearly)</p>
+                                        <p class="commission-title fs-5"> F | I Enrollment Count (Yearly)</p>
                                         <p class="">
                                             <select class="form-select yearSelect py-1" id="enrollmentYearFilter">
                                             </select>
@@ -318,10 +318,9 @@
                                         <p class="commission-title fs-5 mb-0">
                                             Recent Activities
                                         </p>
-                                        <!-- 
-                                        <a href="#" class="fs-6 fw-bold">
+                                        <a href="recent_activities.php" class="fs-6 fw-bold">
                                             View All
-                                        </a> -->
+                                        </a>
                                     </div>
                                     <div class="cardDetails mt-3" id="recentActivitiesContainer">
                                         <div class="text-center py-4">
@@ -334,7 +333,7 @@
                                 <div class="card mb-0 rounded-4 border-1 p-3">
                                     <div class="card-title d-flex justify-content-start">
                                         <p class="commission-title fs-5 mb-1">
-                                            TE | I Performance
+                                            F | I Performance
                                         </p>
                                     </div>
                                     <div class="cardDetails">
@@ -1048,46 +1047,7 @@
 
                         datasets: [
 
-                                {
-                                    label: 'TE',
-                                    data: Array(12).fill(0),
-                                    borderColor: '#1DB56C',
-                                    backgroundColor: '#1DB56C',
-                                    backgroundColor: function(context) {
-
-                                        const chart = context.chart;
-                                        const ctx = chart.ctx;
-                                        const chartArea = chart.chartArea;
-
-                                        if (!chartArea) {
-                                            return null;
-                                        }
-
-                                        const gradient = ctx.createLinearGradient(
-                                            0,
-                                            chartArea.top,
-                                            0,
-                                            chartArea.bottom
-                                        );
-
-                                        gradient.addColorStop(
-                                            0,
-                                            'rgba(47, 255, 64, 0.3)'
-                                        );
-
-                                        gradient.addColorStop(
-                                            1,
-                                            'rgba(47, 255, 71, 0.02)'
-                                        );
-
-                                        return gradient;
-                                    },
-                                    fill: true,
-                                    tension: 0.4,
-                                    pointRadius: 4,
-                                    pointHoverRadius: 6,
-                                    pointBackgroundColor: '#1DB56C'
-                                },
+                                
                                 {
                                     label: 'F',
                                     data: Array(12).fill(0),
@@ -1259,13 +1219,13 @@
 
                         let teData = Array(12).fill(0);
 
-                        $.each(res.data.te_trend, function(i, row) {
+                        $.each(res.data.sf_trend, function(i, row) {
 
                             let monthIndex =
                                 parseInt(row.month_no) - 1;
 
                             teData[monthIndex] =
-                                parseInt(row.te_count) || 0;
+                                parseInt(row.sf_count) || 0;
 
                         });
 

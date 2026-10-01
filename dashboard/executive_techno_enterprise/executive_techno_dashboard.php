@@ -109,7 +109,7 @@
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Institution</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="iCount">0</h4>
-                                            <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <a href="institution_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -173,10 +173,15 @@
                         </div>
                         <!-- Card section 3 -->
                         <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-2">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-3">
                                 <div class="commission-card px-2">
-                                    <div class="commission-title">
-                                        Commission Earned This Month
+                                    <div class="card-title d-flex justify-content-between p-2">
+                                        <p class="commission-title fs-5">Overall Commission Earned</p>
+                                        <p class="">
+                                            <select class="form-select yearSelect py-1" id="pyearFilter">
+                                                
+                                            </select>
+                                        </p>
                                     </div>
                                     <div class="commission-wrapper gap-2">
                                         <div class="chart-container">
@@ -193,24 +198,30 @@
                                                         <span class="dot" style="background:#5B2EFF"></span>
                                                         <span>Recruitment Commission</span>
                                                     </div>
-                                                    <div class="amount" id="recruitmentAmount"> &#8377; 0</div>
-                                                    <div class="percent" id="recruitmentPercent">0%</div>
+                                                    <div class="d-flex gap-3 recruitmentMargin">
+                                                        <div class="amount" id="recruitmentAmount"> &#8377; 0</div>
+                                                        <div class="percent" id="recruitmentPercent">0%</div>
+                                                    </div>
                                                 </div>
                                                 <div class="legend-item">
                                                     <div class="legend-left">
                                                         <span class="dot" style="background:#2563EB"></span>
-                                                        <span>Neo Select Commission</span>
+                                                        <span>Holiday account activation Commission</span>
                                                     </div>
-                                                    <div class="amount" id="neoAmount"> &#8377; 0</div>
-                                                    <div class="percent" id="neoPercent">0%</div>
+                                                    <div class="d-flex gap-3 recruitmentMargin">
+                                                        <div class="amount" id="neoAmount"> &#8377; 0</div>
+                                                        <div class="percent" id="neoPercent">0%</div>
+                                                    </div>
                                                 </div>
                                                 <div class="legend-item">
                                                     <div class="legend-left">
                                                         <span class="dot" style="background:#00C46A"></span>
-                                                        <span>Booking Commission</span>
+                                                        <span>Tour Booking Commission</span>
                                                     </div>
-                                                    <div class="amount" id="bookingAmount"> &#8377; 0</div>
-                                                    <div class="percent" id="bookingPercent">0%</div>
+                                                    <div class="d-flex gap-3 recruitmentMargin">
+                                                        <div class="amount" id="bookingAmount"> &#8377; 0</div>
+                                                        <div class="percent" id="bookingPercent">0%</div>
+                                                    </div>
                                                 </div>
                                                 <!-- <div class="report-link">
                                                     <a href="#">
@@ -310,10 +321,10 @@
                                         <p class="commission-title fs-5 mb-0">
                                             Recent Activities
                                         </p>
-                                        <!-- 
-                                        <a href="#" class="fs-6 fw-bold">
+                                        
+                                        <a href="recent_activities.php" class="fs-6 fw-bold">
                                             View All
-                                        </a> -->
+                                        </a>
 
                                     </div>
 
@@ -549,6 +560,120 @@
             
             let commissionChart = null;
             let customerTrendChart;
+            function loadYearDropdown() {
+
+                const currentYear = new Date().getFullYear();
+                const startYear = 2023; // change if required
+
+                let options = '';
+
+                for (let year = currentYear; year >= startYear; year--) {
+
+                    options += `
+                        <option value="${year}" ${year === currentYear ? 'selected' : ''}>
+                            ${year}
+                        </option>
+                    `;
+
+                }
+
+                $('#pyearFilter').html(options);
+
+            }
+
+            loadYearDropdown();
+            function loadCommissionChart() {
+
+                let selectedYear = $('#pyearFilter').val();
+
+                $.ajax({
+
+                    url: 'models/dashboard/ete_com_piechart_data.php',
+                    type: 'POST',
+                    dataType: 'json',
+
+                    data: {
+                        selectedYear: selectedYear
+                    },
+
+                    success: function (res) {
+
+                        if (!res.status) {
+
+                            return;
+
+                        }
+
+                        const recruitmentAmount = Number(res.data.recruitment.amount || 0);
+                        const neoAmount = Number(res.data.neo_select.amount || 0);
+                        const bookingAmount = Number(res.data.booking.amount || 0);
+
+                        const totalEarnings = Number(res.data.total_earnings || 0);
+
+                        $('#recruitmentAmount').text('₹' + recruitmentAmount.toLocaleString('en-IN'));
+                        $('#neoAmount').text('₹' + neoAmount.toLocaleString('en-IN'));
+                        $('#bookingAmount').text('₹' + bookingAmount.toLocaleString('en-IN'));
+                        $('#paidEarnings').text('₹' + totalEarnings.toLocaleString('en-IN'));
+
+                        const recruitmentPercent = Number(res.data.recruitment.percentage || 0);
+                        const neoPercent = Number(res.data.neo_select.percentage || 0);
+                        const bookingPercent = Number(res.data.booking.percentage || 0);
+
+                        $('#recruitmentPercent').text(recruitmentPercent.toFixed(1) + '%');
+                        $('#neoPercent').text(neoPercent.toFixed(1) + '%');
+                        $('#bookingPercent').text(bookingPercent.toFixed(1) + '%');
+
+                        if (totalEarnings > 0) {
+
+                            $('.center-text p').text('Total Earnings');
+
+                        } else {
+
+                            $('.center-text p').text('No Earnings Yet');
+
+                        }
+
+                        if (commissionChart) {
+
+                            if (totalEarnings == 0) {
+
+                                commissionChart.data.datasets[0].data = [100];
+
+                                commissionChart.data.datasets[0].backgroundColor = [
+                                    '#E5E7EB'
+                                ];
+
+                            } else {
+
+                                commissionChart.data.datasets[0].data = [
+                                    recruitmentPercent,
+                                    neoPercent,
+                                    bookingPercent
+                                ];
+
+                                commissionChart.data.datasets[0].backgroundColor = [
+                                    '#5B2EFF',
+                                    '#2563EB',
+                                    '#00C46A'
+                                ];
+
+                            }
+
+                            commissionChart.update();
+
+                        }
+
+                    },
+
+                    error: function () {
+
+                        console.log('Unable to load chart.');
+
+                    }
+
+                });
+
+            }
 
             function initializeCustomerTrendChart() {
 
@@ -1199,7 +1324,7 @@
                         */
 
                         enrollmentTrendChart.data.datasets[0].data = teData;
-                        enrollmentTrendChart.data.datasets[2].data = iData;
+                        enrollmentTrendChart.data.datasets[1].data = iData;
 
                         enrollmentTrendChart.update();
 
@@ -1335,14 +1460,7 @@
 
                             }
 
-                            let activityTime = new Date(row.date).toLocaleTimeString(
-                                'en-IN',
-                                {
-                                    hour: '2-digit',
-                                    minute: '2-digit'
-                                }
-                            );
-
+                            let activityTime = formatActivityTime(row.date);
                             html += `
                                 <div class="d-flex justify-content-between mb-3">
 
@@ -1394,6 +1512,132 @@
                     }
                 });
             }
+            /*
+            |--------------------------------------------------------------------------
+            | Format Time
+            |--------------------------------------------------------------------------
+            */
+            function formatActivityTime(dateString) {
+
+                if (!dateString) {
+                    return 'Invalid Date';
+                }
+
+                // Convert to string and remove any accidental whitespace
+                dateString = String(dateString).trim();
+
+                /*
+                |--------------------------------------------------------------------------
+                | Parse MySQL DATETIME manually
+                | Expected format:
+                | YYYY-MM-DD HH:mm:ss
+                |--------------------------------------------------------------------------
+                */
+
+                const match = dateString.match(
+                    /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2}):(\d{2})$/
+                );
+
+                if (!match) {
+                    console.log('Invalid date format received:', dateString);
+                    return 'Invalid Date';
+                }
+
+                const year = parseInt(match[1], 10);
+                const month = parseInt(match[2], 10) - 1; // JS months are 0-11
+                const day = parseInt(match[3], 10);
+                const hour = parseInt(match[4], 10);
+                const minute = parseInt(match[5], 10);
+                const second = parseInt(match[6], 10);
+
+                const activityDate = new Date(
+                    year,
+                    month,
+                    day,
+                    hour,
+                    minute,
+                    second
+                );
+
+                // Extra validation
+                if (isNaN(activityDate.getTime())) {
+                    console.log('Could not create date:', dateString);
+                    return 'Invalid Date';
+                }
+
+                const now = new Date();
+
+                const today = new Date(
+                    now.getFullYear(),
+                    now.getMonth(),
+                    now.getDate()
+                );
+
+                const activityDay = new Date(
+                    activityDate.getFullYear(),
+                    activityDate.getMonth(),
+                    activityDate.getDate()
+                );
+
+                const diffDays = Math.floor(
+                    (today - activityDay) / (1000 * 60 * 60 * 24)
+                );
+
+                const time = activityDate.toLocaleTimeString('en-IN', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                });
+
+                /*
+                |--------------------------------------------------------------------------
+                | Today
+                |--------------------------------------------------------------------------
+                */
+                if (diffDays === 0) {
+                    return `Today<br><small>${time}</small>`;
+                }
+
+                /*
+                |--------------------------------------------------------------------------
+                | Yesterday
+                |--------------------------------------------------------------------------
+                */
+                if (
+                    diffDays === 1 &&
+                    activityDate.getFullYear() === now.getFullYear()
+                ) {
+                    return `Yesterday<br><small>${time}</small>`;
+                }
+
+                /*
+                |--------------------------------------------------------------------------
+                | Same Year
+                |--------------------------------------------------------------------------
+                */
+                if (activityDate.getFullYear() === now.getFullYear()) {
+
+                    const date = activityDate.toLocaleDateString('en-IN', {
+                        day: '2-digit',
+                        month: 'short'
+                    });
+
+                    return `${date}<br><small>${time}</small>`;
+                }
+
+                /*
+                |--------------------------------------------------------------------------
+                | Previous Years
+                |--------------------------------------------------------------------------
+                */
+                const date = activityDate.toLocaleDateString('en-IN', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                });
+
+                return `${date}<br><small>${time}</small>`;
+            }
             $(document).on(
                 'change',
                 '#enrollmentYearFilter',
@@ -1405,6 +1649,11 @@
 
                 }
             );
+            $('#pyearFilter').on('change', function () {
+
+                loadCommissionChart();
+
+            });
             $(document).on(
                 'change',
                 '#yearFilter',

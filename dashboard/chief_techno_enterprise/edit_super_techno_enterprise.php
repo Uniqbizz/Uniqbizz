@@ -9,7 +9,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title>Edit Executive Techno Enterprise List</title>
+        <title>Edit Super Techno Enterprise List</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -97,11 +97,11 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Executive Techno Enterprise</h4>
+                                    <h4 class="mb-sm-0">Super Techno Enterprise</h4>
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="executive_techno_enterprise_list.php">View Executive Techno Enterprise</a></li>
-                                            <li class="breadcrumb-item active">Edit Executive Techno Enterprise</li>
+                                            <li class="breadcrumb-item"><a href="executive_techno_enterprise_list.php">View Super Techno Enterprise</a></li>
+                                            <li class="breadcrumb-item active">Edit Super Techno Enterprise</li>
                                         </ol>
                                     </div>
                                 </div>
@@ -118,8 +118,8 @@
                                             <i class="fa-solid fa-user-group addTEIcon"></i>
                                         </div>
                                         <div class="align-content-center">
-                                            <h1 class="fw-bolder text-white">Edit Executive Techno Enterprise</h1>
-                                            <p class="fs-5 text-white mb-0">Fill in the details below to register a new Edit Executive Techno Enterprise under your network.</p>
+                                            <h1 class="fw-bolder text-white">Edit Super Techno Enterprise</h1>
+                                            <p class="fs-5 text-white mb-0">Fill in the details below to register a new Edit Super Techno Enterprise under your network.</p>
                                         </div>
                                     </div>
                                     <img src="../assets/images/addTechnoFileImage.png" alt="" class="addTEImage">
@@ -1893,7 +1893,7 @@
 
 					if (result.isConfirmed) {
 
-						window.location.href = "executive_techno_enterprise_list.php";
+						window.location.href = "super_techno_enterprise_list.php";
 
 					}
 

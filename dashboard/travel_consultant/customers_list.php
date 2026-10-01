@@ -131,7 +131,7 @@
                                                         <thead>
                                                             <tr class="table-primary">
                                                                 <th data-ordering="false">Full Name</th>
-                                                                <th data-ordering="false">TC ID & Name</th>
+                                                                <!-- <th data-ordering="false">TC ID & Name</th> -->
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
@@ -195,7 +195,7 @@
                                                         <thead>
                                                             <tr class="table-primary">
                                                                 <th data-ordering="false">CU ID & Full Name</th>
-                                                                <th data-ordering="false">TC ID & Name</th>
+                                                                <!-- <th data-ordering="false">TC ID & Name</th> -->
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Membership Type</th>
                                                                 <th data-ordering="false">Membership (&#8377;)</th>
@@ -291,23 +291,23 @@
                         }
                     },
 
-                    {
-                        data: null,
-                        render: function(data){
+                    // {
+                    //     data: null,
+                    //     render: function(data){
 
-                            return `
-                                <div>
-                                    <p class="fs-6 mb-0">
-                                        ${data.ref_firstname || ''} ${data.ref_lastname || ''}
-                                    </p>
+                    //         return `
+                    //             <div>
+                    //                 <p class="fs-6 mb-0">
+                    //                     ${data.ref_firstname || ''} ${data.ref_lastname || ''}
+                    //                 </p>
 
-                                    <p class="fs-6 mb-0">
-                                        ${data.ca_travelagency_id || '-'}
-                                    </p>
-                                </div>
-                            `;
-                        }
-                    },
+                    //                 <p class="fs-6 mb-0">
+                    //                     ${data.ca_travelagency_id || '-'}
+                    //                 </p>
+                    //             </div>
+                    //         `;
+                    //     }
+                    // },
 
                     {
                         data: null,
@@ -345,19 +345,20 @@
                     },
 
                     {
-                        data: 'status',
-                        render: function(status){
+                        data: null,
+                        render: function(data){
 
-                            if(status == 0){
+                            if(data.status == 0){
 
                                return `
                                     <p class="teDeletedBtn rounded-pill text-center mb-0">
                                         Deleted
                                     </p>
+                                    <p>Deleted On:${data.deleted_date ?? ''}</p>
                                 `;
                             }
 
-                            if(status == 2){
+                            if(data.status == 2){
 
                                 return `
                                     <p class="tePendingBtn rounded-pill text-center mb-0">
@@ -365,11 +366,13 @@
                                     </p>
                                 `;
                             }
-                            return `
-                                    <p class="teDraftBtn rounded-pill text-center mb-0">
-                                        Draft
-                                    </p>
-                                `;
+                            if(data.status == 4){
+                                return `
+                                        <p class="teDraftBtn rounded-pill text-center mb-0">
+                                            Draft
+                                        </p>
+                                    `;
+                            }
 
                             
                         }
@@ -470,23 +473,23 @@
                             `;
                         }
                     },
-                    {
-                        data: null,
-                        render: function(data) {
-                            return `
-                                <div>
-                                    <p class="fs-6 mb-0">
-                                        ${data.ref_firstname || '-'}
-                                        </br> 
-                                        ${data.ref_lastname || ''}
-                                    </p>
-                                    <p class="fs-6 mb-0">
-                                        ${data.ca_travelagency_id || '-'}
-                                    </p>
-                                </div>
-                            `;
-                        }
-                    },
+                    // {
+                    //     data: null,
+                    //     render: function(data) {
+                    //         return `
+                    //             <div>
+                    //                 <p class="fs-6 mb-0">
+                    //                     ${data.ref_firstname || '-'}
+                    //                     </br> 
+                    //                     ${data.ref_lastname || ''}
+                    //                 </p>
+                    //                 <p class="fs-6 mb-0">
+                    //                     ${data.ca_travelagency_id || '-'}
+                    //                 </p>
+                    //             </div>
+                    //         `;
+                    //     }
+                    // },
                     {
                         data: null,
                         render: function(data) {
@@ -552,21 +555,23 @@
                         }
                     },
                     {
-                        data: 'status',
-                        render: function(status) {
+                        data: null,
+                        render: function(data) {
 
                             let badge = 'tePendingBtn';
                             let text = 'Pending';
+                            let deldate ='';
 
-                            if(status == 1){
+                            if(data.status == 1){
 
                                 badge = 'teActiveBtn';
                                 text = 'Active';
 
-                            }else if(status == 3){
+                            }else if(data.status == 3){
 
-                                badge = 'tePendingBtn';
-                                text = 'Inactive';
+                                badge = 'teDeletedBtn';
+                                text = 'Deactivated';
+                                deldate='<p>Deleted On:'+data.deleted_date ?? ''+'</p>';
 
                             }else{
 

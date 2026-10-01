@@ -46,7 +46,7 @@
 
         $sqlI = $conn->prepare("
             SELECT
-                CONCAT(firstname,' ',lastname) AS name,
+                CONCAT(name) AS name,
                 register_date AS activity_date
             FROM institution
             WHERE reference_no = :user_id
