@@ -234,11 +234,11 @@
                                         </div>
                                         <p class="my-3 fw-bold text-muted fs-6">
                                             Upcoming Trips<br>
-                                            <span class="textColor fw-bolder fs-4">1</span>
+                                            <span class="textColor fw-bolder fs-4">0</span>
                                         </p>
                                         <p class="mb-0 fw-bold text-muted fs-6">
                                             Completed Trips<br>
-                                            <span class="textColor fw-bolder fs-4">3</span>
+                                            <span class="textColor fw-bolder fs-4">0</span>
                                         </p>
                                     </div>
                                 </div>
@@ -262,11 +262,11 @@
                                         </div>
                                         <p class="my-3 fw-bold text-muted fs-6">
                                             Booking Wallet<br>
-                                            <span class="greenText fw-bolder fs-4">&#8377; 2,500</span>
+                                            <span class="greenText fw-bolder fs-4">&#8377; 0</span>
                                         </p>
                                         <p class="mb-0 fw-bold text-muted fs-6">
                                             Redemption Wallet<br>
-                                            <span class="greenText fw-bolder fs-4">&#8377; 700</span>
+                                            <span class="greenText fw-bolder fs-4">&#8377; 0</span>
                                         </p>
                                     </div>
                                 </div>
@@ -290,11 +290,11 @@
                                         </div>
                                         <p class="my-3 fw-bold text-muted fs-6">
                                             Active Coupons<br>
-                                            <span class="orangeText fw-bolder fs-4">3</span>
+                                            <span class="orangeText fw-bolder fs-4">0</span>
                                         </p>
                                         <p class="mb-0 fw-bold text-muted fs-6">
                                             Expiring Soon<br>
-                                            <span class="orangeText fw-bolder fs-4">1</span>
+                                            <span class="orangeText fw-bolder fs-4">0</span>
                                         </p>
                                     </div>
                                 </div>
@@ -318,11 +318,11 @@
                                         </div>
                                         <p class="my-3 fw-bold text-muted fs-6">
                                             Total Earnings<br>
-                                            <span class="blueText fw-bolder fs-4">&#8377; 4,500</span>
+                                            <span class="blueText fw-bolder fs-4">&#8377; 0</span>
                                         </p>
                                         <p class="mb-0 fw-bold text-muted fs-6">
                                             Pending Earnings<br>
-                                            <span class="blueText fw-bolder fs-4">&#8377; 1,200</span>
+                                            <span class="blueText fw-bolder fs-4">&#8377; 0</span>
                                         </p>
                                     </div>
                                 </div>

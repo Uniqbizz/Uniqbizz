@@ -313,13 +313,13 @@
                                                     </thead>
                                                     <tbody>
                                                         <?php
-                                                            $sql = "SELECT id, bdm_id as userId, message,  comm_amt, techno_enterprise, created_date, status, 'goaBdm' as identity FROM `goa_bdm_payout` UNION ALL
-                                                                    SELECT id, bm_id as userId, message,  comm_amt, techno_enterprise, created_date, status, 'goaBm' as identity FROM `goa_bm_payout` UNION ALL
-                                                                    SELECT id, business_mentor as userId, message,  comm_amt, techno_enterprise, created_date, status, 'caPayout' as identity FROM `ca_payout` UNION ALL
-                                                                    SELECT id, bm_user_id as userId, message_bm as message, payout_amount as comm_amt, ca_user_id as techno_enterprise, payout_date as created_date, payout_status as status, 'bmPayoutHistory' as identity FROM `bm_payout_history` UNION ALL
-                                                                    SELECT id, cte_id as userId, cte_message as message,  cte_amount as comm_amt, te_id as techno_enterprise, created_date, cte_status as status, 'CTE' as identity FROM `techno_enterprise_payout` UNION ALL
-                                                                    SELECT id, ete_id as userId, ete_message as message,  ete_amount as comm_amt, te_id as techno_enterprise, created_date, ete_status as status, 'ETE' as identity FROM `techno_enterprise_payout` UNION ALL
-                                                                    SELECT id, ste_id as userId, ste_message as message,  ste_amount as comm_amt, te_id as techno_enterprise, created_date, ste_status as status, 'STE' as identity FROM `techno_enterprise_payout` 
+                                                            $sql = "SELECT id, bdm_id as userId, message,  comm_amt, techno_enterprise, created_date, status, 'goaBdm' as identity FROM `goa_bdm_payout` WHERE bdm_id <> '' UNION ALL
+                                                                    SELECT id, bm_id as userId, message,  comm_amt, techno_enterprise, created_date, status, 'goaBm' as identity FROM `goa_bm_payout` WHERE bm_id <> '' UNION ALL
+                                                                    SELECT id, business_mentor as userId, message,  comm_amt, techno_enterprise, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE business_mentor <> '' UNION ALL
+                                                                    SELECT id, bm_user_id as userId, message_bm as message, payout_amount as comm_amt, ca_user_id as techno_enterprise, payout_date as created_date, payout_status as status, 'bmPayoutHistory' as identity FROM `bm_payout_history` WHERE bm_user_id <> '' UNION ALL
+                                                                    SELECT id, cte_id as userId, cte_message as message,  cte_amount as comm_amt, te_id as techno_enterprise, created_date, cte_status as status, 'CTE' as identity FROM `techno_enterprise_payout` WHERE cte_id <> '' UNION ALL
+                                                                    SELECT id, ete_id as userId, ete_message as message,  ete_amount as comm_amt, te_id as techno_enterprise, created_date, ete_status as status, 'ETE' as identity FROM `techno_enterprise_payout` WHERE ete_id <> '' UNION ALL
+                                                                    SELECT id, ste_id as userId, ste_message as message,  ste_amount as comm_amt, te_id as techno_enterprise, created_date, ste_status as status, 'STE' as identity FROM `techno_enterprise_payout` WHERE ste_id <> ''
                                                                     order by created_date desc ";
                                                             $stmt = $conn -> prepare($sql);
                                                             $stmt -> execute();

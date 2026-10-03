@@ -17,7 +17,7 @@
                 <div class="mb-3"> 
                     <!-- Years text -->
                     <p class="fs-5 mb-2">
-                        <span class="fs-5" id="completedYears">3</span>/<span id="totalYears">6</span>
+                        <span class="fs-5" id="completedYears">0</span>/<span id="totalYears">0</span>
                         <span class="fs-6 text-muted">Years Completed</span>
                     </p>
 
