@@ -33,6 +33,9 @@
         <link rel="stylesheet" href="<?= $base_url ?>assets/css/custom.css" />
         <!-- Customer Dashboard CSS -->
         <link rel="stylesheet" href="<?= $base_url ?>assets/css/customer_dashboard.css" />
+        <?php if($customer_type== 'Premium') {?>
+        <link rel="stylesheet" href="css/com_progress_card.css">
+        <?php }?>
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         
@@ -41,7 +44,6 @@
         <!-- Begin page -->
         <div id="layout-wrapper">
             <?php include_once "customer_header.php" ?>
-
             <!-- removeNotificationModal -->
             <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -234,11 +236,11 @@
                                         </div>
                                         <p class="my-3 fw-bold text-muted fs-6">
                                             Upcoming Trips<br>
-                                            <span class="textColor fw-bolder fs-4">1</span>
+                                            <span class="textColor fw-bolder fs-4"><?= $upcomingTripsCount ?></span>
                                         </p>
                                         <p class="mb-0 fw-bold text-muted fs-6">
                                             Completed Trips<br>
-                                            <span class="textColor fw-bolder fs-4">3</span>
+                                            <span class="textColor fw-bolder fs-4"><?= $completedTripsCount ?></span>
                                         </p>
                                     </div>
                                 </div>
@@ -260,13 +262,16 @@
                                                 <i class="fa-solid fa-arrow-right"></i>
                                             </div>
                                         </div>
-                                        <p class="my-3 fw-bold text-muted fs-6">
+                                        <!-- <p class="my-3 fw-bold text-muted fs-6">
                                             Booking Wallet<br>
-                                            <span class="greenText fw-bolder fs-4">&#8377; 2,500</span>
-                                        </p>
+                                            <span class="greenText fw-bolder fs-4"><?= $totalReferralBookingPoints ?></span>
+                                        </p> -->
+                                        <div class="rupeeIllustration">
+                                            <span>₹</span>
+                                        </div>
                                         <p class="mb-0 fw-bold text-muted fs-6">
                                             Redemption Wallet<br>
-                                            <span class="greenText fw-bolder fs-4">&#8377; 700</span>
+                                            <span class="greenText fw-bolder fs-4">&#8377; <?= $totalReferralAmount ?></span>
                                         </p>
                                     </div>
                                 </div>
@@ -290,11 +295,11 @@
                                         </div>
                                         <p class="my-3 fw-bold text-muted fs-6">
                                             Active Coupons<br>
-                                            <span class="orangeText fw-bolder fs-4">3</span>
+                                            <span class="orangeText fw-bolder fs-4"><?= $couponData['active_coupon_total'] ?></span>
                                         </p>
                                         <p class="mb-0 fw-bold text-muted fs-6">
-                                            Expiring Soon<br>
-                                            <span class="orangeText fw-bolder fs-4">1</span>
+                                            Total Coupons<br>
+                                            <span class="orangeText fw-bolder fs-4"><?= $couponData['coupon_total'] ?></span>
                                         </p>
                                     </div>
                                 </div>
@@ -318,11 +323,11 @@
                                         </div>
                                         <p class="my-3 fw-bold text-muted fs-6">
                                             Total Earnings<br>
-                                            <span class="blueText fw-bolder fs-4">&#8377; 4,500</span>
+                                            <span class="blueText fw-bolder fs-4">&#8377; <?= $totalReferralAmount ?></span>
                                         </p>
                                         <p class="mb-0 fw-bold text-muted fs-6">
                                             Pending Earnings<br>
-                                            <span class="blueText fw-bolder fs-4">&#8377; 1,200</span>
+                                            <span class="blueText fw-bolder fs-4">&#8377; <?= $pendingReferralAmount ?></span>
                                         </p>
                                     </div>
                                 </div>
@@ -2043,5 +2048,8 @@
             });
         </script>
         <!-- Sidebar End -->
+        <?php if($customer_type== 'Premium') { ?>
+        <script src="js/com_progress.js"></script>
+        <?php }?>
     </body>
 </html>

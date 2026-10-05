@@ -21,11 +21,6 @@
             $customField = 'corporate_agency_id';
             break;
 
-        case '29':
-            $table = 'sub_franchisee';
-            $customField = 'sub_franchisee_id';
-            break;
-
         default:
             echo json_encode([
                 'status' => false,
@@ -34,7 +29,7 @@
             exit;
     }
 
-    $field = preg_match('/^(TE|F|CA)/i', $id)
+    $field = preg_match('/^(TE|CA)/i', $id)
         ? $customField
         : 'id';
 

@@ -335,5 +335,150 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-3 col-sm-6 col-12">
+            <div class="card card-equal mini-stats-wid rounded-4">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="flex-shrink-1">
+                            <div class="mini-stat-icon avatar-sm rounded-circle bg-primary">
+                                <span class="avatar-title">
+                                    <i class="fas fa-user-alt font-size-24"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ps-2">
+                            <p class="text-muted fw-medium">Chief Techno Enterprise</p>
+                            <?php
+                                $stmt = $conn->prepare("SELECT count(ca_travelagency_id) as totalca_travelagency FROM ca_travelagency where user_type='11' and status='1' ");
+                                $stmt->execute();
+                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                if ($stmt->rowCount() > 0) {
+                                    foreach (($stmt->fetchAll()) as $key => $row) {
+                                        $totalca_travelagency = $row['totalca_travelagency'];
+                                        echo '<h3 class="mb-0 text-dark">'.$totalca_travelagency.'</h3>';
+                                    }
+                                } else {
+                                    echo '<h3 class="mb-0 text-dark">0</h3>';
+                                }
+                            ?>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center my-3">
+                        <a href="chief_techno/chief_techno.php" class="text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder text-center py-1 viewDetailsButton1" role="button" style="width: 190px;">View details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-12">
+            <div class="card card-equal mini-stats-wid rounded-4">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="flex-shrink-1">
+                            <div class="mini-stat-icon avatar-sm rounded-circle bg-success">
+                                <span class="avatar-title1">
+                                    <i class="fas fa-user-alt font-size-24"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ps-2">
+                            <p class="text-muted fw-medium">Executive Techno Enterprise</p>
+                            <?php
+                                $stmt = $conn->prepare("
+                                    SELECT 
+                                        (SELECT COUNT(business_mentor_id) FROM business_mentor WHERE user_type='26' AND status='1') +
+                                        (SELECT COUNT(master_franchisee_id) FROM master_franchisee WHERE user_type='28' AND status='1') +
+                                        (SELECT COUNT(sponsor_franchisee_id) FROM sponsor_franchisee WHERE user_type='30' AND status='1')
+                                    AS total_users
+                                ");
+
+                                $stmt->execute();
+                                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                                $total_users = $row['total_users'] ?? 0;
+
+                                echo '<h3 class="mb-0 text-dark">'.$total_users.'</h3>';
+                            ?>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center my-3">
+                        <a href="executive_techno/executiveTechno.php" class="text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder text-center py-1 viewDetailsButton2" role="button" style="width: 190px;">View details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-12">
+            <div class="card card-equal mini-stats-wid rounded-4">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="flex-shrink-1">
+                            <div class="mini-stat-icon avatar-sm rounded-circle bg-warning">
+                                <span class="avatar-title2">
+                                    <i class="fas fa-user-alt font-size-24"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ps-2">
+                            <p class="text-muted fw-medium">Super Techno Enterprise</p>
+                            <?php
+                                $stmt = $conn->prepare("
+                                    SELECT 
+                                        (SELECT COUNT(business_mentor_id) FROM business_mentor WHERE user_type='26' AND status='1') +
+                                        (SELECT COUNT(master_franchisee_id) FROM master_franchisee WHERE user_type='28' AND status='1') +
+                                        (SELECT COUNT(sponsor_franchisee_id) FROM sponsor_franchisee WHERE user_type='30' AND status='1')
+                                    AS total_users
+                                ");
+
+                                $stmt->execute();
+                                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                                $total_users = $row['total_users'] ?? 0;
+
+                                echo '<h3 class="mb-0 text-dark">'.$total_users.'</h3>';
+                            ?>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center my-3">
+                        <a href="super_techno/superTechno.php" class="text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3 fw-bolder text-center py-1 viewDetailsButton3" role="button" style="width: 190px;">View details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-12">
+            <div class="card card-equal mini-stats-wid rounded-4">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="flex-shrink-1">
+                            <div class="mini-stat-icon avatar-sm rounded-circle bg-danger">
+                                <span class="avatar-title3">
+                                    <i class="fas fa-user-alt font-size-24"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ps-2">
+                            <p class="text-muted fw-medium">Institution Branch Manager</p>
+                            <?php
+                                $stmt = $conn->prepare("
+                                    SELECT 
+                                        (SELECT COUNT(business_mentor_id) FROM business_mentor WHERE user_type='26' AND status='1') +
+                                        (SELECT COUNT(master_franchisee_id) FROM master_franchisee WHERE user_type='28' AND status='1') +
+                                        (SELECT COUNT(sponsor_franchisee_id) FROM sponsor_franchisee WHERE user_type='30' AND status='1')
+                                    AS total_users
+                                ");
+
+                                $stmt->execute();
+                                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                                $total_users = $row['total_users'] ?? 0;
+
+                                echo '<h3 class="mb-0 text-dark">'.$total_users.'</h3>';
+                            ?>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center my-3">
+                        <a href="ca_travelAgency/view_ca_travelAgency.php" class="text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3 fw-bolder text-center py-1 viewDetailsButton4" role="button" style="width: 190px;">View details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

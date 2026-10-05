@@ -24,6 +24,24 @@
     } else {
         $monthName = '';
     }
+    // ============================================================ // OPTIONAL DATE FILTER // ============================================================ 
+    function getPayoutDateFilter($dateColumn, $payoutYear, $payoutMonth) { 
+        $filter = ''; 
+        if ($payoutYear !== '') { 
+            $filter .= " AND YEAR($dateColumn) = " . (int)$payoutYear; 
+        } 
+        if ($payoutMonth !== '') { 
+            $filter .= " AND MONTH($dateColumn) = " . (int)$payoutMonth; 
+        } 
+        return $filter; 
+    } 
+    // ============================================================ // OPTIONAL USER FILTER // ============================================================ 
+    function getUserFilter($column, $user_id) { 
+        if ($user_id !== '') { 
+            return " AND $column = '" . addslashes($user_id) . "'"; 
+            } 
+        return ''; 
+    }
     
     if($payoutmessage == 'PreviousPayout'){
         $output="";
@@ -482,29 +500,27 @@
     
     if($payoutmessage == 'allPayout'){
     
-        if($designation == 'business_development_manager'){
-            $stmt2 = "SELECT id, bdm_id as bmId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'goaBdm' as identity FROM goa_bdm_payout WHERE bdm_id = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
-        }else if($designation == 'business_mentor'){
-            $stmt2 = "SELECT id, bm_id as bmId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'goaBm' as identity FROM `goa_bm_payout` WHERE bm_id = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' UNION ALL
-                    SELECT id, business_mentor as bmId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'caPayout' as identity FROM `ca_payout`  WHERE business_mentor = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' UNION ALL
-                    SELECT id, bm_user_id as bmId, message_bm as message, payment_message as message_details, payout_amount as comm_amt, ca_user_id as techno_enterprise, payout_date as created_date, payout_status as status, 'bmPayoutHistory' as identity FROM `bm_payout_history` WHERE bm_user_id = '".$user_id."' AND YEAR(payout_date) = '".$payoutYear."' AND MONTH(payout_date) = '".$payoutMonth."' ";
-        }else if($designation == 'corporate_agency'){
-            $stmt2 = "SELECT id, bdm_id as bmId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'goaBdm' as identity FROM `goa_bdm_payout` WHERE techno_enterprise = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' UNION ALL
-                    SELECT id, bm_id as bmId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'goaBm' as identity FROM `goa_bm_payout` WHERE techno_enterprise = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' UNION ALL
-                    SELECT id, business_mentor as bmId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE techno_enterprise = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' UNION ALL
-                    SELECT id, bm_user_id as bmId, message_bm as message, payment_message as message_details, payout_amount as comm_amt, ca_user_id as techno_enterprise, payout_date as created_date, payout_status as status, 'bmPayoutHistory' as identity FROM `bm_payout_history` WHERE ca_user_id = '".$user_id."' AND YEAR(payout_date) = '".$payoutYear."' AND MONTH(payout_date) = '".$payoutMonth."' ";
-        }else if($designation == 'chief_techno_enterprise'){
-
-            $stmt2 = "SELECT id, cte_id as bmId, cte_message as message, '' as message_details, cte_amount as comm_amt, te_id as techno_enterprise, created_date, cte_status as status, 'Chief Techno Enterprise' as identity FROM techno_enterprise_payout WHERE cte_id = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' order by created_date DESC";
-
-        }else if($designation == 'executive_techno_enterprise'){
-
-            $stmt2 = "SELECT id, ete_id as bmId, ete_message as message, '' as message_details, ete_amount as comm_amt, te_id as techno_enterprise, created_date, ete_status as status, 'executive Techno Enterprise' as identity FROM techno_enterprise_payout WHERE ete_id = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' order by created_date DESC";
-
-        }else if($designation == 'super_techno_enterprise'){
-
-            $stmt2 = "SELECT id, ste_id as bmId, ste_message as message, '' as message_details, ste_amount as comm_amt, te_id as techno_enterprise, created_date, ste_status as status, 'Super Techno Enterprise' as identity FROM techno_enterprise_payout WHERE ste_id = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' order by created_date DESC";
-
+        // ============================================================ // BUILD QUERY BASED ON DESIGNATION // ============================================================ 
+        if ($designation == 'business_development_manager') { 
+            $stmt2 = " SELECT id, bdm_id AS bmId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'goaBdm' AS identity FROM goa_bdm_payout WHERE bdm_id <> '' " . getUserFilter('bdm_id', $user_id) . " " . getPayoutDateFilter('created_date', $payoutYear, $payoutMonth).
+                       "UNION ALL SELECT id, cte_id AS bmId, cte_message AS message, '' AS message_details, cte_amount AS comm_amt, te_id AS techno_enterprise, created_date, cte_status AS status, 'goaBdm' AS identity FROM techno_enterprise_payout WHERE cte_id <>  '' AND cte_message like 'BDM%'  " . getUserFilter('cte_id', $user_id) . " " . getPayoutDateFilter('created_date', $payoutYear, $payoutMonth); 
+            
+        } else if ($designation == 'business_mentor') { 
+            $stmt2 = "  SELECT id, bm_id AS bmId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'goaBm' AS identity FROM goa_bm_payout WHERE bm_id <> '' " . getUserFilter('bm_id', $user_id) . " " . getPayoutDateFilter('created_date', $payoutYear, $payoutMonth) . " 
+                        UNION ALL SELECT id, business_mentor AS bmId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'caPayout' AS identity FROM ca_payout WHERE business_mentor <> '' " . getUserFilter('business_mentor', $user_id) . " " . getPayoutDateFilter('created_date', $payoutYear, $payoutMonth) . " 
+                        UNION ALL SELECT id, bm_user_id AS bmId, message_bm AS message, payment_message AS message_details, payout_amount AS comm_amt, ca_user_id AS techno_enterprise, payout_date AS created_date, payout_status AS status, 'bmPayoutHistory' AS identity FROM bm_payout_history WHERE bm_user_id <> '' " . getUserFilter('bm_user_id', $user_id) . " " . getPayoutDateFilter('payout_date', $payoutYear, $payoutMonth).
+                        "UNION ALL SELECT id, ste_id AS bmId, ste_message AS message, '' AS message_details, ste_amount AS comm_amt, te_id AS techno_enterprise, created_date, ste_status AS status, 'bmPayoutHistory' AS identity FROM techno_enterprise_payout WHERE ste_id <>  '' AND ste_message LIKE 'BM%' " . getUserFilter('ste_id', $user_id) . " " . getPayoutDateFilter('created_date', $payoutYear, $payoutMonth) ; 
+        } else if ($designation == 'corporate_agency') { 
+            $stmt2 = "  SELECT id, bdm_id AS bmId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'goaBdm' AS identity FROM goa_bdm_payout WHERE techno_enterprise <> '' " . getUserFilter('techno_enterprise', $user_id) . " " . getPayoutDateFilter('created_date', $payoutYear, $payoutMonth) . " 
+                        UNION ALL SELECT id, bm_id AS bmId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'goaBm' AS identity FROM goa_bm_payout WHERE techno_enterprise <> '' " . getUserFilter('techno_enterprise', $user_id) . " " . getPayoutDateFilter('created_date', $payoutYear, $payoutMonth) . " 
+                        UNION ALL SELECT id, business_mentor AS bmId, message, message_details, comm_amt, techno_enterprise, created_date, status, 'caPayout' AS identity FROM ca_payout WHERE techno_enterprise <> '' " . getUserFilter('techno_enterprise', $user_id) . " " . getPayoutDateFilter('created_date', $payoutYear, $payoutMonth) . " 
+                        UNION ALL SELECT id, bm_user_id AS bmId, message_bm AS message, payment_message AS message_details, payout_amount AS comm_amt, ca_user_id AS techno_enterprise, payout_date AS created_date, payout_status AS status, 'bmPayoutHistory' AS identity FROM bm_payout_history WHERE ca_user_id <> '' " . getUserFilter('ca_user_id', $user_id) . " " . getPayoutDateFilter('payout_date', $payoutYear, $payoutMonth); 
+        } else if ($designation == 'chief_techno_enterprise') { 
+            $stmt2 = "  SELECT id, cte_id AS bmId, cte_message AS message, '' AS message_details, cte_amount AS comm_amt, te_id AS techno_enterprise, created_date, cte_status AS status, 'Chief Techno Enterprise' AS identity FROM techno_enterprise_payout WHERE cte_id <>  '' AND cte_message like 'cte%'  " . getUserFilter('cte_id', $user_id) . " " . getPayoutDateFilter('created_date', $payoutYear, $payoutMonth) . " ORDER BY created_date DESC"; 
+        } else if ($designation == 'executive_techno_enterprise') { 
+            $stmt2 = " SELECT id, ete_id AS bmId, ete_message AS message, '' AS message_details, ete_amount AS comm_amt, te_id AS techno_enterprise, created_date, ete_status AS status, 'executive Techno Enterprise' AS identity FROM techno_enterprise_payout WHERE ete_id <>  '' AND ete_message LIKE 'ETE%' " . getUserFilter('ete_id', $user_id) . " " . getPayoutDateFilter('created_date', $payoutYear, $payoutMonth) . " ORDER BY created_date DESC"; 
+        } else if ($designation == 'super_techno_enterprise') { 
+            $stmt2 = " SELECT id, ste_id AS bmId, ste_message AS message, '' AS message_details, ste_amount AS comm_amt, te_id AS techno_enterprise, created_date, ste_status AS status, 'Super Techno Enterprise' AS identity FROM techno_enterprise_payout WHERE ste_id <>  '' AND ste_message LIKE 'STE%' " . getUserFilter('ste_id', $user_id) . " " . getPayoutDateFilter('created_date', $payoutYear, $payoutMonth) . " ORDER BY created_date DESC"; 
         }
     
         $output="";
@@ -572,18 +588,6 @@
                             }
                         }  
                     }
-                    // else if($userIdty == "TE" || $userIdty == "CA"){
-                    //     $bcNames = $conn -> prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$userId."' AND status = 1");
-                    //     $bcNames -> execute();
-                    //     $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
-                    //     if($bcNames -> rowCount()>0){
-                    //         foreach(($bcNames -> fetchAll()) as $key => $row){
-                    //             $bcfirstname = $row['firstname'];
-                    //             $bclastname = $row['lastname'];
-                    //             $designation = "Techno Enterprise";
-                    //         }
-                    //     }  
-                    // }
                     else if($userIdty == "CT"){
                         $bcNames = $conn -> prepare("SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '".$userId."' AND status = 1");
                         $bcNames -> execute();
@@ -646,7 +650,7 @@
             header("Content-Disposition: attachment;filename=All_Payout_List.xls");
             echo $output;
         }else{
-            echo 'No Previous Payout Data';                                                    
+            echo 'No All Payout Data';                                                    
         }
     }
 

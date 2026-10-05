@@ -17,7 +17,7 @@ if ($id <= 0) {
 }
 
 $userId = $_SESSION['user_id']??'0';
-
+$checkVisibility = true;
 require 'connect.php';
 include 'assets/submit/tour_details_data.php';
 ?>

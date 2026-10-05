@@ -480,7 +480,7 @@ switch ($user_type) {
         renderCustomerReferrals($conn, $tcId, 2);
         echo "</div>";
         break;
-    case '11': // IBR
+    case '33': // IBR
         $tcId = $userId;
         $tcCount = fetchReferralCount($conn, 'ca_customer', 'reference_no', $tcId) +
                    fetchReferralCount($conn, 'ca_customer', 'ta_reference_no', $tcId);
@@ -493,6 +493,498 @@ switch ($user_type) {
         renderCustomerReferrals($conn, $userId, 1);
         echo "</div>";
         break;
+    case '36': // CTE
+
+        // ============================================================
+        // CTE -> ETE
+        // ============================================================
+
+        $etes = array_filter(fetchReferrals($conn,'executive_techno_enterprise','reference_no',$userId),fn($e) => $e['user_type'] == 34);
+        if (empty($etes)) {
+            noReferralsFoundMessage();
+        } else {
+            foreach ($etes as $ete) {
+                $eteId = $ete['executive_techno_enterprise_id'];
+                // Count direct STE referrals + direct Institution referrals
+                $steCount = fetchReferralCount($conn,'super_techno_enterprise','reference_no',$eteId);
+                $institutionCount = fetchReferralCount($conn,'institution','reference_no',$eteId);
+                $eteCount = $steCount + $institutionCount;
+                renderAccordionItemFull("ETE",$ete,'executive_techno_enterprise_id',$eteCount,false);
+
+                // ====================================================
+                // ETE -> STE
+                // ====================================================
+
+                $stes = fetchReferrals($conn,'super_techno_enterprise','reference_no',$eteId);
+
+                if (!empty($stes)) {
+
+                    foreach ($stes as $ste) {
+                        $steId = $ste['super_techno_enterprise_id'];
+                        // STE -> TE
+                        $tes = fetchReferrals($conn,'corporate_agency','reference_no',$steId);
+                        $steCount = count($tes);
+                        renderAccordionItemFull("STE",$ste,'super_techno_enterprise_id',$steCount);
+
+                        // ============================================
+                        // STE -> TE
+                        // ============================================
+
+                        if (!empty($tes)) {
+                            foreach ($tes as $te) {
+                                $teId = $te['corporate_agency_id'];
+                                // TE -> TC
+                                $tcs = fetchReferrals($conn,'ca_travelagency','reference_no',$teId);
+                                $teCount = count($tcs);
+                                renderAccordionItemFull("TE",$te,'corporate_agency_id',$teCount);
+
+                                // ====================================
+                                // TE -> TC -> CU
+                                // ====================================
+
+                                if (!empty($tcs)) {
+                                    foreach ($tcs as $tc) {
+                                        $tcId = $tc['ca_travelagency_id'];
+                                        $tcCount =fetchReferralCount($conn,'ca_customer','reference_no', $tcId)+fetchReferralCount($conn, 'ca_customer','ta_reference_no',$tcId);
+                                        renderAccordionItemFull("TC", $tc,'ca_travelagency_id',$tcCount);
+                                        // TC -> CU
+                                        renderCustomerReferrals($conn,$tcId,5);
+                                        echo "</div>";
+                                    }
+
+                                } else {
+                                    noReferralsFoundMessage();
+
+                                }
+                                echo "</div>"; // Close TE
+                            }
+                        } else {
+                            noReferralsFoundMessage();
+                        }
+                        echo "</div>"; // Close STE
+                    }
+                }
+
+
+                // ====================================================
+                // ETE -> I
+                // ====================================================
+
+                $institutions = fetchReferrals($conn,'institution','reference_no',$eteId);
+                if (!empty($institutions)) {
+                    foreach ($institutions as $institution) {
+                        $institutionId = $institution['institution_id'];
+                        // ============================================
+                        // I -> TC
+                        // ============================================
+
+                        $institutionTCs = fetchReferrals($conn,'ca_travelagency','reference_no', $institutionId);
+
+                        // ============================================
+                        // I -> IBR
+                        // ============================================
+
+                        $ibrs = fetchReferrals( $conn,'institution_branch_manager','reference_no',$institutionId);
+
+                        // Count both direct branches
+                        $institutionCount =count($institutionTCs)+count($ibrs);
+                        renderAccordionItemFull("I", $institution,'institution_id',$institutionCount);
+                        // ============================================
+                        // I -> TC -> CU
+                        // ============================================
+
+                        if (!empty($institutionTCs)) {
+                            foreach ($institutionTCs as $tc) {
+                                $tcId = $tc['ca_travelagency_id'];
+                                $tcCount =fetchReferralCount($conn,'ca_customer','reference_no', $tcId)+fetchReferralCount($conn,'ca_customer','ta_reference_no', $tcId);
+                                renderAccordionItemFull("TC",$tc,'ca_travelagency_id',$tcCount);
+                                // TC -> CU
+                                renderCustomerReferrals($conn,$tcId,5);
+                                echo "</div>";
+                            }
+                        }
+
+                        // ============================================
+                        // I -> IBR -> CU
+                        // ============================================
+
+                        if (!empty($ibrs)) {
+                            foreach ($ibrs as $ibr) {
+                                $ibrId = $ibr['institution_branch_manager_id'];
+                                $ibrCount =fetchReferralCount($conn,'ca_customer','reference_no',$ibrId)+fetchReferralCount($conn,'ca_customer','ta_reference_no', $ibrId);
+                                renderAccordionItemFull("IBR",$ibr,'institution_branch_manager_id',$ibrCount);
+
+                                // IBR -> CU
+                                renderCustomerReferrals($conn,$ibrId,5);
+
+                                echo "</div>";
+                            }
+                        }
+
+                        // Close Institution
+                        echo "</div>";
+                    }
+                }
+
+                // Close ETE
+                echo "</div>";
+            }
+        }
+
+        break;
+    case '34': // ETE
+
+        // ============================================================
+        // ETE -> STE
+        // ETE -> I
+        // ============================================================
+
+        $stes = fetchReferrals(
+            $conn,
+            'super_techno_enterprise',
+            'reference_no',
+            $userId
+        );
+
+        $institutions = fetchReferrals(
+            $conn,
+            'institution',
+            'reference_no',
+            $userId
+        );
+
+        $eteCount = count($stes) + count($institutions);
+
+        if ($eteCount == 0) {
+
+            noReferralsFoundMessage();
+
+        } else {
+
+            // ========================================================
+            // ETE -> STE -> TE -> TC -> CU
+            // ========================================================
+
+            foreach ($stes as $ste) {
+
+                $steId = $ste['super_techno_enterprise_id'];
+
+                // STE -> TE
+                $tes = fetchReferrals(
+                    $conn,
+                    'corporate_agency',
+                    'reference_no',
+                    $steId
+                );
+
+                $steCount = count($tes);
+
+                renderAccordionItemFull(
+                    "STE",
+                    $ste,
+                    'super_techno_enterprise_id',
+                    $steCount
+                );
+
+                if (!empty($tes)) {
+
+                    foreach ($tes as $te) {
+
+                        $teId = $te['corporate_agency_id'];
+
+                        // TE -> TC
+                        $tcs = fetchReferrals(
+                            $conn,
+                            'ca_travelagency',
+                            'reference_no',
+                            $teId
+                        );
+
+                        $teCount = count($tcs);
+
+                        renderAccordionItemFull(
+                            "TE",
+                            $te,
+                            'corporate_agency_id',
+                            $teCount
+                        );
+
+                        if (!empty($tcs)) {
+
+                            foreach ($tcs as $tc) {
+
+                                $tcId = $tc['ca_travelagency_id'];
+
+                                // TC -> CU
+                                $tcCount =
+                                    fetchReferralCount(
+                                        $conn,
+                                        'ca_customer',
+                                        'reference_no',
+                                        $tcId
+                                    )
+                                    +
+                                    fetchReferralCount(
+                                        $conn,
+                                        'ca_customer',
+                                        'ta_reference_no',
+                                        $tcId
+                                    );
+
+                                renderAccordionItemFull(
+                                    "TC",
+                                    $tc,
+                                    'ca_travelagency_id',
+                                    $tcCount
+                                );
+
+                                renderCustomerReferrals(
+                                    $conn,
+                                    $tcId,
+                                    5
+                                );
+
+                                echo "</div>";
+                            }
+
+                        } else {
+
+                            noReferralsFoundMessage();
+
+                        }
+
+                        echo "</div>"; // Close TE
+                    }
+
+                } else {
+
+                    noReferralsFoundMessage();
+
+                }
+
+                echo "</div>"; // Close STE
+            }
+
+
+            // ========================================================
+            // ETE -> I -> TC -> CU
+            // ETE -> I -> IBR -> CU
+            // ========================================================
+
+            foreach ($institutions as $institution) {
+
+                $institutionId = $institution['institution_id'];
+
+                // I -> TC
+                $tcs = fetchReferrals(
+                    $conn,
+                    'ca_travelagency',
+                    'reference_no',
+                    $institutionId
+                );
+
+                // I -> IBR
+                $ibrs = fetchReferrals(
+                    $conn,
+                    'institution_branch_manager',
+                    'reference_no',
+                    $institutionId
+                );
+
+                $institutionCount =
+                    count($tcs) +
+                    count($ibrs);
+
+                renderAccordionItemFull(
+                    "I",
+                    $institution,
+                    'institution_id',
+                    $institutionCount
+                );
+
+
+                // ====================================================
+                // I -> TC -> CU
+                // ====================================================
+
+                foreach ($tcs as $tc) {
+
+                    $tcId = $tc['ca_travelagency_id'];
+
+                    $tcCount =
+                        fetchReferralCount(
+                            $conn,
+                            'ca_customer',
+                            'reference_no',
+                            $tcId
+                        )
+                        +
+                        fetchReferralCount(
+                            $conn,
+                            'ca_customer',
+                            'ta_reference_no',
+                            $tcId
+                        );
+
+                    renderAccordionItemFull(
+                        "TC",
+                        $tc,
+                        'ca_travelagency_id',
+                        $tcCount
+                    );
+
+                    renderCustomerReferrals(
+                        $conn,
+                        $tcId,
+                        5
+                    );
+
+                    echo "</div>";
+                }
+
+
+                // ====================================================
+                // I -> IBR -> CU
+                // ====================================================
+
+                foreach ($ibrs as $ibr) {
+
+                    $ibrId = $ibr['institution_branch_manager_id'];
+
+                    $ibrCount =
+                        fetchReferralCount(
+                            $conn,
+                            'ca_customer',
+                            'reference_no',
+                            $ibrId
+                        )
+                        +
+                        fetchReferralCount(
+                            $conn,
+                            'ca_customer',
+                            'ta_reference_no',
+                            $ibrId
+                        );
+
+                    renderAccordionItemFull(
+                        "IBR",
+                        $ibr,
+                        'institution_branch_manager_id',
+                        $ibrCount
+                    );
+
+                    renderCustomerReferrals(
+                        $conn,
+                        $ibrId,
+                        5
+                    );
+
+                    echo "</div>";
+                }
+
+                echo "</div>"; // Close I
+            }
+        }
+
+        break;
+    case '35': // STE
+
+            // ============================================================
+            // STE -> TE
+            // ============================================================
+
+            $tes = fetchReferrals(
+                $conn,
+                'corporate_agency',
+                'reference_no',
+                $userId
+            );
+
+            if (empty($tes)) {
+
+                noReferralsFoundMessage();
+
+            } else {
+
+                foreach ($tes as $te) {
+
+                    $teId = $te['corporate_agency_id'];
+
+                    // ====================================================
+                    // TE -> TC
+                    // ====================================================
+
+                    $tcs = fetchReferrals(
+                        $conn,
+                        'ca_travelagency',
+                        'reference_no',
+                        $teId
+                    );
+
+                    $teCount = count($tcs);
+
+                    renderAccordionItemFull(
+                        "TE",
+                        $te,
+                        'corporate_agency_id',
+                        $teCount,
+                        true
+                    );
+
+
+                    // ====================================================
+                    // TC -> CU
+                    // ====================================================
+
+                    if (!empty($tcs)) {
+
+                        foreach ($tcs as $tc) {
+
+                            $tcId = $tc['ca_travelagency_id'];
+
+                            $tcCount =
+                                fetchReferralCount(
+                                    $conn,
+                                    'ca_customer',
+                                    'reference_no',
+                                    $tcId
+                                )
+                                +
+                                fetchReferralCount(
+                                    $conn,
+                                    'ca_customer',
+                                    'ta_reference_no',
+                                    $tcId
+                                );
+
+                            renderAccordionItemFull(
+                                "TC",
+                                $tc,
+                                'ca_travelagency_id',
+                                $tcCount
+                            );
+
+                            // TC -> CU
+                            renderCustomerReferrals(
+                                $conn,
+                                $tcId,
+                                5
+                            );
+
+                            echo "</div>"; // Close TC
+                        }
+
+                    } else {
+
+                        noReferralsFoundMessage();
+
+                    }
+
+                    echo "</div>"; // Close TE
+                }
+            }
+
+            break;
 
     default:
         noReferralsFoundMessage();

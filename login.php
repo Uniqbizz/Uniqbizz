@@ -588,6 +588,11 @@
                                 {
                                     location.href = "dashboard/customer_dashboard/customer_dashboard.php";
                                 }
+                                else if (res.user_type == "10" &&
+                                    res.customer_type == "Premium")
+                                {
+                                    location.href = "dashboard/customer_dashboard/customer_dashboard.php";
+                                }
                                 else if (res.user_type == "33")
                                 {
                                     location.href = "dashboard/institute_branch_manager/index.php";

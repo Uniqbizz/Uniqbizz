@@ -28,35 +28,35 @@
         }
 
         $sql = "
-
             (
                 SELECT
                     sf.institution_id AS teuser_id,
-                    sf.firstname,
-                    sf.lastname,
+                    sf.name AS firstname,
+                    '' AS lastname,
                     sf.contact_no,
                     sf.email,
                     sf.register_date,
                     sf.status,
                     sf.amount,
                     sf.user_type,
-
-                    ste.firstname AS ref_firstname,
-                    ste.lastname AS ref_lastname,
-                    ste.sponsor_franchisee_id
+                    DATE_FORMAT(sf.deleted_date, '%d %b %Y') AS deleted_date,
+                    bm.firstname AS ref_firstname,
+                    bm.lastname AS ref_lastname,
+                    bm.sponsor_franchisee_id AS reference_id
 
                 FROM institution sf
 
-                INNER JOIN sponsor_franchisee ste
-                    ON sf.reference_no = ste.sponsor_franchisee_id
+                INNER JOIN sponsor_franchisee bm
+                    ON sf.reference_no = bm.sponsor_franchisee_id
 
-                WHERE sf.reference_no = :user_id
+                WHERE bm.sponsor_franchisee_id = :user_id
                 AND sf.status IN (1,3)
+                AND bm.status IN (1,3)
 
                 $whereDateSF
             )
 
-            ORDER BY register_date DESC
+            ORDER BY register_date DESC;
         ";
 
         $stmt = $conn->prepare($sql);

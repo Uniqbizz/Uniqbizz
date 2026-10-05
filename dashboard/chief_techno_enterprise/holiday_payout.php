@@ -15,7 +15,7 @@
     $tdsPercentage = 2/100;
     $columnDesignation = 'cte_id';
     $columnMessage = 'message_cte';
-    $columnCommision = 'commission_cte';
+    $columnCommision = 'commision_cte';
     $columnStatus = 'status_cte';
 ?>
 

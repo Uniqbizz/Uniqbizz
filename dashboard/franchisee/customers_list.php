@@ -136,7 +136,7 @@
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
-                                                                <th data-ordering="false">Action</th>
+                                                                <!-- <th data-ordering="false">Action</th> -->
                                                             </tr>
                                                         </thead>
                                                         <tbody id="cuTableBody">
@@ -342,19 +342,10 @@
                     },
 
                     {
-                        data: 'status',
-                        render: function(status){
+                        data: null,
+                        render: function(data){
 
-                            if(status == 0){
-
-                               return `
-                                    <p class="teDeletedBtn rounded-pill text-center mb-0">
-                                        Deleted
-                                    </p>
-                                `;
-                            }
-
-                            if(status == 2){
+                            if(data.status == 2){
 
                                 return `
                                     <p class="tePendingBtn rounded-pill text-center mb-0">
@@ -362,44 +353,57 @@
                                     </p>
                                 `;
                             }
-                            return `
+
+                            else if(data.status == 4){
+
+                                return `
                                     <p class="teDraftBtn rounded-pill text-center mb-0">
                                         Draft
                                     </p>
                                 `;
+                            }
+                            else if(data.status == 0){
+
+                                return `
+                                    <p class="teDeletedBtn rounded-pill text-center mb-0">
+                                        Deleted
+                                    </p>
+                                    <p>Deleted On:${data.deleted_date ?? ''}</p>
+                                `;
+                            }
                         }
                     },
-                    {
-                        data: null,
-                        orderable: false,
-                        searchable: false,
-                        className: 'none',
-                        render: function(data) {
+                    // {
+                    //     data: null,
+                    //     orderable: false,
+                    //     searchable: false,
+                    //     className: 'none',
+                    //     render: function(data) {
 
-                            return `
-                                <form action="edit_customer.php" method="POST" class="m-0">
-                                    <input
-                                        type="hidden"
-                                        name="id"
-                                        value="${data.id}"
-                                    >
-                                    <input
-                                            type="hidden"
-                                            name="status"
-                                            value="1"
-                                        >
-                                    <button
-                                        type="submit"
-                                        class="border-0 bg-transparent p-0 w-100"
-                                    >
-                                        <p class="teViewBtn text-center fw-bold mb-0">
-                                            <i class="fa-solid fa-eye me-2 mt-1"></i>View
-                                        </p>
-                                    </button>
-                                </form>
-                            `;
-                        }
-                    }
+                    //         return `
+                    //             <form action="edit_customer.php" method="POST" class="m-0">
+                    //                 <input
+                    //                     type="hidden"
+                    //                     name="id"
+                    //                     value="${data.id}"
+                    //                 >
+                    //                 <input
+                    //                         type="hidden"
+                    //                         name="status"
+                    //                         value="1"
+                    //                     >
+                    //                 <button
+                    //                     type="submit"
+                    //                     class="border-0 bg-transparent p-0 w-100"
+                    //                 >
+                    //                     <p class="teViewBtn text-center fw-bold mb-0">
+                    //                         <i class="fa-solid fa-eye me-2 mt-1"></i>View
+                    //                     </p>
+                    //                 </button>
+                    //             </form>
+                    //         `;
+                    //     }
+                    // }
                 ],
                 language: {
                     emptyTable: "No Pending Customers Found"
@@ -546,26 +550,29 @@
                         }
                     },
                     {
-                        data: 'status',
-                        render: function(status) {
+                        data: null,
+                        render: function(data) {
 
                             let badge = 'tePendingBtn';
                             let text = 'Pending';
+                            let deldate='';
 
-                            if(status == 1){
+                            if(data.status == 1){
 
                                 badge = 'teActiveBtn';
                                 text = 'Active';
 
-                            }else if(status == 3){
+                            }else if(data.status == 3){
 
-                                badge = 'tePendingBtn';
-                                text = 'Inactive';
+                                badge = 'teDeletedBtn';
+                                text = 'Deactivated';
+                                deldate='<p>Deleted On:'+data.deleted_date ?? ''+'</p>';
 
                             }else{
 
                                 badge = 'teDeletedBtn';
                                 text = 'NA';
+                                
 
                             }
 
@@ -573,6 +580,7 @@
                                 <p class="${badge} rounded-pill text-center mb-0">
                                     ${text}
                                 </p>
+                                ${deldate}
                             `;
                         }
                     },

@@ -115,7 +115,7 @@
                                                                     <?php
                                                                         if(isset($_SESSION['user_id']) && isset($_SESSION['user_type_id_value'])){
 
-                                                                            if($_SESSION['user_id'] == "CU260052" && $_SESSION['user_type_id_value'] == "10"){
+                                                                            if($_SESSION['user_type_id_value'] == "10"){
                                                                                 echo '<li class="d-flex"><i class="ri-dashboard-line align-content-center"></i><a class="dropdown-item" href="dashboard/customer_dashboard/customer_dashboard.php">Dashboard</a></li>';
                                                                             }
                                                                             else if($_SESSION['user_type_id_value'] == "33"){
@@ -203,7 +203,7 @@
                                                                     <img
                                                                         src="uploading/<?= $_SESSION['profile_pic'] ?>"
                                                                         class="user-avatar-SVZ"
-                                                                        alt="<?= htmlspecialchars($firstname . ' ' . $lastname) ?>"
+                                                                        alt=""
                                                                     >
 
                                                                 <?php else: ?>
@@ -244,7 +244,7 @@
                                                                         $dashboardLink = "dashboard/";
                                                                         $dashboardFolder = "dashboard";
                                                                         if ($userType == "10") {
-                                                                            if ($_SESSION['customer_type'] == 'Neo Select') {
+                                                                            if ($_SESSION['customer_type'] == 'Neo Select' || $_SESSION['customer_type'] == 'Premium') {
                                                                                 $dashboardLink = "dashboard/customer_dashboard/customer_dashboard.php";
                                                                                 $dashboardFolder = "dashboard/customer_dashboard";
                                                                             }else{
@@ -335,15 +335,16 @@
                                                                             </a>
                                                                         </li>
 
-
-                                                                        <!-- My Bookings -->
-                                                                        <li class="d-flex">
-                                                                            <i class="ri-calendar-line align-content-center stickyTextBlack"></i>
-                                                                            <a class="dropdown-item stickyTextBlack"
-                                                                            href="<?php echo $dashboardFolder; ?>/order_history.php">
-                                                                                My Bookings
-                                                                            </a>
-                                                                        </li>
+                                                                        <?php if (in_array($userType,[10,11,16,29])) {?>
+                                                                            <!-- My Bookings -->
+                                                                            <li class="d-flex">
+                                                                                <i class="ri-calendar-line align-content-center stickyTextBlack"></i>
+                                                                                <a class="dropdown-item stickyTextBlack"
+                                                                                href="<?php echo $dashboardFolder; ?>/order_history.php">
+                                                                                    My Bookings
+                                                                                </a>
+                                                                            </li>
+                                                                        <?php } ?>
 
 
                                                                         <!-- My Profile -->
@@ -424,21 +425,21 @@
                             <div class="dropdown me-2">
                                 <div class="profilePic mobileProfile1" data-bs-toggle="dropdown" aria-expanded="false">
                                     <!-- <img src="uploading/<?= $_SESSION['profile_pic'] ?>" alt=""> -->
-                                    <?php if (!empty($profile_pic)): ?>
+                                    <?php if (!empty($_SESSION['profile_pic'])): ?>
 
                                         <img
-                                            src="<?= htmlspecialchars($profile_pic) ?>"
+                                            src="uploading/<?= htmlspecialchars($_SESSION['profile_pic']) ?>"
                                             class="user-avatar"
-                                            alt="<?= htmlspecialchars($firstname . ' ' . $lastname) ?>"
+                                            alt=""
                                         >
 
                                     <?php else: ?>
 
                                         <div
                                             class="user-avatar initials-avatar"
-                                            style="background-color: <?= htmlspecialchars($avatarColor) ?>;"
+                                            style="background-color: <?= htmlspecialchars($_SESSION['avatar_color']) ?>;"
                                         >
-                                            <?= htmlspecialchars($initials) ?>
+                                            <?= htmlspecialchars($_SESSION['initials']) ?>
                                         </div>
 
                                     <?php endif; ?>
@@ -457,7 +458,7 @@
                                             $dashboardLink = "dashboard/";
                                             $dashboardFolder = "dashboard";
                                             if ($userType == "10") {
-                                                if ($_SESSION['customer_type'] == 'Neo Select') {
+                                                if ($_SESSION['customer_type'] == 'Neo Select' || $_SESSION['customer_type'] == 'Premium') {
                                                     $dashboardLink = "dashboard/customer_dashboard/customer_dashboard.php";
                                                     $dashboardFolder = "dashboard/customer_dashboard";
                                                 }else{
@@ -547,19 +548,20 @@
                                             Dashboard
                                         </a>
                                     </li>
-
-                                    <!-- My Bookings -->
-                                    <li class="d-flex">
-                                        <i class="ri-calendar-line align-content-center stickyTextBlack"></i>
-                                        <a class="dropdown-item stickyTextBlack" href="<?php echo $orderDetailsLink; ?>">
-                                            My Bookings
-                                        </a>
-                                    </li>
+                                    <?php if (in_array($userType,[10,11,16,29])) {?>
+                                        <!-- My Bookings -->
+                                        <li class="d-flex">
+                                            <i class="ri-calendar-line align-content-center stickyTextBlack"></i>
+                                            <a class="dropdown-item stickyTextBlack" href="<?php echo $dashboardFolder; ?>/order_history.php">
+                                                My Bookings
+                                            </a>
+                                        </li>
+                                    <?php } ?>
 
                                     <!-- My Profile -->
                                     <li class="d-flex">
                                         <i class="ri-user-line align-content-center stickyTextBlack"></i>
-                                        <a class="dropdown-item stickyTextBlack" href="<?php echo $profileLink; ?>">
+                                        <a class="dropdown-item stickyTextBlack" href="<?php echo $dashboardFolder; ?>/profile.php">
                                             My Profile
                                         </a>
                                     </li>

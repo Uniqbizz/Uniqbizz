@@ -4,13 +4,16 @@
 
     header('Content-Type: application/json');
 
-    try {
+$currentYear = date('Y');
 
-        $currentMonth = date('m');
-        $currentYear  = date('Y');
+$selectedYear = isset($_POST['selectedYear'])
+    ? (int)$_POST['selectedYear']
+    : $currentYear;
 
-        $previousMonth = date('m', strtotime('-1 month'));
-        $previousYear  = date('Y', strtotime('-1 month'));
+try {
+
+    $currentYear = $selectedYear;
+    $previousYear = $selectedYear - 1;
 
         /*
         |--------------------------------------------------------------------------
@@ -28,7 +31,6 @@
                         SELECT COALESCE(SUM(ste_amount),0)
                         FROM techno_enterprise_payout
                         WHERE ste_id = :user_id
-                        AND MONTH(created_date)=:current_month
                         AND YEAR(created_date)=:current_year
                     )
                     +
@@ -36,7 +38,6 @@
                         SELECT COALESCE(SUM(commission_mf),0)
                         FROM sub_franchisee_payout
                         WHERE master_franchisee = :user_id
-                        AND MONTH(created_date)=:current_month
                         AND YEAR(created_date)=:current_year
                     )
                 ) AS recruitment,
@@ -46,7 +47,6 @@
                     SELECT COALESCE(SUM(commision_bm),0)
                     FROM ca_cu_payout
                     WHERE business_mentor = :user_id
-                    AND MONTH(created_date)=:current_month
                     AND YEAR(created_date)=:current_year
                 ) AS neo_select,
 
@@ -55,7 +55,6 @@
                     SELECT COALESCE(SUM(bm_amt),0)
                     FROM product_payout
                     WHERE bm_id = :user_id
-                    AND MONTH(created_date)=:current_month
                     AND YEAR(created_date)=:current_year
                 ) AS booking
 
@@ -63,7 +62,6 @@
 
         $sql->execute([
             ':user_id'       => $userId,
-            ':current_month' => $currentMonth,
             ':current_year'  => $currentYear
         ]);
 
@@ -86,7 +84,6 @@
                         SELECT COALESCE(SUM(ste_amount),0)
                         FROM techno_enterprise_payout
                         WHERE ste_id = :user_id
-                        AND MONTH(created_date)=:prev_month
                         AND YEAR(created_date)=:prev_year
                     )
                     +
@@ -94,7 +91,6 @@
                         SELECT COALESCE(SUM(commission_mf),0)
                         FROM sub_franchisee_payout
                         WHERE master_franchisee = :user_id
-                        AND MONTH(created_date)=:prev_month
                         AND YEAR(created_date)=:prev_year
                     )
                 ) AS recruitment,
@@ -103,7 +99,6 @@
                     SELECT COALESCE(SUM(commision_bm),0)
                     FROM ca_cu_payout
                     WHERE business_mentor = :user_id
-                    AND MONTH(created_date)=:prev_month
                     AND YEAR(created_date)=:prev_year
                 ) AS neo_select,
 
@@ -111,7 +106,6 @@
                     SELECT COALESCE(SUM(bm_amt),0)
                     FROM product_payout
                     WHERE bm_id = :user_id
-                    AND MONTH(created_date)=:prev_month
                     AND YEAR(created_date)=:prev_year
                 ) AS booking
 
@@ -119,7 +113,6 @@
 
         $sqlPrev->execute([
             ':user_id'    => $userId,
-            ':prev_month' => $previousMonth,
             ':prev_year'  => $previousYear
         ]);
 
@@ -216,9 +209,12 @@
                 'total_earnings' => $currentTotal,
 
                 'month_comparison' => [
+                    // Keeping these keys unchanged so your JS doesn't need modification.
                     'current_month' => $currentTotal,
                     'previous_month' => $previousTotal,
-                    'growth_percentage' => $growth
+                    'growth_percentage' => $growth,
+                    'current_year' => $currentYear,
+                    'previous_year' => $previousYear
                 ]
 
             ]

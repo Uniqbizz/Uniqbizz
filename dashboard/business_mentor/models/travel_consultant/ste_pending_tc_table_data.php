@@ -20,6 +20,7 @@
                     ta.added_on,
                     ta.status,
                     ta.user_type,
+                    DATE_FORMAT(ta.deleted_date, '%d %b %Y') AS deleted_date,
                     ca.corporate_agency_id AS reference_id,
                     ca.firstname AS ref_firstname,
                     ca.lastname AS ref_lastname
@@ -33,6 +34,30 @@
                 AND ta.status IN (0,4,2)
                 
                 UNION ALL
+                SELECT
+                    ta.id,
+                    ta.ca_travelagency_id AS ca_travelagency_id,
+                    ta.firstname,
+                    ta.lastname,
+                    ta.contact_no,
+                    ta.email,
+                    ta.added_on,
+                    ta.status,
+                    ta.user_type,
+                    DATE_FORMAT(ta.deleted_date, '%d %b %Y') AS deleted_date,
+                    ca.business_mentor_id AS reference_id,
+                    ca.firstname AS ref_firstname,
+                    ca.lastname AS ref_lastname
+
+                FROM ca_travelagency ta
+
+                INNER JOIN business_mentor ca
+                    ON ta.reference_no = ca.business_mentor_id
+
+                WHERE ca.business_mentor_id = :user_id
+                AND ta.status IN (0,4,2)
+
+                UNION ALL
 
                 SELECT
                     ta.id,
@@ -44,6 +69,7 @@
                     ta.added_on,
                     ta.status,
                     ta.user_type,
+                    DATE_FORMAT(ta.deleted_date, '%d %b %Y') AS deleted_date,
                     ca.sub_franchisee_id AS reference_id,
                     ca.firstname AS ref_firstname,
                     ca.lastname AS ref_lastname
@@ -68,6 +94,7 @@
                     ta.added_on,
                     ta.status,
                     ta.user_type,
+                    DATE_FORMAT(ta.deleted_date, '%d %b %Y') AS deleted_date,
                     ca.business_mentor_id AS reference_id,
                     ca.firstname AS ref_firstname,
                     ca.lastname AS ref_lastname
@@ -92,9 +119,10 @@
                     ta.added_on,
                     ta.status,
                     ta.user_type,
+                    DATE_FORMAT(ta.deleted_date, '%d %b %Y') AS deleted_date,
                     ca.institution_id AS reference_id,
-                    ca.firstname AS ref_firstname,
-                    ca.lastname AS ref_lastname
+                    ca.name AS ref_firstname,
+                    '' AS ref_lastname
 
                 FROM institution_branch_manager ta
 

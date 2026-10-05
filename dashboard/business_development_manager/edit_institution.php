@@ -545,15 +545,15 @@
                                     <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                         <div class="upload-card"
                                             data-title="Certificate of Incorporation"
-                                            data-index="11"
+                                            data-index="14"
                                             data-folder="certificate_of_incorporation"
                                             data-existing="<?= htmlspecialchars($certificate_of_incorporation ?? '') ?>">
 
-                                            <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file11">
+                                            <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file14">
 
                                             <input type="hidden"
-                                                id="img_path11"
-                                                name="img_path11"
+                                                id="img_path14"
+                                                name="img_path14"
                                                 value="<?= htmlspecialchars($certificate_of_incorporation ?? '') ?>">
 
                                             <div class="upload-content">
@@ -571,15 +571,15 @@
                                     <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                         <div class="upload-card"
                                             data-title="GSTIN"
-                                            data-index="12"
+                                            data-index="15"
                                             data-folder="gstin"
                                             data-existing="<?= htmlspecialchars($gstin ?? '') ?>">
 
-                                            <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file12">
+                                            <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file15">
 
                                             <input type="hidden"
-                                                id="img_path12"
-                                                name="img_path12"
+                                                id="img_path15"
+                                                name="img_path15"
                                                 value="<?= htmlspecialchars($gstin ?? '') ?>">
 
                                             <div class="upload-content">
@@ -597,15 +597,15 @@
                                     <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                         <div class="upload-card"
                                             data-title="Board Resolution"
-                                            data-index="13"
+                                            data-index="16"
                                             data-folder="board_resolution"
                                             data-existing="<?= htmlspecialchars($board_resolution ?? '') ?>">
 
-                                            <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file13">
+                                            <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file16">
 
                                             <input type="hidden"
-                                                id="img_path13"
-                                                name="img_path13"
+                                                id="img_path16"
+                                                name="img_path16"
                                                 value="<?= htmlspecialchars($board_resolution ?? '') ?>">
 
                                             <div class="upload-content">
@@ -701,15 +701,15 @@
                                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 " id="payProof">
                                         <div class="upload-card"
                                             data-title="Payment Proof"
-                                            data-index="14"
+                                            data-index="12"
                                             data-folder="payment"
                                             data-existing="<?= htmlspecialchars($payment_proof ?? '') ?>">
 
-                                            <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file14">
+                                            <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file12">
 
                                             <input type="hidden"
-                                                id="img_path14"
-                                                name="img_path14"
+                                                id="img_path12"
+                                                name="img_path12"
                                                 value="<?= htmlspecialchars($payment_proof ?? '') ?>">
 
                                             <div class="upload-content">
@@ -750,7 +750,7 @@
                 <!-- container-fluid -->
                 </div>
                 <!-- End Page-content -->
-                <?php include_once "../footer.php" ?>
+                <?php include_once "business_development_manager_footer.php" ?>
             </div>
             <!-- end main content-->
 

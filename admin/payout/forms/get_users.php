@@ -61,6 +61,21 @@ if ($table == 'bcm' || $table == 'bdm') {
         $id_field = 'ca_travelagency_id';
         $name_field = 'firstname';
         $label = '--Select Travel Agency ID & Name--';
+    }else if ($table == "cte") {
+        $user = $conn->prepare("SELECT * FROM chief_techno_enterprise WHERE status = '1' ORDER BY chief_techno_enterprise_id");
+        $id_field = 'chief_techno_enterprise_id';
+        $name_field = 'firstname';
+        $label = '--Select Chief Techno Enterprise ID & Name--';
+    }else if ($table == "ete") {
+        $user = $conn->prepare("SELECT * FROM executive_techno_enterprise WHERE status = '1' ORDER BY executive_techno_enterprise_id");
+        $id_field = 'executive_techno_enterprise_id';
+        $name_field = 'firstname';
+        $label = '--Select Executive Techno Enterprise ID & Name--';
+    }else if ($table == "ste") {
+        $user = $conn->prepare("SELECT * FROM super_techno_enterprise WHERE status = '1' ORDER BY super_techno_enterprise_id");
+        $id_field = 'super_techno_enterprise_id';
+        $name_field = 'firstname';
+        $label = '--Select Super Techno Enterprise ID & Name--';
     }
 }
 

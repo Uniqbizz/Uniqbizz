@@ -41,6 +41,15 @@
                     AND ta.status IN (1,3)
                     AND ca.status IN (1,3)
                 )
+                    +
+                (
+                    SELECT COUNT(*)
+                    FROM ca_travelagency ta
+                    INNER JOIN business_mentor ca
+                        ON ta.reference_no = ca.business_mentor_id
+                    WHERE ca.business_mentor_id = :user_id
+                    AND ta.status IN (1,3)
+                )
             ) AS tc_count,
             (
                 SELECT COUNT(*)

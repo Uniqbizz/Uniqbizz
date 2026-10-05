@@ -206,9 +206,21 @@
                                                             FROM sub_franchisee f
                                                             LEFT JOIN sub_franchisee_upgrade su 
                                                                 ON su.sub_franchisee_id = f.sub_franchisee_id
+                                                                AND su.upgrade_status=0
                                                             WHERE 
                                                                 f.status = 1 
                                                                 AND f.upgrade_status = 1 
+                                                            UNION ALL 
+                                                            SELECT 'te' AS user_type, f.corporate_agency_id AS id, f.firstname, f.lastname, f.reference_no, f.registrant, f.country_code, 
+                                                            f.contact_no, f.email, f.amount, f.date_of_birth, f.added_on, f.status, f.register_by, f.country, f.state, f.city, f.upgrade_status AS upgrade_status_val,
+                                                            su.id AS upgrade_id
+                                                            FROM corporate_agency f
+                                                            LEFT JOIN techno_enterprise_upgrade su 
+                                                                ON su.techno_enterprise_id = f.corporate_agency_id
+                                                                AND su.upgrade_status=0
+                                                            WHERE 
+                                                                f.status = 1 
+                                                                AND f.upgrade_status = 1
                                                             ORDER BY added_on ASC
                                                         ";
 
@@ -400,7 +412,7 @@
                                                 <tbody>
                                                     <?php
                                                         $sql = "
-                                                            SELECT 'te' AS user_type, id, corporate_agency_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status,'NA' as upgrade_pack 
+                                                            SELECT 'te' AS user_type, id, corporate_agency_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status,upgrade_status as upgrade_pack 
                                                             FROM corporate_agency 
                                                             WHERE status IN ('1') 
                                                             UNION ALL 
@@ -465,8 +477,8 @@
                                                                             <p class="mb-0">' . $row['email'] . '</p>
                                                                         </td>';
                                                                 if($row["upgrade_pack"] == 2){
-                                                                    $upgradeTable = $row['user_type'] == 'sf' ? 'sub_franchisee_upgrade' : ($row['user_type'] == 'in' ? 'institution_upgrade' : '');
-                                                                    $upgradeTableId = $row['user_type'] == 'sf' ? 'sub_franchisee_id' : ($row['user_type'] == 'in' ? 'institution_id' : '');
+                                                                    $upgradeTable = $row['user_type'] == 'sf' ? 'sub_franchisee_upgrade' : ($row['user_type'] == 'in' ? 'institution_upgrade' : ($row['user_type'] == 'te' ? 'techno_enterprise_upgrade' : ''));
+                                                                    $upgradeTableId = $row['user_type'] == 'sf' ? 'sub_franchisee_id' : ($row['user_type'] == 'in' ? 'institution_id' : ($row['user_type'] == 'te' ? 'techno_enterprise_id' : ''));
                                                                     $sql2 = "SELECT upgrade_amt 
                                                                             FROM $upgradeTable 
                                                                             WHERE $upgradeTableId = :id and upgrade_status=1 ORDER BY id DESC limit 1";
@@ -497,8 +509,8 @@
                                                                                 </a>
                                                                                 <ul class="dropdown-menu">
                                                                                     <li><a href="#" onclick=\'overviewPage("' . $row["user_id"] . '","' .$row["reference_no"] . '","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .(strtolower($row['user_type']) == 'sf' ? 'sub_franchisee' : (strtolower($row['user_type']) == 'te' ? 'corporate_agency' :  (strtolower($row['user_type']) == 'in' ? 'institution' : ''))) .'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>';
-                                                                                    if($row['user_type'] == 'sf' || $row['user_type'] == 'in'){
-                                                                                        echo'<li><a href="#" onclick=\'upgradePage("' . $row["user_id"] . '","' .$row["reference_no"] . '")\'  class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-arrow-up-bold text-success me-1"></i> '.($row['user_type'] == 'sf' ? 'Upgrade Franchisee' : ($row['user_type'] == 'in' ? 'Upgrade Institution' : '')) .' </a></li>';
+                                                                                    if($row['user_type'] == 'sf' || $row['user_type'] == 'in' || $row['user_type'] == 'te'){
+                                                                                        echo'<li><a href="#" onclick=\'upgradePage("' . $row["user_id"] . '","' .$row["reference_no"] . '")\'  class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-arrow-up-bold text-success me-1"></i> '.($row['user_type'] == 'sf' ? 'Upgrade Franchisee' : ($row['user_type'] == 'in' ? 'Upgrade Institution' : ($row['user_type'] == 'te' ? 'Upgrade Techno Enterprise':''))) .' </a></li>';
                                                                                     }
                                                                                     if ($row['user_type'] == 'te' && $row["tc_assign_status"] == 2) {
                                                                                         echo '<li>

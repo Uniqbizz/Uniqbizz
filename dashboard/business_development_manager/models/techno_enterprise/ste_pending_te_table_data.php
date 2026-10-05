@@ -18,6 +18,7 @@
                 ca.status,
                 ca.user_type,
                 'TE' AS userTypeStr,
+                DATE_FORMAT(ca.deleted_date, '%d %b %Y') AS deleted_date,
                 bm.name AS ref_firstname,
                 '' AS ref_lastname,
                 bm.employee_id AS reference_id,
@@ -40,6 +41,7 @@
                 ca.added_on,
                 ca.status,
                 ca.user_type,
+                DATE_FORMAT(ca.deleted_date, '%d %b %Y') AS deleted_date,
                 'F' AS userTypeStr,
                 bm.firstname AS ref_firstname,
                 bm.lastname AS ref_lastname,
@@ -64,6 +66,7 @@
                 sf.added_on,
                 sf.status,
                 sf.user_type,
+                DATE_FORMAT(sf.deleted_date, '%d %b %Y') AS deleted_date,
                 'F' AS userTypeStr,
                 ste.firstname AS ref_firstname,
                 ste.lastname AS ref_lastname,
@@ -88,6 +91,7 @@
                 sf.added_on,
                 sf.status,
                 sf.user_type,
+                DATE_FORMAT(sf.deleted_date, '%d %b %Y') AS deleted_date,
                 'F' AS userTypeStr,
                 bm.name AS ref_firstname,
                 '' AS ref_lastname,
@@ -96,7 +100,7 @@
             FROM sub_franchisee sf
             INNER JOIN employees bm
                 ON sf.reference_no = bm.employee_id
-            WHERE bm.reference_no = :user_id
+            WHERE sf.reference_no = :user_id
             AND sf.status IN (0,2,4)
             AND bm.status IN (1,3)
 

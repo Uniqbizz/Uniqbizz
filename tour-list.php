@@ -1771,6 +1771,8 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                         $("#all-tour-container").html(''); // ✅ clear old content to avoid duplicate IDs
                         $("#all-tour-container").html(response); // ✅ insert fresh HTML
                         $("html, body").animate({ scrollTop: $("#all-tour-container").offset().top - 100 }, "slow");
+                        //retain wishlist state
+                        loadWishlistHeartState();
                     },
                     error: function(xhr, status, error) {
                         console.error("AJAX Error:", error);
@@ -2077,6 +2079,9 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                     tourType,
                     viewType
                 );
+                
+                // console.log('wishlist');
+                
             }
             $(document).ready(function () {
 

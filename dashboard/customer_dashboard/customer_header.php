@@ -3,6 +3,12 @@
     include (__DIR__ .'/customer_mapping.php');
     include (__DIR__.'/urls.php');
     include_once(__DIR__ . '/../dashboard_user_details.php');
+    $wallet_balance=0;
+    if ($customer['customer_type'] == 'Neo Select'){
+        $wallet_balance=(($refWalletData['ref_total_earning'] ?? '0') + ($refWalletCurBalData['ref_booking_total'] ?? '0' ) + ($disWalletData['balance'] ?? '0'));
+    }elseif ($customer['customer_type'] == 'Premium') {
+        $wallet_balance=$totalReferralAmount;
+    }
 ?>
 <header id="page-topbar" class="rounded-4" style="left: 0 !important;">
     <div class="layout-width">
@@ -118,7 +124,7 @@
                             <i class="bx bx-wallet walletIcon"></i> 
                             <p class="mb-0">
                                 Wallet Balance <br>
-                                <span class="walletAmount">₹<?= (($refWalletData['ref_total_earning'] ?? '0') + ($refWalletCurBalData['ref_booking_total'] ?? '0' ) + ($disWalletData['balance'] ?? '0')) ?></span>
+                                <span class="walletAmount">₹<?= $wallet_balance ?></span>
                             </p>
                         </div>
                     </a>
@@ -294,12 +300,17 @@
                                     <i class="bx bx-wallet walletIcon"></i>
                                     <p class="mb-0">
                                         Wallet Balance <br>
-                                        <span class="walletAmount">&#8377; 3,200</span>
+                                        <span class="walletAmount">&#8377; <?= $wallet_balance ?></span>
                                     </p>
                                 </div>
                             </a>
                         </div>
                         <a class="dropdown-item" href="<?= $base_url_cust ?>profile.php"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
+                        <button type="button" class="dropdown-item stickyTextBlack" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas" aria-controls="wishlistOffcanvas">
+                            <i class="ri-heart-line align-content-center stickyTextBlack"></i>
+                            My Wishlist
+                            <span class="wishlistCount ms-1">0</span>
+                        </button>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="<?= $base_url ?>logout.php" class="mylogout"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
                     </div>
@@ -308,3 +319,15 @@
         </div>
     </div>
 </header>
+<?php include __DIR__ . '/../../wishlist_offcanvas.php'; ?>
+<?php
+
+$isLoggedIn = !empty($_SESSION['username2']);
+
+?>
+<script>
+    const isWishlistUserLoggedIn =<?= $isLoggedIn ? 'true' : 'false' ?>;
+    const base_url_cust = <?= json_encode($base_url_cust) ?>;
+    const home_url = <?= json_encode($home_url) ?>;
+</script>
+<script src="<?= $base_url_cust ?>js/wishlist.js"></script>

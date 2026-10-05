@@ -371,7 +371,7 @@
                 sortValue = $(".sort-options").val();
                 minDuration = $("#slider-range-duration").slider("values", 0);
                 maxDuration = $("#slider-range-duration").slider("values", 1);
-                selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
+                selectedDestination = $(".destination-dropdown").find("option:selected").data("description") ?? null;
                 tourType = getTourType();
                 listBtnVal = document.getElementById("all-tour-list");
                 gridBtnVal = document.getElementById("all-tour-grid");
@@ -383,7 +383,7 @@
                     viewType = 2; // grid view
                 }
     
-                fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription,tourType,viewType);
+                fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDestination,tourType,viewType);
             }
         });
     
@@ -409,7 +409,7 @@
                 priceRange = $("#amount").val();
                 prices = extractPrices(priceRange);
                 sortValue = $(".sort-options").val();
-                selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
+                selectedDestination = $(".destination-dropdown").find("option:selected").data("description") ?? null;
                 tourType = getTourType();
                 listBtnVal = document.getElementById("all-tour-list");
                 gridBtnVal = document.getElementById("all-tour-grid");
@@ -421,7 +421,7 @@
                     viewType = 2; // grid view
                 }
     
-                fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, ui.values[0], ui.values[1], selectedDescription,tourType,viewType);
+                fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, ui.values[0], ui.values[1], selectedDestination,tourType,viewType);
             }
         });
     

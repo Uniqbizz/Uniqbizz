@@ -3,8 +3,8 @@
 
     header('Content-Type: application/json');
 
-    $id = $_GET['id'] ?? '';
-    $edittype = $_GET['edittype'] ?? '';
+    $id = $_POST['id'] ?? '';
+    $edittype = $_POST['edittype'] ?? '';
 
     if (empty($id) || empty($edittype)) {
         echo json_encode([
@@ -250,7 +250,7 @@
             'career_objective' => $career_objective,
             'team_expected' => $team_expected,
             'operating_region' => $operating_region,
-            'operating_region_name' => $statenameLeader,
+            'operating_region_name' => $statenameLeader??'',
 
             // Nominee
             'nominee_name' => $nominee_name,
