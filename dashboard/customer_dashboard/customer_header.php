@@ -300,7 +300,7 @@
                                     <i class="bx bx-wallet walletIcon"></i>
                                     <p class="mb-0">
                                         Wallet Balance <br>
-                                        <span class="walletAmount">&#8377; 0</span>
+                                        <span class="walletAmount">&#8377; <?= $wallet_balance ?></span>
                                     </p>
                                 </div>
                             </a>
