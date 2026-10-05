@@ -3,6 +3,12 @@
 
     $sqlCust->execute([$userId]);
     $customer = $sqlCust->fetch(PDO::FETCH_ASSOC);
+    //added on 05-10-2026 for premium customer by SV
+    $registeredDate = new DateTime($customer['register_date']);
+    $currentDate    = new DateTime();
+    
+    $years_completed = $registeredDate->diff($currentDate)->y;
+    //added on 05-10-2026 for premium customer by SV
     //coupons
     $sqlCoupons = $conn->prepare("
         SELECT 
@@ -369,5 +375,97 @@
     $stmt->execute();
 
     $upcomingTrips = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    //added on 05-10-2026 for premium customer by SV
+    $sqltripcount = "
+        SELECT
+            COUNT(
+                CASE
+                    WHEN DATE(b.date) >= :today_upcoming
+                        AND b.status = 1
+                        AND b.confirm_status = 1
+                    THEN 1
+                END
+            ) AS upcoming_trips,
+
+            COUNT(
+                CASE
+                    WHEN DATE_ADD(
+                            DATE(b.date),
+                            INTERVAL (p.tour_days - 1) DAY
+                        ) < :today_completed
+                        AND b.status = 1
+                        AND b.confirm_status = 1
+                    THEN 1
+                END
+            ) AS completed_trips
+
+        FROM bookings b
+
+        LEFT JOIN package p
+            ON p.id = b.package_id
+
+        WHERE b.customer_id = :userId
+    ";
+
+    $stmttripcount = $conn->prepare($sqltripcount);
+
+    $stmttripcount->bindValue(':userId', $userId);
+    $stmttripcount->bindValue(':today_upcoming', $today);
+    $stmttripcount->bindValue(':today_completed', $today);
+
+    $stmttripcount->execute();
+
+    $tripCounts = $stmttripcount->fetch(PDO::FETCH_ASSOC);
+
+    $upcomingTripsCount  = (int) $tripCounts['upcoming_trips'];
+    $completedTripsCount = (int) $tripCounts['completed_trips'];
+
+    //customer total booking points
+    $sqlRefTotal = $conn->prepare("
+        SELECT 
+            COALESCE(SUM(booking_points), 0) AS total_booking_points
+        FROM customer_reference_payout
+        WHERE customer_id = :user_id
+    ");
+
+    $sqlRefTotal->execute([
+        ":user_id" => $userId
+    ]);
+
+    $refBookingTotal = $sqlRefTotal->fetch(PDO::FETCH_ASSOC);
+
+    // ACCESS VALUE
+    $totalReferralBookingPoints =
+        $refBookingTotal['total_booking_points'];
+
+    //customer total pending ref amount
+    $sqlRefTotal = $conn->prepare("
+        SELECT 
+            COALESCE(
+                SUM(
+                    CASE 
+                        WHEN status = 2 
+                        THEN referral_amount 
+                        ELSE 0 
+                    END
+                ), 
+                0
+            ) AS pending_referral_earning
+
+        FROM customer_reference_payout
+
+        WHERE customer_id = :user_id
+    ");
+
+    $sqlRefTotal->execute([
+        ':user_id' => $userId
+    ]);
+
+    $refTotal = $sqlRefTotal->fetch(PDO::FETCH_ASSOC);
+
+    // ACCESS VALUES
+    $pendingReferralAmount = (float) $refTotal['pending_referral_earning'];
+    //added on 05-10-2026 for premium customer by SV
     
 ?>

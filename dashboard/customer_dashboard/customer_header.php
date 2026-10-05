@@ -3,6 +3,12 @@
     include (__DIR__ .'/customer_mapping.php');
     include (__DIR__.'/urls.php');
     include_once(__DIR__ . '/../dashboard_user_details.php');
+    $wallet_balance=0;
+    if ($customer['customer_type'] == 'Neo Select'){
+        $wallet_balance=(($refWalletData['ref_total_earning'] ?? '0') + ($refWalletCurBalData['ref_booking_total'] ?? '0' ) + ($disWalletData['balance'] ?? '0'));
+    }elseif ($customer['customer_type'] == 'Premium') {
+        $wallet_balance=$totalReferralAmount;
+    }
 ?>
 <header id="page-topbar" class="rounded-4" style="left: 0 !important;">
     <div class="layout-width">
@@ -118,7 +124,7 @@
                             <i class="bx bx-wallet walletIcon"></i> 
                             <p class="mb-0">
                                 Wallet Balance <br>
-                                <span class="walletAmount">₹<?= (($refWalletData['ref_total_earning'] ?? '0') + ($refWalletCurBalData['ref_booking_total'] ?? '0' ) + ($disWalletData['balance'] ?? '0')) ?></span>
+                                <span class="walletAmount">₹<?= $wallet_balance ?></span>
                             </p>
                         </div>
                     </a>
@@ -294,7 +300,7 @@
                                     <i class="bx bx-wallet walletIcon"></i>
                                     <p class="mb-0">
                                         Wallet Balance <br>
-                                        <span class="walletAmount">&#8377; 3,200</span>
+                                        <span class="walletAmount">&#8377; 0</span>
                                     </p>
                                 </div>
                             </a>
