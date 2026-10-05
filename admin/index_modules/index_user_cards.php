@@ -349,13 +349,13 @@
                         <div class="flex-grow-1 ps-2">
                             <p class="text-muted fw-medium">Chief Techno Enterprise</p>
                             <?php
-                                $stmt = $conn->prepare("SELECT count(ca_travelagency_id) as totalca_travelagency FROM ca_travelagency where user_type='11' and status='1' ");
+                                $stmt = $conn->prepare("SELECT count(chief_techno_enterprise_id) as totalchief_techno_enterprise FROM chief_techno_enterprise where user_type='36' and status='1' ");
                                 $stmt->execute();
                                 $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                 if ($stmt->rowCount() > 0) {
                                     foreach (($stmt->fetchAll()) as $key => $row) {
-                                        $totalca_travelagency = $row['totalca_travelagency'];
-                                        echo '<h3 class="mb-0 text-dark">'.$totalca_travelagency.'</h3>';
+                                        $totalchief_techno_enterprise = $row['totalchief_techno_enterprise'];
+                                        echo '<h3 class="mb-0 text-dark">'.$totalchief_techno_enterprise.'</h3>';
                                     }
                                 } else {
                                     echo '<h3 class="mb-0 text-dark">0</h3>';
@@ -382,21 +382,18 @@
                         </div>
                         <div class="flex-grow-1 ps-2">
                             <p class="text-muted fw-medium">Executive Techno Enterprise</p>
-                            <?php
-                                $stmt = $conn->prepare("
-                                    SELECT 
-                                        (SELECT COUNT(business_mentor_id) FROM business_mentor WHERE user_type='26' AND status='1') +
-                                        (SELECT COUNT(master_franchisee_id) FROM master_franchisee WHERE user_type='28' AND status='1') +
-                                        (SELECT COUNT(sponsor_franchisee_id) FROM sponsor_franchisee WHERE user_type='30' AND status='1')
-                                    AS total_users
-                                ");
-
+                             <?php
+                                $stmt = $conn->prepare("SELECT count(executive_techno_enterprise_id) as totalexecutive_techno_enterprise FROM executive_techno_enterprise where user_type='34' and status='1' ");
                                 $stmt->execute();
-                                $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                                $total_users = $row['total_users'] ?? 0;
-
-                                echo '<h3 class="mb-0 text-dark">'.$total_users.'</h3>';
+                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                if ($stmt->rowCount() > 0) {
+                                    foreach (($stmt->fetchAll()) as $key => $row) {
+                                        $totalexecutive_techno_enterprise = $row['totalexecutive_techno_enterprise'];
+                                        echo '<h3 class="mb-0 text-dark">'.$totalexecutive_techno_enterprise.'</h3>';
+                                    }
+                                } else {
+                                    echo '<h3 class="mb-0 text-dark">0</h3>';
+                                }
                             ?>
                         </div>
                     </div>
@@ -419,21 +416,18 @@
                         </div>
                         <div class="flex-grow-1 ps-2">
                             <p class="text-muted fw-medium">Super Techno Enterprise</p>
-                            <?php
-                                $stmt = $conn->prepare("
-                                    SELECT 
-                                        (SELECT COUNT(business_mentor_id) FROM business_mentor WHERE user_type='26' AND status='1') +
-                                        (SELECT COUNT(master_franchisee_id) FROM master_franchisee WHERE user_type='28' AND status='1') +
-                                        (SELECT COUNT(sponsor_franchisee_id) FROM sponsor_franchisee WHERE user_type='30' AND status='1')
-                                    AS total_users
-                                ");
-
+                             <?php
+                                $stmt = $conn->prepare("SELECT count(super_techno_enterprise_id) as totalsuper_techno_enterprise FROM super_techno_enterprise where user_type='35' and status='1' ");
                                 $stmt->execute();
-                                $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                                $total_users = $row['total_users'] ?? 0;
-
-                                echo '<h3 class="mb-0 text-dark">'.$total_users.'</h3>';
+                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                if ($stmt->rowCount() > 0) {
+                                    foreach (($stmt->fetchAll()) as $key => $row) {
+                                        $totalsuper_techno_enterprise = $row['totalsuper_techno_enterprise'];
+                                        echo '<h3 class="mb-0 text-dark">'.$totalsuper_techno_enterprise.'</h3>';
+                                    }
+                                } else {
+                                    echo '<h3 class="mb-0 text-dark">0</h3>';
+                                }
                             ?>
                         </div>
                     </div>
@@ -456,21 +450,18 @@
                         </div>
                         <div class="flex-grow-1 ps-2">
                             <p class="text-muted fw-medium">Institution Branch Manager</p>
-                            <?php
-                                $stmt = $conn->prepare("
-                                    SELECT 
-                                        (SELECT COUNT(business_mentor_id) FROM business_mentor WHERE user_type='26' AND status='1') +
-                                        (SELECT COUNT(master_franchisee_id) FROM master_franchisee WHERE user_type='28' AND status='1') +
-                                        (SELECT COUNT(sponsor_franchisee_id) FROM sponsor_franchisee WHERE user_type='30' AND status='1')
-                                    AS total_users
-                                ");
-
+                             <?php
+                                $stmt = $conn->prepare("SELECT count(institution_branch_manager_id) as totalinstitution_branch_manager FROM institution_branch_manager where user_type='33' and status='1' ");
                                 $stmt->execute();
-                                $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                                $total_users = $row['total_users'] ?? 0;
-
-                                echo '<h3 class="mb-0 text-dark">'.$total_users.'</h3>';
+                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                if ($stmt->rowCount() > 0) {
+                                    foreach (($stmt->fetchAll()) as $key => $row) {
+                                        $totalinstitution_branch_manager = $row['totalinstitution_branch_manager'];
+                                        echo '<h3 class="mb-0 text-dark">'.$totalinstitution_branch_manager.'</h3>';
+                                    }
+                                } else {
+                                    echo '<h3 class="mb-0 text-dark">0</h3>';
+                                }
                             ?>
                         </div>
                     </div>

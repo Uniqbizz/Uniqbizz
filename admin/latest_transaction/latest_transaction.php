@@ -89,6 +89,7 @@
                                                     $SrNo = 1;
                                                     $sql1 ="SELECT corporate_agency_id as id, firstname, lastname, profile_pic, register_date as date, user_type, amount, payment_mode, status FROM corporate_agency UNION ALL 
                                                             SELECT ca_travelagency_id as id, firstname, lastname, profile_pic, register_date as date, user_type, amount, payment_mode, status FROM ca_travelagency UNION ALL 
+                                                            SELECT ca_customer_id as id, firstname, lastname, profile_pic, register_date as date, user_type, paid_amount as amount, payment_mode, status FROM ca_customer UNION ALL 
                                                             SELECT sub_franchisee_id as id, firstname, lastname, profile_pic, register_date as date, user_type, amount as amount, payment_mode, status FROM sub_franchisee UNION ALL
                                                             SELECT master_franchisee_id as id, firstname, lastname, profile_pic, register_date as date, user_type, paid_amount as amount, payment_mode, status FROM master_franchisee UNION ALL
                                                             SELECT sponsor_franchisee_id as id, firstname, lastname, profile_pic, register_date as date, user_type, paid_amount as amount, payment_mode, status FROM sponsor_franchisee 
@@ -104,9 +105,11 @@
                                                                 $designation = "Franchisee";
                                                             } else if ($row['user_type'] == "11") {
                                                                 $designation = "Travel Consultant";
-                                                            }else if ($row['user_type'] == "28") {
+                                                            } else if ($row['user_type'] == "10") {
+                                                                $designation = "Customer";
+                                                            } else if ($row['user_type'] == "28") {
                                                                 $designation = "Master Franchisee";
-                                                            }else if ($row['user_type'] == "30") {
+                                                            } else if ($row['user_type'] == "30") {
                                                                 $designation = "Sponsor Franchisee";
                                                             }
                                                             $rd= new DateTime($row['date']);

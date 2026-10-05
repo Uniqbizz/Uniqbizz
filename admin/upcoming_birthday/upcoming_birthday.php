@@ -88,6 +88,46 @@
                                                     $SrNo = 1;
                                                     $stmt = $conn->prepare("SELECT *
                                                         FROM (
+
+                                                            SELECT 
+                                                                cte.chief_techno_enterprise_id AS user_id,
+                                                                cte.firstname, cte.lastname,
+                                                                cte.date_of_birth,
+                                                                d.profile_pic AS profile_pic,
+                                                                cte.status,
+                                                                'Chief Techno Enterprise' AS designation
+                                                            FROM chief_techno_enterprise cte
+                                                            LEFT JOIN documents d 
+                                                                ON d.user_id = cte.chief_techno_enterprise_id
+
+                                                            UNION ALL
+
+                                                            SELECT 
+                                                                ete.executive_techno_enterprise_id AS user_id,
+                                                                ete.firstname, ete.lastname,
+                                                                ete.date_of_birth,
+                                                                d.profile_pic AS profile_pic,
+                                                                ete.status,
+                                                                'executive Techno Enterprise' AS designation
+                                                            FROM executive_techno_enterprise ete
+                                                            LEFT JOIN documents d 
+                                                                ON d.user_id = ete.executive_techno_enterprise_id
+
+                                                            UNION ALL
+
+                                                            SELECT 
+                                                                ste.super_techno_enterprise_id AS user_id,
+                                                                ste.firstname, ste.lastname,
+                                                                ste.date_of_birth,
+                                                                d.profile_pic AS profile_pic,
+                                                                ste.status,
+                                                                'super Techno Enterprise' AS designation
+                                                            FROM super_techno_enterprise ste
+                                                            LEFT JOIN documents d 
+                                                                ON d.user_id = ste.super_techno_enterprise_id
+
+                                                            UNION ALL
+
                                                             SELECT business_mentor_id AS user_id, firstname, lastname, date_of_birth, profile_pic, status, 'Business Mentor' AS designation
                                                             FROM business_mentor
 
@@ -113,13 +153,18 @@
 
                                                             UNION ALL
 
-                                                            SELECT institution_id AS user_id, firstname, lastname, date_of_birth, profile_pic, status, 'Institution' AS designation
+                                                            SELECT institution_id AS user_id, name as firstname, '' as lastname, incorporation_date as date_of_birth, certificate_of_incorporation as profile_pic, status, 'Institution' AS designation
                                                             FROM institution
 
                                                             UNION ALL
 
                                                             SELECT ca_travelagency_id AS user_id, firstname, lastname, date_of_birth, profile_pic, status, 'Travel Consultant' AS designation
                                                             FROM ca_travelagency
+
+                                                            UNION ALL
+
+                                                            SELECT institution_branch_manager_id AS user_id, firstname, lastname, date_of_birth, profile_pic, status, 'Institution Branch Manager' AS designation
+                                                            FROM institution_branch_manager
 
                                                             UNION ALL
 

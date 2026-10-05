@@ -10,53 +10,161 @@
         <div class="row mx-0">
         <?php
 
-            $stmt = $conn->prepare("SELECT *
+            $stmt = $conn->prepare("
+                SELECT *
                 FROM (
-                    SELECT business_mentor_id AS user_id, CONCAT(firstname,' ',lastname) AS fullname, date_of_birth, profile_pic, status, 'Business Mentor' AS userName
+                    SELECT 
+                        cte.chief_techno_enterprise_id AS user_id,
+                        CONCAT(cte.firstname, ' ', cte.lastname) AS fullname,
+                        cte.date_of_birth,
+                        d.profile_pic AS profile_pic,
+                        cte.status,
+                        'Chief Techno Enterprise' AS userName
+                    FROM chief_techno_enterprise cte
+                    LEFT JOIN documents d 
+                        ON d.user_id = cte.chief_techno_enterprise_id
+
+                    UNION ALL
+
+                    SELECT 
+                        ete.executive_techno_enterprise_id AS user_id,
+                        CONCAT(ete.firstname, ' ', ete.lastname) AS fullname,
+                        ete.date_of_birth,
+                        d.profile_pic AS profile_pic,
+                        ete.status,
+                        'executive Techno Enterprise' AS userName
+                    FROM executive_techno_enterprise ete
+                    LEFT JOIN documents d 
+                        ON d.user_id = ete.executive_techno_enterprise_id
+
+                    UNION ALL
+
+                    SELECT 
+                        ste.super_techno_enterprise_id AS user_id,
+                        CONCAT(ste.firstname, ' ', ste.lastname) AS fullname,
+                        ste.date_of_birth,
+                        d.profile_pic AS profile_pic,
+                        ste.status,
+                        'super Techno Enterprise' AS userName
+                    FROM super_techno_enterprise ste
+                    LEFT JOIN documents d 
+                        ON d.user_id = ste.super_techno_enterprise_id
+
+                    UNION ALL
+
+                    SELECT 
+                        business_mentor_id AS user_id,
+                        CONCAT(firstname, ' ', lastname) AS fullname,
+                        date_of_birth,
+                        profile_pic,
+                        status,
+                        'Business Mentor' AS userName
                     FROM business_mentor
 
                     UNION ALL
 
-                    SELECT master_franchisee_id AS user_id, CONCAT(firstname,' ',lastname) AS fullname, date_of_birth, profile_pic, status, 'Master Franchisee' AS userName
+                    SELECT 
+                        master_franchisee_id AS user_id,
+                        CONCAT(firstname, ' ', lastname) AS fullname,
+                        date_of_birth,
+                        profile_pic,
+                        status,
+                        'Master Franchisee' AS userName
                     FROM master_franchisee
 
                     UNION ALL
 
-                    SELECT sponsor_franchisee_id AS user_id, CONCAT(firstname,' ',lastname) AS fullname, date_of_birth, profile_pic, status, 'Sponsor Franchisee' AS userName
+                    SELECT 
+                        sponsor_franchisee_id AS user_id,
+                        CONCAT(firstname, ' ', lastname) AS fullname,
+                        date_of_birth,
+                        profile_pic,
+                        status,
+                        'Sponsor Franchisee' AS userName
                     FROM sponsor_franchisee
 
                     UNION ALL
 
-                    SELECT corporate_agency_id AS user_id, CONCAT(firstname,' ',lastname) AS fullname, date_of_birth, profile_pic, status, 'Techno Enterprise' AS userName
+                    SELECT 
+                        corporate_agency_id AS user_id,
+                        CONCAT(firstname, ' ', lastname) AS fullname,
+                        date_of_birth,
+                        profile_pic,
+                        status,
+                        'Techno Enterprise' AS userName
                     FROM corporate_agency
 
                     UNION ALL
 
-                    SELECT sub_franchisee_id AS user_id, CONCAT(firstname,' ',lastname) AS fullname, date_of_birth, profile_pic, status, 'Franchisee' AS userName
+                    SELECT 
+                        sub_franchisee_id AS user_id,
+                        CONCAT(firstname, ' ', lastname) AS fullname,
+                        date_of_birth,
+                        profile_pic,
+                        status,
+                        'Franchisee' AS userName
                     FROM sub_franchisee
 
                     UNION ALL
 
-                    SELECT institution_id AS user_id, name AS fullname, incorporation_date AS date_of_birth, address_proof AS profile_pic, status, 'Institution' AS userName
+                    SELECT 
+                        institution_id AS user_id,
+                        name AS fullname,
+                        incorporation_date AS date_of_birth,
+                        address_proof AS profile_pic,
+                        status,
+                        'Institution' AS userName
                     FROM institution
 
                     UNION ALL
 
-                    SELECT ca_travelagency_id AS user_id, CONCAT(firstname,' ',lastname) AS fullname, date_of_birth, profile_pic, status, 'Travel Consultant' AS userName
+                    SELECT 
+                        ca_travelagency_id AS user_id,
+                        CONCAT(firstname, ' ', lastname) AS fullname,
+                        date_of_birth,
+                        profile_pic,
+                        status,
+                        'Travel Consultant' AS userName
                     FROM ca_travelagency
 
                     UNION ALL
 
-                    SELECT ca_customer_id AS user_id, CONCAT(firstname,' ',lastname) AS fullname, date_of_birth, profile_pic, status, 'Customer' AS userName
+                    SELECT 
+                        institution_branch_manager_id as user_id, 
+                        CONCAT(firstname, ' ', lastname) AS fullname,
+                        date_of_birth,
+                        profile_pic,
+                        status,
+                        'Institution Branch Manager' AS userName
+                    FROM institution_branch_manager
+
+                    UNION ALL 
+
+                    SELECT 
+                        ca_customer_id AS user_id,
+                        CONCAT(firstname, ' ', lastname) AS fullname,
+                        date_of_birth,
+                        profile_pic,
+                        status,
+                        'Customer' AS userName
                     FROM ca_customer
+
                 ) users
-                WHERE date_add(date_of_birth,
-                        INTERVAL YEAR(CURDATE()) - YEAR(date_of_birth)
-                        + IF(DAYOFYEAR(CURDATE()) > DAYOFYEAR(date_of_birth),1,0)
-                        YEAR
-                ) BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)
+
+                WHERE date_add(
+                    date_of_birth,
+                    INTERVAL YEAR(CURDATE()) - YEAR(date_of_birth)
+                    + IF(
+                        DAYOFYEAR(CURDATE()) > DAYOFYEAR(date_of_birth),
+                        1,
+                        0
+                    ) YEAR
+                ) BETWEEN CURDATE() 
+                    AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)
+
                 ORDER BY MONTH(date_of_birth), DAY(date_of_birth)
-                LIMIT 12;
+
+                LIMIT 12
             ");
 
             $stmt->execute();
