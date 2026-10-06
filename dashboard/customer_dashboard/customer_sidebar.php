@@ -53,11 +53,22 @@
                         <i class="ri-gift-line"></i> <span data-key="t-home">Rewards & Coupons</span>
                     </a>
                 </li> -->
-                <li class="nav-item <?= ($current_page == 'customer_benefit.php') ? 'active' : ''; ?>">
-                    <a class="nav-link menu-link" href="<?= $base_url_cust.$folder_map[$customer['customer_type']]?>customer_benefit.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i class="ri-vip-crown-2-line"></i> <span data-key="t-home"><?= $customer['customer_type'] ?> Membership</span>
-                    </a>
-                </li>
+                <?php if ($customer['customer_type'] != 'Premium') { ?>
+                    <li class="nav-item <?= ($current_page == 'customer_benefit.php') ? 'active' : ''; ?>">
+                        <a class="nav-link menu-link"
+                        href="<?= $base_url_cust . $folder_map[$customer['customer_type']] ?>customer_benefit.php"
+                        role="button"
+                        aria-expanded="false"
+                        aria-controls="sidebarDashboards">
+
+                            <i class="ri-vip-crown-2-line"></i>
+                            <span data-key="t-home">
+                                <?= $customer['customer_type'] ?> Membership
+                            </span>
+
+                        </a>
+                    </li>
+                <?php } ?>
                 <li class="nav-item <?= ($current_page == 'customers_list.php') ? 'active' : ''; ?>">
                     <a class="nav-link menu-link" href="<?= $base_url_cust?>customers_list.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-group-line"></i> <span data-key="t-home">Refer & Earn</span>
