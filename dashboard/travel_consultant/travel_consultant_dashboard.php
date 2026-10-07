@@ -758,7 +758,7 @@
                                             </p>
 
                                             <p class="mb-3 fw-bolder textColor fs-5">
-
+                                                <span class="fs-6 text-muted fw-normal">From: </span>
                                                 ₹ ${Number(pkg.price).toLocaleString('en-IN')}
 
                                                 <span class="fs-6 text-muted fw-normal">
