@@ -203,35 +203,17 @@
                                     </div>
                                     <hr class="text-muted border-3 mt-0 mx-3">
                                     <div class="row">
-                                        <div class="col-lg-5 col-md-5 col-sm-5 col-5 pe-0">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-12 pe-0">
                                             <table class="table">
                                                 <tbody>
                                                     <tr>
-                                                        <th class="text-muted fontSize1 pe-0">First Name</th>
+                                                        <th class="text-muted fontSize1 pe-0">Name</th>
                                                         <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoFname"></td>
                                                     </tr>
                                                     <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">Last Name</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoLname"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">Date of Birth</th>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Date of incorporation</th>
                                                         <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoDob"></td>
                                                     </tr>
-                                                    <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">Gender</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoGender"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">Nominee Name</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoFs"></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="col-lg-7 col-md-7 col-sm-7 col-7 ps-0">
-                                            <table class="table">
-                                                <tbody>
                                                     <tr>
                                                         <th class="text-muted fontSize1 pe-0" scope="row">Mobile Number</th>
                                                         <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoPhone">NA</td>
@@ -243,10 +225,6 @@
                                                     <tr>
                                                         <th class="text-muted fontSize1 pe-0" scope="row">Nationality</th>
                                                         <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoNatinality">NA</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">Nominee Relation</th>
-                                                        <td class="fw-bolder text-dark fontSize1 ps-0" id="perInfoFsR"></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -319,7 +297,7 @@
                                     <div class="document-card">
                                         <!-- <input type="file" id="file1" class="file-input d-none" accept="image/*,.pdf" data-preview="preview1" data-view="view1" data-download="download1" corporate_agency> -->
                                         <label for="file1" class="upload-area">
-                                            <span class="document-status verified"  data-document="profile_pic">Verified</span>
+                                            <span class="document-status verified"  data-document="certificate_of_incorporation">Verified</span>
                                             <img id="preview1" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
                                             <div class="upload-overlay">
                                                 <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
@@ -327,7 +305,7 @@
                                                 <small>or click to upload</small> -->
                                             </div>
                                         </label>
-                                        <p class="text-center fw-semibold mt-2">Profile Photo</p>
+                                        <p class="text-center fw-semibold mt-2">certificate of incorporation</p>
                                         <div class="d-flex gap-2">
                                             <a id="view1" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
                                                 View
@@ -343,7 +321,7 @@
                                     <div class="document-card">
                                         <!-- <input type="file" id="file2" class="file-input d-none" accept="image/*,.pdf" data-preview="preview2" data-view="view2" data-download="download2" corporate_agency> -->
                                         <label for="file2" class="upload-area">
-                                            <span class="document-status verified" data-document="aadhar_card">Verified</span>
+                                            <span class="document-status verified" data-document="gstin">Verified</span>
                                             <img id="preview2" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
                                             <div class="upload-overlay">
                                                 <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
@@ -351,7 +329,7 @@
                                                 <small>or click to upload</small> -->
                                             </div>
                                         </label>
-                                        <p class="text-center fw-semibold mt-2">Aadhaar Card</p>
+                                        <p class="text-center fw-semibold mt-2">Gstin</p>
                                         <div class="d-flex gap-2">
                                             <a id="view2" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
                                                 View
@@ -391,7 +369,7 @@
                                     <div class="document-card">
                                         <!-- <input type="file" id="file4" class="file-input d-none" accept="image/*,.pdf" data-preview="preview4" data-view="view4" data-download="download4" corporate_agency> -->
                                         <label for="file4" class="upload-area">
-                                            <span class="document-status verified" data-document="cancelled_cheque_bank_passbook">Verified</span>
+                                            <span class="document-status verified" data-document="bank_passbook">Verified</span>
                                             <img id="preview4" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
                                             <div class="upload-overlay">
                                                 <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
@@ -415,7 +393,7 @@
                                     <div class="document-card">
                                         <!-- <input type="file" id="file5" class="file-input d-none" accept="image/*,.pdf" data-preview="preview5" data-view="view5" data-download="download5" corporate_agency> -->
                                         <label for="file5" class="upload-area">
-                                            <span class="document-status verified" data-document="voting_card">Verified</span>
+                                            <span class="document-status verified" data-document="address_proof">Verified</span>
                                             <img id="preview5" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
                                             <div class="upload-overlay">
                                                 <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
@@ -423,7 +401,7 @@
                                                 <small>or click to upload</small> -->
                                             </div>
                                         </label>
-                                        <p class="text-center fw-semibold mt-2">Voting Card</p>
+                                        <p class="text-center fw-semibold mt-2">Address Proof</p>
                                         <div class="d-flex gap-2">
                                             <a id="view5" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
                                                 View
@@ -434,13 +412,37 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Payment Proof -->
+                                
                                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                                     <div class="document-card">
                                         <!-- <input type="file" id="file6" class="file-input d-none" accept="image/*,.pdf" data-preview="preview6" data-view="view6" data-download="download6" corporate_agency> -->
                                         <label for="file6" class="upload-area">
-                                            <span class="document-status verified" data-document="payment_proof">Verified</span>
+                                            <span class="document-status verified" data-document="board_resolution">Verified</span>
                                             <img id="preview6" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
+                                            <div class="upload-overlay">
+                                                <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                <span>Drag & Drop</span>
+                                                <small>or click to upload</small> -->
+                                            </div>
+                                        </label>
+                                        <p class="text-center fw-semibold mt-2">Board resolution</p>
+                                        <div class="d-flex gap-2">
+                                            <a id="view6" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
+                                                View
+                                            </a>
+                                            <a id="download6" class="py-1 btn btn-success disabled" download>
+                                                <i class="fa-solid fa-download"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Payment Proof -->
+                                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
+                                    <div class="document-card">
+                                        <!-- <input type="file" id="file6" class="file-input d-none" accept="image/*,.pdf" data-preview="preview6" data-view="view6" data-download="download6" corporate_agency> -->
+                                        <label for="file7" class="upload-area">
+                                            <span class="document-status verified" data-document="payment_proof">Verified</span>
+                                            <img id="preview7" src="https://placehold.co/300x180?text=Profile+Photo" class="doc-preview">
                                             <div class="upload-overlay">
                                                 <!-- <i class="fa-solid fa-cloud-arrow-up"></i>
                                                 <span>Drag & Drop</span>
@@ -449,10 +451,10 @@
                                         </label>
                                         <p class="text-center fw-semibold mt-2">Payment Proof</p>
                                         <div class="d-flex gap-2">
-                                            <a id="view6" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
+                                            <a id="view7" class="py-1 btn btn-outline-secondary flex-fill disabled" target="_blank">
                                                 View
                                             </a>
-                                            <a id="download6" class="py-1 btn btn-success disabled" download>
+                                            <a id="download7" class="py-1 btn btn-success disabled" download>
                                                 <i class="fa-solid fa-download"></i>
                                             </a>
                                         </div>
@@ -923,20 +925,20 @@
 
                         const docs = [
                             {
-                                url: data.profile_pic?'../../uploading/'+data.profile_pic:'../../uploading/not_uploaded.png',
+                                url: data.certificate_of_incorporation?'../../uploading/'+data.certificate_of_incorporation:'../../uploading/not_uploaded.png',
                                 status: 'Approved',
                                 preview: 'preview1',
                                 view: 'view1',
                                 download: 'download1',
-                                docKey: 'profile_pic'
+                                docKey: 'certificate_of_incorporation'
                             },
                             {
-                                url: data.aadhar_card?'../../uploading/'+data.aadhar_card:'../../uploading/not_uploaded.png',
+                                url: data.gstin?'../../uploading/'+data.gstin:'../../uploading/not_uploaded.png',
                                 status: 'Approved',
                                 preview: 'preview2',
                                 view: 'view2',
                                 download: 'download2',
-                                docKey: 'aadhar_card'
+                                docKey: 'gstin'
                             },
                             {
                                 url: data.pan_card?'../../uploading/'+data.pan_card:'../../uploading/not_uploaded.png',
@@ -955,19 +957,27 @@
                                 docKey: 'bank_passbook'
                             },
                             {
-                                url: data.voting_card?'../../uploading/'+data.voting_card:'../../uploading/not_uploaded.png',
+                                url: data.address_proof?'../../uploading/'+data.address_proof:'../../uploading/not_uploaded.png',
                                 status: 'Approved',
                                 preview: 'preview5',
                                 view: 'view5',
                                 download: 'download5',
-                                docKey: 'voting_card'
+                                docKey: 'address_proof'
                             },
                             {
-                                url: data.payment_proof?'../../uploading/'+data.payment_proof:'../../uploading/not_uploaded.png',
+                                url: data.board_resolution?'../../uploading/'+data.board_resolution:'../../uploading/not_uploaded.png',
                                 status: 'Approved',
                                 preview: 'preview6',
                                 view: 'view6',
                                 download: 'download6',
+                                docKey: 'board_resolution'
+                            },
+                            {
+                                url: data.payment_proof?'../../uploading/'+data.payment_proof:'../../uploading/not_uploaded.png',
+                                status: 'Approved',
+                                preview: 'preview7',
+                                view: 'view7',
+                                download: 'download7',
                                 docKey: 'payment_proof'
                             }
                         ];

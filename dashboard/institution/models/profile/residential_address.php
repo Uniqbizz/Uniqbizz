@@ -23,14 +23,14 @@ try {
             cun.country_name,
             ste.pincode,
             ste.address AS resAdd
-        FROM sub_franchisee ste
+        FROM institution ste
         LEFT JOIN cities cty
             ON cty.id = ste.city
         LEFT JOIN states sta
             ON sta.id = ste.state
         LEFT JOIN countries cun
             ON cun.id = ste.country
-        WHERE ste.sub_franchisee_id = :user_id
+        WHERE ste.institution_id = :user_id
         LIMIT 1
     ");
 

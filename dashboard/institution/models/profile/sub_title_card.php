@@ -18,29 +18,32 @@ try {
 
     $sqlUserDetails = $conn->prepare("
         SELECT
-            6 AS total_documents,
+            7 AS total_documents,
             (
-                CASE WHEN ste.profile_pic IS NOT NULL AND ste.profile_pic <> '' THEN 1 ELSE 0 END +
-                CASE WHEN ste.aadhar_card IS NOT NULL AND ste.aadhar_card <> '' THEN 1 ELSE 0 END +
+                CASE WHEN ste.certificate_of_incorporation IS NOT NULL AND ste.certificate_of_incorporation <> '' THEN 1 ELSE 0 END +
+                CASE WHEN ste.gstin IS NOT NULL AND ste.gstin <> '' THEN 1 ELSE 0 END +
                 CASE WHEN ste.pan_card IS NOT NULL AND ste.pan_card <> '' THEN 1 ELSE 0 END +
-                CASE WHEN ste.voting_card IS NOT NULL AND ste.voting_card <> '' THEN 1 ELSE 0 END +
+                CASE WHEN ste.address_proof IS NOT NULL AND ste.address_proof <> '' THEN 1 ELSE 0 END +
                 CASE WHEN ste.bank_passbook IS NOT NULL AND ste.bank_passbook <> '' THEN 1 ELSE 0 END +
+                CASE WHEN ste.board_resolution IS NOT NULL AND ste.board_resolution <> '' THEN 1 ELSE 0 END +
                 CASE WHEN ste.payment_proof IS NOT NULL AND ste.payment_proof <> '' THEN 1 ELSE 0 END 
             ) AS uploaded_files,
             CASE
-                WHEN ste.profile_pic IS NOT NULL
-                    AND ste.profile_pic <> ''
-                    AND ste.aadhar_card IS NOT NULL
-                    AND ste.aadhar_card <> ''
+                WHEN ste.certificate_of_incorporation IS NOT NULL
+                    AND ste.certificate_of_incorporation <> ''
+                    AND ste.gstin IS NOT NULL
+                    AND ste.gstin <> ''
+                    AND ste.board_resolution IS NOT NULL
+                    AND ste.board_resolution <> ''
                     AND ste.payment_proof IS NOT NULL
                     AND ste.payment_proof <> ''
                 THEN 'Completed'
                 ELSE 'Incomplete'
             END AS kyc_status
 
-        FROM sub_franchisee ste
+        FROM institution ste
 
-        WHERE ste.sub_franchisee_id = :user_id
+        WHERE ste.institution_id = :user_id
 
         LIMIT 1
         

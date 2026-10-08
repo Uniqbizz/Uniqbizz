@@ -18,16 +18,17 @@ try {
 
     $sql = $conn->prepare("
         SELECT
-            ste.profile_pic,
-            ste.aadhar_card,
+            ste.certificate_of_incorporation,
+            ste.gstin,
             ste.pan_card,
             ste.bank_passbook,
-            ste.voting_card,
+            ste.board_resolution,
+            ste.address_proof,
             ste.payment_proof
 
-        FROM sub_franchisee ste
+        FROM institution ste
 
-        WHERE ste.sub_franchisee_id = :user_id
+        WHERE ste.institution_id = :user_id
 
         LIMIT 1
     ");
