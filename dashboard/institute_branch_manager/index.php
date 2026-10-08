@@ -43,7 +43,6 @@
 
         <!-- CHART JS -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <link rel="stylesheet" href="../assets/css/customer_dashboard.css" />
         <link rel="stylesheet" href="../assets/css/ibr_index.css" />
         
     </head>
@@ -86,157 +85,168 @@
             <div class="main-content">
                 <div class="page-content">
                     <div class="container-fluid ps-0">
-                        <div class="neo-main-dashboard-wrapper">
+                        <!-- Super Techno Enterprisee Dashboard Greeting Card -->
+                        <div class="card border rounded-4 shadow-sm overflow-hidden">
+                            <div class="greetingImageWrapper">
+                                <img src="../assets/images/superTechnoImage.png" alt="Package" class="greetingImage img-fluid w-100">
+                            </div>
+                            <div class="greetingCard">
+                                <p class="fw-bold text-dark gap-3 fs-4">Welcome Back,<span class="" id="userName"></span>! &#128075;</p>
+                                <h1 class="fw-bold text-dark gap-3">Institution Branch Manager</h1>
+                                <p class="text-dark fs-4 mb-0">You're building something great.</p>
+                                <p class="text-dark fs-4">Here's your business overview.</p>
+                            </div>
+                        </div>
 
-                            <!-- TOP CARDS -->
-                            <div class="neo-top-stats-grid">
+                        <!-- TOP CARDS -->
+                        <div class="neo-top-stats-grid">
 
-                                <div class="neo-stat-card neo-blue-card neo-card-watermark neo-blue-watermark">
-                                    <div class="neo-stat-card-header">
-                                        <div class="neo-stat-icon neo-blue-icon">
-                                            <i class="fa-solid fa-id-card"></i>
-                                        </div>
-
-                                        <div>
-                                            <h4>Neo Select Enrollments</h4>
-                                            <h2>48</h2>
-                                            <!--<p>This Month</p>-->
-                                        </div>
+                            <div class="neo-stat-card neo-blue-card neo-card-watermark neo-blue-watermark">
+                                <div class="neo-stat-card-header">
+                                    <div class="neo-stat-icon neo-blue-icon">
+                                        <i class="fa-solid fa-id-card"></i>
                                     </div>
-                                    <!-- NEW IMAGE SECTION -->
-                                    <div class="neo-enrollment-visual-box">
 
-                                        <div class="neo-enrollment-user-card">
-                                            <i class="fa-solid fa-user-plus"></i>
-                                        </div>
-
-                                        <div class="neo-enrollment-user-card">
-                                            <i class="fa-solid fa-address-card"></i>
-                                        </div>
-
-                                        <div class="neo-enrollment-user-card">
-                                            <i class="fa-solid fa-clipboard-check"></i>
-                                        </div>
-
-                                        <div class="neo-enrollment-user-card active">
-                                            <i class="fa-solid fa-circle-check"></i>
-                                        </div>
-
+                                    <div>
+                                        <h4>Neo Select Enrollments</h4>
+                                        <h2>0</h2>
+                                        <!--<p>This Month</p>-->
                                     </div>
-                                    <!-- <div class="neo-card-footer-growth">
-                                        <span><i class="fa-solid fa-arrow-up"></i> 18%</span>
-                                        vs Apr 2024
-                                    </div> -->
                                 </div>
+                                <!-- NEW IMAGE SECTION -->
+                                <div class="neo-enrollment-visual-box">
 
-                                <div class="neo-stat-card neo-green-card neo-card-watermark neo-green-watermark">
-                                    <div class="neo-stat-card-header">
-                                        <div class="neo-stat-icon neo-green-icon">
-                                            <i class="fa-solid fa-sack-dollar"></i>
-                                        </div>
-
-                                        <div>
-                                            <h4>Commission Earned</h4>
-                                            <h2>₹ 24,000</h2>
-                                            <p>48 Customers × ₹500</p>
-                                        </div>
+                                    <div class="neo-enrollment-user-card">
+                                        <i class="fa-solid fa-user-plus"></i>
                                     </div>
 
-                                    <div class="neo-mini-grid-boxes">
-                                        <div>
-                                            <span>Paid Commission</span>
-                                            <strong>₹ 18,000</strong>
-                                        </div>
-
-                                        <div>
-                                            <span>Pending Payout</span>
-                                            <strong>₹ 6,000</strong>
-                                        </div>
+                                    <div class="neo-enrollment-user-card">
+                                        <i class="fa-solid fa-address-card"></i>
                                     </div>
 
-                                    <!--<div class="neo-bottom-line-link">-->
-                                    <!--    Next Incentive Slab: 50 more to unlock ₹5,000 bonus-->
-                                    <!--</div>-->
+                                    <div class="neo-enrollment-user-card">
+                                        <i class="fa-solid fa-clipboard-check"></i>
+                                    </div>
+
+                                    <div class="neo-enrollment-user-card active">
+                                        <i class="fa-solid fa-circle-check"></i>
+                                    </div>
+
                                 </div>
-
-                                <div class="neo-stat-card neo-purple-card neo-card-watermark neo-purple-watermark">
-                                    <div class="neo-stat-card-header neo-flex-start">
-                                        <div class="neo-stat-icon neo-purple-icon">
-                                            <i class="fa-solid fa-gift"></i>
-                                        </div>
-
-                                        <div>
-                                            <h4>Holiday Bookings</h4>
-                                            <h2>18</h2>
-                                        </div>
-                                    </div>
-
-                                    <div class="neo-booking-mini-list">
-                                        <div><span>Goa Packages</span> <strong>12</strong></div>
-                                        <!--<div><span>Dubai</span> <strong>4</strong></div>-->
-                                        <div><span>Singapore</span> <strong>2</strong></div>
-                                        <div><span>Others</span> <strong>0</strong></div>
-                                    </div>
-
-                                    <a href="order_history.php" class="neo-view-link">View All Bookings <i class="fa-solid fa-arrow-right"></i></a>
-                                </div>
-
-                                <!-- <div class="neo-stat-card neo-orange-card">
-                                    <div class="neo-conversion-layout">
-
-                                        <div class="neo-conversion-circle">
-                                            <svg>
-                                                <circle cx="70" cy="70" r="55"></circle>
-                                                <circle cx="70" cy="70" r="55" class="neo-active-circle"></circle>
-                                            </svg>
-                                            <div class="neo-circle-text">40%</div>
-                                        </div>
-
-                                        <div class="neo-conversion-content">
-                                            <h4>Conversion Rate</h4>
-                                            <div>
-                                                <span>Leads Received</span>
-                                                <strong>120</strong>
-                                            </div>
-                                            <div>
-                                                <span>Membership Activated</span>
-                                                <strong>48</strong>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <a href="#" class="neo-view-link orange">View Conversion Funnel <i class="fa-solid fa-arrow-right"></i></a>
+                                <!-- <div class="neo-card-footer-growth">
+                                    <span><i class="fa-solid fa-arrow-up"></i> 18%</span>
+                                    vs Apr 2024
                                 </div> -->
+                            </div>
 
+                            <div class="neo-stat-card neo-green-card neo-card-watermark neo-green-watermark">
+                                <div class="neo-stat-card-header">
+                                    <div class="neo-stat-icon neo-green-icon">
+                                        <i class="fa-solid fa-sack-dollar"></i>
+                                    </div>
+
+                                    <div>
+                                        <h4>Commission Earned</h4>
+                                        <h2>₹ 0</h2>
+                                        <p>0 Customers × ₹0</p>
+                                    </div>
+                                </div>
+
+                                <div class="neo-mini-grid-boxes">
+                                    <div>
+                                        <span>Paid Commission</span>
+                                        <strong>₹ 0</strong>
+                                    </div>
+
+                                    <div>
+                                        <span>Pending Payout</span>
+                                        <strong>₹ 0</strong>
+                                    </div>
+                                </div>
+
+                                <!--<div class="neo-bottom-line-link">-->
+                                <!--    Next Incentive Slab: 50 more to unlock ₹5,000 bonus-->
+                                <!--</div>-->
+                            </div>
+
+                            <div class="neo-stat-card neo-purple-card neo-card-watermark neo-purple-watermark">
+                                <div class="neo-stat-card-header neo-flex-start">
+                                    <div class="neo-stat-icon neo-purple-icon">
+                                        <i class="fa-solid fa-gift"></i>
+                                    </div>
+
+                                    <div>
+                                        <h4>Holiday Bookings</h4>
+                                        <h2>0</h2>
+                                    </div>
+                                </div>
+
+                                <div class="neo-booking-mini-list">
+                                    <!-- <div><span>Goa Packages</span> <strong>12</strong></div> -->
+                                    <!--<div><span>Dubai</span> <strong>4</strong></div>-->
+                                    <!-- <div><span>Singapore</span> <strong>2</strong></div>
+                                    <div><span>Others</span> <strong>0</strong></div> -->
+                                </div>
+
+                                <a href="order_history.php" class="neo-view-link">View All Bookings <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+
+                            <!-- <div class="neo-stat-card neo-orange-card">
+                                <div class="neo-conversion-layout">
+
+                                    <div class="neo-conversion-circle">
+                                        <svg>
+                                            <circle cx="70" cy="70" r="55"></circle>
+                                            <circle cx="70" cy="70" r="55" class="neo-active-circle"></circle>
+                                        </svg>
+                                        <div class="neo-circle-text">40%</div>
+                                    </div>
+
+                                    <div class="neo-conversion-content">
+                                        <h4>Conversion Rate</h4>
+                                        <div>
+                                            <span>Leads Received</span>
+                                            <strong>120</strong>
+                                        </div>
+                                        <div>
+                                            <span>Membership Activated</span>
+                                            <strong>48</strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <a href="#" class="neo-view-link orange">View Conversion Funnel <i class="fa-solid fa-arrow-right"></i></a>
+                            </div> -->
+
+                        </div>
+
+
+                        <!-- CHART + TABLE -->
+                        <div class="neo-double-grid-layout">
+
+                            <div class="neo-dashboard-panel">
+                                <div class="neo-panel-header">
+                                    <h3>Neo Select Enrollments Trend</h3>
+
+                                    <select>
+                                        <option>This Month</option>
+                                        <option>Last Month</option>
+                                    </select>
+                                </div>
+
+                                <canvas id="neoEnrollmentChart"></canvas>
                             </div>
 
 
-                            <!-- CHART + TABLE -->
-                            <div class="neo-double-grid-layout">
-
-                                <div class="neo-dashboard-panel">
-                                    <div class="neo-panel-header">
-                                        <h3>Neo Select Enrollments Trend</h3>
-
-                                        <select>
-                                            <option>This Month</option>
-                                            <option>Last Month</option>
-                                        </select>
-                                    </div>
-
-                                    <canvas id="neoEnrollmentChart"></canvas>
+                            <div class="neo-dashboard-panel">
+                                <div class="neo-panel-header">
+                                    <h3>Recent Neo Select Customers</h3>
+                                    <a href="view_customer.php">View All</a>
                                 </div>
 
-
-                                <div class="neo-dashboard-panel">
-                                    <div class="neo-panel-header">
-                                        <h3>Recent Neo Select Customers</h3>
-                                        <a href="view_customer.php">View All</a>
-                                    </div>
-
-                                    <div class="neo-table-wrapper">
-                                        <table class="neo-dashboard-table">
-                                            <thead>
+                                <div class="neo-table-wrapper">
+                                    <table class="neo-dashboard-table">
+                                        <thead>
                                             <tr>
                                                 <th>Customer</th>
                                                 <th>Mobile</th>
@@ -244,13 +254,15 @@
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
-                                            </thead>
+                                        </thead>
 
-                                            <tbody>
+                                        <tbody>
                                             <tr>
+                                                <td colspan="4" class="text-center">No Data</td>
+                                            </tr>
+                                            <!-- <tr>
                                                 <td>Rahul Naik</td>
                                                 <td>98XXXXXX21</td>
-                                                <!--<td>Panaji</td>-->
                                                 <td><span class="neo-status-active">Active</span></td>
                                                 <td>
                                                     <div class="neo-table-actions">
@@ -264,7 +276,6 @@
                                             <tr>
                                                 <td>Priya Dessai</td>
                                                 <td>99XXXXXX31</td>
-                                                <!--<td>Margao</td>-->
                                                 <td><span class="neo-status-active">Active</span></td>
                                                 <td>
                                                     <div class="neo-table-actions">
@@ -278,7 +289,6 @@
                                             <tr>
                                                 <td>Sneha Kamat</td>
                                                 <td>96XXXXXX12</td>
-                                                <!--<td>Porvorim</td>-->
                                                 <td><span class="neo-status-interest">Deactivated</span></td>
                                                 <td>
                                                     <div class="neo-table-actions">
@@ -287,71 +297,74 @@
                                                         <i class="fa-brands fa-whatsapp"></i>
                                                     </div>
                                                 </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                                            </tr> -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <!-- 3 GRID -->
+                        <div class="neo-triple-grid-layout">
+
+                            <!-- WALLET -->
+                            <div class="neo-dashboard-panel">
+                                <div class="neo-wallet-top-box">
+                                    <div class="neo-wallet-icon-box">
+                                        <i class="fa-solid fa-wallet"></i>
+                                    </div>
+
+                                    <div>
+                                        <span>Total Wallet Balance</span>
+                                        <h2>₹ 0</h2>
                                     </div>
                                 </div>
 
+                                <div class="neo-wallet-mini-grid">
+                                    <div>
+                                        <span>Available Balance</span>
+                                        <strong>₹ 0</strong>
+                                    </div>
+
+                                    <div>
+                                        <span>Pending Balance</span>
+                                        <strong>₹ 0</strong>
+                                    </div>
+                                </div>
+
+                                <div class="neo-wallet-btn-row">
+                                    <button>Withdraw</button>
+                                    <button>Transaction History</button>
+                                    <button>Incentive Structure</button>
+                                </div>
                             </div>
 
 
-                            <!-- 3 GRID -->
-                            <div class="neo-triple-grid-layout">
-
-                                <!-- WALLET -->
-                                <div class="neo-dashboard-panel">
-                                    <div class="neo-wallet-top-box">
-                                        <div class="neo-wallet-icon-box">
-                                            <i class="fa-solid fa-wallet"></i>
-                                        </div>
-
-                                        <div>
-                                            <span>Total Wallet Balance</span>
-                                            <h2>₹ 24,000</h2>
-                                        </div>
-                                    </div>
-
-                                    <div class="neo-wallet-mini-grid">
-                                        <div>
-                                            <span>Available Balance</span>
-                                            <strong>₹ 18,000</strong>
-                                        </div>
-
-                                        <div>
-                                            <span>Pending Balance</span>
-                                            <strong>₹ 6,000</strong>
-                                        </div>
-                                    </div>
-
-                                    <div class="neo-wallet-btn-row">
-                                        <button>Withdraw</button>
-                                        <button>Transaction History</button>
-                                        <button>Incentive Structure</button>
-                                    </div>
+                            <!-- TRANSACTIONS -->
+                            <div class="neo-dashboard-panel">
+                                <div class="neo-panel-header">
+                                    <h3>Commission Transactions</h3>
+                                    <a href="#">View All</a>
                                 </div>
 
+                                <div class="neo-table-wrapper">
+                                    <table class="neo-dashboard-table">
+                                        <thead>
+                                        <tr>
+                                            <th>Customer</th>
+                                            <th>Date</th>
+                                            <th>Membership</th>
+                                            <th>Commission</th>
+                                        </tr>
+                                        </thead>
 
-                                <!-- TRANSACTIONS -->
-                                <div class="neo-dashboard-panel">
-                                    <div class="neo-panel-header">
-                                        <h3>Commission Transactions</h3>
-                                        <a href="#">View All</a>
-                                    </div>
-
-                                    <div class="neo-table-wrapper">
-                                        <table class="neo-dashboard-table">
-                                            <thead>
+                                        <tbody>
                                             <tr>
-                                                <th>Customer</th>
-                                                <th>Date</th>
-                                                <th>Membership</th>
-                                                <th>Commission</th>
+                                                <td colspan="4" class="text-center">No Data</td>
                                             </tr>
-                                            </thead>
-
-                                            <tbody>
-                                            <tr>
+                                            <!-- <tr>
                                                 <td>Rahul Naik</td>
                                                 <td>15 May 2024</td>
                                                 <td>Neo Select</td>
@@ -368,215 +381,19 @@
                                                 <td>13 May 2024</td>
                                                 <td>Neo Select</td>
                                                 <td>₹ 500</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    <div class="neo-total-earned-box">
-                                        Total Commission Earned
-                                        <strong>₹ 24,000</strong>
-                                    </div>
+                                            </tr> -->
+                                        </tbody>
+                                    </table>
                                 </div>
 
-
-                                
+                                <div class="neo-total-earned-box">
+                                    Total Commission Earned
+                                    <strong>₹ 0</strong>
+                                </div>
                             </div>
-                            <!-- BAR CHART -->
-                            <!-- <div class="neo-dashboard-panel">
-                                <div class="neo-panel-header">
-                                    <h3>Holiday Package Interest</h3>
-
-                                    <select>
-                                        <option>This Month</option>
-                                    </select>
-                                </div>
-
-                                <canvas id="neoHolidayChart"></canvas>
-
-                                <div class="neo-chart-footer-link">
-                                    <span>12 Neo Select customers booked international holidays this month.</span>
-                                    <a href="#">View Bookings <i class="fa-solid fa-angle-right"></i></a>
-                                </div>
-                            </div> -->
 
 
-                            <!-- BOTTOM GRID -->
-                            <!-- <div class="neo-bottom-grid-layout"> -->
-
-                                <!-- PERFORMANCE -->
-                                <!-- <div class="neo-dashboard-panel">
-
-                                    <div class="neo-performance-layout">
-
-                                        <div>
-                                            <h3>Performance Target</h3>
-                                            <p>Monthly Target: 100 Memberships</p>
-
-                                            <div class="neo-target-count-row">
-                                                <h2>48</h2>
-                                                <span>/ 100</span>
-                                            </div>
-
-                                            <div class="neo-progress-bar">
-                                                <div class="neo-progress-fill"></div>
-                                            </div>
-
-                                            <div class="neo-progress-footer">
-                                                <span>52 more to reach next milestone</span>
-                                                <strong>48%</strong>
-                                            </div>
-                                        </div>
-
-                                        <div class="neo-milestone-box">
-                                            <h4>Incentive Milestone</h4>
-
-                                            <div class="neo-milestone-item">
-                                                <i class="fa-solid fa-circle-check"></i>
-                                                <div>
-                                                    <strong>50 Customers</strong>
-                                                    <span>₹ 5,000 Bonus</span>
-                                                </div>
-                                            </div>
-
-                                            <div class="neo-milestone-item">
-                                                <i class="fa-solid fa-lock"></i>
-                                                <div>
-                                                    <strong>100 Customers</strong>
-                                                    <span>Goa Incentive Trip</span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                </div> -->
-
-
-                                <!-- BRANCH PERFORMANCE -->
-                                <!-- <div class="neo-dashboard-panel">
-
-                                    <div class="neo-panel-header">
-                                        <h3>Branch Performance</h3>
-
-                                        <select>
-                                            <option>This Month</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="neo-branch-grid">
-
-                                        <div class="neo-branch-card">
-                                            <span>Total Enrollments</span>
-                                            <h2>48</h2>
-                                            <div class="neo-rank-row">
-                                                <i class="fa-solid fa-trophy"></i>
-                                                <div>
-                                                    <strong>Rank</strong>
-                                                    <p>2 / 8 in Panaji Region</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="neo-branch-card green">
-                                            <span>Total Commission</span>
-                                            <h2>₹ 24,000</h2>
-                                            <div class="neo-rank-row">
-                                                <i class="fa-solid fa-trophy"></i>
-                                                <div>
-                                                    <strong>Rank</strong>
-                                                    <p>1 / 8 in Panaji Region</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div> -->
-
-
-                                <!-- NOTIFICATIONS -->
-                                <!-- <div class="neo-dashboard-panel">
-
-                                    <div class="neo-panel-header">
-                                        <h3>Notifications</h3>
-                                        <a href="#">View All</a>
-                                    </div>
-
-                                    <div class="neo-notification-list">
-
-                                        <div class="neo-notification-item">
-                                            <div class="neo-notification-left">
-                                                <div class="neo-notify-icon red">
-                                                    <i class="fa-solid fa-bell"></i>
-                                                </div>
-
-                                                <div>
-                                                    <h4>New lead assigned from VPK Camp - Panaji</h4>
-                                                    <span>2 min ago</span>
-                                                </div>
-                                            </div>
-
-                                            <div class="neo-notification-dot red"></div>
-                                        </div>
-
-                                        <div class="neo-notification-item">
-                                            <div class="neo-notification-left">
-                                                <div class="neo-notify-icon green">
-                                                    <i class="fa-solid fa-user-check"></i>
-                                                </div>
-
-                                                <div>
-                                                    <h4>Rahul Naik's membership activated</h4>
-                                                    <span>10 min ago</span>
-                                                </div>
-                                            </div>
-
-                                            <div class="neo-notification-dot green"></div>
-                                        </div>
-
-                                    </div>
-
-                                </div> -->
-
-                            <!-- </div> -->
-
-
-                            <!-- QUICK ACTION -->
-                            <!-- <div class="neo-quick-action-panel">
-
-                                <h3>Quick Actions</h3>
-
-                                <div class="neo-quick-action-grid">
-
-                                    <button class="neo-action-btn blue">
-                                        <i class="fa-solid fa-plus"></i>
-                                        Add Customer
-                                    </button>
-
-                                    <button class="neo-action-btn green">
-                                        <i class="fa-solid fa-circle-check"></i>
-                                        Activate Neo Select
-                                    </button>
-
-                                    <button class="neo-action-btn purple">
-                                        <i class="fa-solid fa-gift"></i>
-                                        Create Holiday Inquiry
-                                    </button>
-
-                                    <button class="neo-action-btn orange">
-                                        <i class="fa-solid fa-wallet"></i>
-                                        View Commission
-                                    </button>
-
-                                    <button class="neo-action-btn sky">
-                                        <i class="fa-solid fa-calendar-days"></i>
-                                        Schedule Follow-up
-                                    </button>
-
-                                </div>
-
-                            </div> -->
-
+                            
                         </div>
 
                     </div>
@@ -649,26 +466,9 @@
 
 
         <!-- Dashboard init  popular candidates section js file-->
-        <script src="../assets/js/pages/dashboard-job.init.js"></script>
 
         <script src="../assets/js/js-confetti.js"></script>
         <script src="../assets/js/ibr_index.js"></script>
-
-        <script>
-            var userType= document.getElementById("user_type").value;
-            function highlightSelected(id) {
-                // Remove highlight from all list items
-                document.querySelectorAll("li[id^='list-item-']").forEach(function(el) {
-                    el.classList.remove("selected-li");
-                });
-
-                // Add highlight to the selected one
-                const selected = document.getElementById(id);
-                if (selected) {
-                    selected.classList.add("selected-li");
-                }
-            }
-        </script>
         
         <script>
             function highlightSelected(id) {
@@ -808,17 +608,6 @@
             });
         </script>
         <!-- Sidebar End -->
-        <script>
-            // Get values directly from HTML
-            const completed = parseInt(document.getElementById("completedYears").innerText);
-            const total = parseInt(document.getElementById("totalYears").innerText);
-
-            // Calculate percentage
-            const percentage = (completed / total) * 100;
-
-            // Update progress bar
-            document.getElementById("yearProgressBar").style.width = percentage + "%";
-        </script>
 
         <!-- dialer logic -->
     </body>

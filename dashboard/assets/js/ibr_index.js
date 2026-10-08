@@ -13,7 +13,7 @@ new Chart(enrollmentCtx, {
 
         datasets: [{
             label: 'Enrollments',
-            data: [4,11,14,13,22,27,38],
+            data: [0,0,0,0,0,0,0,0],
             borderColor: '#1565d8',
             backgroundColor: 'rgba(21,101,216,0.08)',
             tension: 0.4,
@@ -34,41 +34,41 @@ new Chart(enrollmentCtx, {
 
 
 // HOLIDAY BAR CHART
-const holidayCtx = document
-    .getElementById('neoHolidayChart');
+// const holidayCtx = document
+//     .getElementById('neoHolidayChart');
 
-new Chart(holidayCtx, {
-    type: 'bar',
+// new Chart(holidayCtx, {
+//     type: 'bar',
 
-    data: {
-        labels: [
-            'Goa','Dubai','Thailand',
-            'Kashmir','Singapore','Bali','Others'
-        ],
+//     data: {
+//         labels: [
+//             'Goa','Dubai','Thailand',
+//             'Kashmir','Singapore','Bali','Others'
+//         ],
 
-        datasets: [{
-            data: [12,7,5,4,3,2,1],
-            backgroundColor: [
-                '#7b3ff2','#8b5cf6','#9d6eff',
-                '#a97dff','#b38aff','#bea0ff','#ccb8ff'
-            ],
-            borderRadius: 10,
-            barThickness: 18
-        }]
-    },
+//         datasets: [{
+//             data: [12,7,5,4,3,2,1],
+//             backgroundColor: [
+//                 '#7b3ff2','#8b5cf6','#9d6eff',
+//                 '#a97dff','#b38aff','#bea0ff','#ccb8ff'
+//             ],
+//             borderRadius: 10,
+//             barThickness: 18
+//         }]
+//     },
 
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                display: false
-            }
-        },
+//     options: {
+//         responsive: true,
+//         plugins: {
+//             legend: {
+//                 display: false
+//             }
+//         },
 
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
+//         scales: {
+//             y: {
+//                 beginAtZero: true
+//             }
+//         }
+//     }
+// });

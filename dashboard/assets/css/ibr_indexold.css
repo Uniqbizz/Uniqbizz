@@ -976,62 +976,27 @@ body {
     color: #98a6ad
 }
 /* added by SV on 05-10-2026 */
-/* Rupee illustration - decorative image-style icon */
 .rupeeIllustration {
-    width: 46px;
-    height: 46px;
-    margin-top: 10px;
+    width: 38px;
+    height: 38px;
+    margin-top: 12px;
     margin-bottom: 8px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
+    background: #d5f5e2;
+    border-radius: 10px;
+
     position: relative;
     z-index: 2;
-    overflow: hidden;
-
-    border-radius: 14px;
-    background: linear-gradient(145deg, #e9fff2 0%, #c9f5dc 100%);
-    border: 1px solid rgba(18, 185, 87, 0.18);
-    box-shadow:
-        0 6px 14px rgba(18, 185, 87, 0.12),
-        inset 0 1px 0 rgba(255, 255, 255, 0.9);
-}
-
-.rupeeIllustration::before {
-    content: "";
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: linear-gradient(145deg, #ffffff 0%, #d8f8e5 100%);
-    box-shadow:
-        0 3px 8px rgba(18, 185, 87, 0.16),
-        inset 0 1px 2px rgba(255, 255, 255, 0.95);
-}
-
-.rupeeIllustration::after {
-    content: "";
-    position: absolute;
-    top: 6px;
-    left: 8px;
-    width: 16px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.65);
-    transform: rotate(-25deg);
-    filter: blur(1px);
 }
 
 .rupeeIllustration span {
-    position: relative;
-    z-index: 2;
-    font-size: 19px;
-    line-height: 1;
+    font-size: 20px;
     font-weight: 800;
-    color: #12a951;
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+    color: #12b957;
 }
 /* added by SV on 05-10-2026 */
 /* added by SV on 1-09-2026 */
@@ -1589,9 +1554,35 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control {
 }
 /* main dashboard */
 
+.greetingImageWrapper{
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+}
 
+.greetingImageWrapper::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 70%;
+    height: 100%;
+    z-index: 1;
+    background: linear-gradient(to right, rgb(5 44 130 / 97%), rgba(0, 23, 56, 73%), rgba(54, 39, 28, 0))
+}
 
-
+.greetingImage{
+    display: block;
+    position: relative;
+    height: 250px !important;
+    object-fit: cover;
+}
+.greetingCard {
+    position: absolute;
+    top: 70px;
+    left: 20px;
+    z-index: 999;
+}
 .custIcon {
     font-size: 20px !important;
     color: #35239a;
