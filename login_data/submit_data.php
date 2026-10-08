@@ -23,7 +23,7 @@ if($stmt->rowCount()>0){
 		$_SESSION["user_id"] = $row['user_id'];
 
 		if ($_SESSION["user_type_id_value"] =='2'){
-		$stmt = $conn->prepare("SELECT * FROM customer where email='".$username."'  AND (status='1' || status='2')");
+			$stmt = $conn->prepare("SELECT * FROM customer where email='".$username."'  AND (status='1' || status='2')");
 				$stmt->execute();
 
 				    // set the resulting array to associative
@@ -418,9 +418,9 @@ if($stmt->rowCount()>0){
 
 			if($stmt->rowCount()>0){
 				foreach (($stmt->fetchAll()) as $key => $row){
-					$_SESSION["username2"] = $row['firstname'] ;
-					$_SESSION["lname"] = $row['lastname'] ;
-					$_SESSION["profile_pic"] = $row['profile_pic'] ;
+					$_SESSION["username2"] = $row['name'] ;
+					$_SESSION["lname"] = '' ;
+					$_SESSION["profile_pic"] = $row['certificate_of_incorporation'] ;
 					
 				}
 			}
