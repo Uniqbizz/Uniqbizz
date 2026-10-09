@@ -45,6 +45,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- add on 11-06-2026 by SV -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
         
         <!-- add on 11-06-2026 by SV END-->
     </head>
@@ -213,11 +214,80 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="btn" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 35px; border-radius: 50%;">
+                        <?php
+
+                            $sqlDownline = "
+                                SELECT downline_tc, downline_ibr
+                                FROM institute_downline_details
+                                WHERE institution_id = :user_id
+                                AND status = 1
+                                LIMIT 1
+                            ";
+
+                            $stmtDownline = $conn->prepare($sqlDownline);
+
+                            $stmtDownline->execute([
+                                'user_id' => $userId
+                            ]);
+
+                            $downlineData = $stmtDownline->fetch(PDO::FETCH_ASSOC);
+
+                            $downlineTC  = (int) ($downlineData['downline_tc'] ?? 0);
+                            $downlineIBR = (int) ($downlineData['downline_ibr'] ?? 0);
+
+                            // True if either or both values are 1
+                            $downlineExists = ($downlineTC === 1 || $downlineIBR === 1);
+
+                        ?>
+
+                        <div class="btn"
+                            style="width: 25px; height: 25px; padding: 0; position: fixed; bottom: 120px; right: 35px; border-radius: 50%;">
+
+                            <a href="add_travel_consultant.php"
+                            id="addTravelConsultantBtn"
+                            data-downline-exists="<?= $downlineExists ? '1' : '0' ?>"
+                            style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
+
+                                <i class="fa-solid fa-circle-plus fa-beat-fade fa-3x"
+                                style="color: #4b38b3;"></i>
+
+                            </a>
+
+                        </div>
+
+                        <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+
+                            const addBtn = document.getElementById('addTravelConsultantBtn');
+
+                            if (!addBtn) return;
+
+                            addBtn.addEventListener('click', function (event) {
+
+                                const downlineExists = this.dataset.downlineExists === '1';
+
+                                if (!downlineExists) {
+                                    event.preventDefault();
+
+                                    Swal.fire({
+                                        icon: 'warning',
+                                        title: 'Downline Channel Not Set',
+                                        text: 'Your downline channel has not been configured. Please contact the administrator.',
+                                        confirmButtonText: 'OK',
+                                        confirmButtonColor: '#4b38b3'
+                                    });
+                                }
+
+                                // If a downline exists, the link redirects normally.
+                            });
+
+                        });
+                        </script>
+                        <!-- <div class="btn" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 35px; border-radius: 50%;">
                             <a href="add_travel_consultant.php" style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
                                 <i class="fa-solid fa-circle-plus fa-beat-fade fa-3x" style="color: #4b38b3;"></i>
                             </a>
-                        </div>
+                        </div> -->
                     </div> <!-- container-fluid -->
 
                 </div><!-- End Page-content -->
@@ -260,6 +330,7 @@
         <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
 
         <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
          <!-- add on 10-06-2026 by SV END-->
 
         <script>

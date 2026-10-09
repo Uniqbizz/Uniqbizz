@@ -1,5 +1,23 @@
 <?php
     include_once (__DIR__.'/../dashboard_user_details.php');
+    $sqlDownline = "
+        SELECT downline_tc, downline_ibr
+        FROM institute_downline_details
+        WHERE institution_id = :user_id
+        AND status = 1
+        LIMIT 1
+    ";
+
+    $stmtDownline = $conn->prepare($sqlDownline);
+
+    $stmtDownline->execute([
+        'user_id' => $userId
+    ]);
+
+    $downlineData = $stmtDownline->fetch(PDO::FETCH_ASSOC);
+
+    $downlineTC  = $downlineData['downline_tc'] ?? 0;
+    $downlineIBR = $downlineData['downline_ibr'] ?? 0;
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -126,8 +144,8 @@
                                         <label for="gender" class="col-form-label">Register As <span class="text-danger fw-bolder">*</span></label>
                                         <select class="form-select genderSelect" id="registerAs" required>
                                             <option value="" selected>Select Register As</option>
-                                            <option value="11">Travel Consultant</option>
-                                            <option value="33">Institution Branch Manager</option>
+                                            <?= $downlineTC == 1 ?'<option value="11">Travel Consultant</option>':'' ?>
+                                            <?= $downlineIBR == 1 ?'<option value="33">Institution Branch Manager</option>':''?>
                                         </select>
                                         <small class="error-message" id="registerAs_error"></small>
                                     </div>
