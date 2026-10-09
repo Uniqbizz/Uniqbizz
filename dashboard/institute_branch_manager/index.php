@@ -853,8 +853,8 @@
                                                         </i>
                                                     </button>
                                                 </form> 
-                                                <i class="fa-solid fa-calendar" role="button" tabindex="0" title="View Bookings" data-action="bookings" data-id="${customerId}"> </i> 
-                                                <i class="fa-brands fa-whatsapp" role="button" tabindex="0" title="WhatsApp Customer" data-action="whatsapp" data-phone="${escapeHtml(whatsappNumber)}"> </i> 
+                                                <!--<i class="fa-solid fa-calendar" role="button" tabindex="0" title="View Bookings" data-action="bookings" data-id="${customerId}"> </i> 
+                                                <i class="fa-brands fa-whatsapp" role="button" tabindex="0" title="WhatsApp Customer" data-action="whatsapp" data-phone="${escapeHtml(whatsappNumber)}"> </i> -->
                                             </div> 
                                         </td> 
                                       </tr> `; 
