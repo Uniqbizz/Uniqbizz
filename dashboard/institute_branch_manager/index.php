@@ -236,10 +236,10 @@
                         <!-- 3 GRID -->
                         <div class="neo-triple-grid-layout">
                             <div class="card rounded-4 border-1 p-3 mb-0">
-                                <div class="card-title d-flex justify-content-between align-items-center">
-                                    <p class="commission-title fs-5 mb-0">
+                                <div class="neo-panel-header d-flex justify-content-between align-items-center">
+                                    <h3 class="commission-title fs-5 mb-0">
                                         Recent Activities
-                                    </p>
+                                    </h3>
                                     <a href="recent_activities.php" class="fs-6 fw-bold">
                                         View All
                                     </a>
@@ -1063,7 +1063,7 @@
                                 yAxis.ticks.autoSkip = false;
                             } else {
                                 // Automatically scale for actual enrollment values.
-                                yAxis.min = 0;
+                                yAxis.min = -0.03;
                                 yAxis.max = undefined;
 
                                 yAxis.ticks.stepSize = undefined;
