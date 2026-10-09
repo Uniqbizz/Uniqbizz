@@ -50,7 +50,7 @@
                         CONCAT(cu.firstname,' ',cu.lastname) AS full_name,
 
                         CONCAT(ta.firstname,' ',ta.lastname) AS reference_name,
-                        ta.ca_travelagency_id AS reference_id,
+                        ta.institution_branch_manager_id AS reference_id,
 
                         cu.contact_no,
                         cu.email,
@@ -65,8 +65,8 @@
 
                     FROM ca_customer cu
 
-                    INNER JOIN ca_travelagency ta
-                        ON cu.ta_reference_no = ta.ca_travelagency_id
+                    INNER JOIN institution_branch_manager ta
+                        ON cu.ta_reference_no = ta.institution_branch_manager_id
 
                     WHERE cu.ta_reference_no = :user_id
                     AND cu.status IN (1,3)

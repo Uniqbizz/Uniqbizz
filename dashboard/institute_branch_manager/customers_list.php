@@ -131,7 +131,6 @@
                                                         <thead>
                                                             <tr class="table-primary">
                                                                 <th data-ordering="false">Full Name</th>
-                                                                <th data-ordering="false">TC ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
@@ -195,7 +194,6 @@
                                                         <thead>
                                                             <tr class="table-primary">
                                                                 <th data-ordering="false">CU ID & Full Name</th>
-                                                                <th data-ordering="false">TC ID & Name</th>
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Membership Type</th>
                                                                 <th data-ordering="false">Membership (&#8377;)</th>
@@ -287,24 +285,6 @@
                                 <p class="fs-6 mb-0">
                                     ${data.firstname || ''} ${data.lastname || ''}
                                 </p>
-                            `;
-                        }
-                    },
-
-                    {
-                        data: null,
-                        render: function(data){
-
-                            return `
-                                <div>
-                                    <p class="fs-6 mb-0">
-                                        ${data.ref_firstname || ''} ${data.ref_lastname || ''}
-                                    </p>
-
-                                    <p class="fs-6 mb-0">
-                                        ${data.ca_travelagency_id || '-'}
-                                    </p>
-                                </div>
                             `;
                         }
                     },
@@ -465,23 +445,6 @@
                                     </p>
                                     <p class="fs-6 mb-0">
                                         ${data.ca_customer_id || '-'}
-                                    </p>
-                                </div>
-                            `;
-                        }
-                    },
-                    {
-                        data: null,
-                        render: function(data) {
-                            return `
-                                <div>
-                                    <p class="fs-6 mb-0">
-                                        ${data.ref_firstname || '-'}
-                                        </br> 
-                                        ${data.ref_lastname || ''}
-                                    </p>
-                                    <p class="fs-6 mb-0">
-                                        ${data.ca_travelagency_id || '-'}
                                     </p>
                                 </div>
                             `;
@@ -766,7 +729,7 @@
             });
             $('#exportcu').on('click', function(){
                 window.location.href =
-                'models/common/download_registered_list.php?' +
+                'ajax/common/download_registered_list.php?' +
                 'type=cu' +
                 '&start_date=' + startDate +
                 '&end_date=' + endDate;

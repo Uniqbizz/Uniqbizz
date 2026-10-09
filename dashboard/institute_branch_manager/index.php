@@ -109,7 +109,7 @@
 
                                     <div>
                                         <h4>Neo Select Enrollments</h4>
-                                        <h2>0</h2>
+                                        <h2 id="cuCount">0</h2>
                                         <!--<p>This Month</p>-->
                                     </div>
                                 </div>
@@ -133,10 +133,6 @@
                                     </div>
 
                                 </div>
-                                <!-- <div class="neo-card-footer-growth">
-                                    <span><i class="fa-solid fa-arrow-up"></i> 18%</span>
-                                    vs Apr 2024
-                                </div> -->
                             </div>
 
                             <div class="neo-stat-card neo-green-card neo-card-watermark neo-green-watermark">
@@ -147,26 +143,22 @@
 
                                     <div>
                                         <h4>Commission Earned</h4>
-                                        <h2>₹ 0</h2>
-                                        <p>0 Customers × ₹0</p>
+                                        <h2 id="cuComm">₹ 0</h2>
+                                        <p id="perCuComm">0 Customers × ₹0</p>
                                     </div>
                                 </div>
 
                                 <div class="neo-mini-grid-boxes">
                                     <div>
                                         <span>Paid Commission</span>
-                                        <strong>₹ 0</strong>
+                                        <strong id="cuCommPaid">₹ 0</strong>
                                     </div>
 
                                     <div>
                                         <span>Pending Payout</span>
-                                        <strong>₹ 0</strong>
+                                        <strong id="cuCommPending">₹ 0</strong>
                                     </div>
                                 </div>
-
-                                <!--<div class="neo-bottom-line-link">-->
-                                <!--    Next Incentive Slab: 50 more to unlock ₹5,000 bonus-->
-                                <!--</div>-->
                             </div>
 
                             <div class="neo-stat-card neo-purple-card neo-card-watermark neo-purple-watermark">
@@ -177,7 +169,7 @@
 
                                     <div>
                                         <h4>Holiday Bookings</h4>
-                                        <h2>0</h2>
+                                        <h2 id="bookingCount">0</h2>
                                     </div>
                                 </div>
 
@@ -191,33 +183,6 @@
                                 <a href="order_history.php" class="neo-view-link">View All Bookings <i class="fa-solid fa-arrow-right"></i></a>
                             </div>
 
-                            <!-- <div class="neo-stat-card neo-orange-card">
-                                <div class="neo-conversion-layout">
-
-                                    <div class="neo-conversion-circle">
-                                        <svg>
-                                            <circle cx="70" cy="70" r="55"></circle>
-                                            <circle cx="70" cy="70" r="55" class="neo-active-circle"></circle>
-                                        </svg>
-                                        <div class="neo-circle-text">40%</div>
-                                    </div>
-
-                                    <div class="neo-conversion-content">
-                                        <h4>Conversion Rate</h4>
-                                        <div>
-                                            <span>Leads Received</span>
-                                            <strong>120</strong>
-                                        </div>
-                                        <div>
-                                            <span>Membership Activated</span>
-                                            <strong>48</strong>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <a href="#" class="neo-view-link orange">View Conversion Funnel <i class="fa-solid fa-arrow-right"></i></a>
-                            </div> -->
-
                         </div>
 
 
@@ -228,29 +193,26 @@
                                 <div class="neo-panel-header">
                                     <h3>Neo Select Enrollments Trend</h3>
 
-                                    <select>
-                                        <option>This Month</option>
-                                        <option>Last Month</option>
+                                    <select id="enrollmentYear">
+                                        <option value="">Current Year</option>
                                     </select>
                                 </div>
 
                                 <canvas id="neoEnrollmentChart"></canvas>
                             </div>
 
-
                             <div class="neo-dashboard-panel">
                                 <div class="neo-panel-header">
                                     <h3>Recent Neo Select Customers</h3>
-                                    <a href="view_customer.php">View All</a>
+                                    <a href="customers_list.php">View All</a>
                                 </div>
 
                                 <div class="neo-table-wrapper">
-                                    <table class="neo-dashboard-table">
+                                    <table class="neo-dashboard-table" id="recentCustomersTable">
                                         <thead>
                                             <tr>
                                                 <th>Customer</th>
                                                 <th>Mobile</th>
-                                                <!--<th>Branch</th>-->
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
@@ -258,48 +220,13 @@
 
                                         <tbody>
                                             <tr>
-                                                <td colspan="4" class="text-center">No Data</td>
-                                            </tr>
-                                            <!-- <tr>
-                                                <td>Rahul Naik</td>
-                                                <td>98XXXXXX21</td>
-                                                <td><span class="neo-status-active">Active</span></td>
-                                                <td>
-                                                    <div class="neo-table-actions">
-                                                        <i class="fa-solid fa-eye"></i>
-                                                        <i class="fa-solid fa-calendar"></i>
-                                                        <i class="fa-brands fa-whatsapp"></i>
-                                                    </div>
+                                                <td colspan="4" class="text-center">
+                                                    Loading customers...
                                                 </td>
                                             </tr>
-
-                                            <tr>
-                                                <td>Priya Dessai</td>
-                                                <td>99XXXXXX31</td>
-                                                <td><span class="neo-status-active">Active</span></td>
-                                                <td>
-                                                    <div class="neo-table-actions">
-                                                        <i class="fa-solid fa-eye"></i>
-                                                        <i class="fa-solid fa-calendar"></i>
-                                                        <i class="fa-brands fa-whatsapp"></i>
-                                                    </div>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>Sneha Kamat</td>
-                                                <td>96XXXXXX12</td>
-                                                <td><span class="neo-status-interest">Deactivated</span></td>
-                                                <td>
-                                                    <div class="neo-table-actions">
-                                                        <i class="fa-solid fa-eye"></i>
-                                                        <i class="fa-solid fa-calendar"></i>
-                                                        <i class="fa-brands fa-whatsapp"></i>
-                                                    </div>
-                                                </td>
-                                            </tr> -->
                                         </tbody>
                                     </table>
+
                                 </div>
                             </div>
 
@@ -308,92 +235,49 @@
 
                         <!-- 3 GRID -->
                         <div class="neo-triple-grid-layout">
-
-                            <!-- WALLET -->
-                            <div class="neo-dashboard-panel">
-                                <div class="neo-wallet-top-box">
-                                    <div class="neo-wallet-icon-box">
-                                        <i class="fa-solid fa-wallet"></i>
-                                    </div>
-
-                                    <div>
-                                        <span>Total Wallet Balance</span>
-                                        <h2>₹ 0</h2>
-                                    </div>
+                            <div class="card rounded-4 border-1 p-3 mb-0">
+                                <div class="card-title d-flex justify-content-between align-items-center">
+                                    <p class="commission-title fs-5 mb-0">
+                                        Recent Activities
+                                    </p>
+                                    <a href="recent_activities.php" class="fs-6 fw-bold">
+                                        View All
+                                    </a>
                                 </div>
-
-                                <div class="neo-wallet-mini-grid">
-                                    <div>
-                                        <span>Available Balance</span>
-                                        <strong>₹ 0</strong>
-                                    </div>
-
-                                    <div>
-                                        <span>Pending Balance</span>
-                                        <strong>₹ 0</strong>
-                                    </div>
-                                </div>
-
-                                <div class="neo-wallet-btn-row">
-                                    <button>Withdraw</button>
-                                    <button>Transaction History</button>
-                                    <button>Incentive Structure</button>
+                                <div class="cardDetails" id="recentActivities">
                                 </div>
                             </div>
-
-
                             <!-- TRANSACTIONS -->
                             <div class="neo-dashboard-panel">
                                 <div class="neo-panel-header">
                                     <h3>Commission Transactions</h3>
-                                    <a href="#">View All</a>
+                                    <a href="holiday_payout.php">View All</a>
                                 </div>
 
                                 <div class="neo-table-wrapper">
-                                    <table class="neo-dashboard-table">
+                                    <table class="neo-dashboard-table" id="commissionTransactionsTable">
                                         <thead>
-                                        <tr>
-                                            <th>Customer</th>
-                                            <th>Date</th>
-                                            <th>Membership</th>
-                                            <th>Commission</th>
-                                        </tr>
+                                            <tr>
+                                                <th>Customer</th>
+                                                <th>Date</th>
+                                                <th>Membership</th>
+                                                <th>Commission</th>
+                                            </tr>
                                         </thead>
 
                                         <tbody>
                                             <tr>
-                                                <td colspan="4" class="text-center">No Data</td>
+                                                <td colspan="4" class="text-center">Loading...</td>
                                             </tr>
-                                            <!-- <tr>
-                                                <td>Rahul Naik</td>
-                                                <td>15 May 2024</td>
-                                                <td>Neo Select</td>
-                                                <td>₹ 500</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Priya Dessai</td>
-                                                <td>14 May 2024</td>
-                                                <td>Neo Select</td>
-                                                <td>₹ 500</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Vishal Shet</td>
-                                                <td>13 May 2024</td>
-                                                <td>Neo Select</td>
-                                                <td>₹ 500</td>
-                                            </tr> -->
                                         </tbody>
                                     </table>
                                 </div>
 
                                 <div class="neo-total-earned-box">
                                     Total Commission Earned
-                                    <strong>₹ 0</strong>
+                                    <strong id="totalCommissionEarned">₹ 0.00</strong>
                                 </div>
                             </div>
-
-
-                            
                         </div>
 
                     </div>
@@ -462,29 +346,779 @@
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
 
-        <script src="../assets/libs/chart.js/Chart-2.5.0.min.js"></script>
+
+        <!-- Chart.js 4 CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+
 
 
         <!-- Dashboard init  popular candidates section js file-->
 
         <script src="../assets/js/js-confetti.js"></script>
-        <script src="../assets/js/ibr_index.js"></script>
-        
+        <!-- <script src="../assets/js/ibr_index.js"></script> -->
         <script>
-            function highlightSelected(id) {
-                // Remove highlight from all items
-                document.querySelectorAll('li[id^="list-item-"]').forEach(function(el) {
-                    el.classList.remove('active-highlight');
-                });
+            // =====================================================
+            // DASHBOARD TOP CARDS
+            // =====================================================
 
-                // Add highlight to the clicked item
-                const selectedItem = document.getElementById(id);
-                if (selectedItem) {
-                    selectedItem.classList.add('active-highlight');
+            function loadDashboardCards() {
+
+                $.ajax({
+                    url: 'ajax/dashboard/card_data.php',
+                    type: 'GET',
+                    dataType: 'json',
+
+                    success: function (response) {
+
+                        if (!response.status || !response.data) {
+                            console.error(
+                                'Dashboard data could not be loaded:',
+                                response.message || 'Invalid response'
+                            );
+                            showDashboardError();
+                            return;
+                        }
+
+                        const data = response.data;
+
+                        // ==========================================
+                        // 1. NEO SELECT ENROLLMENTS
+                        // ==========================================
+
+                        const customerCount = Number(data.reg_cu_count) || 0;
+
+                        $('#cuCount').text(
+                            customerCount.toLocaleString('en-IN')
+                        );
+                        $('#userName').text(data.name);
+
+                        // ==========================================
+                        // 2. COMMISSION EARNED
+                        // ==========================================
+
+                        const activationAmount =
+                            Number(data.activation_amount) || 0;
+
+                        const tripAmount =
+                            Number(data.trip_amount) || 0;
+
+                        const totalCommission =
+                            data.total_comm !== undefined &&
+                            data.total_comm !== null &&
+                            data.total_comm !== ''
+                                ? Number(data.total_comm) || 0
+                                : activationAmount + tripAmount;
+
+                        $('#cuComm').text(formatRupees(totalCommission));
+
+                        const averageCommission = customerCount > 0
+                            ? activationAmount / customerCount
+                            : 0;
+
+                        $('#perCuComm').text(
+                            customerCount.toLocaleString('en-IN') +
+                            ' Customers × ' +
+                            formatRupees(averageCommission)
+                        );
+
+                        // ==========================================
+                        // 3. PAID AND PENDING COMMISSION
+                        // ==========================================
+
+                        const paidCommission =
+                            Number(data.paid_commission) || 0;
+
+                        const pendingCommission =
+                            data.pending_commission !== undefined &&
+                            data.pending_commission !== null &&
+                            data.pending_commission !== ''
+                                ? Number(data.pending_commission) || 0
+                                : Math.max(totalCommission - paidCommission, 0);
+
+                        $('#cuCommPaid').text(formatRupees(paidCommission));
+                        $('#cuCommPending').text(formatRupees(pendingCommission));
+
+                        // ==========================================
+                        // 4. TOTAL HOLIDAY BOOKINGS
+                        // ==========================================
+
+                        const bookingCount = Number(data.booking_count) || 0;
+
+                        $('#bookingCount').text(
+                            bookingCount.toLocaleString('en-IN')
+                        );
+
+                        // ==========================================
+                        // 5. DESTINATION-WISE TRIP COUNTS
+                        // ==========================================
+
+                        loadDestinationTrips(data.destinations || []);
+                        loadRecentActivities();
+                        loadCommissionTransactions()
+                    },
+
+                    error: function (xhr, status, error) {
+
+                        console.error('Dashboard AJAX Error:', error);
+                        console.error('Response:', xhr.responseText);
+
+                        showDashboardError();
+                    }
+                });
+            }
+
+
+            // =====================================================
+            // DESTINATION-WISE BOOKINGS
+            // =====================================================
+
+            function loadDestinationTrips(destinations) {
+
+                const $list = $('.neo-booking-mini-list');
+
+                if (!$list.length) {
+                    return;
+                }
+
+                $list.empty();
+
+                if (!Array.isArray(destinations) || destinations.length === 0) {
+
+                    const $empty = $('<div>', {
+                        class: 'text-muted text-center py-3'
+                    });
+
+                    $('<i>', {
+                        class: 'ri-map-pin-line me-1'
+                    }).appendTo($empty);
+
+                    $empty.append(
+                        document.createTextNode('No trips booked yet.')
+                    );
+
+                    $list.append($empty);
+                    return;
+                }
+
+                destinations.forEach(function (item) {
+
+                    const destinationName =
+                        String(item.destination || 'Unknown destination');
+
+                    const tripCount = Number(item.trip_count) || 0;
+
+                    const $row = $('<div>', {
+                        class: 'neo-booking-mini-item'
+                    });
+
+                    const $details = $('<div>', {
+                        class: 'neo-booking-mini-details'
+                    });
+
+                    $('<i>', {
+                        class: 'ri-map-pin-line neo-booking-mini-icon'
+                    }).appendTo($details);
+
+                    $('<span>', {
+                        class: 'neo-booking-mini-destination',
+                        text: destinationName
+                    }).appendTo($details);
+
+                    $('<span>', {
+                        class: 'neo-booking-mini-count',
+                        text: tripCount +
+                            (tripCount === 1 ? ' trip' : ' trips')
+                    }).appendTo($row);
+
+                    $row.prepend($details);
+
+                    $list.append($row);
+                });
+            }
+
+
+            // =====================================================
+            // FORMAT INDIAN RUPEE AMOUNTS
+            // =====================================================
+
+            function formatRupees(amount) {
+
+                amount = Number(amount) || 0;
+
+                return '₹ ' + amount.toLocaleString('en-IN', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 2
+                });
+            }
+
+
+            // =====================================================
+            // DASHBOARD ERROR FALLBACK
+            // =====================================================
+
+            function showDashboardError() {
+
+                $('#cuCount').text('—');
+                $('#cuComm').text('—');
+                $('#perCuComm').text('Unable to load commission');
+                $('#cuCommPaid').text('—');
+                $('#cuCommPending').text('—');
+                $('#bookingCount').text('—');
+
+                const $list = $('.neo-booking-mini-list');
+
+                if ($list.length) {
+                    $list.empty().append(
+                        $('<div>', {
+                            class: 'text-muted text-center py-3',
+                            text: 'Unable to load booking details.'
+                        })
+                    );
                 }
             }
+            //recent activities
+            function loadRecentActivities() { 
+                const $container = $('#recentActivities'); 
+                $container.html(` <div class="text-center py-3"> 
+                                    <span class="spinner-border spinner-border-sm text-primary">
+                                    </span> <span class="ms-2">Loading activities...</span> 
+                                    </div> `); 
+                $.ajax({ 
+                url: 'ajax/dashboard/recent_activities_data.php', 
+                type: 'GET', 
+                dataType: 'json', 
+                success: function (response) { 
+                    if ( response.status !== true || !Array.isArray(response.data) || response.data.length === 0 ) { 
+                        $container.html(` <div class="text-center text-muted py-4"> 
+                                            <i class="fa-regular fa-bell-slash fs-3"></i> 
+                                            <p class="mb-0 mt-2">No recent activities found.</p> 
+                                        </div> `); 
+                        return; 
+                    } 
+                    let html = ''; 
+                    response.data.slice(0, 5).forEach(function (activity) { 
+                        const escapeHtml = function (value) { 
+                            return String(value ?? '').replace(/[&<>"']/g, function (char) { 
+                                return { 
+                                    '&': '&amp;', 
+                                    '<': '&lt;', 
+                                    '>': '&gt;', 
+                                    '"': '&quot;', 
+                                    "'": '&#039;' 
+                                }[char]; 
+                            }); }; 
+                            const title = escapeHtml(activity.title); 
+                            const type = String(activity.type ?? '').toLowerCase(); 
+                            const dateValue = activity.date; 
+                            let icon = 'fa-user'; 
+                            let iconClass = 'activity-default'; 
+                            if (type === 'commission') { 
+                                icon = 'fa-wallet'; 
+                                iconClass = 'activity-commission'; 
+                            } else if (type === 'customer_activation') {
+                                icon = 'fa-user-check';
+                                iconClass = 'activity-activation';
+
+                            } else if (type === 'pending_customer') {
+                                icon = 'fa-user-clock';
+                                iconClass = 'activity-pending';
+                            } else if (type === 'payout') { 
+                                icon = 'fa-money-bill-transfer'; 
+                                iconClass = 'activity-payout'; 
+                            } 
+                            let formattedDate = 'Date unavailable'; 
+                            if (dateValue) { 
+                                const date = new Date( String(dateValue).replace(' ', 'T') ); 
+                                if (!isNaN(date.getTime())) { 
+                                    formattedDate = date.toLocaleString('en-IN', { 
+                                        day: '2-digit', 
+                                        month: 'short', 
+                                        year: 'numeric', 
+                                        hour: '2-digit', 
+                                        minute: '2-digit', 
+                                        hour12: true }); 
+                                    } 
+                                } 
+                                html += ` <div class="recent-activity-item d-flex align-items-start gap-3 py-3"> 
+                                            <div class="activity-icon ${iconClass}"> 
+                                                <i class="fa-solid ${icon}"></i> 
+                                            </div> 
+                                            <div class="flex-grow-1 min-width-0"> 
+                                                <p class="activity-description mb-1"> ${title} </p> 
+                                                <small class="activity-date"> 
+                                                    <i class="fa-regular fa-clock me-1"></i> ${escapeHtml(formattedDate)} 
+                                                </small> </div> </div> `; 
+                                        }); 
+                                $container.html(html); 
+                            }, error: function (xhr, status, error) { 
+                                console.error('Recent activities error:', error, xhr.responseText); 
+                                $container.html(` <div class="text-center text-danger py-4"> 
+                                                    <i class="fa-solid fa-triangle-exclamation"></i> 
+                                                    <p class="mb-0 mt-2">Unable to load recent activities.</p> 
+                                                    </div> `); 
+                            } 
+                        }); 
+            }
+            
+
+            function loadCommissionTransactions() {
+
+                const $tbody = $('#commissionTransactionsTable tbody');
+
+                $tbody.html(`
+                    <tr>
+                        <td colspan="4" class="text-center">Loading transactions...</td>
+                    </tr>
+                `);
+
+                $.ajax({
+                    url: 'ajax/dashboard/get_commission_transactions.php',
+                    type: 'GET',
+                    dataType: 'json',
+
+                    success: function (response) {
+
+                        if (response.status !== true) {
+                            showCommissionMessage('Unable to load transactions.');
+                            return;
+                        }
+
+                        const transactions = Array.isArray(response.data)
+                            ? response.data
+                            : [];
+
+                        const total = Number(response.total_commission) || 0;
+
+                        $('#totalCommissionEarned').text(
+                            '₹ ' + total.toLocaleString('en-IN', {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            })
+                        );
+
+                        if (transactions.length === 0) {
+                            showCommissionMessage('No commission transactions found.');
+                            return;
+                        }
+
+                        let rows = '';
+
+                        transactions.forEach(function (item) {
+
+                            const escapeHtml = function (value) {
+                                return String(value ?? '').replace(/[&<>"']/g, function (char) {
+                                    return {
+                                        '&': '&amp;',
+                                        '<': '&lt;',
+                                        '>': '&gt;',
+                                        '"': '&quot;',
+                                        "'": '&#039;'
+                                    }[char];
+                                });
+                            };
+
+                            let formattedDate = '—';
+
+                            if (item.date) {
+                                const parsedDate = new Date(
+                                    String(item.date).replace(' ', 'T')
+                                );
+
+                                if (!isNaN(parsedDate.getTime())) {
+                                    formattedDate = parsedDate.toLocaleDateString('en-IN', {
+                                        day: '2-digit',
+                                        month: 'short',
+                                        year: 'numeric'
+                                    });
+                                }
+                            }
+
+                            const amount = Number(item.commission) || 0;
+
+                            rows += `
+                                <tr>
+                                    <td>${escapeHtml(item.customer_name)}</td>
+                                    <td>${escapeHtml(formattedDate)}</td>
+                                    <td>${escapeHtml(item.membership)}</td>
+                                    <td>
+                                        <span class="fw-bold text-success">
+                                            ₹ ${amount.toLocaleString('en-IN', {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2
+                                            })}
+                                        </span>
+                                    </td>
+                                </tr>
+                            `;
+                        });
+
+                        $tbody.html(rows);
+                    },
+
+                    error: function (xhr, status, error) {
+
+                        console.error(
+                            'Commission transactions AJAX error:',
+                            error,
+                            xhr.responseText
+                        );
+
+                        showCommissionMessage('Failed to load commission transactions.');
+                    }
+                });
+            }
+
+            function showCommissionMessage(message) {
+
+                $('#commissionTransactionsTable tbody').html(`
+                    <tr>
+                        <td colspan="4" class="text-center text-muted">
+                            ${$('<div>').text(message).html()}
+                        </td>
+                    </tr>
+                `);
+            }
+
+
+            function loadRecentCustomers() { 
+                const $tbody = $('#recentCustomersTable tbody'); 
+                $tbody.html(` <tr> <td colspan="4" class="text-center"> Loading customers... </td> </tr> `); 
+                $.ajax({ 
+                    url: 'ajax/dashboard/recent_cu_list.php', 
+                    type: 'GET', 
+                    dataType: 'json', 
+                    success: function (response) { 
+                        if (!response.status || !Array.isArray(response.data)) { 
+                            showNoCustomers('Unable to load customers.'); 
+                            return; 
+                        } 
+                        if (response.data.length === 0) { 
+                            showNoCustomers('No customers found.'); 
+                            return; 
+                        } 
+                        let rows = ''; 
+                        response.data.forEach(function (customer) { 
+                            // Escape text before inserting database values into HTML. 
+                            const escapeHtml = function (value) { 
+                                return String(value ?? '').replace(/[&<>"']/g, function (char) { 
+                                    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[char]; 
+                                }); 
+                            }; 
+                            const name = escapeHtml(customer.cust_name); 
+                            const phone = escapeHtml(customer.phone); 
+                            const status = String(customer.status ?? 'Unknown'); 
+                            let statusClass = 'neo-status-interest'; 
+                            switch (status) { 
+                                case 'Active': 
+                                    statusClass = 'neo-status-active'; 
+                                    break; 
+                                case 'Pending': 
+                                    statusClass = 'neo-status-pending'; 
+                                    break; 
+                                case 'Deactive': 
+                                case 'Deleted': 
+                                case 'Unknown': 
+                                    statusClass = 'neo-status-interest'; 
+                                    break; 
+                            } 
+                            const customerId = escapeHtml(customer.ca_customer_id); 
+                            const whatsappNumber = String(customer.phone ?? '') .replace(/\D/g, ''); 
+                            rows += ` <tr> 
+                                        <td>${name}</td> 
+                                        <td>${phone}</td> 
+                                        <td> <span class="${statusClass}"> ${escapeHtml(status)} </span> </td> 
+                                        <td>
+                                            <div class="neo-table-actions"> 
+                                                <form action="edit_customer.php" method="POST" class="m-0">
+                                                    <input
+                                                        type="hidden"
+                                                        name="id"
+                                                        value="${customerId}"
+                                                    >
+                                                    <input
+                                                        type="hidden"
+                                                        name="status"
+                                                        value="${status}"
+                                                    >
+
+                                                    <button
+                                                        type="submit"
+                                                        class="border-0 bg-transparent p-0"
+                                                        title="View Customer"
+                                                    >
+                                                        <i class="fa-solid fa-eye"
+                                                        role="button"
+                                                        tabindex="0"
+                                                        aria-label="View Customer">
+                                                        </i>
+                                                    </button>
+                                                </form> 
+                                                <i class="fa-solid fa-calendar" role="button" tabindex="0" title="View Bookings" data-action="bookings" data-id="${customerId}"> </i> 
+                                                <i class="fa-brands fa-whatsapp" role="button" tabindex="0" title="WhatsApp Customer" data-action="whatsapp" data-phone="${escapeHtml(whatsappNumber)}"> </i> 
+                                            </div> 
+                                        </td> 
+                                      </tr> `; 
+                                }); 
+                                $tbody.html(rows); 
+                        }, 
+                        error: function (xhr, status, error) { 
+                            console.error( 'Recent customers AJAX error:', error, xhr.responseText ); 
+                            showNoCustomers('Failed to load customers.'); 
+                        } 
+                    }); 
+                } 
+                function showNoCustomers(message) { 
+                    $('#recentCustomersTable tbody').html(` <tr> <td colspan="4" class="text-center"> ${$('<div>').text(message).html()} </td> </tr> `); 
+                }
+
+
+            // =====================================================
+            // NEO SELECT ENROLLMENT CHART
+            // =====================================================
+
+            let enrollmentChart = null;
+
+            $(document).ready(function () {
+                // Load dashboard summary cards.
+                loadDashboardCards();
+                //load ercent customers
+                loadRecentCustomers();
+
+                // ==========================================
+                // INITIALIZE CHART
+                // ==========================================
+
+                const enrollmentCtx = document.getElementById('neoEnrollmentChart');
+
+                if (!enrollmentCtx) {
+                    console.log('Canvas #neoEnrollmentChart was not found.');
+                    return;
+                }
+
+                enrollmentChart = new Chart(enrollmentCtx, {
+
+                    type: 'line',
+
+                    data: {
+                        labels: [
+                            'Jan', 'Feb', 'Mar', 'Apr',
+                            'May', 'Jun', 'Jul', 'Aug',
+                            'Sep', 'Oct', 'Nov', 'Dec'
+                        ],
+
+                        datasets: [{
+                            label: 'Neo Select Enrollments',
+                            data: Array(12).fill(0),
+
+                            borderColor: '#1565d8',
+                            backgroundColor: 'rgba(21, 101, 216, 0.08)',
+
+                            borderWidth: 3,
+                            tension: 0.4,
+                            fill: false,
+
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            pointBackgroundColor: '#1565d8',
+                            pointBorderColor: '#ffffff',
+                            pointBorderWidth: 2
+                        }]
+                    },
+
+                    options: {
+
+                        responsive: true,
+                        maintainAspectRatio: false,
+
+                        plugins: {
+
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            },
+
+                            tooltip: {
+                                callbacks: {
+                                    label: function (context) {
+                                        return 'Enrollments: ' + context.parsed.y;
+                                    }
+                                }
+                            }
+                        },
+
+                        scales: {
+                            y: {
+                                min: -0.5,
+                                max: 5,
+
+                                ticks: {
+                                    stepSize: 1,
+                                    precision: 0,
+                                    autoSkip: false,
+                                    color: '#6B7280',
+
+                                    callback: function (value) {
+                                        return value < 0 ? '' : value;
+                                    }
+                                },
+
+                                grid: {
+                                    color: '#EEF2F7'
+                                },
+
+                                border: {
+                                    display: false
+                                }
+                            },
+
+                            x: {
+                                grid: {
+                                    display: false
+                                },
+
+                                border: {
+                                    display: false
+                                },
+
+                                ticks: {
+                                    color: '#6B7280'
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // Load enrollment data for the default year.
+                loadEnrollmentChart();
+
+                // Reload when the selected year changes.
+                $('#enrollmentYear').on('change', function () {
+                    loadEnrollmentChart($(this).val());
+                });
+
+            });
+
+
+            // =====================================================
+            // LOAD MONTHLY ENROLLMENT DATA
+            // =====================================================
+
+            function loadEnrollmentChart(year = '') {
+                
+                $.ajax({
+
+                    url: 'ajax/dashboard/cust_growth_chart_data.php',
+                    type: 'POST',
+                    dataType: 'json',
+
+                    data: {
+                        year: year
+                    },
+
+                    beforeSend: function () {
+                        $('#enrollmentChartLoader').show();
+                    },
+
+                    success: function (response) {
+
+                        if (!response.status) {
+                            console.error(
+                                'Enrollment chart error:',
+                                response.message || 'Unable to load data'
+                            );
+                            return;
+                        }
+
+                        // Populate available years.
+                        populateEnrollmentYears(
+                            response.years || [],
+                            response.selectedYear
+                        );
+
+                        const chartData = (response.data || []).map(function (value) {
+                            return Number(value) || 0;
+                        });
+
+                        const allZero = chartData.every(function (value) {
+                            return value === 0;
+                        });
+
+                        if (enrollmentChart) {
+
+                            enrollmentChart.data.labels = response.labels || [];
+                            enrollmentChart.data.datasets[0].data = chartData;
+
+                            const allZero = chartData.every(function (value) {
+                                return value === 0;
+                            });
+
+                            const yAxis = enrollmentChart.options.scales.y;
+
+                            if (allZero) {
+                                // Create space below zero so the line doesn't touch the bottom.
+                                yAxis.min = -0.5;
+                                yAxis.max = 5;
+
+                                yAxis.ticks.stepSize = 1;
+                                yAxis.ticks.autoSkip = false;
+                            } else {
+                                // Automatically scale for actual enrollment values.
+                                yAxis.min = 0;
+                                yAxis.max = undefined;
+
+                                yAxis.ticks.stepSize = undefined;
+                                yAxis.ticks.autoSkip = true;
+                            }
+
+                            enrollmentChart.update();
+                        }
+                    },
+
+                    error: function (xhr, status, error) {
+
+                        console.error('Enrollment AJAX error:', error);
+                        console.error('Response:', xhr.responseText);
+                    },
+
+                    complete: function () {
+                        $('#enrollmentChartLoader').hide();
+                    }
+                });
+            }
+
+
+            // =====================================================
+            // POPULATE YEAR DROPDOWN
+            // =====================================================
+
+            function populateEnrollmentYears(years, selectedYear) {
+
+                const $yearSelect = $('#enrollmentYear');
+
+                if (!$yearSelect.length) {
+                    return;
+                }
+
+                const currentValue = String(
+                    selectedYear || new Date().getFullYear()
+                );
+
+                $yearSelect.empty();
+
+                years.forEach(function (year) {
+
+                    $yearSelect.append(
+                        $('<option>', {
+                            value: year,
+                            text: year
+                        })
+                    );
+                });
+
+                $yearSelect.val(currentValue);
+            }
+
         </script>
-        
         <script>
             document.addEventListener("DOMContentLoaded", function () {
 

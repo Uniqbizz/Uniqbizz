@@ -1,36 +1,4 @@
-// ENROLLMENT CHART
-const enrollmentCtx = document
-    .getElementById('neoEnrollmentChart');
 
-new Chart(enrollmentCtx, {
-    type: 'line',
-
-    data: {
-        labels: [
-            '1 May','6 May','11 May','16 May',
-            '21 May','26 May','31 May'
-        ],
-
-        datasets: [{
-            label: 'Enrollments',
-            data: [0,0,0,0,0,0,0,0],
-            borderColor: '#1565d8',
-            backgroundColor: 'rgba(21,101,216,0.08)',
-            tension: 0.4,
-            fill: true,
-            pointRadius: 4
-        }]
-    },
-
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                display: false
-            }
-        }
-    }
-});
 
 
 // HOLIDAY BAR CHART

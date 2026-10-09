@@ -145,10 +145,10 @@
                     UPPER(LEFT(ste.gender, 1)),
                     LOWER(SUBSTRING(ste.gender, 2))
                 ) AS per_info_gender
-            FROM ca_travelagency ste
+            FROM institution_branch_manager ste
             LEFT JOIN countries cun
                 ON cun.id = ste.country
-            WHERE ste.ca_travelagency_id = :user_id
+            WHERE ste.institution_branch_manager_id = :user_id
             LIMIT 1
         ");
 

@@ -126,14 +126,13 @@ try {
             'date'  => $row['created_date']
         ];
     }
-
     /*
     |--------------------------------------------------------------------------
     | Holiday Trip Completion Commission
     |--------------------------------------------------------------------------
     */
 
-    $sqlCommission = $conn->prepare("
+    $sqlHCommission = $conn->prepare("
         SELECT
             ta_amt,
             created_date
@@ -142,11 +141,11 @@ try {
         ORDER BY created_date DESC
     ");
 
-    $sqlCommission->execute([
+    $sqlHCommission->execute([
         ':user_id' => $userId
     ]);
 
-    foreach($sqlCommission->fetchAll(PDO::FETCH_ASSOC) as $row){
+    foreach($sqlHCommission->fetchAll(PDO::FETCH_ASSOC) as $row){
 
         $activities[] = [
             'type'  => 'commission',
@@ -155,6 +154,7 @@ try {
         ];
 
     }
+
     /*
     |--------------------------------------------------------------------------
     | Sort Latest First

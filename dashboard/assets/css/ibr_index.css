@@ -43,6 +43,70 @@ canvas{
     left: 20px;
     z-index: 999;
 }
+#recentActivities {
+    margin-top: 8px;
+}
+
+.recent-activity-item {
+    border-bottom: 1px solid #edf0f5;
+}
+
+.recent-activity-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0 !important;
+}
+.activity-pending {
+    background: #fff4d6;
+    color: #b7791f;
+}
+.activity-icon {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+}
+
+.activity-commission {
+    background: #e7f8ef;
+    color: #159957;
+}
+
+.activity-activation {
+    background: #e8f0ff;
+    color: #315dcc;
+}
+
+.activity-payout {
+    background: #fff1e6;
+    color: #d97706;
+}
+
+.activity-default {
+    background: #f0edff;
+    color: #7255cc;
+}
+
+.activity-description {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.6;
+    color: #344054;
+    overflow-wrap: anywhere;
+}
+
+.activity-date {
+    color: #98a2b3;
+    font-size: 12px;
+}
+
+.min-width-0 {
+    min-width: 0;
+}
+
 /* added by SV on 1-09-2026 */
 .user-avatar-SVZ {
     width: 40px;

@@ -38,9 +38,9 @@ try {
                 ELSE 'Incomplete'
             END AS kyc_status
 
-        FROM ca_travelagency ste
+        FROM institution_branch_manager ste
 
-        WHERE ste.ca_travelagency_id = :user_id
+        WHERE ste.institution_branch_manager_id = :user_id
 
         LIMIT 1
         
