@@ -429,15 +429,38 @@
                             lengthMenu: [10, 25, 50, 100],
                             searching: true,
                             ordering: true,
+
                             order: [
                                 [3, 'desc']
                             ],
+
                             columnDefs: [
                                 {
                                     orderable: false,
                                     targets: [0, 1, 2]
                                 }
-                            ]
+                            ],
+
+                            language: {
+                                emptyTable: `
+                                    No data available in the table.
+                                `,
+                                zeroRecords: `
+                                    <i class="fa-solid fa-magnifying-glass me-2"></i>
+                                    No matching records found.
+                                `,
+                                search: 'Search:',
+                                lengthMenu: 'Show _MENU_ entries',
+                                info: 'Showing _START_ to _END_ of _TOTAL_ entries',
+                                infoEmpty: 'Showing 0 to 0 of 0 entries',
+                                infoFiltered: '(filtered from _MAX_ total entries)',
+                                paginate: {
+                                    first: 'First',
+                                    last: 'Last',
+                                    next: 'Next',
+                                    previous: 'Previous'
+                                }
+                            }
                         });
 
                         // Move DataTables search box into card header

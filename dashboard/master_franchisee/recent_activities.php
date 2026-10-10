@@ -437,34 +437,37 @@
                             lengthMenu: [10, 25, 50, 100],
                             searching: true,
                             ordering: true,
+
                             order: [
                                 [3, 'desc']
                             ],
+
                             columnDefs: [
                                 {
                                     orderable: false,
                                     targets: [0, 1, 2]
                                 }
                             ],
+
                             language: {
                                 emptyTable: `
-                                    <div class="text-center py-4">
-                                        <i class="ri-inbox-line fs-2 text-muted d-block mb-2"></i>
-                                        <div class="fw-semibold text-muted">No data available</div>
-                                        <small class="text-muted">
-                                            There are no records to display.
-                                        </small>
-                                    </div>
+                                    No data available in the table.
                                 `,
                                 zeroRecords: `
-                                    <div class="text-center py-4">
-                                        <i class="ri-search-line fs-2 text-muted d-block mb-2"></i>
-                                        <div class="fw-semibold text-muted">No matching records found</div>
-                                        <small class="text-muted">
-                                            Try changing your search criteria.
-                                        </small>
-                                    </div>
-                                `
+                                    <i class="fa-solid fa-magnifying-glass me-2"></i>
+                                    No matching records found.
+                                `,
+                                search: 'Search:',
+                                lengthMenu: 'Show _MENU_ entries',
+                                info: 'Showing _START_ to _END_ of _TOTAL_ entries',
+                                infoEmpty: 'Showing 0 to 0 of 0 entries',
+                                infoFiltered: '(filtered from _MAX_ total entries)',
+                                paginate: {
+                                    first: 'First',
+                                    last: 'Last',
+                                    next: 'Next',
+                                    previous: 'Previous'
+                                }
                             }
                         });
 
