@@ -88,6 +88,7 @@
                                                 <?php
                                                     $SrNo = 1;
                                                     $sql1 ="SELECT corporate_agency_id as id, firstname, lastname, profile_pic, register_date as date, user_type, amount, payment_mode, status FROM corporate_agency UNION ALL 
+                                                            SELECT institution_id as id, name as firstname, '' as lastname, certificate_of_incorporation as profile_pic, register_date as date, user_type, amount, payment_mode, status FROM institution UNION ALL 
                                                             SELECT ca_travelagency_id as id, firstname, lastname, profile_pic, register_date as date, user_type, amount, payment_mode, status FROM ca_travelagency UNION ALL 
                                                             SELECT ca_customer_id as id, firstname, lastname, profile_pic, register_date as date, user_type, paid_amount as amount, payment_mode, status FROM ca_customer UNION ALL 
                                                             SELECT sub_franchisee_id as id, firstname, lastname, profile_pic, register_date as date, user_type, amount as amount, payment_mode, status FROM sub_franchisee UNION ALL
@@ -111,6 +112,8 @@
                                                                 $designation = "Master Franchisee";
                                                             } else if ($row['user_type'] == "30") {
                                                                 $designation = "Sponsor Franchisee";
+                                                            } else if ($row['user_type'] == "32") {
+                                                                $designation = "Institution";
                                                             }
                                                             $rd= new DateTime($row['date']);
                                                             $rdate= $rd->format('d-m-Y');
