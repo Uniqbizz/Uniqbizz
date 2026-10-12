@@ -579,7 +579,7 @@
                                                     <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[0]['duration']?>
                                                         <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
                                                     </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[0]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5"><span class="fs-6 text-muted fw-normal">From: </span>&#8377;<?=$package_array[0]['price']?><span class="fs-6 text-muted fw-normal">&nbsp;/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0 ">
                                                             <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[0]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
@@ -602,7 +602,7 @@
                                                     <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[1]['duration']?>
                                                         <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
                                                     </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[1]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5"><span class="fs-6 text-muted fw-normal">From: </span>&#8377;<?=$package_array[1]['price']?><span class="fs-6 text-muted fw-normal">&nbsp;/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0 ">
                                                             <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[1]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
@@ -625,7 +625,7 @@
                                                     <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[2]['duration']?>
                                                         <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
                                                     </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[2]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5"><span class="fs-6 text-muted fw-normal">From: </span>&#8377;<?=$package_array[2]['price']?><span class="fs-6 text-muted fw-normal">&nbsp;/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0 ">
                                                             <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[2]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
@@ -648,7 +648,7 @@
                                                     <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[3]['duration']?>
                                                         <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
                                                     </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[3]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5"><span class="fs-6 text-muted fw-normal">From: </span>&#8377;<?=$package_array[3]['price']?><span class="fs-6 text-muted fw-normal">&nbsp;/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0 ">
                                                             <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[3]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
@@ -671,7 +671,7 @@
                                                     <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[4]['duration']?>
                                                         <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
                                                     </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[4]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5"><span class="fs-6 text-muted fw-normal">From: </span>&#8377;<?=$package_array[4]['price']?><span class="fs-6 text-muted fw-normal">&nbsp;/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0 ">
                                                             <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[4]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
@@ -694,7 +694,7 @@
                                                     <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[5]['duration']?>
                                                         <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
                                                     </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[5]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5"><span class="fs-6 text-muted fw-normal">From: </span>&#8377;<?=$package_array[5]['price']?><span class="fs-6 text-muted fw-normal">&nbsp;/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0 ">
                                                             <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[5]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
@@ -717,7 +717,7 @@
                                                     <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[6]['duration']?>
                                                         <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
                                                     </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[6]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5"><span class="fs-6 text-muted fw-normal">From: </span>&#8377;<?=$package_array[6]['price']?><span class="fs-6 text-muted fw-normal">&nbsp;/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0 ">
                                                             <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[6]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
@@ -740,7 +740,7 @@
                                                     <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[7]['duration']?>
                                                         <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
                                                     </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[7]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5"><span class="fs-6 text-muted fw-normal">From: </span>&#8377;<?=$package_array[7]['price']?><span class="fs-6 text-muted fw-normal">&nbsp;/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0 ">
                                                             <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[7]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
@@ -763,7 +763,7 @@
                                                     <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[8]['duration']?>
                                                         <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
                                                     </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[8]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5"><span class="fs-6 text-muted fw-normal">From: </span>&#8377;<?=$package_array[8]['price']?><span class="fs-6 text-muted fw-normal">&nbsp;/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0 ">
                                                             <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[8]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
@@ -786,7 +786,7 @@
                                                     <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[9]['duration']?>
                                                         <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
                                                     </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[9]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5"><span class="fs-6 text-muted fw-normal">From: </span>&#8377;<?=$package_array[9]['price']?><span class="fs-6 text-muted fw-normal">&nbsp;/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0 ">
                                                             <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[9]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
@@ -809,7 +809,7 @@
                                                     <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[10]['duration']?>
                                                         <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
                                                     </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[10]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&<span class="fs-6 text-muted fw-normal">From: </span>#8377;<?=$package_array[10]['price']?><span class="fs-6 text-muted fw-normal">&nbsp;/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0 ">
                                                             <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[10]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
@@ -832,7 +832,7 @@
                                                     <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[11]['duration']?>
                                                         <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
                                                     </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[11]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&<span class="fs-6 text-muted fw-normal">From: </span>#8377;<?=$package_array[11]['price']?><span class="fs-6 text-muted fw-normal">&nbsp;/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0 ">
                                                             <a href="<?= $home_url ?>tour-details.php?pacId=<?=$package_array[11]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>

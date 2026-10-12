@@ -136,14 +136,18 @@
     $stmt -> setFetchMode(PDO::FETCH_ASSOC);
     if($stmt -> rowCount()>0){
         foreach(($stmt -> fetchAll()) as $key => $value){
-            if($userType == '24' || $userType == '25' || $userType == '27' || $userType == '31'){
+            if($userType == '24' || $userType == '25' || $userType == '27' || $userType == '31' || $userType == '32'){
                 $firstname = $value['name'];
                 $lastname = '';
             }else{   
                 $firstname = $value['firstname'];
                 $lastname = $value['lastname'];
             }
-            $profile_pic = $value['profile_pic']; //get profile pic of user.
+            if($userType == '32'){
+                $profile_pic = $value['certificate_of_incorporation']; //get profile pic of user.
+            }else{
+                $profile_pic = $value['profile_pic']; //get profile pic of user.
+            }
         }
     }
 

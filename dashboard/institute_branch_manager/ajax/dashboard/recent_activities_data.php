@@ -19,7 +19,7 @@ try {
             CONCAT(firstname,' ',lastname) AS name,
             added_on AS activity_date
         FROM ca_customer
-        WHERE reference_no = :user_id
+        WHERE ta_reference_no = :user_id
         AND status = 2
         ORDER BY added_on DESC
         LIMIT 6
@@ -51,7 +51,7 @@ try {
             CONCAT(firstname,' ',lastname) AS name,
             register_date AS activity_date
         FROM ca_customer
-        WHERE reference_no = :user_id
+        WHERE ta_reference_no = :user_id
         AND status = 1
         ORDER BY register_date DESC
         LIMIT 6
@@ -127,7 +127,36 @@ try {
 
         $activities[] = [
             'type'  => 'commission',
-            'title' => 'Commission of + ₹ '.number_format($row['commision_tc'],2).' earned from activation',
+            'title' => 'Commission of + ₹ '.number_format($row['commision_tc'],2).' earned from Holiday Account activation',
+            'date'  => $row['created_date']
+        ];
+
+    }
+    /*
+    |--------------------------------------------------------------------------
+    | Holiday Trip Completion Commission
+    |--------------------------------------------------------------------------
+    */
+
+    $sqlHCommission = $conn->prepare("
+        SELECT
+            ta_amt,
+            created_date
+        FROM product_payout
+        WHERE ta_id = :user_id
+        ORDER BY created_date DESC
+        LIMIT 6
+    ");
+
+    $sqlHCommission->execute([
+        ':user_id' => $userId
+    ]);
+
+    foreach($sqlHCommission->fetchAll(PDO::FETCH_ASSOC) as $row){
+
+        $activities[] = [
+            'type'  => 'commission',
+            'title' => 'Commission of + ₹ '.number_format($row['ta_amt'],2).' earned from Holiday Trip Completion',
             'date'  => $row['created_date']
         ];
 

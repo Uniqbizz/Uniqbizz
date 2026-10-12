@@ -328,7 +328,7 @@
                                                         <td class="fw-bolder text-dark fontSize1 ps-0" id="occExp">NA</td>
                                                     </tr>
                                                     <tr>
-                                                        <th class="text-muted fontSize1 pe-0" scope="row">Monthly Income</th>
+                                                        <th class="text-muted fontSize1 pe-0" scope="row">Annual Income</th>
                                                         <td class="fw-bolder text-dark fontSize1 ps-0" id="occIncome">&#8377; 0</td>
                                                     </tr>
                                                 </tbody>

@@ -597,6 +597,10 @@
                                 {
                                     location.href = "dashboard/institute_branch_manager/index.php";
                                 }
+                                else if (res.user_type == "32")
+                                {
+                                    location.href = "dashboard/institution/institution_dashboard.php";
+                                }
                                 else if (res.user_type == "35")
                                 {
                                     location.href = "dashboard/super_techno_enterprise/super_techno_dashboard.php";
