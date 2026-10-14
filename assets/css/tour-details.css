@@ -523,6 +523,10 @@ body {
 .packCard {
     position: relative;
     border-radius: 12px;
+    overflow: hidden;
+    min-height: 350px;
+    /* card height will increase automatically with content */
+    display: flex;
 }
 .viewMoreFaq{
     background-color: #fff;
@@ -535,29 +539,37 @@ body {
     border: 1px solid #0d6efd;
     color: #fff !important;
 }
-.cardCreame {
-    width: 100%;
-    display: block;
-    min-height: 350px;
-    height: auto;
-    border-radius: 12px;
-}
-.packContent {
+/* Background images */
+.cardCreame,
+.cardPurple {
     position: absolute;
-    inset: 0; /* top:0 right:0 bottom:0 left:0 */
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    z-index: 1;
+}
+/* Actual content */
+.packContent {
+    position: relative;
+    width: 100%;
+    min-height: 350px;
     padding: 24px;
     z-index: 2;
+
     display: flex;
     align-items: center;
 }
 .packContent .row {
     width: 100%;
+    margin: 0;
 }
-.cardPurple {
-    width: stretch;
-    min-height: 350px;
-    height: auto;
-    border-radius: 12px;
+/* Prevent long text from overflowing horizontally */
+.packContent p,
+.packContent h5 {
+    overflow-wrap: break-word;
+    word-break: normal;
 }
 .checkIconGreen {
     color: #008000;
