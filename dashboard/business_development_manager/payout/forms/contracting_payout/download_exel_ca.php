@@ -190,9 +190,9 @@ $rowNo = 4;
 
 // Prepare name lookups once
 $eteNameStmt = $conn->prepare("
-    SELECT firstname, lastname
-    FROM executive_techno_enterprise
-    WHERE executive_techno_enterprise_id = :eteId
+    SELECT name as firstname, '' as lastname
+    FROM employees
+    WHERE employee_id = :eteId
     LIMIT 1
 ");
 

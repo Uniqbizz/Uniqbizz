@@ -1,10 +1,15 @@
 // datatable initalise 
 $(document).ready(function(){
+    $.fn.dataTable.ext.errMode = 'none'; //block data table errors
     $("#payoutDetailsTable").DataTable({
         order: [
             [0, 'desc'], 
             [1, 'desc']
         ], 
+        language: {
+            emptyTable: 'No payout records found for the selected month.',
+            zeroRecords: 'No matching payout records found.'
+        }
         // Assuming 'id' is the first column and 'timestamp_column' is the second column
     });
     $("#previous_payout_table").DataTable();
@@ -62,7 +67,12 @@ $('#user_id_name').on('change', function(){
         success: function(data){
             // console.log(data);
             $("#filterTable").html(data);
-            $('#payoutDetailsTable').DataTable();
+            $('#payoutDetailsTable').DataTable({
+                language: {
+                    emptyTable: 'No payout records found for the selected month.',
+                    zeroRecords: 'No matching payout records found.'
+                }
+            });
         },
     });
 });
