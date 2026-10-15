@@ -945,17 +945,47 @@
         <script src="../assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
         <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
         <script>
-            $(document).ready(function(){
-                $("#payoutDetailsTable").DataTable();
-                $("#previous_payout_table").DataTable();
-                $("#next_payout_table").DataTable();
-                $("#total_payout_table").DataTable();
+            $(document).ready(function () {
 
-                //for keeping 2 decimals without rounding added on 25-Jan-2025 by SV
-                function truncateToTwoDecimals(num) {
-                    return Math.trunc(num * 100) / 100;
-                }
+                const tableIds = [
+                    '#payoutDetailsTable',
+                    '#previous_payout_table',
+                    '#next_payout_table',
+                    '#total_payout_table'
+                ];
+
+                tableIds.forEach(function (tableId) {
+
+                    const $table = $(tableId);
+
+                    // Skip if the table does not exist.
+                    if (!$table.length) {
+                        return;
+                    }
+
+                    // Skip if DataTables is already initialized.
+                    if ($.fn.DataTable.isDataTable(tableId)) {
+                        return;
+                    }
+
+                    // Initialize DataTables even when the table has no data.
+                    $table.DataTable({
+                        responsive: true,
+                        pageLength: 10,
+                        lengthChange: true,
+                        lengthMenu: [10, 25, 50, 100],
+                        language: {
+                            emptyTable: 'No payout records found.',
+                            zeroRecords: 'No matching payout records found.'
+                        }
+                    });
+                });
+
             });
+            //for keeping 2 decimals without rounding added on 25-Jan-2025 by SV
+            function truncateToTwoDecimals(num) {
+                return Math.trunc(num * 100) / 100;
+            }
 
         </script>
         <script>
