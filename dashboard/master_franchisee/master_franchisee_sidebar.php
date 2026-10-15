@@ -54,6 +54,11 @@
                                     <span data-key="sub_franchisee_payout.php">Franchisee Contracting Payout</span>
                                 </a>
                             </li>
+                            <li class="nav-item <?php echo ($current_page == 'institution_payout.php') ? 'active' : ''; ?>">
+                                <a href="institution_payout.php" class="nav-link menu-link">
+                                    <span data-key="institution_payout.php">Institution Payout</span>
+                                </a>
+                            </li>
                             <li class="nav-item <?php echo ($current_page == 'holiday_payout.php') ? 'active' : ''; ?>">
                                 <a href="holiday_payout.php" class="nav-link menu-link">
                                     <span data-key="holiday-payout">Holiday Account Payout</span>
