@@ -33,8 +33,8 @@ if($tableSearch == "CA" || $tableSearch =="TE"){
     $bcNames = $conn -> prepare("SELECT * FROM institution WHERE institution_id = '".$designation  ."' AND status = 1");
 }else if($tableSearch == "BM"){
     $bcNames = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$designation  ."' AND status = 1");
-}else if($tableSearch == "TA"){
-    $bcNames = $conn -> prepare("SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '".$designation  ."' AND status = 1");
+}else if($tableSearch == "IB"){
+    $bcNames = $conn -> prepare("SELECT * FROM institution_branch_manager WHERE institution_branch_manager_id = '".$designation  ."' AND status = 1");
 }else{
     $bcNames = $conn -> prepare("SELECT * FROM business_consultant WHERE business_consultant_id = '".$designation  ."' AND status = 1");
 }
@@ -62,8 +62,8 @@ if($tableSearch == "CA" || $tableSearch =="TE"){
     $caNames = $conn -> prepare("SELECT * FROM institution WHERE institution_id = '".$id ."' AND status = 1");
 }else if($tableSearch == "BM"){
     $caNames = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$id ."' AND status = 1");
-}else if($tableSearch == "TA"){
-    $caNames = $conn -> prepare("SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '".$id ."' AND status = 1");
+}else if($tableSearch == "IB"){
+    $caNames = $conn -> prepare("SELECT * FROM institution_branch_manager WHERE institution_branch_manager_id = '".$id ."' AND status = 1");
 }else{
     $caNames = $conn -> prepare("SELECT * FROM business_consultant WHERE business_consultant_id = '".$id ."' AND status = 1");
 }

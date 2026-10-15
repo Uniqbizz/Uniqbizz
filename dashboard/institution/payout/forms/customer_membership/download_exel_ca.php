@@ -11,7 +11,7 @@ $payoutMonth = $_GET['payoutMonth'];
 $payoutmessage = $_GET['payoutmessage'];
 $designation = $_GET['designation'] ?? '';
 $user_id = $_GET['user_id'] ?? '';
-$user_id_str=substr($user_id,0,1) == 'F'?substr($user_id,0,1):substr($user_id,0,2);
+$user_id_str=substr($user_id,0,1) == 'I'?substr($user_id,0,1):substr($user_id,0,2);
 
 $dateObj   = DateTime::createFromFormat('!m', $payoutMonth);
 $monthName = $dateObj->format('F'); 
@@ -89,9 +89,9 @@ if($payoutmessage == 'PreviousPayout'){
                 $message = str_replace('.', PHP_EOL, $row2['message_te']);
 
                 $sql1 = $conn->prepare("
-                    SELECT firstname,lastname
-                    FROM sub_franchisee
-                    WHERE sub_franchisee_id = ?
+                    SELECT name AS firstname, '' AS lastname
+                    FROM instituttion
+                    WHERE instituttion_id = ?
                 ");
                 $sql1->execute([$row2['techno_enterprise']]);
 
@@ -217,9 +217,9 @@ if($payoutmessage == 'NextPayout'){
                 $ta_name = '';
 
                 $sql1 = $conn->prepare("
-                    SELECT firstname,lastname
-                    FROM sub_franchisee
-                    WHERE sub_franchisee_id = ?
+                    SELECT name AS firstname, '' AS lastname
+                    FROM instituttion
+                    WHERE instituttion_id = ?
                 ");
                 $sql1->execute([$row2['techno_enterprise']]);
 
@@ -341,9 +341,9 @@ if($payoutmessage == 'TotalPayout'){
                 $ta_name = '';
 
                 $sql1 = $conn->prepare("
-                    SELECT firstname,lastname
-                    FROM sub_franchisee
-                    WHERE sub_franchisee_id = ?
+                    SELECT nmae AS firstname, '' AS lastname
+                    FROM instituttion
+                    WHERE instituttion_id = ?
                 ");
                 $sql1->execute([$row2['techno_enterprise']]);
 
@@ -500,7 +500,7 @@ if($payoutmessage == 'allPayout'){
                 }else if($user_id_str == "F"){
                     $sql2= $conn->prepare("SELECT firstname,lastname FROM `sub_franchisee` where sub_franchisee_id='".$row2['techno_enterprise']."'");
                 }else if($user_id_str == "I"){
-                    $sql2= $conn->prepare("SELECT firstname,lastname FROM `institution` where institution_id='".$row2['techno_enterprise']."'");
+                    $sql2= $conn->prepare("SELECT name AS firstname, '' AS lastname FROM `institution` where institution_id='".$row2['techno_enterprise']."'");
                 }
                 $sql2->execute();
                 $sql2->setFetchMode(PDO::FETCH_ASSOC);

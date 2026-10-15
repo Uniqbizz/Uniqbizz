@@ -90,8 +90,8 @@ if($payoutmessage == 'PreviousPayout'){
 
                 $sql1 = $conn->prepare("
                     SELECT firstname,lastname
-                    FROM ca_travelagency
-                    WHERE ca_travelagency_id = ?
+                    FROM institution_branch_manager
+                    WHERE institution_branch_manager_id = ?
                 ");
                 $sql1->execute([$row2['travel_consultant']]);
 
@@ -218,8 +218,8 @@ if($payoutmessage == 'NextPayout'){
 
                 $sql1 = $conn->prepare("
                     SELECT firstname,lastname
-                    FROM ca_travelagency
-                    WHERE ca_travelagency_id = ?
+                    FROM institution_branch_manager
+                    WHERE institution_branch_manager_id = ?
                 ");
                 $sql1->execute([$row2['travel_consultant']]);
 
@@ -342,8 +342,8 @@ if($payoutmessage == 'TotalPayout'){
 
                 $sql1 = $conn->prepare("
                     SELECT firstname,lastname
-                    FROM ca_travelagency
-                    WHERE ca_travelagency_id = ?
+                    FROM institution_branch_manager
+                    WHERE institution_branch_manager_id = ?
                 ");
                 $sql1->execute([$row2['travel_consultant']]);
 
@@ -500,7 +500,7 @@ if($payoutmessage == 'allPayout'){
                 }else if($user_id_str == "F"){
                     $sql2= $conn->prepare("SELECT firstname,lastname FROM `sub_franchisee` where sub_franchisee_id='".$row2['travel_consultant']."'");
                 }else if($user_id_str == "I"){
-                    $sql2= $conn->prepare("SELECT firstname,lastname FROM `institution` where institution_id='".$row2['travel_consultant']."'");
+                    $sql2= $conn->prepare("SELECT firstname,lastname FROM `institution`_branch_manager where institution_branch_manager_id='".$row2['travel_consultant']."'");
                 }
                 $sql2->execute();
                 $sql2->setFetchMode(PDO::FETCH_ASSOC);

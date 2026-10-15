@@ -15,7 +15,7 @@ if($user_id_str =='MF' || $user_id_str =='SF' || $user_id_str=='BM'){
     $message = "message_bm";
 }else if ($user_id_str =='F' || $user_id_str =='CA' || $user_id_str=='TE' || $user_id_str=='I'){
     $message = "message_te";
-}else if($user_id_str =='TA'){
+}else if($user_id_str =='IB'){
     $message = "message_tc";
 }
 

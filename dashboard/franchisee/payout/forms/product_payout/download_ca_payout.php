@@ -155,7 +155,7 @@ if($caNames -> rowCount()>0){
                                             <h6 style="padding:2px 10px; font-weight: 700;">Month : <?php echo $date; ?></h6>
                                         </td>
                                         <td class="col-md-5 col-sm-5 pt-3">
-                                            <h6 style="padding:2px 0; font-weight: 700;">Pay For : Techno Enterprise Payout </h6>
+                                            <h6 style="padding:2px 0; font-weight: 700;">Pay For : Franchisee Payout </h6>
                                             <h6 style="padding:2px 0; font-weight: 700;">Pay date : <?=$paydate?> </h6>
                                             <h6 style="padding:2px 0; font-weight: 700;">Payout status : <?=$message_status == 2 ? 'Pending' :($message_status == 1?'Paid':'')?></h6>
                                         </td>

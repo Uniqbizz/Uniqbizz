@@ -10,9 +10,9 @@ $totalAmountMessage = $_POST['totalAmountMessage'] ?? '';
 $totalTableMessage = $_POST['totalTableMessage'] ?? '';
 $tdsPercentage=2/100;
 
-if($userType == '11'){ //travel_consultant
+if($userType == '33'){ //travel_consultant
     $userIdCommi = 'ta_id';
-    $amtCal = 'ta_markup + ta_amt';
+    $amtCal = 'ta_amt';
 }elseif($userType == '16' || $userType =='29' || $userType =='32'){ //Techno Enterprise/ corporate agency/franchisee/institution
     $userIdCommi = 'te_id';
     $amtCal = 'te_amt';
@@ -110,9 +110,9 @@ if($totalTableMessage){
                         $TdsAmt = $totalAmt * $tdsPercentage;
 
                         $totalPayable = $totalAmt - $TdsAmt ;
-                    }else if($userType == '11'){
+                    }else if($userType == '33'){
                         $id = $row['ta_id'];
-                        $ta_markup = $row['ta_markup'];
+                        // $ta_markup = $row['ta_markup'];
                         $message = $row['ta_mess'];
                         $amt = $row['ta_amt'];
                         $status = $row['ta_status'];
