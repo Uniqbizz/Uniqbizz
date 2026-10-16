@@ -599,11 +599,17 @@ try {
         // ========================================================
 
         $action = '
-            <a href="prepare_quotation.php">
-                <div class="enquiryEditBtn" data-request-id="' . $requestId . '">
+            <form action="prepare_quotation.php" method="POST">
+                <input type="hidden" name="request_id"
+                    value="' . htmlspecialchars((string)$requestId, ENT_QUOTES, 'UTF-8') . '">
+
+                <button
+                    type="submit"
+                    class="enquiryEditBtn"
+                    style="border: none; cursor: pointer;">
                     Edit
-                </div>
-            </a>
+                </button>
+            </form>
         ';
         $isGuestUser = (
             $row['userId'] === null ||

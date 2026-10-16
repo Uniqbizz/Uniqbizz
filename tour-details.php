@@ -153,7 +153,7 @@ include 'assets/submit/tour_details_data.php';
 
                                         <div class="col-xl-7 col-lg-12 mb-3">
                                             <div class="image-wrapper">
-                                                <img src="<?= $galleryImages[0]['image'] ?>" alt="<?= $package['name'] ?>" class="image-width">
+                                                <img src="<?= $coverImage ?>" alt="<?= $package['name'] ?>" class="image-width">
                                             </div>
                                         </div>
                                         <div class="col-xl-5 col-lg-12 position-relative">

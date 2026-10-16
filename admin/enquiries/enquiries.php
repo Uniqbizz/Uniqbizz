@@ -685,6 +685,8 @@ $date = date('Y');
             //     cb(start, end);
 
             // });
+            let selectedStartDate = '';
+            let selectedEndDate = '';
             $(function() {
 
                 var start = moment("<?= $mindate ?>", "YYYY-MM-DD");
@@ -821,10 +823,8 @@ $date = date('Y');
                     data: function (d) {
 
                         d.status = selectedStatus;
-
-                        d.start_date = startDate;
-
-                        d.end_date = endDate;
+                        d.start_date = selectedStartDate;
+                        d.end_date = selectedEndDate;
 
                     }
 

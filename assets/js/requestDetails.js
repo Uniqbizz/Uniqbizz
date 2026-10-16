@@ -102,26 +102,28 @@ function updateRecommendedRooms() {
             accommodationText += '.';
         }
         roomsHTML += `
-            <p class="fontSize10 fw-bold">Room ${i}</p>
-            <div class="row">
-                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-7 col-12 mb-3">
-                    <div class="d-flex justify-content-between mobileDisplayBlock">
-                        <div>
-                            <p class="fontSize10 fw-bold">
-                                <i class="ri-hotel-bed-fill destination-title fs-6"></i>
-                                ${bedText}
-                            </p>
-                            <p class="fontSize10">
-                                ${accommodationText}
-                            </p>
-                        </div>
-                        <div class="py-1 px-2 text-center text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 recommendedBtn fw-bold fontSize10">
-                            Recommended
+            <div class="roomRecommendationItem">
+                <p class="fontSize10 fw-bold">Room ${i}</p>
+                <div class="row">
+                    <div class="col-xl-9 col-lg-8 col-md-8 col-sm-7 col-12 mb-3">
+                        <div class="d-flex justify-content-between mobileDisplayBlock">
+                            <div>
+                                <p class="fontSize10 fw-bold">
+                                    <i class="ri-hotel-bed-fill destination-title fs-6"></i>
+                                    ${bedText}
+                                </p>
+                                <p class="fontSize10">
+                                    ${accommodationText}
+                                </p>
+                            </div>
+                            <div class="py-1 px-2 text-center text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 recommendedBtn fw-bold fontSize10">
+                                Recommended
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-5 col-12 mb-3">
-                    <button class="btn modifyBtn" type="button" data-room="${i}">Modify Rooms</button>
+                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-5 col-12 mb-3">
+                        <button class="btn modifyBtn" type="button" data-room="${i}">Modify Rooms</button>
+                    </div>
                 </div>
             </div>
         `;
@@ -2108,8 +2110,8 @@ $("#submitRequst").on("click", function (e) {
     const convenienceFee = getAmount("#convenienceFeee");
     const gstValue = getAmount("#gstValue");
     const couponDiscount = getAmount("#totalCouponDiscount");
-    const referralWallet = getAmount("#appliedReferralWallet");
-    const discountWallet = getAmount("#appliedDiscountWallet");
+    const referralWallet = $("#appliedReferralWallet").val();
+    const discountWallet = $("#appliedDiscountWallet").val();
     const finalPackagePrice = getAmount("#finalPackagePrice");
     // =====================================================
     // COUPONS
@@ -2162,28 +2164,37 @@ $("#submitRequst").on("click", function (e) {
     // ROOM DETAILS
     // =====================================================
     let rooms = [];
-    $("#roomRecommendation").each(function () {
-        const room = {
-            room_number:
-                $(this)
-                    .find(".fontSize10.fw-bold")
-                    .first()
-                    .text()
-                    .trim(),
-            description:
-                $(this)
-                    .find(".ri-hotel-bed-fill")
-                    .parent()
-                    .text()
-                    .trim(),
-            recommendation:
-                $(this)
-                    .find(".recommendedBtn")
-                    .text()
-                    .trim()
-        };
-        rooms.push(room);
+
+    $("#roomRecommendation .roomRecommendationItem").each(function () {
+        const $room = $(this);
+
+        const roomNumber = $room
+            .children("p.fontSize10.fw-bold")
+            .first()
+            .text()
+            .trim();
+
+        const description = $room
+            .find(".ri-hotel-bed-fill")
+            .closest("p")
+            .text()
+            .trim();
+
+        const recommendation = $room
+            .find(".recommendedBtn")
+            .text()
+            .trim();
+
+        rooms.push({
+            room_number: roomNumber,
+            description: description,
+            recommendation: recommendation
+        });
     });
+
+    console.log(referralWallet);
+    
+    
     // =====================================================
     // CREATE FORM DATA
     // =====================================================

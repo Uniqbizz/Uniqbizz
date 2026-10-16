@@ -1,10 +1,89 @@
 <?php
-session_start();
+    session_start();
 
-if (!isset($_SESSION['username'])) {
-    echo '<script>location.href = "../login.php";</script>';
-}
-$date = date('Y'); 
+    if (!isset($_SESSION['username'])) {
+        echo '<script>location.href = "../login.php";</script>';
+    }
+    include(__DIR__ . '/../connect.php');
+    $date = date('Y'); 
+    $request_id = $_POST['request_id'] ?? '';
+
+    if (empty($request_id) || !is_scalar($request_id) || trim((string)$request_id) === '') {
+        ?>
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        </head>
+        <body>
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid Request ID',
+                    text: 'The request ID is missing or invalid.',
+                    confirmButtonText: 'OK',
+                    allowOutsideClick: false
+                }).then(() => {
+                    window.location.href = 'enquiries.php';
+                });
+            </script>
+        </body>
+        </html>
+        <?php
+        exit;
+    }
+    $stmt = $conn->prepare("
+        SELECT *
+        FROM request_details
+        WHERE request_id = :request_id
+        LIMIT 1
+    ");
+
+    $stmt->execute([
+        ':request_id' => $request_id
+    ]);
+
+    $requestData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$requestData) {
+        ?>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Request ID',
+                text: 'No request details found.',
+                confirmButtonText: 'OK',
+                allowOutsideClick: false
+            }).then(() => {
+                window.location.href = 'enquires.php';
+            });
+        </script>
+        <?php
+        exit;
+    }
+
+    $id = $requestData['package_id'];
+    $user_id = $requestData['userId'];
+    if ($id === false || $id === null || $id <= 0) {
+        ?>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Package ID',
+                text: 'The package ID is missing or invalid.',
+                confirmButtonText: 'OK',
+                allowOutsideClick: false
+            }).then(() => {
+                window.location.href = 'enquiries.php';
+            });
+        </script>
+        <?php
+        exit;
+    }
+    include __DIR__ . '/ajax/tour_details_data.php';
 ?>
 
 <!DOCTYPE html>
@@ -87,30 +166,32 @@ $date = date('Y');
                                 <div class="card cardShadow">
                                     <div class="d-flex tabDisplayBlock">
                                         <div class="p-2 imageWrapper">
-                                            <img src="../assets/images/andaman_nicobar.jpg" alt="" class="prepareQuotationImg">
+                                            <img src="<?= '../../'.$galleryImages[0]['image'] ?>" alt="" class="prepareQuotationImg">
                                         </div>
                                         <div class="p-3 widthStretch">
                                             <div class="packageIDBtn">
-                                                PKG-AN001
+                                                <?= $package['unique_code'] ?>
                                             </div>
-                                            <p class="fw-bolder textDarkBlue mb-1 fs-4" id="">Andaman and Nicobar Island</p>
-                                            <p class="fw-bold textDarkBlue mb-1 fs-5" id="">The Jewel of the Indian Ocean</p>
+                                            <p class="fw-bolder textDarkBlue mb-1 fs-4" id=""><?= $package['name'] ?></p>
+                                            <p class="fw-bold textDarkBlue mb-1 fs-5" id="">
+                                                <?= $package['description'] ?>
+                                            </p>
                                             <div class="d-flex gap-4 redIcons laptopDisplay">
                                                 <p class="fontSize12 mb-3">
                                                     <i class="fa-solid fa-location-dot me-2"></i>
-                                                    Andaman and Nicobar Island
+                                                    <?= $package['destination'] ?>
                                                 </p>
                                                 <p class="fontSize12 mb-3">
                                                     <i class="fa-regular fa-calendar me-2"></i>
-                                                    4 Nights / 5 Days
+                                                    <?= $tour_nights ?> Nights / <?= $tour_days ?> Days
                                                 </p>
                                                 <p class="fontSize12 mb-3">
                                                     <i class="fa-solid fa-utensils me-2"></i>
-                                                    Meals: Breakfast
+                                                    Meals: <?= $meal_cat['name'] ?>
                                                 </p>
                                             </div>
                                             <p class="fontSize12 mb-3">
-                                                The Andaman and Nicobar Island are a tropical haven in the Bay of Bengal, known for its immaculate beaches, crystal-clear turquoise waters, and abundant marine life.
+                                                <?= $package['detailed_description'] ?>
                                             </p>
                                         </div>
                                     </div>
@@ -130,11 +211,15 @@ $date = date('Y');
                                     <div class="row">
                                         <div class="col-xl-6 d-flex gap-2">
                                             <p class="fs-6 mb-0">Enquiry ID :</p>
-                                            <p class="fs-6 mb-0 fw-bold">ENQ-20260908-001</p>
+                                            <p class="fs-6 mb-0 fw-bold"><?= $request_id ?></p>
                                         </div>
                                         <div class="col-xl-6 d-flex gap-2">
                                             <p class="fs-6 mb-0">Received On :</p>
-                                            <p class="fs-6 mb-0 fw-bold">08 Sep 2026, 10:35 AM</p>
+                                            <p class="fs-6 mb-0 fw-bold">
+                                                <?= !empty($requestData['created_date'])
+                                                    ? date('d M Y, h:i A', strtotime($requestData['created_date']))
+                                                    : 'N/A'; ?>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -146,66 +231,84 @@ $date = date('Y');
                                             <i class="fa-solid fa-user fa-xl me-3"></i>
                                             Customer Information
                                         </h5>
+                                        <!-- <a class="editCustomerBtn">
+                                            <i class="fa-solid fa-pen me-1"></i>
+                                            Edit
+                                        </a> -->
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Full Name :</p>
+                                            <p class="fs-6 mb-2 fw-bold"><?= $requestData['guestFullName'] ?></p>
+                                        </div>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Mobile :</p>
+                                            <p class="fs-6 mb-2 fw-bold"><?= $requestData['guestPhone'] ?></p>
+                                        </div>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Email :</p>
+                                            <p class="fs-6 mb-2 fw-bold"><?= $requestData['guestEmail'] ?></p>
+                                        </div>
+                                        <!-- <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Address :</p>
+                                            <p class="fs-6 mb-2 fw-bold">Mumbai, Maharashtra</p>
+                                        </div> -->
+                                        <?php if($requestData['userId'] != 'null'){
+                                        ?>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Customer Type :</p>
+                                            <p class="fs-6 mb-2 fw-bold"><?= $Requester_type ?></p>
+                                        </div>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Member Id :</p>
+                                            <p class="fs-6 mb-2 fw-bold"><?= $requestData['userId'] ?></p>
+                                        </div>
+                                        <!-- <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Travel Consultant :</p>
+                                            <p class="fs-6 mb-2 fw-bold">-</p>
+                                        </div> -->
+                                        <?php }else{ ?>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Customer Type :</p>
+                                            <p class="fs-6 mb-2 fw-bold"><?= $Requester_type ?></p>
+                                        </div>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Member Id :</p>
+                                            <p class="fs-6 mb-2 fw-bold">NA</p>
+                                        </div>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                                <!-- Card Section 2 subsection 2 End -->
+                                <!-- Card Section 2 subsection 3 Start -->
+                                <div class="card p-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <h5 class="fw-bold textDarkBlue">
+                                            <i class="fa-solid fa-calendar-days fa-xl me-3"></i>
+                                            Trip Request <span class="fw-normal">(Submitted by Customer)</span>
+                                        </h5>
                                         <a class="editCustomerBtn">
                                             <i class="fa-solid fa-pen me-1"></i>
                                             Edit
                                         </a>
                                     </div>
                                     <div class="row">
-                                        <div class="col-xl-6 d-flex gap-2">
-                                            <p class="fs-6 mb-2">Full Name :</p>
-                                            <p class="fs-6 mb-2 fw-bold">Pratiksha Patil</p>
-                                        </div>
-                                        <div class="col-xl-6 d-flex gap-2">
-                                            <p class="fs-6 mb-2">Mobile :</p>
-                                            <p class="fs-6 mb-2 fw-bold">+91 9876543210</p>
-                                        </div>
-                                        <div class="col-xl-6 d-flex gap-2">
-                                            <p class="fs-6 mb-2">Email :</p>
-                                            <p class="fs-6 mb-2 fw-bold">pratiksha.patil@gmail.com</p>
-                                        </div>
-                                        <div class="col-xl-6 d-flex gap-2">
-                                            <p class="fs-6 mb-2">Address :</p>
-                                            <p class="fs-6 mb-2 fw-bold">Mumbai, Maharashtra</p>
-                                        </div>
-                                        <div class="col-xl-6 d-flex gap-2">
-                                            <p class="fs-6 mb-2">Customer Type :</p>
-                                            <p class="fs-6 mb-2 fw-bold">Regular Customer</p>
-                                        </div>
-                                        <div class="col-xl-6 d-flex gap-2">
-                                            <p class="fs-6 mb-2">Neo Select Member :</p>
-                                            <p class="fs-6 mb-2 fw-bold">Yes (ID: NS12345)</p>
-                                        </div>
-                                        <div class="col-xl-6 d-flex gap-2">
-                                            <p class="fs-6 mb-2">Travel Consultant :</p>
-                                            <p class="fs-6 mb-2 fw-bold">-</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Section 2 subsection 2 End -->
-                                <!-- Card Section 2 subsection 3 Start -->
-                                <div class="card p-3">
-                                    <h5 class="fw-bold textDarkBlue">
-                                        <i class="fa-solid fa-calendar-days fa-xl me-3"></i>
-                                        Trip Request <span class="fw-normal">(Submitted by Customer)</span>
-                                    </h5>
-                                    <div class="row">
                                         <div class="col-xl-4">
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput1" class="form-label">Travel Start Date</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput1" placeholder="20 Jul 2026">
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput1" value="<?= $requestData['travel_start_date'] ?>">
                                             </div>
                                         </div>
                                         <div class="col-xl-4">
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput2" class="form-label">Travel End Date</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput2" placeholder="24 Jul 2026 (Auto)">
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput2" value="<?= $requestData['travel_end_date'] ?>">
                                             </div>
                                         </div>
                                         <div class="col-xl-4">
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput3" class="form-label">Nights / Days</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput3" placeholder="4 Nights / 5 Days">
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput3" value="<?= $requestData['no_of_nights_days'] ?>">
                                             </div>
                                         </div>
                                     </div>
@@ -213,39 +316,65 @@ $date = date('Y');
                                         <div class="col-xl-4">
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput4" class="form-label">Pickup</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput4" placeholder="Port Blair">
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput4" value="<?= $requestData['customer_pickup'] != '' ? $requestData['customer_pickup']: $requestData['pickup_point'] ?>">
+                                                <?php
+                                                    $oldPickup = !empty($requestData['customer_pickup'])
+                                                    ? $requestData['pickup_point']
+                                                    : '';
+                                                ?>
+
+                                                <?php if ($oldPickup !== ''): ?>
+                                                    <small class="old-value-text text-muted"
+                                                        id="pickupOldValue">
+                                                        Previous Pickup: </br> 
+                                                        <?= htmlspecialchars($oldPickup, ENT_QUOTES, 'UTF-8') ?>
+                                                    </small>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                         <div class="col-xl-4">
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput5" class="form-label">Drop</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput5" placeholder="Port Blair">
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput5" value="<?= $requestData['customer_drop'] != '' ? $requestData['customer_drop']: $requestData['drop_point'] ?>">
+                                                <?php
+                                                    $olddrop = !empty($requestData['customer_drop'])
+                                                    ? $requestData['drop_point']
+                                                    : '';
+                                                ?>
+
+                                                <?php if ($olddrop !== ''): ?>
+                                                    <small class="old-value-text text-muted"
+                                                        id="dropOldValue">
+                                                        Previous Drop: </br> 
+                                                        <?= htmlspecialchars($olddrop, ENT_QUOTES, 'UTF-8') ?>
+                                                    </small>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row paxRow">
                                         <div class="col-xl-3 paxCol">
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput6" class="form-label">Adults (12+ yrs)</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput6" placeholder="2">
+                                                <label for="adultCount" class="form-label">Adults (12+ yrs)</label>
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="adultCount" value="<?= $requestData['adult_count'] ?>">
                                             </div>
                                         </div>
                                         <div class="col-xl-3 paxCol">
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput7" class="form-label">Children (2-11 yrs)</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput7" placeholder="1">
+                                                <label for="childcount" class="form-label">Children (2-11 yrs)</label>
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="childcount" value="<?= $requestData['child_count'] ?>">
                                             </div>
                                         </div>
                                         <div class="col-xl-3 paxCol">
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput8" class="form-label">Infants (0-1 yrs)</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput8" placeholder="0">
+                                                <label for="infantCount" class="form-label">Infants (0-1 yrs)</label>
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="infantCount" value="<?= $requestData['infant_count'] ?>">
                                             </div>
                                         </div>
                                         <div class="col-xl-3 paxCol">
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput9" class="form-label">Total Pax</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput9" placeholder="3">
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput9" value="<?= $requestData['adult_count'] + $requestData['child_count'] + $requestData['infant_count'] ?>">
                                             </div>
                                         </div>
                                     </div>
@@ -257,7 +386,7 @@ $date = date('Y');
                                         <i class="fa-solid fa-bed fa-xl me-3"></i>
                                         Room Allocation <span class="fw-normal">(Requested by Customer)</span>
                                     </h5>
-                                    <div class="row">
+                                    <!-- <div class="row">
                                         <div class="col-xl-12">
                                             <table class="table table-bordered mb-0">
                                                 <thead>
@@ -282,7 +411,211 @@ $date = date('Y');
                                                 3 Pax will be accommodated in 1 room with extra mattress.
                                             </div>
                                         </div>
+                                    </div> -->
+                                    
+                                    <?php
+                                        $rooms = json_decode($requestData['rooms'] ?? '[]', true);
+
+                                        if (!is_array($rooms)) {
+                                            $rooms = [];
+                                        }
+
+                                        $totalRooms = count($rooms);
+
+                                        $adultCount  = (int)($requestData['adult_count'] ?? 0);
+                                        $childCount  = (int)($requestData['child_count'] ?? 0);
+                                        $infantCount = (int)($requestData['infant_count'] ?? 0);
+
+                                        $totalTravellers = $adultCount + $childCount + $infantCount;
+
+                                        $bedCounts = [];
+                                        $totalExtraMattresses = 0;
+                                        $recommendations = [];
+
+                                        foreach ($rooms as $room) {
+                                            $description = trim($room['description'] ?? '');
+
+                                            // Count extra mattresses separately.
+                                            if (preg_match_all(
+                                                '/(\d+)\s*Extra\s*Mattress(?:es)?/i',
+                                                $description,
+                                                $mattressMatches
+                                            )) {
+                                                foreach ($mattressMatches[1] as $quantity) {
+                                                    $totalExtraMattresses += (int)$quantity;
+                                                }
+                                            }
+
+                                            // Remove the entire extra mattress phrase from the room description.
+                                            $description = preg_replace(
+                                                '/\s*\+?\s*\d+\s*Extra\s*Mattress(?:es)?/i',
+                                                '',
+                                                $description
+                                            );
+
+                                            // Clean up leftover separators and spaces.
+                                            $description = trim($description, " \t\n\r\0\x0B,+-");
+
+                                            // Process only bed types now.
+                                            $bedItems = preg_split('/\s*\+\s*|\s*,\s*/', $description);
+
+                                            foreach ($bedItems as $item) {
+
+                                                $item = trim($item);
+
+                                                if ($item === '') {
+                                                    continue;
+                                                }
+
+                                                $quantity = 1;
+
+                                                if (preg_match('/^(\d+)\s+(.+)$/i', $item, $matches)) {
+                                                    $quantity = (int)$matches[1];
+                                                    $item = trim($matches[2]);
+                                                }
+
+                                                // Safety check: never allow a mattress into the bed summary.
+                                                if (stripos($item, 'mattress') !== false) {
+                                                    continue;
+                                                }
+
+                                                if ($quantity <= 0 || $item === '') {
+                                                    continue;
+                                                }
+
+                                                $item = preg_replace('/\bBeds\b/i', 'Bed', $item);
+                                                $key = strtolower(trim($item));
+
+                                                if (!isset($bedCounts[$key])) {
+                                                    $bedCounts[$key] = [
+                                                        'name' => trim($item),
+                                                        'count' => 0
+                                                    ];
+                                                }
+
+                                                $bedCounts[$key]['count'] += $quantity;
+                                            }
+
+                                            // Keep recommendations unique.
+                                            $recommendation = trim($room['recommendation'] ?? '');
+
+                                            if (
+                                                $recommendation !== '' &&
+                                                !in_array($recommendation, $recommendations, true)
+                                            ) {
+                                                $recommendations[] = $recommendation;
+                                            }
+                                        }
+
+                                        /*
+                                        * 5. Build the combined room type summary.
+                                        */
+                                        $roomTypeSummary = [];
+
+                                        foreach ($bedCounts as $bed) {
+
+                                            $count = $bed['count'];
+                                            $name = $bed['name'];
+
+                                            if (preg_match('/\bBed\b/i', $name)) {
+                                                $name = preg_replace(
+                                                    '/\bBed\b/i',
+                                                    $count === 1 ? 'Bed' : 'Beds',
+                                                    $name
+                                                );
+                                            }
+
+                                            $roomTypeSummary[] = $count . ' ' . $name;
+                                        }
+
+                                        $roomTypeText = implode(', ', $roomTypeSummary);
+                                    ?>
+
+                                    <div class="row">
+                                        <div class="col-xl-12">
+
+                                            <table class="table table-bordered mb-0">
+                                                <thead>
+                                                    <tr class="table-active">
+                                                        <th scope="col">Room Count</th>
+                                                        <th scope="col">Travellers</th>
+                                                        <th scope="col">Room Type</th>
+                                                        <th scope="col">Extra Mattress</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    <?php if (!empty($rooms)): ?>
+                                                        <tr>
+                                                            <td>
+                                                                <?= $totalRooms ?>
+                                                                <?= $totalRooms === 1 ? 'Room' : 'Rooms' ?>
+                                                            </td>
+
+                                                            <td>
+                                                                <?= $totalTravellers ?>
+                                                                (<?= $adultCount ?> Adults +
+                                                                <?= $childCount ?> Children +
+                                                                <?= $infantCount ?> Infants)
+                                                            </td>
+
+                                                            <td>
+                                                                <?= htmlspecialchars(
+                                                                    $roomTypeText !== '' ? $roomTypeText : 'N/A',
+                                                                    ENT_QUOTES,
+                                                                    'UTF-8'
+                                                                ) ?>
+                                                            </td>
+
+                                                            <td>
+                                                                <?php if ($totalExtraMattresses > 0): ?>
+                                                                    <?= $totalExtraMattresses ?>
+                                                                    <?= $totalExtraMattresses === 1
+                                                                        ? 'Extra Mattress'
+                                                                        : 'Extra Mattresses' ?>
+                                                                <?php else: ?>
+                                                                    N/A
+                                                                <?php endif; ?>
+                                                            </td>
+                                                        </tr>
+                                                    <?php else: ?>
+                                                        <tr>
+                                                            <td colspan="4" class="text-center">
+                                                                No room details available.
+                                                            </td>
+                                                        </tr>
+                                                    <?php endif; ?>
+                                                </tbody>
+                                            </table>
+
+                                            <?php if (!empty($rooms)): ?>
+                                                <div class="paxDescriptionBtn d-flex">
+                                                    <i class="fa-solid fa-circle-user paxColor fa-lg align-content-center me-2"></i>
+
+                                                    <span>
+                                                        <?= $totalTravellers ?>
+                                                        <?= $totalTravellers === 1 ? 'traveller' : 'travellers' ?>
+                                                        will be accommodated in
+                                                        <?= $totalRooms ?>
+                                                        <?= $totalRooms === 1 ? 'room' : 'rooms' ?>.
+
+                                                        <?php if (!empty($recommendations)): ?>
+                                                            <br>
+                                                            <?= htmlspecialchars(
+                                                                implode(', ', $recommendations),
+                                                                ENT_QUOTES,
+                                                                'UTF-8'
+                                                            ) ?>
+                                                        <?php endif; ?>
+                                                    </span>
+                                                </div>
+                                            <?php endif; ?>
+
+                                        </div>
                                     </div>
+
+
+
                                 </div>
                                 <!-- Card Section 2 subsection 4 End -->
                                 <!-- Card Section 2 subsection 5 Start -->

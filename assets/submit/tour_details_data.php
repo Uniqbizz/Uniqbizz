@@ -134,7 +134,7 @@ $destination = $package['destination'] ?? '';
 $package_type = $package['package_type'] ?? '';
 $category_vehicle_id = $package['category_vehicle_id'] ?? '';
 
-$tour_days_total = $package['tour_days'] ?? 0;
+$tour_days_total = $package['tour_days'] -1 ?? 0;
 $tour_days = $tour_days_total - 1;
 $tour_nights = $tour_days_total - 2;
 
@@ -432,5 +432,32 @@ $galleryData->execute([$id]);
 
 if ($galleryData->rowCount() > 0) {
     $galleryImages = $galleryData->fetchAll(PDO::FETCH_ASSOC);
+}
+$coverImage = '';
+
+$coverData = $conn->prepare("
+    SELECT image
+    FROM package_pictures
+    WHERE package_id = ?
+      AND type = 'cover_image'
+    LIMIT 1
+");
+$coverData->execute([$id]);
+
+$coverImage = $coverData->fetchColumn() ?: '';
+
+// If no cover image exists, use the first available image.
+if ($coverImage === '') {
+    $firstImageData = $conn->prepare("
+        SELECT image
+        FROM package_pictures
+        WHERE package_id = ?
+          AND (type NOT IN ('video') OR type IS NULL)
+        ORDER BY id ASC
+        LIMIT 1
+    ");
+
+    $firstImageData->execute([$id]);
+    $coverImage = $firstImageData->fetchColumn() ?: '';
 }
 ?>
