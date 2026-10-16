@@ -296,19 +296,19 @@
                                         <div class="col-xl-4">
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput1" class="form-label">Travel Start Date</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput1" value="<?= $requestData['travel_start_date'] ?>">
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput1" value="<?= $requestData['travel_start_date'] ?>" readonly>
                                             </div>
                                         </div>
                                         <div class="col-xl-4">
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput2" class="form-label">Travel End Date</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput2" value="<?= $requestData['travel_end_date'] ?>">
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput2" value="<?= $requestData['travel_end_date'] ?>" readonly>
                                             </div>
                                         </div>
                                         <div class="col-xl-4">
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput3" class="form-label">Nights / Days</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput3" value="<?= $requestData['no_of_nights_days'] ?>">
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput3" value="<?= $requestData['no_of_nights_days'] ?>" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -316,7 +316,7 @@
                                         <div class="col-xl-4">
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput4" class="form-label">Pickup</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput4" value="<?= $requestData['customer_pickup'] != '' ? $requestData['customer_pickup']: $requestData['pickup_point'] ?>">
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput4" value="<?= $requestData['customer_pickup'] != '' ? $requestData['customer_pickup']: $requestData['pickup_point'] ?>" readonly>
                                                 <?php
                                                     $oldPickup = !empty($requestData['customer_pickup'])
                                                     ? $requestData['pickup_point']
@@ -335,7 +335,7 @@
                                         <div class="col-xl-4">
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput5" class="form-label">Drop</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput5" value="<?= $requestData['customer_drop'] != '' ? $requestData['customer_drop']: $requestData['drop_point'] ?>">
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput5" value="<?= $requestData['customer_drop'] != '' ? $requestData['customer_drop']: $requestData['drop_point'] ?>" readonly>
                                                 <?php
                                                     $olddrop = !empty($requestData['customer_drop'])
                                                     ? $requestData['drop_point']
@@ -356,25 +356,25 @@
                                         <div class="col-xl-3 paxCol">
                                             <div class="mb-3">
                                                 <label for="adultCount" class="form-label">Adults (12+ yrs)</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="adultCount" value="<?= $requestData['adult_count'] ?>">
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="adultCount" value="<?= $requestData['adult_count'] ?>" readonly>
                                             </div>
                                         </div>
                                         <div class="col-xl-3 paxCol">
                                             <div class="mb-3">
                                                 <label for="childcount" class="form-label">Children (2-11 yrs)</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="childcount" value="<?= $requestData['child_count'] ?>">
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="childcount" value="<?= $requestData['child_count'] ?>" readonly>
                                             </div>
                                         </div>
                                         <div class="col-xl-3 paxCol">
                                             <div class="mb-3">
                                                 <label for="infantCount" class="form-label">Infants (0-1 yrs)</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="infantCount" value="<?= $requestData['infant_count'] ?>">
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="infantCount" value="<?= $requestData['infant_count'] ?>" readonly>
                                             </div>
                                         </div>
                                         <div class="col-xl-3 paxCol">
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput9" class="form-label">Total Pax</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput9" value="<?= $requestData['adult_count'] + $requestData['child_count'] + $requestData['infant_count'] ?>">
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput9" value="<?= $requestData['adult_count'] + $requestData['child_count'] + $requestData['infant_count'] ?>" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -386,32 +386,6 @@
                                         <i class="fa-solid fa-bed fa-xl me-3"></i>
                                         Room Allocation <span class="fw-normal">(Requested by Customer)</span>
                                     </h5>
-                                    <!-- <div class="row">
-                                        <div class="col-xl-12">
-                                            <table class="table table-bordered mb-0">
-                                                <thead>
-                                                    <tr class="table-active">
-                                                        <th scope="col">Room No.</th>
-                                                        <th scope="col">Travellers</th>
-                                                        <th scope="col">Room Type</th>
-                                                        <th scope="col">Extra Mattress</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Room 1</td>
-                                                        <td>3(2 Adults + 1 Child)</td>
-                                                        <td>1 Double Bed</td>
-                                                        <td>1 Extra Mattress</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <div class="paxDescriptionBtn d-flex">
-                                                <i class="fa-solid fa-circle-user paxColor fa-lg align-content-center me-2"></i>
-                                                3 Pax will be accommodated in 1 room with extra mattress.
-                                            </div>
-                                        </div>
-                                    </div> -->
                                     
                                     <?php
                                         $rooms = json_decode($requestData['rooms'] ?? '[]', true);
@@ -631,28 +605,117 @@
                                         </a>
                                     </div>
                                     <div class="row">
-                                        <div class="col-xl-4">
+                                        <!-- HOTEL CATEGORY -->
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput10" class="form-label">Hotel Category</label>
-                                                <input type="text" class="form-control" id="exampleFormControlInput10" placeholder="3 Star">
+                                                <label for="hotelCategory" class="form-label fontSize10">
+                                                    Hotel Category
+                                                </label>
+                                                <div class="icon-select-wrapper">
+                                                    <i class="ri-hotel-line iconPosition iconRed"></i>
+                                                    <?php
+                                                    $sql = $conn->prepare("
+                                                        SELECT id, name
+                                                        FROM category_hotel
+                                                        WHERE status = 1
+                                                        ORDER BY id DESC
+                                                    ");
+                                                    $sql->execute();
+                                                    $hotelCategories = $sql->fetchAll(PDO::FETCH_ASSOC);
+                                                    ?>
+                                                    <select id="hotelCategory" class="form-select fontSize10 paddingLeft" name="hotel_category" disabled>
+                                                        <option value="">Select Hotel</option>
+
+                                                        <?php foreach ($hotelCategories as $hotel): ?>
+                                                            <option
+                                                                value="<?= htmlspecialchars($hotel['id'], ENT_QUOTES, 'UTF-8') ?>"
+                                                                <?= ((string)$hotel['id'] === (string)($requestData['hotel_category'] ?? '')) ? 'selected' : '' ?>
+                                                            >
+                                                                <?= htmlspecialchars($hotel['name'], ENT_QUOTES, 'UTF-8') ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                                <!-- OLD VALUE -->
+                                                <div id="oldHotelCategory" class="text-muted fontSize10 d-none mt-2"></div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-4">
+                                        <!-- MEAL PREFERENCE -->
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput11" class="form-label">Meal Preference</label>
-                                                <input type="text" class="form-control" id="exampleFormControlInput11" placeholder="Breakfast">
+                                                <label for="mealPreference" class="form-label fontSize10">
+                                                    Meal Preference
+                                                </label>
+                                                <div class="icon-select-wrapper">
+                                                    <i class="ri-restaurant-line iconPosition iconRed"></i>
+                                                    <?php
+                                                    $sql = $conn->prepare("
+                                                        SELECT id, name
+                                                        FROM category_meal
+                                                        WHERE status = 1
+                                                        ORDER BY id DESC
+                                                    ");
+                                                    $sql->execute();
+                                                    $mealCategories = $sql->fetchAll(PDO::FETCH_ASSOC);
+                                                    ?>
+                                                    <select id="mealPreference" class="form-select fontSize10 paddingLeft" name="meal_preference" disabled>
+                                                        <option value="">Select Meal</option>
+                                                        <?php foreach ($mealCategories as $meal_cat): ?>
+                                                            <option value="<?= htmlspecialchars($meal_cat['id']) ?>" 
+                                                            <?= ($requestData['meal_preference'] == $meal_cat['id']) ? 'selected' : '' ?>>
+                                                                <?= htmlspecialchars($meal_cat['name']) ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                                <!-- OLD VALUE -->
+                                                <div id="oldMealPreference" class="text-muted fontSize10 d-none mt-2"></div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-4">
+                                        <!-- TRANSPORT -->
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput12" class="form-label">Transport Preference</label>
-                                                <input type="text" class="form-control" id="exampleFormControlInput12" placeholder="AC Vehicle">
+                                                <label for="transportPreference" class="form-label fontSize10">
+                                                    Transport Preference
+                                                </label>
+                                                <div class="icon-select-wrapper">
+                                                    <i class="ri-car-line iconPosition iconRed"></i>
+                                                    <?php
+                                                    $sql = $conn->prepare("
+                                                        SELECT id, name
+                                                        FROM category_vehicle
+                                                        WHERE status = 1
+                                                        ORDER BY id DESC
+                                                    ");
+                                                    $sql->execute();
+                                                    $vehicleCategories = $sql->fetchAll(PDO::FETCH_ASSOC);
+                                                    ?>
+                                                    <select id="transportPreference" class="form-select fontSize10 paddingLeft" name="transport_preference" disabled>
+                                                        <option value="">Select Vehicle</option>
+                                                        <?php foreach ($vehicleCategories as $vehicle_cat): ?>
+                                                            <option value="<?= htmlspecialchars($vehicle_cat['id']) ?>" 
+                                                            <?= ($requestData['transport_preference'] == $vehicle_cat['id']) ? 'selected' : '' ?>>
+                                                                <?= htmlspecialchars($vehicle_cat['name']) ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                                <!-- OLD VALUE -->
+                                                <div id="oldTransportPreference" class="text-muted fontSize10 d-none mt-2"></div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-8">
-                                            <div class="mb-3">
-                                                <label for="exampleFormControlInput13" class="form-label">Special Requirements</label>
-                                                <input type="text" class="form-control" id="exampleFormControlInput13" placeholder="Sea-facing room if available. Wheelchair access required.">
+                                        <!-- SPECIAL REQUIREMENT -->
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                            <div class="mb-0">
+                                                <label for="specialRequirement" class="form-label fontSize10">Special Requirements (Optional)</label>
+                                                <textarea
+                                                    class="form-control fontSize10"
+                                                    id="specialRequirement"
+                                                    name="special_requirement"
+                                                    placeholder="Eg. Wheelchair, extra bed, high floor, adjoining rooms, etc."
+                                                    style="text-align: left;"
+                                                    readonly
+                                                ><?= htmlspecialchars(trim($requestData['special_requirement'] ?? ''), ENT_QUOTES, 'UTF-8') ?></textarea>
                                             </div>
                                         </div>
                                     </div>

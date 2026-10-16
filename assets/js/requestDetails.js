@@ -1128,7 +1128,7 @@ $('#travelStartDate').on('change', function () {
         return;
     }
 
-    const totalDays = parseInt(tourDays);
+    const totalDays = parseInt(tourDays)-1;
 
     if (totalDays <= 0) {
         return;

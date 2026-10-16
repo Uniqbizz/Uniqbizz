@@ -134,7 +134,7 @@ $destination = $package['destination'] ?? '';
 $package_type = $package['package_type'] ?? '';
 $category_vehicle_id = $package['category_vehicle_id'] ?? '';
 
-$tour_days_total = $package['tour_days'] -1 ?? 0;
+$tour_days_total = $package['tour_days'] ?? 0;
 $tour_days = $tour_days_total - 1;
 $tour_nights = $tour_days_total - 2;
 
