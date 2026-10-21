@@ -117,7 +117,15 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- Date Range Picker CSS Start -->
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- Date Range Picker CSS End -->
+        <style>
+            @media (max-width: 767px) {
+                .displayMeal {
+                    display: block !important;
+                }
+            }
+        </style>
     </head>
     <body data-sidebar="dark">
         <div class="layout-wrapper">
@@ -730,29 +738,31 @@
                                     <div class="row paxRow mt-1 mb-2">
                                         <div class="col-xl-2 paxCol">
                                             <p class="fs-6 mb-1">Package ID</p>
-                                            <p class="fs-6 fw-bold mb-2">PKG-AN001</p>
+                                            <p class="fs-6 fw-bold mb-2"><?= $package['unique_code'] ?></p>
                                         </div>
                                         <div class="col-xl-10">
                                             <div class="row paxRow">
                                                 <div class="col-xl-4 paxCol">
                                                     <p class="fs-6 mb-1">Destination</p>
-                                                    <p class="fs-6 fw-bold mb-2">Andaman and Nicobar Island</p>
+                                                    <p class="fs-6 fw-bold mb-2"><?= $package['name'] ?></p>
                                                 </div>
                                                 <div class="col-xl-4 paxCol">
                                                     <p class="fs-6 mb-1">Duration</p>
-                                                    <p class="fs-6 fw-bold mb-2">4 Nights / 5 Days</p>
+                                                    <p class="fs-6 fw-bold mb-2"><?= $tour_nights ?> Nights / <?= $tour_days ?> Days</p>
                                                 </div>
                                                 <div class="col-xl-4">
                                                     <p class="fs-6 mb-1">Package Type</p>
-                                                    <p class="fs-6 fw-bold mb-2">Leisure</p>
+                                                    <p class="fs-6 fw-bold mb-2"><?= $package['category_id'] == 2 ? 'Domestic':($package['category_id'] == 1 ?'International':'NA') ?></p>
                                                 </div>
                                                 <div class="col-xl-6 paxCol">
                                                     <p class="fs-6 mb-1">Pacakge Category</p>
-                                                    <p class="fs-6 fw-bold mb-2">Beach Holidays</p>
+                                                    <p class="fs-6 fw-bold mb-2"><?= $package['package_type'] ?></p>
                                                 </div>
                                                 <div class="col-xl-6 paxCol">
                                                     <p class="fs-6 mb-1">Valid Travel Period</p>
-                                                    <p class="fs-6 fw-bold mb-2">01 Apr 2026 - 31 Mar 2027</p>
+                                                    <p class="fs-6 fw-bold mb-2">
+                                                        Valid Till <?= date('d-m-Y', strtotime($package['validity'])) ?>
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -818,14 +828,10 @@
                                                 <h5 class="fw-bolder textDarkBlue">Overview</h5>
                                                 <div class="d-flex gap-3">
                                                     <div class="overviewImageWrapper">
-                                                        <img src="../assets/images/andaman_nicobar.jpg" alt="" class="overviewImg">
+                                                        <img src="<?= '../../'.$galleryImages[0]['image'] ?>" alt="" class="overviewImg">
                                                     </div>
                                                     <div class="fontSize1">
-                                                        <p class="fw-normal fontSize12">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, explicabo molestias aspernatur 
-                                                            qui doloribus necessitatibus porro voluptates animi ipsum, est veritatis quaerat aperiam praesentium sequi, nemo 
-                                                            vel delectus eius tempore? Aliquam adipisci dolor ducimus atque veniam repellendus omnis iure similique obcaecati iusto, 
-                                                            sint aspernatur, quaerat rem hic dignissimos asperiores, molestias voluptatem quae? 
-                                                        </p>
+                                                        <p class="fw-normal fontSize12"><?= $package['detailed_description'] ?></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -836,176 +842,76 @@
                                                 <div class="tour-details-content">
                                                     <div class="destination-accordion mt-2">
                                                         <div class="accordion" id="accordionItinerary">
-                                                            <div class="timeline-number">
-                                                                 01 
-                                                            </div>
-                                                            <div class="accordion-item">
-                                                                <h2 class="accordion-header" id="panelsStayOpen-heading1">
-                                                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse1" aria-expanded="true" aria-controls="panelsStayOpen-collapse1">
-                                                                        Day 1 - Arrival in Bali
-                                                                    </button>
-                                                                </h2>
-                                                                <div id="panelsStayOpen-collapse1" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-heading1" data-bs-parent="#accordionItinerary" style="">
-                                                                    <div class="accordion-body">
-                                                                        <ul class="listing">
-                                                                            <li class="list">
-                                                                                On arrival at Bali Airport, you will be met by our representative and transferred to your hotel. Check in and relax after your journey. The rest of the day is at leisure to explore the surroundings or enjoy hotel amenities. Overnight stay in Bali                                                                                    
-                                                                            </li>
-                                                                        </ul>
-                                                                        <hr class="my-3" style="border-top:1px solid #4b5051;">
-                                                                        <div class="d-flex justify-content-evenly displayMeal">
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Meal:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Lunch and Dinner</p>
-                                                                            </div>
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Transport:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Bus</p>
-                                                                            </div>
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Stay:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0"></p>
+                                                            <?php
+                                                            $count = 1;
+
+                                                            $data4 = $conn->prepare("SELECT * FROM package_trip_days WHERE package_id = $id");
+                                                            $data4->execute();
+                                                            $data4->setFetchMode(PDO::FETCH_ASSOC);
+
+                                                            if ($data4->rowCount() > 0) {
+                                                                foreach ($data4->fetchAll() as $key_3 => $day) {
+
+                                                                    $decription = $day['day_details'];
+                                                                    // $decription_1 = explode(".", $decription);
+                                                                    // $decription_2 = implode(".<br>", $decription_1);
+                                                            ?>      <div class="timeline-number">
+                                                                        <?= str_pad($count, 2, '0', STR_PAD_LEFT) ?>
+                                                                    </div>
+                                                                    <div class="accordion-item">
+                                                                        <h2 class="accordion-header" id="panelsStayOpen-heading<?= $count; ?>">
+                                                                            <button class="accordion-button <?= ($count != 1) ? 'collapsed' : ''; ?>"
+                                                                                    type="button"
+                                                                                    data-bs-toggle="collapse"
+                                                                                    data-bs-target="#panelsStayOpen-collapse<?= $count; ?>"
+                                                                                    aria-expanded="<?= ($count == 1) ? 'true' : 'false'; ?>"
+                                                                                    aria-controls="panelsStayOpen-collapse<?= $count; ?>">
+
+                                                                                Day <?= $key_3 + 1; ?> - <?= $day['title']; ?>
+
+                                                                            </button>
+                                                                        </h2>
+
+                                                                        <div id="panelsStayOpen-collapse<?= $count; ?>"
+                                                                            class="accordion-collapse collapse <?= ($count == 1) ? 'show' : ''; ?>"
+                                                                            aria-labelledby="panelsStayOpen-heading<?= $count; ?>"
+                                                                            data-bs-parent="#accordionItinerary">
+
+                                                                            <div class="accordion-body">
+
+                                                                                <ul class="listing">
+                                                                                    <li class="list">
+                                                                                        <?= $decription; ?>
+                                                                                    </li>
+                                                                                </ul>
+
+                                                                                <hr class="my-3" style="border-top:1px solid #4b5051;">
+
+                                                                                <div class="d-flex justify-content-evenly displayMeal">
+                                                                                    <div class="gap-1 d-flex">
+                                                                                        <h6 class="fw-bold align-content-center mb-0">Meal:&nbsp;</h6>
+                                                                                        <p class="text-muted fontSize3 align-content-center mb-0"><?= $day['meal_plan']; ?></p>
+                                                                                    </div>
+
+                                                                                    <div class="gap-1 d-flex">
+                                                                                        <h6 class="fw-bold align-content-center mb-0">Transport:&nbsp;</h6>
+                                                                                        <p class="text-muted fontSize3 align-content-center mb-0"><?= $day['day_tansport']; ?></p>
+                                                                                    </div>
+
+                                                                                    <div class="gap-1 d-flex">
+                                                                                        <h6 class="fw-bold align-content-center mb-0">Stay:&nbsp;</h6>
+                                                                                        <p class="text-muted fontSize3 align-content-center mb-0"><?= $day['stay']; ?></p>
+                                                                                    </div>
+                                                                                </div>
+
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="timeline-number">
-                                                                02                                                                    
-                                                            </div>
-                                                            <div class="accordion-item">
-                                                                <h2 class="accordion-header" id="panelsStayOpen-heading2">
-                                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse2" aria-expanded="false" aria-controls="panelsStayOpen-collapse2">
-                                                                        Day 2 - Full-Day Ubud and Kintamani Tour
-                                                                    </button>
-                                                                </h2>
-                                                                <div id="panelsStayOpen-collapse2" class="accordion-collapse collapse " aria-labelledby="panelsStayOpen-heading2" data-bs-parent="#accordionItinerary">
-                                                                    <div class="accordion-body">
-                                                                        <ul class="listing">
-                                                                            <li class="list">
-                                                                                After breakfast, proceed for a full-day customized tour covering the cultural hub of Ubud and the scenic Kintamani region. Enjoy breathtaking views of Mount Batur and its lake, explore local art villages, and experience Baliâ€™s rich heritage. Return to the hotel for an overnight stay                                                                                    
-                                                                            </li>
-                                                                        </ul>
-                                                                        <hr class="my-3" style="border-top:1px solid #4b5051;">
-                                                                        <div class="d-flex justify-content-evenly displayMeal">
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Meal:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Breakfast, Lunch and Dinner</p>
-                                                                            </div>
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Transport:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Bus</p>
-                                                                            </div>
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Stay:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0"></p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="timeline-number">
-                                                                03                                                               
-                                                            </div>
-                                                            <div class="accordion-item">
-                                                                <h2 class="accordion-header" id="panelsStayOpen-heading3">
-                                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse3" aria-expanded="false" aria-controls="panelsStayOpen-collapse3">
-                                                                        Day 3 - Nusa Penida Island Day Trip
-                                                                    </button>
-                                                                </h2>
-                                                                <div id="panelsStayOpen-collapse3" class="accordion-collapse collapse " aria-labelledby="panelsStayOpen-heading3" data-bs-parent="#accordionItinerary">
-                                                                    <div class="accordion-body">
-                                                                        <ul class="listing">
-                                                                            <li class="list">
-                                                                                After an early breakfast, head to the harbour for a boat transfer to Nusa Penida Island. Explore its pristine beaches, dramatic coastal cliffs, and crystal-clear waters. Enjoy a packed or local lunch during the tour before returning to Bali in the evening. Overnight stay at the hotel                                                                                    
-                                                                            </li>
-                                                                        </ul>
-                                                                        <hr class="my-3" style="border-top:1px solid #4b5051;">
-                                                                        <div class="d-flex justify-content-evenly displayMeal">
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Meal:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Breakfast, Lunch and Dinner</p>
-                                                                            </div>
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Transport:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Bus</p>
-                                                                            </div>
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Stay:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0"></p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="timeline-number">
-                                                                04                                                                    
-                                                            </div>
-                                                            <div class="accordion-item">
-                                                                <h2 class="accordion-header" id="panelsStayOpen-heading4">
-                                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse4" aria-expanded="false" aria-controls="panelsStayOpen-collapse4">
-                                                                        Day 4 - Water Sports &amp; Tanah Lot Temple
-                                                                    </button>
-                                                                </h2>
-                                                                <div id="panelsStayOpen-collapse4" class="accordion-collapse collapse " aria-labelledby="panelsStayOpen-heading4" data-bs-parent="#accordionItinerary">
-                                                                    <div class="accordion-body">
-                                                                        <ul class="listing">
-                                                                            <li class="list">
-                                                                                After breakfast, enjoy a half-day water sports adventure with activities such as banana boat rides, parasailing, or jet skiing (as per package or own expense). In the afternoon, visit the iconic Tanah Lot Temple, a beautiful sea temple perched on a rocky outcrop, best known for its stunning sunset views. Return to the hotel for an overnight stay                                                                                    
-                                                                            </li>
-                                                                        </ul>
-                                                                        <hr class="my-3" style="border-top:1px solid #4b5051;">
-                                                                        <div class="d-flex justify-content-evenly displayMeal">
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Meal:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Breakfast, Lunch and Dinner</p>
-                                                                            </div>
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Transport:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Bus</p>
-                                                                            </div>
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Stay:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0"></p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="timeline-number">
-                                                                05                                                                    
-                                                            </div>
-                                                            <div class="accordion-item">
-                                                                <h2 class="accordion-header" id="panelsStayOpen-heading5">
-                                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse5" aria-expanded="false" aria-controls="panelsStayOpen-collapse5">
-                                                                        Day 5 - Departure from Bali
-                                                                    </button>
-                                                                </h2>
-                                                                <div id="panelsStayOpen-collapse5" class="accordion-collapse collapse " aria-labelledby="panelsStayOpen-heading5" data-bs-parent="#accordionItinerary">
-                                                                    <div class="accordion-body">
-                                                                        <ul class="listing">
-                                                                            <li class="list">
-                                                                                After breakfast, check out from the hotel and transfer to Bali Airport in time for your flight. Depart with unforgettable memories of your Bali holiday                                                                                    
-                                                                            </li>
-                                                                        </ul>
-                                                                        <hr class="my-3" style="border-top:1px solid #4b5051;">
-                                                                        <div class="d-flex justify-content-evenly displayMeal">
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Meal:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Breakfast</p>
-                                                                            </div>
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Transport:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Bus</p>
-                                                                            </div>
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Stay:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0"></p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                            <?php
+                                                                    $count++;
+                                                                }
+                                                            }
+                                                            ?>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1014,128 +920,91 @@
                                         <div id="inclusion" class="section-block">
                                             <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
                                                 <h5 class="fw-bolder textDarkBlue">Inclusion & Exclusion</h5>
+                                                
                                                 <div class="row">
+                                                    <?php
+                                                        $inclusions = safeJsonDecode($itinery['inclusion'] ?? '');
+                                                        $exclusions = safeJsonDecode($itinery['exclusion'] ?? '');
+                                                    ?>
                                                     <!-- Inclusions -->
                                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="checkIcon">
-                                                                <i class="fa-solid fa-circle-check"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque autem quis commodi?</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="checkIcon">
-                                                                <i class="fa-solid fa-circle-check"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque autem quis commodi?</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="checkIcon">
-                                                                <i class="fa-solid fa-circle-check"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque autem quis commodi?</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="checkIcon">
-                                                                <i class="fa-solid fa-circle-check"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque autem quis commodi?</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="checkIcon">
-                                                                <i class="fa-solid fa-circle-check"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque autem quis commodi?</p>
-                                                        </div>
-                                                        <p class="text-muted mt-2 mb-0 d-none">No inclusions available.</p>
+                                                        <?php if (!empty($inclusions)): ?>
+                                                            <?php foreach ($inclusions as $inclusion): ?>
+                                                                <div class="d-flex gap-3 mt-2">
+                                                                    <div class="checkIcon">
+                                                                        <i class="ri-checkbox-circle-fill text-success"></i>
+                                                                    </div>
+                                                                    <p class="text-muted fontSize3 align-content-center mb-0">
+                                                                        <?= htmlspecialchars($inclusion) ?>
+                                                                    </p>
+                                                                </div>
+                                                            <?php endforeach; ?>
+                                                        <?php else: ?>
+                                                            <p class="text-muted mt-2 mb-0">No inclusions available.</p>
+                                                        <?php endif; ?>
                                                     </div>
+
                                                     <!-- Exclusions -->
                                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="closeIcon">
-                                                                <i class="fa-solid fa-circle-xmark"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui amet sequi itaque?</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="closeIcon">
-                                                                <i class="fa-solid fa-circle-xmark"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui amet sequi itaque?</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="closeIcon">
-                                                                <i class="fa-solid fa-circle-xmark"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui amet sequi itaque?</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="closeIcon">
-                                                                <i class="fa-solid fa-circle-xmark"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui amet sequi itaque?</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="closeIcon">
-                                                                <i class="fa-solid fa-circle-xmark"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui amet sequi itaque?</p>
-                                                        </div>
-                                                        <p class="text-muted mt-2 mb-0 d-none">No exclusions available.</p>
+                                                        <?php if (!empty($exclusions)): ?>
+                                                            <?php foreach ($exclusions as $exclusion): ?>
+                                                                <div class="d-flex gap-3 mt-2">
+                                                                    <div class="closeIcon">
+                                                                        <i class="ri-close-circle-fill text-danger"></i>
+                                                                    </div>
+                                                                    <p class="text-muted fontSize3 align-content-center mb-0">
+                                                                        <?= htmlspecialchars($exclusion) ?>
+                                                                    </p>
+                                                                </div>
+                                                            <?php endforeach; ?>
+                                                        <?php else: ?>
+                                                            <p class="text-muted mt-2 mb-0">No exclusions available.</p>
+                                                        <?php endif; ?>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
                                         <div id="policies" class="section-block">
                                             <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
                                                 <h5 class="fw-bolder mb-3 textDarkBlue">Terms & Conditions</h5>
-                                                <div class="policyItem">
-                                                    <div class="d-flex align-items-center gap-3">
-                                                        <div class="highlightIcon">
-                                                            <i class="fa-solid fa-file-pdf"></i>
+                                                <?php
+                                                    $hasPolicies = false;
+                                                ?>
+
+                                                <?php foreach ($policies as $policy): ?>
+
+                                                    <?php if (strcasecmp(trim($policy['title']), 'FAQ') === 0): ?>
+                                                        <?php continue; ?>
+                                                    <?php endif; ?>
+
+                                                    <?php $hasPolicies = true; ?>
+
+                                                    <div class="policyItem">
+                                                        <div class="d-flex align-items-center gap-3">
+                                                            <div class="highlightIcon" style="background-color: #b2e0b1;">
+                                                                <i class="ri-file-pdf-line text-success"></i>
+                                                            </div>
+
+                                                            <p class="mb-0">
+                                                                <?= htmlspecialchars($policy['title']) ?>
+                                                            </p>
                                                         </div>
-                                                        <p class="mb-0">Kasainath</p>
+
+                                                        <a href="uploading/package_policy_attachments/<?= urlencode($policy['file_name']) ?>"
+                                                        download
+                                                        class="downloadBtn">
+                                                            <i class="ri-download-line"></i>
+                                                        </a>
                                                     </div>
-                                                    <a href="#" download class="downloadBtn">
-                                                        <i class="fa-solid fa-download"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="policyItem">
-                                                    <div class="d-flex align-items-center gap-3">
-                                                        <div class="highlightIcon">
-                                                            <i class="fa-solid fa-file-pdf"></i>
-                                                        </div>
-                                                        <p class="mb-0">Kasainath</p>
-                                                    </div>
-                                                    <a href="#" download class="downloadBtn">
-                                                        <i class="fa-solid fa-download"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="policyItem">
-                                                    <div class="d-flex align-items-center gap-3">
-                                                        <div class="highlightIcon">
-                                                            <i class="fa-solid fa-file-pdf"></i>
-                                                        </div>
-                                                        <p class="mb-0">Kasainath</p>
-                                                    </div>
-                                                    <a href="#" download class="downloadBtn">
-                                                        <i class="fa-solid fa-download"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="policyItem">
-                                                    <div class="d-flex align-items-center gap-3">
-                                                        <div class="highlightIcon">
-                                                            <i class="fa-solid fa-file-pdf"></i>
-                                                        </div>
-                                                        <p class="mb-0">Kasainath</p>
-                                                    </div>
-                                                    <a href="#" download class="downloadBtn">
-                                                        <i class="fa-solid fa-download"></i>
-                                                    </a>
-                                                </div>
-                                                <p class="text-muted mb-0 d-none">
-                                                    No policy documents available.
-                                                </p>
+
+                                                <?php endforeach; ?>
+
+                                                <?php if (!$hasPolicies): ?>
+                                                    <p class="text-muted mb-0">
+                                                        No policy documents available.
+                                                    </p>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                         <div id="faqs" class="section-block">
@@ -1160,27 +1029,27 @@
                                                         </div>
                                                         <div class="inputFieldAlignment">
                                                             <div class="input-group inputWidth">
-                                                                <input type="number" class="form-control" id="cancellationPercentage1" name="cancellationPercentage1" placeholder="0" value="<?= $CancelPolicy['policy_1']??0 ?>">
+                                                                <input type="number" class="form-control" id="cancellationPercentage1" name="cancellationPercentage1" placeholder="0" value="<?= $cancel_policy['policy_1']??0 ?>">
                                                                 <span class="input-group-text">%</span>
                                                                 <small class="error-message" id="cancellationPercentage1_error"></small>
                                                             </div>
                                                             <div class="input-group inputWidth">
-                                                                <input type="number" class="form-control" id="cancellationPercentage2" name="cancellationPercentage2" placeholder="0" value="<?= $CancelPolicy['policy_2']??0 ?>">
+                                                                <input type="number" class="form-control" id="cancellationPercentage2" name="cancellationPercentage2" placeholder="0" value="<?= $cancel_policy['policy_2']??0 ?>">
                                                                 <span class="input-group-text">%</span>
                                                                 <small class="error-message" id="cancellationPercentage2_error"></small>
                                                             </div>
                                                             <div class="input-group inputWidth">
-                                                                <input type="number" class="form-control" id="cancellationPercentage3" name="cancellationPercentage3" placeholder="0" value="<?= $CancelPolicy['policy_3']??0 ?>">
+                                                                <input type="number" class="form-control" id="cancellationPercentage3" name="cancellationPercentage3" placeholder="0" value="<?= $cancel_policy['policy_3']??0 ?>">
                                                                 <span class="input-group-text">%</span>
                                                                 <small class="error-message" id="cancellationPercentage3_error"></small>
                                                             </div>
                                                             <div class="input-group inputWidth">
-                                                                <input type="number" class="form-control" id="cancellationPercentage4" name="cancellationPercentage4" placeholder="0" value="<?= $CancelPolicy['policy_4']??0 ?>">
+                                                                <input type="number" class="form-control" id="cancellationPercentage4" name="cancellationPercentage4" placeholder="0" value="<?= $cancel_policy['policy_4']??0 ?>">
                                                                 <span class="input-group-text">%</span>
                                                                 <small class="error-message" id="cancellationPercentage4_error"></small>
                                                             </div>
                                                             <div class="input-group inputWidth">
-                                                                <input type="number" class="form-control" id="cancellationPercentage5" name="cancellationPercentage5" placeholder="0" value="<?= $CancelPolicy['policy_5']??0 ?>">
+                                                                <input type="number" class="form-control" id="cancellationPercentage5" name="cancellationPercentage5" placeholder="0" value="<?= $cancel_policy['policy_5']??0 ?>">
                                                                 <span class="input-group-text">%</span>
                                                                 <small class="error-message" id="cancellationPercentage5_error"></small>
                                                             </div>
@@ -1214,8 +1083,8 @@
                                                 <p class="mb-1">Infant (0-1 yrs)</p>
                                             </div>
                                             <div>
-                                                <p class="mb-1 text-end">&#8377; 18,199.00</p>
-                                                <p class="mb-1 text-end">&#8377; 11,900.00</p>
+                                                <p class="mb-1 text-end">&#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
+                                                <p class="mb-1 text-end">&#8377; <?= number_format($childDisplayPrice, 2) ?></p>
                                                 <p class="mb-1 text-end">FREE</p>
                                             </div>
                                         </div>
@@ -1224,20 +1093,20 @@
                                         <p class="mb-2 fw-bold blueDiv">Price Based on Travelers</p>
                                         <div class="d-flex justify-content-between">
                                             <div>
-                                                <p class="mb-1">Adult: <span class="" id="totalAdultCount">2</span> x &#8377; 18,199.00</p>
-                                                <p class="mb-1">Children: <span class="" id="totalChildrenCount">1</span> x &#8377; 11,900.00</p>
-                                                <p class="mb-1">Infant: <span class="" id="totalInfantCount">0</span> x FREE</p>
+                                                <p class="mb-1">Adult: <span class="" id="totalAdultCount"><?= $requestData['adult_count'] ?></span> x &#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
+                                                <p class="mb-1">Children: <span class="" id="totalChildrenCount"><?= $requestData['child_count'] ?></span> x &#8377; <?= number_format($childDisplayPrice, 2) ?></p>
+                                                <p class="mb-1">Infant: <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
                                             </div>
                                             <div>
-                                                <p class="mb-1 text-end" id="adultTotal">&#8377; 36,398.00</p>
-                                                <p class="mb-1 text-end" id="childrenTotal">&#8377; 11,900.00</p>
+                                                <p class="mb-1 text-end" id="adultTotal">&#8377; <?= number_format($requestData['adult_total'], 2) ?></p>
+                                                <p class="mb-1 text-end" id="childrenTotal">&#8377; <?= number_format($requestData['children_total'], 2) ?></p>
                                                 <p class="mb-1 text-end">&#8377; 0.00</p>
                                             </div>
                                         </div>
                                         <hr class="my-1 border border-2 mx-0">
                                         <div class="d-flex justify-content-between">
                                             <p class="fw-bold fs-5 textDarkBlue mb-0">Subtotal</p>
-                                            <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="subTotal">&#8377; 48,298.00</p>
+                                            <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="subTotal">&#8377; <?= number_format($requestData['subtotal'], 2) ?></p>
                                         </div>
                                     </div>
                                     <div class="p-3">
@@ -1259,8 +1128,8 @@
                                     </div>
                                     
                                     <hr class="my-1 border border-2 mx-3">
-                                    <div class="p-3 pb-0">
-                                        <p class="fw-bold mb-2 textDarkBlue blueDiv">
+                                    <!-- <div class="p-3 pb-0"> -->
+                                        <!-- <p class="fw-bold mb-2 textDarkBlue blueDiv">
                                             Apply Coupons
                                             <span class="text-muted fw-normal fontSize12">
                                                 (One coupon per passenger)
@@ -1321,7 +1190,172 @@
                                             </span>
                                             <input type="number" class="form-control form-control-sm walletInput" id="appliedDiscountWallet" value="0" min="0" step="1" disabled style="width: 80px;">
                                         </div>
+                                    </div> -->
+                                    <?php if($Requester_type  == 'Neo Select'){  ?>
+                                    <!-- <hr class="my-1 border border-2 mx-3"> -->
+                                    <div class="p-3 pb-0">
+                                        <p class="fw-bold mb-2 textDarkBlue blueDiv">
+                                            Apply Coupons
+                                            <span class="text-muted fw-normal fontSize12">
+                                                (One coupon per passenger)
+                                                <i class="ri-error-warning-line"></i>
+                                            </span>
+                                        </p>
+                                        <div id="couponPassengerContainer">
+                                            <!-- <div class="d-flex justify-content-between mb-2 coupon-passenger-row">
+                                                <div class="d-flex gap-3 largeDisplay">
+                                                    <p class="fontSize10 align-content-end mb-0">
+                                                        ${type} ${number}
+                                                    </p>
+                                                    <p class="mb-0">
+                                                        <select
+                                                            class="form-select fontSize10 selectPadding coupon-select">
+                                                            <option value="">
+                                                                Select Coupon 
+                                                            </option>
+                                                            <?php if (!empty($cuCoupons)): ?>
+                                                                <optgroup label="Primary Coupons">
+                                                                    <?php foreach ($cuCoupons as $coupon): ?>
+                                                                        <option
+                                                                            value="<?= htmlspecialchars($coupon['code']) ?>"
+                                                                            data-type="primary"
+                                                                            data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
+                                                                            <?= htmlspecialchars($coupon['code']) ?>
+                                                                        </option>
+                                                                    <?php endforeach; ?>
+                                                                </optgroup>
+                                                            <?php endif; ?>
+                                                            <?php if (!empty($loyaltyCoupons)): ?>
+                                                                <optgroup label="Loyalty Coupons">
+                                                                    <?php foreach ($loyaltyCoupons as $coupon): ?>
+                                                                        <option
+                                                                            value="<?= htmlspecialchars($coupon['code']) ?>"
+                                                                            data-type="loyalty"
+                                                                            data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
+                                                                            <?= htmlspecialchars($coupon['code']) ?>
+                                                                        </option>
+                                                                    <?php endforeach; ?>
+                                                                </optgroup>
+                                                            <?php endif; ?>
+                                                        </select>
+                                                    </p>
+                                                </div>
+                                                <p class="fontSize10 discountGreen fw-bold text-end align-content-end coupon-discount mb-0">
+                                                    - ₹ 0
+                                                </p>
+                                            </div> -->
+                                        </div>
                                     </div>
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="d-flex justify-content-between px-3">
+                                        <p class="fontSize10 discountGreen fw-bold">
+                                            Discounts (Coupons)
+                                        </p>
+                                        <p class="fontSize10 discountGreen fw-bold text-end"
+                                        id="totalCouponDiscount">
+                                            - ₹ 0
+                                        </p>
+                                    </div>
+                                    <?php
+                                    $referralWalletBalance = $referralBalance ?? 0;
+                                    $discountWalletBalance = $discountBalance ?? 0;
+                                    ?>
+
+                                    <!-- <hr class="my-1 border border-2 mx-3"> -->
+
+                                    <div class="d-flex justify-content-between align-items-center px-3">
+
+                                        <p class="fontSize10 discountGreen fw-bold mb-0">
+                                            Referral Wallet
+                                        </p>
+
+                                        <p class="fontSize10 discountGreen fw-bold text-end mb-0"
+                                        id="referralWalletBalance">
+                                            ₹ <?= number_format($referralWalletBalance, 2) ?>
+                                        </p>
+
+                                        <div class="d-flex align-items-center">
+                                            <span class="fontSize10 discountGreen fw-bold me-1">
+                                                - ₹
+                                            </span>
+                                            <input type="number" class="form-control form-control-sm walletInput" id="appliedReferralWallet" value="<?= $requestData['referral_wallet_amount'] ?>" min="0" step="1" disabled style="width: 80px;">
+                                        </div>
+                                    </div>
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="d-flex justify-content-between align-items-center px-3">
+                                        <p class="fontSize10 discountGreen fw-bold mb-0">
+                                            Discount Wallet
+                                        </p>
+                                        <p class="fontSize10 discountGreen fw-bold text-end mb-0"
+                                        id="discountWalletBalance">
+                                            ₹ <?= number_format($discountWalletBalance, 2) ?>
+                                        </p>
+                                        <div class="d-flex align-items-center">
+                                            <span class="fontSize10 discountGreen fw-bold me-1">
+                                                - ₹
+                                            </span>
+                                            <input type="number" class="form-control form-control-sm walletInput" id="appliedDiscountWallet" value="0" min="0" step="1" disabled style="width: 80px;">
+                                        </div>
+                                    </div>
+                                    <?php } elseif ($Requester_type != 'Neo Select') {?>
+                                    <!-- <hr class="my-2 border border-2 mx-3"> -->
+                                    <div class="p-3">
+                                        <!-- HEADER -->
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <div>
+                                                <p class="fontSize10 fw-bold mb-1">Apply Coupon</p>
+                                                <small class="text-muted fontSize10">
+                                                    Only one coupon can be applied per package
+                                                    <i class="ri-information-line"></i>
+                                                </small>
+                                            </div>
+                                            <div class="coupon-package-icon">
+                                                <i class="ri-coupon-3-line"></i>
+                                            </div>
+                                        </div>
+                                        <!-- COUPON SELECT -->
+                                        <div class="package-coupon-box d-flex justify-content-between">
+                                            <i class="ri-coupon-3-line"></i>
+                                            <div class="coupon-select-wrapper">
+                                                <select id="packageCouponSelect" class="form-select fontSize10 selectPadding coupon-select1">
+                                                    <option value="">Select Coupon</option>
+                                                    <?php if (!empty($cuCoupons)): ?>
+                                                        <optgroup label="Primary Coupons">
+                                                            <?php foreach ($cuCoupons as $coupon): ?>
+                                                                <option value="<?= htmlspecialchars($coupon['code']) ?>" data-type="primary" data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
+                                                                    <?= htmlspecialchars($coupon['code']) ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </optgroup>
+                                                    <?php endif; ?>
+                                                    <?php if (!empty($loyaltyCoupons)): ?>
+                                                        <optgroup label="Loyalty Coupons">
+                                                            <?php foreach ($loyaltyCoupons as $coupon): ?>
+                                                                <option value="<?= htmlspecialchars($coupon['code']) ?>" data-type="loyalty" data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
+                                                                    <?= htmlspecialchars($coupon['code']) ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </optgroup>
+                                                    <?php endif; ?>
+                                                </select>
+                                            </div>
+                                            <!-- DISCOUNT -->
+                                            <div class="package-discount">
+                                                <span class="text-muted fontSize10">Discount</span>
+                                                <span class="discountGreen fw-bold fontSize10" id="packageCouponDiscount"> ₹ 0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- TOTAL -->
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="d-flex justify-content-between align-items-center px-3 pb-2">
+                                        <p class="fontSize10 discountGreen fw-bold mb-0">
+                                            <i class="ri-price-tag-3-line"></i>
+                                            Discounts (Coupon)
+                                        </p>
+                                        <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="totalCouponDiscount">- ₹ 0</p>
+                                    </div>
+                                    <?php } ?>
                                     
                                     <hr class="my-2 border border-2 mx-3">
                                     <div class="px-3">
@@ -1329,11 +1363,11 @@
                                         <div class="d-flex justify-content-between">
                                             <div>
                                                 <p class="mb-1">Convenience Fee</p>
-                                                <p class="mb-1">GST (<span id="gstPercentage"></span>%)</p>
+                                                <p class="mb-1">GST (<span id="gstPercentage"><?= number_format($requestData['gst_percentage'], 2) ?></span>%)</p>
                                             </div>
                                             <div>
-                                                <p class="text-end mb-1" id="convenienceFeee">&#8377; 0</p>
-                                                <p class="text-end mb-1" id="gstValue">&#8377; 0</p>
+                                                <p class="text-end mb-1" id="convenienceFeee">&#8377; <?= number_format($requestData['convenience_fee'], 2) ?></p>
+                                                <p class="text-end mb-1" id="gstValue">&#8377; <?= number_format($requestData['gst'], 2) ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -1344,7 +1378,7 @@
                                                 <p class="fs-5 textDarkBlue fw-bold">Total Estimated Price</p>
                                             </div>
                                             <div>
-                                                <p class="fs-5 text-danger fw-bolder text-end" id="finalPackagePrice">&#8377; 52,478.00</p>
+                                                <p class="fs-5 text-danger fw-bolder text-end" id="finalPackagePrice">&#8377; <?= number_format($requestData['final_price'], 2) ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -1404,8 +1438,12 @@
             });
         </script>
         <script>
+            const savedCoupons = <?= json_encode(
+                json_decode($requestData['coupons'] ?? '[]', true) ?: [],
+                JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
+            ) ?>;
             $(document).ready(function () {
-
+                loadSavedCoupons();
                 const $nav = $(".borderColor1");
                 const $wrapper = $(".sticky-nav-wrapper");
                 const $placeholder = $(".nav-placeholder");
@@ -1498,6 +1536,101 @@
 
                 }, 500);
             });
+
+            
+            function loadSavedCoupons() {
+                const container = $('#couponPassengerContainer');
+                container.empty();
+
+                savedCoupons.forEach(function (coupon) {
+                    const passenger = coupon.passenger || '';
+                    const couponCode = coupon.code || '';
+                    const couponType = coupon.type || '';
+                    const amount = Number(coupon.amount) || 0;
+
+                    const row = $(`
+                        <div class="d-flex justify-content-between mb-2 coupon-passenger-row">
+                            <div class="d-flex gap-3 largeDisplay">
+                                <p class="fontSize10 align-content-end mb-0 coupon-passenger"></p>
+                                <p class="mb-0">
+                                    <select class="form-select fontSize10 selectPadding coupon-select" disabled>
+                                        <option value="">Select Coupon</option>
+                                    </select>
+                                </p>
+                            </div>
+                            <p class="fontSize10 discountGreen fw-bold text-end align-content-end coupon-discount mb-0">
+                                - ₹ 0
+                            </p>
+                        </div>
+                    `);
+
+                    row.find('.coupon-passenger').text(passenger);
+
+                    const select = row.find('.coupon-select');
+                    
+                    // Add available primary coupons.
+                    <?php if (!empty($cuCoupons)): ?>
+                        const primaryGroup = $('<optgroup label="Primary Coupons"></optgroup>');
+
+                        <?php foreach ($cuCoupons as $coupon): ?>
+                            primaryGroup.append(
+                                $('<option></option>')
+                                    .val(<?= json_encode($coupon['code']) ?>)
+                                    .attr('data-type', 'primary')
+                                    .attr('data-amount', <?= json_encode($coupon['coupon_amt']) ?>)
+                                    .text(<?= json_encode($coupon['code']) ?>)
+                            );
+                        <?php endforeach; ?>
+
+                        select.append(primaryGroup);
+                    <?php endif; ?>
+
+                    // Add available loyalty coupons.
+                    <?php if (!empty($loyaltyCoupons)): ?>
+                        const loyaltyGroup = $('<optgroup label="Loyalty Coupons"></optgroup>');
+
+                        <?php foreach ($loyaltyCoupons as $coupon): ?>
+                            loyaltyGroup.append(
+                                $('<option></option>')
+                                    .val(<?= json_encode($coupon['code']) ?>)
+                                    .attr('data-type', 'loyalty')
+                                    .attr('data-amount', <?= json_encode($coupon['coupon_amt']) ?>)
+                                    .text(<?= json_encode($coupon['code']) ?>)
+                            );
+                        <?php endforeach; ?>
+
+                        select.append(loyaltyGroup);
+                    <?php endif; ?>
+
+                    // Restore the saved coupon selection.
+                    select.val(couponCode);
+
+                    // Show the saved discount amount.
+                    row.find('.coupon-discount').text(
+                        '- ₹ ' + amount.toLocaleString('en-IN')
+                    );
+
+                    container.append(row);
+                });
+                updateTotalCouponDiscount();
+            }
+
+            function updateTotalCouponDiscount() {
+                let totalCouponDiscount = 0;
+
+                $('.coupon-passenger-row').each(function () {
+                    const selectedOption = $(this).find('.coupon-select option:selected');
+                    const amount = parseFloat(selectedOption.attr('data-amount')) || 0;
+
+                    if (selectedOption.val()) {
+                        totalCouponDiscount += amount;
+                    }
+                });
+
+                $('#totalCouponDiscount').text(
+                    '- ₹ ' + totalCouponDiscount.toLocaleString('en-IN')
+                );
+            }
         </script>
     </body>
 </html>

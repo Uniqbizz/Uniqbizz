@@ -236,7 +236,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-2">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-3">
                                 <div class="commission-card px-2">
                                     <div class="commission-title">
                                         My Wallet

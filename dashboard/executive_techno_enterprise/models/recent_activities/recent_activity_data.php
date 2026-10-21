@@ -103,7 +103,7 @@
 
             $activities[] = [
                 'type' => 'customer',
-                'title' => 'New Select Membership Purchased',
+                'title' => 'New Neo Select Membership Purchased',
                 'description' => $row['customer_name'],
                 'date' => $row['register_date']
             ];

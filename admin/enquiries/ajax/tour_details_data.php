@@ -59,7 +59,7 @@ if ($prefix !== '' && isset($tableMap[$prefix])) {
 
     $table = $tableMap[$prefix]['table'];
     $idColumn = $tableMap[$prefix]['id_column'];
-    $Requester_type = $tableMap[$prefix]['type'];
+    $Requester_type = $prefix != 'CU' ? $tableMap[$prefix]['type']:'';
 
     // Remove the prefix to get the numeric database ID.
     $numericId = substr((string)$user_id, strlen($prefix));
@@ -71,14 +71,14 @@ if ($prefix !== '' && isset($tableMap[$prefix])) {
 
         $stmt = $conn->prepare($sql);
         $stmt->execute([
-            ':id' => (int)$numericId
+            ':id' => $user_id
         ]);
 
         $userDetails = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
 
         // Determine customer type only for CU.
-        if ($prefix === 'CU' && !empty($userDetails)) {
-            $customerType = trim($userDetails['customer_type'] ?? '');
+        if ($prefix == 'CU') {
+            $Requester_type = trim($userDetails['customer_type'] ?? '');
         }
     }
 }
@@ -94,9 +94,7 @@ $discountBalance = 0;
 
 if (
     $prefix === 'CU' &&
-    !empty($userDetails) &&
-    isset($_SESSION['user_type_id_value']) &&
-    (int)$_SESSION['user_type_id_value'] === 10
+    !empty($userDetails) 
 ) {
     $stmt1 = $conn->prepare("
         SELECT *
@@ -121,7 +119,7 @@ if (
     $loyaltyCoupons = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
     // Neo Select customers only.
-    if (strcasecmp($customerType, 'Neo Select') === 0) {
+    if (strcasecmp($Requester_type , 'Neo Select') === 0) {
 
         $stmt3 = $conn->prepare("
             SELECT balance
@@ -148,6 +146,21 @@ if (
         $discountWallet = $stmt4->fetch(PDO::FETCH_ASSOC);
 
         $discountBalance = (float)($discountWallet['balance'] ?? 0);
+    }
+    else if (strcasecmp($Requester_type , 'Neo Select') !== 0) { // noe neo select
+
+        $stmt3 = $conn->prepare("
+            SELECT balance
+            FROM customer_reference_wallet_utilization
+            WHERE customer_id = :user_id
+            ORDER BY id DESC
+            LIMIT 1
+        ");
+
+        $stmt3->execute([':user_id' => $user_id]);
+        $referralWallet = $stmt3->fetch(PDO::FETCH_ASSOC);
+        $referralBalance = (float)($referralWallet['balance'] ?? 0);
+        $discountBalance = 0;
     }
 }
 // package
@@ -258,6 +271,8 @@ if ($data9->rowCount() > 0) {
     $cancel_policy['policy_1'] = 0;
     $cancel_policy['policy_2'] = 0;
     $cancel_policy['policy_3'] = 0;
+    $cancel_policy['policy_4'] = 0;
+    $cancel_policy['policy_5'] = 0;
 }
 //ta markup
 // if($user_type_id_value == '11'){
