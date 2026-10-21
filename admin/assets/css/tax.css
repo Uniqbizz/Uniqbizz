@@ -28,3 +28,10 @@
     width: fit-content;
     padding: 5px 8px;
 }
+.tdsCardHeight {
+    height: 245px;
+    object-fit: contain;
+}
+.tdsTableScroll {
+    overflow-y: auto;
+}
