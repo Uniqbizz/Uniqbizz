@@ -800,6 +800,42 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control {
     color: #068c25;
     font-size: 40px;
 }
+.cardChart .card-body {
+    position: relative;
+    min-height: 300px;
+}
+.customerCountPosition , .technoEnrollmentPosition {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 2;
+    pointer-events: none;
+}
+#recentActivitiesContainer {
+    min-height: 200px !important;
+}
+.recentActivitiesPosition {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 2;
+    pointer-events: none;
+}
+
 /* =========================================
    TABLET + SMALL LAPTOP (1024px)
 ========================================= */

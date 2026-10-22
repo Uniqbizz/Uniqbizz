@@ -291,7 +291,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
                                 <div class="cardChart card mb-0 border-1">
                                     <div class="card-title d-flex justify-content-between p-2">
-                                        <p class="commission-title fs-5">Customer Count (Yearly)</p>
+                                        <p class="commission-title fs-5"><i class="fa-solid fa-users fa-lg me-2" style="color: #35239a;"></i> Customer Count (Yearly)</p>
                                         <p class="">
                                             <select class="form-select yearSelect py-1" id="yearFilter">
                                                 
@@ -300,13 +300,20 @@
                                     </div>
                                     <div class="card-body">
                                         <canvas id="customerTrendChart"></canvas>
+                                        <div class="customerCountPosition">
+                                            <div class="d-flex justify-content-center">
+                                                <i class="fa-solid fa-users" style="color: #35239a; font-size: 60px;"></i>
+                                            </div>
+                                            <p class="mb-1 fs-5 fw-bold text-center">No customer data yet</p>
+                                            <p class="mb-1 fs-6 text-center">Start by adding customers and <br> activate more holiday accounts.</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
                                 <div class="cardChart card mb-0 border-1">
                                     <div class="card-title d-flex justify-content-between p-2">
-                                        <p class="commission-title fs-5">Techno Enterprise Enrollment Count (Yearly)</p>
+                                        <p class="commission-title fs-5"><i class="fa-solid fa-city fa-lg me-2" style="color: #35239a;"></i> Techno Enterprise Enrollment Count (Yearly)</p>
                                         <p class="">
                                             <select class="form-select yearSelect py-1" id="enrollmentYearFilter">
                                             </select>
@@ -314,6 +321,13 @@
                                     </div>
                                     <div class="card-body">
                                         <canvas id="enrollmentTrendChart"></canvas>
+                                        <div class="technoEnrollmentPosition">
+                                            <div class="d-flex justify-content-center">
+                                                <i class="fa-solid fa-house" style="color: #35239a; font-size: 60px;"></i>
+                                            </div>
+                                            <p class="mb-1 fs-5 fw-bold text-center">No enrollments yet</p>
+                                            <p class="mb-1 fs-6 text-center">Onboard Techno Enterprises <br> and grow your network.</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -324,7 +338,7 @@
                                 <div class="card rounded-4 border-1 p-3 h-100 mb-0">
                                     <div class="card-title d-flex justify-content-between align-items-center">
                                         <p class="commission-title fs-5 mb-0">
-                                            Recent Activities
+                                            <i class="fa-solid fa-clock-rotate-left fa-lg me-2" style="color: #35239a;"></i>Recent Activities
                                         </p>
                                         <a href="recent_activities.php" class="fs-6 fw-bold">
                                             View All
@@ -1484,14 +1498,12 @@
                         if (html === '') {
 
                             html = `
-                                <div class="text-center py-5">
-
-                                    <i class="fa-solid fa-clock-rotate-left fa-3x text-muted mb-3"></i>
-
-                                    <p class="text-muted mb-0">
-                                        No Recent Activities Found
-                                    </p>
-
+                                <div class="recentActivitiesPosition">
+                                    <div class="d-flex justify-content-center">
+                                        <i class="fa-solid fa-clock-rotate-left" style="color: #35239a; font-size: 60px;"></i>
+                                    </div>
+                                    <p class="mb-1 fs-5 fw-bold text-center">No enrollments yet</p>
+                                    <p class="mb-1 fs-6 text-center">Onboard Techno Enterprises <br> and grow your network.</p>
                                 </div>
                             `;
                         }
