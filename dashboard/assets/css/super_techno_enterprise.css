@@ -1016,6 +1016,13 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control {
     .submitBtn{
         min-width:100%;
     }
+    /* .quickCard1, .quickCard2, .quickCard3 {
+        display: flex !important;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        height: 80px !important;
+    } */
 }
 @media (max-width: 441px) {
     .cardSmallScreen {
@@ -1025,6 +1032,17 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control {
     .greetingCard p:nth-of-type(2),
     .greetingCard p:last-of-type {
         font-size: 14px !important;
+    }
+    .columnWidth {
+        width: 100%;
+        max-width: 441px;
+    }
+    .quickCard1, .quickCard2, .quickCard3 {
+        display: flex !important;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        height: 80px !important;
     }
 }
 /* sidebar end */

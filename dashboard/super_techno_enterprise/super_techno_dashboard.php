@@ -250,7 +250,7 @@
                                                 Quick Actions
                                             </div>
                                             <div class="row">
-                                                <div class="col-lg-4 col-md-4 col-sm-4 col-6 mb-3">
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-4 mb-3 columnWidth">
                                                     <div class="card rounded-4 p-2 quickCard1 mb-0">
                                                         <div class="d-flex justify-content-center">
                                                             <div class="quickIcon1">
@@ -260,7 +260,7 @@
                                                         <p class="mb-1 fs-6 fw-bold text-center">Add <br> Techno Enterprice</p>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-4 col-6 mb-3">
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-4 mb-3 columnWidth">
                                                     <div class="card rounded-4 p-2 quickCard2 mb-0">
                                                         <div class="d-flex justify-content-center">
                                                             <div class="quickIcon2">
@@ -270,7 +270,7 @@
                                                         <p class="mb-1 fs-6 fw-bold text-center">View <br> Travel Consultants</p>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-4 col-6 mb-3">
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-4 mb-3 columnWidth">
                                                     <div class="card rounded-4 p-2 quickCard3 mb-0">
                                                         <div class="d-flex justify-content-center">
                                                             <div class="quickIcon3">
