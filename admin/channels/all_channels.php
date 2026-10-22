@@ -118,6 +118,9 @@ $date = date('Y');
                                         <select id="designation" class="selectdesign">
                                             <option value="">--Select Designation--</option>
                                             <option value="bcm">Business Channel manager</option>
+                                            <option value="cte">Cheif Techno enterprise</option>
+                                            <option value="ete">Executive Techno enterprise</option>
+                                            <option value="ste">Super Techno enterprise</option>
                                             <option value="bdm">Business Development manager</option>
                                             <option value="business_mentor">Business Mentor</option>
                                             <option value="master_franchisee">Master Franchisee</option>
@@ -308,6 +311,9 @@ $date = date('Y');
             const userTypeMap = {
                 bcm: 24,
                 bdm: 25,
+                cte: 36,
+                ete: 34,
+                ste: 35,
                 business_mentor: 26,
                 master_franchisee: 28,
                 sponsor_franchisee: 30,

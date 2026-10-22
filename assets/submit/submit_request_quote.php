@@ -26,23 +26,42 @@ try {
     // =====================================================
     function generateRequestId($conn)
     {
-        do {
-            // 4-bit randomness
-            $requestId =
-            "RQ" .
-            date("ymdHis") .
-            strtoupper(bin2hex(random_bytes(4)));
-            $stmt = $conn->prepare("
-                SELECT id
-                FROM request_details
-                WHERE request_id = :request_id
-                LIMIT 1
-            ");
-            $stmt->execute([
-                ":request_id" => $requestId
-            ]);
-        } while ($stmt->fetch());
-        return $requestId;
+        $prefix = 'RQ' . date('my'); // Example: RQ1026
+
+        $stmt = $conn->prepare("
+            SELECT request_id
+            FROM request_details
+            WHERE request_id LIKE :prefix
+            ORDER BY CAST(RIGHT(request_id, 4) AS UNSIGNED) DESC
+            LIMIT 1
+        ");
+
+        $stmt->execute([
+            ':prefix' => $prefix . '%'
+        ]);
+
+        $lastRequestId = $stmt->fetchColumn();
+
+        if ($lastRequestId !== false) {
+            $lastNumber = (int) substr($lastRequestId, -4);
+            $nextNumber = $lastNumber + 1;
+        } else {
+            // Starting suffix: 0111
+            $nextNumber = 111;
+        }
+
+        if ($nextNumber > 9999) {
+            throw new RuntimeException(
+                'Request ID limit reached for this month.'
+            );
+        }
+
+        return $prefix . str_pad(
+            (string) $nextNumber,
+            4,
+            '0',
+            STR_PAD_LEFT
+        );
     }
     $requestId = generateRequestId($conn);
     // =====================================================
@@ -191,11 +210,11 @@ try {
     $calendarDays = $startDate->diff($endDate)->days + 1;
 
     // Nights = calendar days - 1
-    $nights = max(0, $calendarDays - 1);
+    $nights = max(0, $calendarDays - 2);
 
     // Your business rule:
     // 5 calendar days = 4 Nights / 3 Days
-    $days = max(0, $calendarDays - 2);
+    $days = max(0, $calendarDays - 1);
 
     $noOfNightsDays =$nights . " Nights / " . $days . " Days";
     // =====================================================

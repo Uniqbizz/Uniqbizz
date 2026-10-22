@@ -127,7 +127,7 @@
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">User ID & Name<span class="text-danger">*</span></label>
                                                         <select id="user_id_name" class="form-select">
-                                                            <option value="NA">--Select Designation First--</option>
+                                                            `<option value="NA">--Select Designation First--</option>`
                                                         </select>
                                                     </div>
                                                 </div>
@@ -534,40 +534,68 @@
                 }
             });
             
-            //select Designation
+            // Select Designation
             $('#designation').on('change', function() {
                 var designation = $('#designation').val();
-                // console.log(designation);
+
                 $.ajax({
-                    type:'POST',
-                    url:'../agents/get_user_Franchisee.php',
-                    data: "designation="+designation,
-                    success:function (e) {
-                        // console.log(e);
-                        $('#user_id_name').html(e); 
+                    type: 'POST',
+                    url: '../agents/get_user_Franchisee.php',
+                    data: { designation: designation },
+
+                    success: function(e) {
+                        // Only replace options if AJAX returned something
+                        if ($.trim(e) !== '') {
+                            $('#user_id_name').html(e);
+                        } else {
+                            $('#user_id_name').html(
+                                '<option value="NA">--Select Username ID--</option>'
+                            );
+                        }
                     },
-                    error: function(err){
+
+                    error: function(err) {
                         console.log(err);
-                    },
+
+                        // Keep default option if AJAX fails
+                        $('#user_id_name').html(
+                            '<option value="NA">--Select Select Username ID--</option>'
+                        );
+                    }
                 });
             });
 
+
             $('#designation2').on('change', function() {
                 var designation = $('#designation2').val();
-                // console.log(designation);
+
                 $.ajax({
-                    type:'POST',
-                    url:'../agents/get_user_Franchisee.php',
-                    data: "designation="+designation,
-                    success:function (e) {
-                        // console.log(e);
-                        $('#user_id_name').html(e); 
+                    type: 'POST',
+                    url: '../agents/get_user_Franchisee.php',
+                    data: { designation: designation },
+
+                    success: function(e) {
+                        // Only replace options if AJAX returned something
+                        if ($.trim(e) !== '') {
+                            $('#user_id_name').html(e);
+                        } else {
+                            $('#user_id_name').html(
+                                '<option value="NA">--Select Select Username ID--</option>'
+                            );
+                        }
                     },
-                    error: function(err){
+
+                    error: function(err) {
                         console.log(err);
-                    },
+
+                        // Keep default option if AJAX fails
+                        $('#user_id_name').html(
+                            '<option value="NA">--Select Select Username ID--</option>'
+                        );
+                    }
                 });
             });
+
             //on change of compcheck
             $('#is_complementary').on('change', function () {
                 if ($(this).is(':checked')) {
@@ -579,23 +607,6 @@
                     $('#payProof').prop('disabled', true);
                     $('.payment').prop('disabled', false);
                 }
-            });
-            // select Designation
-            $('#designation').on('change', function() {
-                var designation = $('#designation').val();
-                // console.log(designation);
-                $.ajax({
-                    type:'POST',
-                    url:'../agents/get_user_Franchisee.php',
-                    data: "designation="+designation,
-                    success:function (e) {
-                        // console.log(e);
-                        $('#user_id_name').html(e); 
-                    },
-                    error: function(err){
-                        console.log(err);
-                    },
-                });
             });
 
             // fetch User based on selected designation

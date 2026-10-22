@@ -18,12 +18,12 @@
     // echo "prev Date ".$prevdate.' ;';
     // echo "prev Month ".$prevDateMonth.' ;';
     // echo "prev year ".$prevDateYear.' ;';
-    $columnDesignation = 'bm_id';
-    $columnMessage = 'message';
-    $columnCommision = 'comm_amt';
-    $columnStatus = 'status';
-    $tablename='goa_bm_payout';
-    $tablename_paid='goa_bm_payout';
+    $columnDesignation = ['bm_id','ste_id','bm_user_id','business_mentor'];
+    $columnMessage = ['message','ste_message','message_bm','message'];
+    $columnCommision = ['comm_amt','ste_amount','payout_amount','comm_amt'];
+    $columnStatus = ['status','ste_status','payout_status','status'];
+    $tablename=['goa_bm_payout','techno_enterprise_payout','bm_payout_history','ca_payout'];
+    $tablename_paid=['goa_bm_payout','techno_enterprise_payout_paid','bm_payout_history','ca_payout'];
 ?>
 
 <!doctype html>
@@ -132,18 +132,63 @@
                                                                 <div class="col-lg-6 col-sm-6 col-6  border-4 border-end border-end-dashed">
                                                                     <div class="m-0 mt-2 p-2 ms-n2">
                                                                         <p class="font-size-14">Previous Payout<span class="fw-bold font-size-10 ms-4"><?php echo "$prevdate" ?></span></p>
-                                                                        <?php 
-                                                                            $previousPayout = $conn -> prepare("SELECT SUM($columnCommision) as previousPayout FROM $tablename WHERE $columnDesignation = '".$userId."' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
-                                                                            $previousPayout -> execute();
-                                                                            $previousPayout -> setFetchMode(PDO::FETCH_ASSOC);
-                                                                            if($previousPayout -> rowCount()>0){
-                                                                                foreach(($previousPayout -> fetchAll()) as $key => $row){
-                                                                                    $previousPayout = $row['previousPayout'];
-                                                                                    $previousPayoutTDS = $previousPayout * 2/100;
-                                                                                    $TotalpreviousPayout = $previousPayout - $previousPayoutTDS;
-                                                                                    echo'<p class="fs-5 fw-bolder mt-n2">Rs. ' .round($TotalpreviousPayout). '/- <span class="badge bg-success font-size-10 fw-bold ms-4">Paid</span> </p>';
-                                                                                }
-                                                                            }
+                                                                        
+                                                                        <?php
+
+                                                                            $previousPayout = $conn->prepare("
+                                                                                SELECT SUM(previousPayout) AS previousPayout
+                                                                                FROM (
+                                                                                    SELECT SUM($columnCommision[0]) AS previousPayout
+                                                                                    FROM $tablename[0]
+                                                                                    WHERE $columnDesignation[0] = :userId
+                                                                                    AND YEAR(created_date) = :prevYear
+                                                                                    AND MONTH(created_date) = :prevMonth
+
+                                                                                    UNION ALL
+
+                                                                                    SELECT SUM($columnCommision[1]) AS previousPayout
+                                                                                    FROM $tablename[1]
+                                                                                    WHERE $columnDesignation[1] = :userId
+                                                                                    AND YEAR(created_date) = :prevYear
+                                                                                    AND MONTH(created_date) = :prevMonth
+
+                                                                                    UNION ALL
+
+                                                                                    SELECT SUM($columnCommision[2]) AS previousPayout
+                                                                                    FROM $tablename[2]
+                                                                                    WHERE $columnDesignation[2] = :userId
+                                                                                    AND YEAR(payout_date) = :prevYear
+                                                                                    AND MONTH(payout_date) = :prevMonth
+
+                                                                                    UNION ALL
+
+                                                                                    SELECT SUM($columnCommision[3]) AS previousPayout
+                                                                                    FROM $tablename[3]
+                                                                                    WHERE $columnDesignation[3] = :userId
+                                                                                    AND YEAR(created_date) = :prevYear
+                                                                                    AND MONTH(created_date) = :prevMonth
+                                                                                ) AS payout_data
+                                                                            ");
+
+                                                                            $previousPayout->execute([
+                                                                                ':userId'   => $userId,
+                                                                                ':prevYear' => $prevDateYear,
+                                                                                ':prevMonth' => $prevDateMonth
+                                                                            ]);
+
+                                                                            $row = $previousPayout->fetch(PDO::FETCH_ASSOC);
+
+                                                                            $previousPayoutAmount = (float) ($row['previousPayout'] ?? 0);
+
+                                                                            $previousPayoutTDS = $previousPayoutAmount * 2 / 100;
+
+                                                                            $TotalpreviousPayout = $previousPayoutAmount - $previousPayoutTDS;
+
+                                                                            echo '<p class="fs-5 fw-bolder mt-n2">
+                                                                                    Rs. ' . round($TotalpreviousPayout) . '/-
+                                                                                    <span class="badge bg-success font-size-10 fw-bold ms-4">Paid</span>
+                                                                                </p>';
+
                                                                         ?>
                                                                         <a type="button" data-bs-toggle="modal" data-bs-target="#previousPayout" style=" cursor: pointer;">
                                                                             <p class="mt-n2 mb-1 fw-bold p1" style="color: #0096FF;">View Payout</p>
@@ -156,18 +201,63 @@
                                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-6 ">
                                                                     <div class="m-0 mt-2 p-2">
                                                                         <p class="font-size-14">Next Payout<span class="fw-bold font-size-10 date-layout "><?php echo "$date" ?></span></p>
-                                                                        <?php 
-                                                                            $nextPayout = $conn -> prepare("SELECT SUM($columnCommision) as nextPayout FROM $tablename WHERE  $columnDesignation = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
-                                                                            $nextPayout -> execute();
-                                                                            $nextPayout -> setFetchMode(PDO::FETCH_ASSOC);
-                                                                            if($nextPayout -> rowCount()>0){
-                                                                                foreach(($nextPayout -> fetchAll()) as $key => $row2){
-                                                                                    $nextPayoutTotal = $row2['nextPayout'];
-                                                                                    $nextPayoutTDS = $nextPayoutTotal * 2/100;
-                                                                                    $TotalNextPayout = $nextPayoutTotal - $nextPayoutTDS;
-                                                                                    echo'<p class="fs-5 fw-bolder mt-n2">Rs.' .round($TotalNextPayout). '/- <span class="badge bg-warning font-size-10 fw-bold ms-4">Pending</span> </p>';
-                                                                                }
-                                                                            }
+                                                                        
+                                                                        <?php
+
+                                                                            $nextPayout = $conn->prepare("
+                                                                                SELECT SUM(nextPayout) AS nextPayout
+                                                                                FROM (
+                                                                                    SELECT SUM($columnCommision[0]) AS nextPayout
+                                                                                    FROM $tablename[0]
+                                                                                    WHERE $columnDesignation[0] = :userId
+                                                                                    AND YEAR(created_date) = :nextYear
+                                                                                    AND MONTH(created_date) = :nextMonth
+
+                                                                                    UNION ALL
+
+                                                                                    SELECT SUM($columnCommision[1]) AS nextPayout
+                                                                                    FROM $tablename[1]
+                                                                                    WHERE $columnDesignation[1] = :userId
+                                                                                    AND YEAR(created_date) = :nextYear
+                                                                                    AND MONTH(created_date) = :nextMonth
+
+                                                                                    UNION ALL
+
+                                                                                    SELECT SUM($columnCommision[2]) AS nextPayout
+                                                                                    FROM $tablename[2]
+                                                                                    WHERE $columnDesignation[2] = :userId
+                                                                                    AND YEAR(payout_date) = :nextYear
+                                                                                    AND MONTH(payout_date) = :nextMonth
+
+                                                                                    UNION ALL
+
+                                                                                    SELECT SUM($columnCommision[3]) AS nextPayout
+                                                                                    FROM $tablename[3]
+                                                                                    WHERE $columnDesignation[3] = :userId
+                                                                                    AND YEAR(created_date) = :nextYear
+                                                                                    AND MONTH(created_date) = :nextMonth
+                                                                                ) AS payout_data
+                                                                            ");
+
+                                                                            $nextPayout->execute([
+                                                                                ':userId'   => $userId,
+                                                                                ':nextYear' => $nextDateYear,
+                                                                                ':nextMonth' => $nextDateMonth
+                                                                            ]);
+
+                                                                            $row2 = $nextPayout->fetch(PDO::FETCH_ASSOC);
+
+                                                                            $nextPayoutTotal = (float) ($row2['nextPayout'] ?? 0);
+
+                                                                            $nextPayoutTDS = $nextPayoutTotal * 2 / 100;
+
+                                                                            $TotalNextPayout = $nextPayoutTotal - $nextPayoutTDS;
+
+                                                                            echo '<p class="fs-5 fw-bolder mt-n2">
+                                                                                    Rs. ' . round($TotalNextPayout) . '/-
+                                                                                    <span class="badge bg-warning font-size-10 fw-bold ms-4">Pending</span>
+                                                                                </p>';
+
                                                                         ?>
                                                                         <a type="button" data-bs-toggle="modal" data-bs-target="#nextPayout" style=" cursor: pointer;">
                                                                             <p class="mt-n2 mb-1 fw-bold p1" style="color: #0096FF;">View Payout</p>
@@ -192,19 +282,55 @@
                                                                             <input type="month" id="month_year" value="" min="2020-01" max="" class="font-size-10 fw-bold rounded-4 d-none border-round">
                                                                         </p>
                                                                     </div>
-                                                                    <?php 
-                                                                        $totalPayout = "SELECT SUM($columnCommision) as total_payable FROM $tablename WHERE  $columnDesignation = '".$userId."' AND status = '1' ";
-                                                                        $Payout = $conn -> prepare($totalPayout);
-                                                                        $Payout -> execute();
-                                                                        $Payout -> setFetchMode(PDO::FETCH_ASSOC);
-                                                                        if($Payout->rowCount()>0){
-                                                                            foreach(($Payout->fetchAll()) as $key => $row){
-                                                                                $total_payable = $row["total_payable"] ?? '0';
-                                                                                $total_payableTDS = $total_payable * 2/100;
-                                                                                $TotalPayout = $total_payable - $total_payableTDS;
-                                                                                echo'<p class="fs-5 fw-bolder mt-n2 content1" id="TotalPayoutAmountDate">Rs.'.$TotalPayout.'/-</p>';
-                                                                            }
-                                                                        }
+                                                                    <?php
+
+                                                                        $totalPayout = $conn->prepare("
+                                                                            SELECT SUM(total_payable) AS total_payable
+                                                                            FROM (
+                                                                                SELECT SUM($columnCommision[0]) AS total_payable
+                                                                                FROM $tablename[0]
+                                                                                WHERE $columnDesignation[0] = :userId
+                                                                                AND $columnStatus[0] = '1'
+
+                                                                                UNION ALL
+
+                                                                                SELECT SUM($columnCommision[1]) AS total_payable
+                                                                                FROM $tablename[1]
+                                                                                WHERE $columnDesignation[1] = :userId
+                                                                                AND $columnStatus[1] = '1'
+
+                                                                                UNION ALL
+
+                                                                                SELECT SUM($columnCommision[2]) AS total_payable
+                                                                                FROM $tablename[2]
+                                                                                WHERE $columnDesignation[2] = :userId
+                                                                                AND $columnStatus[2] = '1'
+
+                                                                                UNION ALL
+
+                                                                                SELECT SUM($columnCommision[3]) AS total_payable
+                                                                                FROM $tablename[3]
+                                                                                WHERE $columnDesignation[3] = :userId
+                                                                                AND $columnStatus[3] = '1'
+                                                                            ) AS payout_data
+                                                                        ");
+
+                                                                        $totalPayout->execute([
+                                                                            ':userId' => $userId
+                                                                        ]);
+
+                                                                        $row = $totalPayout->fetch(PDO::FETCH_ASSOC);
+
+                                                                        $total_payable = (float) ($row['total_payable'] ?? 0);
+
+                                                                        $total_payableTDS = $total_payable * 2 / 100;
+
+                                                                        $TotalPayout = $total_payable - $total_payableTDS;
+
+                                                                        echo '<p class="fs-5 fw-bolder mt-n2 content1" id="TotalPayoutAmountDate">
+                                                                                Rs. ' . number_format($TotalPayout, 2) . '/-
+                                                                            </p>';
+
                                                                     ?>
                                                                     <a type="button" data-bs-toggle="modal" data-bs-target="#totalPayout" style=" cursor: pointer;">
                                                                         <p class="mt-n2 mb-1 fw-bold p1" style="color: #0096FF;"> View Payout</p>
@@ -251,49 +377,130 @@
                                                                         </thead>
                                                                         <tbody>
                                                                             <?php
-                                                                                $sql = "SELECT * FROM `$tablename` WHERE  $columnDesignation = '".$userId."'  ";
-                                                                                $stmt = $conn -> prepare($sql);
-                                                                                $stmt -> execute();
-                                                                                $stmt -> setFetchMode(PDO::FETCH_ASSOC);
-                                                                                if( $stmt -> rowCount()>0 ){
-                                                                                    foreach( ($stmt -> fetchALL()) as $key => $row ){
 
-                                                                                        // date in proper formate
-                                                                                        $dt = new DateTime($row['created_date']);
-                                                                                        $dt = $dt->format('Y-m-d');
+                                                                                $sql = "
+                                                                                    SELECT
+                                                                                        $columnDesignation[0] AS bm_id,
+                                                                                        id,
+                                                                                        techno_enterprise,
+                                                                                        $columnCommision[0] AS commission,
+                                                                                        $columnStatus[0] AS status,
+                                                                                        $columnMessage[0] AS message,
+                                                                                        created_date
+                                                                                    FROM `$tablename[0]`
+                                                                                    WHERE $columnDesignation[0] = :userId0
 
-                                                                                        // replace dot at end of the line with break statement
-                                                                                        $message1 = $row['message'];
-                                                                                        $message1 =  str_replace('.','<br>',$message1);  
+                                                                                    UNION ALL
 
-                                                                                        if($row[$columnCommision] == "null"){
-                                                                                            $CommAmt = '0';
-                                                                                            $tds = '0';
-                                                                                            $totalAmt = '0';
-                                                                                        }else{
-                                                                                            $CommAmt = $row[$columnCommision];
-                                                                                            $tds = $CommAmt * 2/100;
-                                                                                            $totalAmt = $CommAmt - $tds;
-                                                                                        }
+                                                                                    SELECT
+                                                                                        $columnDesignation[1] AS bm_id,
+                                                                                        id,
+                                                                                        te_id AS techno_enterprise,
+                                                                                        $columnCommision[1] AS commission,
+                                                                                        $columnStatus[1] AS status,
+                                                                                        $columnMessage[1] AS message,
+                                                                                        created_date
+                                                                                    FROM `$tablename[1]`
+                                                                                    WHERE $columnDesignation[1] = :userId1
 
-                                                                                        echo '<tr>
-                                                                                                <td>'.$dt.'</td>
-                                                                                                <td>'.$message1.'</td>
-                                                                                                <td class="text-end">'.$CommAmt.'</td>
-                                                                                                <td class="text-end">'.$tds.'</td>
-                                                                                                <td class="text-end">'.$totalAmt.'
-                                                                                                    <a href="payout/forms/contracting_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row[$columnDesignation].'&ca='.$row['techno_enterprise'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row[$columnCommision].'">
-                                                                                                        <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
-                                                                                                    </a>
-                                                                                                </td>';
-                                                                                                if($row['status'] == '1'){
-                                                                                                    echo'<td><span class="badge bg-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                                                }else{
-                                                                                                    echo'<td><span class="badge bg-warning font-size-10 fw-bold ms-4">Pending</span></td>';
-                                                                                                }
-                                                                                        echo'</tr>';
+                                                                                    UNION ALL
 
+                                                                                    SELECT
+                                                                                        $columnDesignation[2] AS bm_id,
+                                                                                        id,
+                                                                                        ca_user_id AS techno_enterprise,
+                                                                                        $columnCommision[2] AS commission,
+                                                                                        $columnStatus[2] AS status,
+                                                                                        $columnMessage[2] AS message,
+                                                                                        payout_date AS created_date
+                                                                                    FROM `$tablename[2]`
+                                                                                    WHERE $columnDesignation[2] = :userId2
+
+                                                                                    UNION ALL
+
+                                                                                    SELECT
+                                                                                        $columnDesignation[3] AS bm_id,
+                                                                                        id,
+                                                                                        techno_enterprise,
+                                                                                        $columnCommision[3] AS commission,
+                                                                                        $columnStatus[3] AS status,
+                                                                                        $columnMessage[3] AS message,
+                                                                                        created_date
+                                                                                    FROM `$tablename[3]`
+                                                                                    WHERE $columnDesignation[3] = :userId3
+                                                                                ";
+
+                                                                                $stmt = $conn->prepare($sql);
+
+                                                                                $stmt->execute([
+                                                                                    ':userId0' => $userId,
+                                                                                    ':userId1' => $userId,
+                                                                                    ':userId2' => $userId,
+                                                                                    ':userId3' => $userId
+                                                                                ]);
+
+                                                                                $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                                                                                foreach ($rows as $row) {
+
+                                                                                    // Format date
+                                                                                    $dt = !empty($row['created_date'])
+                                                                                        ? (new DateTime($row['created_date']))->format('Y-m-d')
+                                                                                        : '';
+
+                                                                                    // Format message
+                                                                                    $message1 = str_replace('.', '<br>', $row['message'] ?? '');
+
+                                                                                    // Commission amount
+                                                                                    $CommAmt = is_numeric($row['commission'])
+                                                                                        ? (float) $row['commission']
+                                                                                        : 0;
+
+                                                                                    // TDS deduction
+                                                                                    $tds = $CommAmt * 2 / 100;
+
+                                                                                    // Net payout
+                                                                                    $totalAmt = $CommAmt - $tds;
+
+                                                                                    // Download URL
+                                                                                    $downloadUrl = 'payout/forms/contracting_payout/download_ca_payout.php?' .
+                                                                                        http_build_query([
+                                                                                            'vkvbvjfgfikix' => $row['id'],
+                                                                                            'bc' => $row['bm_id'],
+                                                                                            'ca' => $row['techno_enterprise'],
+                                                                                            'date' => $dt,
+                                                                                            'message' => $row['message'] ?? '',
+                                                                                            'message_status' => $row['status'],
+                                                                                            'commission' => $row['commission']
+                                                                                        ]);
+
+                                                                                    echo '<tr>
+                                                                                            <td>' . htmlspecialchars($dt) . '</td>
+                                                                                            <td>' . $message1 . '</td>
+                                                                                            <td class="text-end">' . number_format($CommAmt, 2) . '</td>
+                                                                                            <td class="text-end">' . number_format($tds, 2) . '</td>
+                                                                                            <td class="text-end">' . number_format($totalAmt, 2) . '
+                                                                                                <a href="' . htmlspecialchars($downloadUrl, ENT_QUOTES, 'UTF-8') . '">
+                                                                                                    <i class="bx bx-download"
+                                                                                                    style="font-size:18px;color:black;padding-left:5px;"></i>
+                                                                                                </a>
+                                                                                            </td>';
+
+                                                                                    if ((string) $row['status'] === '1') {
+                                                                                        echo '<td>
+                                                                                                <span class="badge bg-success font-size-10 fw-bold ms-4">
+                                                                                                    Paid
+                                                                                                </span>
+                                                                                            </td>';
+                                                                                    } else {
+                                                                                        echo '<td>
+                                                                                                <span class="badge bg-warning font-size-10 fw-bold ms-4">
+                                                                                                    Pending
+                                                                                                </span>
+                                                                                            </td>';
                                                                                     }
+
+                                                                                    echo '</tr>';
                                                                                 }
                                                                             ?>
                                                                             
@@ -340,19 +547,76 @@
                                 <div class="mt-3">
                                     <p class="font-size-18 pt-2">Previous Payout<span class="fw-bold font-size-12 date-layout1 layout-1"><?php echo "$prevdate" ?></span></p>
                                     <div class="d-flex">
-                                        <?php 
-                                            $previousPayout = $conn -> prepare("SELECT SUM($columnCommision) as previousPayout FROM $tablename WHERE $columnDesignation = '".$userId."' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
-                                            $previousPayout -> execute();
-                                            $previousPayout -> setFetchMode(PDO::FETCH_ASSOC);
-                                            if($previousPayout -> rowCount()>0){
-                                                foreach(($previousPayout -> fetchAll()) as $key => $row){
-                                                    $previousPayout = $row['previousPayout'];
-                                                    $previousPayoutTDS = $previousPayout * 2/100;
-                                                    $TotalpreviousPayout = $previousPayout - $previousPayoutTDS;
-                                                    echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .round($TotalpreviousPayout). '/- </p>
-                                                    <span class="badge bg-success font-size-10 fw-bold status1 paystatus" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
-                                                }
-                                            }
+                                        <?php
+
+                                            $previousPayout = $conn->prepare("
+                                                SELECT SUM(previousPayout) AS previousPayout
+                                                FROM (
+                                                    SELECT SUM($columnCommision[0]) AS previousPayout
+                                                    FROM $tablename[0]
+                                                    WHERE $columnDesignation[0] = :userId0
+                                                    AND YEAR(created_date) = :prevYear0
+                                                    AND MONTH(created_date) = :prevMonth0
+
+                                                    UNION ALL
+
+                                                    SELECT SUM($columnCommision[1]) AS previousPayout
+                                                    FROM $tablename[1]
+                                                    WHERE $columnDesignation[1] = :userId1
+                                                    AND YEAR(created_date) = :prevYear1
+                                                    AND MONTH(created_date) = :prevMonth1
+
+                                                    UNION ALL
+
+                                                    SELECT SUM($columnCommision[2]) AS previousPayout
+                                                    FROM $tablename[2]
+                                                    WHERE $columnDesignation[2] = :userId2
+                                                    AND YEAR(payout_date) = :prevYear2
+                                                    AND MONTH(payout_date) = :prevMonth2
+
+                                                    UNION ALL
+
+                                                    SELECT SUM($columnCommision[3]) AS previousPayout
+                                                    FROM $tablename[3]
+                                                    WHERE $columnDesignation[3] = :userId3
+                                                    AND YEAR(created_date) = :prevYear3
+                                                    AND MONTH(created_date) = :prevMonth3
+                                                ) AS payout_data
+                                            ");
+
+                                            $previousPayout->execute([
+                                                ':userId0' => $userId,
+                                                ':prevYear0' => $prevDateYear,
+                                                ':prevMonth0' => $prevDateMonth,
+
+                                                ':userId1' => $userId,
+                                                ':prevYear1' => $prevDateYear,
+                                                ':prevMonth1' => $prevDateMonth,
+
+                                                ':userId2' => $userId,
+                                                ':prevYear2' => $prevDateYear,
+                                                ':prevMonth2' => $prevDateMonth,
+
+                                                ':userId3' => $userId,
+                                                ':prevYear3' => $prevDateYear,
+                                                ':prevMonth3' => $prevDateMonth
+                                            ]);
+
+                                            $row = $previousPayout->fetch(PDO::FETCH_ASSOC);
+
+                                            $previousPayoutAmount = (float) ($row['previousPayout'] ?? 0);
+
+                                            $previousPayoutTDS = $previousPayoutAmount * 2 / 100;
+
+                                            $TotalpreviousPayout = $previousPayoutAmount - $previousPayoutTDS;
+
+                                            echo '<p class="fs-5 font fw-bolder mt-n2 icon">
+                                                    Rs.' . round($TotalpreviousPayout) . '/-
+                                                </p>
+                                                <span class="badge bg-success font-size-10 fw-bold status1 paystatus"
+                                                        style="height: 15px !important; margin-top: 16px;"
+                                                        readonly>Paid</span>';
+
                                         ?>
                                         
                                         <a href="payout/forms/contracting_payout/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout">
@@ -416,50 +680,170 @@
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                    $sql2 = "SELECT * FROM $tablename WHERE $columnDesignation = '".$userId."' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ";
-                                                    $stmt = $conn -> prepare($sql2);
-                                                    $stmt -> execute();
-                                                    $stmt -> setFetchMode(PDO::FETCH_ASSOC);
-                                                    if( $stmt -> rowCount()>0 ){
-                                                        foreach( ($stmt -> fetchALL()) as $key => $row ){
 
-                                                            // date in proper formate
-                                                            $dt = new DateTime($row['created_date']);
-                                                            $dt = $dt->format('Y-m-d');
+                                                    $sql2 = "
+                                                        SELECT
+                                                            $columnDesignation[0] AS bm_id,
+                                                            id,
+                                                            techno_enterprise,
+                                                            $columnCommision[0] AS commission,
+                                                            $columnStatus[0] AS status,
+                                                            $columnMessage[0] AS message,
+                                                            created_date
+                                                        FROM `$tablename[0]`
+                                                        WHERE $columnDesignation[0] = :userId0
+                                                        AND YEAR(created_date) = :year0
+                                                        AND MONTH(created_date) = :month0
 
-                                                            // replace dot at end of the line with break statement
-                                                            $message1 = $row['message'];
-                                                            $message1 =  str_replace('.','<br>',$message1);  
+                                                        UNION ALL
 
-                                                            // total Amt Cal for BC 
-                                                                if($row[$columnCommision] == "null"){
-                                                                $CommAmt = '0';
-                                                                $tds = '0';
-                                                                $totalAmt = '0';
-                                                            }else{
-                                                                $CommAmt = $row[$columnCommision];
-                                                                $tds = $CommAmt * 2/100;
-                                                                $totalAmt = $CommAmt - $tds;
-                                                            }
+                                                        SELECT
+                                                            $columnDesignation[1] AS bm_id,
+                                                            id,
+                                                            te_id AS techno_enterprise,
+                                                            $columnCommision[1] AS commission,
+                                                            $columnStatus[1] AS status,
+                                                            $columnMessage[1] AS message,
+                                                            created_date
+                                                        FROM `$tablename[1]`
+                                                        WHERE $columnDesignation[1] = :userId1
+                                                        AND YEAR(created_date) = :year1
+                                                        AND MONTH(created_date) = :month1
 
-                                                            echo '<tr>
-                                                                    <td>'.$dt.'</td>
-                                                                    <td>'.$message1.'</td>
-                                                                    <td class="text-end">'.$CommAmt.'</td>
-                                                                    <td class="text-end">'.$tds.'</td>
-                                                                    <td class="text-end">'.$totalAmt.'
-                                                                        <a href="payout/forms/contracting_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row[$columnDesignation].'&ca='.$row['techno_enterprise'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row[$columnCommision].'">
-                                                                            <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
-                                                                        </a>
-                                                                    </td>';
-                                                                    if($row['status'] == '1'){
-                                                                        echo'<td><span class="badge bg-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                    }else{
-                                                                        echo'<td><span class="badge bg-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row[$columnDesignation].'","'.$row['message'].'","'.$row[$columnCommision].'","'.$row['status'].'","PrevPayout")\'>Pending</span></td>';
-                                                                    }
-                                                            echo'</tr>';
+                                                        UNION ALL
 
+                                                        SELECT
+                                                            $columnDesignation[2] AS bm_id,
+                                                            id,
+                                                            ca_user_id AS techno_enterprise,
+                                                            $columnCommision[2] AS commission,
+                                                            $columnStatus[2] AS status,
+                                                            $columnMessage[2] AS message,
+                                                            payout_date AS created_date
+                                                        FROM `$tablename[2]`
+                                                        WHERE $columnDesignation[2] = :userId2
+                                                        AND YEAR(payout_date) = :year2
+                                                        AND MONTH(payout_date) = :month2
+
+                                                        UNION ALL
+
+                                                        SELECT
+                                                            $columnDesignation[3] AS bm_id,
+                                                            id,
+                                                            techno_enterprise,
+                                                            $columnCommision[3] AS commission,
+                                                            $columnStatus[3] AS status,
+                                                            $columnMessage[3] AS message,
+                                                            created_date
+                                                        FROM `$tablename[3]`
+                                                        WHERE $columnDesignation[3] = :userId3
+                                                        AND YEAR(created_date) = :year3
+                                                        AND MONTH(created_date) = :month3
+                                                    ";
+
+                                                    $stmt = $conn->prepare($sql2);
+
+                                                    $stmt->execute([
+                                                        ':userId0' => $userId,
+                                                        ':year0'   => $prevDateYear,
+                                                        ':month0'  => $prevDateMonth,
+
+                                                        ':userId1' => $userId,
+                                                        ':year1'   => $prevDateYear,
+                                                        ':month1'  => $prevDateMonth,
+
+                                                        ':userId2' => $userId,
+                                                        ':year2'   => $prevDateYear,
+                                                        ':month2'  => $prevDateMonth,
+
+                                                        ':userId3' => $userId,
+                                                        ':year3'   => $prevDateYear,
+                                                        ':month3'  => $prevDateMonth
+                                                    ]);
+
+                                                    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                                                    foreach ($rows as $row) {
+
+                                                        // Format date
+                                                        $dt = !empty($row['created_date'])
+                                                            ? (new DateTime($row['created_date']))->format('Y-m-d')
+                                                            : '';
+
+                                                        // Format message
+                                                        $message1 = str_replace(
+                                                            '.',
+                                                            '<br>',
+                                                            $row['message'] ?? ''
+                                                        );
+
+                                                        // Commission amount
+                                                        $CommAmt = is_numeric($row['commission'])
+                                                            ? (float) $row['commission']
+                                                            : 0;
+
+                                                        // TDS calculation
+                                                        $tds = $CommAmt * 2 / 100;
+
+                                                        // Net amount
+                                                        $totalAmt = $CommAmt - $tds;
+
+                                                        // Common row values
+                                                        $bmId = $row['bm_id'];
+                                                        $commission = $row['commission'] ?? 0;
+                                                        $message = $row['message'] ?? '';
+                                                        $status = $row['status'];
+
+                                                        // Download URL
+                                                        $downloadUrl = 'payout/forms/contracting_payout/download_ca_payout.php?' .
+                                                            http_build_query([
+                                                                'vkvbvjfgfikix' => $row['id'],
+                                                                'bc' => $bmId,
+                                                                'ca' => $row['techno_enterprise'],
+                                                                'date' => $dt,
+                                                                'message' => $message,
+                                                                'message_status' => $status,
+                                                                'commission' => $commission
+                                                            ]);
+
+                                                        echo '<tr>
+                                                            <td>' . htmlspecialchars($dt) . '</td>
+                                                            <td>' . $message1 . '</td>
+                                                            <td class="text-end">' . number_format($CommAmt, 2) . '</td>
+                                                            <td class="text-end">' . number_format($tds, 2) . '</td>
+                                                            <td class="text-end">' . number_format($totalAmt, 2) . '
+                                                                <a href="' . htmlspecialchars($downloadUrl, ENT_QUOTES, 'UTF-8') . '">
+                                                                    <i class="bx bx-download"
+                                                                    style="font-size:18px;color:black;padding-left:5px;"></i>
+                                                                </a>
+                                                            </td>';
+
+                                                        if ((string) $status === '1') {
+
+                                                            echo '<td>
+                                                                <span class="badge bg-success font-size-10 fw-bold ms-4">
+                                                                    Paid
+                                                                </span>
+                                                            </td>';
+
+                                                        } else {
+
+                                                            echo '<td>
+                                                                <span class="badge bg-warning font-size-10 fw-bold ms-4"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target=".bs-example-modal-center"
+                                                                    onclick=\'paymentId(' .
+                                                                        json_encode((string) $row['id']) . ',' .
+                                                                        json_encode((string) $bmId) . ',' .
+                                                                        json_encode((string) $message) . ',' .
+                                                                        json_encode((string) $commission) . ',' .
+                                                                        json_encode((string) $status) . ',"PrevPayout")\'>
+                                                                    Pending
+                                                                </span>
+                                                            </td>';
                                                         }
+
+                                                        echo '</tr>';
                                                     }
                                                 ?>
                                             </tbody>
@@ -494,19 +878,76 @@
                                 <div class="mt-3">
                                     <p class="font-size-18 pt-3">Next Payout<span class="fw-bold font-size-12 date-layout layout-1"><?php echo "$date" ?></span></p>
                                     <div class="d-flex">
-                                        <?php 
-                                            $nextPayout = $conn -> prepare("SELECT SUM($columnCommision) as nextPayout FROM $tablename WHERE $columnDesignation = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
-                                            $nextPayout -> execute();
-                                            $nextPayout -> setFetchMode(PDO::FETCH_ASSOC);
-                                            if($nextPayout -> rowCount()>0){
-                                                foreach(($nextPayout -> fetchAll()) as $key => $row2){
-                                                    $nextPayoutTotal = $row2['nextPayout'];
-                                                    $nextPayoutTDS = $nextPayoutTotal * 2/100;
-                                                    $TotalNextPayout = $nextPayoutTotal - $nextPayoutTDS;
-                                                    echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .round($TotalNextPayout). '/- </p>
-                                                    <span class="badge bg-success font-size-10 fw-bold status1 paystatus" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
-                                                }
-                                            }
+                                        <?php
+
+                                            $nextPayout = $conn->prepare("
+                                                SELECT SUM(nextPayout) AS nextPayout
+                                                FROM (
+                                                    SELECT SUM($columnCommision[0]) AS nextPayout
+                                                    FROM $tablename[0]
+                                                    WHERE $columnDesignation[0] = :userId0
+                                                    AND YEAR(created_date) = :year0
+                                                    AND MONTH(created_date) = :month0
+
+                                                    UNION ALL
+
+                                                    SELECT SUM($columnCommision[1]) AS nextPayout
+                                                    FROM $tablename[1]
+                                                    WHERE $columnDesignation[1] = :userId1
+                                                    AND YEAR(created_date) = :year1
+                                                    AND MONTH(created_date) = :month1
+
+                                                    UNION ALL
+
+                                                    SELECT SUM($columnCommision[2]) AS nextPayout
+                                                    FROM $tablename[2]
+                                                    WHERE $columnDesignation[2] = :userId2
+                                                    AND YEAR(payout_date) = :year2
+                                                    AND MONTH(payout_date) = :month2
+
+                                                    UNION ALL
+
+                                                    SELECT SUM($columnCommision[3]) AS nextPayout
+                                                    FROM $tablename[3]
+                                                    WHERE $columnDesignation[3] = :userId3
+                                                    AND YEAR(created_date) = :year3
+                                                    AND MONTH(created_date) = :month3
+                                                ) AS payout_data
+                                            ");
+
+                                            $nextPayout->execute([
+                                                ':userId0' => $userId,
+                                                ':year0'   => $nextDateYear,
+                                                ':month0'  => $nextDateMonth,
+
+                                                ':userId1' => $userId,
+                                                ':year1'   => $nextDateYear,
+                                                ':month1'  => $nextDateMonth,
+
+                                                ':userId2' => $userId,
+                                                ':year2'   => $nextDateYear,
+                                                ':month2'  => $nextDateMonth,
+
+                                                ':userId3' => $userId,
+                                                ':year3'   => $nextDateYear,
+                                                ':month3'  => $nextDateMonth
+                                            ]);
+
+                                            $row2 = $nextPayout->fetch(PDO::FETCH_ASSOC);
+
+                                            $nextPayoutTotal = (float) ($row2['nextPayout'] ?? 0);
+
+                                            $nextPayoutTDS = $nextPayoutTotal * 2 / 100;
+
+                                            $TotalNextPayout = $nextPayoutTotal - $nextPayoutTDS;
+
+                                            echo '<p class="fs-5 font fw-bolder mt-n2 icon">
+                                                    Rs.' . round($TotalNextPayout) . '/-
+                                                </p>
+                                                <span class="badge bg-success font-size-10 fw-bold status1 paystatus"
+                                                        style="height: 15px !important; margin-top: 16px;"
+                                                        readonly>Paid</span>';
+
                                         ?>
                                         
                                         <a href="payout/forms/contracting_payout/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout">
@@ -569,50 +1010,165 @@
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                    $sql3 = "SELECT * FROM $tablename WHERE $columnDesignation = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ";
-                                                    $stmt = $conn -> prepare($sql3);
-                                                    $stmt -> execute();
-                                                    $stmt -> setFetchMode(PDO::FETCH_ASSOC);
-                                                    if( $stmt -> rowCount()>0 ){
-                                                        foreach( ($stmt -> fetchALL()) as $key => $row ){
 
-                                                            // date in proper formate
-                                                            $dt = new DateTime($row['created_date']);
-                                                            $dt = $dt->format('Y-m-d');
+                                                    $sql3 = "
+                                                        SELECT
+                                                            $columnDesignation[0] AS bm_id,
+                                                            id,
+                                                            techno_enterprise,
+                                                            $columnCommision[0] AS commission,
+                                                            $columnStatus[0] AS status,
+                                                            $columnMessage[0] AS message,
+                                                            created_date
+                                                        FROM `$tablename[0]`
+                                                        WHERE $columnDesignation[0] = :userId0
+                                                        AND YEAR(created_date) = :year0
+                                                        AND MONTH(created_date) = :month0
 
-                                                            // replace dot at end of the line with break statement
-                                                            $message1 = $row['message'];
-                                                            $message1 =  str_replace('.','<br>',$message1);  
+                                                        UNION ALL
 
-                                                            // total Amt Cal for BC 
-                                                            if($row[$columnCommision] == "null"){
-                                                                $CommAmt = '0';
-                                                                $tds = '0';
-                                                                $totalAmt = '0';
-                                                            }else{
-                                                                $CommAmt = $row[$columnCommision];
-                                                                $tds = $CommAmt * 2/100;
-                                                                $totalAmt = $CommAmt - $tds;
-                                                            }
+                                                        SELECT
+                                                            $columnDesignation[1] AS bm_id,
+                                                            id,
+                                                            te_id AS techno_enterprise,
+                                                            $columnCommision[1] AS commission,
+                                                            $columnStatus[1] AS status,
+                                                            $columnMessage[1] AS message,
+                                                            created_date
+                                                        FROM `$tablename[1]`
+                                                        WHERE $columnDesignation[1] = :userId1
+                                                        AND YEAR(created_date) = :year1
+                                                        AND MONTH(created_date) = :month1
 
-                                                            echo '<tr>
-                                                                    <td>'.$dt.'</td>
-                                                                    <td>'.$message1.'</td>
-                                                                    <td class="text-end">'.$CommAmt.'</td>
-                                                                    <td class="text-end">'.$tds.'</td>
-                                                                    <td class="text-end">'.$totalAmt.'
-                                                                        <a href="payout/forms/contracting_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row[$columnDesignation].'&ca='.$row['techno_enterprise'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row[$columnCommision].'">
-                                                                            <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
-                                                                        </a>
-                                                                    </td>';
-                                                                    if($row['status'] == '1'){
-                                                                        echo'<td><span class="badge bg-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                    }else{
-                                                                        echo'<td><span class="badge bg-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row[$columnDesignation].'","'.$row['message'].'","'.$row[$columnCommision].'","'.$row['status'].'","NextPayout")\'>Pending</span></td>';
-                                                                    }
-                                                            echo'</tr>';
+                                                        UNION ALL
 
+                                                        SELECT
+                                                            $columnDesignation[2] AS bm_id,
+                                                            id,
+                                                            ca_user_id AS techno_enterprise,
+                                                            $columnCommision[2] AS commission,
+                                                            $columnStatus[2] AS status,
+                                                            $columnMessage[2] AS message,
+                                                            payout_date AS created_date
+                                                        FROM `$tablename[2]`
+                                                        WHERE $columnDesignation[2] = :userId2
+                                                        AND YEAR(payout_date) = :year2
+                                                        AND MONTH(payout_date) = :month2
+
+                                                        UNION ALL
+
+                                                        SELECT
+                                                            $columnDesignation[3] AS bm_id,
+                                                            id,
+                                                            techno_enterprise,
+                                                            $columnCommision[3] AS commission,
+                                                            $columnStatus[3] AS status,
+                                                            $columnMessage[3] AS message,
+                                                            created_date
+                                                        FROM `$tablename[3]`
+                                                        WHERE $columnDesignation[3] = :userId3
+                                                        AND YEAR(created_date) = :year3
+                                                        AND MONTH(created_date) = :month3
+                                                    ";
+
+                                                    $stmt = $conn->prepare($sql3);
+
+                                                    $stmt->execute([
+                                                        ':userId0' => $userId,
+                                                        ':year0'   => $nextDateYear,
+                                                        ':month0'  => $nextDateMonth,
+
+                                                        ':userId1' => $userId,
+                                                        ':year1'   => $nextDateYear,
+                                                        ':month1'  => $nextDateMonth,
+
+                                                        ':userId2' => $userId,
+                                                        ':year2'   => $nextDateYear,
+                                                        ':month2'  => $nextDateMonth,
+
+                                                        ':userId3' => $userId,
+                                                        ':year3'   => $nextDateYear,
+                                                        ':month3'  => $nextDateMonth
+                                                    ]);
+
+                                                    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                                                    foreach ($rows as $row) {
+
+                                                        // Format date
+                                                        $dt = !empty($row['created_date'])
+                                                            ? (new DateTime($row['created_date']))->format('Y-m-d')
+                                                            : '';
+
+                                                        // Format message
+                                                        $message = $row['message'] ?? '';
+                                                        $message1 = str_replace('.', '<br>', $message);
+
+                                                        // Commission amount
+                                                        $CommAmt = is_numeric($row['commission'])
+                                                            ? (float) $row['commission']
+                                                            : 0;
+
+                                                        // TDS calculation
+                                                        $tds = $CommAmt * 2 / 100;
+
+                                                        // Net payout
+                                                        $totalAmt = $CommAmt - $tds;
+
+                                                        $bmId = $row['bm_id'];
+                                                        $commission = $row['commission'] ?? 0;
+                                                        $status = $row['status'];
+
+                                                        // Download URL
+                                                        $downloadUrl = 'payout/forms/contracting_payout/download_ca_payout.php?' .
+                                                            http_build_query([
+                                                                'vkvbvjfgfikix' => $row['id'],
+                                                                'bc' => $bmId,
+                                                                'ca' => $row['techno_enterprise'],
+                                                                'date' => $dt,
+                                                                'message' => $message,
+                                                                'message_status' => $status,
+                                                                'commission' => $commission
+                                                            ]);
+
+                                                        echo '<tr>
+                                                            <td>' . htmlspecialchars($dt) . '</td>
+                                                            <td>' . $message1 . '</td>
+                                                            <td class="text-end">' . number_format($CommAmt, 2) . '</td>
+                                                            <td class="text-end">' . number_format($tds, 2) . '</td>
+                                                            <td class="text-end">' . number_format($totalAmt, 2) . '
+                                                                <a href="' . htmlspecialchars($downloadUrl, ENT_QUOTES, 'UTF-8') . '">
+                                                                    <i class="bx bx-download"
+                                                                    style="font-size:18px;color:black;padding-left:5px;"></i>
+                                                                </a>
+                                                            </td>';
+
+                                                        if ((string) $status === '1') {
+
+                                                            echo '<td>
+                                                                <span class="badge bg-success font-size-10 fw-bold ms-4">
+                                                                    Paid
+                                                                </span>
+                                                            </td>';
+
+                                                        } else {
+
+                                                            echo '<td>
+                                                                <span class="badge bg-warning font-size-10 fw-bold ms-4"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target=".bs-example-modal-center"
+                                                                    onclick=\'paymentId(' .
+                                                                        json_encode((string) $row['id']) . ',' .
+                                                                        json_encode((string) $bmId) . ',' .
+                                                                        json_encode((string) $message) . ',' .
+                                                                        json_encode((string) $commission) . ',' .
+                                                                        json_encode((string) $status) . ',"NextPayout")\'>
+                                                                    Pending
+                                                                </span>
+                                                            </td>';
                                                         }
+
+                                                        echo '</tr>';
                                                     }
                                                 ?>
                                             </tbody>
@@ -649,20 +1205,64 @@
                                 <div class="mt-3">
                                     <p class="font-size-18 pt-3">Total Payout<span class="fw-bold font-size-12 date-layout layout-1"><?php echo "$date" ?></span></p>
                                     <div class="d-flex">
-                                        <?php 
-                                            $totalPayout = "SELECT SUM($columnCommision) as total_payable FROM $tablename WHERE $columnDesignation = '".$userId."' AND status='1'";
-                                            $Payout = $conn -> prepare($totalPayout);
-                                            $Payout -> execute();
-                                            $Payout -> setFetchMode(PDO::FETCH_ASSOC);
-                                            if($Payout->rowCount()>0){
-                                                foreach(($Payout->fetchAll()) as $key => $row){
-                                                    $total_payable = $row["total_payable"] ?? '0';
-                                                    echo'
-                                                    <p class="fs-5 font fw-bolder mt-n2 icon">Rs.'.$total_payable.'/- </p>
-                                                    <span class="badge bg-success font-size-10 fw-bold status1 paystatus" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>
-                                                    ';
-                                                }
-                                            }
+                                        <?php
+
+                                            $totalPayout = $conn->prepare("
+                                                SELECT SUM(total_payable) AS total_payable
+                                                FROM (
+                                                    SELECT SUM($columnCommision[0]) AS total_payable
+                                                    FROM $tablename[0]
+                                                    WHERE $columnDesignation[0] = :userId0
+                                                    AND $columnStatus[0] = '1'
+
+                                                    UNION ALL
+
+                                                    SELECT SUM($columnCommision[1]) AS total_payable
+                                                    FROM $tablename[1]
+                                                    WHERE $columnDesignation[1] = :userId1
+                                                    AND $columnStatus[1] = '1'
+
+                                                    UNION ALL
+
+                                                    SELECT SUM($columnCommision[2]) AS total_payable
+                                                    FROM $tablename[2]
+                                                    WHERE $columnDesignation[2] = :userId2
+                                                    AND $columnStatus[2] = '1'
+
+                                                    UNION ALL
+
+                                                    SELECT SUM($columnCommision[3]) AS total_payable
+                                                    FROM $tablename[3]
+                                                    WHERE $columnDesignation[3] = :userId3
+                                                    AND $columnStatus[3] = '1'
+                                                ) AS payout_data
+                                            ");
+
+                                            $totalPayout->execute([
+                                                ':userId0' => $userId,
+                                                ':userId1' => $userId,
+                                                ':userId2' => $userId,
+                                                ':userId3' => $userId
+                                            ]);
+
+                                            $totalPayout->setFetchMode(PDO::FETCH_ASSOC);
+
+                                            $row = $totalPayout->fetch();
+
+                                            $total_payable = $row['total_payable'] ?? 0;
+
+                                            echo '
+                                                <p class="fs-5 font fw-bolder mt-n2 icon">
+                                                    Rs.' . number_format((float)$total_payable, 2) . '/-
+                                                </p>
+
+                                                <span class="badge bg-success font-size-10 fw-bold status1 paystatus"
+                                                    style="height: 15px !important; margin-top: 16px;"
+                                                    readonly>
+                                                    Paid
+                                                </span>
+                                            ';
+
                                         ?>
                                     </div>
                                 </div>
@@ -726,55 +1326,156 @@
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                    $sql4 = "SELECT * FROM $tablename WHERE $columnDesignation = '".$userId."' AND status = '1' ";
-                                                    $stmt = $conn -> prepare($sql4);
-                                                    $stmt -> execute();
-                                                    $stmt -> setFetchMode(PDO::FETCH_ASSOC);
-                                                    if( $stmt -> rowCount()>0 ){
-                                                        foreach( ($stmt -> fetchALL()) as $key => $row ){
 
-                                                            // date in proper formate
-                                                            $dt = new DateTime($row['created_date']);
-                                                            $dt = $dt->format('Y-m-d');
+                                                    $sql4 = "
+                                                        SELECT *
+                                                        FROM (
+                                                            SELECT
+                                                                id,
+                                                                $columnDesignation[0] AS bm_id,
+                                                                $columnCommision[0] AS commission,
+                                                                $columnStatus[0] AS status,
+                                                                $columnMessage[0] AS message,
+                                                                '' AS message_details,
+                                                                created_date,
+                                                                techno_enterprise
+                                                            FROM $tablename_paid[0]
+                                                            WHERE $columnDesignation[0] = :userId0
+                                                            AND $columnStatus[0] = '1'
 
-                                                            // replace dot at end of the line with break statement
-                                                            $message1 = $row['message'];
-                                                            $message1 =  str_replace('.','<br>',$message1);  
-                                                            $message_details = $row['message_details'];
-                                                            $message_details =  str_replace('.','<br>',$message_details);  
+                                                            UNION ALL
 
+                                                            SELECT
+                                                                id,
+                                                                $columnDesignation[1] AS bm_id,
+                                                                paid_amount AS commission,
+                                                                status,
+                                                                payment_message AS message,
+                                                                payment_message AS message_details,
+                                                                date AS created_date,
+                                                                te_id AS techno_enterprise
+                                                            FROM $tablename_paid[1]
+                                                            WHERE $columnDesignation[1] = :userId1
+                                                            AND status = '1'
 
-                                                            // total Amt Cal for BC 
-                                                                if($row[$columnCommision] == "null"){
-                                                                $CommAmt = '0';
-                                                                $tds = '0';
-                                                                $totalAmt = '0';
-                                                            }else{
-                                                                $CommAmt = $row[$columnCommision];
-                                                                $tds = $CommAmt * 2/100;
-                                                                $totalAmt = $CommAmt - $tds;
-                                                            }
+                                                            UNION ALL
 
-                                                            echo '<tr>
-                                                                    <td>'.$dt.'</td>
-                                                                    <td>'.$message1.'</td>
-                                                                    <td>'.$message_details.'</td>
-                                                                    <td class="text-end">'.$CommAmt.'</td>
-                                                                    <td class="text-end">'.$tds.'</td>
-                                                                    <td class="text-end">'.$totalAmt.'
-                                                                        <a href="payout/forms/contracting_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row[$columnDesignation].'&ca='.$row['techno_enterprise'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row[$columnCommision].'">
-                                                                            <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
-                                                                        </a>
-                                                                    </td>';
-                                                                    if($row['status'] == '1'){
-                                                                        echo'<td><span class="badge bg-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                    }else{
-                                                                        echo'<td><span class="badge bg-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row[$columnDesignation].'","'.$row['message'].'","'.$row[$columnCommision].'","'.$row['status'].'","TotalPayout")\'>Pending</span></td>';
-                                                                    }
-                                                            echo'</tr>';
+                                                            SELECT
+                                                                id,
+                                                                $columnDesignation[2] AS bm_id,
+                                                                $columnCommision[2] AS commission,
+                                                                $columnStatus[2] AS status,
+                                                                $columnMessage[2] AS message,
+                                                                '' AS message_details,
+                                                                payout_date AS created_date,
+                                                                ca_user_id AS techno_enterprise
+                                                            FROM $tablename_paid[2]
+                                                            WHERE $columnDesignation[2] = :userId2
+                                                            AND $columnStatus[2] = '1'
 
+                                                            UNION ALL
+
+                                                            SELECT
+                                                                id,
+                                                                $columnDesignation[3] AS bm_id,
+                                                                $columnCommision[3] AS commission,
+                                                                $columnStatus[3] AS status,
+                                                                $columnMessage[3] AS message,
+                                                                message_details,
+                                                                created_date,
+                                                                techno_enterprise
+                                                            FROM $tablename_paid[3]
+                                                            WHERE $columnDesignation[3] = :userId3
+                                                            AND $columnStatus[3] = '1'
+                                                        ) AS payout_data
+                                                        ORDER BY created_date DESC
+                                                    ";
+
+                                                    $stmt = $conn->prepare($sql4);
+
+                                                    $stmt->execute([
+                                                        ':userId0' => $userId,
+                                                        ':userId1' => $userId,
+                                                        ':userId2' => $userId,
+                                                        ':userId3' => $userId
+                                                    ]);
+
+                                                    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+                                                    while ($row = $stmt->fetch()) {
+
+                                                        // Date formatting
+                                                        $dt = !empty($row['created_date'])
+                                                            ? (new DateTime($row['created_date']))->format('Y-m-d')
+                                                            : '';
+
+                                                        // Message formatting
+                                                        $message1 = str_replace('.', '.<br>', $row['message'] ?? '');
+                                                        $message_details = str_replace('.', '.<br>', $row['message_details'] ?? '');
+
+                                                        // Commission and TDS calculation
+                                                        $CommAmt = is_numeric($row['commission'])
+                                                            ? (float) $row['commission']
+                                                            : 0;
+
+                                                        $tds = $CommAmt * 2 / 100;
+                                                        $totalAmt = $CommAmt - $tds;
+
+                                                        // Download URL
+                                                        $downloadParams = http_build_query([
+                                                            'vkvbvjfgfikix' => $row['id'],
+                                                            'bc' => $row['bm_id'],
+                                                            'ca' => $row['techno_enterprise'],
+                                                            'date' => $dt,
+                                                            'message' => $row['message'],
+                                                            'message_status' => $row['status'],
+                                                            'commission' => $row['commission']
+                                                        ]);
+
+                                                        $downloadUrl = 'payout/forms/contracting_payout/download_ca_payout.php?' . $downloadParams;
+
+                                                        echo '
+                                                            <tr>
+                                                                <td>' . htmlspecialchars($dt) . '</td>
+                                                                <td>' . $message1 . '</td>
+                                                                <td>' . $message_details . '</td>
+                                                                <td class="text-end">' . number_format($CommAmt, 2) . '</td>
+                                                                <td class="text-end">' . number_format($tds, 2) . '</td>
+                                                                <td class="text-end">
+                                                                    ' . number_format($totalAmt, 2) . '
+                                                                    <a href="' . htmlspecialchars($downloadUrl, ENT_QUOTES, 'UTF-8') . '">
+                                                                        <i class="bx bx-download"
+                                                                        style="font-size: 18px; color: black; padding-left: 5px;"></i>
+                                                                    </a>
+                                                                </td>';
+
+                                                        if ($row['status'] == '1') {
+                                                            echo '
+                                                                <td>
+                                                                    <span class="badge bg-success font-size-10 fw-bold ms-4">
+                                                                        Paid
+                                                                    </span>
+                                                                </td>';
+                                                        } else {
+                                                            echo '
+                                                                <td>
+                                                                    <span class="badge bg-warning font-size-10 fw-bold ms-4"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target=".bs-example-modal-center"
+                                                                        onclick=\'paymentId(' .
+                                                                            json_encode((string) $row['id']) . ',' .
+                                                                            json_encode((string) $row['bm_id']) . ',' .
+                                                                            json_encode((string) $row['message']) . ',' .
+                                                                            json_encode((string) $row['commission']) . ',' .
+                                                                            json_encode((string) $row['status']) . ',"TotalPayout")\'>
+                                                                        Pending
+                                                                    </span>
+                                                                </td>';
                                                         }
+
+                                                        echo '</tr>';
                                                     }
+
                                                 ?>
                                             </tbody>
                                         </table>
@@ -874,11 +1575,42 @@
         <script src="../assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
         <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
         <script>
-            $(document).ready(function(){
-                $("#payoutDetailsTable").DataTable();
-                $("#previous_payout_table").DataTable();
-                $("#next_payout_table").DataTable();
-                $("#total_payout_table").DataTable();
+            $(document).ready(function () {
+
+                const tableIds = [
+                    '#payoutDetailsTable',
+                    '#previous_payout_table',
+                    '#next_payout_table',
+                    '#total_payout_table'
+                ];
+
+                tableIds.forEach(function (tableId) {
+
+                    const $table = $(tableId);
+
+                    // Skip if the table does not exist.
+                    if (!$table.length) {
+                        return;
+                    }
+
+                    // Skip if DataTables is already initialized.
+                    if ($.fn.DataTable.isDataTable(tableId)) {
+                        return;
+                    }
+
+                    // Initialize DataTables even when the table has no data.
+                    $table.DataTable({
+                        responsive: true,
+                        pageLength: 10,
+                        lengthChange: true,
+                        lengthMenu: [10, 25, 50, 100],
+                        language: {
+                            emptyTable: 'No payout records found.',
+                            zeroRecords: 'No matching payout records found.'
+                        }
+                    });
+                });
+
             });
 
         </script>

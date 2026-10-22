@@ -1,3 +1,6 @@
+<?php
+$currentPage = basename($_SERVER['PHP_SELF']);
+?>
 <div class="app-menu navbar-menu rounded-4 bg-white" style="position: fixed; margin-top: 80px !important; width: 240px; padding-top: 0px !important; padding-bottom: 0px !important; margin-bottom: 10px !important;">
     <!-- LOGO -->
     <div class="navbar-brand-box">
@@ -15,59 +18,68 @@
             </div>
             <ul class="navbar-nav" id="navbar-nav" >
                 <li class="menu-title"><span data-key="t-menu">Menu</span></li>
-                <li class="nav-item active">
-                    <a class="nav-link menu-link" href="index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i class="fa-regular fa-house d-flex"></i> <span data-key="t-dashboards">Dashboards</span>
+                <li class="nav-item <?= ($currentPage === 'index.php') ? 'active' : '' ?>">
+                    <a class="nav-link menu-link" href="index.php">
+                        <i class="fa-regular fa-house d-flex"></i>
+                        <span>Dashboards</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="../../tour-list.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i class="ri-briefcase-4-line"></i> <span data-key="t-home">Explore Packages</span>
+
+                <li class="nav-item <?= ($currentPage === 'tour-list.php') ? 'active' : '' ?>">
+                    <a class="nav-link menu-link" href="../../tour-list.php">
+                        <i class="ri-briefcase-4-line"></i>
+                        <span>Explore Packages</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="order_history.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i class="ri-calendar-check-line"></i> <span data-key="t-home">My Bookings</span>
+
+                <li class="nav-item <?= ($currentPage === 'order_history.php') ? 'active' : '' ?>">
+                    <a class="nav-link menu-link" href="order_history.php">
+                        <i class="ri-calendar-check-line"></i>
+                        <span>My Bookings</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="order_history.php#user_table1_length" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i class="ri-wallet-line"></i> <span data-key="t-home">Upcoming Trips</span>
+
+                <li class="nav-item <?= ($currentPage === 'customers_list.php') ? 'active' : '' ?>">
+                    <a class="nav-link menu-link" href="customers_list.php">
+                        <i class="ri-group-line"></i>
+                        <span>Holiday Account</span>
                     </a>
                 </li>
-                <!-- <li class="nav-item">
-                    <a class="nav-link menu-link" href="customer_wallet.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i class="ri-wallet-line"></i> <span data-key="t-home">Wallet</span>
-                    </a>
-                </li> -->
-                <!-- <li class="nav-item">
-                    <a class="nav-link menu-link" href="../#" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i class="ri-gift-line"></i> <span data-key="t-home">Rewards & Coupons</span>
-                    </a>
-                </li> -->
-                <!-- <li class="nav-item">
-                    <a class="nav-link menu-link" href="#" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i class="ri-vip-crown-2-line"></i> <span data-key="t-home">Neo Select Memberships</span>
-                    </a>
-                </li> -->
+
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="customer_list.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i class="ri-group-line"></i> <span data-key="t-home">Holiday Account</span>
+                    <a class="nav-link menu-link" href="#sidebarMultilevel" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarMultilevel">
+                        <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Commission</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarMultilevel">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item <?php echo ($currentPage == 'holiday_payout.php') ? 'active' : ''; ?>">
+                                <a href="holiday_payout.php" class="nav-link menu-link">
+                                    <span data-key="holiday-payout">Holiday Account Payout</span>
+                                </a>
+                            </li>
+                            <li class="nav-item <?php echo ($currentPage == 'product_payout.php') ? 'active' : ''; ?>">
+                                <a href="product_payout.php" class="nav-link menu-link">
+                                    <span data-key="product-payout">Product Payout</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link"
+                    href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop">
+                        <i class="ri-customer-service-2-line"></i>
+                        <span>Support</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="holiday_payout.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Holiday Account Payout</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#" role="button" aria-expanded="false" aria-controls="sidebarDashboards" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        <i class="ri-customer-service-2-line"></i> <span data-key="t-home">Support</span>
-                    </a>
-                </li>
-                <li class="nav-item">
+
+                <li class="nav-item <?= ($currentPage === 'profile.php') ? 'active' : '' ?>">
                     <a class="nav-link menu-link" href="profile.php">
-                        <i class="ri-settings-3-line"></i><span>Settings</span>
+                        <i class="ri-settings-3-line"></i>
+                        <span>Settings</span>
                     </a>
                 </li>
                 <img src="../assets/images/sidebarImage.png" alt="Package" class="sidebarImage">

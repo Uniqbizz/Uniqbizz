@@ -53,6 +53,39 @@ if($user_id == "BM"){
             $designation = "Business Consultant";
         }
     }  
+}else if($user_id == "CT"){
+    $bcNames = $conn -> prepare("SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '".$userId."' AND status = 1");
+    $bcNames -> execute();
+    $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
+    if($bcNames -> rowCount()>0){
+        foreach(($bcNames -> fetchAll()) as $key => $row){
+            $bcfirstname = $row['firstname'];
+            $bclastname = $row['lastname'];
+            $designation = "Chief Techno Enterprise";
+        }
+    }  
+}else if($user_id == "ET"){
+    $bcNames = $conn -> prepare("SELECT * FROM executive_techno_enterprise WHERE executive_techno_enterprise_id = '".$userId."' AND status = 1");
+    $bcNames -> execute();
+    $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
+    if($bcNames -> rowCount()>0){
+        foreach(($bcNames -> fetchAll()) as $key => $row){
+            $bcfirstname = $row['firstname'];
+            $bclastname = $row['lastname'];
+            $designation = "Executive Techno Enterprise";
+        }
+    }  
+}else if($user_id == "ST"){
+    $bcNames = $conn -> prepare("SELECT * FROM super_techno_enterprise WHERE super_techno_enterprise_id = '".$userId."' AND status = 1");
+    $bcNames -> execute();
+    $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
+    if($bcNames -> rowCount()>0){
+        foreach(($bcNames -> fetchAll()) as $key => $row){
+            $bcfirstname = $row['firstname'];
+            $bclastname = $row['lastname'];
+            $designation = "Super Techno Enterprise";
+        }
+    }  
 }
 
 
@@ -153,27 +186,27 @@ if($caNames -> rowCount()>0){
                                 </tbody>
                             </table>  
                             <div class="col-md-12 col-sm-12" style="" >
-                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; ">Corpoarte Agency Payout</h5>
+                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; ">Techno Enterprise Payout</h5>
                                 <div class="col-md-12 col-sm-12" style="text-align: left; margin-bottom:20px">
                                     <table class="orderTable text-center" style="padding-bottom:5px; margin:0px; border:1px solid #DDDDDD;">
                                         <thead>
                                             <tr class="tableHead" style="border-bottom: 1px solid #DDDDDD">
-                                                <th style="font-size:12px; height: 100%; padding:5px; text-align:center;" class="rowHeading">Date</th>
+                                                <!--<th style="font-size:12px; height: 100%; padding:5px; text-align:center;" class="rowHeading">Date</th>-->
                                                 <th style="font-size:12px; height: 100%; padding:5px;" class="rowHeading">Payout Details</th>
                                                 <th style="font-size:12px; height: 100%; padding:5px; text-align:center;" class="rowHeading">Amount</th>
                                                 <th style="font-size:12px; height: 100%; padding:5px; text-align:center;" class="rowHeading">TDS</th>
                                                 <th style="font-size:12px; height: 100%; padding:5px; text-align:center;" class="rowHeading">Total Payable</th>
-                                                <th style="font-size:12px; height: 100%; padding:5px; text-align:center;" class="rowHeading">Status</th>
+                                                <!--<th style="font-size:12px; height: 100%; padding:5px; text-align:center;" class="rowHeading">Status</th>-->
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr class="fw-normal">
-                                                <td class="ps-2 pe-2 pt-3 pb-3"><?php echo $date; ?></td></td>
+                                                <!--<td class="ps-2 pe-2 pt-3 pb-3"><?php echo $date; ?></td></td>-->
                                                 <td class="ps-4 pe-4 text-start pt-3 pb-3"><?php echo $message; ?></td>
                                                 <td class="ps-2 pe-2 pt-3 pb-3">₹<?php echo $commission; ?>/-</td>
                                                 <td class="ps-2 pe-2 pt-3 pb-3">₹<?php echo $commissionTDS; ?>/-</td>
                                                 <td class="ps-2 pe-2 pt-3 pb-3">₹<?php echo $totalAmt; ?>/-</td>
-                                                <td class="ps-2 pe-2 pt-3 pb-3"><?php echo $message_status == 2 ? 'Pending' : 'Paid' ; ?></td>
+                                                <!--<td class="ps-2 pe-2 pt-3 pb-3"><?php echo $message_status == 2 ? 'Pending' : 'Paid' ; ?></td>-->
                                             </tr>
                                         </tbody>
                                     </table>

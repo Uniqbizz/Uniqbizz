@@ -132,7 +132,35 @@ try {
         ];
 
     }
+    /*
+    |--------------------------------------------------------------------------
+    | Holiday Trip Completion Commission
+    |--------------------------------------------------------------------------
+    */
 
+    $sqlCommission = $conn->prepare("
+        SELECT
+            ta_amt,
+            created_date
+        FROM product_payout
+        WHERE ta_id = :user_id
+        ORDER BY created_date DESC
+        LIMIT 6
+    ");
+
+    $sqlCommission->execute([
+        ':user_id' => $userId
+    ]);
+
+    foreach($sqlCommission->fetchAll(PDO::FETCH_ASSOC) as $row){
+
+        $activities[] = [
+            'type'  => 'commission',
+            'title' => 'Commission of + ₹ '.number_format($row['ta_amt'],2).' earned from Holiday Trip Completion',
+            'date'  => $row['created_date']
+        ];
+
+    }
 
     /*
     |--------------------------------------------------------------------------

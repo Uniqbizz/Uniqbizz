@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    $.fn.dataTable.ext.errMode = 'none'; //block data table errors
     $("#payoutDetailsTable").DataTable({
         order: [
             [0, 'desc'], 

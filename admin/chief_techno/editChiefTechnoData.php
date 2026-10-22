@@ -79,7 +79,7 @@ $other_document                 = $_POST['other_document'] ?? '';
 
 $register_by = "1";
 $fromWhom = "1";
-$user_type_id = "34";
+$user_type_id = "36";
 $operation = "Update";
 $title="Chief Techno Enterprise";
 $message2 = "";

@@ -79,7 +79,7 @@
                                                 <?php
                                                     if(isset($_SESSION['user_id']) && isset($_SESSION['user_type_id_value'])){
 
-                                                        if($_SESSION['user_id'] == "CU260052" && $_SESSION['user_type_id_value'] == "10"){
+                                                        if( $_SESSION['user_type_id_value'] == "10" || $_SESSION['customer_type'] == 'Neo Select' || $_SESSION['customer_type'] == 'Premium'){
                                                             echo '<li class="d-flex"><i class="ri-dashboard-line align-content-center"></i><a class="dropdown-item" href="dashboard/customer_dashboard/customer_dashboard.php">Dashboard</a></li>';
                                                         }
                                                         else if($_SESSION['user_type_id_value'] == "33"){
@@ -201,7 +201,7 @@
                                                         $dashboardFolder = "dashboard";
 
                                                         if( $userType == "10"){
-                                                            if ($_SESSION['customer_type'] == 'Neo Select') {
+                                                            if ($_SESSION['customer_type'] == 'Neo Select' || $_SESSION['customer_type'] == 'Premium') {
                                                                 $dashboardFolder = "dashboard/customer_dashboard";
 
                                                                 echo '<li class="d-flex">

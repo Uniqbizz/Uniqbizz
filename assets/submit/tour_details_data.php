@@ -111,8 +111,17 @@ if (
     }
 }
 // package
-$stmt = $conn->prepare("SELECT * FROM package WHERE id = $id AND status = '1' AND visibility = 1 AND DATE(validity) >= CURRENT_DATE");
-$stmt->execute();
+$sql = "SELECT * 
+        FROM package 
+        WHERE id = :id ";
+
+if ($checkVisibility) {
+    $sql .= "AND status = '1' AND DATE(validity) >= CURRENT_DATE AND visibility = 1";
+}
+$stmt = $conn->prepare($sql);
+$stmt->execute([
+    ':id' => $id
+]);
 $package = $stmt->fetch();
 $cat_id = $package['category_id'];
 $sub_cat_id = $package['sub_category_id'];
@@ -423,5 +432,32 @@ $galleryData->execute([$id]);
 
 if ($galleryData->rowCount() > 0) {
     $galleryImages = $galleryData->fetchAll(PDO::FETCH_ASSOC);
+}
+$coverImage = '';
+
+$coverData = $conn->prepare("
+    SELECT image
+    FROM package_pictures
+    WHERE package_id = ?
+      AND type = 'cover_image'
+    LIMIT 1
+");
+$coverData->execute([$id]);
+
+$coverImage = $coverData->fetchColumn() ?: '';
+
+// If no cover image exists, use the first available image.
+if ($coverImage === '') {
+    $firstImageData = $conn->prepare("
+        SELECT image
+        FROM package_pictures
+        WHERE package_id = ?
+          AND (type NOT IN ('video') OR type IS NULL)
+        ORDER BY id ASC
+        LIMIT 1
+    ");
+
+    $firstImageData->execute([$id]);
+    $coverImage = $firstImageData->fetchColumn() ?: '';
 }
 ?>

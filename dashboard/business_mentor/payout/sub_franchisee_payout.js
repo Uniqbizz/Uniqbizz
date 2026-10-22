@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    $.fn.dataTable.ext.errMode = 'none';
     $("#payoutDetailsTable").DataTable({
         order: [
             [0, 'desc'], 

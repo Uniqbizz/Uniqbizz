@@ -1,0 +1,86 @@
+.year-progress {
+    height: 14px;
+    border-radius: 50px;
+    overflow: hidden;
+    background: #e9ecef;
+    position: relative;
+}
+
+#yearProgressBar {
+    height: 100%;
+    width: 0%;
+    border-radius: 50px;
+
+    /* Beautiful gradient */
+    background: linear-gradient(
+        90deg,
+        #6f42c1 0%,
+        #8e44ad 25%,
+        #d63384 50%,
+        #fd7e14 75%,
+        #ffc107 100%
+    );
+
+    position: relative;
+    overflow: hidden;
+
+    /* Smooth width animation */
+    transition: width 1.2s ease-in-out;
+
+    /* Soft glow */
+    box-shadow:
+        0 0 8px rgba(214, 51, 132, 0.45),
+        0 0 16px rgba(253, 126, 20, 0.25);
+}
+
+/*
+    * Moving light/pulse effect
+    */
+#yearProgressBar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 45%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.15),
+        rgba(255, 255, 255, 0.9),
+        rgba(255, 255, 255, 0.15),
+        transparent
+    );
+
+    transform: skewX(-20deg);
+
+    animation: progressPulse 2.2s infinite;
+}
+
+@keyframes progressPulse {
+    0% {
+        left: -60%;
+    }
+
+    100% {
+        left: 120%;
+    }
+}
+
+/*
+    * Slight breathing glow
+    */
+#yearProgressBar {
+    animation: progressGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes progressGlow {
+    from {
+        filter: brightness(1);
+    }
+
+    to {
+        filter: brightness(1.12);
+    }
+}

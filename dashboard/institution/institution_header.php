@@ -1,0 +1,215 @@
+<?php
+    include_once '../dashboard_user_details.php';
+?>
+<header id="page-topbar" class="rounded-4" style="left: 0 !important;">
+    <div class="layout-width">
+        <div class="navbar-header">
+            <div class="d-flex">
+                <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger shadow-none" id="topnav-hamburger-icon">
+                    <span class="hamburger-icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </button>
+
+                <!-- LOGO -->
+                <div class="navbar-brand-box ms-5" class="rounded-4">
+                    <!-- Light Logo-->
+                    <a href="franchisee_dashboard.php" class="logo logo-light">
+                        <span class="logo-sm">
+                            <img src="../assets/images/fav.png" alt="" height="25">
+                        </span>
+                        <span class="logo-lg">
+                            <img src="../assets/images/bizz_logo.png" alt="" height="50">
+                        </span>
+                    </a>
+                </div>
+                <!-- logo for mobile view  -->
+                <div class="com_logo">
+                    <a href="franchisee_dashboard.php" class="logo logo-light">
+                        <span class="logo-sm">
+                            <img src="../assets/images/bizz_logo.png" alt="" height="50">
+                        </span>
+                    </a>
+                </div>
+                <!-- App Search-->
+
+            </div>
+            <div class="searchBar d-none d-md-block">
+                <input class="form-control pe-5" list="datalistOptions" id="exampleDataList" placeholder="Type to search...">
+                <i class="fa-solid fa-magnifying-glass searchIcon"></i>
+            </div>
+
+            <div class="d-flex align-items-center">
+
+                <!-- added by SV on 29 jan 2025  -->
+                
+                <div class="ms-1 header-item d-none d-sm-flex">
+                    <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none" data-toggle="fullscreen">
+                        <i class='bx bx-fullscreen fs-22'></i>
+                    </button>
+                    <!-- <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle light-dark-mode shadow-none">
+                        <i class='bx bx-moon fs-22'></i>
+                    </button> -->
+                </div>
+
+
+                <div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
+                    <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
+                        <i class='bx bx-bell fs-22'></i>
+                    </button>
+
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
+
+                        <div class="dropdown-head bg-primary bg-pattern rounded-top">
+                            <div class="p-3">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h6 class="m-0 fs-16 fw-semibold text-white"> Notifications </h6>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="px-2 pt-2">
+                                <ul class="nav nav-tabs dropdown-tabs nav-tabs-custom" data-dropdown-tabs="true" id="notificationItemsTab" role="tablist">
+                                    <li class="nav-item waves-effect waves-light">
+                                        <a class="nav-link active" data-bs-toggle="tab" href="#all-noti-tab" role="tab" aria-selected="true">
+                                            All
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="tab-content position-relative" id="notificationItemsTabContent">
+                            <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
+                                <div data-simplebar style="max-height: 300px;" class="pe-2">
+                                    
+                                </div>
+
+                            </div>
+
+                            <div class="notification-actions" id="notification-actions">
+                                <div class="d-flex text-muted justify-content-center">
+                                    Select <div id="select-content" class="text-body fw-semibold px-1">0</div> Result <button type="button" class="btn btn-link link-danger p-0 ms-3" data-bs-toggle="modal" data-bs-target="#removeNotificationModal">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-content position-relative" id="notificationItemsTabContent">
+                            <div class="tab-pane fade show p-4" id="all-noti-tab" role="tabpanel">
+                                <div class="empty-notification-elem">
+                                    <div class="w-25 w-sm-50 pt-3 mx-auto">
+                                        <img src="../assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
+                                    </div>
+                                    <div class="text-center pb-5 mt-2">
+                                        <h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade p-4" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
+                                <div class="empty-notification-elem">
+                                    <div class="w-25 w-sm-50 pt-3 mx-auto">
+                                        <img src="../assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
+                                    </div>
+                                    <div class="text-center pb-5 mt-2">
+                                        <h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel" aria-labelledby="alerts-tab">
+                                <div class="empty-notification-elem">
+                                    <div class="w-25 w-sm-50 pt-3 mx-auto">
+                                        <img src="../assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
+                                    </div>
+                                    <div class="text-center pb-5 mt-2">
+                                        <h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="dropdown ms-sm-3 header-item topbar-user bg-white">
+                    <button type="button" class="btn shadow-none" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="d-flex align-items-center">
+                            <!-- <img class="rounded-circle header-profile-user" src="<?php echo '../../uploading/' . $profile_pic; ?>" alt="Header Avatar"> -->
+                            <?php if (!empty($_SESSION['profile_pic'])): ?>
+                                <img
+                                    src="../../uploading/<?= $_SESSION['profile_pic'] ?>"
+                                    class="rounded-circle header-profile-user"
+                                    alt="<?= htmlspecialchars($firstname . ' ' . $lastname) ?>"
+                                >
+
+                            <?php else: ?>
+
+                                <div
+                                    class="user-avatar-SVZ initials-avatar-SVZ"
+                                    style="background-color: <?= htmlspecialchars($_SESSION['avatar_color']) ?>"
+                                >
+                                    <?= htmlspecialchars($_SESSION['initials']) ?>
+                                </div>
+
+                            <?php endif; ?>
+                            <span class="text-start ms-xl-2">
+                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"><?php echo $userFname . ' ' . $userLname; ?></span>
+                                <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text"><?php echo $designation; ?></span>
+                            </span>
+                        </span>
+                    </button>
+
+                    <div class="dropdown-menu dropdown-menu-end px-3">
+                        <!-- item-->
+                        <h6 class="dropdown-header">Welcome <?php echo $userFname; ?>!</h6>
+                        
+                        <!-- Mobile Search + Wallet -->
+                        <div class="d-block d-md-none">
+                            <!-- Mobile Search -->
+                            <div class="searchBar mb-3">
+                                <input class="form-control pe-5" list="datalistOptions" id="mobileSearch" placeholder="Type to search...">
+                                <i class="fa-solid fa-magnifying-glass searchIcon"></i>
+                            </div>
+
+                            <!-- Customer Wallet -->
+                            <a class="dropdown-item mb-2" href="view_cu_wallet.php">
+                                <div class="d-flex gap-3 align-items-center">
+                                    <i class="bx bx-wallet walletIcon"></i>
+                                    <p class="mb-0">
+                                        Wallet Balance <br>
+                                        <span class="walletAmount">&#8377; 3,200</span>
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                        <a class="dropdown-item" href="profile.php"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
+                        <!-- Wishlist -->
+                         
+                        <button type="button" class="dropdown-item stickyTextBlack" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas" aria-controls="wishlistOffcanvas">
+                            <i class="ri-heart-line align-content-center stickyTextBlack"></i>
+                            My Wishlist
+                            <span class="wishlistCount ms-1">0</span>
+                        </button>
+                        
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="../logout.php" class="mylogout"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<?php include __DIR__ . '/../../wishlist_offcanvas.php'; ?>
+<?php
+
+$isLoggedIn = !empty($_SESSION['username2']);
+
+?>
+<script>
+    const isWishlistUserLoggedIn =<?= $isLoggedIn ? 'true' : 'false' ?>;
+</script>
+<script src="../assets/js/wishlist.js"></script>

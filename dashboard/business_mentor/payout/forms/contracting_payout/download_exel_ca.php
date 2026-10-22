@@ -1,471 +1,277 @@
 <?php
+
 require '../../../../connect.php';
 require '../../../../../vendor/autoload.php';
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-$spreadsheet = new Spreadsheet();
-$sheet = $spreadsheet->getActiveSheet();
-$payoutYear = $_GET['payoutYear'];
-$payoutMonth = $_GET['payoutMonth'];
-$payoutmessage = $_GET['payoutmessage'];
-$designation = $_GET['designation'] ?? '';
-$user_id = $_GET['user_id'] ?? '';
 
-$dateObj   = DateTime::createFromFormat('!m', $payoutMonth);
-$monthName = $dateObj->format('F'); 
+$columnDesignation = [
+    'bm_id',
+    'ste_id',
+    'bm_user_id',
+    'business_mentor'
+];
 
-if($payoutmessage == 'PreviousPayout'){
+$columnMessage = [
+    'message',
+    'ste_message',
+    'message_bm',
+    'message'
+];
 
-    $stmt2 = $conn->prepare("
-        SELECT * 
-        FROM techno_enterprise_payout 
-        WHERE ste_id = '".$user_id."'
-        AND YEAR(created_date) = '".$payoutYear."'
-        AND MONTH(created_date) = '".$payoutMonth."'
-    ");
+$columnCommision = [
+    'comm_amt',
+    'ste_amount',
+    'payout_amount',
+    'comm_amt'
+];
 
-    $stmt2->execute();
-    $stmt2->setFetchMode(PDO::FETCH_ASSOC);
+$columnStatus = [
+    'status',
+    'ste_status',
+    'payout_status',
+    'status'
+];
 
-    if($stmt2->rowCount() > 0){
+$tablename = [
+    'goa_bm_payout',
+    'techno_enterprise_payout',
+    'bm_payout_history',
+    'ca_payout'
+];
 
-        $sheet->mergeCells('A1:J1');
-        $sheet->setCellValue(
-            'A1',
-            'Previous Payout List as of '.$monthName.', '.$payoutYear
-        );
+$tablename_paid = [
+    'goa_bm_payout',
+    'techno_enterprise_payout_paid',
+    'bm_payout_history',
+    'ca_payout'
+];
 
-        $rowNo = 3;
+// =====================================================
+// GET PARAMETERS
+// =====================================================
 
-        $headers = [
-            'Date',
-            'Super Techno Enterprise ID',
-            'Super Techno Enterprise Name',
-            'Techno Enterprise ID',
-            'Techno Enterprise Name',
-            'Payout Details',
-            'Amount',
-            'TDS',
-            'Total Payable',
-            'Status'
-        ];
+$payoutYear    = filter_input(INPUT_GET, 'payoutYear', FILTER_VALIDATE_INT);
+$payoutMonth   = filter_input(INPUT_GET, 'payoutMonth', FILTER_VALIDATE_INT);
+$payoutmessage = $_GET['payoutmessage'] ?? '';
+$designation   = $_GET['designation'] ?? '';
+$user_id       = $_GET['user_id'] ?? '';
 
-        $col = 'A';
-        foreach($headers as $header){
-            $sheet->setCellValue($col.$rowNo, $header);
-            $col++;
-        }
+$allowedTypes = [
+    'PreviousPayout',
+    'NextPayout',
+    'TotalPayout'
+];
 
-        $rowNo++;
-
-        foreach($stmt2->fetchAll() as $row2){
-
-            $newDate = date('d-m-Y', strtotime($row2['created_date']));
-
-            $Commi = $row2['ste_amount'];
-
-            $Commi_TDS = $Commi * 2 / 100;
-            $Commi_Total = $Commi - $Commi_TDS;
-
-            $message1 = str_replace('.', PHP_EOL, $row2['message']);
-
-            $ta_name = '';
-            $sql1 = $conn->prepare("
-                SELECT firstname, lastname
-                FROM super_techno_enterprise
-                WHERE super_techno_enterprise_id = '".$row2['ste_id']."'
-            ");
-            $sql1->execute();
-
-            if($row1 = $sql1->fetch(PDO::FETCH_ASSOC)){
-                $ta_name = $row1['firstname'].' '.$row1['lastname'];
-            }
-
-            $ca_name = '';
-            $sql2 = $conn->prepare("
-                SELECT firstname, lastname
-                FROM corporate_agency
-                WHERE corporate_agency_id = '".$row2['corporate_agency']."'
-            ");
-            $sql2->execute();
-
-            if($row3 = $sql2->fetch(PDO::FETCH_ASSOC)){
-                $ca_name = $row3['firstname'].' '.$row3['lastname'];
-            }
-
-            $sheet->setCellValue('A'.$rowNo, $newDate);
-            $sheet->setCellValue('B'.$rowNo, $row2['ste_id']);
-            $sheet->setCellValue('C'.$rowNo, $ta_name);
-            $sheet->setCellValue('D'.$rowNo, $row2['corporate_agency']);
-            $sheet->setCellValue('E'.$rowNo, $ca_name);
-            $sheet->setCellValue('F'.$rowNo, $message1);
-            $sheet->setCellValue('G'.$rowNo, $Commi);
-            $sheet->setCellValue('H'.$rowNo, $Commi_TDS);
-            $sheet->setCellValue('I'.$rowNo, $Commi_Total);
-            $sheet->setCellValue(
-                'J'.$rowNo,
-                ($row2['status'] == 0 ? 'Pending' : 'Paid')
-            );
-
-            $rowNo++;
-        }
-
-        foreach(range('A', 'J') as $column){
-            $sheet->getColumnDimension($column)->setAutoSize(true);
-        }
-
-        header(
-            'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        );
-        header(
-            'Content-Disposition: attachment; filename="Previous_Payout_List.xlsx"'
-        );
-        header('Cache-Control: max-age=0');
-
-        $writer = new Xlsx($spreadsheet);
-        $writer->save('php://output');
-        exit;
-
-    }else{
-        echo '<script>alert("No Payout Data"); window.history.back();</script>';
-    }
+if (
+    !$payoutYear ||
+    !$payoutMonth ||
+    $payoutMonth < 1 ||
+    $payoutMonth > 12 ||
+    $user_id === '' ||
+    !in_array($payoutmessage, $allowedTypes, true)
+) {
+    exit('Invalid payout request.');
 }
 
-if($payoutmessage == 'NextPayout'){
+$monthName = DateTime::createFromFormat(
+    '!m',
+    (string)$payoutMonth
+)->format('F');
 
-    $stmt2 = $conn->prepare("
-        SELECT *
-        FROM techno_enterprise_payout
-        WHERE ste_id = '".$user_id."'
-        AND YEAR(created_date) = '".$payoutYear."'
-        AND MONTH(created_date) = '".$payoutMonth."'
-    ");
+// =====================================================
+// BUILD QUERY FOR ALL FOUR TABLES
+// =====================================================
 
-    $stmt2->execute();
-    $stmt2->setFetchMode(PDO::FETCH_ASSOC);
+$sqlParts = [];
+$params = [];
 
-    if($stmt2->rowCount() > 0){
+for ($i = 0; $i < 4; $i++) {
 
-        $sheet->mergeCells('A1:J1');
-        $sheet->setCellValue(
-            'A1',
-            'Next Payout List as of '.$monthName.', '.$payoutYear
-        );
+    $dateColumn = ($i === 2) ? 'payout_date' : 'created_date';
 
-        $rowNo = 3;
+    // Enterprise ID mapping from your existing payout structure
+    $enterpriseColumn = match ($i) {
+        0 => 'techno_enterprise',
+        1 => 'te_id',
+        2 => 'ca_user_id',
+        3 => 'techno_enterprise'
+    };
 
-        $headers = [
-            'Date',
-            'Super Techno Enterprise ID',
-            'Super Techno Enterprise Name',
-            'Techno Enterprise ID',
-            'Techno Enterprise Name',
-            'Payout Message',
-            'Amount',
-            'TDS',
-            'Total Payable',
-            'Status'
-        ];
+    $sqlParts[] = "
+        SELECT
+            id,
+            {$columnDesignation[$i]} AS designation_id,
+            {$enterpriseColumn} AS enterprise_id,
+            {$columnMessage[$i]} AS payout_message,
+            {$columnCommision[$i]} AS commission,
+            {$columnStatus[$i]} AS payout_status,
+            {$dateColumn} AS payout_date
+        FROM {$tablename[$i]}
+        WHERE {$columnDesignation[$i]} = :user{$i}
+          AND YEAR({$dateColumn}) = :year{$i}
+          AND MONTH({$dateColumn}) = :month{$i}
+    ";
 
-        $col = 'A';
-        foreach($headers as $header){
-            $sheet->setCellValue($col.$rowNo, $header);
-            $col++;
-        }
-
-        $rowNo++;
-
-        foreach($stmt2->fetchAll() as $row2){
-
-            $newDate = date('d-m-Y', strtotime($row2['created_date']));
-
-            $Commi = $row2['ste_amount'];
-            $Commi_TDS = $Commi * 2 / 100;
-            $Commi_Total = $Commi - $Commi_TDS;
-
-            $message1 = str_replace('.', PHP_EOL, $row2['message']);
-
-            $ta_name = '';
-            $sql1 = $conn->prepare("
-                SELECT firstname, lastname
-                FROM super_techno_enterprise
-                WHERE super_techno_enterprise_id = '".$row2['ste_id']."'
-            ");
-            $sql1->execute();
-
-            if($row1 = $sql1->fetch(PDO::FETCH_ASSOC)){
-                $ta_name = $row1['firstname'].' '.$row1['lastname'];
-            }
-
-            $ca_name = '';
-            $sql2 = $conn->prepare("
-                SELECT firstname, lastname
-                FROM corporate_agency
-                WHERE corporate_agency_id = '".$row2['corporate_agency']."'
-            ");
-            $sql2->execute();
-
-            if($row3 = $sql2->fetch(PDO::FETCH_ASSOC)){
-                $ca_name = $row3['firstname'].' '.$row3['lastname'];
-            }
-
-            $sheet->setCellValue('A'.$rowNo, $newDate);
-            $sheet->setCellValue('B'.$rowNo, $row2['ste_id']);
-            $sheet->setCellValue('C'.$rowNo, $ta_name);
-            $sheet->setCellValue('D'.$rowNo, $row2['corporate_agency']);
-            $sheet->setCellValue('E'.$rowNo, $ca_name);
-            $sheet->setCellValue('F'.$rowNo, $message1);
-            $sheet->setCellValue('G'.$rowNo, $Commi);
-            $sheet->setCellValue('H'.$rowNo, $Commi_TDS);
-            $sheet->setCellValue('I'.$rowNo, $Commi_Total);
-            $sheet->setCellValue(
-                'J'.$rowNo,
-                ($row2['status'] == 0 ? 'Pending' : 'Paid')
-            );
-
-            $rowNo++;
-        }
-
-        $sheet->getStyle('A1:J1')->getFont()->setBold(true)->setSize(14);
-        $sheet->getStyle('A3:J3')->getFont()->setBold(true);
-
-        foreach(range('A', 'J') as $column){
-            $sheet->getColumnDimension($column)->setAutoSize(true);
-        }
-
-        while (ob_get_level()) {
-            ob_end_clean();
-        }
-
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment; filename="Next_Payout_List.xlsx"');
-        header('Cache-Control: max-age=0');
-
-        $writer = new Xlsx($spreadsheet);
-        $writer->save('php://output');
-        exit;
-
-    }else{
-        echo '<script>alert("No Payout Data"); window.history.back();</script>';
-    }
-} 
-
-if($payoutmessage == 'TotalPayout'){
-
-    $stmt2 = $conn->prepare("
-        SELECT *
-        FROM techno_enterprise_payout
-        WHERE ste_id = '".$user_id."'
-        AND YEAR(created_date) = '".$payoutYear."'
-        AND MONTH(created_date) = '".$payoutMonth."'
-    ");
-
-    $stmt2->execute();
-    $stmt2->setFetchMode(PDO::FETCH_ASSOC);
-
-    if($stmt2->rowCount() > 0){
-
-        $sheet->mergeCells('A1:J1');
-        $sheet->setCellValue(
-            'A1',
-            'Total Payout List as of '.$monthName.', '.$payoutYear
-        );
-
-        $rowNo = 3;
-
-        $headers = [
-            'Date',
-            'Super Techno Enterprise ID',
-            'Super Techno Enterprise Name',
-            'Techno Enterprise ID',
-            'Techno Enterprise Name',
-            'Payout Message',
-            'Amount',
-            'TDS',
-            'Total Payable',
-            'Status'
-        ];
-
-        $col = 'A';
-
-        foreach($headers as $header){
-            $sheet->setCellValue($col.$rowNo, $header);
-            $col++;
-        }
-
-        $rowNo++;
-
-        foreach($stmt2->fetchAll() as $row2){
-
-            $newDate = date('d-m-Y', strtotime($row2['created_date']));
-
-            $Commi = $row2['ste_amount'];
-
-            $Commi_TDS = $Commi * 2 / 100;
-            $Commi_Total = $Commi - $Commi_TDS;
-
-            $message1 = str_replace('.', PHP_EOL, $row2['message']);
-            $message2 = str_replace('.', PHP_EOL, $row2['message_details']);
-
-            $ta_name = '';
-            $sql1 = $conn->prepare("
-                SELECT firstname, lastname
-                FROM super_techno_enterprise
-                WHERE super_techno_enterprise_id = '".$row2['ste_id']."'
-            ");
-            $sql1->execute();
-
-            if($row1 = $sql1->fetch(PDO::FETCH_ASSOC)){
-                $ta_name = $row1['firstname'].' '.$row1['lastname'];
-            }
-
-            $ca_name = '';
-            $sql2 = $conn->prepare("
-                SELECT firstname, lastname
-                FROM corporate_agency
-                WHERE corporate_agency_id = '".$row2['corporate_agency']."'
-            ");
-            $sql2->execute();
-
-            if($row3 = $sql2->fetch(PDO::FETCH_ASSOC)){
-                $ca_name = $row3['firstname'].' '.$row3['lastname'];
-            }
-
-            $sheet->setCellValue('A'.$rowNo, $newDate);
-            $sheet->setCellValue('B'.$rowNo, $row2['ste_id']);
-            $sheet->setCellValue('C'.$rowNo, $ta_name);
-            $sheet->setCellValue('D'.$rowNo, $row2['corporate_agency']);
-            $sheet->setCellValue('E'.$rowNo, $ca_name);
-            $sheet->setCellValue('F'.$rowNo, $message1);
-            $sheet->setCellValue('G'.$rowNo, $Commi);
-            $sheet->setCellValue('H'.$rowNo, $Commi_TDS);
-            $sheet->setCellValue('I'.$rowNo, $Commi_Total);
-            $sheet->setCellValue(
-                'J'.$rowNo,
-                ($row2['status'] == 0 ? 'Pending' : 'Paid')
-            );
-
-            $rowNo++;
-        }
-
-        $sheet->getStyle('A1:J1')->getFont()->setBold(true)->setSize(14);
-        $sheet->getStyle('A3:J3')->getFont()->setBold(true);
-
-        foreach(range('A', 'J') as $column){
-            $sheet->getColumnDimension($column)->setAutoSize(true);
-        }
-
-        while (ob_get_level()) {
-            ob_end_clean();
-        }
-
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment; filename="Total_Payout_List.xlsx"');
-        header('Cache-Control: max-age=0');
-
-        $writer = new Xlsx($spreadsheet);
-        $writer->save('php://output');
-        exit;
-
-    }else{
-        echo '<script>alert("No Payout Data"); window.history.back();</script>';
-    }
+    $params[":user{$i}"] = $user_id;
+    $params[":year{$i}"] = $payoutYear;
+    $params[":month{$i}"] = $payoutMonth;
 }
 
-// if($payoutmessage == 'allPayout'){
-//     if($designation == 'travel_agent'){
-//         $stmt2 = " SELECT * FROM techno_enterprise_payout WHERE ste_id = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
-//     }else if($designation == 'corporate_agency'){
-//         $stmt2 = " SELECT * FROM techno_enterprise_payout WHERE corporate_agency = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
-//     }
-//     $output="";
-//     $stmt2 = $conn -> prepare($stmt2);
-//     $stmt2 -> execute();
-//     $stmt2 ->setFetchMode(PDO::FETCH_ASSOC);
-//     if($stmt2 -> rowCount()>0){
-//     	$output .= '<h2 style="text-align:center">All Payout List as of '.$monthName.','.$payoutYear.'</h2>
-//         <table border="1" style="text-align:center">
-//             <tr>
-//                 <th >Date</th>
-//                 <th class="mobile_view">Super Techno Enterprise</th>
-//                 <th class="mobile_view">Super Techno Enterprise Name</th>
-//                 <th class="mobile_view">Techno Enterprise</th>
-//                 <th class="mobile_view">Techno Enterprise Name</th>
-//                 <th ><span class="long-name">Payout Message</th>
-//                 <th ><span class="long-name">Payout Details</th>
-//                 <th class="mobile_view tab_view">Amount</th>
-//                 <th class="mobile_view" >TDS</th>
-//                 <th style="text-align:center;">Total Payable</th>
-//                 <th style="text-align:center;">Status</th>
-//             </tr>';
-//             foreach($stmt2->fetchAll() as $key => $row2){
-//                 $rd= new DateTime($row2['created_date']);
-//                 $newDate= $rd->format('d-m-Y');
-//                 $id = $row2['id'];
+$sql = implode(' UNION ALL ', $sqlParts);
+$sql = "SELECT * FROM ($sql) AS payout_data ORDER BY payout_date DESC";
 
-//                 // get the commission amount of BA's
-//                 $Commi = $row2['ste_amount'];
-                
-//                 (int)$Commi_TDS = (int)$Commi*2/100;
-//                 (int)$Commi_Total = (int)$Commi-(int)$Commi_TDS; 
+try {
+    $stmt = $conn->prepare($sql);
+    $stmt->execute($params);
 
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-//                 // date in proper formate
-//                 $dt = new DateTime($row2['created_date']);
-//                 $dt = $dt->format('Y-m-d');
+    if (empty($rows)) {
+        echo '<script>alert("No Payout Data"); window.history.back();</script>';
+        exit;
+    }
 
-//                 // replace dot at end of the line with break statement
-//                 $message1 = $row2['message'];
-//                 $message1 =  str_replace('.','<br>',$message1); 
-//                 $message2 = $row2['message_details'];
-//                 $message2 =  str_replace('.','<br>',$message2); 
-                
-//                 $sql1= $conn->prepare("SELECT firstname,lastname FROM `travel_agent` where travel_agent_id='".$row2['ste_id']."'");
-//                 $sql1->execute();
-//                 $sql1->setFetchMode(PDO::FETCH_ASSOC);
-//                 if($sql1->rowCount()>0){
-//                     foreach (($sql1->fetchAll()) as $key => $row1) {
-//                         $ta_name = $row1['firstname']. ' ' .$row1['lastname'];
-//                     }
-//                 } 
+    // =================================================
+    // CREATE EXCEL
+    // =================================================
 
-//                 $sql2= $conn->prepare("SELECT firstname,lastname FROM `corporate_agency` where corporate_agency_id='".$row2['corporate_agency']."'");
-//                 $sql2->execute();
-//                 $sql2->setFetchMode(PDO::FETCH_ASSOC);
-//                 if($sql2->rowCount()>0){
-//                     foreach (($sql2->fetchAll()) as $key => $row3) {
-//                         $ca_name = $row3['firstname']. ' ' .$row3['lastname'];
-//                     }
-//                 } 
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
 
-//                 $output .= '<tr>
-//                     <td >'.$newDate.'</td>
-//                     <td>'.$row2['ste_id'].'</td>
-//                     <td>'.$ta_name.'</td>
-//                     <td>'.$row2['corporate_agency'].'</td>
-//                     <td>'.$ca_name.'</td>
-//                     <td class="message">'.$message1.'</td>
-//                     <td class="message">'.$message2.'</td>
-//                     <td style="text-align:center;">'.$Commi.'/-</td>
-//                     <td style="text-align:center;">'.$Commi_TDS.'/-</td>
-//                     <td style="text-align:center;">'.$Commi_Total.'/-</td>';
-//                     if($row2['status'] == 0){
-//                         $output .='<td style="text-align:center;">Pending</td>';
-//                     }else{
-//                         $output .='<td style="text-align:center;">Paid</td>';
-//                     }
-//                 $output .='</tr>';
-               
-//             }
-//         $output .= '</table>';
-//         header("Content-Type: application/xls");
-//         header("Content-Disposition: attachment;filename=All_Payout_List.xls");
-//         echo $output;
-//     }else{
-//         echo 'No All Payout Data';                                                    
-//     }
-// }
+    $titles = [
+        'PreviousPayout' => 'Previous Payout List',
+        'NextPayout'     => 'Next Payout List',
+        'TotalPayout'    => 'Total Payout List'
+    ];
 
-    
+    $sheet->mergeCells('A1:H1');
+    $sheet->setCellValue(
+        'A1',
+        $titles[$payoutmessage] . ' as of ' .
+        $monthName . ', ' . $payoutYear
+    );
+
+    $headers = [
+        'Date',
+        'Designation ID',
+        'Enterprise ID',
+        'Payout Details',
+        'Amount',
+        'TDS',
+        'Total Payable',
+        'Status'
+    ];
+
+    $col = 'A';
+
+    foreach ($headers as $header) {
+        $sheet->setCellValue($col . '3', $header);
+        $col++;
+    }
+
+    $rowNo = 4;
+
+    foreach ($rows as $row) {
+
+        $date = !empty($row['payout_date'])
+            ? date('d-m-Y', strtotime($row['payout_date']))
+            : '';
+
+        $commission = is_numeric($row['commission'])
+            ? (float)$row['commission']
+            : 0;
+
+        $tds = $commission * 2 / 100;
+        $total = $commission - $tds;
+
+        $message = str_replace(
+            '.',
+            '.' . PHP_EOL,
+            (string)($row['payout_message'] ?? '')
+        );
+
+        $statusText = ((string)$row['payout_status'] === '1')
+            ? 'Paid'
+            : 'Pending';
+
+        $sheet->setCellValue('A' . $rowNo, $date);
+        $sheet->setCellValueExplicit(
+            'B' . $rowNo,
+            (string)$row['designation_id'],
+            \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING
+        );
+        $sheet->setCellValueExplicit(
+            'C' . $rowNo,
+            (string)($row['enterprise_id'] ?? ''),
+            \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING
+        );
+        $sheet->setCellValue('D' . $rowNo, $message);
+        $sheet->setCellValue('E' . $rowNo, $commission);
+        $sheet->setCellValue('F' . $rowNo, $tds);
+        $sheet->setCellValue('G' . $rowNo, $total);
+        $sheet->setCellValue('H' . $rowNo, $statusText);
+
+        $rowNo++;
+    }
+
+    // =================================================
+    // EXCEL FORMATTING
+    // =================================================
+
+    $sheet->getStyle('A1:H1')
+        ->getFont()
+        ->setBold(true)
+        ->setSize(14);
+
+    $sheet->getStyle('A3:H3')
+        ->getFont()
+        ->setBold(true);
+
+    $sheet->getStyle('E4:G' . ($rowNo - 1))
+        ->getNumberFormat()
+        ->setFormatCode('#,##0.00');
+
+    $sheet->getStyle('A3:H' . ($rowNo - 1))
+        ->getAlignment()
+        ->setVertical(
+            \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP
+        );
+
+    $sheet->getStyle('D4:D' . ($rowNo - 1))
+        ->getAlignment()
+        ->setWrapText(true);
+
+    foreach (range('A', 'H') as $column) {
+        $sheet->getColumnDimension($column)->setAutoSize(true);
+    }
+
+    // =================================================
+    // DOWNLOAD
+    // =================================================
+
+    $filename = $payoutmessage . '_List.xlsx';
+
+    while (ob_get_level() > 0) {
+        ob_end_clean();
+    }
+
+    header(
+        'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    );
+    header(
+        'Content-Disposition: attachment; filename="' . $filename . '"'
+    );
+    header('Cache-Control: max-age=0');
+
+    $writer = new Xlsx($spreadsheet);
+    $writer->save('php://output');
+    exit;
+
+} catch (PDOException $e) {
+    error_log($e->getMessage());
+    http_response_code(500);
+    exit('Unable to export payout data. Please check the payout table columns.');
+}
 ?>

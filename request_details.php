@@ -9,7 +9,7 @@ if (session_status() == PHP_SESSION_NONE) {
 $username2 = $_SESSION['username2'] ?? null;
 $user_type_id_value = $_SESSION['user_type_id_value'] ?? null;
 $user_id = $_SESSION['user_id'] ?? null;
-
+$checkVisibility = false;
 $id = isset($_GET['pacId']) ? (int)$_GET['pacId'] : 0;
 
 if ($id <= 0) {
@@ -212,7 +212,7 @@ $vehicleOptions = [
                                 <div class="card cardShadow">
                                     <div class="d-flex tabDisplayBlock">
                                         <div>
-                                            <img src="<?= $galleryImages[0]['image'] ?>" alt="" class="requestQuotePackageImg">
+                                            <img src="<?= $coverImage ?>" alt="" class="requestQuotePackageImg">
                                         </div>
                                         <div class="p-3 widthStretch">
                                             <p class="fw-bolder text-black mb-1 fs-5" id="pack_name"><?= $package['name'] ?></p>
@@ -396,27 +396,34 @@ $vehicleOptions = [
                                         </div>
                                     </div>
                                     <div class="card cardRoom mt-3 p-3" id="roomRecommendation">
-                                        <p class="fontSize10 fw-bold">Room 1</p>
-                                        <div class="row">
-                                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-7 col-12 mb-3">
-                                                <div class="d-flex justify-content-between mobileDisplayBlock">
-                                                    <div>
-                                                        <p class="fontSize10 fw-bold"><i class="ri-hotel-bed-fill destination-title fs-6"></i> 1 Double Bed</p>
-                                                        <p class="fontSize10">1 Pax will be accommendated in 1 room.</p>
-                                                    </div>
-                                                    <div class="py-1 px-2 text-center text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 recommendedBtn fw-bold fontSize10">
-                                                        Recommended
+                                        <div class="roomRecommendationItem">
+                                            <p class="fontSize10 fw-bold">Room 1</p>
+
+                                            <div class="row">
+                                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-7 col-12 mb-3">
+                                                    <div class="d-flex justify-content-between mobileDisplayBlock">
+                                                        <div>
+                                                            <p class="fontSize10 fw-bold">
+                                                                <i class="ri-hotel-bed-fill destination-title fs-6"></i>
+                                                                1 Double Bed
+                                                            </p>
+                                                            <p class="fontSize10">
+                                                                1 Pax will be accommodated in 1 room.
+                                                            </p>
+                                                        </div>
+
+                                                        <div class="py-1 px-2 text-center text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 recommendedBtn fw-bold fontSize10">
+                                                            Recommended
+                                                        </div>
                                                     </div>
                                                 </div>
+
+                                                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-5 col-12 mb-3">
+                                                    <button class="btn modifyBtn" type="button" data-room="1">
+                                                        Modify Rooms
+                                                    </button>
+                                                </div>
                                             </div>
-                                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-5 col-12 mb-3">
-                                                <button class="btn modifyBtn" type="button">Modify Rooms</button>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-center">
-                                            <button class="btn addRoomBtn" type="button">
-                                                Add Room (If more travellers)
-                                            </button>
                                         </div>
                                     </div>
                                 </div>

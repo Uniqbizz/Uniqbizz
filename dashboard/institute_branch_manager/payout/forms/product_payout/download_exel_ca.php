@@ -21,7 +21,7 @@ if($payoutmessage == 'PreviousPayout' || $payoutmessage == 'NextPayout'){
     
     if($userType == '10'){
         $sql = "SELECT * FROM `product_payout` WHERE  (cu1_id = '".$userId."') OR (cu2_id = '".$userId."') OR (cu3_id = '".$userId."')  AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
-    }else if($userType == '11'){
+    }else if($userType == '33'){
         $sql = "SELECT * FROM `product_payout` WHERE  ta_id = '".$userId."'AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
     }else if($userType == '16' || $userType =='29' || $userType =='32'){
         $sql = "SELECT * FROM `product_payout` WHERE  te_id = '".$userId."'  AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
@@ -113,7 +113,7 @@ if($payoutmessage == 'PreviousPayout' || $payoutmessage == 'NextPayout'){
                 $total = $amt - $tds;
             }else if($userType == '11'){
                 $id = $row['ta_id'];
-                $ta_markup = $row['ta_markup'];
+                // $ta_markup = $row['ta_markup'];
                 $message = $row['ta_mess'];
                 $amt = $row['ta_amt'];
                 $status = $row['ta_status'];
@@ -153,7 +153,7 @@ if($payoutmessage == 'PreviousPayout' || $payoutmessage == 'NextPayout'){
 
             $sheet->setCellValue($col++.$rowNo, $dt);
 
-            if($userType == '11'){
+            if($userType == '33'){
 
                 $details =
                     $message .
@@ -223,7 +223,7 @@ if($payoutmessage == 'PreviousPayout' || $payoutmessage == 'NextPayout'){
 if($payoutmessage == 'TotalPayout'){
     if($userType == '10'){
         $sql = "SELECT * FROM `product_payout` WHERE  (cu1_id = '".$userId."') OR (cu2_id = '".$userId."') OR (cu3_id = '".$userId."')  AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
-    }else if($userType == '11'){
+    }else if($userType == '33'){
         $sql = "SELECT * FROM `product_payout` WHERE  ta_id = '".$userId."'AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
     }else if($userType == '16'|| $userType =='29' || $userType =='32'){
         $sql = "SELECT * FROM `product_payout` WHERE  te_id = '".$userId."'  AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
@@ -310,9 +310,9 @@ if($payoutmessage == 'TotalPayout'){
                 }
                 $tds = $amt * $tdsPercentage;
                 $total = $amt - $tds;
-            }else if($userType == '11'){
+            }else if($userType == '33'){
                 $id = $row['ta_id'];
-                $ta_markup = $row['ta_markup'];
+                // $ta_markup = $row['ta_markup'];
                 $message = $row['ta_mess'];
                 $amt = $row['ta_amt'];
                 $status = $row['ta_status'];

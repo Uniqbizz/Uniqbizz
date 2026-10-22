@@ -132,7 +132,7 @@ if($caNames -> rowCount()>0){
                                 </tbody>
                             </table>  
                             <div class="col-md-12 col-sm-12" style="" >
-                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; ">Corpoarte Agency Payout</h5>
+                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; ">Super Techno Enterprise Payout</h5>
                                 <div class="col-md-12 col-sm-12" style="text-align: left; margin-bottom:20px">
                                     <table class="orderTable text-center" style="padding-bottom:5px; margin:0px; border:1px solid #DDDDDD;">
                                         <thead>

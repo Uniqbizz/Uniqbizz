@@ -1,10 +1,89 @@
 <?php
-session_start();
+    session_start();
 
-if (!isset($_SESSION['username'])) {
-    echo '<script>location.href = "../login.php";</script>';
-}
-$date = date('Y'); 
+    if (!isset($_SESSION['username'])) {
+        echo '<script>location.href = "../login.php";</script>';
+    }
+    include(__DIR__ . '/../connect.php');
+    $date = date('Y'); 
+    $request_id = $_POST['request_id'] ?? '';
+
+    if (empty($request_id) || !is_scalar($request_id) || trim((string)$request_id) === '') {
+        ?>
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        </head>
+        <body>
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid Request ID',
+                    text: 'The request ID is missing or invalid.',
+                    confirmButtonText: 'OK',
+                    allowOutsideClick: false
+                }).then(() => {
+                    window.location.href = 'enquiries.php';
+                });
+            </script>
+        </body>
+        </html>
+        <?php
+        exit;
+    }
+    $stmt = $conn->prepare("
+        SELECT *
+        FROM request_details
+        WHERE request_id = :request_id
+        LIMIT 1
+    ");
+
+    $stmt->execute([
+        ':request_id' => $request_id
+    ]);
+
+    $requestData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$requestData) {
+        ?>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Request ID',
+                text: 'No request details found.',
+                confirmButtonText: 'OK',
+                allowOutsideClick: false
+            }).then(() => {
+                window.location.href = 'enquires.php';
+            });
+        </script>
+        <?php
+        exit;
+    }
+
+    $id = $requestData['package_id'];
+    $user_id = $requestData['userId'];
+    if ($id === false || $id === null || $id <= 0) {
+        ?>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Package ID',
+                text: 'The package ID is missing or invalid.',
+                confirmButtonText: 'OK',
+                allowOutsideClick: false
+            }).then(() => {
+                window.location.href = 'enquiries.php';
+            });
+        </script>
+        <?php
+        exit;
+    }
+    include __DIR__ . '/ajax/tour_details_data.php';
 ?>
 
 <!DOCTYPE html>
@@ -38,7 +117,15 @@ $date = date('Y');
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- Date Range Picker CSS Start -->
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- Date Range Picker CSS End -->
+        <style>
+            @media (max-width: 767px) {
+                .displayMeal {
+                    display: block !important;
+                }
+            }
+        </style>
     </head>
     <body data-sidebar="dark">
         <div class="layout-wrapper">
@@ -87,30 +174,32 @@ $date = date('Y');
                                 <div class="card cardShadow">
                                     <div class="d-flex tabDisplayBlock">
                                         <div class="p-2 imageWrapper">
-                                            <img src="../assets/images/andaman_nicobar.jpg" alt="" class="prepareQuotationImg">
+                                            <img src="<?= '../../'.$galleryImages[0]['image'] ?>" alt="" class="prepareQuotationImg">
                                         </div>
                                         <div class="p-3 widthStretch">
                                             <div class="packageIDBtn">
-                                                PKG-AN001
+                                                <?= $package['unique_code'] ?>
                                             </div>
-                                            <p class="fw-bolder textDarkBlue mb-1 fs-4" id="">Andaman and Nicobar Island</p>
-                                            <p class="fw-bold textDarkBlue mb-1 fs-5" id="">The Jewel of the Indian Ocean</p>
+                                            <p class="fw-bolder textDarkBlue mb-1 fs-4" id=""><?= $package['name'] ?></p>
+                                            <p class="fw-bold textDarkBlue mb-1 fs-5" id="">
+                                                <?= $package['description'] ?>
+                                            </p>
                                             <div class="d-flex gap-4 redIcons laptopDisplay">
                                                 <p class="fontSize12 mb-3">
                                                     <i class="fa-solid fa-location-dot me-2"></i>
-                                                    Andaman and Nicobar Island
+                                                    <?= $package['destination'] ?>
                                                 </p>
                                                 <p class="fontSize12 mb-3">
                                                     <i class="fa-regular fa-calendar me-2"></i>
-                                                    4 Nights / 5 Days
+                                                    <?= $tour_nights ?> Nights / <?= $tour_days ?> Days
                                                 </p>
                                                 <p class="fontSize12 mb-3">
                                                     <i class="fa-solid fa-utensils me-2"></i>
-                                                    Meals: Breakfast
+                                                    Meals: <?= $meal_cat['name'] ?>
                                                 </p>
                                             </div>
                                             <p class="fontSize12 mb-3">
-                                                The Andaman and Nicobar Island are a tropical haven in the Bay of Bengal, known for its immaculate beaches, crystal-clear turquoise waters, and abundant marine life.
+                                                <?= $package['detailed_description'] ?>
                                             </p>
                                         </div>
                                     </div>
@@ -130,11 +219,15 @@ $date = date('Y');
                                     <div class="row">
                                         <div class="col-xl-6 d-flex gap-2">
                                             <p class="fs-6 mb-0">Enquiry ID :</p>
-                                            <p class="fs-6 mb-0 fw-bold">ENQ-20260908-001</p>
+                                            <p class="fs-6 mb-0 fw-bold"><?= $request_id ?></p>
                                         </div>
                                         <div class="col-xl-6 d-flex gap-2">
                                             <p class="fs-6 mb-0">Received On :</p>
-                                            <p class="fs-6 mb-0 fw-bold">08 Sep 2026, 10:35 AM</p>
+                                            <p class="fs-6 mb-0 fw-bold">
+                                                <?= !empty($requestData['created_date'])
+                                                    ? date('d M Y, h:i A', strtotime($requestData['created_date']))
+                                                    : 'N/A'; ?>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -146,66 +239,84 @@ $date = date('Y');
                                             <i class="fa-solid fa-user fa-xl me-3"></i>
                                             Customer Information
                                         </h5>
+                                        <!-- <a class="editCustomerBtn">
+                                            <i class="fa-solid fa-pen me-1"></i>
+                                            Edit
+                                        </a> -->
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Full Name :</p>
+                                            <p class="fs-6 mb-2 fw-bold"><?= $requestData['guestFullName'] ?></p>
+                                        </div>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Mobile :</p>
+                                            <p class="fs-6 mb-2 fw-bold"><?= $requestData['guestPhone'] ?></p>
+                                        </div>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Email :</p>
+                                            <p class="fs-6 mb-2 fw-bold"><?= $requestData['guestEmail'] ?></p>
+                                        </div>
+                                        <!-- <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Address :</p>
+                                            <p class="fs-6 mb-2 fw-bold">Mumbai, Maharashtra</p>
+                                        </div> -->
+                                        <?php if($requestData['userId'] != 'null'){
+                                        ?>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Customer Type :</p>
+                                            <p class="fs-6 mb-2 fw-bold"><?= $Requester_type ?></p>
+                                        </div>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Member Id :</p>
+                                            <p class="fs-6 mb-2 fw-bold"><?= $requestData['userId'] ?></p>
+                                        </div>
+                                        <!-- <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Travel Consultant :</p>
+                                            <p class="fs-6 mb-2 fw-bold">-</p>
+                                        </div> -->
+                                        <?php }else{ ?>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Customer Type :</p>
+                                            <p class="fs-6 mb-2 fw-bold"><?= $Requester_type ?></p>
+                                        </div>
+                                        <div class="col-xl-6 d-flex gap-2">
+                                            <p class="fs-6 mb-2">Member Id :</p>
+                                            <p class="fs-6 mb-2 fw-bold">NA</p>
+                                        </div>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                                <!-- Card Section 2 subsection 2 End -->
+                                <!-- Card Section 2 subsection 3 Start -->
+                                <div class="card p-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <h5 class="fw-bold textDarkBlue">
+                                            <i class="fa-solid fa-calendar-days fa-xl me-3"></i>
+                                            Trip Request <span class="fw-normal">(Submitted by Customer)</span>
+                                        </h5>
                                         <a class="editCustomerBtn">
                                             <i class="fa-solid fa-pen me-1"></i>
                                             Edit
                                         </a>
                                     </div>
                                     <div class="row">
-                                        <div class="col-xl-6 d-flex gap-2">
-                                            <p class="fs-6 mb-2">Full Name :</p>
-                                            <p class="fs-6 mb-2 fw-bold">Pratiksha Patil</p>
-                                        </div>
-                                        <div class="col-xl-6 d-flex gap-2">
-                                            <p class="fs-6 mb-2">Mobile :</p>
-                                            <p class="fs-6 mb-2 fw-bold">+91 9876543210</p>
-                                        </div>
-                                        <div class="col-xl-6 d-flex gap-2">
-                                            <p class="fs-6 mb-2">Email :</p>
-                                            <p class="fs-6 mb-2 fw-bold">pratiksha.patil@gmail.com</p>
-                                        </div>
-                                        <div class="col-xl-6 d-flex gap-2">
-                                            <p class="fs-6 mb-2">Address :</p>
-                                            <p class="fs-6 mb-2 fw-bold">Mumbai, Maharashtra</p>
-                                        </div>
-                                        <div class="col-xl-6 d-flex gap-2">
-                                            <p class="fs-6 mb-2">Customer Type :</p>
-                                            <p class="fs-6 mb-2 fw-bold">Regular Customer</p>
-                                        </div>
-                                        <div class="col-xl-6 d-flex gap-2">
-                                            <p class="fs-6 mb-2">Neo Select Member :</p>
-                                            <p class="fs-6 mb-2 fw-bold">Yes (ID: NS12345)</p>
-                                        </div>
-                                        <div class="col-xl-6 d-flex gap-2">
-                                            <p class="fs-6 mb-2">Travel Consultant :</p>
-                                            <p class="fs-6 mb-2 fw-bold">-</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Section 2 subsection 2 End -->
-                                <!-- Card Section 2 subsection 3 Start -->
-                                <div class="card p-3">
-                                    <h5 class="fw-bold textDarkBlue">
-                                        <i class="fa-solid fa-calendar-days fa-xl me-3"></i>
-                                        Trip Request <span class="fw-normal">(Submitted by Customer)</span>
-                                    </h5>
-                                    <div class="row">
                                         <div class="col-xl-4">
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput1" class="form-label">Travel Start Date</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput1" placeholder="20 Jul 2026">
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput1" value="<?= $requestData['travel_start_date'] ?>" readonly>
                                             </div>
                                         </div>
                                         <div class="col-xl-4">
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput2" class="form-label">Travel End Date</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput2" placeholder="24 Jul 2026 (Auto)">
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput2" value="<?= $requestData['travel_end_date'] ?>" readonly>
                                             </div>
                                         </div>
                                         <div class="col-xl-4">
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput3" class="form-label">Nights / Days</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput3" placeholder="4 Nights / 5 Days">
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput3" value="<?= $requestData['no_of_nights_days'] ?>" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -213,39 +324,65 @@ $date = date('Y');
                                         <div class="col-xl-4">
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput4" class="form-label">Pickup</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput4" placeholder="Port Blair">
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput4" value="<?= $requestData['customer_pickup'] != '' ? $requestData['customer_pickup']: $requestData['pickup_point'] ?>" readonly>
+                                                <?php
+                                                    $oldPickup = !empty($requestData['customer_pickup'])
+                                                    ? $requestData['pickup_point']
+                                                    : '';
+                                                ?>
+
+                                                <?php if ($oldPickup !== ''): ?>
+                                                    <small class="old-value-text text-muted"
+                                                        id="pickupOldValue">
+                                                        Previous Pickup: </br> 
+                                                        <?= htmlspecialchars($oldPickup, ENT_QUOTES, 'UTF-8') ?>
+                                                    </small>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                         <div class="col-xl-4">
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput5" class="form-label">Drop</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput5" placeholder="Port Blair">
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput5" value="<?= $requestData['customer_drop'] != '' ? $requestData['customer_drop']: $requestData['drop_point'] ?>" readonly>
+                                                <?php
+                                                    $olddrop = !empty($requestData['customer_drop'])
+                                                    ? $requestData['drop_point']
+                                                    : '';
+                                                ?>
+
+                                                <?php if ($olddrop !== ''): ?>
+                                                    <small class="old-value-text text-muted"
+                                                        id="dropOldValue">
+                                                        Previous Drop: </br> 
+                                                        <?= htmlspecialchars($olddrop, ENT_QUOTES, 'UTF-8') ?>
+                                                    </small>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row paxRow">
                                         <div class="col-xl-3 paxCol">
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput6" class="form-label">Adults (12+ yrs)</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput6" placeholder="2">
+                                                <label for="adultCount" class="form-label">Adults (12+ yrs)</label>
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="adultCount" value="<?= $requestData['adult_count'] ?>" readonly>
                                             </div>
                                         </div>
                                         <div class="col-xl-3 paxCol">
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput7" class="form-label">Children (2-11 yrs)</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput7" placeholder="1">
+                                                <label for="childcount" class="form-label">Children (2-11 yrs)</label>
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="childcount" value="<?= $requestData['child_count'] ?>" readonly>
                                             </div>
                                         </div>
                                         <div class="col-xl-3 paxCol">
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput8" class="form-label">Infants (0-1 yrs)</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput8" placeholder="0">
+                                                <label for="infantCount" class="form-label">Infants (0-1 yrs)</label>
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="infantCount" value="<?= $requestData['infant_count'] ?>" readonly>
                                             </div>
                                         </div>
                                         <div class="col-xl-3 paxCol">
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput9" class="form-label">Total Pax</label>
-                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput9" placeholder="3">
+                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput9" value="<?= $requestData['adult_count'] + $requestData['child_count'] + $requestData['infant_count'] ?>" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -257,32 +394,210 @@ $date = date('Y');
                                         <i class="fa-solid fa-bed fa-xl me-3"></i>
                                         Room Allocation <span class="fw-normal">(Requested by Customer)</span>
                                     </h5>
+                                    
+                                    <?php
+                                        $rooms = json_decode($requestData['rooms'] ?? '[]', true);
+
+                                        if (!is_array($rooms)) {
+                                            $rooms = [];
+                                        }
+
+                                        $totalRooms = count($rooms);
+
+                                        $adultCount  = (int)($requestData['adult_count'] ?? 0);
+                                        $childCount  = (int)($requestData['child_count'] ?? 0);
+                                        $infantCount = (int)($requestData['infant_count'] ?? 0);
+
+                                        $totalTravellers = $adultCount + $childCount + $infantCount;
+
+                                        $bedCounts = [];
+                                        $totalExtraMattresses = 0;
+                                        $recommendations = [];
+
+                                        foreach ($rooms as $room) {
+                                            $description = trim($room['description'] ?? '');
+
+                                            // Count extra mattresses separately.
+                                            if (preg_match_all(
+                                                '/(\d+)\s*Extra\s*Mattress(?:es)?/i',
+                                                $description,
+                                                $mattressMatches
+                                            )) {
+                                                foreach ($mattressMatches[1] as $quantity) {
+                                                    $totalExtraMattresses += (int)$quantity;
+                                                }
+                                            }
+
+                                            // Remove the entire extra mattress phrase from the room description.
+                                            $description = preg_replace(
+                                                '/\s*\+?\s*\d+\s*Extra\s*Mattress(?:es)?/i',
+                                                '',
+                                                $description
+                                            );
+
+                                            // Clean up leftover separators and spaces.
+                                            $description = trim($description, " \t\n\r\0\x0B,+-");
+
+                                            // Process only bed types now.
+                                            $bedItems = preg_split('/\s*\+\s*|\s*,\s*/', $description);
+
+                                            foreach ($bedItems as $item) {
+
+                                                $item = trim($item);
+
+                                                if ($item === '') {
+                                                    continue;
+                                                }
+
+                                                $quantity = 1;
+
+                                                if (preg_match('/^(\d+)\s+(.+)$/i', $item, $matches)) {
+                                                    $quantity = (int)$matches[1];
+                                                    $item = trim($matches[2]);
+                                                }
+
+                                                // Safety check: never allow a mattress into the bed summary.
+                                                if (stripos($item, 'mattress') !== false) {
+                                                    continue;
+                                                }
+
+                                                if ($quantity <= 0 || $item === '') {
+                                                    continue;
+                                                }
+
+                                                $item = preg_replace('/\bBeds\b/i', 'Bed', $item);
+                                                $key = strtolower(trim($item));
+
+                                                if (!isset($bedCounts[$key])) {
+                                                    $bedCounts[$key] = [
+                                                        'name' => trim($item),
+                                                        'count' => 0
+                                                    ];
+                                                }
+
+                                                $bedCounts[$key]['count'] += $quantity;
+                                            }
+
+                                            // Keep recommendations unique.
+                                            $recommendation = trim($room['recommendation'] ?? '');
+
+                                            if (
+                                                $recommendation !== '' &&
+                                                !in_array($recommendation, $recommendations, true)
+                                            ) {
+                                                $recommendations[] = $recommendation;
+                                            }
+                                        }
+
+                                        /*
+                                        * 5. Build the combined room type summary.
+                                        */
+                                        $roomTypeSummary = [];
+
+                                        foreach ($bedCounts as $bed) {
+
+                                            $count = $bed['count'];
+                                            $name = $bed['name'];
+
+                                            if (preg_match('/\bBed\b/i', $name)) {
+                                                $name = preg_replace(
+                                                    '/\bBed\b/i',
+                                                    $count === 1 ? 'Bed' : 'Beds',
+                                                    $name
+                                                );
+                                            }
+
+                                            $roomTypeSummary[] = $count . ' ' . $name;
+                                        }
+
+                                        $roomTypeText = implode(', ', $roomTypeSummary);
+                                    ?>
+
                                     <div class="row">
                                         <div class="col-xl-12">
+
                                             <table class="table table-bordered mb-0">
                                                 <thead>
                                                     <tr class="table-active">
-                                                        <th scope="col">Room No.</th>
+                                                        <th scope="col">Room Count</th>
                                                         <th scope="col">Travellers</th>
                                                         <th scope="col">Room Type</th>
                                                         <th scope="col">Extra Mattress</th>
                                                     </tr>
                                                 </thead>
+
                                                 <tbody>
-                                                    <tr>
-                                                        <td>Room 1</td>
-                                                        <td>3(2 Adults + 1 Child)</td>
-                                                        <td>1 Double Bed</td>
-                                                        <td>1 Extra Mattress</td>
-                                                    </tr>
+                                                    <?php if (!empty($rooms)): ?>
+                                                        <tr>
+                                                            <td>
+                                                                <?= $totalRooms ?>
+                                                                <?= $totalRooms === 1 ? 'Room' : 'Rooms' ?>
+                                                            </td>
+
+                                                            <td>
+                                                                <?= $totalTravellers ?>
+                                                                (<?= $adultCount ?> Adults +
+                                                                <?= $childCount ?> Children +
+                                                                <?= $infantCount ?> Infants)
+                                                            </td>
+
+                                                            <td>
+                                                                <?= htmlspecialchars(
+                                                                    $roomTypeText !== '' ? $roomTypeText : 'N/A',
+                                                                    ENT_QUOTES,
+                                                                    'UTF-8'
+                                                                ) ?>
+                                                            </td>
+
+                                                            <td>
+                                                                <?php if ($totalExtraMattresses > 0): ?>
+                                                                    <?= $totalExtraMattresses ?>
+                                                                    <?= $totalExtraMattresses === 1
+                                                                        ? 'Extra Mattress'
+                                                                        : 'Extra Mattresses' ?>
+                                                                <?php else: ?>
+                                                                    N/A
+                                                                <?php endif; ?>
+                                                            </td>
+                                                        </tr>
+                                                    <?php else: ?>
+                                                        <tr>
+                                                            <td colspan="4" class="text-center">
+                                                                No room details available.
+                                                            </td>
+                                                        </tr>
+                                                    <?php endif; ?>
                                                 </tbody>
                                             </table>
-                                            <div class="paxDescriptionBtn d-flex">
-                                                <i class="fa-solid fa-circle-user paxColor fa-lg align-content-center me-2"></i>
-                                                3 Pax will be accommodated in 1 room with extra mattress.
-                                            </div>
+
+                                            <?php if (!empty($rooms)): ?>
+                                                <div class="paxDescriptionBtn d-flex">
+                                                    <i class="fa-solid fa-circle-user paxColor fa-lg align-content-center me-2"></i>
+
+                                                    <span>
+                                                        <?= $totalTravellers ?>
+                                                        <?= $totalTravellers === 1 ? 'traveller' : 'travellers' ?>
+                                                        will be accommodated in
+                                                        <?= $totalRooms ?>
+                                                        <?= $totalRooms === 1 ? 'room' : 'rooms' ?>.
+
+                                                        <?php if (!empty($recommendations)): ?>
+                                                            <br>
+                                                            <?= htmlspecialchars(
+                                                                implode(', ', $recommendations),
+                                                                ENT_QUOTES,
+                                                                'UTF-8'
+                                                            ) ?>
+                                                        <?php endif; ?>
+                                                    </span>
+                                                </div>
+                                            <?php endif; ?>
+
                                         </div>
                                     </div>
+
+
+
                                 </div>
                                 <!-- Card Section 2 subsection 4 End -->
                                 <!-- Card Section 2 subsection 5 Start -->
@@ -298,28 +613,117 @@ $date = date('Y');
                                         </a>
                                     </div>
                                     <div class="row">
-                                        <div class="col-xl-4">
+                                        <!-- HOTEL CATEGORY -->
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput10" class="form-label">Hotel Category</label>
-                                                <input type="text" class="form-control" id="exampleFormControlInput10" placeholder="3 Star">
+                                                <label for="hotelCategory" class="form-label fontSize10">
+                                                    Hotel Category
+                                                </label>
+                                                <div class="icon-select-wrapper">
+                                                    <i class="ri-hotel-line iconPosition iconRed"></i>
+                                                    <?php
+                                                    $sql = $conn->prepare("
+                                                        SELECT id, name
+                                                        FROM category_hotel
+                                                        WHERE status = 1
+                                                        ORDER BY id DESC
+                                                    ");
+                                                    $sql->execute();
+                                                    $hotelCategories = $sql->fetchAll(PDO::FETCH_ASSOC);
+                                                    ?>
+                                                    <select id="hotelCategory" class="form-select fontSize10 paddingLeft" name="hotel_category" disabled>
+                                                        <option value="">Select Hotel</option>
+
+                                                        <?php foreach ($hotelCategories as $hotel): ?>
+                                                            <option
+                                                                value="<?= htmlspecialchars($hotel['id'], ENT_QUOTES, 'UTF-8') ?>"
+                                                                <?= ((string)$hotel['id'] === (string)($requestData['hotel_category'] ?? '')) ? 'selected' : '' ?>
+                                                            >
+                                                                <?= htmlspecialchars($hotel['name'], ENT_QUOTES, 'UTF-8') ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                                <!-- OLD VALUE -->
+                                                <div id="oldHotelCategory" class="text-muted fontSize10 d-none mt-2"></div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-4">
+                                        <!-- MEAL PREFERENCE -->
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput11" class="form-label">Meal Preference</label>
-                                                <input type="text" class="form-control" id="exampleFormControlInput11" placeholder="Breakfast">
+                                                <label for="mealPreference" class="form-label fontSize10">
+                                                    Meal Preference
+                                                </label>
+                                                <div class="icon-select-wrapper">
+                                                    <i class="ri-restaurant-line iconPosition iconRed"></i>
+                                                    <?php
+                                                    $sql = $conn->prepare("
+                                                        SELECT id, name
+                                                        FROM category_meal
+                                                        WHERE status = 1
+                                                        ORDER BY id DESC
+                                                    ");
+                                                    $sql->execute();
+                                                    $mealCategories = $sql->fetchAll(PDO::FETCH_ASSOC);
+                                                    ?>
+                                                    <select id="mealPreference" class="form-select fontSize10 paddingLeft" name="meal_preference" disabled>
+                                                        <option value="">Select Meal</option>
+                                                        <?php foreach ($mealCategories as $meal_cat): ?>
+                                                            <option value="<?= htmlspecialchars($meal_cat['id']) ?>" 
+                                                            <?= ($requestData['meal_preference'] == $meal_cat['id']) ? 'selected' : '' ?>>
+                                                                <?= htmlspecialchars($meal_cat['name']) ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                                <!-- OLD VALUE -->
+                                                <div id="oldMealPreference" class="text-muted fontSize10 d-none mt-2"></div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-4">
+                                        <!-- TRANSPORT -->
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput12" class="form-label">Transport Preference</label>
-                                                <input type="text" class="form-control" id="exampleFormControlInput12" placeholder="AC Vehicle">
+                                                <label for="transportPreference" class="form-label fontSize10">
+                                                    Transport Preference
+                                                </label>
+                                                <div class="icon-select-wrapper">
+                                                    <i class="ri-car-line iconPosition iconRed"></i>
+                                                    <?php
+                                                    $sql = $conn->prepare("
+                                                        SELECT id, name
+                                                        FROM category_vehicle
+                                                        WHERE status = 1
+                                                        ORDER BY id DESC
+                                                    ");
+                                                    $sql->execute();
+                                                    $vehicleCategories = $sql->fetchAll(PDO::FETCH_ASSOC);
+                                                    ?>
+                                                    <select id="transportPreference" class="form-select fontSize10 paddingLeft" name="transport_preference" disabled>
+                                                        <option value="">Select Vehicle</option>
+                                                        <?php foreach ($vehicleCategories as $vehicle_cat): ?>
+                                                            <option value="<?= htmlspecialchars($vehicle_cat['id']) ?>" 
+                                                            <?= ($requestData['transport_preference'] == $vehicle_cat['id']) ? 'selected' : '' ?>>
+                                                                <?= htmlspecialchars($vehicle_cat['name']) ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                                <!-- OLD VALUE -->
+                                                <div id="oldTransportPreference" class="text-muted fontSize10 d-none mt-2"></div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-8">
-                                            <div class="mb-3">
-                                                <label for="exampleFormControlInput13" class="form-label">Special Requirements</label>
-                                                <input type="text" class="form-control" id="exampleFormControlInput13" placeholder="Sea-facing room if available. Wheelchair access required.">
+                                        <!-- SPECIAL REQUIREMENT -->
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                            <div class="mb-0">
+                                                <label for="specialRequirement" class="form-label fontSize10">Special Requirements (Optional)</label>
+                                                <textarea
+                                                    class="form-control fontSize10"
+                                                    id="specialRequirement"
+                                                    name="special_requirement"
+                                                    placeholder="Eg. Wheelchair, extra bed, high floor, adjoining rooms, etc."
+                                                    style="text-align: left;"
+                                                    readonly
+                                                ><?= htmlspecialchars(trim($requestData['special_requirement'] ?? ''), ENT_QUOTES, 'UTF-8') ?></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -334,29 +738,31 @@ $date = date('Y');
                                     <div class="row paxRow mt-1 mb-2">
                                         <div class="col-xl-2 paxCol">
                                             <p class="fs-6 mb-1">Package ID</p>
-                                            <p class="fs-6 fw-bold mb-2">PKG-AN001</p>
+                                            <p class="fs-6 fw-bold mb-2"><?= $package['unique_code'] ?></p>
                                         </div>
                                         <div class="col-xl-10">
                                             <div class="row paxRow">
                                                 <div class="col-xl-4 paxCol">
                                                     <p class="fs-6 mb-1">Destination</p>
-                                                    <p class="fs-6 fw-bold mb-2">Andaman and Nicobar Island</p>
+                                                    <p class="fs-6 fw-bold mb-2"><?= $package['name'] ?></p>
                                                 </div>
                                                 <div class="col-xl-4 paxCol">
                                                     <p class="fs-6 mb-1">Duration</p>
-                                                    <p class="fs-6 fw-bold mb-2">4 Nights / 5 Days</p>
+                                                    <p class="fs-6 fw-bold mb-2"><?= $tour_nights ?> Nights / <?= $tour_days ?> Days</p>
                                                 </div>
                                                 <div class="col-xl-4">
                                                     <p class="fs-6 mb-1">Package Type</p>
-                                                    <p class="fs-6 fw-bold mb-2">Leisure</p>
+                                                    <p class="fs-6 fw-bold mb-2"><?= $package['category_id'] == 2 ? 'Domestic':($package['category_id'] == 1 ?'International':'NA') ?></p>
                                                 </div>
                                                 <div class="col-xl-6 paxCol">
                                                     <p class="fs-6 mb-1">Pacakge Category</p>
-                                                    <p class="fs-6 fw-bold mb-2">Beach Holidays</p>
+                                                    <p class="fs-6 fw-bold mb-2"><?= $package['package_type'] ?></p>
                                                 </div>
                                                 <div class="col-xl-6 paxCol">
                                                     <p class="fs-6 mb-1">Valid Travel Period</p>
-                                                    <p class="fs-6 fw-bold mb-2">01 Apr 2026 - 31 Mar 2027</p>
+                                                    <p class="fs-6 fw-bold mb-2">
+                                                        Valid Till <?= date('d-m-Y', strtotime($package['validity'])) ?>
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -422,14 +828,10 @@ $date = date('Y');
                                                 <h5 class="fw-bolder textDarkBlue">Overview</h5>
                                                 <div class="d-flex gap-3">
                                                     <div class="overviewImageWrapper">
-                                                        <img src="../assets/images/andaman_nicobar.jpg" alt="" class="overviewImg">
+                                                        <img src="<?= '../../'.$galleryImages[0]['image'] ?>" alt="" class="overviewImg">
                                                     </div>
                                                     <div class="fontSize1">
-                                                        <p class="fw-normal fontSize12">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, explicabo molestias aspernatur 
-                                                            qui doloribus necessitatibus porro voluptates animi ipsum, est veritatis quaerat aperiam praesentium sequi, nemo 
-                                                            vel delectus eius tempore? Aliquam adipisci dolor ducimus atque veniam repellendus omnis iure similique obcaecati iusto, 
-                                                            sint aspernatur, quaerat rem hic dignissimos asperiores, molestias voluptatem quae? 
-                                                        </p>
+                                                        <p class="fw-normal fontSize12"><?= $package['detailed_description'] ?></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -440,176 +842,76 @@ $date = date('Y');
                                                 <div class="tour-details-content">
                                                     <div class="destination-accordion mt-2">
                                                         <div class="accordion" id="accordionItinerary">
-                                                            <div class="timeline-number">
-                                                                 01 
-                                                            </div>
-                                                            <div class="accordion-item">
-                                                                <h2 class="accordion-header" id="panelsStayOpen-heading1">
-                                                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse1" aria-expanded="true" aria-controls="panelsStayOpen-collapse1">
-                                                                        Day 1 - Arrival in Bali
-                                                                    </button>
-                                                                </h2>
-                                                                <div id="panelsStayOpen-collapse1" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-heading1" data-bs-parent="#accordionItinerary" style="">
-                                                                    <div class="accordion-body">
-                                                                        <ul class="listing">
-                                                                            <li class="list">
-                                                                                On arrival at Bali Airport, you will be met by our representative and transferred to your hotel. Check in and relax after your journey. The rest of the day is at leisure to explore the surroundings or enjoy hotel amenities. Overnight stay in Bali                                                                                    
-                                                                            </li>
-                                                                        </ul>
-                                                                        <hr class="my-3" style="border-top:1px solid #4b5051;">
-                                                                        <div class="d-flex justify-content-evenly displayMeal">
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Meal:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Lunch and Dinner</p>
-                                                                            </div>
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Transport:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Bus</p>
-                                                                            </div>
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Stay:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0"></p>
+                                                            <?php
+                                                            $count = 1;
+
+                                                            $data4 = $conn->prepare("SELECT * FROM package_trip_days WHERE package_id = $id");
+                                                            $data4->execute();
+                                                            $data4->setFetchMode(PDO::FETCH_ASSOC);
+
+                                                            if ($data4->rowCount() > 0) {
+                                                                foreach ($data4->fetchAll() as $key_3 => $day) {
+
+                                                                    $decription = $day['day_details'];
+                                                                    // $decription_1 = explode(".", $decription);
+                                                                    // $decription_2 = implode(".<br>", $decription_1);
+                                                            ?>      <div class="timeline-number">
+                                                                        <?= str_pad($count, 2, '0', STR_PAD_LEFT) ?>
+                                                                    </div>
+                                                                    <div class="accordion-item">
+                                                                        <h2 class="accordion-header" id="panelsStayOpen-heading<?= $count; ?>">
+                                                                            <button class="accordion-button <?= ($count != 1) ? 'collapsed' : ''; ?>"
+                                                                                    type="button"
+                                                                                    data-bs-toggle="collapse"
+                                                                                    data-bs-target="#panelsStayOpen-collapse<?= $count; ?>"
+                                                                                    aria-expanded="<?= ($count == 1) ? 'true' : 'false'; ?>"
+                                                                                    aria-controls="panelsStayOpen-collapse<?= $count; ?>">
+
+                                                                                Day <?= $key_3 + 1; ?> - <?= $day['title']; ?>
+
+                                                                            </button>
+                                                                        </h2>
+
+                                                                        <div id="panelsStayOpen-collapse<?= $count; ?>"
+                                                                            class="accordion-collapse collapse <?= ($count == 1) ? 'show' : ''; ?>"
+                                                                            aria-labelledby="panelsStayOpen-heading<?= $count; ?>"
+                                                                            data-bs-parent="#accordionItinerary">
+
+                                                                            <div class="accordion-body">
+
+                                                                                <ul class="listing">
+                                                                                    <li class="list">
+                                                                                        <?= $decription; ?>
+                                                                                    </li>
+                                                                                </ul>
+
+                                                                                <hr class="my-3" style="border-top:1px solid #4b5051;">
+
+                                                                                <div class="d-flex justify-content-evenly displayMeal">
+                                                                                    <div class="gap-1 d-flex">
+                                                                                        <h6 class="fw-bold align-content-center mb-0">Meal:&nbsp;</h6>
+                                                                                        <p class="text-muted fontSize3 align-content-center mb-0"><?= $day['meal_plan']; ?></p>
+                                                                                    </div>
+
+                                                                                    <div class="gap-1 d-flex">
+                                                                                        <h6 class="fw-bold align-content-center mb-0">Transport:&nbsp;</h6>
+                                                                                        <p class="text-muted fontSize3 align-content-center mb-0"><?= $day['day_tansport']; ?></p>
+                                                                                    </div>
+
+                                                                                    <div class="gap-1 d-flex">
+                                                                                        <h6 class="fw-bold align-content-center mb-0">Stay:&nbsp;</h6>
+                                                                                        <p class="text-muted fontSize3 align-content-center mb-0"><?= $day['stay']; ?></p>
+                                                                                    </div>
+                                                                                </div>
+
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="timeline-number">
-                                                                02                                                                    
-                                                            </div>
-                                                            <div class="accordion-item">
-                                                                <h2 class="accordion-header" id="panelsStayOpen-heading2">
-                                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse2" aria-expanded="false" aria-controls="panelsStayOpen-collapse2">
-                                                                        Day 2 - Full-Day Ubud and Kintamani Tour
-                                                                    </button>
-                                                                </h2>
-                                                                <div id="panelsStayOpen-collapse2" class="accordion-collapse collapse " aria-labelledby="panelsStayOpen-heading2" data-bs-parent="#accordionItinerary">
-                                                                    <div class="accordion-body">
-                                                                        <ul class="listing">
-                                                                            <li class="list">
-                                                                                After breakfast, proceed for a full-day customized tour covering the cultural hub of Ubud and the scenic Kintamani region. Enjoy breathtaking views of Mount Batur and its lake, explore local art villages, and experience Baliâ€™s rich heritage. Return to the hotel for an overnight stay                                                                                    
-                                                                            </li>
-                                                                        </ul>
-                                                                        <hr class="my-3" style="border-top:1px solid #4b5051;">
-                                                                        <div class="d-flex justify-content-evenly displayMeal">
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Meal:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Breakfast, Lunch and Dinner</p>
-                                                                            </div>
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Transport:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Bus</p>
-                                                                            </div>
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Stay:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0"></p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="timeline-number">
-                                                                03                                                               
-                                                            </div>
-                                                            <div class="accordion-item">
-                                                                <h2 class="accordion-header" id="panelsStayOpen-heading3">
-                                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse3" aria-expanded="false" aria-controls="panelsStayOpen-collapse3">
-                                                                        Day 3 - Nusa Penida Island Day Trip
-                                                                    </button>
-                                                                </h2>
-                                                                <div id="panelsStayOpen-collapse3" class="accordion-collapse collapse " aria-labelledby="panelsStayOpen-heading3" data-bs-parent="#accordionItinerary">
-                                                                    <div class="accordion-body">
-                                                                        <ul class="listing">
-                                                                            <li class="list">
-                                                                                After an early breakfast, head to the harbour for a boat transfer to Nusa Penida Island. Explore its pristine beaches, dramatic coastal cliffs, and crystal-clear waters. Enjoy a packed or local lunch during the tour before returning to Bali in the evening. Overnight stay at the hotel                                                                                    
-                                                                            </li>
-                                                                        </ul>
-                                                                        <hr class="my-3" style="border-top:1px solid #4b5051;">
-                                                                        <div class="d-flex justify-content-evenly displayMeal">
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Meal:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Breakfast, Lunch and Dinner</p>
-                                                                            </div>
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Transport:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Bus</p>
-                                                                            </div>
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Stay:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0"></p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="timeline-number">
-                                                                04                                                                    
-                                                            </div>
-                                                            <div class="accordion-item">
-                                                                <h2 class="accordion-header" id="panelsStayOpen-heading4">
-                                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse4" aria-expanded="false" aria-controls="panelsStayOpen-collapse4">
-                                                                        Day 4 - Water Sports &amp; Tanah Lot Temple
-                                                                    </button>
-                                                                </h2>
-                                                                <div id="panelsStayOpen-collapse4" class="accordion-collapse collapse " aria-labelledby="panelsStayOpen-heading4" data-bs-parent="#accordionItinerary">
-                                                                    <div class="accordion-body">
-                                                                        <ul class="listing">
-                                                                            <li class="list">
-                                                                                After breakfast, enjoy a half-day water sports adventure with activities such as banana boat rides, parasailing, or jet skiing (as per package or own expense). In the afternoon, visit the iconic Tanah Lot Temple, a beautiful sea temple perched on a rocky outcrop, best known for its stunning sunset views. Return to the hotel for an overnight stay                                                                                    
-                                                                            </li>
-                                                                        </ul>
-                                                                        <hr class="my-3" style="border-top:1px solid #4b5051;">
-                                                                        <div class="d-flex justify-content-evenly displayMeal">
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Meal:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Breakfast, Lunch and Dinner</p>
-                                                                            </div>
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Transport:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Bus</p>
-                                                                            </div>
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Stay:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0"></p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="timeline-number">
-                                                                05                                                                    
-                                                            </div>
-                                                            <div class="accordion-item">
-                                                                <h2 class="accordion-header" id="panelsStayOpen-heading5">
-                                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse5" aria-expanded="false" aria-controls="panelsStayOpen-collapse5">
-                                                                        Day 5 - Departure from Bali
-                                                                    </button>
-                                                                </h2>
-                                                                <div id="panelsStayOpen-collapse5" class="accordion-collapse collapse " aria-labelledby="panelsStayOpen-heading5" data-bs-parent="#accordionItinerary">
-                                                                    <div class="accordion-body">
-                                                                        <ul class="listing">
-                                                                            <li class="list">
-                                                                                After breakfast, check out from the hotel and transfer to Bali Airport in time for your flight. Depart with unforgettable memories of your Bali holiday                                                                                    
-                                                                            </li>
-                                                                        </ul>
-                                                                        <hr class="my-3" style="border-top:1px solid #4b5051;">
-                                                                        <div class="d-flex justify-content-evenly displayMeal">
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Meal:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Breakfast</p>
-                                                                            </div>
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Transport:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0">Bus</p>
-                                                                            </div>
-                                                                            <div class="gap-1 d-flex">
-                                                                                <h6 class="fw-bold align-content-center mb-0">Stay:&nbsp;</h6>
-                                                                                <p class="text-muted fontSize3 align-content-center mb-0"></p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                            <?php
+                                                                    $count++;
+                                                                }
+                                                            }
+                                                            ?>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -618,128 +920,91 @@ $date = date('Y');
                                         <div id="inclusion" class="section-block">
                                             <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
                                                 <h5 class="fw-bolder textDarkBlue">Inclusion & Exclusion</h5>
+                                                
                                                 <div class="row">
+                                                    <?php
+                                                        $inclusions = safeJsonDecode($itinery['inclusion'] ?? '');
+                                                        $exclusions = safeJsonDecode($itinery['exclusion'] ?? '');
+                                                    ?>
                                                     <!-- Inclusions -->
                                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="checkIcon">
-                                                                <i class="fa-solid fa-circle-check"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque autem quis commodi?</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="checkIcon">
-                                                                <i class="fa-solid fa-circle-check"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque autem quis commodi?</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="checkIcon">
-                                                                <i class="fa-solid fa-circle-check"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque autem quis commodi?</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="checkIcon">
-                                                                <i class="fa-solid fa-circle-check"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque autem quis commodi?</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="checkIcon">
-                                                                <i class="fa-solid fa-circle-check"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque autem quis commodi?</p>
-                                                        </div>
-                                                        <p class="text-muted mt-2 mb-0 d-none">No inclusions available.</p>
+                                                        <?php if (!empty($inclusions)): ?>
+                                                            <?php foreach ($inclusions as $inclusion): ?>
+                                                                <div class="d-flex gap-3 mt-2">
+                                                                    <div class="checkIcon">
+                                                                        <i class="ri-checkbox-circle-fill text-success"></i>
+                                                                    </div>
+                                                                    <p class="text-muted fontSize3 align-content-center mb-0">
+                                                                        <?= htmlspecialchars($inclusion) ?>
+                                                                    </p>
+                                                                </div>
+                                                            <?php endforeach; ?>
+                                                        <?php else: ?>
+                                                            <p class="text-muted mt-2 mb-0">No inclusions available.</p>
+                                                        <?php endif; ?>
                                                     </div>
+
                                                     <!-- Exclusions -->
                                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="closeIcon">
-                                                                <i class="fa-solid fa-circle-xmark"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui amet sequi itaque?</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="closeIcon">
-                                                                <i class="fa-solid fa-circle-xmark"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui amet sequi itaque?</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="closeIcon">
-                                                                <i class="fa-solid fa-circle-xmark"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui amet sequi itaque?</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="closeIcon">
-                                                                <i class="fa-solid fa-circle-xmark"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui amet sequi itaque?</p>
-                                                        </div>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="closeIcon">
-                                                                <i class="fa-solid fa-circle-xmark"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center mb-0 mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui amet sequi itaque?</p>
-                                                        </div>
-                                                        <p class="text-muted mt-2 mb-0 d-none">No exclusions available.</p>
+                                                        <?php if (!empty($exclusions)): ?>
+                                                            <?php foreach ($exclusions as $exclusion): ?>
+                                                                <div class="d-flex gap-3 mt-2">
+                                                                    <div class="closeIcon">
+                                                                        <i class="ri-close-circle-fill text-danger"></i>
+                                                                    </div>
+                                                                    <p class="text-muted fontSize3 align-content-center mb-0">
+                                                                        <?= htmlspecialchars($exclusion) ?>
+                                                                    </p>
+                                                                </div>
+                                                            <?php endforeach; ?>
+                                                        <?php else: ?>
+                                                            <p class="text-muted mt-2 mb-0">No exclusions available.</p>
+                                                        <?php endif; ?>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
                                         <div id="policies" class="section-block">
                                             <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
                                                 <h5 class="fw-bolder mb-3 textDarkBlue">Terms & Conditions</h5>
-                                                <div class="policyItem">
-                                                    <div class="d-flex align-items-center gap-3">
-                                                        <div class="highlightIcon">
-                                                            <i class="fa-solid fa-file-pdf"></i>
+                                                <?php
+                                                    $hasPolicies = false;
+                                                ?>
+
+                                                <?php foreach ($policies as $policy): ?>
+
+                                                    <?php if (strcasecmp(trim($policy['title']), 'FAQ') === 0): ?>
+                                                        <?php continue; ?>
+                                                    <?php endif; ?>
+
+                                                    <?php $hasPolicies = true; ?>
+
+                                                    <div class="policyItem">
+                                                        <div class="d-flex align-items-center gap-3">
+                                                            <div class="highlightIcon" style="background-color: #b2e0b1;">
+                                                                <i class="ri-file-pdf-line text-success"></i>
+                                                            </div>
+
+                                                            <p class="mb-0">
+                                                                <?= htmlspecialchars($policy['title']) ?>
+                                                            </p>
                                                         </div>
-                                                        <p class="mb-0">Kasainath</p>
+
+                                                        <a href="uploading/package_policy_attachments/<?= urlencode($policy['file_name']) ?>"
+                                                        download
+                                                        class="downloadBtn">
+                                                            <i class="ri-download-line"></i>
+                                                        </a>
                                                     </div>
-                                                    <a href="#" download class="downloadBtn">
-                                                        <i class="fa-solid fa-download"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="policyItem">
-                                                    <div class="d-flex align-items-center gap-3">
-                                                        <div class="highlightIcon">
-                                                            <i class="fa-solid fa-file-pdf"></i>
-                                                        </div>
-                                                        <p class="mb-0">Kasainath</p>
-                                                    </div>
-                                                    <a href="#" download class="downloadBtn">
-                                                        <i class="fa-solid fa-download"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="policyItem">
-                                                    <div class="d-flex align-items-center gap-3">
-                                                        <div class="highlightIcon">
-                                                            <i class="fa-solid fa-file-pdf"></i>
-                                                        </div>
-                                                        <p class="mb-0">Kasainath</p>
-                                                    </div>
-                                                    <a href="#" download class="downloadBtn">
-                                                        <i class="fa-solid fa-download"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="policyItem">
-                                                    <div class="d-flex align-items-center gap-3">
-                                                        <div class="highlightIcon">
-                                                            <i class="fa-solid fa-file-pdf"></i>
-                                                        </div>
-                                                        <p class="mb-0">Kasainath</p>
-                                                    </div>
-                                                    <a href="#" download class="downloadBtn">
-                                                        <i class="fa-solid fa-download"></i>
-                                                    </a>
-                                                </div>
-                                                <p class="text-muted mb-0 d-none">
-                                                    No policy documents available.
-                                                </p>
+
+                                                <?php endforeach; ?>
+
+                                                <?php if (!$hasPolicies): ?>
+                                                    <p class="text-muted mb-0">
+                                                        No policy documents available.
+                                                    </p>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                         <div id="faqs" class="section-block">
@@ -764,27 +1029,27 @@ $date = date('Y');
                                                         </div>
                                                         <div class="inputFieldAlignment">
                                                             <div class="input-group inputWidth">
-                                                                <input type="number" class="form-control" id="cancellationPercentage1" name="cancellationPercentage1" placeholder="0" value="<?= $CancelPolicy['policy_1']??0 ?>">
+                                                                <input type="number" class="form-control" id="cancellationPercentage1" name="cancellationPercentage1" placeholder="0" value="<?= $cancel_policy['policy_1']??0 ?>">
                                                                 <span class="input-group-text">%</span>
                                                                 <small class="error-message" id="cancellationPercentage1_error"></small>
                                                             </div>
                                                             <div class="input-group inputWidth">
-                                                                <input type="number" class="form-control" id="cancellationPercentage2" name="cancellationPercentage2" placeholder="0" value="<?= $CancelPolicy['policy_2']??0 ?>">
+                                                                <input type="number" class="form-control" id="cancellationPercentage2" name="cancellationPercentage2" placeholder="0" value="<?= $cancel_policy['policy_2']??0 ?>">
                                                                 <span class="input-group-text">%</span>
                                                                 <small class="error-message" id="cancellationPercentage2_error"></small>
                                                             </div>
                                                             <div class="input-group inputWidth">
-                                                                <input type="number" class="form-control" id="cancellationPercentage3" name="cancellationPercentage3" placeholder="0" value="<?= $CancelPolicy['policy_3']??0 ?>">
+                                                                <input type="number" class="form-control" id="cancellationPercentage3" name="cancellationPercentage3" placeholder="0" value="<?= $cancel_policy['policy_3']??0 ?>">
                                                                 <span class="input-group-text">%</span>
                                                                 <small class="error-message" id="cancellationPercentage3_error"></small>
                                                             </div>
                                                             <div class="input-group inputWidth">
-                                                                <input type="number" class="form-control" id="cancellationPercentage4" name="cancellationPercentage4" placeholder="0" value="<?= $CancelPolicy['policy_4']??0 ?>">
+                                                                <input type="number" class="form-control" id="cancellationPercentage4" name="cancellationPercentage4" placeholder="0" value="<?= $cancel_policy['policy_4']??0 ?>">
                                                                 <span class="input-group-text">%</span>
                                                                 <small class="error-message" id="cancellationPercentage4_error"></small>
                                                             </div>
                                                             <div class="input-group inputWidth">
-                                                                <input type="number" class="form-control" id="cancellationPercentage5" name="cancellationPercentage5" placeholder="0" value="<?= $CancelPolicy['policy_5']??0 ?>">
+                                                                <input type="number" class="form-control" id="cancellationPercentage5" name="cancellationPercentage5" placeholder="0" value="<?= $cancel_policy['policy_5']??0 ?>">
                                                                 <span class="input-group-text">%</span>
                                                                 <small class="error-message" id="cancellationPercentage5_error"></small>
                                                             </div>
@@ -818,8 +1083,8 @@ $date = date('Y');
                                                 <p class="mb-1">Infant (0-1 yrs)</p>
                                             </div>
                                             <div>
-                                                <p class="mb-1 text-end">&#8377; 18,199.00</p>
-                                                <p class="mb-1 text-end">&#8377; 11,900.00</p>
+                                                <p class="mb-1 text-end">&#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
+                                                <p class="mb-1 text-end">&#8377; <?= number_format($childDisplayPrice, 2) ?></p>
                                                 <p class="mb-1 text-end">FREE</p>
                                             </div>
                                         </div>
@@ -828,20 +1093,20 @@ $date = date('Y');
                                         <p class="mb-2 fw-bold blueDiv">Price Based on Travelers</p>
                                         <div class="d-flex justify-content-between">
                                             <div>
-                                                <p class="mb-1">Adult: <span class="" id="totalAdultCount">2</span> x &#8377; 18,199.00</p>
-                                                <p class="mb-1">Children: <span class="" id="totalChildrenCount">1</span> x &#8377; 11,900.00</p>
-                                                <p class="mb-1">Infant: <span class="" id="totalInfantCount">0</span> x FREE</p>
+                                                <p class="mb-1">Adult: <span class="" id="totalAdultCount"><?= $requestData['adult_count'] ?></span> x &#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
+                                                <p class="mb-1">Children: <span class="" id="totalChildrenCount"><?= $requestData['child_count'] ?></span> x &#8377; <?= number_format($childDisplayPrice, 2) ?></p>
+                                                <p class="mb-1">Infant: <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
                                             </div>
                                             <div>
-                                                <p class="mb-1 text-end" id="adultTotal">&#8377; 36,398.00</p>
-                                                <p class="mb-1 text-end" id="childrenTotal">&#8377; 11,900.00</p>
+                                                <p class="mb-1 text-end" id="adultTotal">&#8377; <?= number_format($requestData['adult_total'], 2) ?></p>
+                                                <p class="mb-1 text-end" id="childrenTotal">&#8377; <?= number_format($requestData['children_total'], 2) ?></p>
                                                 <p class="mb-1 text-end">&#8377; 0.00</p>
                                             </div>
                                         </div>
                                         <hr class="my-1 border border-2 mx-0">
                                         <div class="d-flex justify-content-between">
                                             <p class="fw-bold fs-5 textDarkBlue mb-0">Subtotal</p>
-                                            <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="subTotal">&#8377; 48,298.00</p>
+                                            <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="subTotal">&#8377; <?= number_format($requestData['subtotal'], 2) ?></p>
                                         </div>
                                     </div>
                                     <div class="p-3">
@@ -863,8 +1128,8 @@ $date = date('Y');
                                     </div>
                                     
                                     <hr class="my-1 border border-2 mx-3">
-                                    <div class="p-3 pb-0">
-                                        <p class="fw-bold mb-2 textDarkBlue blueDiv">
+                                    <!-- <div class="p-3 pb-0"> -->
+                                        <!-- <p class="fw-bold mb-2 textDarkBlue blueDiv">
                                             Apply Coupons
                                             <span class="text-muted fw-normal fontSize12">
                                                 (One coupon per passenger)
@@ -925,7 +1190,172 @@ $date = date('Y');
                                             </span>
                                             <input type="number" class="form-control form-control-sm walletInput" id="appliedDiscountWallet" value="0" min="0" step="1" disabled style="width: 80px;">
                                         </div>
+                                    </div> -->
+                                    <?php if($Requester_type  == 'Neo Select'){  ?>
+                                    <!-- <hr class="my-1 border border-2 mx-3"> -->
+                                    <div class="p-3 pb-0">
+                                        <p class="fw-bold mb-2 textDarkBlue blueDiv">
+                                            Apply Coupons
+                                            <span class="text-muted fw-normal fontSize12">
+                                                (One coupon per passenger)
+                                                <i class="ri-error-warning-line"></i>
+                                            </span>
+                                        </p>
+                                        <div id="couponPassengerContainer">
+                                            <!-- <div class="d-flex justify-content-between mb-2 coupon-passenger-row">
+                                                <div class="d-flex gap-3 largeDisplay">
+                                                    <p class="fontSize10 align-content-end mb-0">
+                                                        ${type} ${number}
+                                                    </p>
+                                                    <p class="mb-0">
+                                                        <select
+                                                            class="form-select fontSize10 selectPadding coupon-select">
+                                                            <option value="">
+                                                                Select Coupon 
+                                                            </option>
+                                                            <?php if (!empty($cuCoupons)): ?>
+                                                                <optgroup label="Primary Coupons">
+                                                                    <?php foreach ($cuCoupons as $coupon): ?>
+                                                                        <option
+                                                                            value="<?= htmlspecialchars($coupon['code']) ?>"
+                                                                            data-type="primary"
+                                                                            data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
+                                                                            <?= htmlspecialchars($coupon['code']) ?>
+                                                                        </option>
+                                                                    <?php endforeach; ?>
+                                                                </optgroup>
+                                                            <?php endif; ?>
+                                                            <?php if (!empty($loyaltyCoupons)): ?>
+                                                                <optgroup label="Loyalty Coupons">
+                                                                    <?php foreach ($loyaltyCoupons as $coupon): ?>
+                                                                        <option
+                                                                            value="<?= htmlspecialchars($coupon['code']) ?>"
+                                                                            data-type="loyalty"
+                                                                            data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
+                                                                            <?= htmlspecialchars($coupon['code']) ?>
+                                                                        </option>
+                                                                    <?php endforeach; ?>
+                                                                </optgroup>
+                                                            <?php endif; ?>
+                                                        </select>
+                                                    </p>
+                                                </div>
+                                                <p class="fontSize10 discountGreen fw-bold text-end align-content-end coupon-discount mb-0">
+                                                    - ₹ 0
+                                                </p>
+                                            </div> -->
+                                        </div>
                                     </div>
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="d-flex justify-content-between px-3">
+                                        <p class="fontSize10 discountGreen fw-bold">
+                                            Discounts (Coupons)
+                                        </p>
+                                        <p class="fontSize10 discountGreen fw-bold text-end"
+                                        id="totalCouponDiscount">
+                                            - ₹ 0
+                                        </p>
+                                    </div>
+                                    <?php
+                                    $referralWalletBalance = $referralBalance ?? 0;
+                                    $discountWalletBalance = $discountBalance ?? 0;
+                                    ?>
+
+                                    <!-- <hr class="my-1 border border-2 mx-3"> -->
+
+                                    <div class="d-flex justify-content-between align-items-center px-3">
+
+                                        <p class="fontSize10 discountGreen fw-bold mb-0">
+                                            Referral Wallet
+                                        </p>
+
+                                        <p class="fontSize10 discountGreen fw-bold text-end mb-0"
+                                        id="referralWalletBalance">
+                                            ₹ <?= number_format($referralWalletBalance, 2) ?>
+                                        </p>
+
+                                        <div class="d-flex align-items-center">
+                                            <span class="fontSize10 discountGreen fw-bold me-1">
+                                                - ₹
+                                            </span>
+                                            <input type="number" class="form-control form-control-sm walletInput" id="appliedReferralWallet" value="<?= $requestData['referral_wallet_amount'] ?>" min="0" step="1" disabled style="width: 80px;">
+                                        </div>
+                                    </div>
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="d-flex justify-content-between align-items-center px-3">
+                                        <p class="fontSize10 discountGreen fw-bold mb-0">
+                                            Discount Wallet
+                                        </p>
+                                        <p class="fontSize10 discountGreen fw-bold text-end mb-0"
+                                        id="discountWalletBalance">
+                                            ₹ <?= number_format($discountWalletBalance, 2) ?>
+                                        </p>
+                                        <div class="d-flex align-items-center">
+                                            <span class="fontSize10 discountGreen fw-bold me-1">
+                                                - ₹
+                                            </span>
+                                            <input type="number" class="form-control form-control-sm walletInput" id="appliedDiscountWallet" value="0" min="0" step="1" disabled style="width: 80px;">
+                                        </div>
+                                    </div>
+                                    <?php } elseif ($Requester_type != 'Neo Select') {?>
+                                    <!-- <hr class="my-2 border border-2 mx-3"> -->
+                                    <div class="p-3">
+                                        <!-- HEADER -->
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <div>
+                                                <p class="fontSize10 fw-bold mb-1">Apply Coupon</p>
+                                                <small class="text-muted fontSize10">
+                                                    Only one coupon can be applied per package
+                                                    <i class="ri-information-line"></i>
+                                                </small>
+                                            </div>
+                                            <div class="coupon-package-icon">
+                                                <i class="ri-coupon-3-line"></i>
+                                            </div>
+                                        </div>
+                                        <!-- COUPON SELECT -->
+                                        <div class="package-coupon-box d-flex justify-content-between">
+                                            <i class="ri-coupon-3-line"></i>
+                                            <div class="coupon-select-wrapper">
+                                                <select id="packageCouponSelect" class="form-select fontSize10 selectPadding coupon-select1">
+                                                    <option value="">Select Coupon</option>
+                                                    <?php if (!empty($cuCoupons)): ?>
+                                                        <optgroup label="Primary Coupons">
+                                                            <?php foreach ($cuCoupons as $coupon): ?>
+                                                                <option value="<?= htmlspecialchars($coupon['code']) ?>" data-type="primary" data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
+                                                                    <?= htmlspecialchars($coupon['code']) ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </optgroup>
+                                                    <?php endif; ?>
+                                                    <?php if (!empty($loyaltyCoupons)): ?>
+                                                        <optgroup label="Loyalty Coupons">
+                                                            <?php foreach ($loyaltyCoupons as $coupon): ?>
+                                                                <option value="<?= htmlspecialchars($coupon['code']) ?>" data-type="loyalty" data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
+                                                                    <?= htmlspecialchars($coupon['code']) ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </optgroup>
+                                                    <?php endif; ?>
+                                                </select>
+                                            </div>
+                                            <!-- DISCOUNT -->
+                                            <div class="package-discount">
+                                                <span class="text-muted fontSize10">Discount</span>
+                                                <span class="discountGreen fw-bold fontSize10" id="packageCouponDiscount"> ₹ 0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- TOTAL -->
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="d-flex justify-content-between align-items-center px-3 pb-2">
+                                        <p class="fontSize10 discountGreen fw-bold mb-0">
+                                            <i class="ri-price-tag-3-line"></i>
+                                            Discounts (Coupon)
+                                        </p>
+                                        <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="totalCouponDiscount">- ₹ 0</p>
+                                    </div>
+                                    <?php } ?>
                                     
                                     <hr class="my-2 border border-2 mx-3">
                                     <div class="px-3">
@@ -933,11 +1363,11 @@ $date = date('Y');
                                         <div class="d-flex justify-content-between">
                                             <div>
                                                 <p class="mb-1">Convenience Fee</p>
-                                                <p class="mb-1">GST (<span id="gstPercentage"></span>%)</p>
+                                                <p class="mb-1">GST (<span id="gstPercentage"><?= number_format($requestData['gst_percentage'], 2) ?></span>%)</p>
                                             </div>
                                             <div>
-                                                <p class="text-end mb-1" id="convenienceFeee">&#8377; 0</p>
-                                                <p class="text-end mb-1" id="gstValue">&#8377; 0</p>
+                                                <p class="text-end mb-1" id="convenienceFeee">&#8377; <?= number_format($requestData['convenience_fee'], 2) ?></p>
+                                                <p class="text-end mb-1" id="gstValue">&#8377; <?= number_format($requestData['gst'], 2) ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -948,7 +1378,7 @@ $date = date('Y');
                                                 <p class="fs-5 textDarkBlue fw-bold">Total Estimated Price</p>
                                             </div>
                                             <div>
-                                                <p class="fs-5 text-danger fw-bolder text-end" id="finalPackagePrice">&#8377; 52,478.00</p>
+                                                <p class="fs-5 text-danger fw-bolder text-end" id="finalPackagePrice">&#8377; <?= number_format($requestData['final_price'], 2) ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -1008,8 +1438,12 @@ $date = date('Y');
             });
         </script>
         <script>
+            const savedCoupons = <?= json_encode(
+                json_decode($requestData['coupons'] ?? '[]', true) ?: [],
+                JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
+            ) ?>;
             $(document).ready(function () {
-
+                loadSavedCoupons();
                 const $nav = $(".borderColor1");
                 const $wrapper = $(".sticky-nav-wrapper");
                 const $placeholder = $(".nav-placeholder");
@@ -1102,6 +1536,101 @@ $date = date('Y');
 
                 }, 500);
             });
+
+            
+            function loadSavedCoupons() {
+                const container = $('#couponPassengerContainer');
+                container.empty();
+
+                savedCoupons.forEach(function (coupon) {
+                    const passenger = coupon.passenger || '';
+                    const couponCode = coupon.code || '';
+                    const couponType = coupon.type || '';
+                    const amount = Number(coupon.amount) || 0;
+
+                    const row = $(`
+                        <div class="d-flex justify-content-between mb-2 coupon-passenger-row">
+                            <div class="d-flex gap-3 largeDisplay">
+                                <p class="fontSize10 align-content-end mb-0 coupon-passenger"></p>
+                                <p class="mb-0">
+                                    <select class="form-select fontSize10 selectPadding coupon-select" disabled>
+                                        <option value="">Select Coupon</option>
+                                    </select>
+                                </p>
+                            </div>
+                            <p class="fontSize10 discountGreen fw-bold text-end align-content-end coupon-discount mb-0">
+                                - ₹ 0
+                            </p>
+                        </div>
+                    `);
+
+                    row.find('.coupon-passenger').text(passenger);
+
+                    const select = row.find('.coupon-select');
+                    
+                    // Add available primary coupons.
+                    <?php if (!empty($cuCoupons)): ?>
+                        const primaryGroup = $('<optgroup label="Primary Coupons"></optgroup>');
+
+                        <?php foreach ($cuCoupons as $coupon): ?>
+                            primaryGroup.append(
+                                $('<option></option>')
+                                    .val(<?= json_encode($coupon['code']) ?>)
+                                    .attr('data-type', 'primary')
+                                    .attr('data-amount', <?= json_encode($coupon['coupon_amt']) ?>)
+                                    .text(<?= json_encode($coupon['code']) ?>)
+                            );
+                        <?php endforeach; ?>
+
+                        select.append(primaryGroup);
+                    <?php endif; ?>
+
+                    // Add available loyalty coupons.
+                    <?php if (!empty($loyaltyCoupons)): ?>
+                        const loyaltyGroup = $('<optgroup label="Loyalty Coupons"></optgroup>');
+
+                        <?php foreach ($loyaltyCoupons as $coupon): ?>
+                            loyaltyGroup.append(
+                                $('<option></option>')
+                                    .val(<?= json_encode($coupon['code']) ?>)
+                                    .attr('data-type', 'loyalty')
+                                    .attr('data-amount', <?= json_encode($coupon['coupon_amt']) ?>)
+                                    .text(<?= json_encode($coupon['code']) ?>)
+                            );
+                        <?php endforeach; ?>
+
+                        select.append(loyaltyGroup);
+                    <?php endif; ?>
+
+                    // Restore the saved coupon selection.
+                    select.val(couponCode);
+
+                    // Show the saved discount amount.
+                    row.find('.coupon-discount').text(
+                        '- ₹ ' + amount.toLocaleString('en-IN')
+                    );
+
+                    container.append(row);
+                });
+                updateTotalCouponDiscount();
+            }
+
+            function updateTotalCouponDiscount() {
+                let totalCouponDiscount = 0;
+
+                $('.coupon-passenger-row').each(function () {
+                    const selectedOption = $(this).find('.coupon-select option:selected');
+                    const amount = parseFloat(selectedOption.attr('data-amount')) || 0;
+
+                    if (selectedOption.val()) {
+                        totalCouponDiscount += amount;
+                    }
+                });
+
+                $('#totalCouponDiscount').text(
+                    '- ₹ ' + totalCouponDiscount.toLocaleString('en-IN')
+                );
+            }
         </script>
     </body>
 </html>

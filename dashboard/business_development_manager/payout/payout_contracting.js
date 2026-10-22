@@ -1,9 +1,14 @@
 $(document).ready(function(){
+    $.fn.dataTable.ext.errMode = 'none'; //block data table errors
     $("#payoutDetailsTable").DataTable({
         order: [
             [0, 'desc'], 
             [1, 'desc']
         ], 
+        language: {
+            emptyTable: 'No payout records found for the selected month.',
+            zeroRecords: 'No matching payout records found.'
+        }
         // Assuming 'id' is the first column and 'timestamp_column' is the second column
     });
     $("#previous_payout_table").DataTable();
@@ -61,7 +66,12 @@ $('#user_id_name').on('change', function(){
         success: function(data){
             // console.log(data);
             $("#filterTable").html(data);
-            $('#payoutDetailsTable').DataTable();
+            $('#payoutDetailsTable').DataTable({
+                language: {
+                    emptyTable: 'No payout records found for the selected month.',
+                    zeroRecords: 'No matching payout records found.'
+                }
+            });
         },
     });
 });
@@ -97,7 +107,12 @@ $('#cap_date').on('change', function(){
             success: function(data){
                 // console.log(data);
                 $("#filterTable").html(data);
-                $('#payoutDetailsTable').DataTable();
+                $('#payoutDetailsTable').DataTable({
+                    language: {
+                        emptyTable: 'No payout records found for the selected month.',
+                        zeroRecords: 'No matching payout records found.'
+                    }
+                });
             }
         });
     }
@@ -145,7 +160,12 @@ $('#user_id_namePrevious').on('change', function(){
         success: function(data){
             // console.log(data);
             $("#filterTablePrev").html(data);
-            $('#payoutDetailsTable').DataTable();
+            $('#payoutDetailsTable').DataTable({
+                language: {
+                    emptyTable: 'No payout records found for the selected month.',
+                    zeroRecords: 'No matching payout records found.'
+                }
+            });
         },
     });
 });
@@ -219,7 +239,12 @@ $('#user_id_nameNext').on('change', function(){
         success: function(data){
             // console.log(data);
             $("#filterTableNext").html(data);
-            $("#payoutDetailsTable2").DataTable();
+            $("#payoutDetailsTable2").DataTable({
+                language: {
+                    emptyTable: 'No payout records found for the selected month.',
+                    zeroRecords: 'No matching payout records found.'
+                }
+            });
         },
     });
 });
@@ -295,7 +320,12 @@ $('#user_id_nameTotal').on('change', function(){
         success: function(data){
             // console.log(data);
             $("#filteredTotalTable").html(data);
-            $("#filteredTotalTables").DataTable();
+            $("#filteredTotalTables").DataTable({
+                language: {
+                    emptyTable: 'No payout records found for the selected month.',
+                    zeroRecords: 'No matching payout records found.'
+                }
+            });
         },
     });
 });
@@ -324,41 +354,99 @@ $('#user_id_nameTotal').on('change', function(){
     });
 });
 
-$('#month_year').on('change', function(){
-    var Totaldate = $(this).val();
+$('#month_year').on('change', function () {
+    const Totaldate = $(this).val();
     const userID = $('#userIDHidden').val();
-    const myArray = Totaldate.split('-');  //split date on '-' sign and store it in array
-    const TotalYear = myArray[0]; // store splited year in new variable
-    const TotalMonth = myArray[1]; // store splited month in new variable
-    const totalAmountMessage = "TotalAmountDate";
-    const totalTableMessage = "TotalTableDate";
-    // console.log(TotalYear+' '+TotalMonth);
-    dataString={
-        TotalYear, TotalMonth, totalAmountMessage, userID
+
+    if (!Totaldate || !userID) {
+        $('#TotalPayoutAmountDate').html('Rs. 0.00/-');
+        $('#filteredTotalTable').empty();
+        return;
     }
-    dataString2={
-        TotalYear, TotalMonth, totalTableMessage, userID
+
+    // Split YYYY-MM into year and month.
+    const myArray = Totaldate.split('-');
+
+    if (myArray.length !== 2) {
+        console.error('Invalid month/year value:', Totaldate);
+        return;
     }
+
+    const TotalYear = myArray[0];
+    const TotalMonth = myArray[1];
+
+    const totalAmountMessage = 'TotalAmountDate';
+    const totalTableMessage = 'TotalTableDate';
+
+    const dataString = {
+        TotalYear: TotalYear,
+        TotalMonth: TotalMonth,
+        totalAmountMessage: totalAmountMessage,
+        userID: userID
+    };
+
+    const dataString2 = {
+        TotalYear: TotalYear,
+        TotalMonth: TotalMonth,
+        totalTableMessage: totalTableMessage,
+        userID: userID
+    };
+
+    // First AJAX request: fetch the total payout amount.
     $.ajax({
         type: 'POST',
         url: 'payout/forms/contracting_payout/contracting_payout_month.php',
         data: dataString,
         cache: false,
-        success: function(data){
-            // console.log(data);
-            $('#TotalPayoutAmountDate').html('Rs. '+data+'/-');
 
+        success: function (data) {
+            $('#TotalPayoutAmountDate').html('Rs. ' + data + '/-');
+
+            // Second AJAX request: fetch the payout details table.
             $.ajax({
                 type: 'POST',
                 url: 'payout/forms/contracting_payout/contracting_payout_month.php',
                 data: dataString2,
                 cache: false,
-                success: function(data2){
-                    // console.log(data2);
+
+                success: function (data2) {
                     $('#filteredTotalTable').html(data2);
-                    $('#totalPayoutTable').DataTable();
+
+                    // Prevent DataTables reinitialization errors.
+                    if ($.fn.DataTable.isDataTable('#totalPayoutTable')) {
+                        $('#totalPayoutTable').DataTable().destroy();
+                    }
+
+                    $('#totalPayoutTable').DataTable({
+                        responsive: true,
+                        pageLength: 10,
+                        lengthChange: true,
+                        lengthMenu: [10, 25, 50, 100],
+                        searching: true,
+                        ordering: true,
+                        language: {
+                            emptyTable: 'No payout records found for the selected month.',
+                            zeroRecords: 'No matching payout records found.'
+                        }
+                    });
+                },
+
+                error: function (xhr) {
+                    console.error(
+                        'Payout table request failed:',
+                        xhr.status,
+                        xhr.responseText
+                    );
                 }
             });
+        },
+
+        error: function (xhr) {
+            console.error(
+                'Payout amount request failed:',
+                xhr.status,
+                xhr.responseText
+            );
         }
     });
 });

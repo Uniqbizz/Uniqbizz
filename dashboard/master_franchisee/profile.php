@@ -169,7 +169,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <!-- <div class="col-lg-2 col-md-3 col-sm-4 col-6">
                                     <div class="d-flex gap-2 py-3 px-1">
                                         <div class="icon4">
                                             <i class="fa-solid fa-users fa-2xl"></i>
@@ -190,7 +190,7 @@
                                             <p class="fs-5 fw-bold text-dark mb-0">NA</p>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                         <!-- card section2 -->
