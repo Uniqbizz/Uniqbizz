@@ -187,7 +187,7 @@
             $activities[] = [
                 'type' => 'customer',
                 'title' => 'Holiday Account Commission Credited',
-                'description' => '+ ₹ '.number_format($row['commission_bm']),
+                'description' => '+ ₹ '.number_format($row['commision_bm']),
                 'date' => $row['created_date']
             ];
         }
