@@ -587,11 +587,11 @@ $vehicleOptions = [
                                         <p class="fw-bold">Transport</p>
                                         <div class="d-flex justify-content-between">
                                             <div>
-                                                <p class="fontSize10" id="selectedVehicleText">4 Seater AC Vehicle (For 1 Pax)</p>
+                                                <p class="fontSize10" id="selectedVehicleText">4 Seater Sedan (For 1 Pax)</p>
                                                 <a href="#" class="fontSize10 text-primary" id="changeVehicle">Change Vehicle</a>
                                             </div>
                                             <div>
-                                                <p class="fontSize10 text-end">Included</p>
+                                                <!-- <p class="fontSize10 text-end">Included</p> -->
                                             </div>
                                         </div>
                                     </div>

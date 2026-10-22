@@ -84,6 +84,98 @@
         exit;
     }
     include __DIR__ . '/ajax/tour_details_data.php';
+    $vehicleOptions = [
+        [
+            'value' => 4,
+            'name'  => '4 Seater',
+            'type'  => 'Sedan',
+            'icon'  => 'ri-car-line'
+        ],
+        [
+            'value' => 6,
+            'name'  => '6 Seater',
+            'type'  => 'SUV',
+            'icon'  => 'ri-car-line'
+        ],
+        [
+            'value' => 7,
+            'name'  => '7 Seater',
+            'type'  => 'SUV / Innova',
+            'icon'  => 'ri-car-line'
+        ],
+        [
+            'value' => 9,
+            'name'  => '9 Seater',
+            'type'  => 'Luxury Van',
+            'icon'  => 'ri-bus-line'
+        ],
+        [
+            'value' => 12,
+            'name'  => '12 Seater',
+            'type'  => 'Tempo Traveller',
+            'icon'  => 'ri-bus-line'
+        ],
+        [
+            'value' => 15,
+            'name'  => '15 Seater',
+            'type'  => 'Tempo Traveller',
+            'icon'  => 'ri-bus-line'
+        ],
+        [
+            'value' => 17,
+            'name'  => '17 Seater',
+            'type'  => 'Mini Bus',
+            'icon'  => 'ri-bus-line'
+        ],
+        [
+            'value' => 20,
+            'name'  => '20 Seater',
+            'type'  => 'Mini Bus',
+            'icon'  => 'ri-bus-line'
+        ],
+        [
+            'value' => 25,
+            'name'  => '25 Seater',
+            'type'  => 'Mini Bus',
+            'icon'  => 'ri-bus-line'
+        ],
+        [
+            'value' => 27,
+            'name'  => '27 Seater',
+            'type'  => 'Bus',
+            'icon'  => 'ri-bus-line'
+        ],
+        [
+            'value' => 32,
+            'name'  => '32 Seater',
+            'type'  => 'Bus',
+            'icon'  => 'ri-bus-line'
+        ],
+        [
+            'value' => 35,
+            'name'  => '35 Seater',
+            'type'  => 'Bus',
+            'icon'  => 'ri-bus-line'
+        ],
+        [
+            'value' => 40,
+            'name'  => '40 Seater',
+            'type' => 'Bus',
+            'icon'  => 'ri-bus-line'
+        ],
+        [
+            'value' => 45,
+            'name'  => '45 Seater',
+            'type'  => 'Bus',
+            'icon'  => 'ri-bus-line'
+        ],
+        [
+            'value' => 50,
+            'name'  => '50 Seater',
+            'type'  => 'Bus',
+            'icon'  => 'ri-bus-line'
+        ]
+    ];
 ?>
 
 <!DOCTYPE html>
@@ -120,6 +212,87 @@
          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- Date Range Picker CSS End -->
         <style>
+            .custom-history-accordion .accordion-item {
+                border: 1px solid #E5E7EB;
+                border-radius: 10px;
+                margin-bottom: 12px;
+                overflow: hidden;
+            }
+
+            .custom-history-accordion .accordion-button {
+                padding: 16px 20px;
+                background: #fff;
+                box-shadow: none;
+                gap: 15px;
+            }
+
+            .custom-history-accordion .accordion-button:not(.collapsed) {
+                background: #F8FAFC;
+                color: #111827;
+            }
+
+            .accordion-heading-content {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 16px;
+                width: 100%;
+                padding-right: 8px;
+            }
+
+            .accordion-heading-title {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-size: 15px;
+                font-weight: 600;
+                color: #1F2937;
+            }
+
+            .accordion-heading-title > i {
+                color: #2F6BFF;
+                font-size: 17px;
+            }
+
+            .history-status {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 12px;
+                font-weight: 600;
+                white-space: nowrap;
+            }
+
+            .edit-status {
+                color: #2F6BFF;
+            }
+
+            .sent-status {
+                color: #00A65A;
+            }
+
+            .custom-history-accordion .accordion-body {
+                padding: 22px;
+                border-top: 1px solid #E5E7EB;
+            }
+
+            .custom-history-accordion .form-label {
+                font-size: 13px;
+                font-weight: 600;
+                color: #374151;
+            }
+
+            @media (max-width: 576px) {
+                .accordion-heading-content {
+                    align-items: flex-start;
+                    flex-direction: column;
+                    gap: 6px;
+                }
+
+                .custom-history-accordion .accordion-button {
+                    padding: 14px;
+                }
+            }
             @media (max-width: 767px) {
                 .displayMeal {
                     display: block !important;
@@ -290,16 +463,10 @@
                                 <!-- Card Section 2 subsection 2 End -->
                                 <!-- Card Section 2 subsection 3 Start -->
                                 <div class="card p-3">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <h5 class="fw-bold textDarkBlue">
-                                            <i class="fa-solid fa-calendar-days fa-xl me-3"></i>
-                                            Trip Request <span class="fw-normal">(Submitted by Customer)</span>
-                                        </h5>
-                                        <a class="editCustomerBtn">
-                                            <i class="fa-solid fa-pen me-1"></i>
-                                            Edit
-                                        </a>
-                                    </div>
+                                    <h5 class="fw-bold textDarkBlue">
+                                        <i class="fa-solid fa-calendar-days fa-xl me-3"></i>
+                                        Trip Request <span class="fw-normal">(Submitted by Customer)</span>
+                                    </h5>
                                     <div class="row">
                                         <div class="col-xl-4">
                                             <div class="mb-3">
@@ -602,16 +769,10 @@
                                 <!-- Card Section 2 subsection 4 End -->
                                 <!-- Card Section 2 subsection 5 Start -->
                                 <div class="card p-3">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <h5 class="fw-bold textDarkBlue">
-                                            <i class="fa-solid fa-calendar-days fa-xl me-3"></i>
-                                            Customer Preferences <span class="fw-normal">(Submitted by Customer)</span>
-                                        </h5>
-                                        <a class="editCustomerBtn">
-                                            <i class="fa-solid fa-pen me-1"></i>
-                                            Edit
-                                        </a>
-                                    </div>
+                                    <h5 class="fw-bold textDarkBlue">
+                                        <i class="fa-solid fa-calendar-days fa-xl me-3"></i>
+                                        Customer Preferences <span class="fw-normal">(Submitted by Customer)</span>
+                                    </h5>
                                     <div class="row">
                                         <!-- HOTEL CATEGORY -->
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -1069,10 +1230,6 @@
                                             <i class="fa-solid fa-location-dot fa-xl align-content-center quickIcon"></i>
                                             <h5 class="fw-bold mb-0 textDarkBlue align-content-center">Quick Action</h5>
                                         </div>
-                                        <button type="button" class="recalculate-btn" id="#">
-                                            <i class="fa-solid fa-rotate-right"></i>
-                                            Recalculate
-                                        </button>
                                     </div>
                                     <div class="px-3">
                                         <p class="mb-2 fw-bold blueDiv">Base Price (Per Person)</p>
@@ -1126,71 +1283,20 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
                                     <hr class="my-1 border border-2 mx-3">
-                                    <!-- <div class="p-3 pb-0"> -->
-                                        <!-- <p class="fw-bold mb-2 textDarkBlue blueDiv">
-                                            Apply Coupons
-                                            <span class="text-muted fw-normal fontSize12">
-                                                (One coupon per passenger)
-                                                <i class="ri-error-warning-line"></i>
-                                            </span>
-                                        </p>
-                                        <div id="#" class="d-flex justify-content-between">
-                                            <div class="d-flex gap-3">
-                                                <p class="align-content-center">Adult 1</p>
-                                                <p class="">
-                                                    <select class="form-select fontSize12 selectCoupon py-0" aria-label="Default select example">
-                                                        <option selected>Select Coupon</option>
-                                                        <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
-                                                    </select>
-                                                </p>
+                                    <div class="p-3">
+                                        <p class="fw-bold">Transport</p>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="fontSize10" id="selectedVehicleText"><?= $requestData['transport_type'] ?></p>
+                                                <!-- <a href="#" class="fontSize10 text-primary" id="changeVehicle">Change Vehicle</a> -->
                                             </div>
-                                            <p class="mb-1 text-end discountGreen" id="#">- &#8377; 0.00</p>
+                                            <div>
+                                                <!-- <p class="fontSize10 text-end">Included</p> -->
+                                            </div>
                                         </div>
                                     </div>
                                     <hr class="my-1 border border-2 mx-3">
-                                    <div class="d-flex justify-content-between px-3">
-                                        <p class="discountGreen fw-bold mb-1">
-                                            Discounts (Coupons)
-                                        </p>
-                                        <p class="discountGreen fw-bold mb-1 text-end" id="totalCouponDiscount">
-                                            - ₹ 0
-                                        </p>
-                                    </div>
-                                    <hr class="my-1 border border-2 mx-3">
-                                    <div class="d-flex justify-content-between align-items-center px-3">
-                                        <p class="discountGreen fw-bold mb-0">
-                                            Referral Wallet
-                                        </p>
-                                        <p class="discountGreen fw-bold text-end mb-0" id="referralWalletBalance">
-                                            ₹ 
-                                        </p>
-                                        <div class="d-flex align-items-center">
-                                            <span class="discountGreen fw-bold me-1">
-                                                - ₹
-                                            </span>
-                                            <input type="number" class="form-control form-control-sm walletInput" id="appliedReferralWallet" value="0" min="0" step="1" disabled style="width: 80px;">
-                                        </div>
-                                    </div>
-                                    <hr class="my-1 border border-2 mx-3">
-                                    <div class="d-flex justify-content-between align-items-center px-3">
-                                        <p class="discountGreen fw-bold mb-0">
-                                            Discount Wallet
-                                        </p>
-                                        <p class="discountGreen fw-bold text-end mb-0"
-                                        id="discountWalletBalance">
-                                            ₹ 
-                                        </p>
-                                        <div class="d-flex align-items-center">
-                                            <span class="discountGreen fw-bold me-1">
-                                                - ₹
-                                            </span>
-                                            <input type="number" class="form-control form-control-sm walletInput" id="appliedDiscountWallet" value="0" min="0" step="1" disabled style="width: 80px;">
-                                        </div>
-                                    </div> -->
                                     <?php if($Requester_type  == 'Neo Select'){  ?>
                                     <!-- <hr class="my-1 border border-2 mx-3"> -->
                                     <div class="p-3 pb-0">
@@ -1386,10 +1492,987 @@
                             </div>
                         </div>
                         <!-- Card Section 2 End -->
+                        <div class="row">
+                            <div class="col-12">
+
+                                <div class="accordion custom-history-accordion" id="formHistoryAccordion">
+
+                                    <!-- Section 1 -->
+                                    <div class="accordion-item">
+
+                                        <h2 class="accordion-header" id="headingCustomer">
+                                            <button
+                                                class="accordion-button collapsed"
+                                                type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#collapseCustomer"
+                                                aria-expanded="false"
+                                                aria-controls="collapseCustomer">
+
+                                                <div class="accordion-heading-content">
+                                                    <div class="accordion-heading-title">
+                                                        <i class="fa-solid fa-user-pen"></i>
+                                                        Admin Recomendations
+                                                    </div>
+
+                                                    <!-- No history -->
+                                                    <span class="history-status edit-status">
+                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                        Edit
+                                                    </span>
+
+                                                    <!-- Show this instead when history exists -->
+                                                    <!--
+                                                    <span class="history-status sent-status">
+                                                        <i class="fa-solid fa-circle-check"></i>
+                                                        Sent by John Doe · 22 Oct 2026, 01:30 PM
+                                                    </span>
+                                                    -->
+
+                                                </div>
+
+                                            </button>
+                                        </h2>
+                                        <div class="row">
+                                            <div class="col-xl-8">
+                                                <div class="card p-3">
+                                                    <div class="d-flex justify-content-between mb-2">
+                                                        <h5 class="fw-bold textDarkBlue">
+                                                            <i class="fa-solid fa-calendar-days fa-xl me-3"></i>
+                                                            Trip Request <span class="fw-normal">(Submitted by Customer)</span>
+                                                        </h5>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xl-4">
+                                                            <div class="mb-3">
+                                                                <label for="exampleFormControlInput1" class="form-label">Travel Start Date</label>
+                                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput1" value="<?= $requestData['travel_start_date'] ?>" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-4">
+                                                            <div class="mb-3">
+                                                                <label for="exampleFormControlInput2" class="form-label">Travel End Date</label>
+                                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput2" value="<?= $requestData['travel_end_date'] ?>" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-4">
+                                                            <div class="mb-3">
+                                                                <label for="exampleFormControlInput3" class="form-label">Nights / Days</label>
+                                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput3" value="<?= $requestData['no_of_nights_days'] ?>" readonly>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xl-4">
+                                                            <div class="mb-3">
+                                                                <label for="exampleFormControlInput4" class="form-label">Pickup</label>
+                                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput4" value="<?= $requestData['customer_pickup'] != '' ? $requestData['customer_pickup']: $requestData['pickup_point'] ?>" readonly>
+                                                                <?php
+                                                                    $oldPickup = !empty($requestData['customer_pickup'])
+                                                                    ? $requestData['pickup_point']
+                                                                    : '';
+                                                                ?>
+        
+                                                                <?php if ($oldPickup !== ''): ?>
+                                                                    <small class="old-value-text text-muted"
+                                                                        id="pickupOldValue">
+                                                                        Previous Pickup: </br> 
+                                                                        <?= htmlspecialchars($oldPickup, ENT_QUOTES, 'UTF-8') ?>
+                                                                    </small>
+                                                                <?php endif; ?>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-4">
+                                                            <div class="mb-3">
+                                                                <label for="exampleFormControlInput5" class="form-label">Drop</label>
+                                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput5" value="<?= $requestData['customer_drop'] != '' ? $requestData['customer_drop']: $requestData['drop_point'] ?>" readonly>
+                                                                <?php
+                                                                    $olddrop = !empty($requestData['customer_drop'])
+                                                                    ? $requestData['drop_point']
+                                                                    : '';
+                                                                ?>
+        
+                                                                <?php if ($olddrop !== ''): ?>
+                                                                    <small class="old-value-text text-muted"
+                                                                        id="dropOldValue">
+                                                                        Previous Drop: </br> 
+                                                                        <?= htmlspecialchars($olddrop, ENT_QUOTES, 'UTF-8') ?>
+                                                                    </small>
+                                                                <?php endif; ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row paxRow">
+                                                        <div class="col-xl-3 paxCol">
+                                                            <div class="mb-3">
+                                                                <label for="adultCount" class="form-label">Adults (12+ yrs)</label>
+                                                                <input type="text" class="form-control fw-bold textDarkBlue" id="adultCount" value="<?= $requestData['adult_count'] ?>" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-3 paxCol">
+                                                            <div class="mb-3">
+                                                                <label for="childcount" class="form-label">Children (2-11 yrs)</label>
+                                                                <input type="text" class="form-control fw-bold textDarkBlue" id="childcount" value="<?= $requestData['child_count'] ?>" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-3 paxCol">
+                                                            <div class="mb-3">
+                                                                <label for="infantCount" class="form-label">Infants (0-1 yrs)</label>
+                                                                <input type="text" class="form-control fw-bold textDarkBlue" id="infantCount" value="<?= $requestData['infant_count'] ?>" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-3 paxCol">
+                                                            <div class="mb-3">
+                                                                <label for="exampleFormControlInput9" class="form-label">Total Pax</label>
+                                                                <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput9" value="<?= $requestData['adult_count'] + $requestData['child_count'] + $requestData['infant_count'] ?>" readonly>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Card Section 2 subsection 3 End -->
+                                                <!-- Card Section 2 subsection 4 Start -->
+                                                <div class="card p-3">
+                                                    <div class="d-flex justify-content-between mb-2">
+                                                        <h5 class="fw-bold textDarkBlue">
+                                                            <i class="fa-solid fa-bed fa-xl me-3"></i>
+                                                            Room Allocation <span class="fw-normal">(Requested by Customer)</span>
+                                                        </h5>
+                                                        <a class="editCustomerBtn">
+                                                            <i class="fa-solid fa-pen me-1"></i>
+                                                            Edit
+                                                        </a>
+                                                    </div>
+                                                    
+                                                    <?php
+                                                        $rooms = json_decode($requestData['rooms'] ?? '[]', true);
+        
+                                                        if (!is_array($rooms)) {
+                                                            $rooms = [];
+                                                        }
+        
+                                                        $totalRooms = count($rooms);
+        
+                                                        $adultCount  = (int)($requestData['adult_count'] ?? 0);
+                                                        $childCount  = (int)($requestData['child_count'] ?? 0);
+                                                        $infantCount = (int)($requestData['infant_count'] ?? 0);
+        
+                                                        $totalTravellers = $adultCount + $childCount + $infantCount;
+        
+                                                        $bedCounts = [];
+                                                        $totalExtraMattresses = 0;
+                                                        $recommendations = [];
+        
+                                                        foreach ($rooms as $room) {
+                                                            $description = trim($room['description'] ?? '');
+        
+                                                            // Count extra mattresses separately.
+                                                            if (preg_match_all(
+                                                                '/(\d+)\s*Extra\s*Mattress(?:es)?/i',
+                                                                $description,
+                                                                $mattressMatches
+                                                            )) {
+                                                                foreach ($mattressMatches[1] as $quantity) {
+                                                                    $totalExtraMattresses += (int)$quantity;
+                                                                }
+                                                            }
+        
+                                                            // Remove the entire extra mattress phrase from the room description.
+                                                            $description = preg_replace(
+                                                                '/\s*\+?\s*\d+\s*Extra\s*Mattress(?:es)?/i',
+                                                                '',
+                                                                $description
+                                                            );
+        
+                                                            // Clean up leftover separators and spaces.
+                                                            $description = trim($description, " \t\n\r\0\x0B,+-");
+        
+                                                            // Process only bed types now.
+                                                            $bedItems = preg_split('/\s*\+\s*|\s*,\s*/', $description);
+        
+                                                            foreach ($bedItems as $item) {
+        
+                                                                $item = trim($item);
+        
+                                                                if ($item === '') {
+                                                                    continue;
+                                                                }
+        
+                                                                $quantity = 1;
+        
+                                                                if (preg_match('/^(\d+)\s+(.+)$/i', $item, $matches)) {
+                                                                    $quantity = (int)$matches[1];
+                                                                    $item = trim($matches[2]);
+                                                                }
+        
+                                                                // Safety check: never allow a mattress into the bed summary.
+                                                                if (stripos($item, 'mattress') !== false) {
+                                                                    continue;
+                                                                }
+        
+                                                                if ($quantity <= 0 || $item === '') {
+                                                                    continue;
+                                                                }
+        
+                                                                $item = preg_replace('/\bBeds\b/i', 'Bed', $item);
+                                                                $key = strtolower(trim($item));
+        
+                                                                if (!isset($bedCounts[$key])) {
+                                                                    $bedCounts[$key] = [
+                                                                        'name' => trim($item),
+                                                                        'count' => 0
+                                                                    ];
+                                                                }
+        
+                                                                $bedCounts[$key]['count'] += $quantity;
+                                                            }
+        
+                                                            // Keep recommendations unique.
+                                                            $recommendation = trim($room['recommendation'] ?? '');
+        
+                                                            if (
+                                                                $recommendation !== '' &&
+                                                                !in_array($recommendation, $recommendations, true)
+                                                            ) {
+                                                                $recommendations[] = $recommendation;
+                                                            }
+                                                        }
+        
+                                                        /*
+                                                        * 5. Build the combined room type summary.
+                                                        */
+                                                        $roomTypeSummary = [];
+        
+                                                        foreach ($bedCounts as $bed) {
+        
+                                                            $count = $bed['count'];
+                                                            $name = $bed['name'];
+        
+                                                            if (preg_match('/\bBed\b/i', $name)) {
+                                                                $name = preg_replace(
+                                                                    '/\bBed\b/i',
+                                                                    $count === 1 ? 'Bed' : 'Beds',
+                                                                    $name
+                                                                );
+                                                            }
+        
+                                                            $roomTypeSummary[] = $count . ' ' . $name;
+                                                        }
+        
+                                                        $roomTypeText = implode(', ', $roomTypeSummary);
+                                                    ?>
+        
+                                                    <div class="row">
+                                                        <div class="col-xl-12">
+        
+                                                            <table class="table table-bordered mb-0">
+                                                                <thead>
+                                                                    <tr class="table-active">
+                                                                        <th scope="col">Room Count</th>
+                                                                        <th scope="col">Travellers</th>
+                                                                        <th scope="col">Room Type</th>
+                                                                        <th scope="col">Extra Mattress</th>
+                                                                    </tr>
+                                                                </thead>
+        
+                                                                <tbody>
+                                                                    <?php if (!empty($rooms)): ?>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <?= $totalRooms ?>
+                                                                                <?= $totalRooms === 1 ? 'Room' : 'Rooms' ?>
+                                                                            </td>
+        
+                                                                            <td>
+                                                                                <?= $totalTravellers ?>
+                                                                                (<?= $adultCount ?> Adults +
+                                                                                <?= $childCount ?> Children +
+                                                                                <?= $infantCount ?> Infants)
+                                                                            </td>
+        
+                                                                            <td>
+                                                                                <?= htmlspecialchars(
+                                                                                    $roomTypeText !== '' ? $roomTypeText : 'N/A',
+                                                                                    ENT_QUOTES,
+                                                                                    'UTF-8'
+                                                                                ) ?>
+                                                                            </td>
+        
+                                                                            <td>
+                                                                                <?php if ($totalExtraMattresses > 0): ?>
+                                                                                    <?= $totalExtraMattresses ?>
+                                                                                    <?= $totalExtraMattresses === 1
+                                                                                        ? 'Extra Mattress'
+                                                                                        : 'Extra Mattresses' ?>
+                                                                                <?php else: ?>
+                                                                                    N/A
+                                                                                <?php endif; ?>
+                                                                            </td>
+                                                                        </tr>
+                                                                    <?php else: ?>
+                                                                        <tr>
+                                                                            <td colspan="4" class="text-center">
+                                                                                No room details available.
+                                                                            </td>
+                                                                        </tr>
+                                                                    <?php endif; ?>
+                                                                </tbody>
+                                                            </table>
+        
+                                                            <?php if (!empty($rooms)): ?>
+                                                                <div class="paxDescriptionBtn d-flex">
+                                                                    <i class="fa-solid fa-circle-user paxColor fa-lg align-content-center me-2"></i>
+        
+                                                                    <span>
+                                                                        <?= $totalTravellers ?>
+                                                                        <?= $totalTravellers === 1 ? 'traveller' : 'travellers' ?>
+                                                                        will be accommodated in
+                                                                        <?= $totalRooms ?>
+                                                                        <?= $totalRooms === 1 ? 'room' : 'rooms' ?>.
+        
+                                                                        <?php if (!empty($recommendations)): ?>
+                                                                            <br>
+                                                                            <?= htmlspecialchars(
+                                                                                implode(', ', $recommendations),
+                                                                                ENT_QUOTES,
+                                                                                'UTF-8'
+                                                                            ) ?>
+                                                                        <?php endif; ?>
+                                                                    </span>
+                                                                </div>
+                                                            <?php endif; ?>
+        
+                                                        </div>
+                                                    </div>
+        
+        
+        
+                                                </div>
+                                                <!-- Card Section 2 subsection 4 End -->
+                                                <!-- Card Section 2 subsection 5 Start -->
+                                                <div class="card p-3">
+                                                    <div class="d-flex justify-content-between mb-2">
+                                                        <h5 class="fw-bold textDarkBlue">
+                                                            <i class="fa-solid fa-calendar-days fa-xl me-3"></i>
+                                                            Customer Preferences <span class="fw-normal">(Submitted by Customer)</span>
+                                                        </h5>
+                                                        
+                                                    </div>
+                                                    <div class="row">
+                                                        <!-- HOTEL CATEGORY -->
+                                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                                            <div class="mb-3">
+                                                                <label for="hotelCategory" class="form-label fontSize10">
+                                                                    Hotel Category
+                                                                </label>
+                                                                <div class="icon-select-wrapper">
+                                                                    <i class="ri-hotel-line iconPosition iconRed"></i>
+                                                                    <?php
+                                                                    $sql = $conn->prepare("
+                                                                        SELECT id, name
+                                                                        FROM category_hotel
+                                                                        WHERE status = 1
+                                                                        ORDER BY id DESC
+                                                                    ");
+                                                                    $sql->execute();
+                                                                    $hotelCategories = $sql->fetchAll(PDO::FETCH_ASSOC);
+                                                                    ?>
+                                                                    <select id="hotelCategory" class="form-select fontSize10 paddingLeft" name="hotel_category" disabled>
+                                                                        <option value="">Select Hotel</option>
+        
+                                                                        <?php foreach ($hotelCategories as $hotel): ?>
+                                                                            <option
+                                                                                value="<?= htmlspecialchars($hotel['id'], ENT_QUOTES, 'UTF-8') ?>"
+                                                                                <?= ((string)$hotel['id'] === (string)($requestData['hotel_category'] ?? '')) ? 'selected' : '' ?>
+                                                                            >
+                                                                                <?= htmlspecialchars($hotel['name'], ENT_QUOTES, 'UTF-8') ?>
+                                                                            </option>
+                                                                        <?php endforeach; ?>
+                                                                    </select>
+                                                                </div>
+                                                                <!-- OLD VALUE -->
+                                                                <div id="oldHotelCategory" class="text-muted fontSize10 d-none mt-2"></div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- MEAL PREFERENCE -->
+                                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                                            <div class="mb-3">
+                                                                <label for="mealPreference" class="form-label fontSize10">
+                                                                    Meal Preference
+                                                                </label>
+                                                                <div class="icon-select-wrapper">
+                                                                    <i class="ri-restaurant-line iconPosition iconRed"></i>
+                                                                    <?php
+                                                                    $sql = $conn->prepare("
+                                                                        SELECT id, name
+                                                                        FROM category_meal
+                                                                        WHERE status = 1
+                                                                        ORDER BY id DESC
+                                                                    ");
+                                                                    $sql->execute();
+                                                                    $mealCategories = $sql->fetchAll(PDO::FETCH_ASSOC);
+                                                                    ?>
+                                                                    <select id="mealPreference" class="form-select fontSize10 paddingLeft" name="meal_preference" disabled>
+                                                                        <option value="">Select Meal</option>
+                                                                        <?php foreach ($mealCategories as $meal_cat): ?>
+                                                                            <option value="<?= htmlspecialchars($meal_cat['id']) ?>" 
+                                                                            <?= ($requestData['meal_preference'] == $meal_cat['id']) ? 'selected' : '' ?>>
+                                                                                <?= htmlspecialchars($meal_cat['name']) ?>
+                                                                            </option>
+                                                                        <?php endforeach; ?>
+                                                                    </select>
+                                                                </div>
+                                                                <!-- OLD VALUE -->
+                                                                <div id="oldMealPreference" class="text-muted fontSize10 d-none mt-2"></div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- TRANSPORT -->
+                                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                                            <div class="mb-3">
+                                                                <label for="transportPreference" class="form-label fontSize10">
+                                                                    Transport Preference
+                                                                </label>
+                                                                <div class="icon-select-wrapper">
+                                                                    <i class="ri-car-line iconPosition iconRed"></i>
+                                                                    <?php
+                                                                    $sql = $conn->prepare("
+                                                                        SELECT id, name
+                                                                        FROM category_vehicle
+                                                                        WHERE status = 1
+                                                                        ORDER BY id DESC
+                                                                    ");
+                                                                    $sql->execute();
+                                                                    $vehicleCategories = $sql->fetchAll(PDO::FETCH_ASSOC);
+                                                                    ?>
+                                                                    <select id="transportPreference" class="form-select fontSize10 paddingLeft" name="transport_preference" disabled>
+                                                                        <option value="">Select Vehicle</option>
+                                                                        <?php foreach ($vehicleCategories as $vehicle_cat): ?>
+                                                                            <option value="<?= htmlspecialchars($vehicle_cat['id']) ?>" 
+                                                                            <?= ($requestData['transport_preference'] == $vehicle_cat['id']) ? 'selected' : '' ?>>
+                                                                                <?= htmlspecialchars($vehicle_cat['name']) ?>
+                                                                            </option>
+                                                                        <?php endforeach; ?>
+                                                                    </select>
+                                                                </div>
+                                                                <!-- OLD VALUE -->
+                                                                <div id="oldTransportPreference" class="text-muted fontSize10 d-none mt-2"></div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- SPECIAL REQUIREMENT -->
+                                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                            <div class="mb-0">
+                                                                <label for="specialRequirement" class="form-label fontSize10">Special Requirements (Optional)</label>
+                                                                <textarea
+                                                                    class="form-control fontSize10"
+                                                                    id="specialRequirement"
+                                                                    name="special_requirement"
+                                                                    placeholder="Eg. Wheelchair, extra bed, high floor, adjoining rooms, etc."
+                                                                    style="text-align: left;"
+                                                                    readonly
+                                                                ><?= htmlspecialchars(trim($requestData['special_requirement'] ?? ''), ENT_QUOTES, 'UTF-8') ?></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Card Section 2 subsection 5 End -->
+                                            </div>
+                                            <div class="col-xl-4">
+                                                <div class="card cardShadow">
+                                                    <div class="quick-header p-3">
+                                                        <div class="d-flex gap-2">
+                                                            <i class="fa-solid fa-location-dot fa-xl align-content-center quickIcon"></i>
+                                                            <h5 class="fw-bold mb-0 textDarkBlue align-content-center">Quick Action</h5>
+                                                        </div>
+                                                        <button type="button" class="recalculate-btn" id="#">
+                                                            <i class="fa-solid fa-rotate-right"></i>
+                                                            Recalculate
+                                                        </button>
+                                                    </div>
+                                                    <div class="px-3">
+                                                        <p class="mb-2 fw-bold blueDiv">Base Price (Per Person)</p>
+                                                        <div class="d-flex justify-content-between">
+                                                            <div>
+                                                                <p class="mb-1">Adult (12+ yrs)</p>
+                                                                <p class="mb-1">Child (2-11 yrs)</p>
+                                                                <p class="mb-1">Infant (0-1 yrs)</p>
+                                                            </div>
+                                                            <div>
+                                                                <p class="mb-1 text-end">&#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
+                                                                <p class="mb-1 text-end">&#8377; <?= number_format($childDisplayPrice, 2) ?></p>
+                                                                <p class="mb-1 text-end">FREE</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="p-3 pb-0">
+                                                        <p class="mb-2 fw-bold blueDiv">Price Based on Travelers</p>
+                                                        <div class="d-flex justify-content-between">
+                                                            <div>
+                                                                <p class="mb-1">Adult: <span class="" id="totalAdultCount"><?= $requestData['adult_count'] ?></span> x &#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
+                                                                <p class="mb-1">Children: <span class="" id="totalChildrenCount"><?= $requestData['child_count'] ?></span> x &#8377; <?= number_format($childDisplayPrice, 2) ?></p>
+                                                                <p class="mb-1">Infant: <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
+                                                            </div>
+                                                            <div>
+                                                                <p class="mb-1 text-end" id="adultTotal">&#8377; <?= number_format($requestData['adult_total'], 2) ?></p>
+                                                                <p class="mb-1 text-end" id="childrenTotal">&#8377; <?= number_format($requestData['children_total'], 2) ?></p>
+                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
+                                                            </div>
+                                                        </div>
+                                                        <hr class="my-1 border border-2 mx-0">
+                                                        <div class="d-flex justify-content-between">
+                                                            <p class="fw-bold fs-5 textDarkBlue mb-0">Subtotal</p>
+                                                            <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="subTotal">&#8377; <?= number_format($requestData['subtotal'], 2) ?></p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="p-3">
+                                                        <p class="fw-bold blueDiv">Adjustments</p>
+                                                        <div class="d-flex justify-content-between">
+                                                            <div>
+                                                                <p class="mb-1">Discount / Markup</p>
+                                                                <p class="mb-1">Extra Mattress (1 x &#8377; 1,500)</p>
+                                                                <p class="mb-1">Convenience Fee </p>
+                                                                <p class="mb-1">GST (5%) </p>
+                                                            </div>
+                                                            <div>
+                                                                <p class="mb-1 text-end discountGreen" id="#">- &#8377; 0.00</p>
+                                                                <p class="mb-1 text-end" id="#">&#8377; 1,500.00</p>
+                                                                <p class="mb-1 text-end" id="#">&#8377; 181.99</p>
+                                                                <p class="mb-1 text-end">&#8377; 2,499.00</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr class="my-1 border border-2 mx-3">
+                                                    <div class="p-3">
+                                                        <p class="fw-bold">Transport</p>
+                                                        <div class="d-flex justify-content-between">
+                                                            <div>
+                                                                <p class="fontSize10" id="selectedVehicleText"><?= $requestData['transport_type'] ?></p>
+                                                                <a href="#" class="fontSize10 text-primary" id="changeVehicle">Change Vehicle</a>
+                                                            </div>
+                                                            <div>
+                                                                <!-- <p class="fontSize10 text-end">Included</p> -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr class="my-1 border border-2 mx-3">
+                                                    <?php if($Requester_type  == 'Neo Select'){  ?>
+                                                    <!-- <hr class="my-1 border border-2 mx-3"> -->
+                                                    <div class="p-3 pb-0">
+                                                        <p class="fw-bold mb-2 textDarkBlue blueDiv">
+                                                            Apply Coupons
+                                                            <span class="text-muted fw-normal fontSize12">
+                                                                (One coupon per passenger)
+                                                                <i class="ri-error-warning-line"></i>
+                                                            </span>
+                                                        </p>
+                                                        <div id="couponPassengerContainer">
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    <hr class="my-1 border border-2 mx-3">
+                                                    <div class="d-flex justify-content-between px-3">
+                                                        <p class="fontSize10 discountGreen fw-bold">
+                                                            Discounts (Coupons)
+                                                        </p>
+                                                        <p class="fontSize10 discountGreen fw-bold text-end"
+                                                        id="totalCouponDiscount">
+                                                            - ₹ 0
+                                                        </p>
+                                                    </div>
+                                                    <?php
+                                                    $referralWalletBalance = $referralBalance ?? 0;
+                                                    $discountWalletBalance = $discountBalance ?? 0;
+                                                    ?>
+    
+                                                    <!-- <hr class="my-1 border border-2 mx-3"> -->
+    
+                                                    <div class="d-flex justify-content-between align-items-center px-3">
+    
+                                                        <p class="fontSize10 discountGreen fw-bold mb-0">
+                                                            Referral Wallet
+                                                        </p>
+    
+                                                        <p class="fontSize10 discountGreen fw-bold text-end mb-0"
+                                                        id="referralWalletBalance">
+                                                            ₹ <?= number_format($referralWalletBalance, 2) ?>
+                                                        </p>
+    
+                                                        <div class="d-flex align-items-center">
+                                                            <span class="fontSize10 discountGreen fw-bold me-1">
+                                                                - ₹
+                                                            </span>
+                                                            <input type="number" class="form-control form-control-sm walletInput" id="appliedReferralWallet" value="<?= $requestData['referral_wallet_amount'] ?>" min="0" step="1" disabled style="width: 80px;">
+                                                        </div>
+                                                    </div>
+                                                    <hr class="my-1 border border-2 mx-3">
+                                                    <div class="d-flex justify-content-between align-items-center px-3">
+                                                        <p class="fontSize10 discountGreen fw-bold mb-0">
+                                                            Discount Wallet
+                                                        </p>
+                                                        <p class="fontSize10 discountGreen fw-bold text-end mb-0"
+                                                        id="discountWalletBalance">
+                                                            ₹ <?= number_format($discountWalletBalance, 2) ?>
+                                                        </p>
+                                                        <div class="d-flex align-items-center">
+                                                            <span class="fontSize10 discountGreen fw-bold me-1">
+                                                                - ₹
+                                                            </span>
+                                                            <input type="number" class="form-control form-control-sm walletInput" id="appliedDiscountWallet" value="0" min="0" step="1" disabled style="width: 80px;">
+                                                        </div>
+                                                    </div>
+                                                    <?php } elseif ($Requester_type != 'Neo Select') {?>
+                                                    <!-- <hr class="my-2 border border-2 mx-3"> -->
+                                                    <div class="p-3">
+                                                        <!-- HEADER -->
+                                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                                            <div>
+                                                                <p class="fontSize10 fw-bold mb-1">Apply Coupon</p>
+                                                                <small class="text-muted fontSize10">
+                                                                    Only one coupon can be applied per package
+                                                                    <i class="ri-information-line"></i>
+                                                                </small>
+                                                            </div>
+                                                            <div class="coupon-package-icon">
+                                                                <i class="ri-coupon-3-line"></i>
+                                                            </div>
+                                                        </div>
+                                                        <!-- COUPON SELECT -->
+                                                        <div class="package-coupon-box d-flex justify-content-between">
+                                                            <i class="ri-coupon-3-line"></i>
+                                                            <div class="coupon-select-wrapper">
+                                                                <select id="packageCouponSelect" class="form-select fontSize10 selectPadding coupon-select1">
+                                                                    <option value="">Select Coupon</option>
+                                                                    <?php if (!empty($cuCoupons)): ?>
+                                                                        <optgroup label="Primary Coupons">
+                                                                            <?php foreach ($cuCoupons as $coupon): ?>
+                                                                                <option value="<?= htmlspecialchars($coupon['code']) ?>" data-type="primary" data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
+                                                                                    <?= htmlspecialchars($coupon['code']) ?>
+                                                                                </option>
+                                                                            <?php endforeach; ?>
+                                                                        </optgroup>
+                                                                    <?php endif; ?>
+                                                                    <?php if (!empty($loyaltyCoupons)): ?>
+                                                                        <optgroup label="Loyalty Coupons">
+                                                                            <?php foreach ($loyaltyCoupons as $coupon): ?>
+                                                                                <option value="<?= htmlspecialchars($coupon['code']) ?>" data-type="loyalty" data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
+                                                                                    <?= htmlspecialchars($coupon['code']) ?>
+                                                                                </option>
+                                                                            <?php endforeach; ?>
+                                                                        </optgroup>
+                                                                    <?php endif; ?>
+                                                                </select>
+                                                            </div>
+                                                            <!-- DISCOUNT -->
+                                                            <div class="package-discount">
+                                                                <span class="text-muted fontSize10">Discount</span>
+                                                                <span class="discountGreen fw-bold fontSize10" id="packageCouponDiscount"> ₹ 0</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- TOTAL -->
+                                                    <hr class="my-1 border border-2 mx-3">
+                                                    <div class="d-flex justify-content-between align-items-center px-3 pb-2">
+                                                        <p class="fontSize10 discountGreen fw-bold mb-0">
+                                                            <i class="ri-price-tag-3-line"></i>
+                                                            Discounts (Coupon)
+                                                        </p>
+                                                        <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="totalCouponDiscount">- ₹ 0</p>
+                                                    </div>
+                                                    <?php } ?>
+                                                    
+                                                    <hr class="my-2 border border-2 mx-3">
+                                                    <div class="px-3">
+                                                        <p class="fw-bold mb-1 blueDiv">Other Charges</p>
+                                                        <div class="d-flex justify-content-between">
+                                                            <div>
+                                                                <p class="mb-1">Convenience Fee</p>
+                                                                <p class="mb-1">GST (<span id="gstPercentage"><?= number_format($requestData['gst_percentage'], 2) ?></span>%)</p>
+                                                            </div>
+                                                            <div>
+                                                                <p class="text-end mb-1" id="convenienceFeee">&#8377; <?= number_format($requestData['convenience_fee'], 2) ?></p>
+                                                                <p class="text-end mb-1" id="gstValue">&#8377; <?= number_format($requestData['gst'], 2) ?></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr class="my-1 border border-2 mx-3">
+                                                    <div class="p-3 pb-0">
+                                                        <div class="d-flex justify-content-between">
+                                                            <div>
+                                                                <p class="fs-5 textDarkBlue fw-bold">Total Estimated Price</p>
+                                                            </div>
+                                                            <div>
+                                                                <p class="fs-5 text-danger fw-bolder text-end" id="finalPackagePrice">&#8377; <?= number_format($requestData['final_price'], 2) ?></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- Section 2: Example of an existing history -->
+                                    <div class="accordion-item">
+
+                                        <h2 class="accordion-header" id="headingDocuments">
+                                            <button
+                                                class="accordion-button collapsed"
+                                                type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#collapseDocuments"
+                                                aria-expanded="false"
+                                                aria-controls="collapseDocuments">
+
+                                                <div class="accordion-heading-content">
+                                                    <div class="accordion-heading-title">
+                                                        <i class="fa-solid fa-file-lines"></i>
+                                                        Documents
+                                                    </div>
+
+                                                    <span class="history-status sent-status">
+                                                        <i class="fa-solid fa-circle-check"></i>
+                                                        Sent by John Doe · 22 Oct 2026, 01:30 PM
+                                                    </span>
+
+                                                </div>
+
+                                            </button>
+                                        </h2>
+
+                                        <div
+                                            id="collapseDocuments"
+                                            class="accordion-collapse collapse"
+                                            aria-labelledby="headingDocuments"
+                                            data-bs-parent="#formHistoryAccordion">
+
+                                            <div class="accordion-body">
+
+                                                <!-- Put your document form elements here -->
+
+                                                <div class="mb-3">
+                                                    <label class="form-label">Document Title</label>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        name="document_title"
+                                                        placeholder="Enter document title">
+                                                </div>
+
+                                                <button type="button" class="btn btn-primary">
+                                                    Update Documents
+                                                </button>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <?php include_once "../footer.php" ?>
             </div>
+        </div>
+        <!-- =========================================================
+            MODIFY ROOMS MODAL
+        ========================================================= -->
+        <div class="modal fade" id="modifyRoomsModal" tabindex="-1" aria-labelledby="modifyRoomsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold" id="modifyRoomsModalLabel">Modify Rooms</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-3 ms-4">
+                            <!-- Adults -->
+                            <div class="col-md-4">
+                                <label class="form-label fontSize10 fw-bold">
+                                    Adults(12+ yrs): <span id="totalAdults">1</span>
+                                </label>
+                            </div>
+
+                            <!-- Children -->
+                            <div class="col-md-4">
+                                <label class="form-label fontSize10 fw-bold">
+                                    Children (2-11 yrs): <span id="totalChildren">0</span>
+                                </label>
+                            </div>
+
+                            <!-- Infants -->
+                            <div class="col-md-4">
+                                <label class="form-label fontSize10 fw-bold">
+                                    Infants: <span id="totalInfants">0</span>
+                                </label>
+                            </div>
+
+                        </div>
+                        <div id="modifyRoomsContainer">
+                            <!-- ROOM 1 -->
+                            <div class="modify-room-card mb-3" data-room="1">
+                                <div class="room-content-row">
+                                    <!-- ROOM TITLE -->
+                                    <div class="room-title">
+                                        <p class="fontSize10 fw-bold mb-0">
+                                            Room 1
+                                        </p>
+                                    </div>
+
+                                    <!-- ROOM OCCUPANCY -->
+                                    <div class="occupancy-section">
+
+                                        <label class="fontSize10 fw-bold mb-0">
+                                            Room Occupancy
+                                        </label>
+
+                                        <div class="occupancy-control">
+
+                                            <button type="button"
+                                                    class="occupancy-minus">
+                                                -
+                                            </button>
+
+                                            <input type="text"
+                                                class="form-control text-center room-occupancy"
+                                                value="3"
+                                                readonly>
+
+                                            <button type="button"
+                                                    class="occupancy-plus">
+                                                +
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- EXTRA MATTRESS -->
+                                    <div class="mattress-section">
+
+                                        <div class="form-check mb-0">
+
+                                            <input class="form-check-input extra-mattress"
+                                                type="checkbox"
+                                                id="extraMattress1"
+                                                checked disabled>
+
+                                            <label class="form-check-label fontSize10"
+                                                for="extraMattress1">
+                                                With Extra Mattress
+                                            </label>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- Add Room -->
+                        <div class="text-center">
+                            <button type="button" class="btn addModifyRoom" id="addModifyRoom">
+                                <i class="ri-add-line me-1"></i>
+                                Add Room
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="applyRoomModification">Apply Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- vehicle modal -->
+        <div class="modal fade"
+            id="vehicleSelectionModal"
+            tabindex="-1"
+            aria-labelledby="vehicleSelectionModalLabel"
+            aria-hidden="true">
+
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+
+                        <h5 class="modal-title fw-bold"
+                            id="vehicleSelectionModalLabel">
+                            Select Vehicle
+                        </h5>
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal">
+                        </button>
+
+                    </div>
+
+
+                    <div class="modal-body">
+
+                        <div class="row g-3">
+
+                            <?php foreach ($vehicleOptions as $vehicle): ?>
+
+                                <div class="col-md-6 col-lg-4">
+
+                                    <div class="vehicle-option border rounded-3 p-3 h-100"
+                                        data-value="<?= $vehicle['value'] ?>"
+                                        data-name="<?= htmlspecialchars($vehicle['name'] . ' - ' . $vehicle['type']) ?>">
+
+                                        <div class="d-flex align-items-center">
+
+                                            <i class="<?= htmlspecialchars($vehicle['icon']) ?> fs-3 me-3"></i>
+
+                                            <div>
+
+                                                <p class="fontSize10 fw-bold mb-1">
+                                                    <?= htmlspecialchars($vehicle['name']) ?>
+                                                </p>
+
+                                                <p class="fontSize10 mb-0">
+                                                    <?= htmlspecialchars($vehicle['type']) ?>
+                                                </p>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            <?php endforeach; ?>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="modal-footer">
+
+                        <button type="button"
+                                class="btn btn-light"
+                                data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+
+                        <button type="button"
+                                class="btn btn-primary"
+                                id="applyVehicleSelection">
+                            Select Vehicle
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
         <!-- END layout-wrapper -->
         <!--start back-to-top-->
@@ -1418,6 +2501,8 @@
         <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script> -->
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <script type="text/javascript" src="../assets/js/requestDetails.js"></script>
+        
         <!-- Date Range Picker Script End -->
 
         <!-- App js -->
@@ -1612,10 +2697,10 @@
 
                     container.append(row);
                 });
-                updateTotalCouponDiscount();
+                updateTotalCouponDiscountApplied();
             }
 
-            function updateTotalCouponDiscount() {
+            function updateTotalCouponDiscountApplied() {
                 let totalCouponDiscount = 0;
 
                 $('.coupon-passenger-row').each(function () {
