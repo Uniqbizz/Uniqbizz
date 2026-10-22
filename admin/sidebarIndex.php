@@ -144,6 +144,16 @@
                     </a>
                 </li>
                 <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bx-list-ul"></i>
+                        <span key="t-multi-level">Tax</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li><a href="tax/tds.php" key="t-level-1-1">TDS</a></li>
+                        <li><a href="tax/gst.php" key="t-level-1-1">GST</a></li>
+                    </ul>
+                </li>
+                <li>
                     <a href="user_details/all_users.php" class=" waves-effect">
                         <i class="bx bxs-user-detail"></i>
                         <span key="t-contacts">Login Details</span>

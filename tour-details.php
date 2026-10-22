@@ -841,7 +841,7 @@ include 'assets/submit/tour_details_data.php';
                                     <div class="packCard cardShadow">
                                         <img src="assets/images/tourDetails/creameImg.png" alt="" class="cardCreame">
                                         <div class="packContent">
-                                            <div class="row p-3">
+                                            <div class="row">
 
                                                 <h5 class="fw-bolder text-black mb-2">Important Notes / Remarks</h5>
 
@@ -899,7 +899,7 @@ include 'assets/submit/tour_details_data.php';
                                     <div class="packCard cardShadow">
                                         <img src="assets/images/tourDetails/purpleImg.png" alt="" class="cardPurple">
                                         <div class="packContent">
-                                            <div class="row p-3">
+                                            <div class="row">
 
                                                 <h5 class="fw-bolder text-black mb-2">Things to Know Before You Go</h5>
 

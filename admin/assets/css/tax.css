@@ -1,0 +1,37 @@
+.gstBtn {
+    background-color: #4b38b3;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 900;
+    border: 2px solid #4b38b3;
+    border-radius: 8px;
+    padding: 5px 8px;
+}
+.gstBtn:hover {
+    background-color: #fff;
+    color: #4b38b3;
+    border: 2px solid #4b38b3;
+    border-radius: 8px;
+    padding: 5px 8px;
+}
+.gstCardHeight {
+    height: 220px;
+    object-fit: contain;
+}
+.gstTableScroll {
+    overflow-y: auto;
+}
+.gstDownload {
+    background-color: darkgrey;
+    color: #000;
+    border-radius: 6px;
+    width: fit-content;
+    padding: 5px 8px;
+}
+.tdsCardHeight {
+    height: 245px;
+    object-fit: contain;
+}
+.tdsTableScroll {
+    overflow-y: auto;
+}
