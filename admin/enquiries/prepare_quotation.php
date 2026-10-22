@@ -1307,50 +1307,7 @@
                                                 <i class="ri-error-warning-line"></i>
                                             </span>
                                         </p>
-                                        <div id="couponPassengerContainer">
-                                            <!-- <div class="d-flex justify-content-between mb-2 coupon-passenger-row">
-                                                <div class="d-flex gap-3 largeDisplay">
-                                                    <p class="fontSize10 align-content-end mb-0">
-                                                        ${type} ${number}
-                                                    </p>
-                                                    <p class="mb-0">
-                                                        <select
-                                                            class="form-select fontSize10 selectPadding coupon-select">
-                                                            <option value="">
-                                                                Select Coupon 
-                                                            </option>
-                                                            <?php if (!empty($cuCoupons)): ?>
-                                                                <optgroup label="Primary Coupons">
-                                                                    <?php foreach ($cuCoupons as $coupon): ?>
-                                                                        <option
-                                                                            value="<?= htmlspecialchars($coupon['code']) ?>"
-                                                                            data-type="primary"
-                                                                            data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
-                                                                            <?= htmlspecialchars($coupon['code']) ?>
-                                                                        </option>
-                                                                    <?php endforeach; ?>
-                                                                </optgroup>
-                                                            <?php endif; ?>
-                                                            <?php if (!empty($loyaltyCoupons)): ?>
-                                                                <optgroup label="Loyalty Coupons">
-                                                                    <?php foreach ($loyaltyCoupons as $coupon): ?>
-                                                                        <option
-                                                                            value="<?= htmlspecialchars($coupon['code']) ?>"
-                                                                            data-type="loyalty"
-                                                                            data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
-                                                                            <?= htmlspecialchars($coupon['code']) ?>
-                                                                        </option>
-                                                                    <?php endforeach; ?>
-                                                                </optgroup>
-                                                            <?php endif; ?>
-                                                        </select>
-                                                    </p>
-                                                </div>
-                                                <p class="fontSize10 discountGreen fw-bold text-end align-content-end coupon-discount mb-0">
-                                                    - ₹ 0
-                                                </p>
-                                            </div> -->
-                                        </div>
+                                        <div id="couponPassengerContainer0" class="coupon-passenger-container"></div>
                                     </div>
                                     <hr class="my-1 border border-2 mx-3">
                                     <div class="d-flex justify-content-between px-3">
@@ -1358,7 +1315,7 @@
                                             Discounts (Coupons)
                                         </p>
                                         <p class="fontSize10 discountGreen fw-bold text-end"
-                                        id="totalCouponDiscount">
+                                        id="totalCouponDiscount0">
                                             - ₹ 0
                                         </p>
                                     </div>
@@ -1405,52 +1362,15 @@
                                     </div>
                                     <?php } elseif ($Requester_type != 'Neo Select') {?>
                                     <!-- <hr class="my-2 border border-2 mx-3"> -->
-                                    <div class="p-3">
-                                        <!-- HEADER -->
-                                        <div class="d-flex justify-content-between align-items-center mb-3">
-                                            <div>
-                                                <p class="fontSize10 fw-bold mb-1">Apply Coupon</p>
-                                                <small class="text-muted fontSize10">
-                                                    Only one coupon can be applied per package
-                                                    <i class="ri-information-line"></i>
-                                                </small>
-                                            </div>
-                                            <div class="coupon-package-icon">
-                                                <i class="ri-coupon-3-line"></i>
-                                            </div>
-                                        </div>
-                                        <!-- COUPON SELECT -->
-                                        <div class="package-coupon-box d-flex justify-content-between">
-                                            <i class="ri-coupon-3-line"></i>
-                                            <div class="coupon-select-wrapper">
-                                                <select id="packageCouponSelect" class="form-select fontSize10 selectPadding coupon-select1">
-                                                    <option value="">Select Coupon</option>
-                                                    <?php if (!empty($cuCoupons)): ?>
-                                                        <optgroup label="Primary Coupons">
-                                                            <?php foreach ($cuCoupons as $coupon): ?>
-                                                                <option value="<?= htmlspecialchars($coupon['code']) ?>" data-type="primary" data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
-                                                                    <?= htmlspecialchars($coupon['code']) ?>
-                                                                </option>
-                                                            <?php endforeach; ?>
-                                                        </optgroup>
-                                                    <?php endif; ?>
-                                                    <?php if (!empty($loyaltyCoupons)): ?>
-                                                        <optgroup label="Loyalty Coupons">
-                                                            <?php foreach ($loyaltyCoupons as $coupon): ?>
-                                                                <option value="<?= htmlspecialchars($coupon['code']) ?>" data-type="loyalty" data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
-                                                                    <?= htmlspecialchars($coupon['code']) ?>
-                                                                </option>
-                                                            <?php endforeach; ?>
-                                                        </optgroup>
-                                                    <?php endif; ?>
-                                                </select>
-                                            </div>
-                                            <!-- DISCOUNT -->
-                                            <div class="package-discount">
-                                                <span class="text-muted fontSize10">Discount</span>
-                                                <span class="discountGreen fw-bold fontSize10" id="packageCouponDiscount"> ₹ 0</span>
-                                            </div>
-                                        </div>
+                                    <div class="p-3 pb-0">
+                                        <p class="fw-bold mb-2 textDarkBlue blueDiv">
+                                            Apply Coupons
+                                            <span class="text-muted fw-normal fontSize12">
+                                                Only one coupon can be applied per package
+                                                <i class="ri-error-warning-line"></i>
+                                            </span>
+                                        </p>
+                                        <div id="couponPassengerContainer0" class="coupon-passenger-container"></div>
                                     </div>
                                     <!-- TOTAL -->
                                     <hr class="my-1 border border-2 mx-3">
@@ -1459,7 +1379,7 @@
                                             <i class="ri-price-tag-3-line"></i>
                                             Discounts (Coupon)
                                         </p>
-                                        <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="totalCouponDiscount">- ₹ 0</p>
+                                        <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="totalCouponDiscount0">- ₹ 0</p>
                                     </div>
                                     <?php } ?>
                                     
@@ -2063,9 +1983,7 @@
                                                                 <i class="ri-error-warning-line"></i>
                                                             </span>
                                                         </p>
-                                                        <div id="couponPassengerContainer">
-                                                            
-                                                        </div>
+                                                        <div id="couponPassengerContainer1" class="coupon-passenger-container"></div>
                                                     </div>
                                                     <hr class="my-1 border border-2 mx-3">
                                                     <div class="d-flex justify-content-between px-3">
@@ -2073,7 +1991,7 @@
                                                             Discounts (Coupons)
                                                         </p>
                                                         <p class="fontSize10 discountGreen fw-bold text-end"
-                                                        id="totalCouponDiscount">
+                                                        id="totalCouponDiscount1">
                                                             - ₹ 0
                                                         </p>
                                                     </div>
@@ -2119,53 +2037,15 @@
                                                         </div>
                                                     </div>
                                                     <?php } elseif ($Requester_type != 'Neo Select') {?>
-                                                    <!-- <hr class="my-2 border border-2 mx-3"> -->
-                                                    <div class="p-3">
-                                                        <!-- HEADER -->
-                                                        <div class="d-flex justify-content-between align-items-center mb-3">
-                                                            <div>
-                                                                <p class="fontSize10 fw-bold mb-1">Apply Coupon</p>
-                                                                <small class="text-muted fontSize10">
-                                                                    Only one coupon can be applied per package
-                                                                    <i class="ri-information-line"></i>
-                                                                </small>
-                                                            </div>
-                                                            <div class="coupon-package-icon">
-                                                                <i class="ri-coupon-3-line"></i>
-                                                            </div>
-                                                        </div>
-                                                        <!-- COUPON SELECT -->
-                                                        <div class="package-coupon-box d-flex justify-content-between">
-                                                            <i class="ri-coupon-3-line"></i>
-                                                            <div class="coupon-select-wrapper">
-                                                                <select id="packageCouponSelect" class="form-select fontSize10 selectPadding coupon-select1">
-                                                                    <option value="">Select Coupon</option>
-                                                                    <?php if (!empty($cuCoupons)): ?>
-                                                                        <optgroup label="Primary Coupons">
-                                                                            <?php foreach ($cuCoupons as $coupon): ?>
-                                                                                <option value="<?= htmlspecialchars($coupon['code']) ?>" data-type="primary" data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
-                                                                                    <?= htmlspecialchars($coupon['code']) ?>
-                                                                                </option>
-                                                                            <?php endforeach; ?>
-                                                                        </optgroup>
-                                                                    <?php endif; ?>
-                                                                    <?php if (!empty($loyaltyCoupons)): ?>
-                                                                        <optgroup label="Loyalty Coupons">
-                                                                            <?php foreach ($loyaltyCoupons as $coupon): ?>
-                                                                                <option value="<?= htmlspecialchars($coupon['code']) ?>" data-type="loyalty" data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
-                                                                                    <?= htmlspecialchars($coupon['code']) ?>
-                                                                                </option>
-                                                                            <?php endforeach; ?>
-                                                                        </optgroup>
-                                                                    <?php endif; ?>
-                                                                </select>
-                                                            </div>
-                                                            <!-- DISCOUNT -->
-                                                            <div class="package-discount">
-                                                                <span class="text-muted fontSize10">Discount</span>
-                                                                <span class="discountGreen fw-bold fontSize10" id="packageCouponDiscount"> ₹ 0</span>
-                                                            </div>
-                                                        </div>
+                                                    <div class="p-3 pb-0">
+                                                        <p class="fw-bold mb-2 textDarkBlue blueDiv">
+                                                            Apply Coupons
+                                                            <span class="text-muted fw-normal fontSize12">
+                                                                Only one coupon can be applied per package
+                                                                <i class="ri-error-warning-line"></i>
+                                                            </span>
+                                                        </p>
+                                                        <div id="couponPassengerContainer1" class="coupon-passenger-container"></div>
                                                     </div>
                                                     <!-- TOTAL -->
                                                     <hr class="my-1 border border-2 mx-3">
@@ -2174,7 +2054,7 @@
                                                             <i class="ri-price-tag-3-line"></i>
                                                             Discounts (Coupon)
                                                         </p>
-                                                        <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="totalCouponDiscount">- ₹ 0</p>
+                                                        <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="totalCouponDiscount1">- ₹ 0</p>
                                                     </div>
                                                     <?php } ?>
                                                     
@@ -2501,7 +2381,7 @@
         <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script> -->
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-        <script type="text/javascript" src="../assets/js/requestDetails.js"></script>
+        <!-- <script type="text/javascript" src="../assets/js/requestDetails.js"></script> -->
         
         <!-- Date Range Picker Script End -->
 
@@ -2623,97 +2503,279 @@
             });
 
             
-            function loadSavedCoupons() {
-                const container = $('#couponPassengerContainer');
-                container.empty();
+            // function loadSavedCoupons() {
+            //     const container = $('#couponPassengerContainer');
+            //     container.empty();
 
-                savedCoupons.forEach(function (coupon) {
+            //     savedCoupons.forEach(function (coupon) {
+            //         const passenger = coupon.passenger || '';
+            //         const couponCode = coupon.code || '';
+            //         const couponType = coupon.type || '';
+            //         const amount = Number(coupon.amount) || 0;
+
+            //         const row = $(`
+            //             <div class="d-flex justify-content-between mb-2 coupon-passenger-row">
+            //                 <div class="d-flex gap-3 largeDisplay">
+            //                     <p class="fontSize10 align-content-end mb-0 coupon-passenger"></p>
+            //                     <p class="mb-0">
+            //                         <select class="form-select fontSize10 selectPadding coupon-select" disabled>
+            //                             <option value="">Select Coupon</option>
+            //                         </select>
+            //                     </p>
+            //                 </div>
+            //                 <p class="fontSize10 discountGreen fw-bold text-end align-content-end coupon-discount mb-0">
+            //                     - ₹ 0
+            //                 </p>
+            //             </div>
+            //         `);
+
+            //         row.find('.coupon-passenger').text(passenger);
+
+            //         const select = row.find('.coupon-select');
+                    
+            //         // Add available primary coupons.
+            //         <?php if (!empty($cuCoupons)): ?>
+            //             const primaryGroup = $('<optgroup label="Primary Coupons"></optgroup>');
+
+            //             <?php foreach ($cuCoupons as $coupon): ?>
+            //                 primaryGroup.append(
+            //                     $('<option></option>')
+            //                         .val(<?= json_encode($coupon['code']) ?>)
+            //                         .attr('data-type', 'primary')
+            //                         .attr('data-amount', <?= json_encode($coupon['coupon_amt']) ?>)
+            //                         .text(<?= json_encode($coupon['code']) ?>)
+            //                 );
+            //             <?php endforeach; ?>
+
+            //             select.append(primaryGroup);
+            //         <?php endif; ?>
+
+            //         // Add available loyalty coupons.
+            //         <?php if (!empty($loyaltyCoupons)): ?>
+            //             const loyaltyGroup = $('<optgroup label="Loyalty Coupons"></optgroup>');
+
+            //             <?php foreach ($loyaltyCoupons as $coupon): ?>
+            //                 loyaltyGroup.append(
+            //                     $('<option></option>')
+            //                         .val(<?= json_encode($coupon['code']) ?>)
+            //                         .attr('data-type', 'loyalty')
+            //                         .attr('data-amount', <?= json_encode($coupon['coupon_amt']) ?>)
+            //                         .text(<?= json_encode($coupon['code']) ?>)
+            //                 );
+            //             <?php endforeach; ?>
+
+            //             select.append(loyaltyGroup);
+            //         <?php endif; ?>
+
+            //         // Restore the saved coupon selection.
+            //         select.val(couponCode);
+
+            //         // Show the saved discount amount.
+            //         row.find('.coupon-discount').text(
+            //             '- ₹ ' + amount.toLocaleString('en-IN')
+            //         );
+
+            //         container.append(row);
+            //     });
+            //     updateTotalCouponDiscountApplied();
+            // }
+            function loadSavedCoupons() {
+                if (!Array.isArray(savedCoupons)) {
+                    return;
+                }
+
+                // ==========================================
+                // CONTAINER 0: DISPLAY ALL SAVED COUPONS
+                // IN NON-EDITABLE MODE
+                // ==========================================
+                const container0 = $('#couponPassengerContainer0');
+
+                if (container0.length) {
+                    let display = container0.find('.saved-coupon-display').first();
+
+                    if (!display.length) {
+                        display = $('<div class="saved-coupon-display"></div>');
+                        container0.prepend(display);
+                    }
+
+                    // Clear only the saved-coupon display area.
+                    display.empty();
+
+                    savedCoupons.forEach(function (coupon) {
+                        const couponCode = String(coupon.code || '').trim();
+
+                        if (!couponCode) {
+                            return;
+                        }
+
+                        const passenger = coupon.passenger || '';
+                        const amount = Number(coupon.amount) || 0;
+
+                        const row = $(`
+                            <div class="d-flex justify-content-between mb-2 saved-coupon-row">
+                                <div class="d-flex gap-3 largeDisplay">
+                                    <p class="fontSize10 align-content-end mb-0 saved-coupon-passenger"></p>
+                                    <p class="mb-0">
+                                        <select class="form-select fontSize10 selectPadding" disabled>
+                                            <option></option>
+                                        </select>
+                                    </p>
+                                </div>
+                                <p class="fontSize10 discountGreen fw-bold text-end align-content-end mb-0 saved-coupon-discount"></p>
+                            </div>
+                        `);
+
+                        row.attr('data-coupon-code', couponCode);
+
+                        row.find('.saved-coupon-passenger').text(passenger);
+
+                        const select = row.find('select');
+                        select.find('option')
+                            .first()
+                            .val(couponCode)
+                            .text(couponCode);
+
+                        select.val(couponCode);
+
+                        row.find('.saved-coupon-discount').text(
+                            '- ₹ ' + amount.toLocaleString('en-IN')
+                        );
+
+                        display.append(row);
+                    });
+                }
+
+                // ==========================================
+                // CONTAINERS 1, 2, 3, ETC.:
+                // POPULATE EXISTING EDITABLE ROWS
+                // ==========================================
+                savedCoupons.forEach(function (coupon, index) {
+                    const couponCode = String(coupon.code || '').trim();
+
+                    if (!couponCode) {
+                        return;
+                    }
+
                     const passenger = coupon.passenger || '';
-                    const couponCode = coupon.code || '';
-                    const couponType = coupon.type || '';
                     const amount = Number(coupon.amount) || 0;
 
-                    const row = $(`
-                        <div class="d-flex justify-content-between mb-2 coupon-passenger-row">
-                            <div class="d-flex gap-3 largeDisplay">
-                                <p class="fontSize10 align-content-end mb-0 coupon-passenger"></p>
-                                <p class="mb-0">
-                                    <select class="form-select fontSize10 selectPadding coupon-select" disabled>
-                                        <option value="">Select Coupon</option>
-                                    </select>
+                    // Use the existing editable container.
+                    const container = $('#couponPassengerContainer' + (index + 1));
+
+                    // If a passenger-specific container does not exist,
+                    // use container 1 so the coupon is not skipped.
+                    const targetContainer = container.length
+                        ? container
+                        : $('#couponPassengerContainer1');
+
+                    if (!targetContainer.length) {
+                        return;
+                    }
+
+                    let row = targetContainer.find('.coupon-passenger-row').filter(function () {
+                        return $(this).attr('data-coupon-code') === couponCode;
+                    }).first();
+
+                    // Create the row only if it does not already exist.
+                    if (!row.length) {
+                        row = $(`
+                            <div class="d-flex justify-content-between mb-2 coupon-passenger-row">
+                                <div class="d-flex gap-3 largeDisplay">
+                                    <p class="fontSize10 align-content-end mb-0 coupon-passenger"></p>
+                                    <p class="mb-0">
+                                        <select class="form-select fontSize10 selectPadding coupon-select">
+                                            <option value="">Select Coupon</option>
+                                        </select>
+                                    </p>
+                                </div>
+                                <p class="fontSize10 discountGreen fw-bold text-end align-content-end mb-0 coupon-discount">
+                                    - ₹ 0
                                 </p>
                             </div>
-                            <p class="fontSize10 discountGreen fw-bold text-end align-content-end coupon-discount mb-0">
-                                - ₹ 0
-                            </p>
-                        </div>
-                    `);
+                        `);
+
+                        row.attr('data-coupon-code', couponCode);
+                        targetContainer.append(row);
+                    }
 
                     row.find('.coupon-passenger').text(passenger);
 
                     const select = row.find('.coupon-select');
-                    
-                    // Add available primary coupons.
-                    <?php if (!empty($cuCoupons)): ?>
-                        const primaryGroup = $('<optgroup label="Primary Coupons"></optgroup>');
 
-                        <?php foreach ($cuCoupons as $coupon): ?>
-                            primaryGroup.append(
-                                $('<option></option>')
-                                    .val(<?= json_encode($coupon['code']) ?>)
-                                    .attr('data-type', 'primary')
-                                    .attr('data-amount', <?= json_encode($coupon['coupon_amt']) ?>)
-                                    .text(<?= json_encode($coupon['code']) ?>)
-                            );
-                        <?php endforeach; ?>
+                    let option = select.find('option').filter(function () {
+                        return String($(this).val()).trim() === couponCode;
+                    }).first();
 
-                        select.append(primaryGroup);
-                    <?php endif; ?>
+                    if (!option.length) {
+                        option = $('<option>', {
+                            value: couponCode,
+                            text: couponCode
+                        });
 
-                    // Add available loyalty coupons.
-                    <?php if (!empty($loyaltyCoupons)): ?>
-                        const loyaltyGroup = $('<optgroup label="Loyalty Coupons"></optgroup>');
+                        select.append(option);
+                    }
 
-                        <?php foreach ($loyaltyCoupons as $coupon): ?>
-                            loyaltyGroup.append(
-                                $('<option></option>')
-                                    .val(<?= json_encode($coupon['code']) ?>)
-                                    .attr('data-type', 'loyalty')
-                                    .attr('data-amount', <?= json_encode($coupon['coupon_amt']) ?>)
-                                    .text(<?= json_encode($coupon['code']) ?>)
-                            );
-                        <?php endforeach; ?>
+                    option.attr('data-amount', amount);
 
-                        select.append(loyaltyGroup);
-                    <?php endif; ?>
-
-                    // Restore the saved coupon selection.
+                    select.prop('disabled', false);
                     select.val(couponCode);
 
-                    // Show the saved discount amount.
                     row.find('.coupon-discount').text(
                         '- ₹ ' + amount.toLocaleString('en-IN')
                     );
-
-                    container.append(row);
                 });
-                updateTotalCouponDiscountApplied();
+
+                // Update totals for all existing coupon containers.
+                $('[id^="couponPassengerContainer"]').each(function () {
+                    const containerId = this.id;
+                    const index = containerId.replace('couponPassengerContainer', '');
+
+                    updateTotalCouponDiscountApplied(index);
+                });
             }
 
-            function updateTotalCouponDiscountApplied() {
+            function updateTotalCouponDiscountApplied(index) {
+                const container = $('#couponPassengerContainer' + index);
+
+                if (!container.length) {
+                    return;
+                }
+
                 let totalCouponDiscount = 0;
+                let totalCoupons = 0;
 
-                $('.coupon-passenger-row').each(function () {
-                    const selectedOption = $(this).find('.coupon-select option:selected');
-                    const amount = parseFloat(selectedOption.attr('data-amount')) || 0;
+                // Count saved coupons only for container 0.
+                if (String(index) === '0') {
+                    container.find('.saved-coupon-row').each(function () {
+                        const discountText = $(this).find('.saved-coupon-discount').text();
 
-                    if (selectedOption.val()) {
+                        const amount = parseFloat(
+                            discountText.replace(/[^0-9.-]/g, '')
+                        ) || 0;
+
+                        totalCouponDiscount += Math.abs(amount);
+                        totalCoupons++;
+                    });
+                }
+
+                // Count selected editable coupons in this container only.
+                container.find('.coupon-passenger-row').each(function () {
+                    const select = $(this).find('.coupon-select');
+                    const couponCode = select.val();
+
+                    if (couponCode) {
+                        const amount = parseFloat(
+                            select.find('option:selected').attr('data-amount')
+                        ) || 0;
+
                         totalCouponDiscount += amount;
+                        totalCoupons++;
                     }
                 });
 
-                $('#totalCouponDiscount').text(
-                    '- ₹ ' + totalCouponDiscount.toLocaleString('en-IN')
+                // Update the total corresponding to this container's index.
+                $('#totalCouponDiscount' + index).text(
+                    '- ₹ ' + totalCouponDiscount.toLocaleString('en-IN') 
                 );
             }
         </script>
