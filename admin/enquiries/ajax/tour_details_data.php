@@ -178,6 +178,7 @@ $cat_id = $package['category_id'];
 $sub_cat_id = $package['sub_category_id'];
 $hotel_cat_id = $package['category_hotel_id'];
 $meal_cat_id = $package['category_meal_id'];
+$validity = $package['validity'] ?? 0;
 $package_keywords = $package['package_keywords'] ?? '';
 $location  = $package['location'] ?? '';
 $destination = $package['destination'] ?? '';

@@ -2427,25 +2427,25 @@ $("#submitRequst").on("click", function (e) {
 // Pricing Section
 document.addEventListener("DOMContentLoaded", function () {
     const pricingSidebar = document.getElementById("pricingSidebar");
-    const openBtn = document.getElementById("openPricingBtn");
-    const closeBtn = document.getElementById("closePricing");
-    const overlay = document.getElementById("pricingOverlay");
-    function openPricing() {
-        pricingSidebar.classList.add("show");
-        overlay.classList.add("show");
-        document.body.style.overflow = "hidden";
-    }
-    function closePricing() {
-        pricingSidebar.classList.remove("show");
-        overlay.classList.remove("show");
-        document.body.style.overflow = "";
-    }
-    openBtn.addEventListener("click", openPricing);
-    closeBtn.addEventListener("click", closePricing);
-    overlay.addEventListener("click", closePricing);
-    window.addEventListener("resize", function () {
-        if (window.innerWidth > 991) {
-            closePricing();
-        }
-    });
+    // const openBtn = document.getElementById("openPricingBtn");
+    // const closeBtn = document.getElementById("closePricing");
+    // const overlay = document.getElementById("pricingOverlay");
+    // function openPricing() {
+    //     pricingSidebar.classList.add("show");
+    //     overlay.classList.add("show");
+    //     document.body.style.overflow = "hidden";
+    // }
+    // function closePricing() {
+    //     pricingSidebar.classList.remove("show");
+    //     overlay.classList.remove("show");
+    //     document.body.style.overflow = "";
+    // }
+    // openBtn.addEventListener("click", openPricing);
+    // closeBtn.addEventListener("click", closePricing);
+    // overlay.addEventListener("click", closePricing);
+    // window.addEventListener("resize", function () {
+    //     if (window.innerWidth > 991) {
+    //         closePricing();
+    //     }
+    // });
 });
