@@ -15,6 +15,13 @@ $col_status = 1;
 $tdsAmount = $commi * 2 / 100;
 $total = $commi - $tdsAmount; 
 
+$prefix = substr($userID, 0, 2);
+if($prefix == 'MF' || $prefix == 'SF' || $prefix == 'BM' || $prefix == 'ST'){
+    $status_col = 'status_mf';
+}else if($prefix == 'BH' || $prefix == 'ET'){
+    $status_col = 'status_zm';
+}
+
 $sql3 = "INSERT INTO `sub_franchisee_payout_paid` 
             (`user_id`, `payout_message`, `payout_details`, `sub_franchisee`, `amount`, `tds`, `total_payable`) 
             VALUES (:user_id, :payout_message, :payout_details, :sub_franchisee, :amount, :tds, :total_payable)";
@@ -31,7 +38,7 @@ $result = $stmt->execute([
 ]);
 
 if($result){
-    $stmt = $conn->prepare("UPDATE sub_franchisee_payout SET status_mf = :message_status WHERE id = :id ");
+    $stmt = $conn->prepare("UPDATE sub_franchisee_payout SET `$status_col` = :message_status WHERE id = :id ");
     $result2 = $stmt -> execute(array(
         ':message_status' => $col_status,
         ':id' => $id

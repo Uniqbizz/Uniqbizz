@@ -158,6 +158,7 @@
                         <li><a href="slab_payout/slabPayout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>Employee Payout</a></li>
                         <li><a href="payout/sub_franchisee_payout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>Franchisee Contracting Payout</a></li>
                         <li><a href="payout/contracting_payout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>TE Contracting Payout</a></li>
+                        <li><a href="payout/institution_payout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>Institution Contracting Payout</a></li>
                         <li><a href="payout/recruitment_payout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>TC Recruitment Payout</a></li>
                         <!-- CU Membership Payout Renamed to holiday account payout -->
                         <li><a href="payout/customer_membership_payout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>Holiday Account Payout</a></li>
