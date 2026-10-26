@@ -499,21 +499,21 @@
                             `;
                         }
                     },
-                    {
-                        data: null,
-                        render: function(data) {
-                            return `
-                                <div>
-                                    <p class="fs-6 mb-0">
-                                        ${data.ref_firstname || '-'} ${data.ref_lastname || ''}
-                                    </p>
-                                    <p class="fs-6 mb-0">
-                                        ${data.super_techno_enterprise_id || '-'}
-                                    </p>
-                                </div>
-                            `;
-                        }
-                    },
+                    // {
+                    //     data: null,
+                    //     render: function(data) {
+                    //         return `
+                    //             <div>
+                    //                 <p class="fs-6 mb-0">
+                    //                     ${data.ref_firstname || '-'} ${data.ref_lastname || ''}
+                    //                 </p>
+                    //                 <p class="fs-6 mb-0">
+                    //                     ${data.super_techno_enterprise_id || '-'}
+                    //                 </p>
+                    //             </div>
+                    //         `;
+                    //     }
+                    // },
                     {
                         data: null,
                         render: function(data) {
