@@ -251,34 +251,40 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-lg-4 col-md-4 col-sm-4 col-4 mb-3 columnWidth">
-                                                    <div class="card rounded-4 p-2 quickCard1 mb-0">
-                                                        <div class="d-flex justify-content-center">
-                                                            <div class="quickIcon1">
-                                                                <i class="fa-solid fa-user-plus"></i>
+                                                    <a href="add_techno_enterprise.php" class="text-decoration-none text-dark d-block">
+                                                        <div class="card rounded-4 p-2 quickCard1 mb-0">
+                                                            <div class="d-flex justify-content-center">
+                                                                <div class="quickIcon1">
+                                                                    <i class="fa-solid fa-user-plus"></i>
+                                                                </div>
                                                             </div>
+                                                            <p class="mb-1 fs-6 fw-bold text-center">Add <br> Techno Enterprice</p>
                                                         </div>
-                                                        <p class="mb-1 fs-6 fw-bold text-center">Add <br> Techno Enterprice</p>
-                                                    </div>
+                                                    </a>
                                                 </div>
                                                 <div class="col-lg-4 col-md-4 col-sm-4 col-4 mb-3 columnWidth">
-                                                    <div class="card rounded-4 p-2 quickCard2 mb-0">
-                                                        <div class="d-flex justify-content-center">
-                                                            <div class="quickIcon2">
-                                                                <i class="fa-solid fa-users"></i>
+                                                    <a href="travel_consultants_list.php" class="text-decoration-none text-dark d-block">
+                                                        <div class="card rounded-4 p-2 quickCard2 mb-0">
+                                                            <div class="d-flex justify-content-center">
+                                                                <div class="quickIcon2">
+                                                                    <i class="fa-solid fa-users"></i>
+                                                                </div>
                                                             </div>
+                                                            <p class="mb-1 fs-6 fw-bold text-center">View <br> Travel Consultants</p>
                                                         </div>
-                                                        <p class="mb-1 fs-6 fw-bold text-center">View <br> Travel Consultants</p>
-                                                    </div>
+                                                    </a>
                                                 </div>
                                                 <div class="col-lg-4 col-md-4 col-sm-4 col-4 mb-3 columnWidth">
-                                                    <div class="card rounded-4 p-2 quickCard3 mb-0">
-                                                        <div class="d-flex justify-content-center">
-                                                            <div class="quickIcon3">
-                                                                <i class="fa-solid fa-users"></i>
+                                                    <a href="customers_list.php" class="text-decoration-none text-dark d-block">
+                                                        <div class="card rounded-4 p-2 quickCard3 mb-0">
+                                                            <div class="d-flex justify-content-center">
+                                                                <div class="quickIcon3">
+                                                                    <i class="fa-solid fa-users"></i>
+                                                                </div>
                                                             </div>
+                                                            <p class="mb-1 fs-6 fw-bold text-center">View Customers</p>
                                                         </div>
-                                                        <p class="mb-1 fs-6 fw-bold text-center">View Customers</p>
-                                                    </div>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -300,7 +306,7 @@
                                     </div>
                                     <div class="card-body">
                                         <canvas id="customerTrendChart"></canvas>
-                                        <div class="customerCountPosition">
+                                        <div class="customerCountPosition" style="display: none;">
                                             <div class="d-flex justify-content-center">
                                                 <i class="fa-solid fa-users" style="color: #35239a; font-size: 60px;"></i>
                                             </div>
@@ -321,7 +327,7 @@
                                     </div>
                                     <div class="card-body">
                                         <canvas id="enrollmentTrendChart"></canvas>
-                                        <div class="technoEnrollmentPosition">
+                                        <div class="technoEnrollmentPosition" style="display: none;">
                                             <div class="d-flex justify-content-center">
                                                 <i class="fa-solid fa-house" style="color: #35239a; font-size: 60px;"></i>
                                             </div>
@@ -792,40 +798,87 @@
                             $.each(res.data.years, function(i, year) {
 
                                 options += `
-                                    <option value="${year}">
-                                        ${year}
-                                    </option>
+                                    <option value="${year}">${year}</option>
                                 `;
 
                             });
 
-                            $('#yearFilter').html(options);
-
-                            $('#yearFilter').val(
-                                res.data.selected_year
-                            );
+                            $('#yearFilter')
+                                .html(options)
+                                .val(res.data.selected_year);
 
                             yearsLoaded = true;
                         }
 
                         /*
                         |--------------------------------------------------------------------------
-                        | Chart Data
+                        | Check Customer Enrollment Data
+                        |--------------------------------------------------------------------------
+                        */
+
+                        let customerTrend = Array.isArray(res.data.customer_trend)
+                            ? res.data.customer_trend
+                            : [];
+
+                        let hasEnrollments = customerTrend.some(function(item) {
+                            return parseInt(item.total, 10) > 0;
+                        });
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | No Data Available
+                        |--------------------------------------------------------------------------
+                        */
+
+                        if (!hasEnrollments) {
+
+                            $('.customerCountPosition').show();
+                            // $('#customerTrendChart').hide();
+
+                            // Clear previous chart data
+                            customerTrendChart.data.datasets[0].data = Array(12).fill(0);
+
+                            customerTrendChart.update();
+
+                            return;
+                        }
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Show Chart
+                        |--------------------------------------------------------------------------
+                        */
+
+                        $('.customerCountPosition').hide();
+                        $('#customerTrendChart').show();
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Prepare Chart Data
                         |--------------------------------------------------------------------------
                         */
 
                         let chartData = Array(12).fill(0);
 
-                        $.each(res.data.customer_trend, function(index, item) {
+                        $.each(customerTrend, function(index, item) {
 
-                            let monthIndex = parseInt(item.month) - 1;
+                            let monthIndex = parseInt(item.month, 10) - 1;
 
-                            chartData[monthIndex] = parseInt(item.total) || 0;
+                            if (monthIndex >= 0 && monthIndex < 12) {
+
+                                chartData[monthIndex] = parseInt(item.total, 10) || 0;
+
+                            }
 
                         });
 
-                        customerTrendChart.data.datasets[0].data =
-                            chartData;
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Update Chart
+                        |--------------------------------------------------------------------------
+                        */
+
+                        customerTrendChart.data.datasets[0].data = chartData;
 
                         customerTrendChart.update();
 
@@ -1286,6 +1339,43 @@
 
                             enrollmentYearsLoaded = true;
                         }
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Check Enrollment Data
+                        |--------------------------------------------------------------------------
+                        */
+
+                        let hasEnrollments =
+                            Array.isArray(res.data.te_trend) &&
+                            res.data.te_trend.some(function(row) {
+                                return parseInt(row.te_count, 10) > 0;
+                            });
+
+                        if (!hasEnrollments) {
+
+                            $('.technoEnrollmentPosition').show();
+
+                            // $('#enrollmentTrendChart').hide();
+
+                            // Clear previous chart data
+                            enrollmentTrendChart.data.datasets[0].data = Array(12).fill(0);
+
+                            enrollmentTrendChart.update();
+
+                            return;
+
+                        }
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Show Chart
+                        |--------------------------------------------------------------------------
+                        */
+
+                        $('.technoEnrollmentPosition').hide();
+
+                        $('#enrollmentTrendChart').show();
+
 
                         /*
                         |--------------------------------------------------------------------------
