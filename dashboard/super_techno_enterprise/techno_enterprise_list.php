@@ -96,16 +96,20 @@
                         <!-- start page title -->
                         <div class="row">
                             <div class="col-12">
-                                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Techno Enterprise </h4>
-
-                                    <div class="page-title-right">
-                                        <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="super_techno_dashboard.php">Dashboard</a></li>
-                                            <li class="breadcrumb-item active">View Techno Enterprise </li>
-                                        </ol>
+                                <div class="lavenderBanner">
+                                    <img src="../assets/images/LavenderTeamworkSummitBanner.png" alt="" class="lavenderImg">
+                                    <div class="lavenderDetails row">
+                                        <div class="lavenderText">
+                                            <h4 class="mb-0 fs-4 fw-bolder textPurpleTE">Techno Enterprise </h4>
+                                            <p class="mb-0 textPurpleTE">Manage your Techno Enterprise (TE) - enroll new TEs, track their status, and <br class="d-none d-lg-block"> view active, inactive, and deactivated TEs in your network.</p>
+                                        </div>
+                                        <div class="lavenderBreadcrumb">
+                                            <ol class="breadcrumb m-0">
+                                                <li class="breadcrumb-item textPurpleTE"><a href="super_techno_dashboard.php">Dashboard</a></li>
+                                                <li class="breadcrumb-item active textPurpleTE">View Techno Enterprise </li>
+                                            </ol>
+                                        </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -429,7 +433,22 @@
                     }
                 ],
                 language: {
-                    emptyTable: "No Pending Techno Enterprise Found"
+                    // emptyTable: "No Pending Techno Enterprise Found"
+                    emptyTable: `
+                        <div class="technoPendingFoundPosition">
+                            <div class="d-flex justify-content-center">
+                                <i class="fa-solid fa-house"
+                                style="color: #35239a; font-size: 60px;">
+                                </i>
+                            </div>
+                            <p class="mb-1 fs-4 fw-bolder text-center" style="color: #0d0538;">
+                                No Pending Techno Enterprise Found
+                            </p>
+                            <p class="mb-1 fs-6 text-center" style="color: #35239a;">
+                                There are no TE applications awaiting approval at the moment.
+                            </p>
+                        </div>
+                    `
                 }
             });
             function loadPendingTEList(){
@@ -632,7 +651,21 @@
                     }
                 ],
                 language: {
-                    emptyTable: 'No Techno Enterprise Found'
+                    emptyTable: `
+                        <div class="technoPendingFoundPosition">
+                            <div class="d-flex justify-content-center">
+                                <i class="fa-solid fa-house"
+                                style="color: #35239a; font-size: 60px;">
+                                </i>
+                            </div>
+                            <p class="mb-1 fs-4 fw-bolder text-center" style="color: #0d0538;">
+                                No Registered Techno Enterprise Found
+                            </p>
+                            <p class="mb-1 fs-6 text-center" style="color: #35239a;">
+                                There are no approved and active TEs in your network yet.
+                            </p>
+                        </div>
+                    `
                 }
             });
 
