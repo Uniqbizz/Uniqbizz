@@ -21,6 +21,7 @@ $userId = $_SESSION['user_id']??'0';
 require 'connect.php';
 include 'assets/submit/tour_details_data.php';
 
+
 $vehicleOptions = [
     [
         'value' => 4,
@@ -31,20 +32,8 @@ $vehicleOptions = [
     [
         'value' => 6,
         'name'  => '6 Seater',
-        'type'  => 'SUV',
+        'type'  => 'Ertiga / Innova',
         'icon'  => 'ri-car-line'
-    ],
-    [
-        'value' => 7,
-        'name'  => '7 Seater',
-        'type'  => 'SUV / Innova',
-        'icon'  => 'ri-car-line'
-    ],
-    [
-        'value' => 9,
-        'name'  => '9 Seater',
-        'type'  => 'Luxury Van',
-        'icon'  => 'ri-bus-line'
     ],
     [
         'value' => 12,
@@ -53,51 +42,33 @@ $vehicleOptions = [
         'icon'  => 'ri-bus-line'
     ],
     [
-        'value' => 15,
-        'name'  => '15 Seater',
+        'value' => 16,
+        'name'  => '16 Seater',
         'type'  => 'Tempo Traveller',
         'icon'  => 'ri-bus-line'
     ],
     [
-        'value' => 17,
-        'name'  => '17 Seater',
-        'type'  => 'Mini Bus',
+        'value' => 18,
+        'name'  => '18 Seater',
+        'type'  => 'Tempo Traveller',
         'icon'  => 'ri-bus-line'
     ],
     [
-        'value' => 20,
-        'name'  => '20 Seater',
-        'type'  => 'Mini Bus',
+        'value' => 22,
+        'name'  => '22 Seater',
+        'type'  => 'Tempo Traveller',
         'icon'  => 'ri-bus-line'
     ],
     [
-        'value' => 25,
-        'name'  => '25 Seater',
-        'type'  => 'Mini Bus',
-        'icon'  => 'ri-bus-line'
-    ],
-    [
-        'value' => 27,
-        'name'  => '27 Seater',
-        'type'  => 'Bus',
-        'icon'  => 'ri-bus-line'
-    ],
-    [
-        'value' => 32,
-        'name'  => '32 Seater',
-        'type'  => 'Bus',
+        'value' => 26,
+        'name'  => '26 Seater',
+        'type'  => 'Tempo Traveller',
         'icon'  => 'ri-bus-line'
     ],
     [
         'value' => 35,
         'name'  => '35 Seater',
         'type'  => 'Bus',
-        'icon'  => 'ri-bus-line'
-    ],
-    [
-        'value' => 40,
-        'name'  => '40 Seater',
-        'type' => 'Bus',
         'icon'  => 'ri-bus-line'
     ],
     [

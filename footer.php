@@ -59,12 +59,12 @@
                                 <h4 class="title">Contact</h4>
                                 <ul class="listing">
                                     <li class="single-lsit">
-                                        <a href="#" class="mb-20 d-block">304 - 306, Dempo Towers, Patto Plaza Panaji -Goa 403706</a>
+                                        <a href="#" class="mb-20 d-block">304 - 306, Dempo Towers, Patto Plaza Panaji -Goa 403001</a>
                                     </li>
                                     <li class="single-lsit">
                                         <a href="#">
                                             <div class="d-flex gap-12">
-                                                <i class="ri-phone-line"></i> (91)+ 8010892265 / 8080785714 </br>(9:30AM to 6:00Pm)
+                                                <i class="ri-phone-line"></i> (+91) 8010892265 / 8080785714 </br>(9:30AM to 6:00PM)
                                             </div>
                                         </a>
                                     </li>

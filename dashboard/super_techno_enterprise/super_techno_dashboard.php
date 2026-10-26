@@ -577,7 +577,7 @@
             function loadYearDropdown() {
 
                 const currentYear = new Date().getFullYear();
-                const startYear = 2023; // change if required
+                const startYear = 2025; // change if required
 
                 let options = '';
 
@@ -1268,7 +1268,7 @@
 
                         plugins: {
                             legend: {
-                                display: true
+                                display: false
                             }
                         },
 
