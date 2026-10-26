@@ -148,7 +148,10 @@
                             <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
                                 <div class="commission-card px-2 mb-0">
                                     <div class="card-title d-flex justify-content-between p-2">
-                                        <p class="commission-title fs-5">Overall Commission Earned</p>
+                                        <p class="commission-title fs-5">
+                                            <i class="fa-solid fa-chart-simple fa-lg me-2" style="color: #35239a;"></i>
+                                            Overall Commission Earned
+                                        </p>
                                         <p class="">
                                             <select class="form-select yearSelect py-1" id="pyearFilter">
                                                 
@@ -355,6 +358,7 @@
                                 <div class="card rounded-4 border-1 p-3 mb-0">
                                     <div class="card-title d-flex justify-content-start">
                                         <p class="commission-title fs-5 mb-1">
+                                            <i class="fa-solid fa-chart-simple fa-lg me-2" style="color: #35239a;"></i>
                                             Techno Enterprise Performance
                                         </p>
                                     </div>
