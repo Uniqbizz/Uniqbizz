@@ -774,6 +774,68 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control {
     color: #fff;
     box-shadow: 0 8px 20px rgba(79,70,255,.35);
 }
+
+/* Quick Actions */
+.quickCard1 {
+    background-color: #e9e4ff;
+    height: 125px !important;
+}
+.quickIcon1 {
+    color: #35239a;
+    font-size: 40px;
+}
+.quickCard2 {
+    background-color: #dceaff;
+    height: 125px !important;
+}
+.quickIcon2 {
+    color: #0d6efd;
+    font-size: 40px;
+}
+.quickCard3 {
+    background-color: #cff0d6;
+    height: 125px !important;
+}
+.quickIcon3 {
+    color: #068c25;
+    font-size: 40px;
+}
+.cardChart .card-body {
+    position: relative;
+    min-height: 300px;
+}
+.customerCountPosition , .technoEnrollmentPosition {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 2;
+    pointer-events: none;
+}
+#recentActivitiesContainer {
+    min-height: 200px !important;
+}
+.recentActivitiesPosition {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 2;
+    pointer-events: none;
+}
+
 /* =========================================
    TABLET + SMALL LAPTOP (1024px)
 ========================================= */
@@ -963,6 +1025,26 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control {
     .greetingCard p:nth-of-type(2),
     .greetingCard p:last-of-type {
         font-size: 14px !important;
+    }
+    .columnWidth {
+        width: 100%;
+        max-width: 441px;
+    }
+    .quickCard1, .quickCard2, .quickCard3 {
+        display: flex !important;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+        height: 75px !important;
+    }
+    .quickIcon1, .quickIcon2, .quickIcon3 {
+        margin-left: 20px !important;
+    }
+    .quickCard1 p, .quickCard2 p, .quickCard3 p {
+        font-size: 18px !important;
+        line-height: normal !important;
+        text-align: start !important;
+        margin-left: 20px !important;
     }
 }
 /* sidebar end */

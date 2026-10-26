@@ -86,8 +86,8 @@
                         </div>
                         <!-- Card section 2 -->
                         <div class="row">
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-12">
-                                <div class="card rounded-4 p-3 stCard1">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                <div class="card rounded-4 mb-0 p-3 stCard1">
                                     <div class="d-flex gap-3">
                                         <div class="stIcon stIcon1">
                                             <i class="fa-solid fa-user-group fa-xl"></i>
@@ -100,8 +100,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-12">
-                                <div class="card rounded-4 p-3 stCard2">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                <div class="card rounded-4 mb-0 p-3 stCard2">
                                     <div class="d-flex gap-3">
                                         <div class="stIcon stIcon2">
                                             <i class="fa-solid fa-user-group fa-xl"></i>
@@ -114,8 +114,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-12">
-                                <div class="card rounded-4 p-3 stCard3">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                <div class="card rounded-4 mb-0 p-3 stCard3">
                                     <div class="d-flex gap-3">
                                         <div class="stIcon stIcon3">
                                             <i class="fa-solid fa-user-group fa-xl"></i>
@@ -128,8 +128,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-12">
-                                <div class="card rounded-4 p-3 stCard4">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                <div class="card rounded-4 mb-0 p-3 stCard4">
                                     <div class="d-flex gap-3">
                                         <div class="stIcon stIcon4">
                                             <i class="fa-solid fa-wallet fa-xl"></i>
@@ -145,8 +145,8 @@
                         </div>
                         <!-- Card section 3 -->
                         <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-3">
-                                <div class="commission-card px-2">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+                                <div class="commission-card px-2 mb-0">
                                     <div class="card-title d-flex justify-content-between p-2">
                                         <p class="commission-title fs-5">Overall Commission Earned</p>
                                         <p class="">
@@ -205,57 +205,93 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-3">
-                                <div class="commission-card px-2">
-                                    <div class="commission-title">
-                                        My Wallet
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-12 col-sm-6 col-12">
-                                            <div class="card rounded-4 p-3 stWalletCard1">
-                                                <div class="d-flex justify-content-between">
-                                                    <div class="">
-                                                        <p class="mb-1 fs-6 fw-bold">Paid Payout</p>
-                                                        <h4 class="fw-bolder text-dark mb-1" id="total_paid_earning">&#8377; 0</h4>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                                        <div class="commission-card px-2 pt-3 pb-0 mb-0">
+                                            <div class="commission-title mb-2">
+                                                <i class="fa-solid fa-wallet" style="color: #35239a;"></i>
+                                                My Wallet
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                                                    <div class="card rounded-4 p-3 stWalletCard1 mb-0">
+                                                        <div class="d-flex justify-content-between">
+                                                            <div class="">
+                                                                <p class="mb-1 fs-6 fw-bold">Paid Payout</p>
+                                                                <h4 class="fw-bolder text-dark mb-1" id="total_paid_earning">&#8377; 0</h4>
+                                                            </div>
+                                                            <div class="stWalletIcon1">
+                                                                <i class="fa-solid fa-wallet"></i>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="stWalletIcon1">
-                                                        <i class="fa-solid fa-wallet"></i>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                                                    <div class="card rounded-4 p-3 stWalletCard2 mb-0">
+                                                        <div class="d-flex justify-content-between">
+                                                            <div class="">
+                                                                <p class="mb-1 fs-6 fw-bold">Pending Payout</p>
+                                                                <h4 class="fw-bolder text-dark mb-1" id="total_pending_earning">&#8377; 0</h4>
+                                                            </div>
+                                                            <div class="stWalletIcon2">
+                                                                <i class="fa-regular fa-hourglass"></i>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-12 col-sm-6 col-12">
-                                            <div class="card rounded-4 p-3 stWalletCard2">
-                                                <div class="d-flex justify-content-between">
-                                                    <div class="">
-                                                        <p class="mb-1 fs-6 fw-bold">Pending Payout</p>
-                                                        <h4 class="fw-bolder text-dark mb-1" id="total_pending_earning">&#8377; 0</h4>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                        <div class="commission-card px-2 pt-3 pb-0 mb-0">
+                                            <div class="commission-title mb-2">
+                                                <i class="fa-solid fa-bolt-lightning" style="color: #35239a;"></i>
+                                                Quick Actions
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-4 mb-3 columnWidth">
+                                                    <div class="card rounded-4 p-2 quickCard1 mb-0">
+                                                        <div class="d-flex justify-content-center">
+                                                            <div class="quickIcon1">
+                                                                <i class="fa-solid fa-user-plus"></i>
+                                                            </div>
+                                                        </div>
+                                                        <p class="mb-1 fs-6 fw-bold text-center">Add <br> Techno Enterprice</p>
                                                     </div>
-                                                    <div class="stWalletIcon2">
-                                                        <i class="fa-regular fa-hourglass"></i>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-4 mb-3 columnWidth">
+                                                    <div class="card rounded-4 p-2 quickCard2 mb-0">
+                                                        <div class="d-flex justify-content-center">
+                                                            <div class="quickIcon2">
+                                                                <i class="fa-solid fa-users"></i>
+                                                            </div>
+                                                        </div>
+                                                        <p class="mb-1 fs-6 fw-bold text-center">View <br> Travel Consultants</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-4 mb-3 columnWidth">
+                                                    <div class="card rounded-4 p-2 quickCard3 mb-0">
+                                                        <div class="d-flex justify-content-center">
+                                                            <div class="quickIcon3">
+                                                                <i class="fa-solid fa-users"></i>
+                                                            </div>
+                                                        </div>
+                                                        <p class="mb-1 fs-6 fw-bold text-center">View Customers</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="row d-flex justify-content-center">
-                                        <div class="col-lg-5">
-                                            <a href="#">
-                                                <div class="stWalletBtn">
-                                                    <p class="fs-5 mb-0 fw-bolder">Withdraw <i class="fa-solid fa-arrow-right"></i></p>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div> -->
                                 </div>
                             </div>
                         </div>
                         <!-- Card section 4 -->
-                        <div class="row mt-3">
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="cardChart card border-1">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+                                <div class="cardChart card mb-0 border-1">
                                     <div class="card-title d-flex justify-content-between p-2">
-                                        <p class="commission-title fs-5">Customer Count (Yearly)</p>
+                                        <p class="commission-title fs-5"><i class="fa-solid fa-users fa-lg me-2" style="color: #35239a;"></i> Customer Count (Yearly)</p>
                                         <p class="">
                                             <select class="form-select yearSelect py-1" id="yearFilter">
                                                 
@@ -264,13 +300,20 @@
                                     </div>
                                     <div class="card-body">
                                         <canvas id="customerTrendChart"></canvas>
+                                        <div class="customerCountPosition">
+                                            <div class="d-flex justify-content-center">
+                                                <i class="fa-solid fa-users" style="color: #35239a; font-size: 60px;"></i>
+                                            </div>
+                                            <p class="mb-1 fs-5 fw-bold text-center">No customer data yet</p>
+                                            <p class="mb-1 fs-6 text-center">Start by adding customers and <br> activate more holiday accounts.</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="cardChart card border-1">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+                                <div class="cardChart card mb-0 border-1">
                                     <div class="card-title d-flex justify-content-between p-2">
-                                        <p class="commission-title fs-5">Techno Enterprise Enrollment Count (Yearly)</p>
+                                        <p class="commission-title fs-5"><i class="fa-solid fa-city fa-lg me-2" style="color: #35239a;"></i> Techno Enterprise Enrollment Count (Yearly)</p>
                                         <p class="">
                                             <select class="form-select yearSelect py-1" id="enrollmentYearFilter">
                                             </select>
@@ -278,43 +321,38 @@
                                     </div>
                                     <div class="card-body">
                                         <canvas id="enrollmentTrendChart"></canvas>
+                                        <div class="technoEnrollmentPosition">
+                                            <div class="d-flex justify-content-center">
+                                                <i class="fa-solid fa-house" style="color: #35239a; font-size: 60px;"></i>
+                                            </div>
+                                            <p class="mb-1 fs-5 fw-bold text-center">No enrollments yet</p>
+                                            <p class="mb-1 fs-6 text-center">Onboard Techno Enterprises <br> and grow your network.</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <!-- Card section 5 -->
                         <div class="row">
-                            <div class="col-lg-5 col-sm-12 col-12">
-
-                                <div class="card rounded-4 border-1 p-3 h-100">
-
+                            <div class="col-lg-5 col-sm-12 col-12 mb-3">
+                                <div class="card rounded-4 border-1 p-3 h-100 mb-0">
                                     <div class="card-title d-flex justify-content-between align-items-center">
-
                                         <p class="commission-title fs-5 mb-0">
-                                            Recent Activities
+                                            <i class="fa-solid fa-clock-rotate-left fa-lg me-2" style="color: #35239a;"></i>Recent Activities
                                         </p>
                                         <a href="recent_activities.php" class="fs-6 fw-bold">
                                             View All
                                         </a>
-
                                     </div>
-
-                                    <div
-                                        class="cardDetails mt-3"
-                                        id="recentActivitiesContainer"
-                                    >
-
+                                    <div class="cardDetails mt-3" id="recentActivitiesContainer">
                                         <div class="text-center py-4">
                                             Loading...
                                         </div>
-
                                     </div>
-
                                 </div>
-
                             </div>
-                            <div class="col-lg-7 col-sm-12 col-12">
-                                <div class="card rounded-4 border-1 p-3">
+                            <div class="col-lg-7 col-sm-12 col-12 mb-3">
+                                <div class="card rounded-4 border-1 p-3 mb-0">
                                     <div class="card-title d-flex justify-content-start">
                                         <p class="commission-title fs-5 mb-1">
                                             Techno Enterprise Performance
@@ -338,7 +376,7 @@
                             </div>
                         </div>
                         <!-- card section 6 -->
-                        <div class="supportImagePosition mt-2">
+                        <div class="supportImagePosition">
                             <img src="../assets/images/supportImage.png" alt="Referral Image" class="supportImage">
                             <div class="supportDetails">
                                 <h3 class="text-white fw-bolder fs-2">Need Help Planning?</h3>
@@ -1460,14 +1498,12 @@
                         if (html === '') {
 
                             html = `
-                                <div class="text-center py-5">
-
-                                    <i class="fa-solid fa-clock-rotate-left fa-3x text-muted mb-3"></i>
-
-                                    <p class="text-muted mb-0">
-                                        No Recent Activities Found
-                                    </p>
-
+                                <div class="recentActivitiesPosition">
+                                    <div class="d-flex justify-content-center">
+                                        <i class="fa-solid fa-clock-rotate-left" style="color: #35239a; font-size: 60px;"></i>
+                                    </div>
+                                    <p class="mb-1 fs-5 fw-bold text-center">No enrollments yet</p>
+                                    <p class="mb-1 fs-6 text-center">Onboard Techno Enterprises <br> and grow your network.</p>
                                 </div>
                             `;
                         }
