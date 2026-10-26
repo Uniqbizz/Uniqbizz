@@ -78,7 +78,7 @@
                                 <img src="../assets/images/superTechnoImage.png" alt="Package" class="greetingImage img-fluid w-100">
                             </div>
                             <div class="greetingCard">
-                                <p class="fw-bold text-dark gap-3 fs-4">Welcome Back,<span class="" id="userName"></span>! &#128075;</p>
+                                <p class="fw-bold text-dark gap-3 fs-4">Welcome Back,&nbsp;<span class="" id="userName"></span>! &#128075;</p>
                                 <h1 class="fw-bold text-dark gap-3">Super Techno Enterprise</h1>
                                 <p class="text-dark fs-4 mb-0">You're building something great.</p>
                                 <p class="text-dark fs-4">Here's your business overview.</p>
