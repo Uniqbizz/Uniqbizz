@@ -17,11 +17,11 @@ $(document).ready(function(){
     });
 
     // run the ajax first so nothing below can block it
-    loadPayouts();
+    loadAllPayouts();
    
 });
 
-function loadPayouts() {
+function loadAllPayouts() {
     $.ajax({
         type: 'POST',
         url: 'forms/institution_payout/institution_payout_filter.php',

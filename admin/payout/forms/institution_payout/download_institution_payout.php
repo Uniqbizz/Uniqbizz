@@ -64,27 +64,38 @@ if($user_id == "MF"){
             $designation = "Business Development Manager";
         }
     }  
-}else if($user_id == "ZM"){
-    $bcNames = $conn -> prepare("SELECT * FROM zonal_manager WHERE zonal_manager_id = '".$userId."' AND status = 1");
+}else if($user_id == "ET"){
+    $bcNames = $conn -> prepare("SELECT * FROM executive_techno_enterprise WHERE executive_techno_enterprise_id = '".$userId."' AND user_type = '34' AND status = 1");
     $bcNames -> execute();
     $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
     if($bcNames -> rowCount()>0){
         foreach(($bcNames -> fetchAll()) as $key => $row){
             $bcfirstname = $row['firstname'];
             $bclastname = $row['lastname'];
-            $designation = "Zonal Manager";
+            $designation = "Executive Techno Enterprise";
+        }
+    }  
+}else if($user_id == "CT"){
+    $bcNames = $conn -> prepare("SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '".$userId."' AND user_type = '36' AND status = 1");
+    $bcNames -> execute();
+    $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
+    if($bcNames -> rowCount()>0){
+        foreach(($bcNames -> fetchAll()) as $key => $row){
+            $bcfirstname = $row['firstname'];
+            $bclastname = $row['lastname'];
+            $designation = "Chief Techno Enterprise";
         }
     }  
 }
 
 
-$caNames = $conn -> prepare("SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '".$ca."' AND status = 1");
+$caNames = $conn -> prepare("SELECT * FROM institution WHERE institution_id = '".$ca."' AND status = 1");
 $caNames -> execute();
 $caNames -> setFetchMode(PDO::FETCH_ASSOC);
 if($caNames -> rowCount()>0){
     foreach(($caNames -> fetchAll()) as $key => $row){
-        $cafirstname = $row['firstname'];
-        $calastname = $row['lastname'];
+        $cafirstname = $row['name'];
+        $calastname = '';
     }
 } 
 
@@ -131,7 +142,7 @@ if($caNames -> rowCount()>0){
     <body>
         <div class="background" >
             <div class="container cont-btn d-flex justify-content-around pt-3 pb-4">
-                <a href="../../sub_franchisee_payout.php" class="go-back"> Go Back</a>
+                <a href="../../institution_payout.php" class="go-back"> Go Back</a>
                 
                 <a href="#" id="generatePDF" class="download-btn">
                     <i class="fa fa-download " aria-hidden="true" style="color: white;" ></i> 
@@ -180,22 +191,22 @@ if($caNames -> rowCount()>0){
                                     <table class="orderTable text-center" style="padding-bottom:5px; margin:0px; border:1px solid #DDDDDD;">
                                         <thead>
                                             <tr class="tableHead" style="border-bottom: 1px solid #DDDDDD">
-                                                <th style="font-size:12px; height: 100%; padding:5px; text-align:center;" class="rowHeading">Date</th>
+                                                <!-- <th style="font-size:12px; height: 100%; padding:5px; text-align:center;" class="rowHeading">Date</th> -->
                                                 <th style="font-size:12px; height: 100%; padding:5px;" class="rowHeading">Payout Details</th>
                                                 <th style="font-size:12px; height: 100%; padding:5px; text-align:center;" class="rowHeading">Amount</th>
                                                 <th style="font-size:12px; height: 100%; padding:5px; text-align:center;" class="rowHeading">TDS</th>
                                                 <th style="font-size:12px; height: 100%; padding:5px; text-align:center;" class="rowHeading">Total Payable</th>
-                                                <th style="font-size:12px; height: 100%; padding:5px; text-align:center;" class="rowHeading">Status</th>
+                                                <!-- <th style="font-size:12px; height: 100%; padding:5px; text-align:center;" class="rowHeading">Status</th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr class="fw-normal">
-                                                <td class="ps-2 pe-2 pt-3 pb-3"><?php echo $date; ?></td></td>
+                                                <!-- <td class="ps-2 pe-2 pt-3 pb-3"><?php echo $date; ?></td></td> -->
                                                 <td class="ps-4 pe-4 text-start pt-3 pb-3"><?php echo $message; ?></td>
                                                 <td class="ps-2 pe-2 pt-3 pb-3">₹<?php echo $commission; ?>/-</td>
                                                 <td class="ps-2 pe-2 pt-3 pb-3">₹<?php echo $commissionTDS; ?>/-</td>
                                                 <td class="ps-2 pe-2 pt-3 pb-3">₹<?php echo $totalAmt; ?>/-</td>
-                                                <td class="ps-2 pe-2 pt-3 pb-3"><?php echo $message_status == 2 ? 'Pending' : 'Paid' ; ?></td>
+                                                <!-- <td class="ps-2 pe-2 pt-3 pb-3"><?php echo $message_status == 2 ? 'Pending' : 'Paid' ; ?></td> -->
                                             </tr>
                                         </tbody>
                                     </table>

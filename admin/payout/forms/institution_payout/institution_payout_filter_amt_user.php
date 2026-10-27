@@ -1,4 +1,4 @@
- <!-- // next & prev model name & amount section replace  -->
+ <!-- // next & prev model name & total payout section  -->
  <?php
     require "../../../connect.php";
    
@@ -14,14 +14,16 @@
 
     if($identify == "prev&next"){
         // get Full name of selected user start 
-        if($designation == 'zonal_manager'){
-            $sqlId = "SELECT * FROM zonal_manager WHERE zonal_manager_id = '".$cap_id."' ";
+        if($designation == 'chief_techno_enterprise'){
+            $sqlId = "SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '".$cap_id."' ";
+        }else if($designation == 'business_development_manager'){
+            $sqlId = "SELECT * FROM employees WHERE employee_id = '".$cap_id."'";
+        }else if($designation == 'executive_techno_enterprise'){
+            $sqlId = "SELECT * FROM executive_techno_enterprise WHERE executive_techno_enterprise_id = '".$cap_id."'";
         }else if($designation == 'master_franchisee'){
             $sqlId = "SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$cap_id."' ";
         }else if($designation == 'sponsor_franchisee'){
             $sqlId = "SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '".$cap_id."'";
-        }else if($designation == 'business_development_manager'){
-            $sqlId = "SELECT * FROM employees WHERE employee_id = '".$cap_id."'";
         }else if($designation == 'business_mentor'){
             $sqlId = "SELECT * FROM business_mentor WHERE business_mentor_id = '".$cap_id."'";
         }
@@ -32,12 +34,15 @@
         if($stmt->rowCount()>0){
             foreach(($stmt-> fetchALL()) as $key => $row){
 
-                if($designation == 'zonal_manager' || $designation == 'business_development_manager'){
-                    $fullName = $row['name'];
-                    $sqlIdAmt = "SELECT SUM(commission_zm) as payout FROM sub_franchisee_payout WHERE zonal_manager = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ";
-                }else if($designation == 'master_franchisee' || $designation == 'sponsor_franchisee' || $designation == 'business_mentor'){
+                if($designation == 'chief_techno_enterprise' ){
                     $fullName = $row['firstname']. ' ' .$row['lastname'];
-                    $sqlIdAmt = "SELECT SUM(commission_mf) as payout FROM `sub_franchisee_payout` WHERE master_franchisee = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ";
+                    $sqlIdAmt = "SELECT SUM(commission_emp) as payout FROM institution_payout WHERE employees = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ";
+                }if($designation == 'business_development_manager'){
+                    $fullName = $row['name'];
+                    $sqlIdAmt = "SELECT SUM(commission_emp) as payout FROM institution_payout WHERE employees = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ";
+                }else if($designation == 'master_franchisee' || $designation == 'sponsor_franchisee' || $designation == 'business_mentor' || $designation == 'executive_techno_enterprise'){
+                    $fullName = $row['firstname']. ' ' .$row['lastname'];
+                    $sqlIdAmt = "SELECT SUM(commission_bm_mf_sf) as payout FROM `institution_payout` WHERE bm_mf_sf = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ";
                 }
 
                 $stmt = $conn->prepare($sqlIdAmt);
@@ -67,14 +72,16 @@
         // get Full name of selected user end 
     }else{
         // get Full name of selected user start 
-        if($designation == 'zonal_manager'){
-            $sqlId = "SELECT * FROM zonal_manager WHERE zonal_manager_id = '".$cap_id."' ";
+        if($designation == 'chief_techno_enterprise'){
+            $sqlId = "SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '".$cap_id."' ";
+        }else if($designation == 'business_development_manager'){
+            $sqlId = "SELECT * FROM employees WHERE employee_id = '".$cap_id."'";
+        }else if($designation == 'executive_techno_enterprise'){
+            $sqlId = "SELECT * FROM executive_techno_enterprise WHERE executive_techno_enterprise_id = '".$cap_id."'";
         }else if($designation == 'master_franchisee'){
             $sqlId = "SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$cap_id."' ";
         }else if($designation == 'sponsor_franchisee'){
             $sqlId = "SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '".$cap_id."'";
-        }else if($designation == 'business_development_manager'){
-            $sqlId = "SELECT * FROM employees WHERE employee_id = '".$cap_id."'";
         }else if($designation == 'business_mentor'){
             $sqlId = "SELECT * FROM business_mentor WHERE business_mentor_id = '".$cap_id."'";
         }
@@ -85,12 +92,15 @@
         if($stmt->rowCount()>0){
             foreach(($stmt-> fetchALL()) as $key => $row){
                 
-                if($designation == 'zonal_manager' || $designation == "business_development_manager"){
-                    $fullName = $row['name'];
-                    $sqlIdAmt = "SELECT SUM(commission_zm) as payout FROM sub_franchisee_payout WHERE zonal_manager = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."'";
-                }else if($designation == 'master_franchisee' || $designation == 'sponsor_franchisee' || $designation == 'business_mentor'){
+                if($designation == 'chief_techno_enterprise' ){
                     $fullName = $row['firstname']. ' ' .$row['lastname'];
-                    $sqlIdAmt = "SELECT SUM(commission_mf) as payout FROM `sub_franchisee_payout` WHERE master_franchisee = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."'";
+                    $sqlIdAmt = "SELECT SUM(commission_emp) as payout FROM institution_payout WHERE employees = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ";
+                }if($designation == 'business_development_manager'){
+                    $fullName = $row['name'];
+                    $sqlIdAmt = "SELECT SUM(commission_emp) as payout FROM institution_payout WHERE employees = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ";
+                }else if($designation == 'master_franchisee' || $designation == 'sponsor_franchisee' || $designation == 'business_mentor' || $designation == 'executive_techno_enterprise'){
+                    $fullName = $row['firstname']. ' ' .$row['lastname'];
+                    $sqlIdAmt = "SELECT SUM(commission_bm_mf_sf) as payout FROM `institution_payout` WHERE bm_mf_sf = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ";
                 }
 
                 $stmt = $conn->prepare($sqlIdAmt);

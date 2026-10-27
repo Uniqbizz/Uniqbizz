@@ -9,8 +9,8 @@ $totalTableMessage = $_POST['totalTableMessage'] ?? '';
 
 if($totalAmountMessage){
 
-    $sqlIdAmt = "SELECT SUM(commission_zm+commission_mf) as payout 
-                 FROM `sub_franchisee_payout` 
+    $sqlIdAmt = "SELECT SUM(commission_emp+commission_bmmf) as payout 
+                 FROM `institution_payout` 
                  WHERE YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."'";
 
     $stmt = $conn->prepare($sqlIdAmt);
