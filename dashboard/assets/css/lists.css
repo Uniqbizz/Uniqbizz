@@ -38,30 +38,69 @@
 } 
 .lavenderBanner {
     width: 100% !important;
+    height: 110px;
     background-color: #ece9fb;
     border-radius: 12px;
-    position: relative;
+    position: relative;  
+}
+.imageDisaplay {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+}
+.iconBackgroundPurple {
+    background-color: #d4cdfb;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 12px;
+}
+.iconPurpleImg {
+    width: 80px;
+    height: 60px;
+    padding: 10px;
 }
 .lavenderImg {
-    width: 90%;
+    width: 50%;
     height: 100px;
     border-radius: 12px;
+    margin-top: 10px;
 }
 .lavenderDetails {
     position: absolute;
     top: 20px;
-    left: 150px;
+    left: 110px;
+    right: 20px;
     display: flex !important;
     justify-content: space-between !important;
-}
-.lavenderBreadcrumb {
-    position: absolute;
-    top: 0px;
-    left: 10px;
-    width: max-content;
+    gap: 15px;
+    border-left: 3px solid #35239a;
 }
 .textPurpleTE {
     color: #35239a;
+}
+.lavenderText {
+    margin-left: 15px;
+}
+.pendingTEClipboardIcon {
+    width: 100px;
+    height: 100px;
+}
+.registerTEBadgeIcon {
+    width: 100px;
+    height: 100px;
+}
+@media (max-width: 1175px) {
+    .lavenderDetails {
+        display: block !important;
+        /* justify-content: space-between !important; */
+        /* gap: 15px; */
+        border-left: 3px solid #35239a;
+    }
+    .lavenderBreadcrumb {
+        margin-left: 15px;
+    }
 }
 @media (max-width: 992px) {
     .teSectionSize {
@@ -69,6 +108,17 @@
         justify-content: end !important;
         gap: 10px !important;
         margin-bottom: 10px;
+    }
+}
+@media (max-width: 640px) {
+    .lavenderBanner {
+        height: 130px;
+    }
+    .lavenderImg {
+        height: 120px;
+    }
+    .paraTEBreak {
+        display: none;
     }
 }
 @media (max-width: 576px) {
@@ -84,4 +134,17 @@
     .dateInput {
         width: 100px;
     }
+}
+@media (max-width: 460px) {
+    .lavenderBanner {
+        height: 150px;
+    }
+    .lavenderImg {
+        height: 140px;
+        object-fit: cover;
+    }
+    .paraTEBreak {
+        display: none;
+    }
+
 }

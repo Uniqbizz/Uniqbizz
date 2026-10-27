@@ -96,16 +96,21 @@
                         <!-- start page title -->
                         <div class="row">
                             <div class="col-12">
-                                <div class="lavenderBanner">
-                                    <img src="../assets/images/LavenderTeamworkSummitBanner.png" alt="" class="lavenderImg">
-                                    <div class="lavenderDetails row">
+                                <div class="lavenderBanner mb-3">
+                                    <div class="imageDisaplay">
+                                        <div class="iconBackgroundPurple">
+                                            <img src="../assets/images/technoEnterprise/HouseIconTransparent.png" alt="" class="iconPurpleImg">
+                                        </div>
+                                        <img src="../assets/images/technoEnterprise/MountainCloudsTransparent.png" alt="" class="lavenderImg">
+                                    </div>
+                                    <div class="lavenderDetails">
                                         <div class="lavenderText">
                                             <h4 class="mb-0 fs-4 fw-bolder textPurpleTE">Techno Enterprise </h4>
-                                            <p class="mb-0 textPurpleTE">Manage your Techno Enterprise (TE) - enroll new TEs, track their status, and <br class="d-none d-lg-block"> view active, inactive, and deactivated TEs in your network.</p>
+                                            <p class="mb-0 textPurpleTE">Manage your Techno Enterprise (TE) - enroll new TEs, track their status, <br class="paraTEBreak"> and view active, inactive, and deactivated TEs in your network.</p>
                                         </div>
                                         <div class="lavenderBreadcrumb">
                                             <ol class="breadcrumb m-0">
-                                                <li class="breadcrumb-item textPurpleTE"><a href="super_techno_dashboard.php">Dashboard</a></li>
+                                                <li class="breadcrumb-item fw-bolder"><a href="super_techno_dashboard.php"><i class="fa-solid fa-house me-2" style="color: #35239a;"></i>Dashboard</a></li>
                                                 <li class="breadcrumb-item active textPurpleTE">View Techno Enterprise </li>
                                             </ol>
                                         </div>
@@ -437,9 +442,7 @@
                     emptyTable: `
                         <div class="technoPendingFoundPosition">
                             <div class="d-flex justify-content-center">
-                                <i class="fa-solid fa-house"
-                                style="color: #35239a; font-size: 60px;">
-                                </i>
+                                <img src="../assets/images/technoEnterprise/pendingTEClipboardIcon.png" alt="" class="pendingTEClipboardIcon">
                             </div>
                             <p class="mb-1 fs-4 fw-bolder text-center" style="color: #0d0538;">
                                 No Pending Techno Enterprise Found
@@ -654,9 +657,7 @@
                     emptyTable: `
                         <div class="technoPendingFoundPosition">
                             <div class="d-flex justify-content-center">
-                                <i class="fa-solid fa-house"
-                                style="color: #35239a; font-size: 60px;">
-                                </i>
+                                <img src="../assets/images/technoEnterprise/registerTEBadgeIcon.png" alt="" class="registerTEBadgeIcon">
                             </div>
                             <p class="mb-1 fs-4 fw-bolder text-center" style="color: #0d0538;">
                                 No Registered Techno Enterprise Found
