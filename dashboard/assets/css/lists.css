@@ -95,6 +95,77 @@
 .paraTEBreak1 {
     display: none;
 }
+.teIcon {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.teIcon1 {
+    background-color: #d3cdf3;
+    color: #35239a;
+}
+.teIcon2 {
+    background-color: #f8f6c5;
+    color: #f49609;
+}
+.teIcon3 {
+    background-color: #cdf9d7;
+    color: #068c25;
+}
+.teIcon4 {
+    background-color: #f5cece;
+    color: #ff0000;
+}
+.teCard {
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+}
+.teCard1 {
+    border-bottom: 3px solid #35239a;
+}
+.teCard2 {
+    border-bottom: 3px solid #f49609;
+}
+.teCard3 {
+    border-bottom: 3px solid #068c25;
+}
+.teCard4 {
+    border-bottom: 3px solid #ff0000;
+}
+.teText1 {
+    color: #35239a;
+    font-weight: 900;
+    font-size: 22px;
+}
+.teText2 {
+    color: #f49609;
+    font-weight: 900;
+    font-size: 22px;
+}
+.teText3 {
+    color: #068c25;
+    font-weight: 900;
+    font-size: 22px;
+}
+.teText4 {
+    color: #ff0000;
+    font-weight: 900;
+    font-size: 22px;
+}
+@media (max-width: 1299px) {
+    .teCard {
+        height: 120px !important;
+    }
+}
+@media (max-width: 1200px) {
+    .teCard {
+        height: 130px !important;
+    }
+}
 @media (max-width: 1175px) {
     .lavenderDetails {
         display: block !important;
@@ -125,6 +196,11 @@
 @media (max-width: 780px) {
     .lavenderImg {
         display: none;
+    }
+}
+@media (max-width: 767px) {
+    .teCard {
+        height: 100% !important;
     }
 }
 @media (max-width: 640px) {
@@ -176,11 +252,15 @@
         display: none;
     }
 }
+@media (max-width: 375px) {
+    .cardWidth {
+        width: 100%;
+    }
+}
 @media (max-width: 350px) {
     .lavenderBanner {
         min-height: 160px;
         height: fit-content;
         position: relative;
     }
-
 }

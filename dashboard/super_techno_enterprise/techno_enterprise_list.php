@@ -119,64 +119,66 @@
                             </div>
                         </div>
                         <!-- end page title -->
+                        <!-- 4 cards for a techno enterprise list start -->
                         <div class="row">
-                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6 mb-3">
-                                <div class="card rounded-4 mb-0 p-3 stCard1">
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6 mb-3 cardWidth">
+                                <div class="card rounded-4 mb-0 p-3 teCard teCard1">
                                     <div class="d-flex gap-3">
-                                        <div class="stIcon stIcon1">
+                                        <div class="teIcon teIcon1">
                                             <i class="fa-solid fa-user-group fa-xl"></i>
                                         </div>
                                         <div class="">
-                                            <p class="mb-1 fs-6 fw-bold">All Techno Enterprises</p>
-                                            <h4 class="fw-bolder text-dark mb-1" id="teCount">24</h4>
+                                            <p class="mb-1 fs-6 fw-bolder">All Techno Enterprises</p>
+                                            <h4 class="mb-1 teText1" id="teCount">24</h4>
                                             <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">All Records</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6 mb-3">
-                                <div class="card rounded-4 mb-0 p-3 stCard1">
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6 mb-3 cardWidth">
+                                <div class="card rounded-4 mb-0 p-3 teCard teCard2">
                                     <div class="d-flex gap-3">
-                                        <div class="stIcon stIcon1">
-                                            <i class="fa-solid fa-user-group fa-xl"></i>
+                                        <div class="teIcon teIcon2">
+                                            <i class="fa-solid fa-hourglass-half fa-xl"></i>
                                         </div>
                                         <div class="">
-                                            <p class="mb-1 fs-6 fw-bold">Pending Registration</p>
-                                            <h4 class="fw-bolder text-dark mb-1" id="teCount">3</h4>
+                                            <p class="mb-1 fs-6 fw-bolder">Pending Registration</p>
+                                            <h4 class="mb-1 teText2" id="teCount">3</h4>
                                             <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">Awaiting Approval</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6 mb-3">
-                                <div class="card rounded-4 mb-0 p-3 stCard1">
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6 mb-3 cardWidth">
+                                <div class="card rounded-4 mb-0 p-3 teCard teCard3">
                                     <div class="d-flex gap-3">
-                                        <div class="stIcon stIcon1">
-                                            <i class="fa-solid fa-user-group fa-xl"></i>
+                                        <div class="teIcon teIcon3">
+                                            <i class="fa-solid fa-circle-check fa-xl"></i>
                                         </div>
                                         <div class="">
-                                            <p class="mb-1 fs-6 fw-bold">Active TEs</p>
-                                            <h4 class="fw-bolder text-dark mb-1" id="teCount">18</h4>
+                                            <p class="mb-1 fs-6 fw-bolder">Active TEs</p>
+                                            <h4 class="mb-1 teText3" id="teCount">18</h4>
                                             <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">Currently Active</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6 mb-3">
-                                <div class="card rounded-4 mb-0 p-3 stCard1">
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6 mb-3 cardWidth">
+                                <div class="card rounded-4 mb-0 p-3 teCard teCard4">
                                     <div class="d-flex gap-3">
-                                        <div class="stIcon stIcon1">
-                                            <i class="fa-solid fa-user-group fa-xl"></i>
+                                        <div class="teIcon teIcon4">
+                                            <i class="fa-solid fa-user-xmark fa-xl"></i>
                                         </div>
                                         <div class="">
-                                            <p class="mb-1 fs-6 fw-bold">Deactived TEs</p>
-                                            <h4 class="fw-bolder text-dark mb-1" id="teCount">2</h4>
+                                            <p class="mb-1 fs-6 fw-bolder">Deactived TEs</p>
+                                            <h4 class="mb-1 teText4" id="teCount">2</h4>
                                             <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">Access Disabled</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- 4 cards for a techno enterprise list end -->
                         <div class="row">
                             <div class="col">
 
