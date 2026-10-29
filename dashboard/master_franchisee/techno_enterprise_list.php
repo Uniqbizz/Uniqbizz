@@ -106,7 +106,7 @@
                                     <div class="lavenderDetails">
                                         <div class="lavenderText">
                                             <h4 class="mb-0 fs-4 fw-bolder textPurpleTE">Franchisee </h4>
-                                            <p class="mb-0 textPurpleTE">Manage your Franchisee (F) -  <br class="paraTEBreak1"> enroll new Franchisees, track their status, <br class="paraTEBreak"> and view active, inactive, and deactivated Franchisees in your network.</p>
+                                            <p class="mb-0 textPurpleTE">Manage your Franchisee (F) - enroll new Franchisees, track their status, and view active, inactive, and deactivated Franchisees in your network.</p>
                                         </div>
                                         <div class="lavenderBreadcrumb">
                                             <ol class="breadcrumb m-0">

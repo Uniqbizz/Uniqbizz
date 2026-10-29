@@ -106,7 +106,7 @@
                                     <div class="lavenderDetails">
                                         <div class="lavenderText">
                                             <h4 class="mb-0 fs-4 fw-bolder textPurpleTE">Techno Enterprise </h4>
-                                            <p class="mb-0 textPurpleTE">Manage your Techno Enterprise (TE) -  <br class="paraTEBreak1"> enroll new TEs, track their status, <br class="paraTEBreak"> and view active, inactive, and deactivated TEs in your network.</p>
+                                            <p class="mb-0 textPurpleTE">Manage your Techno Enterprise (TE) - enroll new TEs, track their status, and view active, inactive, and deactivated TEs in your network.</p>
                                         </div>
                                         <div class="lavenderBreadcrumb">
                                             <ol class="breadcrumb m-0">
