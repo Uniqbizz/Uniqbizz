@@ -21,6 +21,41 @@ function parseFaqTxt($filePath)
 
     return $faqs;
 }
+$chainMap = [
+    'CU->IBR->I->SF'                 => 1,
+    'CU->IBR->I->MF'                 => 2,
+    'CU->IBR->I->BM'                 => 3,
+    'CU->IBR->I->ETE->CTE'           => 4,
+
+    'CU->TA->I->SF'                  => 5,
+    'CU->TA->I->MF'                  => 6,
+    'CU->TA->I->BM'                  => 7,
+    'CU->TA->I->ETE->CTE'            => 8,
+
+    'CU->TA->TE->SF'                 => 9,
+    'CU->TA->TE->MF'                 => 10,
+    'CU->TA->TE->BM'                 => 11,
+    'CU->TA->TE->STE->ETE->CTE'      => 12,
+
+    'CU->TA->CA->SF'                 => 13,
+    'CU->TA->CA->MF'                 => 14,
+    'CU->TA->CA->BM'                 => 15,
+    'CU->TA->CA->STE->ETE->CTE'      => 16,
+
+    'CU->TA->F->SF'                  => 17,
+    'CU->TA->F->MF'                  => 18,
+    'CU->TA->F->BM'                  => 19,
+    'CU->TA->F->STE->ETE->CTE'       => 20,
+
+    'CU->TA->BM'                     => 21
+];
+$upperChain =[];
+$upperChainString = null;
+$upperChainId = null;
+$upperChainReference = null;
+$upperChainPrefix = null;
+$customerReferrals = [];
+$chainDetails = [];
 //gst
 $stmt = $conn->prepare("SELECT * FROM `gst` ORDER BY id DESC");
 $stmt->execute();
@@ -80,6 +115,819 @@ if ($prefix !== '' && isset($tableMap[$prefix])) {
         if ($prefix == 'CU') {
             $Requester_type = trim($userDetails['customer_type'] ?? '');
         }
+    }
+}
+
+
+/**
+ * Resolve the complete upper chain for a CU customer.
+ *
+ * Required:
+ *   $conn   = PDO connection
+ *   $userId = customer ID from ca_customer
+ *
+ * Returns:
+ *   success
+ *   chain
+ *   upper_chain_id
+ *   chain_details
+ *   upper_chain_reference
+ *   upper_chain_prefix
+ *   error
+ */
+
+/**
+ * Get the prefix from a reference.
+ */
+function getReferencePrefix($reference)
+{
+    $reference = strtoupper(trim((string) $reference));
+
+    if ($reference === '') {
+        return null;
+    }
+
+    // Check longer prefixes first.
+    $prefixes = [
+        'CTE', 'ETE', 'STE', 'IBR',
+        'BH', 'SF', 'MF', 'BM',
+        'TA', 'TE', 'CA', 'F', 'I'
+    ];
+
+    foreach ($prefixes as $prefix) {
+        if (strpos($reference, $prefix) === 0) {
+            return $prefix;
+        }
+    }
+
+    return null;
+}
+
+
+/**
+ * Fetch a record by its ID/reference column.
+ */
+function getChainRecord($conn, $table, $idColumn, $reference)
+{
+    $allowedTables = [
+        'ca_customer',
+        'ca_travelagency',
+        'institution_branch_manager',
+        'institution',
+        'corporate_agency',
+        'sub_franchisee',
+        'super_techno_enterprise',
+        'executive_techno_enterprise',
+        'chief_techno_enterprise',
+        'sponsor_franchisee',
+        'master_franchisee',
+        'business_mentor',
+        'employees'
+    ];
+
+    $allowedColumns = [
+        'ca_customer_id',
+        'ca_travelagency_id',
+        'institution_branch_manager_id',
+        'institution_id',
+        'corporate_agency_id',
+        'sub_franchisee_id',
+        'super_techno_enterprise_id',
+        'executive_techno_enterprise_id',
+        'chief_techno_enterprise_id',
+        'sponsor_franchisee_id',
+        'master_franchisee_id',
+        'business_mentor_id',
+        'employee_id'
+    ];
+
+    if (
+        !in_array($table, $allowedTables, true) ||
+        !in_array($idColumn, $allowedColumns, true)
+    ) {
+        throw new InvalidArgumentException(
+            'Invalid table or column: ' . $table . '.' . $idColumn
+        );
+    }
+
+    $sql = "SELECT *
+            FROM `$table`
+            WHERE `$idColumn` = :reference
+            LIMIT 1";
+
+    $stmt = $conn->prepare($sql);
+
+    $stmt->execute([
+        ':reference' => $reference
+    ]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+}
+
+
+/**
+ * Resolve the upper chain by following reference_no.
+ */
+function resolveUpperChain($conn, $initialReference)
+{
+    $chain = ['CU'];
+    $chainDetails = [];
+
+    $reference = trim((string) $initialReference);
+
+    $visited = [];
+
+    for ($step = 0; $step < 10; $step++) {
+
+        if ($reference === '') {
+            return [
+                'success' => false,
+                'error' => 'A required reference_no is empty.',
+                'chain' => implode('->', $chain),
+                'chain_details' => $chainDetails
+            ];
+        }
+
+        // Prevent circular references.
+        $visitKey = strtoupper($reference);
+
+        if (isset($visited[$visitKey])) {
+            return [
+                'success' => false,
+                'error' => 'Circular reference detected: ' . $reference,
+                'chain' => implode('->', $chain),
+                'chain_details' => $chainDetails
+            ];
+        }
+
+        $visited[$visitKey] = true;
+
+        $prefix = getReferencePrefix($reference);
+
+        if ($prefix === null) {
+            return [
+                'success' => false,
+                'error' => 'Unknown reference prefix: ' . $reference,
+                'chain' => implode('->', $chain),
+                'chain_details' => $chainDetails
+            ];
+        }
+
+        $chain[] = $prefix;
+
+        /*
+         * Terminal records:
+         * Stop after retrieving these records.
+         */
+        $terminalTables = [
+            'SF'  => [
+                'sponsor_franchisee',
+                'sponsor_franchisee_id'
+            ],
+            'MF'  => [
+                'master_franchisee',
+                'master_franchisee_id'
+            ],
+            'BM'  => [
+                'business_mentor',
+                'business_mentor_id'
+            ],
+            'CTE' => [
+                'chief_techno_enterprise',
+                'chief_techno_enterprise_id'
+            ]
+        ];
+
+        if (isset($terminalTables[$prefix])) {
+
+            [$table, $idColumn] = $terminalTables[$prefix];
+
+            $record = getChainRecord(
+                $conn,
+                $table,
+                $idColumn,
+                $reference
+            );
+
+            if (!$record) {
+                return [
+                    'success' => false,
+                    'error' => "Record not found in {$table}: {$reference}",
+                    'chain' => implode('->', $chain),
+                    'chain_details' => $chainDetails
+                ];
+            }
+
+            $chainDetails[] = getChainLevelDetails(
+                $prefix,
+                $record,
+                $reference
+            );
+
+            return [
+                'success' => true,
+                'chain' => implode('->', $chain),
+                'chain_details' => $chainDetails,
+                'upper_chain_reference' => $reference,
+                'upper_chain_prefix' => $prefix
+            ];
+        }
+
+        /*
+         * Non-terminal records.
+         */
+        $tableMap = [
+            'TA' => [
+                'ca_travelagency',
+                'ca_travelagency_id'
+            ],
+            'IBR' => [
+                'institution_branch_manager',
+                'institution_branch_manager_id'
+            ],
+            'I' => [
+                'institution',
+                'institution_id'
+            ],
+            'TE' => [
+                'corporate_agency',
+                'corporate_agency_id'
+            ],
+            'CA' => [
+                'corporate_agency',
+                'corporate_agency_id'
+            ],
+            'F' => [
+                'sub_franchisee',
+                'sub_franchisee_id'
+            ],
+            'STE' => [
+                'super_techno_enterprise',
+                'super_techno_enterprise_id'
+            ],
+            'ETE' => [
+                'executive_techno_enterprise',
+                'executive_techno_enterprise_id'
+            ],
+            'BH' => [
+                'employees',
+                'employee_id'
+            ]
+        ];
+
+        if (!isset($tableMap[$prefix])) {
+            return [
+                'success' => false,
+                'error' => 'Unsupported upper-chain prefix: ' . $prefix,
+                'chain' => implode('->', $chain),
+                'chain_details' => $chainDetails
+            ];
+        }
+
+        [$table, $idColumn] = $tableMap[$prefix];
+
+        $record = getChainRecord(
+            $conn,
+            $table,
+            $idColumn,
+            $reference
+        );
+
+        if (!$record) {
+            return [
+                'success' => false,
+                'error' => "Record not found in {$table}: {$reference}",
+                'chain' => implode('->', $chain),
+                'chain_details' => $chainDetails
+            ];
+        }
+
+        $chainDetails[] = getChainLevelDetails(
+            $prefix,
+            $record,
+            $reference
+        );
+
+        /*
+         * Move to the next upper level.
+         */
+        if (!array_key_exists('reference_no', $record)) {
+            return [
+                'success' => false,
+                'error' => "reference_no column missing in {$table}.",
+                'chain' => implode('->', $chain),
+                'chain_details' => $chainDetails
+            ];
+        }
+
+        $reference = trim((string) $record['reference_no']);
+
+        if ($reference === '') {
+            return [
+                'success' => false,
+                'error' => "reference_no is empty in {$table}.",
+                'chain' => implode('->', $chain),
+                'chain_details' => $chainDetails
+            ];
+        }
+    }
+
+    return [
+        'success' => false,
+        'error' => 'Maximum upper-chain depth exceeded.',
+        'chain' => implode('->', $chain),
+        'chain_details' => $chainDetails
+    ];
+}
+
+
+/**
+ * Main function for a CU customer.
+ */
+function getCustomerUpperChain($conn, $userId)
+{
+    // Access the chain map defined outside this function.
+    global $chainMap;
+
+    /*
+     * 1. Fetch the CU customer.
+     */
+    $stmt = $conn->prepare("
+        SELECT *
+        FROM ca_customer
+        WHERE ca_customer_id = :customer_id
+        LIMIT 1
+    ");
+
+    $stmt->execute([
+        ':customer_id' => $userId
+    ]);
+
+    $customer = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$customer) {
+        return [
+            'success' => false,
+            'error' => 'Customer not found.'
+        ];
+    }
+
+    $taReference = trim(
+        (string) ($customer['ta_reference_no'] ?? '')
+    );
+
+    if ($taReference === '') {
+        return [
+            'success' => false,
+            'error' => 'Customer ta_reference_no is empty.'
+        ];
+    }
+
+    /*
+     * 2. Resolve the upper chain.
+     */
+    $result = resolveUpperChain(
+        $conn,
+        $taReference
+    );
+
+    if (empty($result['success'])) {
+
+        // Keep the CU customer details even if a higher level fails.
+        $customerDetails = getChainLevelDetails(
+            'CU',
+            $customer,
+            $customer['ca_customer_id']
+        );
+
+        $result['chain_details'] = array_merge(
+            [$customerDetails],
+            $result['chain_details'] ?? []
+        );
+
+        return $result;
+    }
+
+    /*
+     * 3. Build the complete chain details, starting with CU.
+     */
+    $chain = $result['chain'];
+
+    $customerDetails = getChainLevelDetails(
+        'CU',
+        $customer,
+        $customer['ca_customer_id']
+    );
+
+    $chainDetails = array_merge(
+        [$customerDetails],
+        $result['chain_details'] ?? []
+    );
+
+    /*
+     * 4. Verify that the global chain map exists.
+     */
+    if (!isset($chainMap) || !is_array($chainMap)) {
+        return [
+            'success' => false,
+            'error' => 'Global $chainMap is missing or is not an array.',
+            'chain' => $chain,
+            'chain_details' => $chainDetails
+        ];
+    }
+
+    /*
+     * 5. Find the mapped chain ID.
+     */
+    if (!array_key_exists($chain, $chainMap)) {
+        return [
+            'success' => false,
+            'error' => 'The chain is valid, but no chain ID is mapped.',
+            'chain' => $chain,
+            'chain_details' => $chainDetails,
+            'available_chain_keys' => array_keys($chainMap)
+        ];
+    }
+
+    return [
+        'success' => true,
+        'chain' => $chain,
+        'upper_chain_id' => $chainMap[$chain],
+        'chain_details' => $chainDetails,
+        'upper_chain_reference' => $result['upper_chain_reference'],
+        'upper_chain_prefix' => $result['upper_chain_prefix']
+    ];
+}
+
+
+/**
+ * Retrieve up to $maxLevels of CU referrals.
+ *
+ * This is separate from the upper-chain lookup.
+ */
+function getCustomerReferralLevels(
+    PDO $conn,
+    $customerId,
+    $maxLevels = 3
+) {
+    $referralLevels = [];
+    $visited = [];
+
+    $stmt = $conn->prepare("
+        SELECT ca_customer_id, reference_no
+        FROM ca_customer
+        WHERE ca_customer_id = :customer_id
+        LIMIT 1
+    ");
+
+    $stmt->execute([
+        ':customer_id' => $customerId
+    ]);
+
+    $currentCustomer = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$currentCustomer) {
+        return [
+            'success' => false,
+            'error' => 'Starting customer not found.',
+            'referral_levels' => []
+        ];
+    }
+
+    $visited[(string) $currentCustomer['ca_customer_id']] = true;
+
+    for ($level = 1; $level <= $maxLevels; $level++) {
+
+        $referenceNo = trim(
+            (string) ($currentCustomer['reference_no'] ?? '')
+        );
+
+        if ($referenceNo === '') {
+            break;
+        }
+
+        // Assumes reference_no contains the referrer's CU primary key.
+        $stmt = $conn->prepare("
+            SELECT ca_customer_id, reference_no
+            FROM ca_customer
+            WHERE ca_customer_id = :reference_no
+            LIMIT 1
+        ");
+
+        $stmt->execute([
+            ':reference_no' => $referenceNo
+        ]);
+
+        $referrer = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$referrer) {
+            $referralLevels[] = [
+                'level' => $level,
+                'reference_no' => $referenceNo,
+                'exists' => false,
+                'error' => 'Referring customer not found.'
+            ];
+
+            break;
+        }
+
+        $referrerId = (string) $referrer['ca_customer_id'];
+
+        if (isset($visited[$referrerId])) {
+            $referralLevels[] = [
+                'level' => $level,
+                'customer_id' => $referrerId,
+                'exists' => true,
+                'error' => 'Circular customer referral detected.'
+            ];
+
+            break;
+        }
+
+        $visited[$referrerId] = true;
+
+        $referralLevels[] = [
+            'level' => $level,
+            'customer_id' => $referrerId,
+            'reference_no' => $referrer['reference_no'],
+            'exists' => true
+        ];
+
+        $currentCustomer = $referrer;
+    }
+
+    return [
+        'success' => true,
+        'referral_levels' => $referralLevels
+    ];
+}
+
+
+/**
+ * Extract the name and ID for each chain level.
+ */
+function getChainLevelDetails($prefix, array $record, $reference)
+{
+    $prefix = strtoupper(trim((string) $prefix));
+
+    $idColumns = [
+        'CU' => 'ca_customer_id',
+        'TA' => 'ca_travelagency_id',
+        'IBR' => 'institution_branch_manager_id',
+        'I' => 'institution_id',
+        'TE' => 'corporate_agency_id',
+        'CA' => 'corporate_agency_id',
+        'F' => 'sub_franchisee_id',
+        'STE' => 'super_techno_enterprise_id',
+        'ETE' => 'executive_techno_enterprise_id',
+        'CTE' => 'chief_techno_enterprise_id',
+        'SF' => 'sponsor_franchisee_id',
+        'MF' => 'master_franchisee_id',
+        'BM' => 'business_mentor_id',
+        'BH' => 'employee_id'
+    ];
+
+    $idColumn = $idColumns[$prefix] ?? null;
+
+    $id = (
+        $idColumn !== null &&
+        isset($record[$idColumn])
+    )
+        ? $record[$idColumn]
+        : $reference;
+
+    // BH and I use a single name column.
+    if (in_array($prefix, ['BH', 'I'], true)) {
+
+        $name = trim(
+            (string) ($record['name'] ?? '')
+        );
+
+    } else {
+
+        $firstName = trim(
+            (string) ($record['firstname'] ?? '')
+        );
+
+        $lastName = trim(
+            (string) ($record['lastname'] ?? '')
+        );
+
+        $name = trim($firstName . ' ' . $lastName);
+
+        // Fallback for tables with a single name column.
+        if ($name === '') {
+            $name = trim(
+                (string) ($record['name'] ?? '')
+            );
+        }
+    }
+
+    return [
+        'prefix' => $prefix,
+        'name' => $name,
+        'id' => (string) $id
+    ];
+}
+
+
+/*
+ * ==========================================================
+ * USAGE AND BROWSER CONSOLE DEBUGGING
+ * ==========================================================
+ *
+ * Assumes:
+ *   $conn     = existing PDO connection
+ *   $prefix   = logged-in user's prefix
+ *   $user_id  = CU customer's primary key
+ *   $chainMap = defined globally before this code executes
+ */
+
+if (strtoupper(trim((string) $prefix)) === 'CU') {
+
+    try {
+
+        // error_log('========== UPPER CHAIN DEBUG START ==========');
+
+        $upperChain = getCustomerUpperChain(
+            $conn,
+            $user_id
+        );
+
+        $customerReferrals = getCustomerReferralLevels(
+            $conn,
+            $user_id,
+            3
+        );
+
+        if (!empty($upperChain['success'])) {
+
+            $upperChainString = $upperChain['chain'];
+            $upperChainId = $upperChain['upper_chain_id'];
+            $upperChainReference = $upperChain['upper_chain_reference'];
+            $upperChainPrefix = $upperChain['upper_chain_prefix'];
+
+            // IMPORTANT: Copy the returned details into the outer variable.
+            $chainDetails = $upperChain['chain_details'] ?? [];
+
+        } else {
+
+            // Preserve any chain details returned with an error.
+            $chainDetails = $upperChain['chain_details'] ?? [];
+
+            error_log(
+                'Upper chain failed: ' .
+                ($upperChain['error'] ?? 'Unknown error')
+            );
+        }
+
+        /*
+         * Log complete results in the PHP error log.
+         */
+        // error_log(
+        //     'Upper Chain Result: ' .
+        //     print_r($upperChain, true)
+        // );
+
+        // error_log(
+        //     'Customer Referrals: ' .
+        //     print_r($customerReferrals, true)
+        // );
+
+        // error_log('========== UPPER CHAIN DEBUG END ==========');
+
+        /*
+         * Send results to the browser console.
+         */
+        $debugData = [
+            'prefix' => $prefix,
+            'user_id' => $user_id,
+            'upper_chain' => $upperChain,
+            'customer_referrals' => $customerReferrals,
+            'chain_map' => isset($chainMap) && is_array($chainMap)
+                ? $chainMap
+                : null
+        ];
+
+        $debugJson = json_encode(
+            $debugData,
+            JSON_HEX_TAG |
+            JSON_HEX_APOS |
+            JSON_HEX_QUOT |
+            JSON_HEX_AMP
+        );
+
+        if ($debugJson === false) {
+            $debugJson = '{}';
+        }
+
+        echo '<script>
+            (function () {
+                var debugData = ' . $debugJson . ';
+
+                console.group("CU Upper Chain Debug");
+
+                console.log("Prefix:", debugData.prefix);
+                console.log("User ID:", debugData.user_id);
+
+                console.log(
+                    "Upper Chain Result:",
+                    debugData.upper_chain
+                );
+
+                console.log(
+                    "Resolved Chain:",
+                    debugData.upper_chain.chain || null
+                );
+
+                console.log(
+                    "Upper Chain ID:",
+                    debugData.upper_chain.upper_chain_id || null
+                );
+
+                console.log(
+                    "Chain Details (all levels):",
+                    debugData.upper_chain.chain_details || []
+                );
+
+                console.table(
+                    debugData.upper_chain.chain_details || []
+                );
+
+                console.log(
+                    "Customer Referrals:",
+                    debugData.customer_referrals
+                );
+
+                console.log(
+                    "Global Chain Map:",
+                    debugData.chain_map
+                );
+
+                console.groupEnd();
+            })();
+        </script>';
+
+    } catch (Throwable $e) {
+
+        error_log(
+            'Upper chain exception: ' .
+            $e->getMessage()
+        );
+
+        error_log(
+            'Upper chain exception trace: ' .
+            $e->getTraceAsString()
+        );
+
+        $exceptionJson = json_encode(
+            [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ],
+            JSON_HEX_TAG |
+            JSON_HEX_APOS |
+            JSON_HEX_QUOT |
+            JSON_HEX_AMP
+        );
+
+        if ($exceptionJson === false) {
+            $exceptionJson = '{}';
+        }
+
+        echo '<script>
+            console.error(
+                "Upper Chain PHP Exception:",
+                ' . $exceptionJson . '
+            );
+        </script>';
+    }
+}
+
+if (is_array($upperChain) && !empty($upperChain)) {
+
+    $upperChainId = isset($upperChainId) ? (int) $upperChainId : 0;
+
+    if (in_array($upperChainId, [1, 2, 3, 5, 6, 7], true)) {
+
+        // package_pricing_markup_institution
+
+    } elseif (in_array($upperChainId, [4, 8], true)) {
+
+        // package_pricing_markup_techno_institution
+
+    } elseif (in_array($upperChainId, [9, 10, 11, 13, 14, 15, 17, 18, 19], true)) {
+
+        // package_pricing_markup
+
+    } elseif (in_array($upperChainId, [12, 16, 20], true)) {
+
+        // package_pricing_markup_te_chain
+
+    } else {
+
+        // No matching upper chain ID
     }
 }
 

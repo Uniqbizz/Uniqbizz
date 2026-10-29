@@ -73,8 +73,6 @@ try {
     // =====================================================
     $travelStartDate =$_POST['travel_start_date'] ?? null;
     $travelEndDate =$_POST['travel_end_date'] ?? null;
-    $customerPickup =trim($_POST['pickup_location'] ?? '');
-    $customerDrop =trim($_POST['drop_location'] ?? '');
     $guestFullName =trim($_POST['guestFullName'] ?? '');
     $guestPhone =trim($_POST['guestPhone'] ?? '');
     $guestEmail =trim($_POST['guestEmail'] ?? '');
@@ -201,6 +199,17 @@ try {
     // =====================================================
     $pickupPoint =$package['travel_from'] ?? '';
     $dropPoint =$package['travel_to'] ?? '';
+    //customer requested
+    $customerPickup =trim($_POST['pickup_location'] ?? '');
+    $customerDrop =trim($_POST['drop_location'] ?? '');
+    // Blank customer locations if they match the package locations
+    if (strcasecmp($customerPickup, $pickupPoint) === 0) {
+        $customerPickup = '';
+    }
+
+    if (strcasecmp($customerDrop, $dropPoint) === 0) {
+        $customerDrop = '';
+    }
     // =====================================================
     // NIGHTS / DAYS
     // =====================================================

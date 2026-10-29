@@ -240,7 +240,6 @@ function loadModifyRooms(adults, children, infants) {
                                     type="checkbox"
                                     id="extraMattress${roomNumber}"
                                     ${extraMattress ? 'checked' : ''}
-                                    disabled
                                 >
 
                                 <label
@@ -374,7 +373,6 @@ function loadModifyRooms(adults, children, infants) {
                                 type="checkbox"
                                 id="extraMattress${i}"
                                 ${extraMattress ? 'checked' : ''}
-                                disabled
                             >
 
                             <label
@@ -483,11 +481,11 @@ function updateRoomExtraMattress(roomCard) {
     3 people = extra mattress recommended
     1 or 2 people = no extra mattress
     */
-    if (occupancy === 3) {
-        checkbox.prop('checked', true);
-    } else {
-        checkbox.prop('checked', false);
-    }
+    // if (occupancy === 3) {
+    //     checkbox.prop('checked', true);
+    // } else {
+    //     checkbox.prop('checked', false);
+    // }
 }
 
 // =====================================================
@@ -495,78 +493,193 @@ function updateRoomExtraMattress(roomCard) {
 // =====================================================
 
 function updateRecommendedRoomsFromModification(roomOccupancies, adults, children, infants) {
+
     let roomsHTML = '';
+    let totalExtraMattresses = 0;
+
+    const totalRooms = roomOccupancies.length;
+    const totalTravellers = adults + children + infants;
+
+    /*
+    |--------------------------------------------------------------------------
+    | BUILD ROOM RECOMMENDATIONS
+    |--------------------------------------------------------------------------
+    */
+
     roomOccupancies.forEach(function (room, index) {
+
         const roomNumber = index + 1;
-        const occupancy = room.occupancy;
-        const extraMattress = room.extraMattress;
+        const occupancy = parseInt(room.occupancy, 10) || 0;
+        const extraMattress = room.extraMattress === true;
 
-        // =================================================
-        // BED TEXT
-        // =================================================
-
-        let bedText = '1 Double Bed';
         if (extraMattress) {
-            bedText +=
-                ' + 1 Extra Mattress';
+            totalExtraMattresses++;
         }
 
-        // =================================================
-        // ACCOMMODATION TEXT
-        // =================================================
+        /*
+        |--------------------------------------------------------------------------
+        | BED TEXT
+        |--------------------------------------------------------------------------
+        */
 
-        let accommodationText = occupancy + ' Pax will be accommodated in 1 room';
+        let bedText = '1 Double Bed';
 
         if (extraMattress) {
-            accommodationText +=
-                ' with extra mattress.';
+            bedText += ' + 1 Extra Mattress';
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | ACCOMMODATION TEXT
+        |--------------------------------------------------------------------------
+        */
+
+        let accommodationText =
+            occupancy + ' Pax will be accommodated in 1 room';
+
+        if (extraMattress) {
+            accommodationText += ' with extra mattress.';
         } else {
             accommodationText += '.';
         }
 
-        // =================================================
-        // RECOMMENDATION HTML
-        // =================================================
+        /*
+        |--------------------------------------------------------------------------
+        | ROOM HTML
+        |--------------------------------------------------------------------------
+        */
+
         roomsHTML += `
             <p class="fontSize10 fw-bold">Room ${roomNumber}</p>
+
             <div class="row">
+
                 <div class="col-xl-9 col-lg-8 col-md-8 col-sm-7 col-12 mb-3">
+
                     <div class="d-flex justify-content-between mobileDisplayBlock">
+
                         <div>
                             <p class="fontSize10 fw-bold">
                                 <i class="ri-hotel-bed-fill destination-title fs-6"></i>
                                 ${bedText}
                             </p>
-                            <p class="fontSize10">${accommodationText}</p>
+
+                            <p class="fontSize10">
+                                ${accommodationText}
+                            </p>
                         </div>
+
                         <div class="py-1 px-2 text-center text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 userpreferenceBtn fw-bold fontSize10">
                             <span>User Preference</span>
                         </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-5 col-12 mb-3">
-                    <button class="btn modifyBtn" type="button" data-room="${roomNumber}">Modify Rooms</button>
-                </div>
-            </div>
 
+                    </div>
+
+                </div>
+
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-5 col-12 mb-3">
+
+                    <button
+                        class="btn modifyBtn"
+                        type="button"
+                        data-room="${roomNumber}">
+                        Modify Rooms
+                    </button>
+
+                </div>
+
+            </div>
         `;
     });
 
-    // =====================================================
-    // ADD ROOM BUTTON
-    // =====================================================
+    /*
+    |--------------------------------------------------------------------------
+    | ADD ROOM BUTTON
+    |--------------------------------------------------------------------------
+    */
 
     roomsHTML += `
         <div class="d-flex justify-content-center">
-            <button class="btn addRoomBtn" type="button">Add Room (If more travellers)</button>
+            <button class="btn addRoomBtn" type="button">
+                Add Room (If more travellers)
+            </button>
         </div>
     `;
 
-    // =====================================================
-    // UPDATE ONLY CONTENT
-    // =====================================================
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE ROOM RECOMMENDATIONS
+    |--------------------------------------------------------------------------
+    */
 
     $('#roomRecommendation').html(roomsHTML);
+
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE ROOM ALLOCATION SUMMARY
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | ROOM TYPE SUMMARY WITH COUNT
+    |--------------------------------------------------------------------------
+    */
+
+    const roomTypeText = totalRooms > 0
+        ? totalRooms + (totalRooms === 1 ? ' Double Bed' : ' Double Beds')
+        : 'N/A';
+
+    const mattressText = totalExtraMattresses > 0
+        ? totalExtraMattresses + (
+            totalExtraMattresses === 1
+                ? ' Extra Mattress'
+                : ' Extra Mattresses'
+        )
+        : 'N/A';
+
+    const travellerText = `
+        ${totalTravellers}
+        (${adults} Adults + ${children} Children + ${infants} Infants)
+    `;
+
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE EXISTING ROOM ALLOCATION TABLE
+    |--------------------------------------------------------------------------
+    | Add id="roomAllocationSummaryBody" to the existing tbody.
+    |--------------------------------------------------------------------------
+    */
+
+    $('#roomAllocationSummaryBody').html(`
+        <tr>
+            <td>
+                ${totalRooms}
+                ${totalRooms === 1 ? 'Room' : 'Rooms'}
+            </td>
+
+            <td>${travellerText}</td>
+
+            <td>${roomTypeText}</td>
+
+            <td>${mattressText}</td>
+        </tr>
+    `);
+
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE PAX DESCRIPTION
+    |--------------------------------------------------------------------------
+    */
+
+    $('.paxDescriptionBtn span').html(`
+        ${totalTravellers}
+        ${totalTravellers === 1 ? 'traveller' : 'travellers'}
+        will be accommodated in
+        ${totalRooms}
+        ${totalRooms === 1 ? 'room' : 'rooms'}.
+    `);
+
 }
 //coupon drop down
 function updateCouponDropdowns() {
@@ -1256,36 +1369,176 @@ $(document).on('click', '.modifyBtn', function (e) {
     modal.show();
 
 });
+
+
+
+let originalRoomConfiguration = [];
+let originalRoomConfigurationSaved = false;
+
+// =====================================================
+// SAVE ORIGINAL ROOM CONFIGURATION
+// =====================================================
+
+function storeOriginalRoomConfiguration() {
+
+    const $cards = $('#modifyRoomsContainer .modify-room-card');
+
+    // console.log('Room cards found:', $cards.length);
+
+    if (!$cards.length) {
+        console.warn('No room cards available to save.');
+        return false;
+    }
+
+    if (originalRoomConfigurationSaved) {
+        return true;
+    }
+
+    originalRoomConfiguration = [];
+
+    $cards.each(function (index) {
+
+        const phpRoom = originalPhpRooms[index] || {};
+
+        originalRoomConfiguration.push({
+            room_number: phpRoom.room_number || `Room ${index + 1}`,
+            description: phpRoom.description || '',
+            recommendation: phpRoom.recommendation || '',
+            occupancy: $(this).find('.room-occupancy').val(),
+            extraMattress: $(this).find('.extra-mattress').is(':checked')
+        });
+
+    });
+
+    originalRoomConfigurationSaved =
+        originalRoomConfiguration.length > 0;
+
+    // console.log(
+    //     'Original room configuration saved:',
+    //     originalRoomConfiguration
+    // );
+
+    return originalRoomConfigurationSaved;
+}
+$('#modifyRoomsModal').on('shown.bs.modal', function () {
+
+    if (!originalRoomConfigurationSaved) {
+
+        const $cards = $('#modifyRoomsContainer .modify-room-card');
+
+        if ($cards.length > 0) {
+            storeOriginalRoomConfiguration();
+        } else {
+            console.warn(
+                'Room cards are not rendered yet. Save the configuration after rendering them.'
+            );
+        }
+    }
+
+});
+
+// =====================================================
+// RESET ROOM CONFIGURATION
+// =====================================================
+
+$(document).on('click', '#resetRoomModification', function () {
+
+    if (!originalRoomConfigurationSaved) {
+        console.error(
+            'Original room configuration was not saved. ' +
+            'Save it after the initial room cards are rendered.'
+        );
+        return;
+    }
+    const adults = parseInt($('#adultCount').val(), 10) || 0;
+    const children = parseInt($('#childrenCount').val(), 10) || 0;
+    const infants = parseInt($('#infantCount').val(), 10) || 0;
+
+    const $container = $('#modifyRoomsContainer');
+
+    // Remove any additional rooms added by the user.
+    $container.find('.modify-room-card').each(function (index) {
+        if (index >= originalRoomConfiguration.length) {
+            $(this).remove();
+        }
+    });
+
+    // Restore the original room values.
+    originalRoomConfiguration.forEach(function (room, index) {
+
+        const $cards = $container.find('.modify-room-card');
+        const $card = $cards.eq(index);
+
+        // A removed original card must be recreated using
+        // your existing room-card creation function.
+        if (!$card.length) {
+            console.error(
+                'Original Room ' + (index + 1) +
+                ' is missing. Your room-card builder must recreate it.'
+            );
+            return;
+        }
+
+        $card.find('.room-occupancy').val(room.occupancy);
+
+        $card.find('.extra-mattress')
+            .prop('checked', room.extraMattress);
+
+    });
+
+    // Restore the working configuration.
+    modifiedRoomConfiguration = originalRoomConfiguration.map(function (room) {
+        return {
+            occupancy: parseInt(room.occupancy, 10) || 0,
+            extraMattress: room.extraMattress
+        };
+    });
+
+    // Refresh the recommendations and summary.
+    updateRecommendedRoomsFromModification(
+        modifiedRoomConfiguration,
+        adults,
+        children,
+        infants
+    );
+
+});
+
+
 // =====================================================
 // APPLY ROOM MODIFICATION
 // =====================================================
 
 $(document).on('click', '#applyRoomModification', function () {
-    const adults = parseInt($('#adultCount').val()) || 0;
-    const children = parseInt($('#childrenCount').val()) || 0;
-    const infants = parseInt($('#infantCount').val()) || 0;
+
+    const adults = parseInt($('#adultCount').val(), 10) || 0;
+    const children = parseInt($('#childrenCount').val(), 10) || 0;
+    const infants = parseInt($('#infantCount').val(), 10) || 0;
+
     const totalTravellers = adults + children;
+
     let roomOccupancies = [];
     let totalRoomOccupancy = 0;
 
-    // =================================================
-    // READ ROOMS
-    // =================================================
-
+    // Read rooms.
     $('#modifyRoomsContainer .modify-room-card').each(function () {
-        const occupancy = parseInt($(this).find('.room-occupancy').val()) || 0;
-        const extraMattress = $(this).find('.extra-mattress').is(':checked');
+
+        const occupancy =
+            parseInt($(this).find('.room-occupancy').val(), 10) || 0;
+
+        const extraMattress =
+            $(this).find('.extra-mattress').is(':checked');
+
         roomOccupancies.push({
             occupancy: occupancy,
             extraMattress: extraMattress
         });
+
         totalRoomOccupancy += occupancy;
+
     });
 
-    // =================================================
-    // VALIDATE ROOM OCCUPANCY
-    // =================================================
-
+    // Validate occupancy.
     if (totalRoomOccupancy !== totalTravellers) {
 
         Swal.fire({
@@ -1297,24 +1550,18 @@ $(document).on('click', '#applyRoomModification', function () {
 
         return;
     }
-    // =================================================
-    // SAVE USER'S ROOM CONFIGURATION
-    // =================================================
 
+    // Save the modified room configuration.
     modifiedRoomConfiguration = roomOccupancies.map(function (room) {
 
         return {
-            occupancy: parseInt(room.occupancy) || 1,
+            occupancy: parseInt(room.occupancy, 10) || 1,
             extraMattress: room.extraMattress === true
         };
 
     });
 
-    // =================================================
-    // UPDATE RECOMMENDATION
-    // USING USER'S ROOM ARRANGEMENT
-    // =================================================
-
+    // Update recommendations.
     updateRecommendedRoomsFromModification(
         roomOccupancies,
         adults,
@@ -1322,13 +1569,10 @@ $(document).on('click', '#applyRoomModification', function () {
         infants
     );
 
-
-    // =================================================
-    // CLOSE MODAL
-    // =================================================
-
+    // Close modal.
     const modalElement = document.getElementById('modifyRoomsModal');
     const modalInstance = bootstrap.Modal.getInstance(modalElement);
+
     if (modalInstance) {
         modalInstance.hide();
     }
@@ -1480,7 +1724,7 @@ $(document).on('click', '#addModifyRoom', function () {
 
                         <input class="form-check-input extra-mattress"
                             type="checkbox"
-                            id="extraMattress${newRoomNumber}" disabled>
+                            id="extraMattress${newRoomNumber}">
 
                         <label class="form-check-label fontSize10"
                             for="extraMattress${newRoomNumber}">

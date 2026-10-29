@@ -14,7 +14,7 @@
         <html lang="en">
         <head>
             <meta charset="UTF-8">
-            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            
         </head>
         <body>
             <script>
@@ -48,7 +48,7 @@
 
     if (!$requestData) {
         ?>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        
         <script>
             Swal.fire({
                 icon: 'error',
@@ -68,7 +68,7 @@
     $user_id = $requestData['userId'];
     if ($id === false || $id === null || $id <= 0) {
         ?>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        
         <script>
             Swal.fire({
                 icon: 'error',
@@ -251,7 +251,244 @@
                 font-weight: 600;
                 color: #374151;
             }
+            .modify-room-card {
+                border: 1px solid #d8dee6 !important;
+                border-radius: 14px !important;
+                padding: 18px 22px !important;
+                background: #fff;
+                transition: all 0.2s ease;
+            }
 
+
+            .modify-room-card:hover {
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            }
+
+            .room-content-row {
+                display: flex;
+                align-items: center;
+                gap: 35px;
+            }
+
+            /* Room Title */
+            .room-title {
+                min-width: 130px;
+            }
+
+            .room-title p {
+                margin: 0;
+                font-size: 13px;
+                font-weight: 600;
+                color: #343a40;
+            }
+
+            /* Occupancy Section */
+            .occupancy-section {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .occupancy-section label {
+                margin: 0;
+                white-space: nowrap;
+            }
+
+            /* Occupancy Counter */
+            .occupancy-control {
+                display: flex;
+                align-items: center;
+            }
+
+            .occupancy-control button {
+                width: 42px;
+                height: 42px;
+                border: 1px solid #c9a57a;
+                background: #fff;
+                color: #8a6a45;
+                font-size: 20px;
+            }
+
+            .occupancy-control button:first-child {
+                border-radius: 9px 0 0 9px;
+            }
+
+            .occupancy-control button:last-child {
+                border-radius: 0 9px 9px 0;
+            }
+
+            .room-occupancy {
+                width: 70px !important;
+                height: 42px;
+                border-left: 0 !important;
+                border-right: 0 !important;
+                font-size: 16px;
+                background: #fff !important;
+            }
+
+            /* Mattress */
+            .mattress-section {
+                display: flex;
+                align-items: center;
+            }
+
+            .mattress-section .form-check {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding-left: 0;
+            }
+
+            .mattress-section .form-check-input {
+                position: static;
+                float: none;
+                margin: 0;
+                width: 18px;
+                height: 18px;
+                flex-shrink: 0;
+                opacity: 1;
+                cursor: pointer;
+            }
+
+            .mattress-section .form-check-input:disabled {
+                opacity: 1;
+                background-color: #fff;
+                border-color: #ced4da;
+            }
+
+            .mattress-section .form-check-input:disabled ~ .form-check-label {
+                color: #6c757d;
+                opacity: 1;
+                cursor: not-allowed;
+            }
+
+            /* Remove button */
+            .removeModifyRoom {
+                border: 0;
+                background: #fff3f3;
+                color: #dc3545;
+                border-radius: 7px;
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+            .fontSize10 {
+                font-size: 12px;
+            }
+            /* Policy section */
+            .upload-description {
+                color: #667085;
+                margin-bottom: 15px;
+            }
+
+            .upload-wrapper {
+                background: #fff;
+                border-radius: 12px;
+                overflow: hidden;
+                border: 1px solid #e5e7eb;
+            }
+
+            .upload-table {
+                margin-bottom: 0;
+            }
+
+            .upload-table thead {
+                background: #f5f6fa;
+            }
+
+            .upload-table th {
+                font-size: 14px;
+                font-weight: 600;
+                color: #667085;
+                border-bottom: 1px solid #e5e7eb;
+            }
+
+            .upload-table td {
+                vertical-align: middle;
+                color: #344054;
+                font-size: 14px;
+            }
+
+            .file-info {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .file-icon {
+                width: 34px;
+                height: 34px;
+            }
+
+            .action-btn {
+                cursor: pointer;
+                font-size: 18px;
+                color: #6C63FF;
+                transition: 0.3s;
+            }
+
+            .action-btn:hover {
+                transform: scale(1.1);
+            }
+
+            .delete-btn {
+                color: #ff4d4f;
+            }
+
+            .hidden-input {
+                display: none;
+            }
+
+            /* Upload Form Row */
+
+            .upload-form-row {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                padding: 15px;
+                border-top: 1px solid #e5e7eb;
+            }
+
+            .upload-form-row .form-control {
+                flex: 1;
+                min-width: 180px;
+            }
+
+            .mini-drop-zone {
+                flex: 2;
+                min-height: 45px;
+                border: 2px dashed #d9dbe9;
+                border-radius: 8px;
+                background: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                color: #6C63FF;
+                font-weight: 500;
+                padding: 10px 15px;
+                transition: all 0.3s ease;
+                text-align: center;
+            }
+
+            .mini-drop-zone:hover {
+                border-color: #6C63FF;
+            }
+
+            .mini-drop-zone.dragover {
+                border-color: #6C63FF;
+                background: #f7f6ff;
+            }
+
+            #selectedFileText {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 100%;
+            }
+
+            #addDocumentBtn {
+                white-space: nowrap;
+            }
             @media (max-width: 576px) {
                 .accordion-heading-content {
                     align-items: flex-start;
@@ -705,7 +942,7 @@
                                                             <div class="row">
                                                                 <div class="col-xl-12">
 
-                                                                    <table class="table table-bordered mb-0">
+                                                                    <table class="table table-bordered mb-0 fs-6">
                                                                         <thead>
                                                                             <tr class="table-active">
                                                                                 <th scope="col">Room Count</th>
@@ -715,7 +952,7 @@
                                                                             </tr>
                                                                         </thead>
 
-                                                                        <tbody>
+                                                                        <tbody class="fs-6">
                                                                             <?php if (!empty($rooms)): ?>
                                                                                 <tr>
                                                                                     <td>
@@ -1166,7 +1403,7 @@
                                                                         <div class="text-center">
                                                                             <i class="ri-dashboard-line"></i>
                                                                         </div>
-                                                                        Terms & Conditions
+                                                                        Policies
                                                                     </a>
                                                                 </li>
                                                                 <li class="nav-item navItem">
@@ -1325,7 +1562,7 @@
                                                         </div>
                                                         <div id="policies" class="section-block">
                                                             <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
-                                                                <h5 class="fw-bolder mb-3 textDarkBlue">Terms & Conditions</h5>
+                                                                <h5 class="fw-bolder mb-3 textDarkBlue">Policies</h5>
                                                                 <?php
                                                                     $hasPolicies = false;
                                                                 ?>
@@ -1595,19 +1832,19 @@
                                                                 <div class="col-xl-4">
                                                                     <div class="mb-3">
                                                                         <label for="exampleFormControlInput1" class="form-label">Travel Start Date</label>
-                                                                        <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput1" value="<?= $requestData['travel_start_date'] ?>" readonly>
+                                                                        <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput1" value="<?= $requestData['travel_start_date'] ?>" >
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-xl-4">
                                                                     <div class="mb-3">
                                                                         <label for="exampleFormControlInput2" class="form-label">Travel End Date</label>
-                                                                        <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput2" value="<?= $requestData['travel_end_date'] ?>" readonly>
+                                                                        <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput2" value="<?= $requestData['travel_end_date'] ?>" >
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-xl-4">
                                                                     <div class="mb-3">
                                                                         <label for="exampleFormControlInput3" class="form-label">Nights / Days</label>
-                                                                        <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput3" value="<?= $requestData['no_of_nights_days'] ?>" readonly>
+                                                                        <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput3" value="<?= $requestData['no_of_nights_days'] ?>" >
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1615,7 +1852,7 @@
                                                                 <div class="col-xl-4">
                                                                     <div class="mb-3">
                                                                         <label for="exampleFormControlInput4" class="form-label">Pickup</label>
-                                                                        <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput4" value="<?= $requestData['customer_pickup'] != '' ? $requestData['customer_pickup']: $requestData['pickup_point'] ?>" readonly>
+                                                                        <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput4" value="<?= $requestData['customer_pickup'] != '' ? $requestData['customer_pickup']: $requestData['pickup_point'] ?>" >
                                                                         <?php
                                                                             $oldPickup = !empty($requestData['customer_pickup'])
                                                                             ? $requestData['pickup_point']
@@ -1634,7 +1871,7 @@
                                                                 <div class="col-xl-4">
                                                                     <div class="mb-3">
                                                                         <label for="exampleFormControlInput5" class="form-label">Drop</label>
-                                                                        <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput5" value="<?= $requestData['customer_drop'] != '' ? $requestData['customer_drop']: $requestData['drop_point'] ?>" readonly>
+                                                                        <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput5" value="<?= $requestData['customer_drop'] != '' ? $requestData['customer_drop']: $requestData['drop_point'] ?>" >
                                                                         <?php
                                                                             $olddrop = !empty($requestData['customer_drop'])
                                                                             ? $requestData['drop_point']
@@ -1655,19 +1892,19 @@
                                                                 <div class="col-xl-3 paxCol">
                                                                     <div class="mb-3">
                                                                         <label for="adultCount" class="form-label">Adults (12+ yrs)</label>
-                                                                        <input type="text" class="form-control fw-bold textDarkBlue" id="adultCount" value="<?= $requestData['adult_count'] ?>" readonly>
+                                                                        <input type="text" class="form-control fw-bold textDarkBlue" id="adultCount" value="<?= $requestData['adult_count'] ?>">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-xl-3 paxCol">
                                                                     <div class="mb-3">
                                                                         <label for="childcount" class="form-label">Children (2-11 yrs)</label>
-                                                                        <input type="text" class="form-control fw-bold textDarkBlue" id="childcount" value="<?= $requestData['child_count'] ?>" readonly>
+                                                                        <input type="text" class="form-control fw-bold textDarkBlue" id="childcount" value="<?= $requestData['child_count'] ?>">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-xl-3 paxCol">
                                                                     <div class="mb-3">
                                                                         <label for="infantCount" class="form-label">Infants (0-1 yrs)</label>
-                                                                        <input type="text" class="form-control fw-bold textDarkBlue" id="infantCount" value="<?= $requestData['infant_count'] ?>" readonly>
+                                                                        <input type="text" class="form-control fw-bold textDarkBlue" id="infantCount" value="<?= $requestData['infant_count'] ?>">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-xl-3 paxCol">
@@ -1686,7 +1923,7 @@
                                                                     <i class="fa-solid fa-bed fa-xl me-3"></i>
                                                                     Room Allocation <span class="fw-normal">(Requested by Customer)</span>
                                                                 </h5>
-                                                                <a class="editCustomerBtn">
+                                                                <a class="editCustomerBtn modifyBtn">
                                                                     <i class="fa-solid fa-pen me-1"></i>
                                                                     Edit
                                                                 </a>
@@ -1813,7 +2050,7 @@
                                                             <div class="row">
                                                                 <div class="col-xl-12">
                 
-                                                                    <table class="table table-bordered mb-0">
+                                                                    <table class="table table-bordered mb-0 fs-6">
                                                                         <thead>
                                                                             <tr class="table-active">
                                                                                 <th scope="col">Room Count</th>
@@ -1823,7 +2060,7 @@
                                                                             </tr>
                                                                         </thead>
                 
-                                                                        <tbody>
+                                                                        <tbody id="roomAllocationSummaryBody" class="fs-6">
                                                                             <?php if (!empty($rooms)): ?>
                                                                                 <tr>
                                                                                     <td>
@@ -2023,6 +2260,7 @@
                                                             </div>
                                                         </div>
                                                         <!-- Card Section 2 subsection 5 End -->
+                                                        
                                                     </div>
                                                     <div class="col-xl-4">
                                                         <div class="card cardShadow">
@@ -2058,11 +2296,14 @@
                                                                         <p class="mb-1">Adult: <span class="" id="totalAdultCount"><?= $requestData['adult_count'] ?></span> x &#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
                                                                         <p class="mb-1">Children: <span class="" id="totalChildrenCount"><?= $requestData['child_count'] ?></span> x &#8377; <?= number_format($childDisplayPrice, 2) ?></p>
                                                                         <p class="mb-1">Infant: <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
+                                                                        <p class="mb-1">Extra Mattress (1 x &#8377; <?= $pricing['extra_mattress'] ?>)</p>
                                                                     </div>
                                                                     <div>
                                                                         <p class="mb-1 text-end" id="adultTotal">&#8377; <?= number_format($requestData['adult_total'], 2) ?></p>
                                                                         <p class="mb-1 text-end" id="childrenTotal">&#8377; <?= number_format($requestData['children_total'], 2) ?></p>
                                                                         <p class="mb-1 text-end">&#8377; 0.00</p>
+                                                                        <p class="mb-1 text-end" id="#">&#8377; <?= $totalExtraMattresses * $pricing['extra_mattress'] ?></p>
+                                                                        
                                                                     </div>
                                                                 </div>
                                                                 <hr class="my-1 border border-2 mx-0">
@@ -2176,17 +2417,18 @@
                                                                 <p class="fw-bold blueDiv">Adjustments</p>
                                                                 <div class="d-flex justify-content-between">
                                                                     <div>
-                                                                        <p class="mb-1">Extra Mattress (1 x &#8377; <?= $pricing['extra_mattress'] ?>)</p>
+                                                                        
                                                                         <p class="mb-1">Convenience Fee </p>
                                                                         <p class="mb-1">GST (<?= $requestData['gst_percentage'] ?>%) </p>
                                                                     </div>
                                                                     <div>
-                                                                        <p class="mb-1 text-end" id="#">&#8377; <?= $totalExtraMattresses * $pricing['extra_mattress'] ?></p>
+                                                                        
                                                                         <p class="mb-1 text-end" id="#">&#8377; <?= $requestData['convenience_fee'] ?></p>
                                                                         <p class="mb-1 text-end">&#8377; <?= $requestData['gst'] ?></p>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            
                                                             <hr class="my-1 border border-2 mx-3">
                                                             <div class="p-3 pb-0">
                                                                 <div class="d-flex justify-content-between">
@@ -2280,7 +2522,7 @@
                                                                         <div class="text-center">
                                                                             <i class="ri-dashboard-line"></i>
                                                                         </div>
-                                                                        Terms & Conditions
+                                                                        Policies
                                                                     </a>
                                                                 </li>
                                                                 <li class="nav-item navItem">
@@ -2311,79 +2553,160 @@
                                                         <div id="itinerary1" class="section-block">
                                                             <div class="card cardBackgroundColor rounded-3 p-3 pb-4 cardShadow">
                                                                 <h5 class="fw-bolder textDarkBlue">Itinerary</h5>
+
                                                                 <div class="tour-details-content">
                                                                     <div class="destination-accordion mt-2">
                                                                         <div class="accordion" id="accordionItinerary">
+
                                                                             <?php
                                                                             $count = 1;
 
-                                                                            $data4 = $conn->prepare("SELECT * FROM package_trip_days WHERE package_id = $id");
-                                                                            $data4->execute();
-                                                                            $data4->setFetchMode(PDO::FETCH_ASSOC);
+                                                                            // Fetch itinerary days
+                                                                            $data4 = $conn->prepare("
+                                                                                SELECT *
+                                                                                FROM package_trip_days
+                                                                                WHERE package_id = :package_id
+                                                                            ");
+                                                                            $data4->execute([
+                                                                                ':package_id' => $id
+                                                                            ]);
 
-                                                                            if ($data4->rowCount() > 0) {
-                                                                                foreach ($data4->fetchAll() as $key_3 => $day) {
+                                                                            $days = $data4->fetchAll(PDO::FETCH_ASSOC);
 
-                                                                                    $decription = $day['day_details'];
-                                                                                    // $decription_1 = explode(".", $decription);
-                                                                                    // $decription_2 = implode(".<br>", $decription_1);
-                                                                            ?>      <div class="timeline-number">
-                                                                                        <?= str_pad($count, 2, '0', STR_PAD_LEFT) ?>
-                                                                                    </div>
-                                                                                    <div class="accordion-item">
-                                                                                        <h2 class="accordion-header" id="panelsStayOpen-heading<?= $count; ?>">
-                                                                                            <button class="accordion-button <?= ($count != 1) ? 'collapsed' : ''; ?>"
-                                                                                                    type="button"
-                                                                                                    data-bs-toggle="collapse"
-                                                                                                    data-bs-target="#panelsStayOpen-collapse<?= $count; ?>"
-                                                                                                    aria-expanded="<?= ($count == 1) ? 'true' : 'false'; ?>"
-                                                                                                    aria-controls="panelsStayOpen-collapse<?= $count; ?>">
+                                                                            foreach ($days as $key_3 => $day):
 
-                                                                                                Day <?= $key_3 + 1; ?> - <?= $day['title']; ?>
+                                                                                $description = $day['day_details'] ?? '';
+                                                                                $mealPlan = $day['meal_plan'] ?? '';
+                                                                                $dayTransport = $day['day_tansport'] ?? '';
+                                                                                $stay = $day['stay'] ?? '';
+                                                                            ?>
 
-                                                                                            </button>
-                                                                                        </h2>
+                                                                                <div class="timeline-number">
+                                                                                    <?= str_pad($count, 2, '0', STR_PAD_LEFT) ?>
+                                                                                </div>
 
-                                                                                        <div id="panelsStayOpen-collapse<?= $count; ?>"
-                                                                                            class="accordion-collapse collapse <?= ($count == 1) ? 'show' : ''; ?>"
-                                                                                            aria-labelledby="panelsStayOpen-heading<?= $count; ?>"
-                                                                                            data-bs-parent="#accordionItinerary">
+                                                                                <div class="accordion-item">
 
-                                                                                            <div class="accordion-body">
+                                                                                    <h2 class="accordion-header"
+                                                                                        id="panelsStayOpen-heading<?= $count ?>">
 
-                                                                                                <ul class="listing">
-                                                                                                    <li class="list">
-                                                                                                        <?= $decription; ?>
-                                                                                                    </li>
-                                                                                                </ul>
+                                                                                        <button
+                                                                                            class="accordion-button <?= ($count != 1) ? 'collapsed' : '' ?>"
+                                                                                            type="button"
+                                                                                            data-bs-toggle="collapse"
+                                                                                            data-bs-target="#panelsStayOpen-collapse<?= $count ?>"
+                                                                                            aria-expanded="<?= ($count == 1) ? 'true' : 'false' ?>"
+                                                                                            aria-controls="panelsStayOpen-collapse<?= $count ?>">
 
-                                                                                                <hr class="my-3" style="border-top:1px solid #4b5051;">
+                                                                                            Day <?= $key_3 + 1 ?> -
+                                                                                            <?= htmlspecialchars($day['title'] ?? '') ?>
 
-                                                                                                <div class="d-flex justify-content-evenly displayMeal">
-                                                                                                    <div class="gap-1 d-flex">
-                                                                                                        <h6 class="fw-bold align-content-center mb-0">Meal:&nbsp;</h6>
-                                                                                                        <p class="text-muted fontSize3 align-content-center mb-0"><?= $day['meal_plan']; ?></p>
+                                                                                        </button>
+                                                                                    </h2>
+
+                                                                                    <div
+                                                                                        id="panelsStayOpen-collapse<?= $count ?>"
+                                                                                        class="accordion-collapse collapse <?= ($count == 1) ? 'show' : '' ?>"
+                                                                                        aria-labelledby="panelsStayOpen-heading<?= $count ?>"
+                                                                                        data-bs-parent="#accordionItinerary">
+
+                                                                                        <div class="accordion-body">
+
+                                                                                            <!-- DAY DESCRIPTION -->
+                                                                                            <ul class="listing">
+                                                                                                <li class="list">
+                                                                                                    <textarea
+                                                                                                        class="form-control fontSize10"
+                                                                                                        name="itinerary[<?= (int)$day['id'] ?>][day_details]"
+                                                                                                        rows="4"
+                                                                                                        placeholder="Enter day description"
+                                                                                                    ><?= htmlspecialchars($description) ?></textarea>
+                                                                                                </li>
+                                                                                            </ul>
+
+                                                                                            <hr class="my-3"
+                                                                                                style="border-top:1px solid #4b5051;">
+
+                                                                                            <div class="row g-3 displayMeal">
+
+                                                                                                <!-- MEAL -->
+                                                                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                                                                                    <div class="mb-3">
+
+                                                                                                        <label
+                                                                                                            for="mealPlan<?= (int)$day['id'] ?>"
+                                                                                                            class="form-label fontSize10">
+                                                                                                            Meal
+                                                                                                        </label>
+
+                                                                                                        <div class="icon-select-wrapper">
+                                                                                                            <input
+                                                                                                                type="text"
+                                                                                                                id="mealPlan<?= (int)$day['id'] ?>"
+                                                                                                                class="form-control fontSize10 paddingLeft"
+                                                                                                                name="itinerary[<?= (int)$day['id'] ?>][meal_plan]"
+                                                                                                                value="<?= htmlspecialchars($mealPlan) ?>"
+                                                                                                                placeholder="Enter meal details">
+                                                                                                        </div>
+
                                                                                                     </div>
+                                                                                                </div>
 
-                                                                                                    <div class="gap-1 d-flex">
-                                                                                                        <h6 class="fw-bold align-content-center mb-0">Transport:&nbsp;</h6>
-                                                                                                        <p class="text-muted fontSize3 align-content-center mb-0"><?= $day['day_tansport']; ?></p>
+                                                                                                <!-- TRANSPORT -->
+                                                                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                                                                                    <div class="mb-3">
+
+                                                                                                        <label
+                                                                                                            for="dayTransport<?= (int)$day['id'] ?>"
+                                                                                                            class="form-label fontSize10">
+                                                                                                            Transport
+                                                                                                        </label>
+
+                                                                                                        <div class="icon-select-wrapper">
+                                                                                                            <input
+                                                                                                                type="text"
+                                                                                                                id="dayTransport<?= (int)$day['id'] ?>"
+                                                                                                                class="form-control fontSize10 paddingLeft"
+                                                                                                                name="itinerary[<?= (int)$day['id'] ?>][day_tansport]"
+                                                                                                                value="<?= htmlspecialchars($dayTransport) ?>"
+                                                                                                                placeholder="Enter transport details">
+                                                                                                        </div>
+
                                                                                                     </div>
+                                                                                                </div>
 
-                                                                                                    <div class="gap-1 d-flex">
-                                                                                                        <h6 class="fw-bold align-content-center mb-0">Stay:&nbsp;</h6>
-                                                                                                        <p class="text-muted fontSize3 align-content-center mb-0"><?= $day['stay']; ?></p>
+                                                                                                <!-- STAY -->
+                                                                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                                                                                    <div class="mb-3">
+
+                                                                                                        <label
+                                                                                                            for="dayStay<?= (int)$day['id'] ?>"
+                                                                                                            class="form-label fontSize10">
+                                                                                                            Stay
+                                                                                                        </label>
+
+                                                                                                        <input
+                                                                                                            type="text"
+                                                                                                            id="dayStay<?= (int)$day['id'] ?>"
+                                                                                                            class="form-control fontSize10"
+                                                                                                            name="itinerary[<?= (int)$day['id'] ?>][stay]"
+                                                                                                            value="<?= htmlspecialchars($stay) ?>"
+                                                                                                            placeholder="Enter stay details">
+
                                                                                                     </div>
                                                                                                 </div>
 
                                                                                             </div>
+
                                                                                         </div>
                                                                                     </div>
+                                                                                </div>
+
                                                                             <?php
-                                                                                    $count++;
-                                                                                }
-                                                                            }
+                                                                                $count++;
+                                                                            endforeach;
                                                                             ?>
+
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2406,9 +2729,12 @@
                                                                                     <div class="checkIcon">
                                                                                         <i class="ri-checkbox-circle-fill text-success"></i>
                                                                                     </div>
-                                                                                    <p class="text-muted fontSize3 align-content-center mb-0">
-                                                                                        <?= htmlspecialchars($inclusion) ?>
-                                                                                    </p>
+                                                                                    <textarea
+                                                                                        class="form-control fontSize3 text-muted"
+                                                                                        name="inclusions[]"
+                                                                                        rows="2"
+                                                                                        placeholder="Enter inclusion details"
+                                                                                    ><?= htmlspecialchars($inclusion) ?></textarea>
                                                                                 </div>
                                                                             <?php endforeach; ?>
                                                                         <?php else: ?>
@@ -2424,9 +2750,12 @@
                                                                                     <div class="closeIcon">
                                                                                         <i class="ri-close-circle-fill text-danger"></i>
                                                                                     </div>
-                                                                                    <p class="text-muted fontSize3 align-content-center mb-0">
-                                                                                        <?= htmlspecialchars($exclusion) ?>
-                                                                                    </p>
+                                                                                    <textarea
+                                                                                        class="form-control fontSize3 text-muted"
+                                                                                        name="exclusions[]"
+                                                                                        rows="2"
+                                                                                        placeholder="Enter exclusion details"
+                                                                                    ><?= htmlspecialchars($exclusion) ?></textarea>
                                                                                 </div>
                                                                             <?php endforeach; ?>
                                                                         <?php else: ?>
@@ -2439,44 +2768,113 @@
                                                         </div>
                                                         <div id="policies1" class="section-block">
                                                             <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
-                                                                <h5 class="fw-bolder mb-3 textDarkBlue">Terms & Conditions</h5>
-                                                                <?php
-                                                                    $hasPolicies = false;
-                                                                ?>
 
-                                                                <?php foreach ($policies as $policy): ?>
+                                                                <h5 class="fw-bolder mb-3 textDarkBlue">Policies</h5>
 
-                                                                    <?php if (strcasecmp(trim($policy['title']), 'FAQ') === 0): ?>
-                                                                        <?php continue; ?>
-                                                                    <?php endif; ?>
+                                                                <p class="text-muted fontSize3 mb-3">
+                                                                    Upload brochures, itinerary PDFs or any other important documents for reference.
+                                                                </p>
 
-                                                                    <?php $hasPolicies = true; ?>
+                                                                <div id="otherPolicyList">
+                                                                    <?php
+                                                                        $hasPolicies = false;
 
-                                                                    <div class="policyItem">
-                                                                        <div class="d-flex align-items-center gap-3">
-                                                                            <div class="highlightIcon" style="background-color: #b2e0b1;">
-                                                                                <i class="ri-file-pdf-line text-success"></i>
+                                                                        foreach ($policies  as $doc):
+                                                                            if (strcasecmp(trim($doc['title'] ?? ''), 'FAQ') === 0) {
+                                                                                continue;
+                                                                            }
+
+                                                                            $hasPolicies = true;
+                                                                    ?>
+
+                                                                        <div class="policyItem"
+                                                                            data-id="<?= (int)$doc['id'] ?>"
+                                                                            data-existing="1">
+
+                                                                            <div class="d-flex align-items-center gap-3">
+
+                                                                                <div class="highlightIcon" style="background-color: #b2e0b1;">
+                                                                                    <i class="ri-file-pdf-line text-success"></i>
+                                                                                </div>
+
+                                                                                <div>
+                                                                                    <p class="mb-0 fw-semibold">
+                                                                                        <?= htmlspecialchars($doc['title'] ?? '') ?>
+                                                                                    </p>
+
+                                                                                    <small class="text-muted">
+                                                                                        <?= htmlspecialchars($doc['file_name'] ?? '') ?>
+                                                                                    </small>
+                                                                                </div>
+
                                                                             </div>
 
-                                                                            <p class="mb-0">
-                                                                                <?= htmlspecialchars($policy['title']) ?>
-                                                                            </p>
+                                                                            <div class="d-flex align-items-center gap-2">
+
+                                                                                <a
+                                                                                    href="../../uploading/package_policy_attachments/<?= rawurlencode($doc['file_name']) ?>"
+                                                                                    download
+                                                                                    class="downloadBtn"
+                                                                                    title="Download document">
+                                                                                    <i class="ri-download-line"></i>
+                                                                                </a>
+
+                                                                                <button
+                                                                                    type="button"
+                                                                                    class="btn btn-link text-danger p-1 remove-file"
+                                                                                    data-id="<?= (int)$doc['id'] ?>"
+                                                                                    title="Remove document">
+                                                                                    <i class="fa-regular fa-trash-can"></i>
+                                                                                </button>
+
+                                                                            </div>
                                                                         </div>
 
-                                                                        <a href="uploading/package_policy_attachments/<?= urlencode($policy['file_name']) ?>"
-                                                                        download
-                                                                        class="downloadBtn">
-                                                                            <i class="ri-download-line"></i>
-                                                                        </a>
+                                                                    <?php endforeach; ?>
+
+                                                                    <?php if (!$hasPolicies): ?>
+                                                                        <p class="text-muted mb-0" id="noOtherPolicy">
+                                                                            No other policy documents available.
+                                                                        </p>
+                                                                    <?php endif; ?>
+                                                                </div>
+
+                                                                <hr class="my-3">
+
+                                                                <!-- Upload Area -->
+                                                                <div class="upload-form-row">
+
+                                                                    <input
+                                                                        type="text"
+                                                                        class="form-control"
+                                                                        id="documentTitle"
+                                                                        placeholder="Enter Title">
+
+                                                                    <div class="mini-drop-zone" id="dropZone">
+                                                                        <i class="fa-solid fa-cloud-arrow-up me-2"></i>
+
+                                                                        <span id="selectedFileText">
+                                                                            Drag &amp; Drop or Click to Upload
+                                                                        </span>
+
+                                                                        <input
+                                                                            type="file"
+                                                                            id="fileInput"
+                                                                            class="hidden-input"
+                                                                            accept=".pdf,.doc,.docx">
                                                                     </div>
 
-                                                                <?php endforeach; ?>
+                                                                    <button
+                                                                        type="button"
+                                                                        class="btn btn-primary px-4"
+                                                                        id="addDocumentBtn">
+                                                                        Submit
+                                                                    </button>
 
-                                                                <?php if (!$hasPolicies): ?>
-                                                                    <p class="text-muted mb-0">
-                                                                        No policy documents available.
-                                                                    </p>
-                                                                <?php endif; ?>
+                                                                </div>
+
+                                                                <small class="error-message" id="otherPolicy_error"></small>
+
                                                             </div>
                                                         </div>
                                                         <div id="faqs1" class="section-block">
@@ -2527,6 +2925,815 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="markup1" class="section-block mt-4">
+                                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow mb-0">
+
+                                                                <h5 class="fw-bolder textDarkBlue">MarkUp Calculation</h5>
+
+                                                                <div class="borderHighlight rounded-3 p-3">
+                                                                    <?php if (in_array($upperChainId, [9, 10, 11, 13, 14, 15, 17, 18, 19, 21], true)) { ?>
+                                                                    <!-- cu->tc->te/f->bm/mf/sf -->
+                                                                    <div class="table-responsive">
+                                                                        <table class="table table-bordered table-hover align-middle mb-0">
+                                                                            <thead class="table-light">
+                                                                                <tr>
+                                                                                    <th class="fs-6">Designation</th>
+                                                                                    <th class="fs-6">Name</th>
+                                                                                    <th class="fs-6">ID</th>
+                                                                                    <th class="fs-6">Commission (₹)</th>
+                                                                                    <th class="fs-6">Incentive (₹)</th>
+                                                                                </tr>
+                                                                            </thead>
+
+                                                                            <tbody>
+                                                                                <!-- BM / MF / SF ROW -->
+                                                                                <tr>
+                                                                                    <td class="fw-semibold textDarkBlue fs-6">BM / MF / SF</td>
+
+                                                                                    <td>
+                                                                                        <span id="bmMfSfName" class="fs-6">
+                                                                                            <?= htmlspecialchars(
+                                                                                                $chainDetails[
+                                                                                                    (in_array('TE', array_column($chainDetails, 'prefix')) ||
+                                                                                                    in_array('CA', array_column($chainDetails, 'prefix'))) ? 3 : 2
+                                                                                                ]['name'] ?? 'NA',
+                                                                                                ENT_QUOTES,
+                                                                                                'UTF-8'
+                                                                                            ) ?>
+                                                                                        </span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <span id="bmMfSfId" class="fs-6">
+                                                                                            <?= htmlspecialchars(
+                                                                                                $chainDetails[
+                                                                                                    (in_array('TE', array_column($chainDetails, 'prefix')) ||
+                                                                                                    in_array('CA', array_column($chainDetails, 'prefix'))) ? 3 : 2
+                                                                                                ]['id'] ?? 'NA',
+                                                                                                ENT_QUOTES,
+                                                                                                'UTF-8'
+                                                                                            ) ?>
+                                                                                        </span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="bmMfSfC"
+                                                                                            name="bm_mf_sf_c"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        >
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="bmMfSfI"
+                                                                                            name="bm_mf_sf_i"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        >
+                                                                                    </td>
+                                                                                </tr>
+
+                                                                                <!-- TE / F ROW -->
+                                                                                <tr>
+                                                                                    <td class="fw-semibold textDarkBlue fs-6">TE / F</td>
+
+                                                                                    <td>
+                                                                                        <span id="teFName" class="fs-6">
+                                                                                            <?= htmlspecialchars(
+                                                                                                (in_array('TE', array_column($chainDetails, 'prefix')) ||
+                                                                                                in_array('CA', array_column($chainDetails, 'prefix')))
+                                                                                                    ? ($chainDetails[2]['name'] ?? 'NA')
+                                                                                                    : 'NA',
+                                                                                                ENT_QUOTES,
+                                                                                                'UTF-8'
+                                                                                            ) ?>
+                                                                                        </span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <span id="teFId" class="fs-6">
+                                                                                            <?= htmlspecialchars(
+                                                                                                (in_array('TE', array_column($chainDetails, 'prefix')) ||
+                                                                                                in_array('CA', array_column($chainDetails, 'prefix')))
+                                                                                                    ? ($chainDetails[2]['id'] ?? 'NA')
+                                                                                                    : 'NA',
+                                                                                                ENT_QUOTES,
+                                                                                                'UTF-8'
+                                                                                            ) ?>
+                                                                                        </span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="teFC"
+                                                                                            name="te_f_c"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        >
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="teFI"
+                                                                                            name="te_f_i"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        >
+                                                                                    </td>
+                                                                                </tr>
+
+                                                                                <!-- TC ROW -->
+                                                                                <tr>
+                                                                                    <td class="fw-semibold textDarkBlue fs-6">TC</td>
+
+                                                                                    <td>
+                                                                                        <span id="tcName" class="fs-6">
+                                                                                            <?= htmlspecialchars($chainDetails[1]['name'] ?? 'NA', ENT_QUOTES, 'UTF-8') ?>
+                                                                                        </span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <span id="tcId" class="fs-6">
+                                                                                            <?= htmlspecialchars($chainDetails[1]['id'] ?? 'NA', ENT_QUOTES, 'UTF-8') ?>
+                                                                                        </span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="tcCommission"
+                                                                                            name="tc_commission"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        >
+                                                                                    </td>
+
+                                                                                    <td class="text-center">—</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                    <?php } elseif (in_array($upperChainId, [12, 16, 20], true)) { ?>
+                                                                    <!-- cu->tc->te/f->ste->ete->cte -->
+                                                                    <div class="table-responsive">
+                                                                        <table class="table table-bordered table-hover align-middle mb-0">
+                                                                            <thead class="table-light">
+                                                                                <tr>
+                                                                                    <th class="fs-6">Designation</th>
+                                                                                    <th class="fs-6">Name</th>
+                                                                                    <th class="fs-6">ID</th>
+                                                                                    <th class="fs-6">Commission (₹)</th>
+                                                                                    <th class="fs-6">Incentive (₹)</th>
+                                                                                </tr>
+                                                                            </thead>
+
+                                                                            <tbody>
+                                                                                <!-- CTE ROW -->
+                                                                                <tr>
+                                                                                    <td class="fw-semibold textDarkBlue fs-6">CTE</td>
+
+                                                                                    <td>
+                                                                                        <span id="bmMfSfName" class="fs-6">Harshal Wankhede</span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <span id="bmMfSfId" class="fs-6">-</span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="bmMfSfC"
+                                                                                            name="bm_mf_sf_c"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        >
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="bmMfSfI"
+                                                                                            name="bm_mf_sf_i"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        >
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <!-- ETE ROW -->
+                                                                                <tr>
+                                                                                    <td class="fw-semibold textDarkBlue fs-6">ETE</td>
+
+                                                                                    <td>
+                                                                                        <span id="bmMfSfName" class="fs-6">Harshal Wankhede</span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <span id="bmMfSfId" class="fs-6">-</span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="bmMfSfC"
+                                                                                            name="bm_mf_sf_c"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        >
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="bmMfSfI"
+                                                                                            name="bm_mf_sf_i"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        >
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <!-- STE ROW -->
+                                                                                <tr>
+                                                                                    <td class="fw-semibold textDarkBlue fs-6">STE</td>
+
+                                                                                    <td>
+                                                                                        <span id="bmMfSfName" class="fs-6">Harshal Wankhede</span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <span id="bmMfSfId" class="fs-6">-</span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="bmMfSfC"
+                                                                                            name="bm_mf_sf_c"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        >
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="bmMfSfI"
+                                                                                            name="bm_mf_sf_i"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        >
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <!-- TE / F ROW -->
+                                                                                <tr>
+                                                                                    <td class="fw-semibold textDarkBlue fs-6">TE / F</td>
+
+                                                                                    <td>
+                                                                                        <span id="teFName" class="fs-6">Harshal Wankhede</span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <span id="teFId" class="fs-6">-</span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="teFC"
+                                                                                            name="te_f_c"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        >
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="teFI"
+                                                                                            name="te_f_i"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        >
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <!-- TC ROW -->
+                                                                                <tr>
+                                                                                    <td class="fw-semibold textDarkBlue fs-6">TC</td>
+
+                                                                                    <td>
+                                                                                        <span id="tcName" class="fs-6">Harshal Wankhede</span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <span id="tcId" class="fs-6">-</span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="tcCommission"
+                                                                                            name="tc_commission"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        >
+                                                                                    </td>
+
+                                                                                    <td class="text-center">—</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                    <?php } if (in_array($upperChainId, [1, 2, 3, 5, 6, 7,4, 8], true)) { ?>
+                                                                    <h5 class="mb-3 fw-bolder" id="#">Institution Slab</h5>
+                                                                    <table class="table table-bordered">
+                                                                        <thead class="table-light">
+                                                                            <tr>
+                                                                                <th scope="col">Range</th>
+                                                                                <th scope="col">Commission Amount</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody id="commissionTableBody">
+                                                                            
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <?php } if (in_array($upperChainId, [1, 2, 3, 5, 6, 7], true)) { ?>
+                                                                    <!-- cu->ibr->i->bm/mf/sf -->
+                                                                    <div class="table-responsive">
+                                                                        <table class="table table-bordered table-hover align-middle mb-0">
+                                                                            <thead class="table-light">
+                                                                                <tr>
+                                                                                    <th class="fs-6">Designation</th>
+                                                                                    <th class="fs-6">Name</th>
+                                                                                    <th class="fs-6">ID</th>
+                                                                                    <th class="fs-6">Commission (₹)</th>
+                                                                                    <th class="fs-6">Incentive (₹)</th>
+                                                                                </tr>
+                                                                            </thead>
+
+                                                                            <tbody>
+                                                                                <!-- BM / MF / SF ROW -->
+                                                                                <tr>
+                                                                                    <td class="fw-semibold textDarkBlue fs-6">BM / MF / SF</td>
+
+                                                                                    <td>
+                                                                                        <span id="bmMfSfName" class="fs-6">Harshal Wankhede</span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <span id="bmMfSfId" class="fs-6">-</span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="bmMfSfC"
+                                                                                            name="bm_mf_sf_c"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        >
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="bmMfSfI"
+                                                                                            name="bm_mf_sf_i"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        >
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <!-- I ROW -->
+                                                                                <tr>
+                                                                                    <td class="fw-semibold textDarkBlue fs-6">I</td>
+
+                                                                                    <td>
+                                                                                        <span id="teFName" class="fs-6">Harshal Wankhede</span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <span id="teFId" class="fs-6">-</span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="teFC"
+                                                                                            name="te_f_c"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        >
+                                                                                    </td>
+
+                                                                                    <td>-
+                                                                                        <!-- <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="teFI"
+                                                                                            name="te_f_i"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        > -->
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <!-- TC ROW -->
+                                                                                <!-- <tr>
+                                                                                    <td class="fw-semibold textDarkBlue fs-6">TC</td>
+
+                                                                                    <td>
+                                                                                        <span id="tcName" class="fs-6">Harshal Wankhede</span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <span id="tcId" class="fs-6">-</span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="tcCommission"
+                                                                                            name="tc_commission"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        >
+                                                                                    </td>
+
+                                                                                    <td class="text-center">—</td>
+                                                                                </tr> -->
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                    <?php } else if (in_array($upperChainId, [4, 8], true)) { ?>
+                                                                    <!-- cu->Ibr->i->ete->cte -->
+                                                                    <div class="table-responsive">
+                                                                        <table class="table table-bordered table-hover align-middle mb-0">
+                                                                            <thead class="table-light">
+                                                                                <tr>
+                                                                                    <th class="fs-6">Designation</th>
+                                                                                    <th class="fs-6">Name</th>
+                                                                                    <th class="fs-6">ID</th>
+                                                                                    <th class="fs-6">Commission (₹)</th>
+                                                                                    <th class="fs-6">Incentive (₹)</th>
+                                                                                </tr>
+                                                                            </thead>
+
+                                                                            <tbody>
+                                                                                <!-- CTE ROW -->
+                                                                                <tr>
+                                                                                    <td class="fw-semibold textDarkBlue fs-6">CTE</td>
+
+                                                                                    <td>
+                                                                                        <span id="bmMfSfName" class="fs-6">Harshal Wankhede</span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <span id="bmMfSfId" class="fs-6">-</span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="bmMfSfC"
+                                                                                            name="bm_mf_sf_c"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        >
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="bmMfSfI"
+                                                                                            name="bm_mf_sf_i"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        >
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <!-- ETE ROW -->
+                                                                                <tr>
+                                                                                    <td class="fw-semibold textDarkBlue fs-6">ETE</td>
+
+                                                                                    <td>
+                                                                                        <span id="bmMfSfName">Harshal Wankhede</span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <span id="bmMfSfId">-</span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="bmMfSfC"
+                                                                                            name="bm_mf_sf_c"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        >
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="bmMfSfI"
+                                                                                            name="bm_mf_sf_i"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        >
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <!-- I ROW -->
+                                                                                <tr>
+                                                                                    <td class="fw-semibold textDarkBlue fs-6">I</td>
+
+                                                                                    <td>
+                                                                                        <span id="teFName" class="fs-6">Harshal Wankhede</span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <span id="teFId" class="fs-6">-</span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="teFC"
+                                                                                            name="te_f_c"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        >
+                                                                                    </td>
+
+                                                                                    <td>-
+                                                                                        <!-- <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="teFI"
+                                                                                            name="te_f_i"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        > -->
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <!-- TC ROW -->
+                                                                                <!-- <tr>
+                                                                                    <td class="fw-semibold textDarkBlue fs-6">TC</td>
+
+                                                                                    <td>
+                                                                                        <span id="tcName" class="fs-6">Harshal Wankhede</span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <span id="tcId" class="fs-6">-</span>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="tcCommission"
+                                                                                            name="tc_commission"
+                                                                                            value="0.00"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            placeholder="0.00"
+                                                                                        >
+                                                                                    </td>
+
+                                                                                    <td class="text-center">—</td>
+                                                                                </tr> -->
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                    <?php } ?>
+                                                                    <hr>
+
+                                                                    <!-- COUPON ADJUSTMENT AND COMPANY -->
+                                                                    <div class="row g-3 mb-3">
+                                                                        <div class="col-lg-6 col-md-6">
+                                                                            <label for="couponAdjustment" class="form-label fw-semibold">
+                                                                                Coupon Adjustment (₹)
+                                                                            </label>
+                                                                            <input
+                                                                                type="number"
+                                                                                class="form-control"
+                                                                                id="couponAdjustment"
+                                                                                name="coupon_adjustment"
+                                                                                value="0.00"
+                                                                                min="0"
+                                                                                step="0.01"
+                                                                                placeholder="0.00"
+                                                                            >
+                                                                            <small class="error-message" id="couponAdjustment_error"></small>
+                                                                        </div>
+
+                                                                        <div class="col-lg-6 col-md-6">
+                                                                            <label for="companyAmount" class="form-label fw-semibold">
+                                                                                Company (₹)
+                                                                            </label>
+                                                                            <input
+                                                                                type="number"
+                                                                                class="form-control"
+                                                                                id="companyAmount"
+                                                                                name="company_amount"
+                                                                                value="0.00"
+                                                                                min="0"
+                                                                                step="0.01"
+                                                                                placeholder="0.00"
+                                                                            >
+                                                                            <small class="error-message" id="companyAmount_error"></small>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <!-- SUSPENSE -->
+                                                                    <div class="row g-3 mb-3">
+                                                                        <div class="col-lg-6 col-md-6">
+                                                                            <label for="suspenseAmount" class="form-label fw-semibold">
+                                                                                Suspense (₹)
+                                                                            </label>
+                                                                            <input
+                                                                                type="number"
+                                                                                class="form-control"
+                                                                                id="suspenseAmount"
+                                                                                name="suspense_amount"
+                                                                                value="0.00"
+                                                                                min="0"
+                                                                                step="0.01"
+                                                                                placeholder="0.00"
+                                                                            >
+                                                                            <small class="error-message" id="suspenseAmount_error"></small>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <!-- CUSTOMER AMOUNTS -->
+                                                                    <div class="row g-3 mb-3">
+                                                                        <div class="col-lg-4 col-md-4 col-sm-12">
+                                                                            <label for="customer1Amount" class="form-label fw-semibold">
+                                                                                Customer 1 (₹)
+                                                                            </label>
+                                                                            <input
+                                                                                type="number"
+                                                                                class="form-control"
+                                                                                id="customer1Amount"
+                                                                                name="customer_1_amount"
+                                                                                value="500.00"
+                                                                                min="0"
+                                                                                step="0.01"
+                                                                            >
+                                                                        </div>
+
+                                                                        <div class="col-lg-4 col-md-4 col-sm-12">
+                                                                            <label for="customer2Amount" class="form-label fw-semibold">
+                                                                                Customer 2 (₹)
+                                                                            </label>
+                                                                            <input
+                                                                                type="number"
+                                                                                class="form-control"
+                                                                                id="customer2Amount"
+                                                                                name="customer_2_amount"
+                                                                                value="250.00"
+                                                                                min="0"
+                                                                                step="0.01"
+                                                                            >
+                                                                        </div>
+
+                                                                        <div class="col-lg-4 col-md-4 col-sm-12">
+                                                                            <label for="customer3Amount" class="form-label fw-semibold">
+                                                                                Customer 3 (₹)
+                                                                            </label>
+                                                                            <input
+                                                                                type="number"
+                                                                                class="form-control"
+                                                                                id="customer3Amount"
+                                                                                name="customer_3_amount"
+                                                                                value="125.00"
+                                                                                min="0"
+                                                                                step="0.01"
+                                                                            >
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <hr>
+
+                                                                    <!-- NET PRICE -->
+                                                                    <div class="row g-3">
+                                                                        <div class="col-lg-6 col-md-6">
+                                                                            <label for="netPriceAdult" class="form-label fw-semibold">
+                                                                                Net Price - Adult (₹)
+                                                                            </label>
+                                                                            <input
+                                                                                type="number"
+                                                                                class="form-control"
+                                                                                id="netPriceAdult"
+                                                                                name="net_price_adult"
+                                                                                value="8000.00"
+                                                                                min="0"
+                                                                                step="0.01"
+                                                                            >
+                                                                            <small class="text-muted">Reference price: ₹12,000</small>
+                                                                            <small class="error-message" id="netPriceAdult_error"></small>
+                                                                        </div>
+
+                                                                        <div class="col-lg-6 col-md-6">
+                                                                            <label for="netPriceChild" class="form-label fw-semibold">
+                                                                                Net Price - Child (₹)
+                                                                            </label>
+                                                                            <input
+                                                                                type="number"
+                                                                                class="form-control"
+                                                                                id="netPriceChild"
+                                                                                name="net_price_child"
+                                                                                value="6000.00"
+                                                                                min="0"
+                                                                                step="0.01"
+                                                                            >
+                                                                            <small class="text-muted">Reference price: ₹9,000</small>
+                                                                            <small class="error-message" id="netPriceChild_error"></small>
+                                                                        </div>
+                                                                    </div>
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -2628,7 +3835,7 @@
                                             <input class="form-check-input extra-mattress"
                                                 type="checkbox"
                                                 id="extraMattress1"
-                                                checked disabled>
+                                                checked >
 
                                             <label class="form-check-label fontSize10"
                                                 for="extraMattress1">
@@ -2654,6 +3861,10 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-outline-secondary" id="resetRoomModification">
+                            <i class="fa-solid fa-rotate-left me-1"></i>
+                            Reset
+                        </button>
                         <button type="button" class="btn btn-primary" id="applyRoomModification">Apply Changes</button>
                     </div>
                 </div>
@@ -2774,7 +3985,7 @@
         <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script> -->
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-        <!-- <script type="text/javascript" src="../assets/js/requestDetails.js"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         
         <!-- Date Range Picker Script End -->
 
@@ -2815,7 +4026,54 @@
             const gstPercentage = <?= json_encode((float)($gst['gst'] ?? 0)) ?>;
             // validity
             const packValidity = <?= json_encode($validity) ?>;
-            
+            // Original room data saved in PHP.
+            const originalPhpRooms = <?= json_encode(
+                $rooms,
+                JSON_HEX_TAG |
+                JSON_HEX_APOS |
+                JSON_HEX_QUOT |
+                JSON_HEX_AMP
+            ) ?>;
+            $.ajax({
+                url: "../packages/forms/get_institution_slab.php",
+                type: "GET",
+                dataType: "json",
+                success: function (response) {
+
+                    let html = "";
+
+                    if (response.length > 0) {
+
+                        response.forEach(function (row) {
+
+                            html += `
+                                <tr>
+                                    <td>${Number(row.lower_limit).toLocaleString("en-IN")} - ${Number(row.upper_limit).toLocaleString("en-IN")}</td>
+                                    <td class="text-start">${Number(row.institution_commission).toLocaleString("en-IN")}</td>
+                                </tr>
+                            `;
+
+                        });
+
+                    } else {
+
+                        html = `
+                            <tr>
+                                <td colspan="2" class="text-center text-muted">
+                                    No records found
+                                </td>
+                            </tr>
+                        `;
+
+                    }
+
+                    $("#commissionTableBody").html(html);
+
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
         </script>
         <script type="text/javascript" src="../assets/js/requestDetails.js"></script>
         <script>
@@ -2823,6 +4081,7 @@
                 json_decode($requestData['coupons'] ?? '[]', true) ?: [],
                 JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
             ) ?>;
+            
             //coupon row
             function createCouponRow(type, number) {
 
@@ -3294,6 +4553,238 @@
                     '- ₹ ' + totalCouponDiscount.toLocaleString('en-IN') 
                 );
             }
+        </script>
+        <script>
+            
+            const dropZone = document.getElementById("dropZone");
+            const fileInput = document.getElementById("fileInput");
+            const selectedFileText = document.getElementById("selectedFileText");
+            const addDocumentBtn = document.getElementById("addDocumentBtn");
+            const documentTitle = document.getElementById("documentTitle");
+            const otherPolicyList = document.getElementById("otherPolicyList");
+            const otherPolicyError = document.getElementById("otherPolicy_error");
+
+            let selectedFile = null;
+
+            window.attachments = window.attachments || [];
+            window.deletedDocuments = window.deletedDocuments || [];
+
+            // Load existing documents into the JavaScript tracking array.
+            <?php if (!empty($policies) && is_array($policies)): ?>
+                <?php foreach ($policies as $doc): ?>
+                    window.attachments.push({
+                        id: <?= (int)($doc['id'] ?? 0) ?>,
+                        title: <?= json_encode($doc['title'] ?? '') ?>,
+                        file: null,
+                        file_name: <?= json_encode($doc['file_name'] ?? '') ?>,
+                        existing: true
+                    });
+                <?php endforeach; ?>
+            <?php endif; ?>
+
+            function showPolicyError(message) {
+                otherPolicyError.textContent = message;
+            }
+
+            function clearPolicyError() {
+                otherPolicyError.textContent = "";
+            }
+
+            function getFileIcon(fileName) {
+                const ext = fileName.split(".").pop().toLowerCase();
+
+                switch (ext) {
+                    case "pdf":
+                        return "https://cdn-icons-png.flaticon.com/512/337/337946.png";
+
+                    case "doc":
+                    case "docx":
+                        return "https://cdn-icons-png.flaticon.com/512/281/281760.png";
+
+                    default:
+                        return "https://cdn-icons-png.flaticon.com/512/833/833524.png";
+                }
+            }
+
+            function escapeHtml(value) {
+                return String(value).replace(/[&<>"']/g, function (char) {
+                    return {
+                        "&": "&amp;",
+                        "<": "&lt;",
+                        ">": "&gt;",
+                        '"': "&quot;",
+                        "'": "&#039;"
+                    }[char];
+                });
+            }
+
+            function updateEmptyPolicyMessage() {
+                const hasDocuments = otherPolicyList.querySelector(".policyItem");
+
+                const emptyMessage = document.getElementById("noOtherPolicy");
+
+                if (!hasDocuments && !emptyMessage) {
+                    otherPolicyList.insertAdjacentHTML(
+                        "beforeend",
+                        '<p class="text-muted mb-0" id="noOtherPolicy">' +
+                        'No other policy documents available.</p>'
+                    );
+                } else if (hasDocuments && emptyMessage) {
+                    emptyMessage.remove();
+                }
+            }
+
+            function renderNewDocument(item) {
+                const row = document.createElement("div");
+                row.className = "policyItem";
+                row.dataset.id = item.id;
+                row.dataset.existing = "0";
+
+                const safeTitle = escapeHtml(item.title);
+                const safeFileName = escapeHtml(item.file.name);
+                const icon = getFileIcon(item.file.name);
+
+                row.innerHTML = `
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="highlightIcon" style="background-color: #b2e0b1;">
+                            <i class="ri-file-pdf-line text-success"></i>
+                        </div>
+
+                        <div>
+                            <p class="mb-0 fw-semibold">${safeTitle}</p>
+                            <small class="text-muted">${safeFileName}</small>
+                            <small class="text-primary d-block">Pending upload</small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2">
+                        <img src="${icon}" width="28" alt="File type">
+
+                        <button
+                            type="button"
+                            class="btn btn-link text-danger p-1 remove-file"
+                            data-id="${item.id}"
+                            title="Remove document">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>
+                    </div>
+                `;
+
+                otherPolicyList.appendChild(row);
+            }
+
+            // Open file picker.
+            dropZone.addEventListener("click", function () {
+                fileInput.click();
+            });
+
+            // File picker selection.
+            fileInput.addEventListener("change", function () {
+                selectedFile = this.files[0] || null;
+
+                selectedFileText.textContent = selectedFile
+                    ? selectedFile.name
+                    : "Drag & Drop or Click to Upload";
+
+                clearPolicyError();
+            });
+
+            // Drag over.
+            dropZone.addEventListener("dragover", function (event) {
+                event.preventDefault();
+                dropZone.classList.add("dragover");
+            });
+
+            // Drag leave.
+            dropZone.addEventListener("dragleave", function () {
+                dropZone.classList.remove("dragover");
+            });
+
+            // Drop file.
+            dropZone.addEventListener("drop", function (event) {
+                event.preventDefault();
+                dropZone.classList.remove("dragover");
+
+                selectedFile = event.dataTransfer.files[0] || null;
+
+                if (selectedFile) {
+                    selectedFileText.textContent = selectedFile.name;
+
+                    // Copy dropped file into the file input so FormData can submit it.
+                    const transfer = new DataTransfer();
+                    transfer.items.add(selectedFile);
+                    fileInput.files = transfer.files;
+                }
+
+                clearPolicyError();
+            });
+
+            // Add document to the UI and tracking array.
+            addDocumentBtn.addEventListener("click", function () {
+                const title = documentTitle.value.trim();
+
+                if (!title) {
+                    showPolicyError("Please enter document title.");
+                    documentTitle.focus();
+                    return;
+                }
+
+                if (!selectedFile) {
+                    showPolicyError("Please select a file.");
+                    return;
+                }
+
+                const allowedExtensions = ["pdf", "doc", "docx"];
+                const extension = selectedFile.name.split(".").pop().toLowerCase();
+
+                if (!allowedExtensions.includes(extension)) {
+                    showPolicyError("Only PDF, DOC and DOCX files are allowed.");
+                    return;
+                }
+
+                const rowId = Date.now() + Math.floor(Math.random() * 1000);
+
+                const item = {
+                    id: rowId,
+                    title: title,
+                    file: selectedFile,
+                    existing: false
+                };
+
+                window.attachments.push(item);
+
+                const emptyMessage = document.getElementById("noOtherPolicy");
+                if (emptyMessage) {
+                    emptyMessage.remove();
+                }
+
+                renderNewDocument(item);
+
+                documentTitle.value = "";
+                fileInput.value = "";
+                selectedFile = null;
+                selectedFileText.textContent = "Drag & Drop or Click to Upload";
+
+                clearPolicyError();
+            });
+
+            // Remove documents using event delegation.
+            $(document).on("click", "#otherPolicyList .remove-file", function () {
+                const row = $(this).closest(".policyItem");
+                const id = Number(row.attr("data-id"));
+                const isExisting = row.attr("data-existing") === "1";
+
+                if (isExisting && !window.deletedDocuments.includes(id)) {
+                    window.deletedDocuments.push(id);
+                }
+
+                window.attachments = window.attachments.filter(function (item) {
+                    return Number(item.id) !== id;
+                });
+
+                row.remove();
+                updateEmptyPolicyMessage();
+            });
         </script>
     </body>
 </html>
