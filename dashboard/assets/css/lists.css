@@ -215,6 +215,9 @@
     }
 }
 @media (max-width: 576px) {
+    .lavenderBanner {
+        height: 150px;
+    }
     .teSectionSize {
         display: block !important;
         gap: 10px !important;
@@ -256,10 +259,15 @@
     .cardWidth {
         width: 100%;
     }
+    .lavenderBanner {
+        min-height: 180px;
+        height: fit-content;
+        position: relative;
+    }
 }
 @media (max-width: 350px) {
     .lavenderBanner {
-        min-height: 160px;
+        min-height: 180px;
         height: fit-content;
         position: relative;
     }

@@ -106,7 +106,7 @@
                                     <div class="lavenderDetails">
                                         <div class="lavenderText">
                                             <h4 class="mb-0 fs-4 fw-bolder textPurpleTE">Techno Enterprise | Institution</h4>
-                                            <p class="mb-0 textPurpleTE">Manage your Techno Enterprise | Institution (TE | I) -  <br class="paraTEBreak1"> enroll new TEs, track their status, <br class="paraTEBreak"> and view active, inactive, and deactivated TEs in your network.</p>
+                                            <p class="mb-0 textPurpleTE">View Franchisees (F) or Techno Enterprises (TEs), <br class="paraTEBreak1"> track their status,  <br class="paraTEBreak"> and monitor their activities and performance across your network.</p>
                                         </div>
                                         <div class="lavenderBreadcrumb">
                                             <ol class="breadcrumb m-0">
