@@ -96,21 +96,89 @@
                         <!-- start page title -->
                         <div class="row">
                             <div class="col-12">
-                                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Franchisee </h4>
-
-                                    <div class="page-title-right">
-                                        <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="master_franchisee_dashboard.php">Dashboard</a></li>
-                                            <li class="breadcrumb-item active">View Franchisee </li>
-                                        </ol>
+                                <div class="lavenderBanner mb-3">
+                                    <div class="imageDisaplay">
+                                        <div class="iconBackgroundPurple">
+                                            <img src="../assets/images/technoEnterprise/HouseIconTransparent.png" alt="" class="iconPurpleImg">
+                                        </div>
+                                        <img src="../assets/images/technoEnterprise/MountainCloudsTransparent.png" alt="" class="lavenderImg">
                                     </div>
-
+                                    <div class="lavenderDetails">
+                                        <div class="lavenderText">
+                                            <h4 class="mb-0 fs-4 fw-bolder textPurpleTE">Franchisee </h4>
+                                            <p class="mb-0 textPurpleTE">Manage your Franchisee (F) -  <br class="paraTEBreak1"> enroll new Franchisees, track their status, <br class="paraTEBreak"> and view active, inactive, and deactivated Franchisees in your network.</p>
+                                        </div>
+                                        <div class="lavenderBreadcrumb">
+                                            <ol class="breadcrumb m-0">
+                                                <li class="breadcrumb-item fw-bolder"><a href="master_franchisee_dashboard.php"><i class="fa-solid fa-house me-2" style="color: #35239a;"></i>Dashboard</a></li>
+                                                <li class="breadcrumb-item active textPurpleTE">View Franchisee </li>
+                                            </ol>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <!-- end page title -->
-
+                        <!-- 4 cards for a Franchisee list start -->
+                        <div class="row">
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6 mb-3 cardWidth">
+                                <div class="card rounded-4 mb-0 p-3 teCard teCard1">
+                                    <div class="d-flex gap-3">
+                                        <div class="teIcon teIcon1">
+                                            <i class="fa-solid fa-user-group fa-xl"></i>
+                                        </div>
+                                        <div class="">
+                                            <p class="mb-1 fs-6 fw-bolder">All Franchisee</p>
+                                            <h4 class="mb-1 teText1" id="teCount">24</h4>
+                                            <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">All Records</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6 mb-3 cardWidth">
+                                <div class="card rounded-4 mb-0 p-3 teCard teCard2">
+                                    <div class="d-flex gap-3">
+                                        <div class="teIcon teIcon2">
+                                            <i class="fa-solid fa-hourglass-half fa-xl"></i>
+                                        </div>
+                                        <div class="">
+                                            <p class="mb-1 fs-6 fw-bolder">Pending Registration</p>
+                                            <h4 class="mb-1 teText2" id="teCount">3</h4>
+                                            <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">Awaiting Approval</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6 mb-3 cardWidth">
+                                <div class="card rounded-4 mb-0 p-3 teCard teCard3">
+                                    <div class="d-flex gap-3">
+                                        <div class="teIcon teIcon3">
+                                            <i class="fa-solid fa-circle-check fa-xl"></i>
+                                        </div>
+                                        <div class="">
+                                            <p class="mb-1 fs-6 fw-bolder">Active Franchisees</p>
+                                            <h4 class="mb-1 teText3" id="teCount">18</h4>
+                                            <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">Currently Active</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6 mb-3 cardWidth">
+                                <div class="card rounded-4 mb-0 p-3 teCard teCard4">
+                                    <div class="d-flex gap-3">
+                                        <div class="teIcon teIcon4">
+                                            <i class="fa-solid fa-user-xmark fa-xl"></i>
+                                        </div>
+                                        <div class="">
+                                            <p class="mb-1 fs-6 fw-bolder">Deactived Franchisees</p>
+                                            <h4 class="mb-1 teText4" id="teCount">2</h4>
+                                            <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">Access Disabled</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 4 cards for a techno enterprise list end -->
                         <div class="row">
                             <div class="col">
 
@@ -432,7 +500,20 @@
                     }
                 ],
                 language: {
-                    emptyTable: "No Pending Franchisee Found"
+                    // emptyTable: "No Pending Franchisee Found"
+                    emptyTable: `
+                        <div class="technoPendingFoundPosition">
+                            <div class="d-flex justify-content-center">
+                                <img src="../assets/images/technoEnterprise/pendingTEClipboardIcon.png" alt="" class="pendingTEClipboardIcon">
+                            </div>
+                            <p class="mb-1 fs-4 fw-bolder text-center" style="color: #0d0538;">
+                                No Pending Franchisee Found
+                            </p>
+                            <p class="mb-1 fs-6 text-center" style="color: #35239a;">
+                                There are no Franchisee applications awaiting approval at the moment.
+                            </p>
+                        </div>
+                    `
                 }
             });
             function loadPendingTEList(){
@@ -641,7 +722,20 @@
                     }
                 ],
                 language: {
-                    emptyTable: 'No Franchisee Found'
+                    // emptyTable: 'No Franchisee Found'
+                    emptyTable: `
+                        <div class="technoPendingFoundPosition">
+                            <div class="d-flex justify-content-center">
+                                <img src="../assets/images/technoEnterprise/registerTEBadgeIcon.png" alt="" class="registerTEBadgeIcon">
+                            </div>
+                            <p class="mb-1 fs-4 fw-bolder text-center" style="color: #0d0538;">
+                                No Registered Franchisee Found
+                            </p>
+                            <p class="mb-1 fs-6 text-center" style="color: #35239a;">
+                                There are no approved and active Franchisee in your network yet.
+                            </p>
+                        </div>
+                    `
                 }
             });
 
