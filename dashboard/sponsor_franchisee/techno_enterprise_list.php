@@ -110,7 +110,7 @@
                                         </div>
                                         <div class="lavenderBreadcrumb">
                                             <ol class="breadcrumb m-0">
-                                                <li class="breadcrumb-item fw-bolder"><a href="super_techno_dashboard.php"><i class="fa-solid fa-house me-2" style="color: #35239a;"></i>Dashboard</a></li>
+                                                <li class="breadcrumb-item fw-bolder"><a href="sponsor_franchisee_dashboard.php"><i class="fa-solid fa-house me-2" style="color: #35239a;"></i>Dashboard</a></li>
                                                 <li class="breadcrumb-item active textPurpleTE">View Franchisee </li>
                                             </ol>
                                         </div>
