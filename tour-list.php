@@ -1153,7 +1153,16 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                                 $badgeText = 'Popular';
                                                 $badgeClass = 'badge-popular';
                                                 // get images
-                                                $data = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = '" . $row['id'] . "' LIMIT 1");
+                                                $data = $conn->prepare("SELECT *
+                                                    FROM package_pictures
+                                                    WHERE package_id = '" . $row['id'] . "'
+                                                    ORDER BY
+                                                        CASE
+                                                            WHEN type = 'cover_image' THEN 0
+                                                            ELSE 1
+                                                        END,
+                                                        id ASC
+                                                    LIMIT 1");
                                                 $data->execute();
                                                 $value = $data->fetch();
                                                 // echo $value['image'].'-id-'.$value['id'].'-package_id-'.$value['package_id'];
@@ -1360,7 +1369,16 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                                 // echo $srno.' '.$name.'</br>';
 
                                                 // get images
-                                                $data = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = '" . $row['id'] . "' LIMIT 1");
+                                                $data = $conn->prepare("SELECT *
+                                                    FROM package_pictures
+                                                    WHERE package_id = '" . $row['id'] . "'
+                                                    ORDER BY
+                                                        CASE
+                                                            WHEN type = 'cover_image' THEN 0
+                                                            ELSE 1
+                                                        END,
+                                                        id ASC
+                                                    LIMIT 1");
                                                 $data->execute();
                                                 $value = $data->fetch();
                                                 // echo $value['image'].'-id-'.$value['id'].'-package_id-'.$value['package_id'];
