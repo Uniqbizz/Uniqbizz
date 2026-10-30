@@ -404,17 +404,17 @@ try {
 
             ':ta_markup' => amount($mydata['pricing']['travelConsultant']),
 
-            ':ca_mark_up_total' => amount($mydata['pricing']['teBmComInsTotal']),
+            ':ca_mark_up_total' => amount($mydata['pricing']['bmTeCommInsTotal']),
 
-            ':ca_direct_commission' => amount($mydata['pricing']['teBmComm']),
+            ':ca_direct_commission' => amount($mydata['pricing']['bmTeComm']),
 
-            ':ca_incentive' => amount($mydata['pricing']['teBmIns']),
+            ':ca_incentive' => amount($mydata['pricing']['bmTeIns']),
 
-            ':bm_mark_up_total' => amount($mydata['pricing']['bmTeCommInsTotal']),
+            ':bm_mark_up_total' => amount($mydata['pricing']['teBmComInsTotal']),
 
-            ':bm_direct_commission' => amount($mydata['pricing']['bmTeComm']),
+            ':bm_direct_commission' => amount($mydata['pricing']['teBmCommbmTeComm']),
 
-            ':bm_incentive' => amount($mydata['pricing']['bmTeIns']),
+            ':bm_incentive' => amount($mydata['pricing']['teBmIns']),
 
             ':prime_customer' => amount($mydata['pricing']['customer1']),
 

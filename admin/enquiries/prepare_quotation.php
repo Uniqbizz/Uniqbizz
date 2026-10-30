@@ -2949,9 +2949,9 @@
                                                                             </thead>
 
                                                                             <tbody>
-                                                                                <!-- BM / MF / SF ROW -->
+                                                                                <!-- BM | SF | M ROW -->
                                                                                 <tr>
-                                                                                    <td class="fw-semibold textDarkBlue fs-6">BM / MF / SF</td>
+                                                                                    <td class="fw-semibold textDarkBlue fs-6">BM | SF | M</td>
 
                                                                                     <td>
                                                                                         <span id="bmMfSfName" class="fs-6">
@@ -2985,7 +2985,7 @@
                                                                                             class="form-control"
                                                                                             id="bmMfSfC"
                                                                                             name="bm_mf_sf_c"
-                                                                                            value="0.00"
+                                                                                            value="<?= $packagePricingMarkup['bm_direct_commission']??0.00 ?>"
                                                                                             min="0"
                                                                                             step="0.01"
                                                                                             placeholder="0.00"
@@ -2998,7 +2998,7 @@
                                                                                             class="form-control"
                                                                                             id="bmMfSfI"
                                                                                             name="bm_mf_sf_i"
-                                                                                            value="0.00"
+                                                                                            value="<?= $packagePricingMarkup['bm_incentive']??0.00 ?>"
                                                                                             min="0"
                                                                                             step="0.01"
                                                                                             placeholder="0.00"
@@ -3042,7 +3042,7 @@
                                                                                             class="form-control"
                                                                                             id="teFC"
                                                                                             name="te_f_c"
-                                                                                            value="0.00"
+                                                                                            value="<?= $packagePricingMarkup['ca_direct_commission']??0.00 ?>"
                                                                                             min="0"
                                                                                             step="0.01"
                                                                                             placeholder="0.00"
@@ -3055,7 +3055,7 @@
                                                                                             class="form-control"
                                                                                             id="teFI"
                                                                                             name="te_f_i"
-                                                                                            value="0.00"
+                                                                                            value="<?= $packagePricingMarkup['ca_incentive']??0.00 ?>"
                                                                                             min="0"
                                                                                             step="0.01"
                                                                                             placeholder="0.00"
@@ -3085,7 +3085,7 @@
                                                                                             class="form-control"
                                                                                             id="tcCommission"
                                                                                             name="tc_commission"
-                                                                                            value="0.00"
+                                                                                            value="<?= $packagePricingMarkup['ta_markup'] ?? 0.00 ?>"
                                                                                             min="0"
                                                                                             step="0.01"
                                                                                             placeholder="0.00"
@@ -3130,7 +3130,7 @@
                                                                                             class="form-control"
                                                                                             id="bmMfSfC"
                                                                                             name="bm_mf_sf_c"
-                                                                                            value="0.00"
+                                                                                            value="<?= $packagePricingTeChain['cte_direct_commission']??0.00 ?>"
                                                                                             min="0"
                                                                                             step="0.01"
                                                                                             placeholder="0.00"
@@ -3143,7 +3143,7 @@
                                                                                             class="form-control"
                                                                                             id="bmMfSfI"
                                                                                             name="bm_mf_sf_i"
-                                                                                            value="0.00"
+                                                                                            value="<?= $packagePricingTeChain['cte_incentive']??0.00 ?>"
                                                                                             min="0"
                                                                                             step="0.01"
                                                                                             placeholder="0.00"
@@ -3168,7 +3168,7 @@
                                                                                             class="form-control"
                                                                                             id="bmMfSfC"
                                                                                             name="bm_mf_sf_c"
-                                                                                            value="0.00"
+                                                                                            value="<?= $packagePricingTeChain['ete_direct_commission']??0.00 ?>"
                                                                                             min="0"
                                                                                             step="0.01"
                                                                                             placeholder="0.00"
@@ -3181,7 +3181,7 @@
                                                                                             class="form-control"
                                                                                             id="bmMfSfI"
                                                                                             name="bm_mf_sf_i"
-                                                                                            value="0.00"
+                                                                                            value="<?= $packagePricingTeChain['ete_incentive']??0.00 ?>"
                                                                                             min="0"
                                                                                             step="0.01"
                                                                                             placeholder="0.00"
@@ -3206,7 +3206,7 @@
                                                                                             class="form-control"
                                                                                             id="bmMfSfC"
                                                                                             name="bm_mf_sf_c"
-                                                                                            value="0.00"
+                                                                                            value="<?= $packagePricingTeChain['ste_direct_commission']??0.00 ?>"
                                                                                             min="0"
                                                                                             step="0.01"
                                                                                             placeholder="0.00"
@@ -3219,7 +3219,7 @@
                                                                                             class="form-control"
                                                                                             id="bmMfSfI"
                                                                                             name="bm_mf_sf_i"
-                                                                                            value="0.00"
+                                                                                            value="<?= $packagePricingTeChain['ste_incentive']??0.00 ?>"
                                                                                             min="0"
                                                                                             step="0.01"
                                                                                             placeholder="0.00"
@@ -3244,7 +3244,7 @@
                                                                                             class="form-control"
                                                                                             id="teFC"
                                                                                             name="te_f_c"
-                                                                                            value="0.00"
+                                                                                            value="<?= $packagePricingTeChain['te_direct_commission']??0.00 ?>"
                                                                                             min="0"
                                                                                             step="0.01"
                                                                                             placeholder="0.00"
@@ -3257,7 +3257,7 @@
                                                                                             class="form-control"
                                                                                             id="teFI"
                                                                                             name="te_f_i"
-                                                                                            value="0.00"
+                                                                                            value="<?= $packagePricingTeChain['te_incentive']??0.00 ?>"
                                                                                             min="0"
                                                                                             step="0.01"
                                                                                             placeholder="0.00"
@@ -3282,7 +3282,7 @@
                                                                                             class="form-control"
                                                                                             id="tcCommission"
                                                                                             name="tc_commission"
-                                                                                            value="0.00"
+                                                                                            value="<?= $packagePricingTeChain['ta_markup'] ?>"
                                                                                             min="0"
                                                                                             step="0.01"
                                                                                             placeholder="0.00"
@@ -3322,9 +3322,9 @@
                                                                             </thead>
 
                                                                             <tbody>
-                                                                                <!-- BM / MF / SF ROW -->
+                                                                                <!-- BM | SF | M ROW -->
                                                                                 <tr>
-                                                                                    <td class="fw-semibold textDarkBlue fs-6">BM / MF / SF</td>
+                                                                                    <td class="fw-semibold textDarkBlue fs-6">BM | SF | M</td>
 
                                                                                     <td>
                                                                                         <span id="bmMfSfName" class="fs-6">Harshal Wankhede</span>
@@ -3340,7 +3340,7 @@
                                                                                             class="form-control"
                                                                                             id="bmMfSfC"
                                                                                             name="bm_mf_sf_c"
-                                                                                            value="0.00"
+                                                                                            value="<?= $packagePricingInstitution['bm_direct_commission']??0.00 ?>"
                                                                                             min="0"
                                                                                             step="0.01"
                                                                                             placeholder="0.00"
@@ -3353,7 +3353,7 @@
                                                                                             class="form-control"
                                                                                             id="bmMfSfI"
                                                                                             name="bm_mf_sf_i"
-                                                                                            value="0.00"
+                                                                                            value="<?= $packagePricingInstitution['bm_incentive']??0.00 ?>"
                                                                                             min="0"
                                                                                             step="0.01"
                                                                                             placeholder="0.00"
@@ -3378,7 +3378,7 @@
                                                                                             class="form-control"
                                                                                             id="teFC"
                                                                                             name="te_f_c"
-                                                                                            value="0.00"
+                                                                                            value="<?= $packagePricingInstitution['ins_markup']??0.00 ?>"
                                                                                             min="0"
                                                                                             step="0.01"
                                                                                             placeholder="0.00"
@@ -3461,7 +3461,7 @@
                                                                                             class="form-control"
                                                                                             id="bmMfSfC"
                                                                                             name="bm_mf_sf_c"
-                                                                                            value="0.00"
+                                                                                            value="<?= $packagePricingTechnoInstitution['cte_direct_commission'] ?? 0.00 ?>"
                                                                                             min="0"
                                                                                             step="0.01"
                                                                                             placeholder="0.00"
@@ -3474,7 +3474,7 @@
                                                                                             class="form-control"
                                                                                             id="bmMfSfI"
                                                                                             name="bm_mf_sf_i"
-                                                                                            value="0.00"
+                                                                                            value="<?= $packagePricingTechnoInstitution['cte_incentive'] ?? 0.00 ?>"
                                                                                             min="0"
                                                                                             step="0.01"
                                                                                             placeholder="0.00"
@@ -3499,7 +3499,7 @@
                                                                                             class="form-control"
                                                                                             id="bmMfSfC"
                                                                                             name="bm_mf_sf_c"
-                                                                                            value="0.00"
+                                                                                            value="<?= $packagePricingTechnoInstitution['ete_direct_commission'] ?? 0.00 ?>"
                                                                                             min="0"
                                                                                             step="0.01"
                                                                                             placeholder="0.00"
@@ -3512,7 +3512,7 @@
                                                                                             class="form-control"
                                                                                             id="bmMfSfI"
                                                                                             name="bm_mf_sf_i"
-                                                                                            value="0.00"
+                                                                                            value="<?= $packagePricingTechnoInstitution['ete_incentive'] ?? 0.00 ?>"
                                                                                             min="0"
                                                                                             step="0.01"
                                                                                             placeholder="0.00"
@@ -3537,7 +3537,7 @@
                                                                                             class="form-control"
                                                                                             id="teFC"
                                                                                             name="te_f_c"
-                                                                                            value="0.00"
+                                                                                            value="<?= $packagePricingTechnoInstitution['ins_markup'] ?? 0.00 ?>"
                                                                                             min="0"
                                                                                             step="0.01"
                                                                                             placeholder="0.00"
@@ -3601,7 +3601,7 @@
                                                                                 class="form-control"
                                                                                 id="couponAdjustment"
                                                                                 name="coupon_adjustment"
-                                                                                value="0.00"
+                                                                                value="<?= $packagePricing['coupon_adjustment'] ??0.00?>"
                                                                                 min="0"
                                                                                 step="0.01"
                                                                                 placeholder="0.00"
@@ -3618,7 +3618,7 @@
                                                                                 class="form-control"
                                                                                 id="companyAmount"
                                                                                 name="company_amount"
-                                                                                value="0.00"
+                                                                                value="<?= $packagePricingMarkup['company'] ??0.00?>"
                                                                                 min="0"
                                                                                 step="0.01"
                                                                                 placeholder="0.00"
@@ -3638,7 +3638,7 @@
                                                                                 class="form-control"
                                                                                 id="suspenseAmount"
                                                                                 name="suspense_amount"
-                                                                                value="0.00"
+                                                                                value="<?= $suspenseAmount ?? 0.00 ?>"
                                                                                 min="0"
                                                                                 step="0.01"
                                                                                 placeholder="0.00"
@@ -3658,7 +3658,7 @@
                                                                                 class="form-control"
                                                                                 id="customer1Amount"
                                                                                 name="customer_1_amount"
-                                                                                value="500.00"
+                                                                                value="<?= $customerCom1 ?? 0.00 ?>"
                                                                                 min="0"
                                                                                 step="0.01"
                                                                             >
@@ -3673,7 +3673,7 @@
                                                                                 class="form-control"
                                                                                 id="customer2Amount"
                                                                                 name="customer_2_amount"
-                                                                                value="250.00"
+                                                                                value="<?= $customerCom2 ?? 0.00 ?>"
                                                                                 min="0"
                                                                                 step="0.01"
                                                                             >
@@ -3688,7 +3688,7 @@
                                                                                 class="form-control"
                                                                                 id="customer3Amount"
                                                                                 name="customer_3_amount"
-                                                                                value="125.00"
+                                                                                value="<?= $customerCom3 ?? 0.00 ?>"
                                                                                 min="0"
                                                                                 step="0.01"
                                                                             >
@@ -3708,7 +3708,7 @@
                                                                                 class="form-control"
                                                                                 id="netPriceAdult"
                                                                                 name="net_price_adult"
-                                                                                value="8000.00"
+                                                                                value="<?= $packagePricing['net_price_adult'] ?>"
                                                                                 min="0"
                                                                                 step="0.01"
                                                                             >
@@ -3725,7 +3725,7 @@
                                                                                 class="form-control"
                                                                                 id="netPriceChild"
                                                                                 name="net_price_child"
-                                                                                value="6000.00"
+                                                                                value="<?= $packagePricing['net_price_child'] ?>"
                                                                                 min="0"
                                                                                 step="0.01"
                                                                             >

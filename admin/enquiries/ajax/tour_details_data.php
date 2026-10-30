@@ -904,6 +904,53 @@ if (strtoupper(trim((string) $prefix)) === 'CU') {
         </script>';
     }
 }
+$suspenseAmount = 0.00;
+$customerCom1=0.00;
+$customerCom2=0.00;
+$customerCom3=0.00;
+/*
+|--------------------------------------------------------------------------
+| Package Pricing
+|--------------------------------------------------------------------------
+*/
+$stmt = $conn->prepare("SELECT * FROM package_pricing WHERE package_id = :package_id");
+$stmt->execute([':package_id' => $id]);
+$packagePricing = $stmt->fetch(PDO::FETCH_ASSOC);
+/*
+|--------------------------------------------------------------------------
+| Package Pricing Markup
+|--------------------------------------------------------------------------
+*/
+$stmt = $conn->prepare("SELECT * FROM package_pricing_markup WHERE package_id = :package_id");
+$stmt->execute([':package_id' => $id]);
+$packagePricingMarkup = $stmt->fetch(PDO::FETCH_ASSOC);
+
+/*
+|--------------------------------------------------------------------------
+| Package Pricing Markup TE Chain
+|--------------------------------------------------------------------------
+*/
+$stmt = $conn->prepare("SELECT * FROM package_pricing_markup_te_chain WHERE package_id = :package_id");
+$stmt->execute([':package_id' => $id]);
+$packagePricingTeChain = $stmt->fetch(PDO::FETCH_ASSOC);
+
+/*
+|--------------------------------------------------------------------------
+| Package Pricing Markup Institution
+|--------------------------------------------------------------------------
+*/
+$stmt = $conn->prepare("SELECT * FROM package_pricing_markup_institution WHERE package_id = :package_id");
+$stmt->execute([':package_id' => $id]);
+$packagePricingInstitution = $stmt->fetch(PDO::FETCH_ASSOC);
+
+/*
+|--------------------------------------------------------------------------
+| Package Pricing Markup Techno Institution
+|--------------------------------------------------------------------------
+*/
+$stmt = $conn->prepare("SELECT * FROM package_pricing_markup_techno_institution WHERE package_id = :package_id");
+$stmt->execute([':package_id' => $id]);
+$packagePricingTechnoInstitution = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (is_array($upperChain) && !empty($upperChain)) {
 
@@ -912,25 +959,40 @@ if (is_array($upperChain) && !empty($upperChain)) {
     if (in_array($upperChainId, [1, 2, 3, 5, 6, 7], true)) {
 
         // package_pricing_markup_institution
+        $suspenseAmount = $packagePricingInstitution['suspense'] ?? 0.00;
+        $customerCom1=$packagePricingInstitution['prime_customer'];
+        $customerCom2=$packagePricingInstitution['L1_customer'];
+        $customerCom3=$packagePricingInstitution['L2_customer'];
 
     } elseif (in_array($upperChainId, [4, 8], true)) {
 
         // package_pricing_markup_techno_institution
+        $suspenseAmount = $packagePricingTechnoInstitution['suspense'] ?? 0.00;
+        $customerCom1=$packagePricingTechnoInstitution['prime_customer'];
+        $customerCom2=$packagePricingTechnoInstitution['L1_customer'];
+        $customerCom3=$packagePricingTechnoInstitution['L2_customer'];
 
     } elseif (in_array($upperChainId, [9, 10, 11, 13, 14, 15, 17, 18, 19], true)) {
 
         // package_pricing_markup
+        $suspenseAmount = $packagePricingMarkup['suspense'] ?? 0.00;
+        $customerCom1=$packagePricingMarkup['prime_customer'];
+        $customerCom2=$packagePricingMarkup['L1_customer'];
+        $customerCom3=$packagePricingMarkup['L2_customer'];
 
     } elseif (in_array($upperChainId, [12, 16, 20], true)) {
 
         // package_pricing_markup_te_chain
+        $suspenseAmount = $packagePricingTeChain['suspense'] ?? 0.00;
+        $customerCom1=$packagePricingTeChain['prime_customer'];
+        $customerCom2=$packagePricingTeChain['L1_customer'];
+        $customerCom3=$packagePricingTeChain['L2_customer'];
 
     } else {
 
         // No matching upper chain ID
     }
 }
-
 // =====================================================
 // COUPONS AND WALLETS FOR CU
 // =====================================================

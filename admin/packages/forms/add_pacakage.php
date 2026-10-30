@@ -421,41 +421,41 @@ try {
         $stmt = $conn->prepare($sql);
         $stmt->execute([
 
-            ':package_id'=>$get_id,
+            ':package_id' => $get_id,
 
-            ':company'=>amount($mydata['pricing']['companyMarkup']),
+            ':company' => amount($mydata['pricing']['companyMarkup']),
 
-            ':customer'=>amount($mydata['pricing']['totalCustomerShare']),
+            ':customer' => amount($mydata['pricing']['totalCustomerShare']),
 
-            ':ta_markup'=>amount($mydata['pricing']['travelConsultant']),
+            ':ta_markup' => amount($mydata['pricing']['travelConsultant']),
 
-            ':ca_mark_up_total'=>amount($mydata['pricing']['teBmComInsTotal']),
+            ':ca_mark_up_total' => amount($mydata['pricing']['bmTeCommInsTotal']),
 
-            ':ca_direct_commission'=>amount($mydata['pricing']['teBmComm']),
+            ':ca_direct_commission' => amount($mydata['pricing']['bmTeComm']),
 
-            ':ca_incentive'=>amount($mydata['pricing']['teBmIns']),
+            ':ca_incentive' => amount($mydata['pricing']['bmTeIns']),
 
-            ':bm_mark_up_total'=>amount($mydata['pricing']['bmTeCommInsTotal']),
+            ':bm_mark_up_total' => amount($mydata['pricing']['teBmComInsTotal']),
 
-            ':bm_direct_commission'=>amount($mydata['pricing']['bmTeComm']),
+            ':bm_direct_commission' => amount($mydata['pricing']['teBmCommbmTeComm']),
 
-            ':bm_incentive'=>amount($mydata['pricing']['bmTeIns']),
+            ':bm_incentive' => amount($mydata['pricing']['teBmIns']),
 
-            ':prime_customer'=>amount($mydata['pricing']['customer1']),
+            ':prime_customer' => amount($mydata['pricing']['customer1']),
 
-            ':L1_customer'=>amount($mydata['pricing']['customer2']),
+            ':L1_customer' => amount($mydata['pricing']['customer2']),
 
-            ':L2_customer'=>amount($mydata['pricing']['customer3']),
+            ':L2_customer' => amount($mydata['pricing']['customer3']),
 
-            ':total_mark_up'=>amount($mydata['pricing']['bmTeChainCommInsTotal']),
+            ':total_mark_up' => amount($mydata['pricing']['bmTeChainCommInsTotal']),
 
-            ':total_commission_amount'=>amount($mydata['pricing']['bmTeChainCommTotal']),
+            ':total_commission_amount' => amount($mydata['pricing']['bmTeChainCommTotal']),
 
-            ':total_incentive_amount'=>amount($mydata['pricing']['bmTeChainInsTotal']),
+            ':total_incentive_amount' => amount($mydata['pricing']['bmTeChainInsTotal']),
 
-            ':coupon_amount'=>amount($mydata['pricing']['couponAdjustment']),
+            ':coupon_amount' => amount($mydata['pricing']['couponAdjustment']),
 
-            ':suspense'=>amount($mydata['pricing']['bmSuspence'])
+            ':suspense' => amount($mydata['pricing']['bmSuspence'])
 
         ]);
         // cte->ete->ste->te
@@ -520,53 +520,53 @@ try {
 
         $stmt->execute([
 
-            ':package_id'=>$get_id,
+            ':package_id' => $get_id,
 
-            ':company'=>amount($mydata['pricing']['companyMarkup']),
+            ':company' => amount($mydata['pricing']['companyMarkup']),
 
-            ':customer'=>amount($mydata['pricing']['totalCustomerShare']),
+            ':customer' => amount($mydata['pricing']['totalCustomerShare']),
 
-            ':ta_markup'=>amount($mydata['pricing']['travelConsultant']),
+            ':ta_markup' => amount($mydata['pricing']['travelConsultant']),
 
-            ':te_mark_up_total'=>amount($mydata['pricing']['cTeFCommInsTotal']),
+            ':te_mark_up_total' => amount($mydata['pricing']['cTeFCommInsTotal']),
 
-            ':te_direct_commission'=>amount($mydata['pricing']['cTeFComm']),
+            ':te_direct_commission' => amount($mydata['pricing']['cTeFComm']),
 
-            ':te_incentive'=>amount($mydata['pricing']['cTeFIns']),
+            ':te_incentive' => amount($mydata['pricing']['cTeFIns']),
 
-            ':ete_mark_up_total'=>amount($mydata['pricing']['eteCommInsTotal']),
+            ':ete_mark_up_total' => amount($mydata['pricing']['eteCommInsTotal']),
 
-            ':ete_direct_commission'=>amount($mydata['pricing']['eteComm']),
+            ':ete_direct_commission' => amount($mydata['pricing']['eteComm']),
 
-            ':ete_incentive'=>amount($mydata['pricing']['eteIns']),
+            ':ete_incentive' => amount($mydata['pricing']['eteIns']),
 
-            ':ste_mark_up_total'=>amount($mydata['pricing']['steCommInsTotal']),
+            ':ste_mark_up_total' => amount($mydata['pricing']['steCommInsTotal']),
 
-            ':ste_direct_commission'=>amount($mydata['pricing']['steComm']),
+            ':ste_direct_commission' => amount($mydata['pricing']['steComm']),
 
-            ':ste_incentive'=>amount($mydata['pricing']['steIns']),
+            ':ste_incentive' => amount($mydata['pricing']['steIns']),
 
-            ':cte_mark_up_total'=>amount($mydata['pricing']['cteCommInsTotal']),
+            ':cte_mark_up_total' => amount($mydata['pricing']['cteCommInsTotal']),
 
-            ':cte_direct_commission'=>amount($mydata['pricing']['cteComm']),
+            ':cte_direct_commission' => amount($mydata['pricing']['cteComm']),
 
-            ':cte_incentive'=>amount($mydata['pricing']['cteIns']),
+            ':cte_incentive' => amount($mydata['pricing']['cteIns']),
 
-            ':prime_customer'=>amount($mydata['pricing']['customer1']),
+            ':prime_customer' => amount($mydata['pricing']['customer1']),
 
-            ':L1_customer'=>amount($mydata['pricing']['customer2']),
+            ':L1_customer' => amount($mydata['pricing']['customer2']),
 
-            ':L2_customer'=>amount($mydata['pricing']['customer3']),
+            ':L2_customer' => amount($mydata['pricing']['customer3']),
 
-            ':total_mark_up'=>amount($mydata['pricing']['cteChainCommTotal']),
+            ':total_mark_up' => amount($mydata['pricing']['cteChainCommTotal']),
 
-            ':total_commission_amount'=>amount($mydata['pricing']['cteChainCommInsTotal']),
+            ':total_commission_amount' => amount($mydata['pricing']['cteChainCommInsTotal']),
 
-            ':total_incentive_amount'=>amount($mydata['pricing']['cteChainInsTotal']),
+            ':total_incentive_amount' => amount($mydata['pricing']['cteChainInsTotal']),
 
-            ':coupon_amount'=>amount($mydata['pricing']['couponAdjustment']),
+            ':coupon_amount' => amount($mydata['pricing']['couponAdjustment']),
 
-            ':suspense'=>amount($mydata['pricing']['cteSuspence'])
+            ':suspense' => amount($mydata['pricing']['cteSuspence'])
 
         ]);
 
@@ -619,43 +619,25 @@ try {
         $stmt = $conn->prepare($sql);
 
         $stmt->execute([
+            ':package_id' => $get_id,
 
-            ':package_id'=>$get_id,
-
-            ':company'=>amount($mydata['pricing']['companyMarkup']),
-
-            ':customer'=>amount($mydata['pricing']['totalCustomerShare']),
-
-            ':ins_markup'=>amount($mydata['pricing']['cteIComm']),
-
-            ':ete_mark_up_total'=>amount($mydata['pricing']['iEteCommInsTotal']),
-
-            ':ete_direct_commission'=>amount($mydata['pricing']['iEteComm']),
-
-            ':ete_incentive'=>amount($mydata['pricing']['iEteIns']),
-
-            ':cte_mark_up_total'=>amount($mydata['pricing']['iCteCommInsTotal']),
-
-            ':cte_direct_commission'=>amount($mydata['pricing']['iCteComm']),
-
-            ':cte_incentive'=>amount($mydata['pricing']['iCteIns']),
-
-            ':prime_customer'=>amount($mydata['pricing']['customer1']),
-
-            ':L1_customer'=>amount($mydata['pricing']['customer2']),
-
-            ':L2_customer'=>amount($mydata['pricing']['customer3']),
-
-            ':total_mark_up'=>amount($mydata['pricing']['iCteComInsTotal']),
-
-            ':total_commission_amount'=>amount($mydata['pricing']['iCteComTotal']),
-
-            ':total_incentive_amount'=>amount($mydata['pricing']['iCteInsTotal']),
-
-            ':coupon_amount'=>amount($mydata['pricing']['couponAdjustment']),
-
-            ':suspense'=>amount($mydata['pricing']['cteISuspence'])
-
+            ':company' => amount($mydata['pricing']['companyMarkup']),
+            ':customer' => amount($mydata['pricing']['totalCustomerShare']),
+            ':ins_markup' => amount($mydata['pricing']['cteIComm']),
+            ':ete_mark_up_total' => amount($mydata['pricing']['iEteCommInsTotal']),
+            ':ete_direct_commission' => amount($mydata['pricing']['iEteComm']),
+            ':ete_incentive' => amount($mydata['pricing']['iEteIns']),
+            ':cte_mark_up_total' => amount($mydata['pricing']['iCteCommInsTotal']),
+            ':cte_direct_commission' => amount($mydata['pricing']['iCteComm']),
+            ':cte_incentive' => amount($mydata['pricing']['iCteIns']),
+            ':prime_customer' => amount($mydata['pricing']['customer1']),
+            ':L1_customer' => amount($mydata['pricing']['customer2']),
+            ':L2_customer' => amount($mydata['pricing']['customer3']),
+            ':total_mark_up' => amount($mydata['pricing']['iCteComInsTotal']),
+            ':total_commission_amount' => amount($mydata['pricing']['iCteComTotal']),
+            ':total_incentive_amount' => amount($mydata['pricing']['iCteInsTotal']),
+            ':coupon_amount' => amount($mydata['pricing']['couponAdjustment']),
+            ':suspense' => amount($mydata['pricing']['cteISuspence'])
         ]);
         // bm/mf/sf->i
         $sql = "
@@ -701,35 +683,35 @@ try {
 
         $stmt->execute([
 
-            ':package_id'=>$get_id,
+            ':package_id' => $get_id,
 
-            ':company'=>amount($mydata['pricing']['companyMarkup']),
+            ':company' => amount($mydata['pricing']['companyMarkup']),
 
-            ':customer'=>amount($mydata['pricing']['totalCustomerShare']),
+            ':customer' => amount($mydata['pricing']['totalCustomerShare']),
 
-            ':ins_markup'=>amount($mydata['pricing']['bmIComm']),
+            ':ins_markup' => amount($mydata['pricing']['bmIComm']),
 
-            ':bm_mark_up_total'=>amount($mydata['pricing']['iBmCommInsTotal']),
+            ':bm_mark_up_total' => amount($mydata['pricing']['iBmCommInsTotal']),
 
-            ':bm_direct_commission'=>amount($mydata['pricing']['iBmComm']),
+            ':bm_direct_commission' => amount($mydata['pricing']['iBmComm']),
 
-            ':bm_incentive'=>amount($mydata['pricing']['iBmIns']),
+            ':bm_incentive' => amount($mydata['pricing']['iBmIns']),
 
-            ':prime_customer'=>amount($mydata['pricing']['customer1']),
+            ':prime_customer' => amount($mydata['pricing']['customer1']),
 
-            ':L1_customer'=>amount($mydata['pricing']['customer2']),
+            ':L1_customer' => amount($mydata['pricing']['customer2']),
 
-            ':L2_customer'=>amount($mydata['pricing']['customer3']),
+            ':L2_customer' => amount($mydata['pricing']['customer3']),
 
-            ':total_mark_up'=>amount($mydata['pricing']['bmIComInsTotal']),
+            ':total_mark_up' => amount($mydata['pricing']['bmIComInsTotal']),
 
-            ':total_commission_amount'=>amount($mydata['pricing']['bmIComTotal']),
+            ':total_commission_amount' => amount($mydata['pricing']['bmIComTotal']),
 
-            ':total_incentive_amount'=>amount($mydata['pricing']['bmIInsTotal']),
+            ':total_incentive_amount' => amount($mydata['pricing']['bmIInsTotal']),
 
-            ':coupon_amount'=>amount($mydata['pricing']['couponAdjustment']),
+            ':coupon_amount' => amount($mydata['pricing']['couponAdjustment']),
 
-            ':suspense'=>amount($mydata['pricing']['bmISuspence'])
+            ':suspense' => amount($mydata['pricing']['bmISuspence'])
 
         ]);
 

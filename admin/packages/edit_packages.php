@@ -1239,9 +1239,9 @@
                                                                         <tr>
                                                                             <td>ETE</td>
                                                                             <td class="text-end" id="eteComPer"><?= $product_payout_data_new['ETE']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="eteComm" data-value="0">&#8377; <?= $packagePricingTeChain['ete_mark_up_total']??0.00 ?></td>
+                                                                            <td class="text-end editable-comm" id="eteComm" data-value="0">&#8377; <?= $packagePricingTeChain['ete_direct_commission']??0.00 ?></td>
                                                                             <td class="text-end" id="eteInsPer"><?= $product_payout_data_new['ETE']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="eteIns" data-value="0">&#8377; <?= $packagePricingTeChain['ete_mark_up_total']??0.00 ?></td>
+                                                                            <td class="text-end editable-ins" id="eteIns" data-value="0">&#8377; <?= $packagePricingTeChain['ete_incentive']??0.00 ?></td>
                                                                             <td class="text-end editable-total" id="eteCommInsTotal">&#8377; <?= $packagePricingTeChain['ete_mark_up_total']??0.00 ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
@@ -1254,9 +1254,9 @@
                                                                         <tr>
                                                                             <td>STE</td>
                                                                             <td class="text-end" id="steComPer"><?= $product_payout_data_new['STE']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="steComm" data-value="0">&#8377; <?= $packagePricingTeChain['ste_mark_up_total']??0.00 ?></td>
+                                                                            <td class="text-end editable-comm" id="steComm" data-value="0">&#8377; <?= $packagePricingTeChain['ste_direct_commission']??0.00 ?></td>
                                                                             <td class="text-end" id="steInsPer"><?= $product_payout_data_new['STE']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="steIns" data-value="0">&#8377; <?= $packagePricingTeChain['ste_mark_up_total']??0.00 ?></td>
+                                                                            <td class="text-end editable-ins" id="steIns" data-value="0">&#8377; <?= $packagePricingTeChain['ste_incentive']??0.00 ?></td>
                                                                             <td class="text-end editable-total" id="steCommInsTotal">&#8377; <?= $packagePricingTeChain['ste_mark_up_total']??0.00 ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
@@ -1270,9 +1270,9 @@
                                                                         <tr>
                                                                             <td>TE | Franchisee</td>
                                                                             <td class="text-end" id="cTeFComPer"><?= $product_payout_data_new['TE']['comm_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-comm" id="cTeFComm" data-value="0">&#8377; <?= $packagePricingTeChain['te_mark_up_total']??0.00 ?></td>
+                                                                            <td class="text-end editable-comm" id="cTeFComm" data-value="0">&#8377; <?= $packagePricingTeChain['te_direct_commission']??0.00 ?></td>
                                                                             <td class="text-end" id="cTeFInsPer"><?= $product_payout_data_new['TE']['ins_percentage'] ?>%</td>
-                                                                            <td class="text-end editable-ins" id="cTeFIns" data-value="0">&#8377; <?= $packagePricingTeChain['te_mark_up_total']??0.00 ?></td>
+                                                                            <td class="text-end editable-ins" id="cTeFIns" data-value="0">&#8377; <?= $packagePricingTeChain['te_incentive']??0.00 ?></td>
                                                                             <td class="text-end editable-total" id="cTeFCommInsTotal">&#8377; <?= $packagePricingTeChain['te_mark_up_total']??0.00 ?></td>
                                                                             <td>
                                                                                 <div class="d-flex gap-3 justify-content-center">
