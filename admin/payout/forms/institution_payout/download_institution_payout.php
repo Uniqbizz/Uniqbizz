@@ -48,9 +48,9 @@ if($user_id == "MF"){
     $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
     if($bcNames -> rowCount()>0){
         foreach(($bcNames -> fetchAll()) as $key => $row){
-            $bcfirstname = $row['name'];
-            $bclastname = "";
-            $designation = "Business Development Manager";
+            $bcfirstname = $row['firstname'];
+            $bclastname = $row['lastname'];
+            $designation = "Business Mentor";
         }
     }  
 }else if($user_id == "BH"){

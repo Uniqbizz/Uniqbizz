@@ -451,7 +451,7 @@ $('#month_year').on('change', function(){
 // **** Total Payout Pop up model data filteration end****
 
 //get payment details to save in table. 
-function paymentId(id, userID,institution_payout, message, amt, status, user_desig){
+function paymentId(id, userID, institution, message, amt, status, user_desig){
 
     var id = id;
     var userID = userID;
@@ -471,7 +471,7 @@ function paymentId(id, userID,institution_payout, message, amt, status, user_des
         e.preventDefault();
         paymentMessage = $('#paymentMessage').val();
         dataString = {
-            id, paymentMessage, amt, status, user_desig,institution_payout,userID,message
+            id, paymentMessage, amt, status, user_desig, institution, userID, message
         }
         // console.log(dataString);
 
@@ -523,21 +523,22 @@ function totalPayoutExel(){
         // });
         window.location.href='forms/institution_payout/download_exel_institution.php?payoutYear='+payoutYear+'&payoutMonth='+payoutMonth+'&payoutmessage='+payoutmessage;
     }else{
-        alert("Select date first");
-        window.location.reload();
+        // alert("Select date first");
+        // window.location.reload();
+        window.location.href='forms/institution_payout/download_exel_institution.php?payoutmessage=TotalPayoutAll';
     }
 }
 
 // All Payout filter option download in exel 
 function allPayoutExel(){
     var designation = $('#designation').val();
-    var user_id = $('#user_id_name').val();
+    var user_id = $('#user_id_name').val() || '';
     var date = $('#cap_date').val();
     var payoutmessage = 'allPayout';
     
     const myArray = date.split('-');  //split date on '-' sign and store it in array
-    const payoutYear = myArray[0]; // store splited year in new variable
-    const payoutMonth = myArray[1]; // store splited month in new variable
+    const payoutYear = myArray[0] || ''; // store splited year in new variable
+    const payoutMonth = myArray[1] || ''; // store splited month in new variable
     // console.log(designation + user_id + date + payoutmessage);
     window.location.href='forms/institution_payout/download_exel_institution.php?payoutYear='+payoutYear+'&payoutMonth='+payoutMonth+'&payoutmessage='+payoutmessage+'&designation='+designation+'&user_id='+user_id;
 }

@@ -861,4 +861,20 @@ $allPayout = $_POST['allPayout'] ?? '';
     // user dashboard testing
     // Institution payout download single payout format change
 
+    // 27-10-2026:
+    // Cover image bug fix
+    // server updation of latest code.
+
+    // 28-10-2026:
+    // mailtrap email issue bug solved
+    // microsoft auth app new admin
+
+    // 29-10-2026:
+    // app api update and testing
+    // request details page brainstroming
+
+    //30-10-2026
+    // Download Exel file institution payout new logic 
+    // request details admin side design formation 
+
 ?>
