@@ -2984,7 +2984,7 @@
                                                                                             <td>
                                                                                                 <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="bmMfSfC"
                                                                                                     name="bm_mf_sf_c"
                                                                                                     value="<?= $packagePricingMarkup['bm_direct_commission']??0.00 ?>"
@@ -2997,7 +2997,7 @@
                                                                                             <td>
                                                                                                 <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="bmMfSfI"
                                                                                                     name="bm_mf_sf_i"
                                                                                                     value="<?= $packagePricingMarkup['bm_incentive']??0.00 ?>"
@@ -3041,7 +3041,7 @@
                                                                                             <td>
                                                                                                 <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="teFC"
                                                                                                     name="te_f_c"
                                                                                                     value="<?= $packagePricingMarkup['ca_direct_commission']??0.00 ?>"
@@ -3054,7 +3054,7 @@
                                                                                             <td>
                                                                                                 <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="teFI"
                                                                                                     name="te_f_i"
                                                                                                     value="<?= $packagePricingMarkup['ca_incentive']??0.00 ?>"
@@ -3084,7 +3084,7 @@
                                                                                             <td>
                                                                                                 <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="tcCommission"
                                                                                                     name="tc_commission"
                                                                                                     value="<?= $packagePricingMarkup['ta_markup'] ?? 0.00 ?>"
@@ -3129,7 +3129,7 @@
                                                                                             <td>
                                                                                                 <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="bmMfSfC"
                                                                                                     name="bm_mf_sf_c"
                                                                                                     value="<?= $packagePricingTeChain['cte_direct_commission']??0.00 ?>"
@@ -3142,7 +3142,7 @@
                                                                                             <td>
                                                                                                 <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="bmMfSfI"
                                                                                                     name="bm_mf_sf_i"
                                                                                                     value="<?= $packagePricingTeChain['cte_incentive']??0.00 ?>"
@@ -3167,7 +3167,7 @@
                                                                                             <td>
                                                                                                 <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="bmMfSfC"
                                                                                                     name="bm_mf_sf_c"
                                                                                                     value="<?= $packagePricingTeChain['ete_direct_commission']??0.00 ?>"
@@ -3180,7 +3180,7 @@
                                                                                             <td>
                                                                                                 <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="bmMfSfI"
                                                                                                     name="bm_mf_sf_i"
                                                                                                     value="<?= $packagePricingTeChain['ete_incentive']??0.00 ?>"
@@ -3205,7 +3205,7 @@
                                                                                             <td>
                                                                                                 <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="bmMfSfC"
                                                                                                     name="bm_mf_sf_c"
                                                                                                     value="<?= $packagePricingTeChain['ste_direct_commission']??0.00 ?>"
@@ -3218,7 +3218,7 @@
                                                                                             <td>
                                                                                                 <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="bmMfSfI"
                                                                                                     name="bm_mf_sf_i"
                                                                                                     value="<?= $packagePricingTeChain['ste_incentive']??0.00 ?>"
@@ -3243,7 +3243,7 @@
                                                                                             <td>
                                                                                                 <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="teFC"
                                                                                                     name="te_f_c"
                                                                                                     value="<?= $packagePricingTeChain['te_direct_commission']??0.00 ?>"
@@ -3256,7 +3256,7 @@
                                                                                             <td>
                                                                                                 <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="teFI"
                                                                                                     name="te_f_i"
                                                                                                     value="<?= $packagePricingTeChain['te_incentive']??0.00 ?>"
@@ -3281,7 +3281,7 @@
                                                                                             <td>
                                                                                                 <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="tcCommission"
                                                                                                     name="tc_commission"
                                                                                                     value="<?= $packagePricingTeChain['ta_markup'] ?>"
@@ -3339,7 +3339,7 @@
                                                                                             <td>
                                                                                                 <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="bmMfSfC"
                                                                                                     name="bm_mf_sf_c"
                                                                                                     value="<?= $packagePricingInstitution['bm_direct_commission']??0.00 ?>"
@@ -3352,7 +3352,7 @@
                                                                                             <td>
                                                                                                 <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="bmMfSfI"
                                                                                                     name="bm_mf_sf_i"
                                                                                                     value="<?= $packagePricingInstitution['bm_incentive']??0.00 ?>"
@@ -3377,7 +3377,7 @@
                                                                                             <td>
                                                                                                 <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="teFC"
                                                                                                     name="te_f_c"
                                                                                                     value="<?= $packagePricingInstitution['ins_markup']??0.00 ?>"
@@ -3390,7 +3390,7 @@
                                                                                             <td>-
                                                                                                 <!-- <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="teFI"
                                                                                                     name="te_f_i"
                                                                                                     value="0.00"
@@ -3415,7 +3415,7 @@
                                                                                             <td>
                                                                                                 <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="tcCommission"
                                                                                                     name="tc_commission"
                                                                                                     value="0.00"
@@ -3460,7 +3460,7 @@
                                                                                             <td>
                                                                                                 <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="bmMfSfC"
                                                                                                     name="bm_mf_sf_c"
                                                                                                     value="<?= $packagePricingTechnoInstitution['cte_direct_commission'] ?? 0.00 ?>"
@@ -3473,7 +3473,7 @@
                                                                                             <td>
                                                                                                 <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="bmMfSfI"
                                                                                                     name="bm_mf_sf_i"
                                                                                                     value="<?= $packagePricingTechnoInstitution['cte_incentive'] ?? 0.00 ?>"
@@ -3498,7 +3498,7 @@
                                                                                             <td>
                                                                                                 <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="bmMfSfC"
                                                                                                     name="bm_mf_sf_c"
                                                                                                     value="<?= $packagePricingTechnoInstitution['ete_direct_commission'] ?? 0.00 ?>"
@@ -3511,7 +3511,7 @@
                                                                                             <td>
                                                                                                 <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="bmMfSfI"
                                                                                                     name="bm_mf_sf_i"
                                                                                                     value="<?= $packagePricingTechnoInstitution['ete_incentive'] ?? 0.00 ?>"
@@ -3536,7 +3536,7 @@
                                                                                             <td>
                                                                                                 <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="teFC"
                                                                                                     name="te_f_c"
                                                                                                     value="<?= $packagePricingTechnoInstitution['ins_markup'] ?? 0.00 ?>"
@@ -3549,7 +3549,7 @@
                                                                                             <td>-
                                                                                                 <!-- <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="teFI"
                                                                                                     name="te_f_i"
                                                                                                     value="0.00"
@@ -3574,7 +3574,7 @@
                                                                                             <td>
                                                                                                 <input
                                                                                                     type="number"
-                                                                                                    class="form-control"
+                                                                                                    class="form-control pricing-markup-input"
                                                                                                     id="tcCommission"
                                                                                                     name="tc_commission"
                                                                                                     value="0.00"
@@ -4895,6 +4895,36 @@
 
                 row.remove();
                 updateEmptyPolicyMessage();
+            });
+
+            $(document).on('input change', '.pricing-markup-input', function () {
+
+                const $input = $(this);
+
+                // Get the ID from the ID column in the same row
+                const userId = $input.closest('tr').find('td').eq(2).text().trim();
+
+                // Check whether the ID is valid
+                if (
+                    userId === '' ||
+                    userId.toUpperCase() === 'NA' ||
+                    userId === '-'
+                ) {
+                    console.log('Invalid ID. Skipping calculation.');
+                    return;
+                }
+
+                const inputId = this.id;
+                const inputName = this.name;
+                const inputValue = parseFloat(this.value) || 0;
+
+                console.log('User ID:', userId);
+                console.log('Input ID:', inputId);
+                console.log('Input Name:', inputName);
+                console.log('Input Value:', inputValue);
+
+                // Continue your calculation here
+
             });
         </script>
     </body>
