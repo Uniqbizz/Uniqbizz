@@ -5,26 +5,25 @@
     }
 
     require '../connect.php';
-    $dateYear = date('Y'); 
+    $dateYear = date('Y');
+    $dateFull = date('F,Y');
 
-    // get current date to show next payout amount  and pass it in sql @ line 129
-    $nextdate = date('F,Y'); //month and year. 'F' - month in Text form
-    $nextDateMonth = date('m'); //month in number form
-    $nextDateYear = date('Y'); //year
-    // echo "Next Date ".$nextdate .' ;' ;
-    // echo "Next Month ".$nextDateMonth.' ;';
-    // echo "Next Year ".$nextDateYear.' ;';
-    // echo '<br>';
+    // Next Payout: Current month
+    $nextDate = new DateTime('first day of this month');
 
-    // get Previous date to show Previous payout amount  and pass it in sql @ line 111
-    $prevdate = date(" F,Y", strtotime("-1 months")); //month and year. 'F' - month in Text form. '-1' to get prev month
-    $prevDateMonth = date('m', strtotime("-1 months")); //month in number form. '-1' to get prev month
-    $prevDateYear = date('Y');  //Year in number form. 
-    // echo "prev Date ".$prevdate.' ;';
-    // echo "prev Month ".$prevDateMonth.' ;';
-    // echo "prev year ".$prevDateYear.' ;';
+    $nextdate = $nextDate->format('F,Y');
+    $nextDateMonth = $nextDate->format('m');
+    $nextDateYear = $nextDate->format('Y');
 
-    $tdsPer = 2/100;
+    // Previous Payout: Previous month
+    $prevDate = new DateTime('first day of this month');
+    $prevDate->modify('-1 month');
+
+    $prevdate = $prevDate->format('F,Y');
+    $prevDateMonth = $prevDate->format('m');
+    $prevDateYear = $prevDate->format('Y');
+
+    $tdsPer = 2 / 100;
 
     // note : Techno User i.e CTE, ETE and STE cannot recruit Sub Franchisee Users. 
 ?>
@@ -611,7 +610,7 @@
                                                      ';
                                             }
                                         ?>
-                                        <a href="forms/institution_payout/download_exel_institution.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout">
+                                        <a href="forms/institution_payout/download_exel_institution.php?payoutYear=<?php echo $nextDateYear; ?>&payoutMonth=<?php echo $nextDateMonth; ?>&payoutmessage=NextPayout">
                                             <i class="bx bx-download download-icon status1" style="font-size: 20px; color: black; margin-left: 20%;"></i>
                                         </a>
                                     </div>

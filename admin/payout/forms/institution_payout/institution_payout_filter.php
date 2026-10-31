@@ -840,7 +840,7 @@ $allPayout = $_POST['allPayout'] ?? '';
 
     // 21-10-2026:
     // STE login profile page updated on test. (App Login)
-    // institution payout section - all payout, previous payout, next payout and total payout.(data population and testing)
+    // institution payout section - 
 
     // 22-10-2026:
     // login issue solved(case sensitivity)
@@ -876,5 +876,9 @@ $allPayout = $_POST['allPayout'] ?? '';
     //30-10-2026
     // Download Exel file institution payout new logic 
     // request details admin side design formation 
+
+    // 31-10-2026
+    // ins excel download file reduce code (reusable)
+    //request details admin side .
 
 ?>
