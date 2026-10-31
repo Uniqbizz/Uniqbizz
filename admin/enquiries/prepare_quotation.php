@@ -2928,815 +2928,926 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="markup1" class="section-block mt-4">
-                                                            <div class="card cardBackgroundColor rounded-3 p-3 cardShadow mb-0">
-
-                                                                <h5 class="fw-bolder textDarkBlue">MarkUp Calculation</h5>
-
-                                                                <div class="borderHighlight rounded-3 p-3">
-                                                                    <?php if (in_array($upperChainId, [9, 10, 11, 13, 14, 15, 17, 18, 19, 21], true)) { ?>
-                                                                    <!-- cu->tc->te/f->bm/mf/sf -->
-                                                                    <div class="table-responsive">
-                                                                        <table class="table table-bordered table-hover align-middle mb-0">
-                                                                            <thead class="table-light">
-                                                                                <tr>
-                                                                                    <th class="fs-6">Designation</th>
-                                                                                    <th class="fs-6">Name</th>
-                                                                                    <th class="fs-6">ID</th>
-                                                                                    <th class="fs-6">Commission (₹)</th>
-                                                                                    <th class="fs-6">Incentive (₹)</th>
-                                                                                </tr>
-                                                                            </thead>
-
-                                                                            <tbody>
-                                                                                <!-- BM | SF | M ROW -->
-                                                                                <tr>
-                                                                                    <td class="fw-semibold textDarkBlue fs-6">BM | SF | M</td>
-
-                                                                                    <td>
-                                                                                        <span id="bmMfSfName" class="fs-6">
-                                                                                            <?= htmlspecialchars(
-                                                                                                $chainDetails[
-                                                                                                    (in_array('TE', array_column($chainDetails, 'prefix')) ||
-                                                                                                    in_array('CA', array_column($chainDetails, 'prefix'))) ? 3 : 2
-                                                                                                ]['name'] ?? 'NA',
-                                                                                                ENT_QUOTES,
-                                                                                                'UTF-8'
-                                                                                            ) ?>
-                                                                                        </span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <span id="bmMfSfId" class="fs-6">
-                                                                                            <?= htmlspecialchars(
-                                                                                                $chainDetails[
-                                                                                                    (in_array('TE', array_column($chainDetails, 'prefix')) ||
-                                                                                                    in_array('CA', array_column($chainDetails, 'prefix'))) ? 3 : 2
-                                                                                                ]['id'] ?? 'NA',
-                                                                                                ENT_QUOTES,
-                                                                                                'UTF-8'
-                                                                                            ) ?>
-                                                                                        </span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="bmMfSfC"
-                                                                                            name="bm_mf_sf_c"
-                                                                                            value="<?= $packagePricingMarkup['bm_direct_commission']??0.00 ?>"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        >
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="bmMfSfI"
-                                                                                            name="bm_mf_sf_i"
-                                                                                            value="<?= $packagePricingMarkup['bm_incentive']??0.00 ?>"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        >
-                                                                                    </td>
-                                                                                </tr>
-
-                                                                                <!-- TE / F ROW -->
-                                                                                <tr>
-                                                                                    <td class="fw-semibold textDarkBlue fs-6">TE / F</td>
-
-                                                                                    <td>
-                                                                                        <span id="teFName" class="fs-6">
-                                                                                            <?= htmlspecialchars(
-                                                                                                (in_array('TE', array_column($chainDetails, 'prefix')) ||
-                                                                                                in_array('CA', array_column($chainDetails, 'prefix')))
-                                                                                                    ? ($chainDetails[2]['name'] ?? 'NA')
-                                                                                                    : 'NA',
-                                                                                                ENT_QUOTES,
-                                                                                                'UTF-8'
-                                                                                            ) ?>
-                                                                                        </span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <span id="teFId" class="fs-6">
-                                                                                            <?= htmlspecialchars(
-                                                                                                (in_array('TE', array_column($chainDetails, 'prefix')) ||
-                                                                                                in_array('CA', array_column($chainDetails, 'prefix')))
-                                                                                                    ? ($chainDetails[2]['id'] ?? 'NA')
-                                                                                                    : 'NA',
-                                                                                                ENT_QUOTES,
-                                                                                                'UTF-8'
-                                                                                            ) ?>
-                                                                                        </span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="teFC"
-                                                                                            name="te_f_c"
-                                                                                            value="<?= $packagePricingMarkup['ca_direct_commission']??0.00 ?>"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        >
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="teFI"
-                                                                                            name="te_f_i"
-                                                                                            value="<?= $packagePricingMarkup['ca_incentive']??0.00 ?>"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        >
-                                                                                    </td>
-                                                                                </tr>
-
-                                                                                <!-- TC ROW -->
-                                                                                <tr>
-                                                                                    <td class="fw-semibold textDarkBlue fs-6">TC</td>
-
-                                                                                    <td>
-                                                                                        <span id="tcName" class="fs-6">
-                                                                                            <?= htmlspecialchars($chainDetails[1]['name'] ?? 'NA', ENT_QUOTES, 'UTF-8') ?>
-                                                                                        </span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <span id="tcId" class="fs-6">
-                                                                                            <?= htmlspecialchars($chainDetails[1]['id'] ?? 'NA', ENT_QUOTES, 'UTF-8') ?>
-                                                                                        </span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="tcCommission"
-                                                                                            name="tc_commission"
-                                                                                            value="<?= $packagePricingMarkup['ta_markup'] ?? 0.00 ?>"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        >
-                                                                                    </td>
-
-                                                                                    <td class="text-center">—</td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div>
-                                                                    <?php } elseif (in_array($upperChainId, [12, 16, 20], true)) { ?>
-                                                                    <!-- cu->tc->te/f->ste->ete->cte -->
-                                                                    <div class="table-responsive">
-                                                                        <table class="table table-bordered table-hover align-middle mb-0">
-                                                                            <thead class="table-light">
-                                                                                <tr>
-                                                                                    <th class="fs-6">Designation</th>
-                                                                                    <th class="fs-6">Name</th>
-                                                                                    <th class="fs-6">ID</th>
-                                                                                    <th class="fs-6">Commission (₹)</th>
-                                                                                    <th class="fs-6">Incentive (₹)</th>
-                                                                                </tr>
-                                                                            </thead>
-
-                                                                            <tbody>
-                                                                                <!-- CTE ROW -->
-                                                                                <tr>
-                                                                                    <td class="fw-semibold textDarkBlue fs-6">CTE</td>
-
-                                                                                    <td>
-                                                                                        <span id="bmMfSfName" class="fs-6">Harshal Wankhede</span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <span id="bmMfSfId" class="fs-6">-</span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="bmMfSfC"
-                                                                                            name="bm_mf_sf_c"
-                                                                                            value="<?= $packagePricingTeChain['cte_direct_commission']??0.00 ?>"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        >
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="bmMfSfI"
-                                                                                            name="bm_mf_sf_i"
-                                                                                            value="<?= $packagePricingTeChain['cte_incentive']??0.00 ?>"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        >
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <!-- ETE ROW -->
-                                                                                <tr>
-                                                                                    <td class="fw-semibold textDarkBlue fs-6">ETE</td>
-
-                                                                                    <td>
-                                                                                        <span id="bmMfSfName" class="fs-6">Harshal Wankhede</span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <span id="bmMfSfId" class="fs-6">-</span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="bmMfSfC"
-                                                                                            name="bm_mf_sf_c"
-                                                                                            value="<?= $packagePricingTeChain['ete_direct_commission']??0.00 ?>"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        >
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="bmMfSfI"
-                                                                                            name="bm_mf_sf_i"
-                                                                                            value="<?= $packagePricingTeChain['ete_incentive']??0.00 ?>"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        >
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <!-- STE ROW -->
-                                                                                <tr>
-                                                                                    <td class="fw-semibold textDarkBlue fs-6">STE</td>
-
-                                                                                    <td>
-                                                                                        <span id="bmMfSfName" class="fs-6">Harshal Wankhede</span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <span id="bmMfSfId" class="fs-6">-</span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="bmMfSfC"
-                                                                                            name="bm_mf_sf_c"
-                                                                                            value="<?= $packagePricingTeChain['ste_direct_commission']??0.00 ?>"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        >
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="bmMfSfI"
-                                                                                            name="bm_mf_sf_i"
-                                                                                            value="<?= $packagePricingTeChain['ste_incentive']??0.00 ?>"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        >
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <!-- TE / F ROW -->
-                                                                                <tr>
-                                                                                    <td class="fw-semibold textDarkBlue fs-6">TE / F</td>
-
-                                                                                    <td>
-                                                                                        <span id="teFName" class="fs-6">Harshal Wankhede</span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <span id="teFId" class="fs-6">-</span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="teFC"
-                                                                                            name="te_f_c"
-                                                                                            value="<?= $packagePricingTeChain['te_direct_commission']??0.00 ?>"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        >
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="teFI"
-                                                                                            name="te_f_i"
-                                                                                            value="<?= $packagePricingTeChain['te_incentive']??0.00 ?>"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        >
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <!-- TC ROW -->
-                                                                                <tr>
-                                                                                    <td class="fw-semibold textDarkBlue fs-6">TC</td>
-
-                                                                                    <td>
-                                                                                        <span id="tcName" class="fs-6">Harshal Wankhede</span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <span id="tcId" class="fs-6">-</span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="tcCommission"
-                                                                                            name="tc_commission"
-                                                                                            value="<?= $packagePricingTeChain['ta_markup'] ?>"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        >
-                                                                                    </td>
-
-                                                                                    <td class="text-center">—</td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div>
-                                                                    <?php } if (in_array($upperChainId, [1, 2, 3, 5, 6, 7,4, 8], true)) { ?>
-                                                                    <h5 class="mb-3 fw-bolder" id="#">Institution Slab</h5>
-                                                                    <table class="table table-bordered">
-                                                                        <thead class="table-light">
-                                                                            <tr>
-                                                                                <th scope="col">Range</th>
-                                                                                <th scope="col">Commission Amount</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody id="commissionTableBody">
-                                                                            
-                                                                        </tbody>
-                                                                    </table>
-                                                                    <?php } if (in_array($upperChainId, [1, 2, 3, 5, 6, 7], true)) { ?>
-                                                                    <!-- cu->ibr->i->bm/mf/sf -->
-                                                                    <div class="table-responsive">
-                                                                        <table class="table table-bordered table-hover align-middle mb-0">
-                                                                            <thead class="table-light">
-                                                                                <tr>
-                                                                                    <th class="fs-6">Designation</th>
-                                                                                    <th class="fs-6">Name</th>
-                                                                                    <th class="fs-6">ID</th>
-                                                                                    <th class="fs-6">Commission (₹)</th>
-                                                                                    <th class="fs-6">Incentive (₹)</th>
-                                                                                </tr>
-                                                                            </thead>
-
-                                                                            <tbody>
-                                                                                <!-- BM | SF | M ROW -->
-                                                                                <tr>
-                                                                                    <td class="fw-semibold textDarkBlue fs-6">BM | SF | M</td>
-
-                                                                                    <td>
-                                                                                        <span id="bmMfSfName" class="fs-6">Harshal Wankhede</span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <span id="bmMfSfId" class="fs-6">-</span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="bmMfSfC"
-                                                                                            name="bm_mf_sf_c"
-                                                                                            value="<?= $packagePricingInstitution['bm_direct_commission']??0.00 ?>"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        >
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="bmMfSfI"
-                                                                                            name="bm_mf_sf_i"
-                                                                                            value="<?= $packagePricingInstitution['bm_incentive']??0.00 ?>"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        >
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <!-- I ROW -->
-                                                                                <tr>
-                                                                                    <td class="fw-semibold textDarkBlue fs-6">I</td>
-
-                                                                                    <td>
-                                                                                        <span id="teFName" class="fs-6">Harshal Wankhede</span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <span id="teFId" class="fs-6">-</span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="teFC"
-                                                                                            name="te_f_c"
-                                                                                            value="<?= $packagePricingInstitution['ins_markup']??0.00 ?>"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        >
-                                                                                    </td>
-
-                                                                                    <td>-
-                                                                                        <!-- <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="teFI"
-                                                                                            name="te_f_i"
-                                                                                            value="0.00"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        > -->
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <!-- TC ROW -->
-                                                                                <!-- <tr>
-                                                                                    <td class="fw-semibold textDarkBlue fs-6">TC</td>
-
-                                                                                    <td>
-                                                                                        <span id="tcName" class="fs-6">Harshal Wankhede</span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <span id="tcId" class="fs-6">-</span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="tcCommission"
-                                                                                            name="tc_commission"
-                                                                                            value="0.00"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        >
-                                                                                    </td>
-
-                                                                                    <td class="text-center">—</td>
-                                                                                </tr> -->
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div>
-                                                                    <?php } else if (in_array($upperChainId, [4, 8], true)) { ?>
-                                                                    <!-- cu->Ibr->i->ete->cte -->
-                                                                    <div class="table-responsive">
-                                                                        <table class="table table-bordered table-hover align-middle mb-0">
-                                                                            <thead class="table-light">
-                                                                                <tr>
-                                                                                    <th class="fs-6">Designation</th>
-                                                                                    <th class="fs-6">Name</th>
-                                                                                    <th class="fs-6">ID</th>
-                                                                                    <th class="fs-6">Commission (₹)</th>
-                                                                                    <th class="fs-6">Incentive (₹)</th>
-                                                                                </tr>
-                                                                            </thead>
-
-                                                                            <tbody>
-                                                                                <!-- CTE ROW -->
-                                                                                <tr>
-                                                                                    <td class="fw-semibold textDarkBlue fs-6">CTE</td>
-
-                                                                                    <td>
-                                                                                        <span id="bmMfSfName" class="fs-6">Harshal Wankhede</span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <span id="bmMfSfId" class="fs-6">-</span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="bmMfSfC"
-                                                                                            name="bm_mf_sf_c"
-                                                                                            value="<?= $packagePricingTechnoInstitution['cte_direct_commission'] ?? 0.00 ?>"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        >
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="bmMfSfI"
-                                                                                            name="bm_mf_sf_i"
-                                                                                            value="<?= $packagePricingTechnoInstitution['cte_incentive'] ?? 0.00 ?>"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        >
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <!-- ETE ROW -->
-                                                                                <tr>
-                                                                                    <td class="fw-semibold textDarkBlue fs-6">ETE</td>
-
-                                                                                    <td>
-                                                                                        <span id="bmMfSfName">Harshal Wankhede</span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <span id="bmMfSfId">-</span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="bmMfSfC"
-                                                                                            name="bm_mf_sf_c"
-                                                                                            value="<?= $packagePricingTechnoInstitution['ete_direct_commission'] ?? 0.00 ?>"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        >
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="bmMfSfI"
-                                                                                            name="bm_mf_sf_i"
-                                                                                            value="<?= $packagePricingTechnoInstitution['ete_incentive'] ?? 0.00 ?>"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        >
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <!-- I ROW -->
-                                                                                <tr>
-                                                                                    <td class="fw-semibold textDarkBlue fs-6">I</td>
-
-                                                                                    <td>
-                                                                                        <span id="teFName" class="fs-6">Harshal Wankhede</span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <span id="teFId" class="fs-6">-</span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="teFC"
-                                                                                            name="te_f_c"
-                                                                                            value="<?= $packagePricingTechnoInstitution['ins_markup'] ?? 0.00 ?>"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        >
-                                                                                    </td>
-
-                                                                                    <td>-
-                                                                                        <!-- <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="teFI"
-                                                                                            name="te_f_i"
-                                                                                            value="0.00"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        > -->
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <!-- TC ROW -->
-                                                                                <!-- <tr>
-                                                                                    <td class="fw-semibold textDarkBlue fs-6">TC</td>
-
-                                                                                    <td>
-                                                                                        <span id="tcName" class="fs-6">Harshal Wankhede</span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <span id="tcId" class="fs-6">-</span>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input
-                                                                                            type="number"
-                                                                                            class="form-control"
-                                                                                            id="tcCommission"
-                                                                                            name="tc_commission"
-                                                                                            value="0.00"
-                                                                                            min="0"
-                                                                                            step="0.01"
-                                                                                            placeholder="0.00"
-                                                                                        >
-                                                                                    </td>
-
-                                                                                    <td class="text-center">—</td>
-                                                                                </tr> -->
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div>
-                                                                    <?php } ?>
-                                                                    <hr>
-
-                                                                    <!-- COUPON ADJUSTMENT AND COMPANY -->
-                                                                    <div class="row g-3 mb-3">
-                                                                        <div class="col-lg-6 col-md-6">
-                                                                            <label for="couponAdjustment" class="form-label fw-semibold">
-                                                                                Coupon Adjustment (₹)
-                                                                            </label>
-                                                                            <input
-                                                                                type="number"
-                                                                                class="form-control"
-                                                                                id="couponAdjustment"
-                                                                                name="coupon_adjustment"
-                                                                                value="<?= $packagePricing['coupon_adjustment'] ??0.00?>"
-                                                                                min="0"
-                                                                                step="0.01"
-                                                                                placeholder="0.00"
-                                                                            >
-                                                                            <small class="error-message" id="couponAdjustment_error"></small>
+                                                        <div class="row">
+                                                            <div class="col-xl-8">
+                                                                <div id="markup1" class="section-block mt-4">
+                                                                    <div class="card cardBackgroundColor rounded-3 p-3 cardShadow mb-0">
+
+                                                                        <h5 class="fw-bolder textDarkBlue">MarkUp Calculation</h5>
+
+                                                                        <div class="borderHighlight rounded-3 p-3">
+                                                                            <?php if (in_array($upperChainId, [9, 10, 11, 13, 14, 15, 17, 18, 19, 21], true)) { ?>
+                                                                            <!-- cu->tc->te/f->bm/mf/sf -->
+                                                                            <div class="table-responsive">
+                                                                                <table class="table table-bordered table-hover align-middle mb-0">
+                                                                                    <thead class="table-light">
+                                                                                        <tr>
+                                                                                            <th class="fs-6">Designation</th>
+                                                                                            <th class="fs-6">Name</th>
+                                                                                            <th class="fs-6">ID</th>
+                                                                                            <th class="fs-6">Commission (₹)</th>
+                                                                                            <th class="fs-6">Incentive (₹)</th>
+                                                                                        </tr>
+                                                                                    </thead>
+
+                                                                                    <tbody>
+                                                                                        <!-- BM | SF | M ROW -->
+                                                                                        <tr>
+                                                                                            <td class="fw-semibold textDarkBlue fs-6">BM | SF | M</td>
+
+                                                                                            <td>
+                                                                                                <span id="bmMfSfName" class="fs-6">
+                                                                                                    <?= htmlspecialchars(
+                                                                                                        $chainDetails[
+                                                                                                            (in_array('TE', array_column($chainDetails, 'prefix')) ||
+                                                                                                            in_array('CA', array_column($chainDetails, 'prefix'))) ? 3 : 2
+                                                                                                        ]['name'] ?? 'NA',
+                                                                                                        ENT_QUOTES,
+                                                                                                        'UTF-8'
+                                                                                                    ) ?>
+                                                                                                </span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <span id="bmMfSfId" class="fs-6">
+                                                                                                    <?= htmlspecialchars(
+                                                                                                        $chainDetails[
+                                                                                                            (in_array('TE', array_column($chainDetails, 'prefix')) ||
+                                                                                                            in_array('CA', array_column($chainDetails, 'prefix'))) ? 3 : 2
+                                                                                                        ]['id'] ?? 'NA',
+                                                                                                        ENT_QUOTES,
+                                                                                                        'UTF-8'
+                                                                                                    ) ?>
+                                                                                                </span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="bmMfSfC"
+                                                                                                    name="bm_mf_sf_c"
+                                                                                                    value="<?= $packagePricingMarkup['bm_direct_commission']??0.00 ?>"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                >
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="bmMfSfI"
+                                                                                                    name="bm_mf_sf_i"
+                                                                                                    value="<?= $packagePricingMarkup['bm_incentive']??0.00 ?>"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                >
+                                                                                            </td>
+                                                                                        </tr>
+
+                                                                                        <!-- TE / F ROW -->
+                                                                                        <tr>
+                                                                                            <td class="fw-semibold textDarkBlue fs-6">TE / F</td>
+
+                                                                                            <td>
+                                                                                                <span id="teFName" class="fs-6">
+                                                                                                    <?= htmlspecialchars(
+                                                                                                        (in_array('TE', array_column($chainDetails, 'prefix')) ||
+                                                                                                        in_array('CA', array_column($chainDetails, 'prefix')))
+                                                                                                            ? ($chainDetails[2]['name'] ?? 'NA')
+                                                                                                            : 'NA',
+                                                                                                        ENT_QUOTES,
+                                                                                                        'UTF-8'
+                                                                                                    ) ?>
+                                                                                                </span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <span id="teFId" class="fs-6">
+                                                                                                    <?= htmlspecialchars(
+                                                                                                        (in_array('TE', array_column($chainDetails, 'prefix')) ||
+                                                                                                        in_array('CA', array_column($chainDetails, 'prefix')))
+                                                                                                            ? ($chainDetails[2]['id'] ?? 'NA')
+                                                                                                            : 'NA',
+                                                                                                        ENT_QUOTES,
+                                                                                                        'UTF-8'
+                                                                                                    ) ?>
+                                                                                                </span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="teFC"
+                                                                                                    name="te_f_c"
+                                                                                                    value="<?= $packagePricingMarkup['ca_direct_commission']??0.00 ?>"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                >
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="teFI"
+                                                                                                    name="te_f_i"
+                                                                                                    value="<?= $packagePricingMarkup['ca_incentive']??0.00 ?>"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                >
+                                                                                            </td>
+                                                                                        </tr>
+
+                                                                                        <!-- TC ROW -->
+                                                                                        <tr>
+                                                                                            <td class="fw-semibold textDarkBlue fs-6">TC</td>
+
+                                                                                            <td>
+                                                                                                <span id="tcName" class="fs-6">
+                                                                                                    <?= htmlspecialchars($chainDetails[1]['name'] ?? 'NA', ENT_QUOTES, 'UTF-8') ?>
+                                                                                                </span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <span id="tcId" class="fs-6">
+                                                                                                    <?= htmlspecialchars($chainDetails[1]['id'] ?? 'NA', ENT_QUOTES, 'UTF-8') ?>
+                                                                                                </span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="tcCommission"
+                                                                                                    name="tc_commission"
+                                                                                                    value="<?= $packagePricingMarkup['ta_markup'] ?? 0.00 ?>"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                >
+                                                                                            </td>
+
+                                                                                            <td class="text-center">—</td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                            <?php } elseif (in_array($upperChainId, [12, 16, 20], true)) { ?>
+                                                                            <!-- cu->tc->te/f->ste->ete->cte -->
+                                                                            <div class="table-responsive">
+                                                                                <table class="table table-bordered table-hover align-middle mb-0">
+                                                                                    <thead class="table-light">
+                                                                                        <tr>
+                                                                                            <th class="fs-6">Designation</th>
+                                                                                            <th class="fs-6">Name</th>
+                                                                                            <th class="fs-6">ID</th>
+                                                                                            <th class="fs-6">Commission (₹)</th>
+                                                                                            <th class="fs-6">Incentive (₹)</th>
+                                                                                        </tr>
+                                                                                    </thead>
+
+                                                                                    <tbody>
+                                                                                        <!-- CTE ROW -->
+                                                                                        <tr>
+                                                                                            <td class="fw-semibold textDarkBlue fs-6">CTE</td>
+
+                                                                                            <td>
+                                                                                                <span id="bmMfSfName" class="fs-6">Harshal Wankhede</span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <span id="bmMfSfId" class="fs-6">-</span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="bmMfSfC"
+                                                                                                    name="bm_mf_sf_c"
+                                                                                                    value="<?= $packagePricingTeChain['cte_direct_commission']??0.00 ?>"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                >
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="bmMfSfI"
+                                                                                                    name="bm_mf_sf_i"
+                                                                                                    value="<?= $packagePricingTeChain['cte_incentive']??0.00 ?>"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                >
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <!-- ETE ROW -->
+                                                                                        <tr>
+                                                                                            <td class="fw-semibold textDarkBlue fs-6">ETE</td>
+
+                                                                                            <td>
+                                                                                                <span id="bmMfSfName" class="fs-6">Harshal Wankhede</span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <span id="bmMfSfId" class="fs-6">-</span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="bmMfSfC"
+                                                                                                    name="bm_mf_sf_c"
+                                                                                                    value="<?= $packagePricingTeChain['ete_direct_commission']??0.00 ?>"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                >
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="bmMfSfI"
+                                                                                                    name="bm_mf_sf_i"
+                                                                                                    value="<?= $packagePricingTeChain['ete_incentive']??0.00 ?>"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                >
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <!-- STE ROW -->
+                                                                                        <tr>
+                                                                                            <td class="fw-semibold textDarkBlue fs-6">STE</td>
+
+                                                                                            <td>
+                                                                                                <span id="bmMfSfName" class="fs-6">Harshal Wankhede</span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <span id="bmMfSfId" class="fs-6">-</span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="bmMfSfC"
+                                                                                                    name="bm_mf_sf_c"
+                                                                                                    value="<?= $packagePricingTeChain['ste_direct_commission']??0.00 ?>"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                >
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="bmMfSfI"
+                                                                                                    name="bm_mf_sf_i"
+                                                                                                    value="<?= $packagePricingTeChain['ste_incentive']??0.00 ?>"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                >
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <!-- TE / F ROW -->
+                                                                                        <tr>
+                                                                                            <td class="fw-semibold textDarkBlue fs-6">TE / F</td>
+
+                                                                                            <td>
+                                                                                                <span id="teFName" class="fs-6">Harshal Wankhede</span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <span id="teFId" class="fs-6">-</span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="teFC"
+                                                                                                    name="te_f_c"
+                                                                                                    value="<?= $packagePricingTeChain['te_direct_commission']??0.00 ?>"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                >
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="teFI"
+                                                                                                    name="te_f_i"
+                                                                                                    value="<?= $packagePricingTeChain['te_incentive']??0.00 ?>"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                >
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <!-- TC ROW -->
+                                                                                        <tr>
+                                                                                            <td class="fw-semibold textDarkBlue fs-6">TC</td>
+
+                                                                                            <td>
+                                                                                                <span id="tcName" class="fs-6">Harshal Wankhede</span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <span id="tcId" class="fs-6">-</span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="tcCommission"
+                                                                                                    name="tc_commission"
+                                                                                                    value="<?= $packagePricingTeChain['ta_markup'] ?>"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                >
+                                                                                            </td>
+
+                                                                                            <td class="text-center">—</td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                            <?php } if (in_array($upperChainId, [1, 2, 3, 5, 6, 7,4, 8], true)) { ?>
+                                                                            <h5 class="mb-3 fw-bolder" id="#">Institution Slab</h5>
+                                                                            <table class="table table-bordered">
+                                                                                <thead class="table-light">
+                                                                                    <tr>
+                                                                                        <th scope="col">Range</th>
+                                                                                        <th scope="col">Commission Amount</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody id="commissionTableBody">
+                                                                                    
+                                                                                </tbody>
+                                                                            </table>
+                                                                            <?php } if (in_array($upperChainId, [1, 2, 3, 5, 6, 7], true)) { ?>
+                                                                            <!-- cu->ibr->i->bm/mf/sf -->
+                                                                            <div class="table-responsive">
+                                                                                <table class="table table-bordered table-hover align-middle mb-0">
+                                                                                    <thead class="table-light">
+                                                                                        <tr>
+                                                                                            <th class="fs-6">Designation</th>
+                                                                                            <th class="fs-6">Name</th>
+                                                                                            <th class="fs-6">ID</th>
+                                                                                            <th class="fs-6">Commission (₹)</th>
+                                                                                            <th class="fs-6">Incentive (₹)</th>
+                                                                                        </tr>
+                                                                                    </thead>
+
+                                                                                    <tbody>
+                                                                                        <!-- BM | SF | M ROW -->
+                                                                                        <tr>
+                                                                                            <td class="fw-semibold textDarkBlue fs-6">BM | SF | M</td>
+
+                                                                                            <td>
+                                                                                                <span id="bmMfSfName" class="fs-6">Harshal Wankhede</span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <span id="bmMfSfId" class="fs-6">-</span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="bmMfSfC"
+                                                                                                    name="bm_mf_sf_c"
+                                                                                                    value="<?= $packagePricingInstitution['bm_direct_commission']??0.00 ?>"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                >
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="bmMfSfI"
+                                                                                                    name="bm_mf_sf_i"
+                                                                                                    value="<?= $packagePricingInstitution['bm_incentive']??0.00 ?>"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                >
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <!-- I ROW -->
+                                                                                        <tr>
+                                                                                            <td class="fw-semibold textDarkBlue fs-6">I</td>
+
+                                                                                            <td>
+                                                                                                <span id="teFName" class="fs-6">Harshal Wankhede</span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <span id="teFId" class="fs-6">-</span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="teFC"
+                                                                                                    name="te_f_c"
+                                                                                                    value="<?= $packagePricingInstitution['ins_markup']??0.00 ?>"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                >
+                                                                                            </td>
+
+                                                                                            <td>-
+                                                                                                <!-- <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="teFI"
+                                                                                                    name="te_f_i"
+                                                                                                    value="0.00"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                > -->
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <!-- TC ROW -->
+                                                                                        <!-- <tr>
+                                                                                            <td class="fw-semibold textDarkBlue fs-6">TC</td>
+
+                                                                                            <td>
+                                                                                                <span id="tcName" class="fs-6">Harshal Wankhede</span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <span id="tcId" class="fs-6">-</span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="tcCommission"
+                                                                                                    name="tc_commission"
+                                                                                                    value="0.00"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                >
+                                                                                            </td>
+
+                                                                                            <td class="text-center">—</td>
+                                                                                        </tr> -->
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                            <?php } else if (in_array($upperChainId, [4, 8], true)) { ?>
+                                                                            <!-- cu->Ibr->i->ete->cte -->
+                                                                            <div class="table-responsive">
+                                                                                <table class="table table-bordered table-hover align-middle mb-0">
+                                                                                    <thead class="table-light">
+                                                                                        <tr>
+                                                                                            <th class="fs-6">Designation</th>
+                                                                                            <th class="fs-6">Name</th>
+                                                                                            <th class="fs-6">ID</th>
+                                                                                            <th class="fs-6">Commission (₹)</th>
+                                                                                            <th class="fs-6">Incentive (₹)</th>
+                                                                                        </tr>
+                                                                                    </thead>
+
+                                                                                    <tbody>
+                                                                                        <!-- CTE ROW -->
+                                                                                        <tr>
+                                                                                            <td class="fw-semibold textDarkBlue fs-6">CTE</td>
+
+                                                                                            <td>
+                                                                                                <span id="bmMfSfName" class="fs-6">Harshal Wankhede</span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <span id="bmMfSfId" class="fs-6">-</span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="bmMfSfC"
+                                                                                                    name="bm_mf_sf_c"
+                                                                                                    value="<?= $packagePricingTechnoInstitution['cte_direct_commission'] ?? 0.00 ?>"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                >
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="bmMfSfI"
+                                                                                                    name="bm_mf_sf_i"
+                                                                                                    value="<?= $packagePricingTechnoInstitution['cte_incentive'] ?? 0.00 ?>"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                >
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <!-- ETE ROW -->
+                                                                                        <tr>
+                                                                                            <td class="fw-semibold textDarkBlue fs-6">ETE</td>
+
+                                                                                            <td>
+                                                                                                <span id="bmMfSfName">Harshal Wankhede</span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <span id="bmMfSfId">-</span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="bmMfSfC"
+                                                                                                    name="bm_mf_sf_c"
+                                                                                                    value="<?= $packagePricingTechnoInstitution['ete_direct_commission'] ?? 0.00 ?>"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                >
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="bmMfSfI"
+                                                                                                    name="bm_mf_sf_i"
+                                                                                                    value="<?= $packagePricingTechnoInstitution['ete_incentive'] ?? 0.00 ?>"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                >
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <!-- I ROW -->
+                                                                                        <tr>
+                                                                                            <td class="fw-semibold textDarkBlue fs-6">I</td>
+
+                                                                                            <td>
+                                                                                                <span id="teFName" class="fs-6">Harshal Wankhede</span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <span id="teFId" class="fs-6">-</span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="teFC"
+                                                                                                    name="te_f_c"
+                                                                                                    value="<?= $packagePricingTechnoInstitution['ins_markup'] ?? 0.00 ?>"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                >
+                                                                                            </td>
+
+                                                                                            <td>-
+                                                                                                <!-- <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="teFI"
+                                                                                                    name="te_f_i"
+                                                                                                    value="0.00"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                > -->
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <!-- TC ROW -->
+                                                                                        <!-- <tr>
+                                                                                            <td class="fw-semibold textDarkBlue fs-6">TC</td>
+
+                                                                                            <td>
+                                                                                                <span id="tcName" class="fs-6">Harshal Wankhede</span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <span id="tcId" class="fs-6">-</span>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    type="number"
+                                                                                                    class="form-control"
+                                                                                                    id="tcCommission"
+                                                                                                    name="tc_commission"
+                                                                                                    value="0.00"
+                                                                                                    min="0"
+                                                                                                    step="0.01"
+                                                                                                    placeholder="0.00"
+                                                                                                >
+                                                                                            </td>
+
+                                                                                            <td class="text-center">—</td>
+                                                                                        </tr> -->
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                            <?php } ?>
+                                                                            <hr>
+
+                                                                            <!-- COUPON ADJUSTMENT AND COMPANY -->
+                                                                            <div class="row g-3 mb-3">
+                                                                                <div class="col-lg-6 col-md-6">
+                                                                                    <label for="couponAdjustment" class="form-label fw-semibold">
+                                                                                        Coupon Adjustment (₹)
+                                                                                    </label>
+                                                                                    <input
+                                                                                        type="number"
+                                                                                        class="form-control"
+                                                                                        id="couponAdjustment"
+                                                                                        name="coupon_adjustment"
+                                                                                        value="<?= $packagePricing['coupon_adjustment'] ??0.00?>"
+                                                                                        min="0"
+                                                                                        step="0.01"
+                                                                                        placeholder="0.00"
+                                                                                    >
+                                                                                    <small class="error-message" id="couponAdjustment_error"></small>
+                                                                                </div>
+
+                                                                                <div class="col-lg-6 col-md-6">
+                                                                                    <label for="companyAmount" class="form-label fw-semibold">
+                                                                                        Company (₹)
+                                                                                    </label>
+                                                                                    <input
+                                                                                        type="number"
+                                                                                        class="form-control"
+                                                                                        id="companyAmount"
+                                                                                        name="company_amount"
+                                                                                        value="<?= $packagePricingMarkup['company'] ??0.00?>"
+                                                                                        min="0"
+                                                                                        step="0.01"
+                                                                                        placeholder="0.00"
+                                                                                    >
+                                                                                    <small class="error-message" id="companyAmount_error"></small>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <!-- SUSPENSE -->
+                                                                            <div class="row g-3 mb-3">
+                                                                                <div class="col-lg-6 col-md-6">
+                                                                                    <label for="suspenseAmount" class="form-label fw-semibold">
+                                                                                        Suspense (₹)
+                                                                                    </label>
+                                                                                    <input
+                                                                                        type="number"
+                                                                                        class="form-control"
+                                                                                        id="suspenseAmount"
+                                                                                        name="suspense_amount"
+                                                                                        value="<?= $suspenseAmount ?? 0.00 ?>"
+                                                                                        min="0"
+                                                                                        step="0.01"
+                                                                                        placeholder="0.00"
+                                                                                    >
+                                                                                    <small class="error-message" id="suspenseAmount_error"></small>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <!-- CUSTOMER AMOUNTS -->
+                                                                            <div class="row g-3 mb-3">
+                                                                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                                                                    <label for="customer1Amount" class="form-label fw-semibold">
+                                                                                        L1 Customer (₹)
+                                                                                    </label>
+                                                                                    <input
+                                                                                        type="number"
+                                                                                        class="form-control"
+                                                                                        id="customer1Amount"
+                                                                                        name="customer_1_amount"
+                                                                                        value="<?= $customerCom1 ?? 0.00 ?>"
+                                                                                        min="0"
+                                                                                        step="0.01"
+                                                                                    >
+                                                                                </div>
+
+                                                                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                                                                    <label for="customer2Amount" class="form-label fw-semibold">
+                                                                                        L2 Customer (₹)
+                                                                                    </label>
+                                                                                    <input
+                                                                                        type="number"
+                                                                                        class="form-control"
+                                                                                        id="customer2Amount"
+                                                                                        name="customer_2_amount"
+                                                                                        value="<?= $customerCom2 ?? 0.00 ?>"
+                                                                                        min="0"
+                                                                                        step="0.01"
+                                                                                    >
+                                                                                </div>
+
+                                                                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                                                                    <label for="customer3Amount" class="form-label fw-semibold">
+                                                                                        L3 Customer (₹)
+                                                                                    </label>
+                                                                                    <input
+                                                                                        type="number"
+                                                                                        class="form-control"
+                                                                                        id="customer3Amount"
+                                                                                        name="customer_3_amount"
+                                                                                        value="<?= $customerCom3 ?? 0.00 ?>"
+                                                                                        min="0"
+                                                                                        step="0.01"
+                                                                                    >
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <hr>
+
+                                                                            <!-- NET PRICE -->
+                                                                            <div class="row g-3">
+                                                                                <div class="col-lg-6 col-md-6">
+                                                                                    <label for="netPriceAdult" class="form-label fw-semibold">
+                                                                                        Net Price - Adult (₹)
+                                                                                    </label>
+                                                                                    <input
+                                                                                        type="number"
+                                                                                        class="form-control"
+                                                                                        id="netPriceAdult"
+                                                                                        name="net_price_adult"
+                                                                                        value="<?= $packagePricing['net_price_adult'] ?>"
+                                                                                        min="0"
+                                                                                        step="0.01"
+                                                                                    >
+                                                                                    <small class="text-muted">Reference price: ₹12,000</small>
+                                                                                    <small class="error-message" id="netPriceAdult_error"></small>
+                                                                                </div>
+
+                                                                                <div class="col-lg-6 col-md-6">
+                                                                                    <label for="netPriceChild" class="form-label fw-semibold">
+                                                                                        Net Price - Child (₹)
+                                                                                    </label>
+                                                                                    <input
+                                                                                        type="number"
+                                                                                        class="form-control"
+                                                                                        id="netPriceChild"
+                                                                                        name="net_price_child"
+                                                                                        value="<?= $packagePricing['net_price_child'] ?>"
+                                                                                        min="0"
+                                                                                        step="0.01"
+                                                                                    >
+                                                                                    <small class="text-muted">Reference price: ₹9,000</small>
+                                                                                    <small class="error-message" id="netPriceChild_error"></small>
+                                                                                </div>
+                                                                            </div>
+
                                                                         </div>
-
-                                                                        <div class="col-lg-6 col-md-6">
-                                                                            <label for="companyAmount" class="form-label fw-semibold">
-                                                                                Company (₹)
-                                                                            </label>
-                                                                            <input
-                                                                                type="number"
-                                                                                class="form-control"
-                                                                                id="companyAmount"
-                                                                                name="company_amount"
-                                                                                value="<?= $packagePricingMarkup['company'] ??0.00?>"
-                                                                                min="0"
-                                                                                step="0.01"
-                                                                                placeholder="0.00"
-                                                                            >
-                                                                            <small class="error-message" id="companyAmount_error"></small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xl-4">
+                                                                <div class="card cardShadow section-block mt-4">
+                                                                    <div class="quick-header p-3">
+                                                                        <div class="d-flex gap-2">
+                                                                            <i class="fa-solid fa-file-contract fa-xl align-content-center quickIcon"></i>
+                                                                            <h5 class="fw-bold mb-0 textDarkBlue align-content-center">Revised Quotation</h5>
                                                                         </div>
                                                                     </div>
-
-                                                                    <!-- SUSPENSE -->
-                                                                    <div class="row g-3 mb-3">
-                                                                        <div class="col-lg-6 col-md-6">
-                                                                            <label for="suspenseAmount" class="form-label fw-semibold">
-                                                                                Suspense (₹)
-                                                                            </label>
-                                                                            <input
-                                                                                type="number"
-                                                                                class="form-control"
-                                                                                id="suspenseAmount"
-                                                                                name="suspense_amount"
-                                                                                value="<?= $suspenseAmount ?? 0.00 ?>"
-                                                                                min="0"
-                                                                                step="0.01"
-                                                                                placeholder="0.00"
-                                                                            >
-                                                                            <small class="error-message" id="suspenseAmount_error"></small>
+                                                                   
+                                                                    <div class="p-3 pb-0">
+                                                                        <p class="mb-2 fw-bold blueDiv">Disconted Price Details</p>
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <div>
+                                                                                <p class="mb-1">Net Adult: <span class="" id="totalAdultCount"><?= $requestData['adult_count'] ?></span> x &#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
+                                                                                <p class="mb-1">Net Child: <span class="" id="totalChildrenCount"><?= $requestData['child_count'] ?></span> x &#8377; <?= number_format($childDisplayPrice, 2) ?></p>
+                                                                                <p class="mb-1">Extra Mattress (1 x &#8377; <?= $pricing['extra_mattress'] ?>)</p>
+                                                                                <p class="mb-1">L1 customer : <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
+                                                                                <p class="mb-1">L2 customer : <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
+                                                                                <p class="mb-1">L3 customer : <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
+                                                                                <p class="mb-1">suspence : <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
+                                                                                <p class="mb-1">Coupon Adjusment : <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
+                                                                                <p class="mb-1">Compony : <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
+                                                                            </div>
+                                                                            <div>
+                                                                                <p class="mb-1 text-end" id="adultTotal">&#8377; <?= number_format($requestData['adult_total'], 2) ?></p>
+                                                                                <p class="mb-1 text-end" id="childrenTotal">&#8377; <?= number_format($requestData['children_total'], 2) ?></p>
+                                                                                <p class="mb-1 text-end" id="#">&#8377; <?= $totalExtraMattresses * $pricing['extra_mattress'] ?></p>
+                                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
+                                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
+                                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
+                                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
+                                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
+                                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
+                                                                                
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr class="my-1 border border-2 mx-0">
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <p class="fw-bold fs-5 textDarkBlue mb-0">Subtotal</p>
+                                                                            <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="subTotal">&#8377; <?= number_format($requestData['subtotal'], 2) ?></p>
                                                                         </div>
                                                                     </div>
-
-                                                                    <!-- CUSTOMER AMOUNTS -->
-                                                                    <div class="row g-3 mb-3">
-                                                                        <div class="col-lg-4 col-md-4 col-sm-12">
-                                                                            <label for="customer1Amount" class="form-label fw-semibold">
-                                                                                Customer 1 (₹)
-                                                                            </label>
-                                                                            <input
-                                                                                type="number"
-                                                                                class="form-control"
-                                                                                id="customer1Amount"
-                                                                                name="customer_1_amount"
-                                                                                value="<?= $customerCom1 ?? 0.00 ?>"
-                                                                                min="0"
-                                                                                step="0.01"
-                                                                            >
+                                                                    <div class="p-3 pb-0">
+                                                                        <p class="mb-2 fw-bold blueDiv">Additional Price Details</p>
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <div>
+                                                                                <p class="mb-1">Net Adult: <span class="" id="totalAdultCount"><?= $requestData['adult_count'] ?></span> x &#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
+                                                                                <p class="mb-1">Net Child: <span class="" id="totalChildrenCount"><?= $requestData['child_count'] ?></span> x &#8377; <?= number_format($childDisplayPrice, 2) ?></p>
+                                                                                <p class="mb-1">Extra Mattress (1 x &#8377; <?= $pricing['extra_mattress'] ?>)</p>
+                                                                                <p class="mb-1">L1 customer : <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
+                                                                                <p class="mb-1">L2 customer : <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
+                                                                                <p class="mb-1">L3 customer : <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
+                                                                                <p class="mb-1">suspence : <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
+                                                                                <p class="mb-1">Coupon Adjusment : <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
+                                                                                <p class="mb-1">Compony : <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
+                                                                            </div>
+                                                                            <div>
+                                                                                <p class="mb-1 text-end" id="adultTotal">&#8377; <?= number_format($requestData['adult_total'], 2) ?></p>
+                                                                                <p class="mb-1 text-end" id="childrenTotal">&#8377; <?= number_format($requestData['children_total'], 2) ?></p>
+                                                                                <p class="mb-1 text-end" id="#">&#8377; <?= $totalExtraMattresses * $pricing['extra_mattress'] ?></p>
+                                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
+                                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
+                                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
+                                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
+                                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
+                                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
+                                                                                
+                                                                            </div>
                                                                         </div>
-
-                                                                        <div class="col-lg-4 col-md-4 col-sm-12">
-                                                                            <label for="customer2Amount" class="form-label fw-semibold">
-                                                                                Customer 2 (₹)
-                                                                            </label>
-                                                                            <input
-                                                                                type="number"
-                                                                                class="form-control"
-                                                                                id="customer2Amount"
-                                                                                name="customer_2_amount"
-                                                                                value="<?= $customerCom2 ?? 0.00 ?>"
-                                                                                min="0"
-                                                                                step="0.01"
-                                                                            >
-                                                                        </div>
-
-                                                                        <div class="col-lg-4 col-md-4 col-sm-12">
-                                                                            <label for="customer3Amount" class="form-label fw-semibold">
-                                                                                Customer 3 (₹)
-                                                                            </label>
-                                                                            <input
-                                                                                type="number"
-                                                                                class="form-control"
-                                                                                id="customer3Amount"
-                                                                                name="customer_3_amount"
-                                                                                value="<?= $customerCom3 ?? 0.00 ?>"
-                                                                                min="0"
-                                                                                step="0.01"
-                                                                            >
+                                                                        <hr class="my-1 border border-2 mx-0">
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <p class="fw-bold fs-5 textDarkBlue mb-0">Subtotal</p>
+                                                                            <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="subTotal">&#8377; <?= number_format($requestData['subtotal'], 2) ?></p>
                                                                         </div>
                                                                     </div>
-
-                                                                    <hr>
-
-                                                                    <!-- NET PRICE -->
-                                                                    <div class="row g-3">
-                                                                        <div class="col-lg-6 col-md-6">
-                                                                            <label for="netPriceAdult" class="form-label fw-semibold">
-                                                                                Net Price - Adult (₹)
-                                                                            </label>
-                                                                            <input
-                                                                                type="number"
-                                                                                class="form-control"
-                                                                                id="netPriceAdult"
-                                                                                name="net_price_adult"
-                                                                                value="<?= $packagePricing['net_price_adult'] ?>"
-                                                                                min="0"
-                                                                                step="0.01"
-                                                                            >
-                                                                            <small class="text-muted">Reference price: ₹12,000</small>
-                                                                            <small class="error-message" id="netPriceAdult_error"></small>
-                                                                        </div>
-
-                                                                        <div class="col-lg-6 col-md-6">
-                                                                            <label for="netPriceChild" class="form-label fw-semibold">
-                                                                                Net Price - Child (₹)
-                                                                            </label>
-                                                                            <input
-                                                                                type="number"
-                                                                                class="form-control"
-                                                                                id="netPriceChild"
-                                                                                name="net_price_child"
-                                                                                value="<?= $packagePricing['net_price_child'] ?>"
-                                                                                min="0"
-                                                                                step="0.01"
-                                                                            >
-                                                                            <small class="text-muted">Reference price: ₹9,000</small>
-                                                                            <small class="error-message" id="netPriceChild_error"></small>
+                                                                    
+                                                                    <hr class="my-2 border border-2 mx-3">
+                                                                    <div class="p-3">
+                                                                        <p class="fw-bold blueDiv">Adjustments</p>
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <div>
+                                                                                
+                                                                                <p class="mb-1">Convenience Fee </p>
+                                                                                <p class="mb-1">GST (<?= $requestData['gst_percentage'] ?>%) </p>
+                                                                            </div>
+                                                                            <div>
+                                                                                
+                                                                                <p class="mb-1 text-end" id="#">&#8377; <?= $requestData['convenience_fee'] ?></p>
+                                                                                <p class="mb-1 text-end">&#8377; <?= $requestData['gst'] ?></p>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-
+                                                                    
+                                                                    <hr class="my-1 border border-2 mx-3">
+                                                                    <div class="p-3 pb-0">
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <div>
+                                                                                <p class="fs-5 textDarkBlue fw-bold">Total Estimated Price</p>
+                                                                            </div>
+                                                                            <div>
+                                                                                <p class="fs-5 text-danger fw-bolder text-end" id="finalPackagePrice">&#8377; <?= number_format($requestData['final_price'], 2) ?></p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        
                                                     </div>
                                                 </div>
                                                 <!-- Card Section 2 subsection 6 End -->

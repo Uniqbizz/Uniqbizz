@@ -960,39 +960,45 @@ if (is_array($upperChain) && !empty($upperChain)) {
 
         // package_pricing_markup_institution
         $suspenseAmount = $packagePricingInstitution['suspense'] ?? 0.00;
-        $customerCom1=$packagePricingInstitution['prime_customer'];
-        $customerCom2=$packagePricingInstitution['L1_customer'];
-        $customerCom3=$packagePricingInstitution['L2_customer'];
+        $customerCom1=$packagePricingInstitution['prime_customer']?? 0.00;
+        $customerCom2=$packagePricingInstitution['L1_customer']?? 0.00;
+        $customerCom3=$packagePricingInstitution['L2_customer']?? 0.00;
 
     } elseif (in_array($upperChainId, [4, 8], true)) {
 
         // package_pricing_markup_techno_institution
         $suspenseAmount = $packagePricingTechnoInstitution['suspense'] ?? 0.00;
-        $customerCom1=$packagePricingTechnoInstitution['prime_customer'];
-        $customerCom2=$packagePricingTechnoInstitution['L1_customer'];
-        $customerCom3=$packagePricingTechnoInstitution['L2_customer'];
+        $customerCom1=$packagePricingTechnoInstitution['prime_customer']?? 0.00;
+        $customerCom2=$packagePricingTechnoInstitution['L1_customer']?? 0.00;
+        $customerCom3=$packagePricingTechnoInstitution['L2_customer']?? 0.00;
 
-    } elseif (in_array($upperChainId, [9, 10, 11, 13, 14, 15, 17, 18, 19], true)) {
+    } elseif (in_array($upperChainId, [9, 10, 11, 13, 14, 15, 17, 18, 19,21], true)) {
 
         // package_pricing_markup
         $suspenseAmount = $packagePricingMarkup['suspense'] ?? 0.00;
-        $customerCom1=$packagePricingMarkup['prime_customer'];
-        $customerCom2=$packagePricingMarkup['L1_customer'];
-        $customerCom3=$packagePricingMarkup['L2_customer'];
+        $customerCom1=$packagePricingMarkup['prime_customer']?? 0.00;
+        $customerCom2=$packagePricingMarkup['L1_customer']?? 0.00;
+        $customerCom3=$packagePricingMarkup['L2_customer']?? 0.00;
 
     } elseif (in_array($upperChainId, [12, 16, 20], true)) {
 
         // package_pricing_markup_te_chain
         $suspenseAmount = $packagePricingTeChain['suspense'] ?? 0.00;
-        $customerCom1=$packagePricingTeChain['prime_customer'];
-        $customerCom2=$packagePricingTeChain['L1_customer'];
-        $customerCom3=$packagePricingTeChain['L2_customer'];
+        $customerCom1=$packagePricingTeChain['prime_customer']?? 0.00;
+        $customerCom2=$packagePricingTeChain['L1_customer']?? 0.00;
+        $customerCom3=$packagePricingTeChain['L2_customer']?? 0.00;
 
     } else {
 
         // No matching upper chain ID
     }
 }
+echo'<script>
+        console.log("suspence:"+'.$suspenseAmount.')
+        console.log("prime:"+'.$customerCom1.')
+        console.log("l1:"+'.$customerCom2.')
+        console.log("l2:"+'.$customerCom3.')
+    </script>';
 // =====================================================
 // COUPONS AND WALLETS FOR CU
 // =====================================================
