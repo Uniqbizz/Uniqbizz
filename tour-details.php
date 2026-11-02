@@ -262,7 +262,7 @@ include 'assets/submit/tour_details_data.php';
                                             </div>
                                             <div class="fontSize1">
                                                 <p class="fw-bolder">Visa</p>
-                                                <p class="text-muted"><?= $package['visa_required'] === '1' ? 'Visa Required' : 'Not Required' ?></p>
+                                                <p class="text-muted"><?= $package['visa_required'] === 1 ? 'Visa Required' : 'Not Required' ?></p>
                                             </div>
                                         </div>
                                     </div>

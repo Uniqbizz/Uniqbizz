@@ -3701,20 +3701,25 @@
 
                                                                             <!-- NET PRICE -->
                                                                             <div class="row g-3">
+
                                                                                 <div class="col-lg-6 col-md-6">
                                                                                     <label for="netPriceAdult" class="form-label fw-semibold">
                                                                                         Net Price - Adult (₹)
                                                                                     </label>
+
                                                                                     <input
                                                                                         type="number"
                                                                                         class="form-control"
                                                                                         id="netPriceAdult"
                                                                                         name="net_price_adult"
-                                                                                        value="<?= $packagePricing['net_price_adult'] ?>"
+                                                                                        value="<?= htmlspecialchars($packagePricing['net_price_adult'] ?? 0) ?>"
                                                                                         min="0"
                                                                                         step="0.01"
                                                                                     >
-                                                                                    <small class="text-muted">Reference price: ₹12,000</small>
+
+                                                                                    <small class="text-muted d-block" id="netPriceAdult_original"></small>
+                                                                                    <small class="fw-semibold d-block mt-1" id="netPriceAdult_difference"></small>
+
                                                                                     <small class="error-message" id="netPriceAdult_error"></small>
                                                                                 </div>
 
@@ -3722,18 +3727,23 @@
                                                                                     <label for="netPriceChild" class="form-label fw-semibold">
                                                                                         Net Price - Child (₹)
                                                                                     </label>
+
                                                                                     <input
                                                                                         type="number"
                                                                                         class="form-control"
                                                                                         id="netPriceChild"
                                                                                         name="net_price_child"
-                                                                                        value="<?= $packagePricing['net_price_child'] ?>"
+                                                                                        value="<?= htmlspecialchars($packagePricing['net_price_child'] ?? 0) ?>"
                                                                                         min="0"
                                                                                         step="0.01"
                                                                                     >
-                                                                                    <small class="text-muted">Reference price: ₹9,000</small>
+
+                                                                                    <small class="text-muted d-block" id="netPriceChild_original"></small>
+                                                                                    <small class="fw-semibold d-block mt-1" id="netPriceChild_difference"></small>
+
                                                                                     <small class="error-message" id="netPriceChild_error"></small>
                                                                                 </div>
+
                                                                             </div>
 
                                                                         </div>
@@ -3749,98 +3759,97 @@
                                                                         </div>
                                                                     </div>
                                                                    
-                                                                    <div class="p-3 pb-0">
-                                                                        <p class="mb-2 fw-bold blueDiv">Disconted Price Details</p>
-                                                                        <div class="d-flex justify-content-between">
-                                                                            <div>
-                                                                                <p class="mb-1">Net Adult: <span class="" id="totalAdultCount"><?= $requestData['adult_count'] ?></span> x &#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
-                                                                                <p class="mb-1">Net Child: <span class="" id="totalChildrenCount"><?= $requestData['child_count'] ?></span> x &#8377; <?= number_format($childDisplayPrice, 2) ?></p>
-                                                                                <p class="mb-1">Extra Mattress (1 x &#8377; <?= $pricing['extra_mattress'] ?>)</p>
-                                                                                <p class="mb-1">L1 customer : <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
-                                                                                <p class="mb-1">L2 customer : <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
-                                                                                <p class="mb-1">L3 customer : <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
-                                                                                <p class="mb-1">suspence : <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
-                                                                                <p class="mb-1">Coupon Adjusment : <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
-                                                                                <p class="mb-1">Compony : <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
-                                                                            </div>
-                                                                            <div>
-                                                                                <p class="mb-1 text-end" id="adultTotal">&#8377; <?= number_format($requestData['adult_total'], 2) ?></p>
-                                                                                <p class="mb-1 text-end" id="childrenTotal">&#8377; <?= number_format($requestData['children_total'], 2) ?></p>
-                                                                                <p class="mb-1 text-end" id="#">&#8377; <?= $totalExtraMattresses * $pricing['extra_mattress'] ?></p>
-                                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
-                                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
-                                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
-                                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
-                                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
-                                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
-                                                                                
-                                                                            </div>
+                                                                    <!-- Discounted Price Details -->
+                                                                    <div class="p-3 pb-0" id="discountedPriceDetails">
+                                                                        <p class="mb-2 fw-bold blueDiv">Discounted Price Details</p>
+
+                                                                        <div id="discountedAdjustmentRows" class="d-flex flex-column">
+                                                                            <!-- Discount rows will be added dynamically here -->
                                                                         </div>
+
                                                                         <hr class="my-1 border border-2 mx-0">
+
                                                                         <div class="d-flex justify-content-between">
                                                                             <p class="fw-bold fs-5 textDarkBlue mb-0">Subtotal</p>
-                                                                            <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="subTotal">&#8377; <?= number_format($requestData['subtotal'], 2) ?></p>
+                                                                            <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="discountedSubTotal">
+                                                                                &#8377; 0
+                                                                            </p>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="p-3 pb-0">
+
+                                                                    <!-- Additional Price Details -->
+                                                                    <div class="p-3 pb-0" id="additionalPriceDetails">
                                                                         <p class="mb-2 fw-bold blueDiv">Additional Price Details</p>
-                                                                        <div class="d-flex justify-content-between">
-                                                                            <div>
-                                                                                <p class="mb-1">Net Adult: <span class="" id="totalAdultCount"><?= $requestData['adult_count'] ?></span> x &#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
-                                                                                <p class="mb-1">Net Child: <span class="" id="totalChildrenCount"><?= $requestData['child_count'] ?></span> x &#8377; <?= number_format($childDisplayPrice, 2) ?></p>
-                                                                                <p class="mb-1">Extra Mattress (1 x &#8377; <?= $pricing['extra_mattress'] ?>)</p>
-                                                                                <p class="mb-1">L1 customer : <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
-                                                                                <p class="mb-1">L2 customer : <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
-                                                                                <p class="mb-1">L3 customer : <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
-                                                                                <p class="mb-1">suspence : <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
-                                                                                <p class="mb-1">Coupon Adjusment : <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
-                                                                                <p class="mb-1">Compony : <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
-                                                                            </div>
-                                                                            <div>
-                                                                                <p class="mb-1 text-end" id="adultTotal">&#8377; <?= number_format($requestData['adult_total'], 2) ?></p>
-                                                                                <p class="mb-1 text-end" id="childrenTotal">&#8377; <?= number_format($requestData['children_total'], 2) ?></p>
-                                                                                <p class="mb-1 text-end" id="#">&#8377; <?= $totalExtraMattresses * $pricing['extra_mattress'] ?></p>
-                                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
-                                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
-                                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
-                                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
-                                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
-                                                                                <p class="mb-1 text-end">&#8377; 0.00</p>
-                                                                                
-                                                                            </div>
+
+                                                                        <div id="additionalAdjustmentRows" class="d-flex flex-column">
+                                                                            <!-- Additional price rows will be added dynamically here -->
                                                                         </div>
+
                                                                         <hr class="my-1 border border-2 mx-0">
+
                                                                         <div class="d-flex justify-content-between">
                                                                             <p class="fw-bold fs-5 textDarkBlue mb-0">Subtotal</p>
-                                                                            <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="subTotal">&#8377; <?= number_format($requestData['subtotal'], 2) ?></p>
+                                                                            <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="additionalSubTotal">
+                                                                                &#8377; 0
+                                                                            </p>
                                                                         </div>
                                                                     </div>
-                                                                    
                                                                     <hr class="my-2 border border-2 mx-3">
-                                                                    <div class="p-3">
-                                                                        <p class="fw-bold blueDiv">Adjustments</p>
+                                                                    <div class="p-3" id="finalQuotedPriceDetails">
+                                                                        <p class="fw-bold blueDiv">Final Quoted Price</p>
+
                                                                         <div class="d-flex justify-content-between">
                                                                             <div>
-                                                                                
-                                                                                <p class="mb-1">Convenience Fee </p>
-                                                                                <p class="mb-1">GST (<?= $requestData['gst_percentage'] ?>%) </p>
+                                                                                <p class="mb-1" id="netPriceAdjustmentLabel">No Price Adjustment</p>
+                                                                                <p class="mb-1">Final Quoted Price</p>
                                                                             </div>
+
                                                                             <div>
-                                                                                
-                                                                                <p class="mb-1 text-end" id="#">&#8377; <?= $requestData['convenience_fee'] ?></p>
-                                                                                <p class="mb-1 text-end">&#8377; <?= $requestData['gst'] ?></p>
+                                                                                <p class="mb-1 text-end fw-bold" id="netPriceAdjustment">
+                                                                                    &#8377; 0.00
+                                                                                </p>
+
+                                                                                <p class="mb-1 text-end fw-bold" id="finalQuotedPrice">
+                                                                                    &#8377; 0.00
+                                                                                </p>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     
                                                                     <hr class="my-1 border border-2 mx-3">
+                                                                    <div class="p-3">
+                                                                        <p class="fw-bold blueDiv">Adjustments</p>
+
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <div>
+                                                                                <p class="mb-1">Convenience Fee</p>
+                                                                                <p class="mb-1">GST (<?= $requestData['gst_percentage'] ?>%)</p>
+                                                                            </div>
+
+                                                                            <div>
+                                                                                <p class="mb-1 text-end" id="convenienceFee">
+                                                                                    &#8377; <?= number_format((float)$requestData['convenience_fee'], 2) ?>
+                                                                                </p>
+
+                                                                                <p class="mb-1 text-end" id="gstAmount">
+                                                                                    &#8377; <?= number_format((float)$requestData['gst'], 2) ?>
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <hr class="my-1 border border-2 mx-3">
+
                                                                     <div class="p-3 pb-0">
                                                                         <div class="d-flex justify-content-between">
                                                                             <div>
                                                                                 <p class="fs-5 textDarkBlue fw-bold">Total Estimated Price</p>
                                                                             </div>
+
                                                                             <div>
-                                                                                <p class="fs-5 text-danger fw-bolder text-end" id="finalPackagePrice">&#8377; <?= number_format($requestData['final_price'], 2) ?></p>
+                                                                                <p class="fs-5 text-danger fw-bolder text-end" id="estimatedFinalPackagePrice">
+                                                                                    &#8377; <?= number_format((float)$requestData['final_price'], 2) ?>
+                                                                                </p>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -4896,34 +4905,569 @@
                 row.remove();
                 updateEmptyPolicyMessage();
             });
+            $(document).ready(function () {
 
-            $(document).on('input change', '.pricing-markup-input', function () {
+                // =====================================================
+                // ORIGINAL PHP VALUES
+                // =====================================================
 
-                const $input = $(this);
+                const originalSubtotal = <?= json_encode(
+                    (float) ($requestData['subtotal'] ?? 0)
+                ) ?>;
 
-                // Get the ID from the ID column in the same row
-                const userId = $input.closest('tr').find('td').eq(2).text().trim();
+                const adultCount = <?= json_encode(
+                    (int) ($requestData['adult_count'] ?? 0)
+                ) ?>;
 
-                // Check whether the ID is valid
-                if (
-                    userId === '' ||
-                    userId.toUpperCase() === 'NA' ||
-                    userId === '-'
-                ) {
-                    console.log('Invalid ID. Skipping calculation.');
-                    return;
+                const childCount = <?= json_encode(
+                    (int) ($requestData['child_count'] ?? 0)
+                ) ?>;
+
+
+                // =====================================================
+                // INPUT LABELS
+                // =====================================================
+
+                const inputLabels = {
+                    couponAdjustment: 'Coupon Adjustment',
+                    companyAmount: 'Company',
+                    suspenseAmount: 'Suspense',
+                    customer1Amount: 'L1 Customer',
+                    customer2Amount: 'L2 Customer',
+                    customer3Amount: 'L3 Customer',
+                    netPriceAdult: 'Net Price - Adult',
+                    netPriceChild: 'Net Price - Child'
+                };
+
+
+                // =====================================================
+                // ORIGINAL VALUES FROM PHP-RENDERED INPUTS
+                // =====================================================
+
+                function getOriginalValue(input) {
+
+                    // defaultValue contains the original value rendered by PHP.
+                    // It does not change when the user edits the field.
+
+                    return parseFloat(input.defaultValue) || 0;
                 }
 
-                const inputId = this.id;
-                const inputName = this.name;
-                const inputValue = parseFloat(this.value) || 0;
 
-                console.log('User ID:', userId);
-                console.log('Input ID:', inputId);
-                console.log('Input Name:', inputName);
-                console.log('Input Value:', inputValue);
+                // =====================================================
+                // FORMAT CURRENCY
+                // =====================================================
 
-                // Continue your calculation here
+                function formatAmount(amount) {
+
+                    return '₹ ' + Math.abs(amount).toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+
+                }
+
+
+                // =====================================================
+                // CHECK VALID USER ID FOR PRICING TABLE INPUTS
+                // =====================================================
+
+                function isValidPricingUser(input) {
+
+                    const userId = $(input)
+                        .closest('tr')
+                        .find('td')
+                        .eq(2)
+                        .text()
+                        .trim();
+
+                    return (
+                        userId !== '' &&
+                        userId.toUpperCase() !== 'NA' &&
+                        userId !== '-'
+                    );
+
+                }
+
+
+                // =====================================================
+                // GET PRICING TABLE INPUT LABEL
+                // =====================================================
+
+                function getPricingTableLabel(input) {
+
+                    const $input = $(input);
+                    const $row = $input.closest('tr');
+
+                    const designation = $row.find('td').eq(0).text().trim();
+
+                    const columnIndex = $input.closest('td').index();
+
+                    const fieldType = columnIndex === 4
+                        ? 'Incentive'
+                        : 'Commission';
+
+                    return designation + ' - ' + fieldType;
+
+                }
+
+
+                // =====================================================
+                // GET ALL PRICING CHANGES
+                // =====================================================
+
+                function collectPricingChanges() {
+
+                    const discounts = [];
+                    const increases = [];
+
+                    let totalDiscount = 0;
+                    let totalIncrease = 0;
+
+                    // -------------------------------------------------
+                    // A. PRICING TABLE INPUTS
+                    // -------------------------------------------------
+
+                    $('.pricing-markup-input').each(function () {
+
+                        const input = this;
+
+                        // Ignore invalid IDs: empty, NA or -
+                        if (!isValidPricingUser(input)) {
+                            return;
+                        }
+
+                        const originalValue = getOriginalValue(input);
+                        const currentValue = parseFloat(input.value) || 0;
+
+                        const difference = currentValue - originalValue;
+
+                        // Ignore unchanged values
+                        if (Math.abs(difference) < 0.005) {
+                            return;
+                        }
+
+                        const label = getPricingTableLabel(input);
+
+                        if (difference < 0) {
+
+                            // Decrease = Discount
+                            const amount = Math.abs(difference);
+
+                            discounts.push({
+                                label: label,
+                                amount: amount
+                            });
+
+                            totalDiscount += amount;
+
+                        } else {
+
+                            // Increase = Additional Price
+                            increases.push({
+                                label: label,
+                                amount: difference
+                            });
+
+                            totalIncrease += difference;
+
+                        }
+
+                    });
+
+
+                    // -------------------------------------------------
+                    // B. REMAINING PRICING INPUTS
+                    // -------------------------------------------------
+
+                    const remainingSelectors = [
+                        '#couponAdjustment',
+                        '#companyAmount',
+                        '#suspenseAmount',
+                        '#customer1Amount',
+                        '#customer2Amount',
+                        '#customer3Amount',
+                        '#netPriceAdult',
+                        '#netPriceChild'
+                    ];
+
+                    $(remainingSelectors.join(', ')).each(function () {
+
+                        const input = this;
+
+                        const inputId = input.id;
+                        const originalValue = getOriginalValue(input);
+                        const currentValue = parseFloat(input.value) || 0;
+
+                        const difference = currentValue - originalValue;
+
+                        // Ignore unchanged values
+                        if (Math.abs(difference) < 0.005) {
+                            return;
+                        }
+
+                        const label = inputLabels[inputId] || input.name;
+
+                        let adjustmentAmount = difference;
+
+                        // Adult and child prices are per person.
+                        // Calculate their total impact using traveller counts.
+
+                        if (inputId === 'netPriceAdult') {
+
+                            adjustmentAmount = difference * adultCount;
+
+                        } else if (inputId === 'netPriceChild') {
+
+                            adjustmentAmount = difference * childCount;
+
+                        }
+
+                        // Ignore a zero total impact
+                        if (Math.abs(adjustmentAmount) < 0.005) {
+                            return;
+                        }
+
+                        if (adjustmentAmount < 0) {
+
+                            // Decrease = Discount
+                            const amount = Math.abs(adjustmentAmount);
+
+                            discounts.push({
+                                label: label,
+                                amount: amount
+                            });
+
+                            totalDiscount += amount;
+
+                        } else {
+
+                            // Increase = Additional Price
+                            increases.push({
+                                label: label,
+                                amount: adjustmentAmount
+                            });
+
+                            totalIncrease += adjustmentAmount;
+
+                        }
+
+                    });
+
+
+                    return {
+                        discounts: discounts,
+                        increases: increases,
+                        totalDiscount: totalDiscount,
+                        totalIncrease: totalIncrease
+                    };
+
+                }
+
+
+                // =====================================================
+                // RENDER DISCOUNTS AND ADDITIONAL PRICES
+                // =====================================================
+
+                function renderPricingChanges() {
+
+                    const changes = collectPricingChanges();
+                    // Update Adult and Child reference price differences
+                    updateReferencePriceDifference('netPriceAdult');
+                    updateReferencePriceDifference('netPriceChild');
+                    const $discountContainer = $('#discountedAdjustmentRows');
+                    const $additionalContainer = $('#additionalAdjustmentRows');
+
+                    $discountContainer.empty();
+                    $additionalContainer.empty();
+
+
+                    // -------------------------------------------------
+                    // A. DISPLAY DISCOUNTS
+                    // -------------------------------------------------
+
+                    changes.discounts.forEach(function (item) {
+
+                        const $row = $('<div>', {
+                            class: 'd-flex justify-content-between align-items-center w-100 mb-1'
+                        });
+
+                        const $label = $('<p>', {
+                            class: 'mb-0 text-success'
+                        }).text(item.label + ' (Discount)');
+
+                        const $amount = $('<p>', {
+                            class: 'mb-0 text-end text-success'
+                        }).text('- ' + formatAmount(item.amount));
+
+                        $row.append($label, $amount);
+                        $discountContainer.append($row);
+
+                    });
+
+
+                    // -------------------------------------------------
+                    // B. DISPLAY ADDITIONAL PRICES
+                    // -------------------------------------------------
+
+                    changes.increases.forEach(function (item) {
+
+                        const $row = $('<div>', {
+                            class: 'd-flex justify-content-between align-items-center w-100 mb-1'
+                        });
+
+                        const $label = $('<p>', {
+                            class: 'mb-0 text-danger'
+                        }).text(item.label + ' (Additional)');
+
+                        const $amount = $('<p>', {
+                            class: 'mb-0 text-end text-danger'
+                        }).text('+ ' + formatAmount(item.amount));
+
+                        $row.append($label, $amount);
+                        $additionalContainer.append($row);
+
+                    });
+
+
+                    // -------------------------------------------------
+                    // C. UPDATE SUBTOTALS
+                    // -------------------------------------------------
+
+                    const discountedSubtotal =
+                        originalSubtotal - changes.totalDiscount;
+
+                    const additionalSubtotal =
+                        originalSubtotal + changes.totalIncrease;
+
+                    // Keep the existing original subtotal as the baseline
+                    // for each section, applying only that section's changes.
+
+                    $('#discountedPriceDetails #discountedSubTotal').text(
+                        formatAmount(discountedSubtotal)
+                    );
+
+                    $('#additionalPriceDetails #additionalSubTotal').text(
+                        formatAmount(additionalSubtotal)
+                    );
+
+
+                    // -------------------------------------------------
+                    // D. LOG RESULTS
+                    // -------------------------------------------------
+
+                    console.log('Discounts:', changes.discounts);
+                    console.log('Additional Prices:', changes.increases);
+
+                    console.log('Total Discount:', changes.totalDiscount);
+                    console.log('Total Increase:', changes.totalIncrease);
+
+                    console.log(
+                        'Final Subtotal:',
+                        originalSubtotal -
+                        changes.totalDiscount +
+                        changes.totalIncrease
+                    );
+                    // -------------------------------------------------
+                    // E. UPDATE FINAL QUOTED PRICE
+                    // -------------------------------------------------
+
+                    const netAdjustment = changes.totalIncrease - changes.totalDiscount;
+                    const finalPrice = originalSubtotal + netAdjustment;
+
+                    let adjustmentLabel = '';
+                    let adjustmentClass = '';
+
+                    const isSameAdjustment =
+                        Math.abs(changes.totalDiscount - changes.totalIncrease) < 0.005;
+
+                    if (isSameAdjustment) {
+
+                        if (
+                            changes.totalDiscount < 0.005 &&
+                            changes.totalIncrease < 0.005
+                        ) {
+                            adjustmentLabel = 'Original Price (No Adjustment)';
+                        } else {
+                            adjustmentLabel = 'No Net Price Change';
+                        }
+
+                        adjustmentClass = 'text-dark';
+
+                    } else if (netAdjustment < 0) {
+
+                        adjustmentLabel = 'Discounted Amount';
+                        adjustmentClass = 'text-success';
+
+                    } else {
+
+                        adjustmentLabel = 'Additional Amount';
+                        adjustmentClass = 'text-danger';
+                    }
+
+                    // Update label
+                    $('#netPriceAdjustmentLabel')
+                        .text(adjustmentLabel)
+                        .removeClass('text-success text-danger text-dark')
+                        .addClass(adjustmentClass);
+
+                    // Update adjustment amount
+                    $('#netPriceAdjustment')
+                        .text(
+                            (netAdjustment > 0.005 ? '+ ' : netAdjustment < -0.005 ? '- ' : '') +
+                            formatAmount(Math.abs(netAdjustment))
+                        )
+                        .removeClass('text-success text-danger text-dark')
+                        .addClass(adjustmentClass);
+
+                    // Update final quoted price
+                    $('#finalQuotedPrice').text(formatAmount(finalPrice));
+
+                    // -------------------------------------------------
+                    // F. UPDATE TOTAL ESTIMATED PRICE
+                    // -------------------------------------------------
+
+                    // Convenience Fee = 1% of Final Quoted Price
+                    const convenienceFee = finalPrice * 0.01;
+
+                    // GST percentage from PHP
+                    const gstPercentage = <?= json_encode((float)($requestData['gst_percentage'] ?? 0)) ?>;
+
+                    // GST calculation (1%? Use the actual GST percentage)
+                    const gstAmount = finalPrice * (gstPercentage / 100);
+
+                    // Total Estimated Price
+                    const totalEstimatedPrice = finalPrice + convenienceFee + gstAmount;
+
+                    // Update Convenience Fee
+                    $('#convenienceFee').text(formatAmount(convenienceFee));
+
+                    // Update GST
+                    $('#gstAmount').text(formatAmount(gstAmount));
+
+                    // Update Total Estimated Price
+                    $('#estimatedFinalPackagePrice').text(formatAmount(totalEstimatedPrice));
+
+                    console.log('Final Quoted Price:', finalPrice);
+                    console.log('Convenience Fee (1%):', convenienceFee);
+                    console.log('GST:', gstAmount);
+                    console.log('Total Estimated Price:', totalEstimatedPrice);
+
+                }
+                // =====================================================
+                // ORIGINAL PRICE AND PRICE DIFFERENCE
+                // =====================================================
+
+                function updateReferencePriceDifference(inputId) {
+
+                    const $input = $('#' + inputId);
+
+                    if (!$input.length) {
+                        console.warn('Input not found:', inputId);
+                        return;
+                    }
+
+                    const originalPrice = getOriginalValue($input[0]);
+                    const currentPrice = parseFloat($input.val()) || 0;
+
+                    // Show per-person price difference, irrespective of traveller count
+                    const difference = currentPrice - originalPrice;
+
+                    const $originalText = $('#' + inputId + '_original');
+                    const $differenceText = $('#' + inputId + '_difference');
+
+                    $originalText.text(
+                        'Original Price: ' + formatAmount(originalPrice)
+                    );
+
+                    if (!$differenceText.length) {
+                        console.warn('Difference display element not found:', inputId + '_difference');
+                        return;
+                    }
+
+                    if (Math.abs(difference) < 0.005) {
+
+                        $differenceText
+                            .removeClass('text-success text-danger')
+                            .addClass('text-muted')
+                            .text('No Price Change');
+
+                    } else if (difference < 0) {
+
+                        $differenceText
+                            .removeClass('text-danger text-muted')
+                            .addClass('text-success')
+                            .text('Decreased by ' + formatAmount(Math.abs(difference)));
+
+                    } else {
+
+                        $differenceText
+                            .removeClass('text-success text-muted')
+                            .addClass('text-danger')
+                            .text('Increased by ' + formatAmount(difference));
+                    }
+                }
+
+                // =====================================================
+                // EVENT 1: PRICING TABLE INPUTS
+                // =====================================================
+
+                $(document).on(
+                    'input change',
+                    '.pricing-markup-input',
+                    function () {
+
+                        if (!isValidPricingUser(this)) {
+                            console.log('Invalid ID. Skipping calculation.');
+                            return;
+                        }
+
+                        console.log('Changed table input:', {
+                            userId: $(this)
+                                .closest('tr')
+                                .find('td')
+                                .eq(2)
+                                .text()
+                                .trim(),
+
+                            inputId: this.id,
+                            inputName: this.name,
+                            originalValue: getOriginalValue(this),
+                            changedValue: parseFloat(this.value) || 0
+                        });
+
+                        renderPricingChanges();
+
+                    }
+                );
+
+
+                // =====================================================
+                // EVENT 2: REMAINING PRICING INPUTS
+                // =====================================================
+
+                $(document).on(
+                    'input change',
+                    '#couponAdjustment, #companyAmount, #suspenseAmount, #customer1Amount, #customer2Amount, #customer3Amount, #netPriceAdult, #netPriceChild',
+                    function () {
+
+                        console.log('Changed pricing input:', {
+                            inputId: this.id,
+                            inputName: this.name,
+                            originalValue: getOriginalValue(this),
+                            changedValue: parseFloat(this.value) || 0
+                        });
+
+                        renderPricingChanges();
+
+                    }
+                );
+
+
+                // =====================================================
+                // INITIAL RENDER
+                // =====================================================
+
+                renderPricingChanges();
 
             });
         </script>
