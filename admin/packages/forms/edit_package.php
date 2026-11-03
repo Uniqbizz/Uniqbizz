@@ -746,7 +746,7 @@ try {
         // bm/mf/sf->i
         $checkStmt = $conn->prepare("
             SELECT COUNT(*)
-            FROM package_pricing_markup_techno_institution
+            FROM package_pricing_markup_institution
             WHERE package_id = ?
         ");
         $checkStmt->execute([$get_id]);
