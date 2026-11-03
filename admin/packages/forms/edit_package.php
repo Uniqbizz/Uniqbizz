@@ -369,7 +369,16 @@ try {
 
     if (!empty($mydata['pricing']['travelConsultant'])) {
         // bm/mf/sf->te/f
-        $sql = "
+        // Check if record exists
+        $checkStmt = $conn->prepare("
+            SELECT COUNT(*)
+            FROM package_pricing_markup
+            WHERE package_id = ?
+        ");
+        $checkStmt->execute([$get_id]);
+        $exists = $checkStmt->fetchColumn() > 0;
+        if ($exists) {
+            $sql = "
             UPDATE package_pricing_markup
             SET
                 company                 = :company,
@@ -391,6 +400,50 @@ try {
                 suspense                = :suspense
             WHERE package_id = :package_id
         ";
+        }else{
+            $sql = "
+                INSERT INTO package_pricing_markup (
+                    package_id,
+                    company,
+                    customer,
+                    ta_markup,
+                    ca_mark_up_total,
+                    ca_direct_commission,
+                    ca_incentive,
+                    bm_mark_up_total,
+                    bm_direct_commission,
+                    bm_incentive,
+                    prime_customer,
+                    L1_customer,
+                    L2_customer,
+                    total_mark_up,
+                    total_commission_amount,
+                    total_incentive_amount,
+                    coupon_amount,
+                    suspense
+                ) VALUES (
+                    :package_id,
+                    :company,
+                    :customer,
+                    :ta_markup,
+                    :ca_mark_up_total,
+                    :ca_direct_commission,
+                    :ca_incentive,
+                    :bm_mark_up_total,
+                    :bm_direct_commission,
+                    :bm_incentive,
+                    :prime_customer,
+                    :L1_customer,
+                    :L2_customer,
+                    :total_mark_up,
+                    :total_commission_amount,
+                    :total_incentive_amount,
+                    :coupon_amount,
+                    :suspense
+                )
+            ";
+        }
+        
 
         $stmt = $conn->prepare($sql);
 
@@ -434,34 +487,100 @@ try {
 
         ]);
         // cte->ete->ste->te
-        $sql = "
-            UPDATE package_pricing_markup_te_chain
-            SET
-                company                 = :company,
-                customer                = :customer,
-                ta_markup               = :ta_markup,
-                te_mark_up_total        = :te_mark_up_total,
-                te_direct_commission    = :te_direct_commission,
-                te_incentive            = :te_incentive,
-                ete_mark_up_total       = :ete_mark_up_total,
-                ete_direct_commission   = :ete_direct_commission,
-                ete_incentive           = :ete_incentive,
-                ste_mark_up_total       = :ste_mark_up_total,
-                ste_direct_commission   = :ste_direct_commission,
-                ste_incentive           = :ste_incentive,
-                cte_mark_up_total       = :cte_mark_up_total,
-                cte_direct_commission   = :cte_direct_commission,
-                cte_incentive           = :cte_incentive,
-                prime_customer          = :prime_customer,
-                L1_customer             = :L1_customer,
-                L2_customer             = :L2_customer,
-                total_mark_up           = :total_mark_up,
-                total_commission_amount = :total_commission_amount,
-                total_incentive_amount  = :total_incentive_amount,
-                coupon_amount           = :coupon_amount,
-                suspense                = :suspense
-            WHERE package_id = :package_id
-        ";
+        $checkStmt = $conn->prepare("
+            SELECT COUNT(*)
+            FROM package_pricing_markup_te_chain
+            WHERE package_id = ?
+        ");
+        $checkStmt->execute([$get_id]);
+
+        $exists = $checkStmt->fetchColumn() > 0;
+
+        if ($exists) {
+            $sql = "
+                UPDATE package_pricing_markup_te_chain
+                SET
+                    company                 = :company,
+                    customer                = :customer,
+                    ta_markup               = :ta_markup,
+                    te_mark_up_total        = :te_mark_up_total,
+                    te_direct_commission    = :te_direct_commission,
+                    te_incentive            = :te_incentive,
+                    ete_mark_up_total       = :ete_mark_up_total,
+                    ete_direct_commission   = :ete_direct_commission,
+                    ete_incentive           = :ete_incentive,
+                    ste_mark_up_total       = :ste_mark_up_total,
+                    ste_direct_commission   = :ste_direct_commission,
+                    ste_incentive           = :ste_incentive,
+                    cte_mark_up_total       = :cte_mark_up_total,
+                    cte_direct_commission   = :cte_direct_commission,
+                    cte_incentive           = :cte_incentive,
+                    prime_customer          = :prime_customer,
+                    L1_customer             = :L1_customer,
+                    L2_customer             = :L2_customer,
+                    total_mark_up           = :total_mark_up,
+                    total_commission_amount = :total_commission_amount,
+                    total_incentive_amount  = :total_incentive_amount,
+                    coupon_amount           = :coupon_amount,
+                    suspense                = :suspense
+                WHERE package_id = :package_id
+            ";
+        }else {
+            $sql = "
+                INSERT INTO package_pricing_markup_te_chain (
+                    package_id,
+                    company,
+                    customer,
+                    ta_markup,
+                    te_mark_up_total,
+                    te_direct_commission,
+                    te_incentive,
+                    ete_mark_up_total,
+                    ete_direct_commission,
+                    ete_incentive,
+                    ste_mark_up_total,
+                    ste_direct_commission,
+                    ste_incentive,
+                    cte_mark_up_total,
+                    cte_direct_commission,
+                    cte_incentive,
+                    prime_customer,
+                    L1_customer,
+                    L2_customer,
+                    total_mark_up,
+                    total_commission_amount,
+                    total_incentive_amount,
+                    coupon_amount,
+                    suspense
+                ) VALUES (
+                    :package_id,
+                    :company,
+                    :customer,
+                    :ta_markup,
+                    :te_mark_up_total,
+                    :te_direct_commission,
+                    :te_incentive,
+                    :ete_mark_up_total,
+                    :ete_direct_commission,
+                    :ete_incentive,
+                    :ste_mark_up_total,
+                    :ste_direct_commission,
+                    :ste_incentive,
+                    :cte_mark_up_total,
+                    :cte_direct_commission,
+                    :cte_incentive,
+                    :prime_customer,
+                    :L1_customer,
+                    :L2_customer,
+                    :total_mark_up,
+                    :total_commission_amount,
+                    :total_incentive_amount,
+                    :coupon_amount,
+                    :suspense
+                )
+            ";
+        }
+        
 
         $stmt = $conn->prepare($sql);
 
@@ -625,25 +744,73 @@ try {
             ':suspense' => amount($mydata['pricing']['cteISuspence'])
         ]);
         // bm/mf/sf->i
-        $sql = "
-            UPDATE package_pricing_markup_institution
-            SET
-                company                 = :company,
-                customer                = :customer,
-                ins_markup              = :ins_markup,
-                bm_mark_up_total        = :bm_mark_up_total,
-                bm_direct_commission    = :bm_direct_commission,
-                bm_incentive            = :bm_incentive,
-                prime_customer          = :prime_customer,
-                L1_customer             = :L1_customer,
-                L2_customer             = :L2_customer,
-                total_mark_up           = :total_mark_up,
-                total_commission_amount = :total_commission_amount,
-                total_incentive_amount  = :total_incentive_amount,
-                coupon_amount           = :coupon_amount,
-                suspense                = :suspense
-            WHERE package_id = :package_id
-        ";
+        $checkStmt = $conn->prepare("
+            SELECT COUNT(*)
+            FROM package_pricing_markup_techno_institution
+            WHERE package_id = ?
+        ");
+        $checkStmt->execute([$get_id]);
+
+        $exists = $checkStmt->fetchColumn() > 0;
+
+        if ($exists) {
+            $sql = "
+                UPDATE package_pricing_markup_institution
+                SET
+                    company                 = :company,
+                    customer                = :customer,
+                    ins_markup              = :ins_markup,
+                    bm_mark_up_total        = :bm_mark_up_total,
+                    bm_direct_commission    = :bm_direct_commission,
+                    bm_incentive            = :bm_incentive,
+                    prime_customer          = :prime_customer,
+                    L1_customer             = :L1_customer,
+                    L2_customer             = :L2_customer,
+                    total_mark_up           = :total_mark_up,
+                    total_commission_amount = :total_commission_amount,
+                    total_incentive_amount  = :total_incentive_amount,
+                    coupon_amount           = :coupon_amount,
+                    suspense                = :suspense
+                WHERE package_id = :package_id
+            ";
+        }else {
+            $sql = "
+                INSERT INTO package_pricing_markup_institution (
+                    package_id,
+                    company,
+                    customer,
+                    ins_markup,
+                    bm_mark_up_total,
+                    bm_direct_commission,
+                    bm_incentive,
+                    prime_customer,
+                    L1_customer,
+                    L2_customer,
+                    total_mark_up,
+                    total_commission_amount,
+                    total_incentive_amount,
+                    coupon_amount,
+                    suspense
+                ) VALUES (
+                    :package_id,
+                    :company,
+                    :customer,
+                    :ins_markup,
+                    :bm_mark_up_total,
+                    :bm_direct_commission,
+                    :bm_incentive,
+                    :prime_customer,
+                    :L1_customer,
+                    :L2_customer,
+                    :total_mark_up,
+                    :total_commission_amount,
+                    :total_incentive_amount,
+                    :coupon_amount,
+                    :suspense
+                )
+            ";
+        }
+        
 
         $stmt = $conn->prepare($sql);
 
