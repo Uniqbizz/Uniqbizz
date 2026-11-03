@@ -1832,19 +1832,19 @@
                                                                 <div class="col-xl-4">
                                                                     <div class="mb-3">
                                                                         <label for="exampleFormControlInput1" class="form-label">Travel Start Date</label>
-                                                                        <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput1" value="<?= $requestData['travel_start_date'] ?>" >
+                                                                        <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput1" value="<?= $requestData['travel_start_date'] ?>" readonly>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-xl-4">
                                                                     <div class="mb-3">
                                                                         <label for="exampleFormControlInput2" class="form-label">Travel End Date</label>
-                                                                        <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput2" value="<?= $requestData['travel_end_date'] ?>" >
+                                                                        <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput2" value="<?= $requestData['travel_end_date'] ?>" readonly>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-xl-4">
                                                                     <div class="mb-3">
                                                                         <label for="exampleFormControlInput3" class="form-label">Nights / Days</label>
-                                                                        <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput3" value="<?= $requestData['no_of_nights_days'] ?>" >
+                                                                        <input type="text" class="form-control fw-bold textDarkBlue" id="exampleFormControlInput3" value="<?= $requestData['no_of_nights_days'] ?>" readonly >
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2269,10 +2269,10 @@
                                                                     <i class="fa-solid fa-location-dot fa-xl align-content-center quickIcon"></i>
                                                                     <h5 class="fw-bold mb-0 textDarkBlue align-content-center">Quick Action</h5>
                                                                 </div>
-                                                                <button type="button" class="recalculate-btn" id="#">
+                                                                <!-- <button type="button" class="recalculate-btn" id="#">
                                                                     <i class="fa-solid fa-rotate-right"></i>
                                                                     Recalculate
-                                                                </button>
+                                                                </button> -->
                                                             </div>
                                                             <div class="px-3">
                                                                 <p class="mb-2 fw-bold blueDiv">Base Price (Per Person)</p>
@@ -3758,7 +3758,42 @@
                                                                             <h5 class="fw-bold mb-0 textDarkBlue align-content-center">Revised Quotation</h5>
                                                                         </div>
                                                                     </div>
-                                                                   
+                                                                     <div class="p-3 pb-0" id="CustDiscountedPriceDetails">
+                                                                        <p class="mb-2 fw-bold blueDiv">Customer Applied Discount Details</p>
+                                                                        <div class="d-flex justify-content-between align-items-center px-3 pb-2">
+                                                                            <p class="fontSize10 discountGreen fw-bold mb-0">
+                                                                                <i class="ri-price-tag-3-line"></i>
+                                                                                Discounts (Coupon)
+                                                                            </p>
+                                                                            <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="CustCouponDiscount">- ₹ <?= $requestData['coupon_discount'] ?></p>
+                                                                        </div>
+                                                                        <?php if($requestData['referral_wallet_amount'] != 0){
+                                                                        ?>
+                                                                        <div class="d-flex justify-content-between align-items-center px-3 pb-2">
+                                                                            <p class="fontSize10 discountGreen fw-bold mb-0">
+                                                                                <i class="ri-wallet-3-line"></i>
+                                                                                Reference Wallet
+                                                                            </p>
+                                                                            <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="CustReferenceWallet">- ₹ <?= $requestData['referral_wallet_amount'] ?></p>
+                                                                        </div>
+                                                                        <?php } if ($requestData['discount_wallet_amount'] != 0) {?>
+                                                                            <div class="d-flex justify-content-between align-items-center px-3 pb-2">
+                                                                                <p class="fontSize10 discountGreen fw-bold mb-0">
+                                                                                    <i class="ri-wallet-3-line"></i>
+                                                                                    Discount Wallet
+                                                                                </p>
+                                                                                <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="CustDiscountWallet">- ₹ <?= $requestData['discount_wallet_amount'] ?></p>
+                                                                            </div>
+                                                                        <?php } ?>
+                                                                        <hr class="my-1 border border-2 mx-0">
+
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <p class="fw-bold fs-5 textDarkBlue mb-0">Subtotal</p>
+                                                                            <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="CustDiscountedPriceSubTotal">
+                                                                                &#8377; 0
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
                                                                     <!-- Discounted Price Details -->
                                                                     <div class="p-3 pb-0" id="discountedPriceDetails">
                                                                         <p class="mb-2 fw-bold blueDiv">Discounted Price Details</p>
@@ -4612,7 +4647,7 @@
 
                     option.attr('data-amount', amount);
 
-                    select.prop('disabled', false);
+                    select.prop('disabled', true);
                     select.val(couponCode);
 
                     row.find('.coupon-discount').text(
@@ -4910,7 +4945,6 @@
                 // =====================================================
                 // ORIGINAL PHP VALUES
                 // =====================================================
-
                 const originalSubtotal = <?= json_encode(
                     (float) ($requestData['subtotal'] ?? 0)
                 ) ?>;
@@ -5016,7 +5050,6 @@
                 // =====================================================
 
                 function collectPricingChanges() {
-
                     const discounts = [];
                     const increases = [];
 
@@ -5031,7 +5064,7 @@
 
                         const input = this;
 
-                        // Ignore invalid IDs: empty, NA or -
+                        // Ignore invalid IDs
                         if (!isValidPricingUser(input)) {
                             return;
                         }
@@ -5041,16 +5074,11 @@
 
                         const difference = currentValue - originalValue;
 
-                        // Ignore unchanged values
-                        if (Math.abs(difference) < 0.005) {
-                            return;
-                        }
-
                         const label = getPricingTableLabel(input);
 
-                        if (difference < 0) {
+                        // Decrease = Discount
+                        if (difference < -0.005) {
 
-                            // Decrease = Discount
                             const amount = Math.abs(difference);
 
                             discounts.push({
@@ -5060,9 +5088,11 @@
 
                             totalDiscount += amount;
 
-                        } else {
+                        }
 
-                            // Increase = Additional Price
+                        // Increase = Additional Price
+                        else if (difference > 0.005) {
+
                             increases.push({
                                 label: label,
                                 amount: difference
@@ -5071,6 +5101,8 @@
                             totalIncrease += difference;
 
                         }
+
+                        // Unchanged = Do nothing
 
                     });
 
@@ -5095,23 +5127,17 @@
                         const input = this;
 
                         const inputId = input.id;
+
                         const originalValue = getOriginalValue(input);
                         const currentValue = parseFloat(input.value) || 0;
 
                         const difference = currentValue - originalValue;
 
-                        // Ignore unchanged values
-                        if (Math.abs(difference) < 0.005) {
-                            return;
-                        }
-
                         const label = inputLabels[inputId] || input.name;
 
                         let adjustmentAmount = difference;
 
-                        // Adult and child prices are per person.
-                        // Calculate their total impact using traveller counts.
-
+                        // Adult and child prices are per person
                         if (inputId === 'netPriceAdult') {
 
                             adjustmentAmount = difference * adultCount;
@@ -5122,14 +5148,9 @@
 
                         }
 
-                        // Ignore a zero total impact
-                        if (Math.abs(adjustmentAmount) < 0.005) {
-                            return;
-                        }
+                        // Decrease = Discount
+                        if (adjustmentAmount < -0.005) {
 
-                        if (adjustmentAmount < 0) {
-
-                            // Decrease = Discount
                             const amount = Math.abs(adjustmentAmount);
 
                             discounts.push({
@@ -5139,9 +5160,11 @@
 
                             totalDiscount += amount;
 
-                        } else {
+                        }
 
-                            // Increase = Additional Price
+                        // Increase = Additional Price
+                        else if (adjustmentAmount > 0.005) {
+
                             increases.push({
                                 label: label,
                                 amount: adjustmentAmount
@@ -5150,6 +5173,8 @@
                             totalIncrease += adjustmentAmount;
 
                         }
+
+                        // Unchanged = Do nothing
 
                     });
 
@@ -5232,47 +5257,59 @@
                     // -------------------------------------------------
                     // C. UPDATE SUBTOTALS
                     // -------------------------------------------------
+                    // ==========================================
+                    // CUSTOMER APPLIED DISCOUNTS
+                    // ==========================================
+                    const totalCustomerDiscount = updateCustomerDiscountedSubtotal();
 
-                    const discountedSubtotal =
-                        originalSubtotal - changes.totalDiscount;
+                    // ==========================================
+                    // MARKUP DISCOUNTS AND ADDITIONS
+                    // ==========================================
+                    const discountedSubtotal = changes.totalDiscount;
+                    const additionalSubtotal = changes.totalIncrease;
 
-                    const additionalSubtotal =
-                        originalSubtotal + changes.totalIncrease;
+                    $('#discountedPriceDetails #discountedSubTotal')
+                        .text(formatAmount(discountedSubtotal));
 
-                    // Keep the existing original subtotal as the baseline
-                    // for each section, applying only that section's changes.
-
-                    $('#discountedPriceDetails #discountedSubTotal').text(
-                        formatAmount(discountedSubtotal)
-                    );
-
-                    $('#additionalPriceDetails #additionalSubTotal').text(
-                        formatAmount(additionalSubtotal)
-                    );
-
+                    $('#additionalPriceDetails #additionalSubTotal')
+                        .text(formatAmount(additionalSubtotal));
 
                     // -------------------------------------------------
                     // D. LOG RESULTS
                     // -------------------------------------------------
 
-                    console.log('Discounts:', changes.discounts);
-                    console.log('Additional Prices:', changes.increases);
+                    // console.log('Discounts:', changes.discounts);
+                    // console.log('Additional Prices:', changes.increases);
 
-                    console.log('Total Discount:', changes.totalDiscount);
-                    console.log('Total Increase:', changes.totalIncrease);
+                    // console.log('Total Discount:', changes.totalDiscount);
+                    // console.log('Total Increase:', changes.totalIncrease);
 
-                    console.log(
-                        'Final Subtotal:',
-                        originalSubtotal -
-                        changes.totalDiscount +
-                        changes.totalIncrease
-                    );
+                    // console.log(
+                    //     'Final Subtotal:',
+                    //     originalSubtotal -
+                    //     changes.totalDiscount +
+                    //     changes.totalIncrease
+                    // );
                     // -------------------------------------------------
                     // E. UPDATE FINAL QUOTED PRICE
                     // -------------------------------------------------
 
+                    // ==========================================
+                    // FINAL QUOTED PRICE
+                    // ==========================================
+
+                    // Start with the sum of the currently entered pricing values.
+                    // Subtract all discounts and add all increases.
+                    const finalPrice =
+                            originalSubtotal
+                            - totalCustomerDiscount
+                            - changes.totalDiscount
+                            + changes.totalIncrease;
+
+                    // If you have a separate base package price calculated from
+                    // the pricing input fields, add it here.
+
                     const netAdjustment = changes.totalIncrease - changes.totalDiscount;
-                    const finalPrice = originalSubtotal + netAdjustment;
 
                     let adjustmentLabel = '';
                     let adjustmentClass = '';
@@ -5286,7 +5323,7 @@
                             changes.totalDiscount < 0.005 &&
                             changes.totalIncrease < 0.005
                         ) {
-                            adjustmentLabel = 'Original Price (No Adjustment)';
+                            adjustmentLabel = 'No Adjustments';
                         } else {
                             adjustmentLabel = 'No Net Price Change';
                         }
@@ -5406,6 +5443,34 @@
                             .text('Increased by ' + formatAmount(difference));
                     }
                 }
+                // =====================================================
+                // UPDATE CUSTOMER APPLIED DISCOUNT SUBTOTAL
+                // =====================================================
+
+                function updateCustomerDiscountedSubtotal() {
+                    function getDiscountAmount(selector) {
+                        const $element = $(selector);
+
+                        if (!$element.length) {
+                            return 0;
+                        }
+
+                        return parseFloat($element.text().replace(/[^\d.]/g, '')) || 0;
+                    }
+
+                    const couponDiscount = getDiscountAmount('#CustCouponDiscount');
+                    const referenceWallet = getDiscountAmount('#CustReferenceWallet');
+                    const discountWallet = getDiscountAmount('#CustDiscountWallet');
+
+                    const totalCustomerDiscount =
+                        couponDiscount + referenceWallet + discountWallet;
+
+                    $('#CustDiscountedPriceSubTotal').text(
+                        formatAmount(totalCustomerDiscount)
+                    );
+
+                    return totalCustomerDiscount;
+                }
 
                 // =====================================================
                 // EVENT 1: PRICING TABLE INPUTS
@@ -5468,7 +5533,7 @@
                 // =====================================================
 
                 renderPricingChanges();
-
+                updateCustomerDiscountedSubtotal();
             });
         </script>
     </body>
