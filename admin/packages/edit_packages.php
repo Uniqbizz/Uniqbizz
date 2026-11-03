@@ -2692,7 +2692,7 @@
 
 
                 // track delete status
-                let coverImageDeleted = false;
+                // let coverImageDeleted = false;
 
                 // ==========================
                 // Click Upload
