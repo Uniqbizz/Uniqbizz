@@ -1,16 +1,16 @@
 <!-- all payout section filter + previous + next + total card section  -->
 <?php
 
-require "../../../connect.php";
+    require "../../../connect.php";
 
-$cap_id = $_POST['cap_id'] ?? '';
-$designation = $_POST['designation'] ?? '' ;
-$cap_year = $_POST['year_split']?? '';
-$cap_month = $_POST['month_split']?? '';
-$TotalPayoutFilter = $_POST['TotalPayoutFilter']?? '';
-$perTDS = 2/100;
-$tdsPer = 2/100;
-$allPayout = $_POST['allPayout'] ?? '';
+    $cap_id = $_POST['cap_id'] ?? '';
+    $designation = $_POST['designation'] ?? '' ;
+    $cap_year = $_POST['year_split']?? '';
+    $cap_month = $_POST['month_split']?? '';
+    $TotalPayoutFilter = $_POST['TotalPayoutFilter']?? '';
+    $perTDS = 2/100;
+    $tdsPer = 2/100;
+    $allPayout = $_POST['allPayout'] ?? '';
 
     if($allPayout){ // (done)all records will be shown on payout page load 
 
@@ -805,80 +805,5 @@ $allPayout = $_POST['allPayout'] ?? '';
         }
 
     }
-
-    // ****** DAILY TASK RECORDS *******
-    // 12-10-2026:
-    // code merged
-    // testing
-    // app api udatede
-
-    // 13-10-2026:
-    // App code update
-    // DB issue solved for app side where files where showing 500 issue.
-
-    // 14-10-2026:
-    // mailtrap issue solved 
-
-    // 15-10-2026:
-    // Microsoft Authentication problem (contacted ms mailsupport)
-    // issue debugging from server side (ms 365 admin)
-
-    // 16-10-2026:
-    // app code file changes
-
-    // 17-10-2026:
-    // email sent to TC :
-    // TA250072 Sangeeta Nitin Phadte - email : sangeetaphadte8@gmail.com , password : KDbHlU1#
-    // TA250082 Rama Mauskar - email : m.rama2495@gmail.com , password : ibYzVgju
-    // TA250087 Sulaksha Pradeep Patil - email : sulaksha75@gmail.com , password : Prajakta@20
-    // TA250167 Pradeep sudhir - email : pradeepsudhir85@gmail.com , password : *tieD8b6
-    // TA250171 Sherryl Cardozo - email : sherryl9040@gmail.com , password : vHELotJy
-
-    // 19-10-2026:
-    // Institution Payout structure preparation and table connection.
-    // app code update and testing on server.
-
-    // 21-10-2026:
-    // STE login profile page updated on test. (App Login)
-    // institution payout section - 
-
-    // 22-10-2026:
-    // login issue solved(case sensitivity)
-    // app api updated on test site
-    // follow up on ms 365 admin Authentication issue
-
-    // 23-10-2026:
-    // php security update to fix vaulnarability issue
-    // backup taken of live DB and code base.  
-
-    // 24-10-2026:
-    // request details page admin side code flow design
-    // institution payout filter section.
-    // follow up on ms 365 admin Authentication issue
-
-    // 26-10-2026:
-    // app api uploading and updating
-    // user dashboard testing
-    // Institution payout download single payout format change
-
-    // 27-10-2026:
-    // Cover image bug fix
-    // server updation of latest code.
-
-    // 28-10-2026:
-    // mailtrap email issue bug solved
-    // microsoft auth app new admin
-
-    // 29-10-2026:
-    // app api update and testing
-    // request details page brainstroming
-
-    //30-10-2026
-    // Download Exel file institution payout new logic 
-    // request details admin side design formation 
-
-    // 31-10-2026
-    // ins excel download file reduce code (reusable)
-    //request details admin side .
 
 ?>

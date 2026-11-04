@@ -63,6 +63,7 @@ if($payoutmessage == 'TotalPayoutAll'){
 } 
 
 if($payoutmessage == 'allPayout'){
+    
     if ($designation == 'chief_techno_enterprise') {
 
         $sql = "
@@ -84,6 +85,7 @@ if($payoutmessage == 'allPayout'){
                 s.employees <> 'NA'
                 AND s.employees <> 'Not Applicable'
                 AND s.employees IS NOT NULL
+                AND s.employees LIKE 'CT%'
         ";
 
         // 1. Specific user + specific month/year
@@ -134,97 +136,372 @@ if($payoutmessage == 'allPayout'){
         
         $stmt2 = $conn->prepare($sql);
         $stmt2->execute($params);
+
     }else if($designation == 'business_development_manager'){
-        if ($user_id) {
-            $stmt2 ="SELECT s.id, s.master_franchisee as userId, s.message_mf as message, sp.payout_details, s.commission_mf as comm_amt, s.sub_franchisee, s.created_date, s.status,IFNULL(sp.created_date, 'NA') AS paydate ,'".$designation."' as identity 
-                FROM sub_franchisee_payout s
-                LEFT JOIN sub_franchisee_payout_paid sp on sp.user_id=s.master_franchisee 
-                WHERE s.master_franchisee='".$user_id."' AND master_franchisee LIKE 'MF%' AND YEAR(s.created_date) = '".$payoutYear."' AND MONTH(s.created_date) = '".$payoutMonth."'  AND (s.master_franchisee <> 'NA' AND s.master_franchisee <> 'Not Applicable' AND s.master_franchisee IS NOT NULL)
-                ORDER BY created_date desc";
-        }else if($payoutYear && $payoutMonth){
-            $stmt2 ="SELECT s.id, s.master_franchisee as userId, s.message_mf as message, sp.payout_details, s.commission_mf as comm_amt, s.sub_franchisee, s.created_date, s.status,IFNULL(sp.created_date, 'NA') AS paydate ,'".$designation."' as identity 
-                    FROM sub_franchisee_payout s
-                    LEFT JOIN sub_franchisee_payout_paid sp on sp.user_id=s.master_franchisee 
-                    WHERE master_franchisee LIKE 'MF%' AND YEAR(s.created_date) = '".$payoutYear."' AND MONTH(s.created_date) = '".$payoutMonth."' AND (s.master_franchisee <> 'NA' AND s.master_franchisee <> 'Not Applicable' AND s.master_franchisee IS NOT NULL)
-                    ORDER BY created_date desc";
-        }else{
-            $stmt2 ="SELECT s.id, s.master_franchisee as userId, s.message_mf as message, sp.payout_details, s.commission_mf as comm_amt, s.sub_franchisee, s.created_date, s.status,IFNULL(sp.created_date, 'NA') AS paydate ,'".$designation."' as identity 
-                    FROM sub_franchisee_payout s
-                    LEFT JOIN sub_franchisee_payout_paid sp on sp.user_id=s.master_franchisee 
-                    WHERE master_franchisee LIKE 'MF%' AND (s.master_franchisee <> 'NA' AND s.master_franchisee <> 'Not Applicable' AND s.master_franchisee IS NOT NULL)
-                    ORDER BY created_date desc";
+
+        $sql = "
+            SELECT
+                s.id,
+                s.employees AS userId,
+                s.message_emp AS message,
+                sp.payout_details,
+                s.commission_emp AS comm_amt,
+                s.institution,
+                s.created_date,
+                s.status,
+                IFNULL(sp.created_date, 'NA') AS paydate,
+                'Business Development Manager' AS identity
+            FROM institution_payout s
+            LEFT JOIN institution_payout_paid sp
+                ON sp.user_id = s.employees
+            WHERE
+                s.employees <> 'NA'
+                AND s.employees <> 'Not Applicable'
+                AND s.employees IS NOT NULL
+                AND s.employees LIKE 'BH%'
+        ";
+
+        // 1. Specific user + specific month/year
+        if ($user_id && $payoutYear && $payoutMonth) {
+
+            $sql .= "
+                AND s.employees = :user_id
+                AND YEAR(s.created_date) = :payoutYear
+                AND MONTH(s.created_date) = :payoutMonth
+            ";
+
+            $params = [
+                ':user_id' => $user_id,
+                ':payoutYear' => $payoutYear,
+                ':payoutMonth' => $payoutMonth
+            ];
+
+        // 2. Specific user + all dates
+        } elseif ($user_id) {
+
+            $sql .= " AND s.employees = :user_id ";
+
+            $params = [
+                ':user_id' => $user_id
+            ];
+
+        // 3. All users + specific month/year
+        } elseif ($payoutYear && $payoutMonth) {
+
+            $sql .= "
+                AND YEAR(s.created_date) = :payoutYear
+                AND MONTH(s.created_date) = :payoutMonth
+                AND s.status = '1'
+            ";
+
+            $params = [
+                ':payoutYear' => $payoutYear,
+                ':payoutMonth' => $payoutMonth
+            ];
+
+        // 4. All users + all dates
+        } else {
+            $sql .="";
+            $params = [];
         }
+
+        $sql .= " ORDER BY s.created_date DESC ";
+        
+        $stmt2 = $conn->prepare($sql);
+        $stmt2->execute($params);
+
     }else if($designation == 'executive_techno_enterprise'){
-        if ($user_id) {
-            $stmt2 ="SELECT s.id, s.master_franchisee as userId, s.message_mf as message, sp.payout_details, s.commission_mf as comm_amt, s.sub_franchisee, s.created_date, s.status,IFNULL(sp.created_date, 'NA') AS paydate ,'".$designation."' as identity 
-                FROM sub_franchisee_payout s
-                LEFT JOIN sub_franchisee_payout_paid sp on sp.user_id=s.master_franchisee 
-                WHERE s.master_franchisee='".$user_id."' AND master_franchisee LIKE 'SF%' AND YEAR(s.created_date) = '".$payoutYear."' AND MONTH(s.created_date) = '".$payoutMonth."' AND (s.master_franchisee <> 'NA' AND s.master_franchisee <> 'Not Applicable' AND s.master_franchisee IS NOT NULL)
-                ORDER BY created_date desc";
-        }else if ($payoutYear && $payoutMonth){
-            $stmt2 ="SELECT s.id, s.master_franchisee as userId, s.message_mf as message, sp.payout_details, s.commission_mf as comm_amt, s.sub_franchisee, s.created_date, s.status,IFNULL(sp.created_date, 'NA') AS paydate ,'".$designation."' as identity 
-                    FROM sub_franchisee_payout s
-                    LEFT JOIN sub_franchisee_payout_paid sp on sp.user_id=s.master_franchisee 
-                    WHERE master_franchisee LIKE 'SF%' AND YEAR(s.created_date) = '".$payoutYear."' AND MONTH(s.created_date) = '".$payoutMonth."'  AND (s.master_franchisee <> 'NA' AND s.master_franchisee <> 'Not Applicable' AND s.master_franchisee IS NOT NULL)
-                    ORDER BY created_date desc";
-        }else{
-            $stmt2 ="SELECT s.id, s.master_franchisee as userId, s.message_mf as message, sp.payout_details, s.commission_mf as comm_amt, s.sub_franchisee, s.created_date, s.status,IFNULL(sp.created_date, 'NA') AS paydate ,'".$designation."' as identity 
-                    FROM sub_franchisee_payout s
-                    LEFT JOIN sub_franchisee_payout_paid sp on sp.user_id=s.master_franchisee 
-                    WHERE master_franchisee LIKE 'SF%' AND (s.master_franchisee <> 'NA' AND s.master_franchisee <> 'Not Applicable' AND s.master_franchisee IS NOT NULL)
-                    ORDER BY created_date desc";
+
+        $sql = "
+            SELECT
+                s.id,
+                s.bm_mf_sf AS userId,
+                s.message_bm_mf_sf AS message,
+                sp.payout_details,
+                s.commission_bm_mf_sf AS comm_amt,
+                s.institution,
+                s.created_date,
+                s.status,
+                IFNULL(sp.created_date, 'NA') AS paydate,
+                'Executive Techno Enterprise' AS identity
+            FROM institution_payout s
+            LEFT JOIN institution_payout_paid sp
+                ON sp.user_id = s.bm_mf_sf
+            WHERE
+                s.bm_mf_sf <> 'NA'
+                AND s.bm_mf_sf <> 'Not Applicable'
+                AND s.bm_mf_sf IS NOT NULL
+                AND s.bm_mf_sf LIKE 'ET%'
+        ";
+
+        // 1. Specific user + specific month/year
+        if ($user_id && $payoutYear && $payoutMonth) {
+
+            $sql .= "
+                AND s.bm_mf_sf = :user_id
+                AND YEAR(s.created_date) = :payoutYear
+                AND MONTH(s.created_date) = :payoutMonth
+            ";
+
+            $params = [
+                ':user_id' => $user_id,
+                ':payoutYear' => $payoutYear,
+                ':payoutMonth' => $payoutMonth
+            ];
+
+        // 2. Specific user + all dates
+        } elseif ($user_id) {
+
+            $sql .= " AND s.bm_mf_sf = :user_id ";
+
+            $params = [
+                ':user_id' => $user_id
+            ];
+
+        // 3. All users + specific month/year
+        } elseif ($payoutYear && $payoutMonth) {
+
+            $sql .= "
+                AND YEAR(s.created_date) = :payoutYear
+                AND MONTH(s.created_date) = :payoutMonth
+                AND s.status = '1'
+            ";
+
+            $params = [
+                ':payoutYear' => $payoutYear,
+                ':payoutMonth' => $payoutMonth
+            ];
+
+        // 4. All users + all dates
+        } else {
+            $sql .="";
+            $params = [];
         }
+
+        $sql .= " ORDER BY s.created_date DESC ";
+        
+        $stmt2 = $conn->prepare($sql);
+        $stmt2->execute($params);
+
     }else if($designation == 'business_mentor'){
-        if ($user_id) {
-            $stmt2 ="SELECT s.id, s.master_franchisee as userId, s.message_mf as message, sp.payout_details, s.commission_mf as comm_amt, s.sub_franchisee, s.created_date, s.status,IFNULL(sp.created_date, 'NA') AS paydate ,'".$designation."' as identity 
-                FROM sub_franchisee_payout s
-                LEFT JOIN sub_franchisee_payout_paid sp on sp.user_id=s.master_franchisee 
-                WHERE s.master_franchisee='".$user_id."' AND master_franchisee LIKE 'SF%' AND YEAR(s.created_date) = '".$payoutYear."' AND MONTH(s.created_date) = '".$payoutMonth."' AND (s.master_franchisee <> 'NA' AND s.master_franchisee <> 'Not Applicable' AND s.master_franchisee IS NOT NULL)
-                ORDER BY created_date desc";
-        }else if ($payoutYear && $payoutMonth){
-            $stmt2 ="SELECT s.id, s.master_franchisee as userId, s.message_mf as message, sp.payout_details, s.commission_mf as comm_amt, s.sub_franchisee, s.created_date, s.status,IFNULL(sp.created_date, 'NA') AS paydate ,'".$designation."' as identity 
-                    FROM sub_franchisee_payout s
-                    LEFT JOIN sub_franchisee_payout_paid sp on sp.user_id=s.master_franchisee 
-                    WHERE master_franchisee LIKE 'SF%' AND YEAR(s.created_date) = '".$payoutYear."' AND MONTH(s.created_date) = '".$payoutMonth."'  AND (s.master_franchisee <> 'NA' AND s.master_franchisee <> 'Not Applicable' AND s.master_franchisee IS NOT NULL)
-                    ORDER BY created_date desc";
-        }else{
-            $stmt2 ="SELECT s.id, s.master_franchisee as userId, s.message_mf as message, sp.payout_details, s.commission_mf as comm_amt, s.sub_franchisee, s.created_date, s.status,IFNULL(sp.created_date, 'NA') AS paydate ,'".$designation."' as identity 
-                    FROM sub_franchisee_payout s
-                    LEFT JOIN sub_franchisee_payout_paid sp on sp.user_id=s.master_franchisee 
-                    WHERE master_franchisee LIKE 'SF%' AND (s.master_franchisee <> 'NA' AND s.master_franchisee <> 'Not Applicable' AND s.master_franchisee IS NOT NULL)
-                    ORDER BY created_date desc";
+        
+        $sql = "
+            SELECT
+                s.id,
+                s.bm_mf_sf AS userId,
+                s.message_bm_mf_sf AS message,
+                sp.payout_details,
+                s.commission_bm_mf_sf AS comm_amt,
+                s.institution,
+                s.created_date,
+                s.status,
+                IFNULL(sp.created_date, 'NA') AS paydate,
+                'Business Mentor' AS identity
+            FROM institution_payout s
+            LEFT JOIN institution_payout_paid sp
+                ON sp.user_id = s.bm_mf_sf
+            WHERE
+                s.bm_mf_sf <> 'NA'
+                AND s.bm_mf_sf <> 'Not Applicable'
+                AND s.bm_mf_sf IS NOT NULL
+                AND s.bm_mf_sf LIKE 'BM%'
+        ";
+
+        // 1. Specific user + specific month/year
+        if ($user_id && $payoutYear && $payoutMonth) {
+
+            $sql .= "
+                AND s.bm_mf_sf = :user_id
+                AND YEAR(s.created_date) = :payoutYear
+                AND MONTH(s.created_date) = :payoutMonth
+            ";
+
+            $params = [
+                ':user_id' => $user_id,
+                ':payoutYear' => $payoutYear,
+                ':payoutMonth' => $payoutMonth
+            ];
+
+        // 2. Specific user + all dates
+        } elseif ($user_id) {
+
+            $sql .= " AND s.bm_mf_sf = :user_id ";
+
+            $params = [
+                ':user_id' => $user_id
+            ];
+
+        // 3. All users + specific month/year
+        } elseif ($payoutYear && $payoutMonth) {
+
+            $sql .= "
+                AND YEAR(s.created_date) = :payoutYear
+                AND MONTH(s.created_date) = :payoutMonth
+                AND s.status = '1'
+            ";
+
+            $params = [
+                ':payoutYear' => $payoutYear,
+                ':payoutMonth' => $payoutMonth
+            ];
+
+        // 4. All users + all dates
+        } else {
+            $sql .="";
+            $params = [];
         }
+
+        $sql .= " ORDER BY s.created_date DESC ";
+        
+        $stmt2 = $conn->prepare($sql);
+        $stmt2->execute($params);
+
     }else if($designation == 'master_franchisee'){
-        if ($user_id) {
-            $stmt2 ="SELECT s.id, s.master_franchisee as userId, s.message_mf as message, sp.payout_details, s.commission_mf as comm_amt, s.sub_franchisee, s.created_date, s.status,IFNULL(sp.created_date, 'NA') AS paydate ,'".$designation."' as identity 
-                FROM sub_franchisee_payout s
-                LEFT JOIN sub_franchisee_payout_paid sp on sp.user_id=s.master_franchisee 
-                WHERE s.master_franchisee='".$user_id."' AND master_franchisee LIKE 'SF%' AND YEAR(s.created_date) = '".$payoutYear."' AND MONTH(s.created_date) = '".$payoutMonth."' AND (s.master_franchisee <> 'NA' AND s.master_franchisee <> 'Not Applicable' AND s.master_franchisee IS NOT NULL)
-                ORDER BY created_date desc";
-        }else if ($payoutYear && $payoutMonth){
-            $stmt2 ="SELECT s.id, s.master_franchisee as userId, s.message_mf as message, sp.payout_details, s.commission_mf as comm_amt, s.sub_franchisee, s.created_date, s.status,IFNULL(sp.created_date, 'NA') AS paydate ,'".$designation."' as identity 
-                    FROM sub_franchisee_payout s
-                    LEFT JOIN sub_franchisee_payout_paid sp on sp.user_id=s.master_franchisee 
-                    WHERE master_franchisee LIKE 'SF%' AND YEAR(s.created_date) = '".$payoutYear."' AND MONTH(s.created_date) = '".$payoutMonth."'  AND (s.master_franchisee <> 'NA' AND s.master_franchisee <> 'Not Applicable' AND s.master_franchisee IS NOT NULL)
-                    ORDER BY created_date desc";
-        }else{
-            $stmt2 ="SELECT s.id, s.master_franchisee as userId, s.message_mf as message, sp.payout_details, s.commission_mf as comm_amt, s.sub_franchisee, s.created_date, s.status,IFNULL(sp.created_date, 'NA') AS paydate ,'".$designation."' as identity 
-                    FROM sub_franchisee_payout s
-                    LEFT JOIN sub_franchisee_payout_paid sp on sp.user_id=s.master_franchisee 
-                    WHERE master_franchisee LIKE 'SF%' AND (s.master_franchisee <> 'NA' AND s.master_franchisee <> 'Not Applicable' AND s.master_franchisee IS NOT NULL)
-                    ORDER BY created_date desc";
+        
+        $sql = "
+            SELECT
+                s.id,
+                s.bm_mf_sf AS userId,
+                s.message_bm_mf_sf AS message,
+                sp.payout_details,
+                s.commission_bm_mf_sf AS comm_amt,
+                s.institution,
+                s.created_date,
+                s.status,
+                IFNULL(sp.created_date, 'NA') AS paydate,
+                'Master Franchisee' AS identity
+            FROM institution_payout s
+            LEFT JOIN institution_payout_paid sp
+                ON sp.user_id = s.bm_mf_sf
+            WHERE
+                s.bm_mf_sf <> 'NA'
+                AND s.bm_mf_sf <> 'Not Applicable'
+                AND s.bm_mf_sf IS NOT NULL
+                AND s.bm_mf_sf LIKE 'MF%'
+        ";
+
+        // 1. Specific user + specific month/year
+        if ($user_id && $payoutYear && $payoutMonth) {
+
+            $sql .= "
+                AND s.bm_mf_sf = :user_id
+                AND YEAR(s.created_date) = :payoutYear
+                AND MONTH(s.created_date) = :payoutMonth
+            ";
+
+            $params = [
+                ':user_id' => $user_id,
+                ':payoutYear' => $payoutYear,
+                ':payoutMonth' => $payoutMonth
+            ];
+
+        // 2. Specific user + all dates
+        } elseif ($user_id) {
+
+            $sql .= " AND s.bm_mf_sf = :user_id ";
+
+            $params = [
+                ':user_id' => $user_id
+            ];
+
+        // 3. All users + specific month/year
+        } elseif ($payoutYear && $payoutMonth) {
+
+            $sql .= "
+                AND YEAR(s.created_date) = :payoutYear
+                AND MONTH(s.created_date) = :payoutMonth
+                AND s.status = '1'
+            ";
+
+            $params = [
+                ':payoutYear' => $payoutYear,
+                ':payoutMonth' => $payoutMonth
+            ];
+
+        // 4. All users + all dates
+        } else {
+            $sql .="";
+            $params = [];
         }
-    }else{
-        $stmt2="(SELECT s.id, s.zonal_manager as userId, s.message_zm as message, sp.payout_details, s.commission_zm as comm_amt, s.sub_franchisee, s.created_date, s.status,IFNULL(sp.created_date, 'NA') AS paydate ,'zonal_manager' as identity 
-                FROM sub_franchisee_payout s
-                LEFT JOIN sub_franchisee_payout_paid sp on sp.user_id=s.zonal_manager 
-                WHERE YEAR(s.created_date) = '".$payoutYear."' AND MONTH(s.created_date) = '".$payoutMonth."' AND (s.zonal_manager <> 'NA' AND s.zonal_manager <> 'Not Applicable' AND s.zonal_manager IS NOT NULL))
-                UNION
-                (SELECT s.id, s.master_franchisee as userId, s.message_mf as message, sp.payout_details, s.commission_mf as comm_amt, s.sub_franchisee, s.created_date, s.status,IFNULL(sp.created_date, 'NA') AS paydate ,'".$designation."' as identity 
-                FROM sub_franchisee_payout s
-                LEFT JOIN sub_franchisee_payout_paid sp on sp.user_id=s.master_franchisee 
-                WHERE YEAR(s.created_date) = '".$payoutYear."' AND MONTH(s.created_date) = '".$payoutMonth."' AND (s.master_franchisee <> 'NA' AND s.master_franchisee <> 'Not Applicable' AND s.master_franchisee IS NOT NULL))
-                order by created_date desc";
+
+        $sql .= " ORDER BY s.created_date DESC ";
+        
+        $stmt2 = $conn->prepare($sql);
+        $stmt2->execute($params);
+
+    }elseif($designation == 'sponsor_franchisee'){
+        
+        $sql = "
+            SELECT
+                s.id,
+                s.bm_mf_sf AS userId,
+                s.message_bm_mf_sf AS message,
+                sp.payout_details,
+                s.commission_bm_mf_sf AS comm_amt,
+                s.institution,
+                s.created_date,
+                s.status,
+                IFNULL(sp.created_date, 'NA') AS paydate,
+                'Sponsor Franchisee' AS identity
+            FROM institution_payout s
+            LEFT JOIN institution_payout_paid sp
+                ON sp.user_id = s.bm_mf_sf
+            WHERE
+                s.bm_mf_sf <> 'NA'
+                AND s.bm_mf_sf <> 'Not Applicable'
+                AND s.bm_mf_sf IS NOT NULL
+                AND s.bm_mf_sf LIKE 'SF%'
+        ";
+
+        // 1. Specific user + specific month/year
+        if ($user_id && $payoutYear && $payoutMonth) {
+
+            $sql .= "
+                AND s.bm_mf_sf = :user_id
+                AND YEAR(s.created_date) = :payoutYear
+                AND MONTH(s.created_date) = :payoutMonth
+            ";
+
+            $params = [
+                ':user_id' => $user_id,
+                ':payoutYear' => $payoutYear,
+                ':payoutMonth' => $payoutMonth
+            ];
+
+        // 2. Specific user + all dates
+        } elseif ($user_id) {
+
+            $sql .= " AND s.bm_mf_sf = :user_id ";
+
+            $params = [
+                ':user_id' => $user_id
+            ];
+
+        // 3. All users + specific month/year
+        } elseif ($payoutYear && $payoutMonth) {
+
+            $sql .= "
+                AND YEAR(s.created_date) = :payoutYear
+                AND MONTH(s.created_date) = :payoutMonth
+                AND s.status = '1'
+            ";
+
+            $params = [
+                ':payoutYear' => $payoutYear,
+                ':payoutMonth' => $payoutMonth
+            ];
+
+        // 4. All users + all dates
+        } else {
+            $sql .="";
+            $params = [];
+        }
+
+        $sql .= " ORDER BY s.created_date DESC ";
+        
+        $stmt2 = $conn->prepare($sql);
+        $stmt2->execute($params);
+
     }
 
 }
