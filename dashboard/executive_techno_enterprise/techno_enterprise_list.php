@@ -105,13 +105,13 @@
                                     </div>
                                     <div class="lavenderDetails">
                                         <div class="lavenderText">
-                                            <h4 class="mb-0 fs-4 fw-bolder textPurpleTE">Techno Enterprise | Institution</h4>
-                                            <p class="mb-0 textPurpleTE">View Techno Enterprise | Institution (TE | I) - track their status, and monitor their activities and performance across your network.</p>
+                                            <h4 class="mb-0 fs-4 fw-bolder textPurpleTE">Techno Enterprise </h4>
+                                            <p class="mb-0 textPurpleTE">View Techno Enterprise  (TE) - track their status, and monitor their activities and performance across your network.</p>
                                         </div>
                                         <div class="lavenderBreadcrumb">
                                             <ol class="breadcrumb m-0">
                                                 <li class="breadcrumb-item fw-bolder"><a href="executive_techno_dashboard.php"><i class="fa-solid fa-house me-2" style="color: #35239a;"></i>Dashboard</a></li>
-                                                <li class="breadcrumb-item active textPurpleTE">View Techno Enterprise | Institution</li>
+                                                <li class="breadcrumb-item active textPurpleTE">View Techno Enterprise </li>
                                             </ol>
                                         </div>
                                     </div>
