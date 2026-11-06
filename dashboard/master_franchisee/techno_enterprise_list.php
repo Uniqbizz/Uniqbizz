@@ -129,8 +129,8 @@
                                         </div>
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bolder">All Franchisee</p>
-                                            <h4 class="mb-1 teText1" id="teCount">24</h4>
-                                            <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">All Records</a>
+                                            <h4 class="mb-1 teText1" id="allTeCount">0</h4>
+                                            <label class="mb-1 fs-6 fw-bold" style="color: #35239a;">All Records</label>
                                         </div>
                                     </div>
                                 </div>
@@ -143,8 +143,8 @@
                                         </div>
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bolder">Pending Registration</p>
-                                            <h4 class="mb-1 teText2" id="teCount">3</h4>
-                                            <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">Awaiting Approval</a>
+                                            <h4 class="mb-1 teText2" id="pendingTeCount">0</h4>
+                                            <label class="mb-1 fs-6 fw-bold" style="color: #35239a;">Awaiting Approval</label>
                                         </div>
                                     </div>
                                 </div>
@@ -157,8 +157,8 @@
                                         </div>
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bolder">Active Franchisees</p>
-                                            <h4 class="mb-1 teText3" id="teCount">18</h4>
-                                            <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">Currently Active</a>
+                                            <h4 class="mb-1 teText3" id="activeTeCount">0</h4>
+                                            <label class="mb-1 fs-6 fw-bold" style="color: #35239a;">Currently Active</label>
                                         </div>
                                     </div>
                                 </div>
@@ -171,8 +171,8 @@
                                         </div>
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bolder">Deactived Franchisees</p>
-                                            <h4 class="mb-1 teText4" id="teCount">2</h4>
-                                            <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">Access Disabled</a>
+                                            <h4 class="mb-1 teText4" id="deactiveTeCount">0</h4>
+                                            <label class="mb-1 fs-6 fw-bold" style="color: #35239a;">Access Disabled</label>
                                         </div>
                                     </div>
                                 </div>
@@ -336,6 +336,53 @@
          <!-- add on 10-06-2026 by SV END-->
 
         <script>
+            function loadTechnoEnterpriseData() {
+
+                $.ajax({
+                    url: 'models/techno_enterprise/te_count_card_data.php', // Update API path
+                    type: 'POST',
+                    dataType: 'json',
+
+                    beforeSend: function () {
+                        $('#allTeCount, #pendingTeCount, #activeTeCount, #deactiveTeCount')
+                            .text('...');
+                    },
+
+                    success: function (response) {
+
+                        if (response.status === true) {
+
+                            // Update dashboard counts
+                            $('#allTeCount').text(response.counts.total ?? 0);
+
+                            $('#pendingTeCount').text(response.counts.pending ?? 0);
+
+                            $('#activeTeCount').text(response.counts.active ?? 0);
+
+                            $('#deactiveTeCount').text(response.counts.deactivated ?? 0);
+
+                            // Store records for further use if required
+                            technoEnterpriseData = response.data || [];
+
+                        } else {
+
+                            $('#allTeCount, #pendingTeCount, #activeTeCount, #deactiveTeCount')
+                                .text('0');
+
+                            console.error(response.message || 'Unable to fetch Techno Enterprise data.');
+                        }
+                    },
+
+                    error: function (xhr, status, error) {
+
+                        $('#allTeCount, #pendingTeCount, #activeTeCount, #deactiveTeCount')
+                            .text('0');
+
+                        console.error('AJAX Error:', error);
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
             const teTable = $('#example-dataTable').DataTable({
                 destroy: true,
                 responsive: true,
@@ -855,7 +902,7 @@
 
             });
             $(document).ready(function(){
-
+                loadTechnoEnterpriseData();
                 loadPendingTEList();
                 loadRegisteredTEList();
 
