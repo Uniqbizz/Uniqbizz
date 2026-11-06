@@ -26,6 +26,7 @@
 
     $tdsPer = 2/100;
 
+    // note : Techno User i.e CTE, ETE and STE cannot recruit Sub Franchisee Users. 
 ?>
 <!doctype html>
 <html lang="en">
