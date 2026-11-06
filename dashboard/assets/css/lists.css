@@ -35,6 +35,170 @@
 }
 .countDownloadBtn {
     display: flex !important;
+} 
+.lavenderBanner {
+    width: 100% !important;
+    height: 110px;
+    background-color: #ece9fb;
+    border-radius: 12px;
+    position: relative;  
+    display: flex;
+}
+.imageDisaplay {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+}
+.iconBackgroundPurple {
+    background-color: #d4cdfb;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 12px;
+}
+.iconPurpleImg {
+    width: 80px;
+    height: 60px;
+    padding: 10px;
+}
+.lavenderImg {
+    width: 50%;
+    height: 100px;
+    border-radius: 12px;
+    margin-top: 10px;
+}
+.lavenderDetails {
+    position: absolute;
+    top: 20px;
+    left: 110px;
+    right: 20px;
+    display: flex !important;
+    justify-content: space-between !important;
+    gap: 15px;
+    border-left: 3px solid #35239a;
+}
+.textPurpleTE {
+    color: #35239a;
+}
+.lavenderText {
+    margin-left: 15px;
+}
+.pendingTEClipboardIcon {
+    width: 100px;
+    height: 100px;
+}
+.registerTEBadgeIcon {
+    width: 100px;
+    height: 100px;
+}
+.lavenderText {
+    min-width: 0;
+    flex: 1;
+}
+.lavenderText p {
+    max-width: 80%;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: normal;
+    line-height: 1.5;
+}
+.teIcon {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.teIcon1 {
+    background-color: #d3cdf3;
+    color: #35239a;
+}
+.teIcon2 {
+    background-color: #f8f6c5;
+    color: #f49609;
+}
+.teIcon3 {
+    background-color: #cdf9d7;
+    color: #068c25;
+}
+.teIcon4 {
+    background-color: #f5cece;
+    color: #ff0000;
+}
+.teCard {
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+}
+.teCard1 {
+    border-bottom: 3px solid #35239a;
+}
+.teCard2 {
+    border-bottom: 3px solid #f49609;
+}
+.teCard3 {
+    border-bottom: 3px solid #068c25;
+}
+.teCard4 {
+    border-bottom: 3px solid #ff0000;
+}
+.teText1 {
+    color: #35239a;
+    font-weight: 900;
+    font-size: 22px;
+}
+.teText2 {
+    color: #f49609;
+    font-weight: 900;
+    font-size: 22px;
+}
+.teText3 {
+    color: #068c25;
+    font-weight: 900;
+    font-size: 22px;
+}
+.teText4 {
+    color: #ff0000;
+    font-weight: 900;
+    font-size: 22px;
+}
+@media (max-width: 1299px) {
+    .teCard {
+        height: 120px !important;
+    }
+}
+@media (max-width: 1200px) {
+    .teCard {
+        height: 130px !important;
+    }
+}
+@media (max-width: 1175px) {
+    .lavenderDetails {
+        display: block !important;
+        /* justify-content: space-between !important; */
+        /* gap: 15px; */
+        border-left: 3px solid #35239a;
+    }
+    .lavenderBreadcrumb {
+        margin-left: 15px;
+    }
+    .imageDisaplay {
+        width: 100%;
+    } 
+    .lavenderText p {
+        max-width: 80%;
+        white-space: normal;
+        overflow-wrap: break-word;
+        word-break: normal;
+        line-height: 1.5;
+    }
+}
+@media (max-width: 1024px) {
+    .imageDisaplay {
+        width: 100%;
+    } 
 }
 @media (max-width: 992px) {
     .teSectionSize {
@@ -44,7 +208,35 @@
         margin-bottom: 10px;
     }
 }
+@media (max-width: 780px) {
+    .lavenderImg {
+        display: none;
+    }
+    .lavenderText p {
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: break-word;
+        word-break: normal;
+        line-height: 1.5;
+    }
+}
+@media (max-width: 767px) {
+    .teCard {
+        height: 100% !important;
+    }
+}
+@media (max-width: 640px) {
+    .lavenderBanner {
+        height: 130px;
+    }
+    .lavenderImg {
+        display: none;
+    }
+}
 @media (max-width: 576px) {
+    .lavenderBanner {
+        height: 150px;
+    }
     .teSectionSize {
         display: block !important;
         gap: 10px !important;
@@ -56,5 +248,43 @@
     }
     .dateInput {
         width: 100px;
+    }
+}
+@media (max-width: 460px) {
+    .lavenderBanner {
+        min-height: 130px;
+        height: fit-content;
+        position: relative;
+    }
+    .lavenderImg {
+        display: none;
+    }
+    .lavenderDetails {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        right: 20px;
+        display: block !important;
+        border-left: 0px;
+    }
+    .iconPurpleImg {
+        display: none;
+    }
+}
+@media (max-width: 375px) {
+    .cardWidth {
+        width: 100%;
+    }
+    .lavenderBanner {
+        min-height: 180px;
+        height: fit-content;
+        position: relative;
+    }
+}
+@media (max-width: 350px) {
+    .lavenderBanner {
+        min-height: 180px;
+        height: fit-content;
+        position: relative;
     }
 }

@@ -23,6 +23,11 @@
                         <i class="fa-regular fa-house d-flex"></i><span>Dashboards</span>
                     </a>
                 </li>
+                <li class="nav-item <?php echo ($first_part == '../../index.php') ? 'active' : ''; ?>">
+                    <a class="nav-link menu-link" href="../../index.php">
+                        <i class="ri-user-shared-2-line"></i> <span>Home</span>
+                    </a>
+                </li>
                 <li class="nav-item <?php echo ($current_page == 'executive_techno_enterprise_list.php') ? 'active' : ''; ?>">
                     <a class="nav-link menu-link" href="executive_techno_enterprise_list.php">
                         <i class="ri-user-shared-2-line"></i> <span>Executive Techno Enterprisee</span>
