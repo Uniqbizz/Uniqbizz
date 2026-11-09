@@ -442,7 +442,20 @@
                     }
                 ],
                 language: {
-                    emptyTable: "No Pending Travel Consultant Found"
+                    // emptyTable: "No Pending Travel Consultant Found"
+                    emptyTable: `
+                        <div class="technoPendingFoundPosition">
+                            <div class="d-flex justify-content-center">
+                                <img src="../assets/images/technoEnterprise/pendingTEClipboardIcon.png" alt="" class="pendingTEClipboardIcon">
+                            </div>
+                            <p class="mb-1 fs-4 fw-bolder text-center" style="color: #0d0538;">
+                                No Pending Travel Consultants Found
+                            </p>
+                            <p class="mb-1 fs-6 text-center" style="color: #35239a;">
+                                There are no TC registrations awaiting approval.
+                            </p>
+                        </div>
+                    `
                 }
             });
             function loadPendingTEList(){
@@ -618,7 +631,20 @@
                     }
                 ],
                 language: {
-                    emptyTable: 'No Travel Consultant Found'
+                    // emptyTable: 'No Travel Consultant Found'
+                    emptyTable: `
+                        <div class="technoPendingFoundPosition">
+                            <div class="d-flex justify-content-center">
+                                <img src="../assets/images/travelConsultant/userIconTC.png" alt="" class="registerTCBadgeIcon">
+                            </div>
+                            <p class="mb-1 fs-4 fw-bolder text-center" style="color: #0d0538;">
+                                No Travel Consultant Found
+                            </p>
+                            <p class="mb-1 fs-6 text-center" style="color: #35239a;">
+                                Approved Travel Consultants will appear here.
+                            </p>
+                        </div>
+                    `
                 }
             });
 

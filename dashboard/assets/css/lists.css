@@ -214,6 +214,14 @@
     background-color: #068c25;
     color: #fff;
 }
+.userIconTC {
+    font-size: 100px;
+    color: #4b38b3;
+}
+.registerTCBadgeIcon {
+    width: 180px;
+    height: 100px;
+}
 
 @media (max-width: 1299px) {
     .teCard {
