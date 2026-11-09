@@ -197,6 +197,23 @@
     border-radius: 12px;
     margin-top: 30px;
 }
+.stTcIcon {
+    width: 75px;
+    height: 75px;
+    padding: 20px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.stTcIcon1 {
+    background-color: #35239a;
+    color: #fff;
+}
+.stTcIcon2 {
+    background-color: #068c25;
+    color: #fff;
+}
 
 @media (max-width: 1299px) {
     .teCard {

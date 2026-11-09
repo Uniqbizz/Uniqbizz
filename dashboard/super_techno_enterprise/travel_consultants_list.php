@@ -117,6 +117,39 @@
                         </div>
                         <!-- end page title -->
 
+                        <!-- 2 card section Start -->
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                                <div class="card rounded-4 mb-0 p-3 stCard1">
+                                    <div class="d-flex gap-3">
+                                        <div class="stTcIcon stTcIcon1">
+                                            <i class="fa-solid fa-hourglass-half fa-2xl"></i>
+                                        </div>
+                                        <div class="">
+                                            <p class="mb-1 fs-5 fw-bolder">Pending Travel Consultants</p>
+                                            <h4 class="fw-bolder text-dark mb-1" id="teCount">0</h4>
+                                            <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">View Pending <i class="fa-solid fa-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                                <div class="card rounded-4 mb-0 p-3 stCard3">
+                                    <div class="d-flex gap-3">
+                                        <div class="stTcIcon stTcIcon2">
+                                            <i class="fa-solid fa-users fa-2xl"></i>
+                                        </div>
+                                        <div class="">
+                                            <p class="mb-1 fs-5 fw-bolder">Registered Travel Consultants</p>
+                                            <h4 class="fw-bolder text-dark mb-1" id="cuCount">0</h4>
+                                            <a href="customers_list.php" class="mb-1 fs-6 fw-bold">View Registered <i class="fa-solid fa-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 2 card section End -->
+
                         <div class="row">
                             <div class="col">
 
