@@ -164,6 +164,40 @@
     font-weight: 900;
     font-size: 22px;
 }
+/* Travel Consultant list */
+.lavenderBanner2 {
+    width: 100% !important;
+    height: 130px;
+    background-color: #ece9fb;
+    border-radius: 12px;
+    position: relative;  
+    display: flex;
+}
+.imageDisaplay2 {
+    display: flex;
+    justify-content: end;
+    width: 100%;
+}
+.lavenderDetails2 {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+}
+.lavenderText p {
+    max-width: 70%;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: normal;
+    line-height: 1.5;
+}
+.lavenderImg {
+    width: 50%;
+    height: 100px;
+    border-radius: 12px;
+    margin-top: 30px;
+}
+
 @media (max-width: 1299px) {
     .teCard {
         height: 120px !important;
@@ -256,6 +290,11 @@
         height: fit-content;
         position: relative;
     }
+    .lavenderBanner2 {
+        min-height: 140px;
+        height: fit-content;
+        position: relative;
+    }
     .lavenderImg {
         display: none;
     }
@@ -280,10 +319,22 @@
         height: fit-content;
         position: relative;
     }
+    .lavenderBanner2 {
+        min-height: 170px;
+        height: fit-content;
+        position: relative;
+    }
 }
 @media (max-width: 350px) {
     .lavenderBanner {
         min-height: 180px;
+        height: fit-content;
+        position: relative;
+    }
+}
+@media (max-width: 320px) {
+    .lavenderBanner2 {
+        min-height: 200px;
         height: fit-content;
         position: relative;
     }
