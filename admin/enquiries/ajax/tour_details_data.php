@@ -821,52 +821,52 @@ if (strtoupper(trim((string) $prefix)) === 'CU') {
             $debugJson = '{}';
         }
 
-        echo '<script>
-            (function () {
-                var debugData = ' . $debugJson . ';
+        // echo '<script>
+        //     (function () {
+        //         var debugData = ' . $debugJson . ';
 
-                console.group("CU Upper Chain Debug");
+        //         console.group("CU Upper Chain Debug");
 
-                console.log("Prefix:", debugData.prefix);
-                console.log("User ID:", debugData.user_id);
+        //         console.log("Prefix:", debugData.prefix);
+        //         console.log("User ID:", debugData.user_id);
 
-                console.log(
-                    "Upper Chain Result:",
-                    debugData.upper_chain
-                );
+        //         console.log(
+        //             "Upper Chain Result:",
+        //             debugData.upper_chain
+        //         );
 
-                console.log(
-                    "Resolved Chain:",
-                    debugData.upper_chain.chain || null
-                );
+        //         console.log(
+        //             "Resolved Chain:",
+        //             debugData.upper_chain.chain || null
+        //         );
 
-                console.log(
-                    "Upper Chain ID:",
-                    debugData.upper_chain.upper_chain_id || null
-                );
+        //         console.log(
+        //             "Upper Chain ID:",
+        //             debugData.upper_chain.upper_chain_id || null
+        //         );
 
-                console.log(
-                    "Chain Details (all levels):",
-                    debugData.upper_chain.chain_details || []
-                );
+        //         console.log(
+        //             "Chain Details (all levels):",
+        //             debugData.upper_chain.chain_details || []
+        //         );
 
-                console.table(
-                    debugData.upper_chain.chain_details || []
-                );
+        //         console.table(
+        //             debugData.upper_chain.chain_details || []
+        //         );
 
-                console.log(
-                    "Customer Referrals:",
-                    debugData.customer_referrals
-                );
+        //         console.log(
+        //             "Customer Referrals:",
+        //             debugData.customer_referrals
+        //         );
 
-                console.log(
-                    "Global Chain Map:",
-                    debugData.chain_map
-                );
+        //         console.log(
+        //             "Global Chain Map:",
+        //             debugData.chain_map
+        //         );
 
-                console.groupEnd();
-            })();
-        </script>';
+        //         console.groupEnd();
+        //     })();
+        // </script>';
 
     } catch (Throwable $e) {
 
@@ -993,12 +993,12 @@ if (is_array($upperChain) && !empty($upperChain)) {
         // No matching upper chain ID
     }
 }
-echo'<script>
-        console.log("suspence:"+'.$suspenseAmount.')
-        console.log("prime:"+'.$customerCom1.')
-        console.log("l1:"+'.$customerCom2.')
-        console.log("l2:"+'.$customerCom3.')
-    </script>';
+// echo'<script>
+//         console.log("suspence:"+'.$suspenseAmount.')
+//         console.log("prime:"+'.$customerCom1.')
+//         console.log("l1:"+'.$customerCom2.')
+//         console.log("l2:"+'.$customerCom3.')
+//     </script>';
 // =====================================================
 // COUPONS AND WALLETS FOR CU
 // =====================================================

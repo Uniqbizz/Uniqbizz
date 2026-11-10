@@ -2179,495 +2179,495 @@ function setupWalletInput(balanceElementId, inputElementId) {
 // SUBMIT REQUEST
 // =====================================================
 
-$("#submitRequst").on("click", function (e) {
-    e.preventDefault();
-    const submitBtn = $(this);
-    // =====================================================
-    // TRAVEL & TRANSPORT DETAILS
-    // =====================================================
-    const travelStartDate = $("#travelStartDate").val().trim();
-    const travelEndDate = $("#travelEndDate").val().trim();
-    const transportPreference = $("#transportPreference").val() || "";
-    // =====================================================
-    // REQUIRED VALIDATION
-    // =====================================================
-    // Travel Start Date
-    if (!travelStartDate) {
-        Swal.fire({
-            icon: "warning",
-            title: "Travel Date Required",
-            text: "Please select your travel start date.",
-            confirmButtonText: "OK"
-        });
-        $("#travelStartDate").focus();
-        return;
-    }
-    // Travel End Date
-    if (!travelEndDate) {
-        Swal.fire({
-            icon: "warning",
-            title: "Travel Date Required",
-            text: "Please select your travel end date.",
-            confirmButtonText: "OK"
-        });
-        $("#travelEndDate").focus();
-        return;
-    }
-    // =====================================================
-    // DATE ORDER VALIDATION
-    // =====================================================
-    const startDate = new Date(travelStartDate);
-    const endDate = new Date(travelEndDate);
-    if (endDate < startDate) {
-        Swal.fire({
-            icon: "warning",
-            title: "Invalid Travel Dates",
-            text: "Travel end date cannot be before the start date.",
-            confirmButtonText: "OK"
-        });
-        $("#travelEndDate").focus();
-        return;
-    }
-    // =====================================================
-    // TRANSPORT VALIDATION
-    // =====================================================
-    if (!transportPreference) {
-        Swal.fire({
-            icon: "warning",
-            title: "Transport Required",
-            text: "Please select your transport preference.",
-            confirmButtonText: "OK"
-        });
-        $("#transportPreference").focus();
-        return;
-    }
-    // =====================================================
-    // GUEST DETAILS
-    // =====================================================
-    let guestFullName = "";
-    let guestPhone = "";
-    let guestEmail = "";
-    // Check whether guest fields exist in DOM
-    const guestFieldsExist =
-        $("#guestFullName").length > 0 ||
-        $("#guestPhone").length > 0 ||
-        $("#guestEmail").length > 0;
-    if (guestFieldsExist) {
-        // Get guest values
-        guestFullName = $.trim($("#guestFullName").val() || "");
-        guestPhone = $.trim($("#guestPhone").val() || "");
-        guestEmail = $.trim($("#guestEmail").val() || "");
-        // -------------------------------------------------
-        // Guest Name
-        // -------------------------------------------------
-        if (!guestFullName) {
-            Swal.fire({
-                icon: "warning",
-                title: "Guest Name Required",
-                text: "Please enter the guest full name.",
-                confirmButtonText: "OK"
-            });
+// $("#submitRequst").on("click", function (e) {
+//     e.preventDefault();
+//     const submitBtn = $(this);
+//     // =====================================================
+//     // TRAVEL & TRANSPORT DETAILS
+//     // =====================================================
+//     const travelStartDate = $("#travelStartDate").val().trim();
+//     const travelEndDate = $("#travelEndDate").val().trim();
+//     const transportPreference = $("#transportPreference").val() || "";
+//     // =====================================================
+//     // REQUIRED VALIDATION
+//     // =====================================================
+//     // Travel Start Date
+//     if (!travelStartDate) {
+//         Swal.fire({
+//             icon: "warning",
+//             title: "Travel Date Required",
+//             text: "Please select your travel start date.",
+//             confirmButtonText: "OK"
+//         });
+//         $("#travelStartDate").focus();
+//         return;
+//     }
+//     // Travel End Date
+//     if (!travelEndDate) {
+//         Swal.fire({
+//             icon: "warning",
+//             title: "Travel Date Required",
+//             text: "Please select your travel end date.",
+//             confirmButtonText: "OK"
+//         });
+//         $("#travelEndDate").focus();
+//         return;
+//     }
+//     // =====================================================
+//     // DATE ORDER VALIDATION
+//     // =====================================================
+//     const startDate = new Date(travelStartDate);
+//     const endDate = new Date(travelEndDate);
+//     if (endDate < startDate) {
+//         Swal.fire({
+//             icon: "warning",
+//             title: "Invalid Travel Dates",
+//             text: "Travel end date cannot be before the start date.",
+//             confirmButtonText: "OK"
+//         });
+//         $("#travelEndDate").focus();
+//         return;
+//     }
+//     // =====================================================
+//     // TRANSPORT VALIDATION
+//     // =====================================================
+//     if (!transportPreference) {
+//         Swal.fire({
+//             icon: "warning",
+//             title: "Transport Required",
+//             text: "Please select your transport preference.",
+//             confirmButtonText: "OK"
+//         });
+//         $("#transportPreference").focus();
+//         return;
+//     }
+//     // =====================================================
+//     // GUEST DETAILS
+//     // =====================================================
+//     let guestFullName = "";
+//     let guestPhone = "";
+//     let guestEmail = "";
+//     // Check whether guest fields exist in DOM
+//     const guestFieldsExist =
+//         $("#guestFullName").length > 0 ||
+//         $("#guestPhone").length > 0 ||
+//         $("#guestEmail").length > 0;
+//     if (guestFieldsExist) {
+//         // Get guest values
+//         guestFullName = $.trim($("#guestFullName").val() || "");
+//         guestPhone = $.trim($("#guestPhone").val() || "");
+//         guestEmail = $.trim($("#guestEmail").val() || "");
+//         // -------------------------------------------------
+//         // Guest Name
+//         // -------------------------------------------------
+//         if (!guestFullName) {
+//             Swal.fire({
+//                 icon: "warning",
+//                 title: "Guest Name Required",
+//                 text: "Please enter the guest full name.",
+//                 confirmButtonText: "OK"
+//             });
 
-            $("#guestFullName").focus();
-            return;
-        }
-        // -------------------------------------------------
-        // Guest Phone
-        // -------------------------------------------------
-        if (!guestPhone) {
+//             $("#guestFullName").focus();
+//             return;
+//         }
+//         // -------------------------------------------------
+//         // Guest Phone
+//         // -------------------------------------------------
+//         if (!guestPhone) {
 
-            Swal.fire({
-                icon: "warning",
-                title: "Guest Phone Required",
-                text: "Please enter the guest phone number.",
-                confirmButtonText: "OK"
-            });
+//             Swal.fire({
+//                 icon: "warning",
+//                 title: "Guest Phone Required",
+//                 text: "Please enter the guest phone number.",
+//                 confirmButtonText: "OK"
+//             });
 
-            $("#guestPhone").focus();
-            return;
-        }
-        // -------------------------------------------------
-        // Guest Email
-        // -------------------------------------------------
-        if (!guestEmail) {
-            Swal.fire({
-                icon: "warning",
-                title: "Guest Email Required",
-                text: "Please enter the guest email address.",
-                confirmButtonText: "OK"
-            });
-            $("#guestEmail").focus();
-            return;
-        }
-    }
-    // =====================================================
-    // PREVENT DOUBLE CLICK
-    // =====================================================
-    if (submitBtn.hasClass("loading")) {
-        return;
-    }
-    submitBtn.addClass("loading");
-    submitBtn.prop("disabled", true);
-    // =====================================================
-    // BASIC PACKAGE DETAILS
-    // =====================================================
-    const packageId = $("#packageId").val() || "";
-    // =====================================================
-    // TRAVELLER & TRIP DETAILS
-    // =====================================================
-    const pickupLocation = $("#pickupLocation").val();
-    const dropLocation = $("#dropLocation").val();
-    const adults = parseInt($("#adultCount").val()) || 0;
-    const children = parseInt($("#childrenCount").val()) || 0;
-    const infants = parseInt($("#infantCount").val()) || 0;
-    // =====================================================
-    // PREFERENCES
-    // =====================================================
-    const hotelCategory = $("#hotelCategory").val() || "";
-    const mealPreference = $("#mealPreference").val() || "";
-    const specialRequirement = $("#specialRequirement").val() || "";
-    const transportType =  $('#selectedVehicleText').text();
-    const oldHotelCategory = $("#hotelCategory").val() || "";
-    const oldMealPreference = $("#mealPreference").val() || "";
-    const oldTransportPreference = $("#transportPreference").val() || "";
-    // =====================================================
-    // PRICING
-    // =====================================================
-    const totalAdultCount = parseInt($("#totalAdultCount").text()) || 0;
-    const totalChildrenCount = parseInt($("#totalChildrenCount").text()) || 0;
-    const totalInfantCount = parseInt($("#totalInfantCount").text()) || 0;
-    // =====================================================
-    // GET AMOUNT
-    // =====================================================
-    function getAmount(selector) {
-        let value = $(selector).text() || "0";
-        value = value
-            .replace(/₹/g, "")
-            .replace(/,/g, "")
-            .replace(/-/g, "")
-            .trim();
-        return parseFloat(value) || 0;
-    }
-    const adultTotal = getAmount("#adultTotal");
-    const childrenTotal = getAmount("#childrenTotal");
-    const subTotal = getAmount("#subTotal");
-    const convenienceFee = getAmount("#convenienceFeee");
-    const gstValue = getAmount("#gstValue");
-    const couponDiscount = getAmount("#totalCouponDiscount");
-    const referralWallet = $("#appliedReferralWallet").val();
-    const discountWallet = $("#appliedDiscountWallet").val();
-    const finalPackagePrice = getAmount("#finalPackagePrice");
-    // =====================================================
-    // COUPONS
-    // =====================================================
-    const coupons = [];
-    // -----------------------------------------------------
-    // PASSENGER COUPONS
-    // -----------------------------------------------------
-    $("#couponPassengerContainer .coupon-passenger-row").each(function () {
-        const select = $(this).find(".coupon-select");
-        if (select.length && select.val()) {
-            const selectedOption = select.find("option:selected");
-            // Get Adult 1 / Adult 2 / Child 1 etc.
-            const passenger =
-                $(this)
-                    .find("p.fontSize10")
-                    .first()
-                    .text()
-                    .trim();
-            coupons.push({
-                passenger: passenger || "",
-                code: select.val(),
-                type:
-                    selectedOption.data("type") || "",
-                amount:
-                    parseFloat(
-                        selectedOption.data("amount")
-                    ) || 0
-            });
-        }
-    });
-    // -----------------------------------------------------
-    // NORMAL CUSTOMER - ONE COUPON PER PACKAGE
-    // -----------------------------------------------------
-    const packageCoupon = $("#packageCouponSelect").val();
-    if (packageCoupon) {
-        const selectedOption = $("#packageCouponSelect option:selected");
-        coupons.push({
-            passenger: "package",
-            code: packageCoupon,
-            type:
-                selectedOption.data("type") || "",
-            amount:
-                parseFloat(
-                    selectedOption.data("amount")
-                ) || 0
-        });
-    }
-    // =====================================================
-    // ROOM DETAILS
-    // =====================================================
-    let rooms = [];
+//             $("#guestPhone").focus();
+//             return;
+//         }
+//         // -------------------------------------------------
+//         // Guest Email
+//         // -------------------------------------------------
+//         if (!guestEmail) {
+//             Swal.fire({
+//                 icon: "warning",
+//                 title: "Guest Email Required",
+//                 text: "Please enter the guest email address.",
+//                 confirmButtonText: "OK"
+//             });
+//             $("#guestEmail").focus();
+//             return;
+//         }
+//     }
+//     // =====================================================
+//     // PREVENT DOUBLE CLICK
+//     // =====================================================
+//     if (submitBtn.hasClass("loading")) {
+//         return;
+//     }
+//     submitBtn.addClass("loading");
+//     submitBtn.prop("disabled", true);
+//     // =====================================================
+//     // BASIC PACKAGE DETAILS
+//     // =====================================================
+//     const packageId = $("#packageId").val() || "";
+//     // =====================================================
+//     // TRAVELLER & TRIP DETAILS
+//     // =====================================================
+//     const pickupLocation = $("#pickupLocation").val();
+//     const dropLocation = $("#dropLocation").val();
+//     const adults = parseInt($("#adultCount").val()) || 0;
+//     const children = parseInt($("#childrenCount").val()) || 0;
+//     const infants = parseInt($("#infantCount").val()) || 0;
+//     // =====================================================
+//     // PREFERENCES
+//     // =====================================================
+//     const hotelCategory = $("#hotelCategory").val() || "";
+//     const mealPreference = $("#mealPreference").val() || "";
+//     const specialRequirement = $("#specialRequirement").val() || "";
+//     const transportType =  $('#selectedVehicleText').text();
+//     const oldHotelCategory = $("#hotelCategory").val() || "";
+//     const oldMealPreference = $("#mealPreference").val() || "";
+//     const oldTransportPreference = $("#transportPreference").val() || "";
+//     // =====================================================
+//     // PRICING
+//     // =====================================================
+//     const totalAdultCount = parseInt($("#totalAdultCount").text()) || 0;
+//     const totalChildrenCount = parseInt($("#totalChildrenCount").text()) || 0;
+//     const totalInfantCount = parseInt($("#totalInfantCount").text()) || 0;
+//     // =====================================================
+//     // GET AMOUNT
+//     // =====================================================
+//     function getAmount(selector) {
+//         let value = $(selector).text() || "0";
+//         value = value
+//             .replace(/₹/g, "")
+//             .replace(/,/g, "")
+//             .replace(/-/g, "")
+//             .trim();
+//         return parseFloat(value) || 0;
+//     }
+//     const adultTotal = getAmount("#adultTotal");
+//     const childrenTotal = getAmount("#childrenTotal");
+//     const subTotal = getAmount("#subTotal");
+//     const convenienceFee = getAmount("#convenienceFeee");
+//     const gstValue = getAmount("#gstValue");
+//     const couponDiscount = getAmount("#totalCouponDiscount");
+//     const referralWallet = $("#appliedReferralWallet").val();
+//     const discountWallet = $("#appliedDiscountWallet").val();
+//     const finalPackagePrice = getAmount("#finalPackagePrice");
+//     // =====================================================
+//     // COUPONS
+//     // =====================================================
+//     const coupons = [];
+//     // -----------------------------------------------------
+//     // PASSENGER COUPONS
+//     // -----------------------------------------------------
+//     $("#couponPassengerContainer .coupon-passenger-row").each(function () {
+//         const select = $(this).find(".coupon-select");
+//         if (select.length && select.val()) {
+//             const selectedOption = select.find("option:selected");
+//             // Get Adult 1 / Adult 2 / Child 1 etc.
+//             const passenger =
+//                 $(this)
+//                     .find("p.fontSize10")
+//                     .first()
+//                     .text()
+//                     .trim();
+//             coupons.push({
+//                 passenger: passenger || "",
+//                 code: select.val(),
+//                 type:
+//                     selectedOption.data("type") || "",
+//                 amount:
+//                     parseFloat(
+//                         selectedOption.data("amount")
+//                     ) || 0
+//             });
+//         }
+//     });
+//     // -----------------------------------------------------
+//     // NORMAL CUSTOMER - ONE COUPON PER PACKAGE
+//     // -----------------------------------------------------
+//     const packageCoupon = $("#packageCouponSelect").val();
+//     if (packageCoupon) {
+//         const selectedOption = $("#packageCouponSelect option:selected");
+//         coupons.push({
+//             passenger: "package",
+//             code: packageCoupon,
+//             type:
+//                 selectedOption.data("type") || "",
+//             amount:
+//                 parseFloat(
+//                     selectedOption.data("amount")
+//                 ) || 0
+//         });
+//     }
+//     // =====================================================
+//     // ROOM DETAILS
+//     // =====================================================
+//     let rooms = [];
 
-    $("#roomRecommendation .roomRecommendationItem").each(function () {
-        const $room = $(this);
+//     $("#roomRecommendation .roomRecommendationItem").each(function () {
+//         const $room = $(this);
 
-        const roomNumber = $room
-            .children("p.fontSize10.fw-bold")
-            .first()
-            .text()
-            .trim();
+//         const roomNumber = $room
+//             .children("p.fontSize10.fw-bold")
+//             .first()
+//             .text()
+//             .trim();
 
-        const description = $room
-            .find(".ri-hotel-bed-fill")
-            .closest("p")
-            .text()
-            .trim();
+//         const description = $room
+//             .find(".ri-hotel-bed-fill")
+//             .closest("p")
+//             .text()
+//             .trim();
 
-        const recommendation = $room
-            .find(".recommendedBtn")
-            .text()
-            .trim();
+//         const recommendation = $room
+//             .find(".recommendedBtn")
+//             .text()
+//             .trim();
 
-        rooms.push({
-            room_number: roomNumber,
-            description: description,
-            recommendation: recommendation
-        });
-    });
+//         rooms.push({
+//             room_number: roomNumber,
+//             description: description,
+//             recommendation: recommendation
+//         });
+//     });
 
-    console.log(referralWallet);
+//     console.log(referralWallet);
     
     
-    // =====================================================
-    // CREATE FORM DATA
-    // =====================================================
-    const formData = new FormData();
-    // =====================================================
-    // PACKAGE
-    // =====================================================
-    formData.append("package_id", packageId);
-    // =====================================================
-    // TRIP
-    // =====================================================
-    formData.append("travel_start_date", travelStartDate);
-    formData.append("travel_end_date", travelEndDate);
-    formData.append("pickup_location", pickupLocation);
-    formData.append("drop_location", dropLocation);
-    // =====================================================
-    // TRAVELLERS
-    // =====================================================
-    formData.append("adults", adults);
-    formData.append("children", children);
-    formData.append("infants", infants);
-    // =====================================================
-    // GUEST DETAILS
-    // =====================================================
-    formData.append("guestFullName", guestFullName);
-    formData.append("guestPhone", guestPhone);
-    formData.append("guestEmail", guestEmail);
-    formData.append("userId", userId);
-    formData.append("userTypeIdValue", userTypeIdValue);
-    // =====================================================
-    // PREFERENCES
-    // =====================================================
-    formData.append("hotel_category", hotelCategory);
-    formData.append("meal_preference", mealPreference);
-    formData.append("transport_preference", transportPreference);
-    formData.append("transport_type", transportType);
-    formData.append("special_requirement", specialRequirement);
-    formData.append("old_hotel_category", oldHotelCategory);
-    formData.append("old_meal_preference", oldMealPreference);
-    formData.append("old_transport_preference", oldTransportPreference);
-    // =====================================================
-    // PRICING
-    // =====================================================
-    formData.append("adult_price", perAdultPrice);
-    formData.append("child_price", perChildPrice);
-    formData.append("adult_count", totalAdultCount);
-    formData.append("child_count", totalChildrenCount);
-    formData.append("infant_count", totalInfantCount);
-    formData.append("adult_total", adultTotal);
-    formData.append("children_total", childrenTotal);
-    formData.append("subtotal", subTotal);
-    formData.append("convenience_fee", convenienceFee);
-    formData.append("gst_percentage", gstPercentage);
-    formData.append("gst_value", gstValue);
-    formData.append("coupon_discount", couponDiscount);
-    formData.append("referral_wallet", referralWallet);
-    formData.append("discount_wallet", discountWallet);
-    formData.append("final_package_price", finalPackagePrice);
-    // =====================================================
-    // JSON ARRAYS
-    // =====================================================
-    formData.append("coupons", JSON.stringify(coupons));
-    formData.append("rooms", JSON.stringify(rooms));
-    // =====================================================
-    // AJAX
-    // =====================================================
-    $.ajax({
-        url: "assets/submit/submit_request_quote.php",
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        dataType: "json",
-        // =================================================
-        // BEFORE SEND
-        // =================================================
-        beforeSend: function () {
-            Swal.fire({
-                title: "Submitting Request",
-                html: "Please wait while we submit your travel enquiry...",
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                showConfirmButton: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-        },
-        // =================================================
-        // SUCCESS
-        // =================================================
-        success: function (response) {
-            $("#loading-overlay").hide();
-            submitBtn.removeClass("loading");
-            submitBtn.prop("disabled", false);
-            // =============================================
-            // SUCCESS RESPONSE
-            // =============================================
-            if (response.status == 1) {
-                Swal.fire({
-                    icon: "success",
-                    title: "Request Submitted Successfully!",
-                    html: `<div class="swal-enquiry-success">
-                            <p class="swal-thankyou">
-                                Thank you for choosing
-                                <strong>Bizzmirth Holidays.</strong>
-                            </p>
-                            <p class="swal-message">
-                                Your travel enquiry has been
-                                submitted successfully.
-                                Our team will review your request
-                                and get back to you soon.
-                            </p>
-                            <div class="enquiry-number-box">
-                                <span class="enquiry-number-label">Enquiry Number</span>
-                                <strong>${response.enquiry_no || response.enquiry_number || "N/A"}</strong>
-                            </div>
-                            <div class="enquiry-details">
-                                <div class="enquiry-details-header">
-                                    <span><i class="ri-file-list-3-line"></i>Enquiry Details</span>
-                                </div>
-                                <div class="enquiry-detail-row">
-                                    <span>Travel Dates</span>
-                                    <strong>
-                                        ${travelStartDate || "-"}
-                                        ${travelEndDate ? " - " + travelEndDate : ""}
-                                    </strong>
-                                </div>
-                                <div class="enquiry-detail-row">
-                                    <span>Travellers</span>
-                                    <strong>
-                                        ${adults}
-                                        Adult${adults != 1 ? "s" : ""}
-                                        ${children > 0 ? ", " + children + " Child" + (children != 1 ? "ren" : "") : ""}
-                                        ${infants > 0 ? ", " + infants + " Infant" + (infants != 1 ? "s" : "") : ""}
-                                    </strong>
-                                </div>
-                                <div class="enquiry-detail-row">
-                                    <span>
-                                        Pickup Location
-                                    </span>
-                                    <strong>
-                                        ${pickupLocation || "-"}
-                                    </strong>
-                                </div>
-                                <div class="enquiry-detail-row">
-                                    <span>
-                                        Drop Location
-                                    </span>
-                                    <strong>
-                                        ${dropLocation || "-"}
-                                    </strong>
-                                </div>
-                                <div class="enquiry-detail-row">
-                                    <span>
-                                        Package Price
-                                    </span>
-                                    <strong>
-                                        ₹${Number(
-                        finalPackagePrice
-                    ).toLocaleString(
-                        "en-IN",
-                        {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
-                        }
-                    )}
-                                    </strong>
-                                </div>
-                            </div>
-                            <div class="whats-next-box">
-                                <div class="whats-next-title">
-                                    <i class="ri-checkbox-circle-fill"></i>
-                                    What's Next?
-                                </div>
-                                <p>
-                                    Our travel expert will review
-                                    your enquiry, check availability
-                                    and prepare the best possible
-                                    quotation for you.
-                                </p>
-                                <p class="whats-next-small">
-                                    We will contact you shortly
-                                    with the next steps.
-                                </p>
-                            </div>
-                        </div>
-                    `,
-                    confirmButtonText: "Done",
-                    customClass: {
-                        popup: "enquiry-success-popup",
-                        confirmButton: "enquiry-confirm-btn"
-                    },
-                    buttonsStyling: false,
-                    allowOutsideClick: false,
-                    allowEscapeKey: false
-                }).then(function () {
-                    // =====================================
-                    // REFRESH AFTER DONE
-                    // =====================================
-                    window.location.reload();
-                });
-            }
-            // =============================================
-            // SERVER RETURNED STATUS 0
-            // =============================================
-            else {
-                Swal.fire({
-                    icon: "error",
-                    title: "Unable to Submit",
-                    text: response.message || "Unable to submit your request. Please try again."
-                });
-            }
-        },
-        // =================================================
-        // AJAX ERROR
-        // =================================================
-        error: function (xhr, status, error) {
-            $("#loading-overlay").hide();
-            submitBtn.removeClass("loading");
-            submitBtn.prop("disabled", false);
-            Swal.fire({
-                icon: "error",
-                title: "Something went wrong",
-                text: "Unable to submit the request. Please try again."
-            });
-        }
-    });
-});
+//     // =====================================================
+//     // CREATE FORM DATA
+//     // =====================================================
+//     const formData = new FormData();
+//     // =====================================================
+//     // PACKAGE
+//     // =====================================================
+//     formData.append("package_id", packageId);
+//     // =====================================================
+//     // TRIP
+//     // =====================================================
+//     formData.append("travel_start_date", travelStartDate);
+//     formData.append("travel_end_date", travelEndDate);
+//     formData.append("pickup_location", pickupLocation);
+//     formData.append("drop_location", dropLocation);
+//     // =====================================================
+//     // TRAVELLERS
+//     // =====================================================
+//     formData.append("adults", adults);
+//     formData.append("children", children);
+//     formData.append("infants", infants);
+//     // =====================================================
+//     // GUEST DETAILS
+//     // =====================================================
+//     formData.append("guestFullName", guestFullName);
+//     formData.append("guestPhone", guestPhone);
+//     formData.append("guestEmail", guestEmail);
+//     formData.append("userId", userId);
+//     formData.append("userTypeIdValue", userTypeIdValue);
+//     // =====================================================
+//     // PREFERENCES
+//     // =====================================================
+//     formData.append("hotel_category", hotelCategory);
+//     formData.append("meal_preference", mealPreference);
+//     formData.append("transport_preference", transportPreference);
+//     formData.append("transport_type", transportType);
+//     formData.append("special_requirement", specialRequirement);
+//     formData.append("old_hotel_category", oldHotelCategory);
+//     formData.append("old_meal_preference", oldMealPreference);
+//     formData.append("old_transport_preference", oldTransportPreference);
+//     // =====================================================
+//     // PRICING
+//     // =====================================================
+//     formData.append("adult_price", perAdultPrice);
+//     formData.append("child_price", perChildPrice);
+//     formData.append("adult_count", totalAdultCount);
+//     formData.append("child_count", totalChildrenCount);
+//     formData.append("infant_count", totalInfantCount);
+//     formData.append("adult_total", adultTotal);
+//     formData.append("children_total", childrenTotal);
+//     formData.append("subtotal", subTotal);
+//     formData.append("convenience_fee", convenienceFee);
+//     formData.append("gst_percentage", gstPercentage);
+//     formData.append("gst_value", gstValue);
+//     formData.append("coupon_discount", couponDiscount);
+//     formData.append("referral_wallet", referralWallet);
+//     formData.append("discount_wallet", discountWallet);
+//     formData.append("final_package_price", finalPackagePrice);
+//     // =====================================================
+//     // JSON ARRAYS
+//     // =====================================================
+//     formData.append("coupons", JSON.stringify(coupons));
+//     formData.append("rooms", JSON.stringify(rooms));
+//     // =====================================================
+//     // AJAX
+//     // =====================================================
+//     $.ajax({
+//         url: "assets/submit/submit_request_quote.php",
+//         type: "POST",
+//         data: formData,
+//         processData: false,
+//         contentType: false,
+//         dataType: "json",
+//         // =================================================
+//         // BEFORE SEND
+//         // =================================================
+//         beforeSend: function () {
+//             Swal.fire({
+//                 title: "Submitting Request",
+//                 html: "Please wait while we submit your travel enquiry...",
+//                 allowOutsideClick: false,
+//                 allowEscapeKey: false,
+//                 showConfirmButton: false,
+//                 didOpen: () => {
+//                     Swal.showLoading();
+//                 }
+//             });
+//         },
+//         // =================================================
+//         // SUCCESS
+//         // =================================================
+//         success: function (response) {
+//             $("#loading-overlay").hide();
+//             submitBtn.removeClass("loading");
+//             submitBtn.prop("disabled", false);
+//             // =============================================
+//             // SUCCESS RESPONSE
+//             // =============================================
+//             if (response.status == 1) {
+//                 Swal.fire({
+//                     icon: "success",
+//                     title: "Request Submitted Successfully!",
+//                     html: `<div class="swal-enquiry-success">
+//                             <p class="swal-thankyou">
+//                                 Thank you for choosing
+//                                 <strong>Bizzmirth Holidays.</strong>
+//                             </p>
+//                             <p class="swal-message">
+//                                 Your travel enquiry has been
+//                                 submitted successfully.
+//                                 Our team will review your request
+//                                 and get back to you soon.
+//                             </p>
+//                             <div class="enquiry-number-box">
+//                                 <span class="enquiry-number-label">Enquiry Number</span>
+//                                 <strong>${response.enquiry_no || response.enquiry_number || "N/A"}</strong>
+//                             </div>
+//                             <div class="enquiry-details">
+//                                 <div class="enquiry-details-header">
+//                                     <span><i class="ri-file-list-3-line"></i>Enquiry Details</span>
+//                                 </div>
+//                                 <div class="enquiry-detail-row">
+//                                     <span>Travel Dates</span>
+//                                     <strong>
+//                                         ${travelStartDate || "-"}
+//                                         ${travelEndDate ? " - " + travelEndDate : ""}
+//                                     </strong>
+//                                 </div>
+//                                 <div class="enquiry-detail-row">
+//                                     <span>Travellers</span>
+//                                     <strong>
+//                                         ${adults}
+//                                         Adult${adults != 1 ? "s" : ""}
+//                                         ${children > 0 ? ", " + children + " Child" + (children != 1 ? "ren" : "") : ""}
+//                                         ${infants > 0 ? ", " + infants + " Infant" + (infants != 1 ? "s" : "") : ""}
+//                                     </strong>
+//                                 </div>
+//                                 <div class="enquiry-detail-row">
+//                                     <span>
+//                                         Pickup Location
+//                                     </span>
+//                                     <strong>
+//                                         ${pickupLocation || "-"}
+//                                     </strong>
+//                                 </div>
+//                                 <div class="enquiry-detail-row">
+//                                     <span>
+//                                         Drop Location
+//                                     </span>
+//                                     <strong>
+//                                         ${dropLocation || "-"}
+//                                     </strong>
+//                                 </div>
+//                                 <div class="enquiry-detail-row">
+//                                     <span>
+//                                         Package Price
+//                                     </span>
+//                                     <strong>
+//                                         ₹${Number(
+//                         finalPackagePrice
+//                     ).toLocaleString(
+//                         "en-IN",
+//                         {
+//                             minimumFractionDigits: 2,
+//                             maximumFractionDigits: 2
+//                         }
+//                     )}
+//                                     </strong>
+//                                 </div>
+//                             </div>
+//                             <div class="whats-next-box">
+//                                 <div class="whats-next-title">
+//                                     <i class="ri-checkbox-circle-fill"></i>
+//                                     What's Next?
+//                                 </div>
+//                                 <p>
+//                                     Our travel expert will review
+//                                     your enquiry, check availability
+//                                     and prepare the best possible
+//                                     quotation for you.
+//                                 </p>
+//                                 <p class="whats-next-small">
+//                                     We will contact you shortly
+//                                     with the next steps.
+//                                 </p>
+//                             </div>
+//                         </div>
+//                     `,
+//                     confirmButtonText: "Done",
+//                     customClass: {
+//                         popup: "enquiry-success-popup",
+//                         confirmButton: "enquiry-confirm-btn"
+//                     },
+//                     buttonsStyling: false,
+//                     allowOutsideClick: false,
+//                     allowEscapeKey: false
+//                 }).then(function () {
+//                     // =====================================
+//                     // REFRESH AFTER DONE
+//                     // =====================================
+//                     window.location.reload();
+//                 });
+//             }
+//             // =============================================
+//             // SERVER RETURNED STATUS 0
+//             // =============================================
+//             else {
+//                 Swal.fire({
+//                     icon: "error",
+//                     title: "Unable to Submit",
+//                     text: response.message || "Unable to submit your request. Please try again."
+//                 });
+//             }
+//         },
+//         // =================================================
+//         // AJAX ERROR
+//         // =================================================
+//         error: function (xhr, status, error) {
+//             $("#loading-overlay").hide();
+//             submitBtn.removeClass("loading");
+//             submitBtn.prop("disabled", false);
+//             Swal.fire({
+//                 icon: "error",
+//                 title: "Something went wrong",
+//                 text: "Unable to submit the request. Please try again."
+//             });
+//         }
+//     });
+// });
 // Pricing Section
 document.addEventListener("DOMContentLoaded", function () {
     const pricingSidebar = document.getElementById("pricingSidebar");

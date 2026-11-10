@@ -677,6 +677,29 @@ $vehicleOptions = [
                                                 <span class="text-muted fontSize10">Discount</span>
                                                 <span class="discountGreen fw-bold fontSize10" id="packageCouponDiscount"> ₹ 0</span>
                                             </div>
+                                            <?php
+                                            $referralWalletBalance = $referralBalance ?? 0;
+                                            ?>
+                                            <hr class="my-1 border border-2 mx-3">
+
+                                            <div class="d-flex justify-content-between align-items-center px-3">
+
+                                                <p class="fontSize10 discountGreen fw-bold mb-0">
+                                                    Referral Wallet
+                                                </p>
+
+                                                <p class="fontSize10 discountGreen fw-bold text-end mb-0"
+                                                id="referralWalletBalance">
+                                                    ₹ <?= number_format($referralWalletBalance, 2) ?>
+                                                </p>
+
+                                                <div class="d-flex align-items-center">
+                                                    <span class="fontSize10 discountGreen fw-bold me-1">
+                                                        - ₹
+                                                    </span>
+                                                    <input type="number" class="form-control form-control-sm walletInput" id="appliedReferralWallet" value="0" min="0" step="1" disabled style="width: 80px;">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- TOTAL -->
