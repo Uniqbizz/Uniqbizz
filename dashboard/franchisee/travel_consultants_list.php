@@ -109,7 +109,7 @@
                                         </div>
                                         <div class="lavenderText ms-0">
                                             <h4 class="mb-0 fs-3 fw-bolder textPurpleTE">Travel Consultants (TCs)</h4>
-                                            <p class="mb-0 fw-semibold">Manage Travel Consultants in your network. View pending requests and registered TCs, track their status and activities.</p>
+                                            <p class="mb-0 fw-semibold">Add and manage Travel Consultants in your network, review registrations, track their status, and monitor their activities and performance.</p>
                                         </div>
                                     </div>
                                 </div>
