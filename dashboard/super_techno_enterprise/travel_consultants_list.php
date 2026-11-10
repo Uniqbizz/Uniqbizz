@@ -98,7 +98,7 @@
                             <div class="col-12">
                                 <div class="lavenderBanner2 mb-3">
                                     <div class="imageDisaplay2">
-                                        <img src="../assets/images/travelConsultant/travelConsultantImage.png" alt="" class="lavenderImg">
+                                        <img src="../assets/images/travelConsultant/travelConsultantImage.png" alt="" class="lavenderImg2">
                                     </div>
                                     <div class="lavenderDetails2">
                                         <div class="page-title-right mb-2">
