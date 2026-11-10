@@ -268,7 +268,7 @@
     }
 }
 @media (max-width: 780px) {
-    .lavenderImg {
+    .lavenderImg, .lavenderImg2 {
         display: none;
     }
     .lavenderText p {
@@ -288,7 +288,7 @@
     .lavenderBanner {
         height: 130px;
     }
-    .lavenderImg {
+    .lavenderImg, .lavenderImg2 {
         display: none;
     }
 }
@@ -320,7 +320,7 @@
         height: fit-content;
         position: relative;
     }
-    .lavenderImg {
+    .lavenderImg, .lavenderImg2 {
         display: none;
     }
     .lavenderDetails {
