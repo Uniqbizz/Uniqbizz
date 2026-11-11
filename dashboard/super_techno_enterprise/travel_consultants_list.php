@@ -390,7 +390,7 @@
                                 `;
                             }
 
-                            if(data.status == 3){
+                            if(data.status == 2){
 
                                 return `
                                     <p class="tePendingBtn rounded-pill text-center mb-0">
