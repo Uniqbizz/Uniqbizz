@@ -290,7 +290,6 @@ try {
     // GROSS PRICE
     // Before coupon discount
     // =====================================================
-    $grossPrice =$subtotal +$convenienceFee +$gst;
     // =====================================================
     // JSON DATA
     // =====================================================
@@ -343,8 +342,6 @@ try {
             gst,
             coupons_applied_count,
             coupon_discount,
-            base_price,
-            gross_price,
             final_price,
             coupons,
             rooms,
@@ -391,8 +388,6 @@ try {
             :gst,
             :coupon_applied_count,
             :coupon_discount,
-            :base_price,
-            :gross_price,
             :final_price,
             :coupons,
             :rooms,
@@ -486,8 +481,6 @@ try {
         // -------------------------------------------------
         // FINAL PRICING
         // -------------------------------------------------
-        'base_price'  => $subtotal,
-        'gross_price' => $grossPrice,
         'final_price' => $finalPrice,
         // -------------------------------------------------
         // JSON

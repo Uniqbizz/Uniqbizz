@@ -779,7 +779,6 @@ function updateFinalPackagePrice() {
     const adultTotal =
         adults * perAdultPrice;
 
-
     // =====================================================
     // CHILD TOTAL
     // =====================================================
@@ -787,14 +786,12 @@ function updateFinalPackagePrice() {
     const childrenTotal =
         children * perChildPrice;
 
-
     // =====================================================
     // COUPON DISCOUNT
     // =====================================================
 
     const couponDiscount =
-        getAmount("#totalCouponDiscount");
-
+        Math.abs(getAmount("#totalCouponDiscount"));
 
     // =====================================================
     // TOTAL AFTER COUPON
@@ -803,18 +800,17 @@ function updateFinalPackagePrice() {
     const totalAfterCoupon =
         Math.max(
             0,
-            adultTotal +
-            childrenTotal -
+            (adultTotal +
+            childrenTotal) -
             couponDiscount
         );
-
 
     // =====================================================
     // APPLIED REFERRAL WALLET
     // =====================================================
 
     const referralWallet =
-        getAmount("#appliedReferralWallet");
+        getAmount("#appliedReferralWallet") || 0;
 
 
     // =====================================================
@@ -822,7 +818,7 @@ function updateFinalPackagePrice() {
     // =====================================================
 
     const discountWallet =
-        getAmount("#appliedDiscountWallet");
+        getAmount("#appliedDiscountWallet") || 0;
 
 
     // =====================================================
@@ -833,7 +829,8 @@ function updateFinalPackagePrice() {
         referralWallet +
         discountWallet;
 
-
+    
+    
     // =====================================================
     // AMOUNT AFTER WALLET
     // =====================================================
@@ -844,35 +841,38 @@ function updateFinalPackagePrice() {
             totalAfterCoupon -
             totalWalletDeduction
         );
-
-
-    // =====================================================
-    // CONVENIENCE FEE - 1%
-    // CALCULATED AFTER WALLET
-    // =====================================================
-
-    const convenienceFee =
-        amountAfterWallet * 0.01;
-
-
     // =====================================================
     // GST
     // CALCULATED ON CONVENIENCE FEE
     // =====================================================
 
     const gstValue =
-        convenienceFee * (gstPercentage / 100);
+        amountAfterWallet * (gstPercentage / 100);
+    // =====================================================
+    // AMOUNT AFTER WALLET
+    // =====================================================
 
+    const amountAfterGST =
+        Math.max(
+            0,
+            totalAfterCoupon -
+            totalWalletDeduction +
+            gstValue
+        );
+    // =====================================================
+    // CONVENIENCE FEE - 1%
+    // CALCULATED AFTER WALLET
+    // =====================================================
 
+    const convenienceFee =
+        amountAfterGST * 0.01;
     // =====================================================
     // FINAL PAYABLE AMOUNT
     // =====================================================
 
     const finalAmount =
-        amountAfterWallet +
-        convenienceFee +
-        gstValue;
-
+        amountAfterGST +
+        convenienceFee ;
 
     // =====================================================
     // FORMAT FINAL AMOUNT
@@ -883,8 +883,6 @@ function updateFinalPackagePrice() {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
         });
-
-
     // =====================================================
     // UPDATE FINAL PACKAGE PRICE
     // =====================================================
