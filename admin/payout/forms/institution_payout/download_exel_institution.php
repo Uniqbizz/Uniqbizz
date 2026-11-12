@@ -20,12 +20,12 @@ if ($dateObj !== false) {
 if($payoutmessage == 'PreviousPayout' || $payoutmessage == 'NextPayout' || $payoutmessage == 'TotalPayout'){
     $output="";
     // $stmt2 = "SELECT * FROM ca_payout WHERE YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
-    $sql ="(SELECT s.id, s.employees as userId, s.message_emp as message, sp.payout_details, s.commission_emp as comm_amt, s.institution, s.created_date,IFNULL(sp.created_date, 'NA') AS paydate, s.status, 'employees' as identity 
+    $sql ="(SELECT s.id, s.employees as userId, s.message_emp as message, sp.payout_details, s.commission_emp as comm_amt, s.institution, s.created_date,IFNULL(sp.created_date, 'NA') AS paydate, s.status_emp as status, 'employees' as identity 
                 FROM institution_payout s
                 LEFT JOIN institution_payout_paid sp on sp.user_id=s.employees 
                 WHERE YEAR(s.created_date) = :payoutYear AND MONTH(s.created_date) = :payoutMonth AND (s.employees <> 'NA' AND s.employees <> 'Not Applicable' AND s.employees IS NOT NULL)) 
                 UNION
-                (SELECT s.id, s.bm_mf_sf as userId, s.message_bm_mf_sf as message, sp.payout_details, s.commission_bm_mf_sf as comm_amt, s.institution, s.created_date,IFNULL(sp.created_date, 'NA') AS paydate, s.status, '".$designation."' as identity 
+                (SELECT s.id, s.bm_mf_sf as userId, s.message_bm_mf_sf as message, sp.payout_details, s.commission_bm_mf_sf as comm_amt, s.institution, s.created_date,IFNULL(sp.created_date, 'NA') AS paydate, s.status_bm_mf_sf as status, '".$designation."' as identity 
                 FROM institution_payout s
                 LEFT JOIN institution_payout_paid sp on sp.user_id=s.bm_mf_sf 
                 WHERE YEAR(s.created_date) = :payoutYear AND MONTH(s.created_date) = :payoutMonth AND (s.bm_mf_sf <> 'NA' AND s.bm_mf_sf <> 'Not Applicable' AND s.bm_mf_sf IS NOT NULL)) 
@@ -44,12 +44,12 @@ if($payoutmessage == 'PreviousPayout' || $payoutmessage == 'NextPayout' || $payo
 if($payoutmessage == 'TotalPayoutAll'){
     $output="";
     // $stmt2 = "SELECT * FROM ca_payout WHERE YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
-    $sql ="(SELECT s.id, s.employees as userId, s.message_emp as message, sp.payout_details, s.commission_emp as comm_amt, s.institution, s.created_date,IFNULL(sp.created_date, 'NA') AS paydate, s.status, 'employees' as identity 
+    $sql ="(SELECT s.id, s.employees as userId, s.message_emp as message, sp.payout_details, s.commission_emp as comm_amt, s.institution, s.created_date,IFNULL(sp.created_date, 'NA') AS paydate, s.status_emp as status, 'employees' as identity 
                 FROM institution_payout s
                 LEFT JOIN institution_payout_paid sp on sp.user_id=s.employees 
                 WHERE (s.employees <> 'NA' AND s.employees <> 'Not Applicable' AND s.employees IS NOT NULL)) 
                 UNION
-                (SELECT s.id, s.bm_mf_sf as userId, s.message_bm_mf_sf as message, sp.payout_details, s.commission_bm_mf_sf as comm_amt, s.institution, s.created_date,IFNULL(sp.created_date, 'NA') AS paydate, s.status, '".$designation."' as identity 
+                (SELECT s.id, s.bm_mf_sf as userId, s.message_bm_mf_sf as message, sp.payout_details, s.commission_bm_mf_sf as comm_amt, s.institution, s.created_date,IFNULL(sp.created_date, 'NA') AS paydate, s.status_bm_mf_sf as status, '".$designation."' as identity 
                 FROM institution_payout s
                 LEFT JOIN institution_payout_paid sp on sp.user_id=s.bm_mf_sf 
                 WHERE (s.bm_mf_sf <> 'NA' AND s.bm_mf_sf <> 'Not Applicable' AND s.bm_mf_sf IS NOT NULL)) 
@@ -75,7 +75,7 @@ if($payoutmessage == 'allPayout'){
                 s.commission_emp AS comm_amt,
                 s.institution,
                 s.created_date,
-                s.status,
+                s.status_emp as status,
                 IFNULL(sp.created_date, 'NA') AS paydate,
                 'Chief Techno Enterprise' AS identity
             FROM institution_payout s
@@ -148,7 +148,7 @@ if($payoutmessage == 'allPayout'){
                 s.commission_emp AS comm_amt,
                 s.institution,
                 s.created_date,
-                s.status,
+                s.status_emp as status,
                 IFNULL(sp.created_date, 'NA') AS paydate,
                 'Business Development Manager' AS identity
             FROM institution_payout s
@@ -221,7 +221,7 @@ if($payoutmessage == 'allPayout'){
                 s.commission_bm_mf_sf AS comm_amt,
                 s.institution,
                 s.created_date,
-                s.status,
+                s.status_bm_mf_sf as status,
                 IFNULL(sp.created_date, 'NA') AS paydate,
                 'Executive Techno Enterprise' AS identity
             FROM institution_payout s
@@ -294,7 +294,7 @@ if($payoutmessage == 'allPayout'){
                 s.commission_bm_mf_sf AS comm_amt,
                 s.institution,
                 s.created_date,
-                s.status,
+                s.status_bm_mf_sf as status,
                 IFNULL(sp.created_date, 'NA') AS paydate,
                 'Business Mentor' AS identity
             FROM institution_payout s
@@ -367,7 +367,7 @@ if($payoutmessage == 'allPayout'){
                 s.commission_bm_mf_sf AS comm_amt,
                 s.institution,
                 s.created_date,
-                s.status,
+                s.status_bm_mf_sf as status,
                 IFNULL(sp.created_date, 'NA') AS paydate,
                 'Master Franchisee' AS identity
             FROM institution_payout s
@@ -440,7 +440,7 @@ if($payoutmessage == 'allPayout'){
                 s.commission_bm_mf_sf AS comm_amt,
                 s.institution,
                 s.created_date,
-                s.status,
+                s.status_bm_mf_sf as status,
                 IFNULL(sp.created_date, 'NA') AS paydate,
                 'Sponsor Franchisee' AS identity
             FROM institution_payout s

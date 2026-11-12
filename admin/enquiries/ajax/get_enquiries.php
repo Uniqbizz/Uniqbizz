@@ -228,11 +228,8 @@ try {
             rd.coupons,
 
             rd.rooms,
-
-            rd.base_price,
             rd.gst,
             rd.gst_percentage,
-            rd.gross_price,
             rd.convenience_fee,
             rd.final_price,
 

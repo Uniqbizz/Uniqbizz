@@ -1317,7 +1317,7 @@
                                                                         <p class="fs-5 textDarkBlue fw-bold">Total Estimated Price</p>
                                                                     </div>
                                                                     <div>
-                                                                        <p class="fs-5 text-danger fw-bolder text-end" id="finalPackagePrice">&#8377; <?= number_format($requestData['final_price'], 2) ?></p>
+                                                                        <p class="fs-5 text-danger fw-bolder text-end" id="finalPackagePrice1">&#8377; <?= number_format($requestData['final_price'], 2) ?></p>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1660,43 +1660,7 @@
                                         </div>
 
                                     </div>
-                                    <div class="accordion-item">
-
-                                        <h2 class="accordion-header" id="headingCustomer">
-                                            <button
-                                                class="accordion-button collapsed"
-                                                type="button"
-                                                data-bs-toggle="collapse"
-                                                data-bs-target="#collapseCustomer1"
-                                                aria-expanded="false"
-                                                aria-controls="collapseCustomer">
-
-                                                <div class="accordion-heading-content">
-                                                    <div class="accordion-heading-title">
-                                                        <i class="fa-solid fa-user-pen"></i>
-                                                        Prepare Quotation
-                                                    </div>
-
-                                                    <!-- No history -->
-                                                    <span class="history-status edit-status">
-                                                        <i class="fa-solid fa-pen-to-square"></i>
-                                                        Edit
-                                                    </span>
-
-                                                    <!-- Show this instead when history exists -->
-                                                    <!--
-                                                    <span class="history-status sent-status">
-                                                        <i class="fa-solid fa-circle-check"></i>
-                                                        Sent by John Doe · 22 Oct 2026, 01:30 PM
-                                                    </span>
-                                                    -->
-
-                                                </div>
-
-                                            </button>
-                                        </h2>
-                                        <?php include 'prepare_quote_accordian.php' ?>
-                                    </div>
+                                    <?php include 'prepare_quote_accordian.php' ?>
 
                                 </div>
 
@@ -2695,24 +2659,9 @@
                     return;
                 }
 
-                // const allowedExtensions = ["pdf", "doc", "docx"];
-                // const extension = selectedFile.name.split(".").pop().toLowerCase();
+                const extension = selectedFile.name.split(".").pop().toLowerCase();
 
-                // if (!allowedExtensions.includes(extension)) {
-                //     showPolicyError("Only PDF, DOC and DOCX files are allowed.");
-                //     return;
-                // }
-
-                // const rowId = Date.now() + Math.floor(Math.random() * 1000);
-
-                // const item = {
-                //     id: rowId,
-                //     title: title,
-                //     file: selectedFile,
-                //     existing: false
-                // };
-
-                // window.attachments.push(item);
+                const rowId = Date.now() + Math.floor(Math.random() * 1000);
 
                 const fileExtension = extension;
                 
@@ -3381,6 +3330,7 @@
                         const guestFullName = <?= json_encode($requestData['guestFullName']) ?>;
                         const guestMobile = <?= json_encode($requestData['guestPhone']) ?>;
                         const guestEmail = <?= json_encode($requestData['guestEmail']) ?>;
+                        const packageId = <?= json_encode($id) ?>;
 
                         // ==========================================
                         // 2. TRIP REQUEST
@@ -3420,16 +3370,16 @@
                         // ==========================================
 
                         const quickAction = {
-                            per_adult_amount: $('#perAdultAmt').text(),
-                            per_child_amount: $('#perChildAmt').text(),
-                            total_adult_count: $('#totalAdultCount').text(),
-                            total_children_count: $('#totalChildrenCount').text(),
-                            total_infant_count: $('#totalInfantCount').text(),
-                            extra_mattress: $('#extraMatress').text(),
-                            adult_total: $('#adultTotal').text(),
-                            children_total: $('#childrenTotal').text(),
-                            extra_mattress_total: $('#extraMatressTotal').text(),
-                            subtotal: $('#subTotal').text(),
+                            per_adult_amount: getAmount('#perAdultAmt'),
+                            per_child_amount: getAmount('#perChildAmt'),
+                            total_adult_count: getAmount('#totalAdultCount'),
+                            total_children_count: getAmount('#totalChildrenCount'),
+                            total_infant_count: getAmount('#totalInfantCount'),
+                            extra_mattress: getAmount('#extraMatress'),
+                            adult_total: getAmount('#adultTotal'),
+                            children_total: getAmount('#childrenTotal'),
+                            extra_mattress_total: getAmount('#extraMatressTotal'),
+                            subtotal: getAmount('#subTotal'),
                             selected_vehicle: $('#selectedVehicleText').text()
                         };
 
@@ -3460,14 +3410,14 @@
 
                         couponWalletDetails.coupons = savedCoupons;
 
-                        couponWalletDetails.total_coupon_discount = $('#totalCouponDiscount1').text();
-                        couponWalletDetails.referral_wallet_balance = $('#referralWalletBalance').text();
-                        couponWalletDetails.applied_referral_wallet = $('#appliedReferralWallet').val();
+                        couponWalletDetails.total_coupon_discount = Math.abs(getAmount('#totalCouponDiscount1'));
+                        couponWalletDetails.referral_wallet_balance = getAmount('#referralWalletBalance');
+                        couponWalletDetails.applied_referral_wallet = getAmount('#appliedReferralWallet');
 
                         <?php if ($Requester_type === 'Neo Select') { ?>
 
-                        couponWalletDetails.discount_wallet_balance = $('#discountWalletBalance').text();
-                        couponWalletDetails.applied_discount_wallet = $('#appliedDiscountWallet').val();
+                        couponWalletDetails.discount_wallet_balance = getAmount('#discountWalletBalance');
+                        couponWalletDetails.applied_discount_wallet = getAmount('#appliedDiscountWallet');
 
                         <?php } ?>
 
@@ -3478,9 +3428,9 @@
                         // ==========================================
 
                         const priceAdjustments = {
-                            gst_percentage: $('#gstPercentage').text(),
-                            convenience_fee: $('#convenienceFee').text(),
-                            gst_amount: $('#gstAmount').text()
+                            gst_percentage: getAmount('#gstPercentage'),
+                            convenience_fee: getAmount('#convenienceFee'),
+                            gst_amount: getAmount('#gstAmount')
                         };
 
                         // ==========================================
@@ -3488,7 +3438,7 @@
                         // ==========================================
 
                         const finalPackageDetails = {
-                            final_package_price: $('#finalPackagePrice').text()
+                            final_package_price: getAmount('#finalPackagePrice')
                         };
 
                         // ==========================================
@@ -3496,6 +3446,7 @@
                         // ==========================================
 
                         let itinerary = [];
+                        let dayCounter = 1;
 
                         $('#accordionItinerary .accordion-item').each(function () {
 
@@ -3512,7 +3463,8 @@
                             const dayId = match[1];
 
                             itinerary.push({
-                                day_id: dayId,
+                                day_id: 'Day: '+dayCounter++,
+
                                 title: $item.find('.accordion-button')
                                     .text()
                                     .trim()
@@ -3526,6 +3478,8 @@
                             });
 
                         });
+
+                        // console.log('Itinerary:', itinerary);
 
                         // ==========================================
                         // 9. PACKAGE INCLUSIONS AND EXCLUSIONS
@@ -3556,19 +3510,52 @@
                         // 10. NEW POLICY DOCUMENTS
                         // ==========================================
 
-                        let newDocuments = (window.attachments || [])
-                            .filter(item => item.existing === false)
-                            .map(item => {
+                        // ==========================================
+                        // 1. COLLECT NEW FILES FOR UPLOAD
+                        // ==========================================
+                        const newAttachmentItems = (window.attachments || []).filter(item =>
+                            item.existing !== true && item.file && item.file.name
+                        );
 
-                                const file = item.file;
+                        // ==========================================
+                        // 2. COLLECT EXISTING FILE DETAILS FROM DOM
+                        // ==========================================
+                        const existingDocuments = [];
 
-                                return {
-                                    title: item.title,
-                                    original_file_name: file.name,
-                                    type: file.name.split('.').pop().toUpperCase(),
-                                    size: (file.size / (1024 * 1024)).toFixed(2) + ' MB'
-                                };
+                        document.querySelectorAll('.policyItem[data-existing="1"]').forEach(item => {
+
+                            const id = item.dataset.id;
+                            const title = item.querySelector('.fw-semibold')?.textContent.trim() || '';
+                            const fileName = item.querySelector('.text-muted')?.textContent.trim() || '';
+
+                            // Skip documents marked for deletion
+                            if (
+                                !id ||
+                                !fileName ||
+                                (window.deletedDocuments || []).includes(Number(id))
+                            ) {
+                                return;
+                            }
+
+                            existingDocuments.push({
+                                id: Number(id),
+                                title: title,
+                                name: fileName,
+                                size: '',
+                                type: fileName.split('.').pop().toUpperCase()
                             });
+
+                        });
+
+                        // ==========================================
+                        // 3. COLLECT NEW FILE METADATA
+                        // ==========================================
+                        const newDocuments = newAttachmentItems.map(item => ({
+                            title: item.title,
+                            name: item.file.name,
+                            size: (item.file.size / (1024 * 1024)).toFixed(2) + ' MB',
+                            type: item.file.type
+                        }));
 
                         // ==========================================
                         // 11. CANCELLATION CHARGES
@@ -3616,20 +3603,20 @@
                         // ==========================================
 
                         const markupCalculation = {
-                            coupon_adjustment: $('#couponAdjustment').val(),
-                            company_amount: $('#companyAmount').val(),
-                            suspense_amount: $('#suspenseAmount').val(),
-                            customer_1_amount: $('#customer1Amount').val(),
-                            customer_2_amount: $('#customer2Amount').val(),
-                            customer_3_amount: $('#customer3Amount').val(),
+                            coupon_adjustment: getAmount('#couponAdjustment'),
+                            company_amount: getAmount('#companyAmount'),
+                            suspense_amount: getAmount('#suspenseAmount'),
+                            customer_1_amount: getAmount('#customer1Amount'),
+                            customer_2_amount: getAmount('#customer2Amount'),
+                            customer_3_amount: getAmount('#customer3Amount'),
 
-                            net_price_adult: $('#netPriceAdult').val(),
-                            net_price_adult_original: $('#netPriceAdult_original').text(),
-                            net_price_adult_difference: $('#netPriceAdult_difference').text(),
+                            net_price_adult: getAmount('#netPriceAdult'),
+                            net_price_adult_original: getAmount('#netPriceAdult_original'),
+                            net_price_adult_difference: getAmount('#netPriceAdult_difference'),
 
-                            net_price_child: $('#netPriceChild').val(),
-                            net_price_child_original: $('#netPriceChild_original').text(),
-                            net_price_child_difference: $('#netPriceChild_difference').text()
+                            net_price_child: getAmount('#netPriceChild'),
+                            net_price_child_original: getAmount('#netPriceChild_original'),
+                            net_price_child_difference: getAmount('#netPriceChild_difference')
                         };
 
                         // ==========================================
@@ -3638,9 +3625,7 @@
 
                         let customerDiscountDetails = [];
 
-                        const couponDiscount = parseFloat(
-                            ($('#CustCouponDiscount').text() || '').replace(/[^\d.-]/g, '')
-                        ) || 0;
+                        const couponDiscount = getAmount('#CustCouponDiscount')|| 0;
 
                         customerDiscountDetails.push({
                             type: 'Coupon Discount',
@@ -3649,9 +3634,7 @@
 
                         if ($('#CustReferenceWallet').length) {
 
-                            const referenceWallet = parseFloat(
-                                $('#CustReferenceWallet').text().replace(/[^\d.-]/g, '')
-                            ) || 0;
+                            const referenceWallet = getAmount('#CustReferenceWallet')|| 0;
 
                             customerDiscountDetails.push({
                                 type: 'Reference Wallet',
@@ -3661,9 +3644,7 @@
 
                         if ($('#CustDiscountWallet').length) {
 
-                            const discountWallet = parseFloat(
-                                $('#CustDiscountWallet').text().replace(/[^\d.-]/g, '')
-                            ) || 0;
+                            const discountWallet = getAmount('#CustDiscountWallet')|| 0;
 
                             customerDiscountDetails.push({
                                 type: 'Discount Wallet',
@@ -3673,7 +3654,7 @@
 
                         const customerDiscountPriceDetails = {
                             details: customerDiscountDetails,
-                            subtotal: $('#CustDiscountedPriceSubTotal').text().trim()
+                            subtotal: getAmount('#CustDiscountedPriceSubTotal')
                         };
 
                         // ==========================================
@@ -3702,7 +3683,7 @@
 
                         const discountedPriceData = {
                             details: discountedPriceDetails,
-                            subtotal: $('#discountedSubTotal').text().trim()
+                            subtotal: getAmount('#discountedSubTotal')
                         };
 
                         // ==========================================
@@ -3731,7 +3712,7 @@
 
                         const additionalPriceData = {
                             details: additionalPriceDetails,
-                            subtotal: $('#additionalSubTotal').text().trim()
+                            subtotal: getAmount('#additionalSubTotal')
                         };
 
                         // ==========================================
@@ -3739,12 +3720,12 @@
                         // ==========================================
 
                         const finalQuotationDetails = {
-                            net_price_adjustment: $('#netPriceAdjustment').text(),
-                            final_quoted_price: $('#finalQuotedPrice').text(),
-                            gst_percentage: $('#quoteGst').text(),
-                            convenience_fee: $('#quoteConvenienceFee').text(),
-                            gst_amount: $('#quoteGstAmount').text(),
-                            estimated_final_package_price: $('#estimatedFinalPackagePrice').text()
+                            net_price_adjustment: getAmount('#netPriceAdjustment'),
+                            final_quoted_price: getAmount('#finalQuotedPrice'),
+                            gst_percentage: getAmount('#quoteGst'),
+                            convenience_fee: getAmount('#quoteConvenienceFee'),
+                            gst_amount: getAmount('#quoteGstAmount'),
+                            estimated_final_package_price: getAmount('#estimatedFinalPackagePrice')
                         };
 
                         // ==========================================
@@ -3754,6 +3735,7 @@
                         const quotationPayload = {
 
                             request_id: requestId,
+                            package_id: packageId,
 
                             guest_details: {
                                 user_id: guestUserId,
@@ -3778,7 +3760,10 @@
 
                             package_inclusion_exclusion: packageInclusionExclusion,
 
-                            new_policy_documents: newDocuments,
+                            new_policy_documents:  [
+                                                    ...existingDocuments,
+                                                    ...newDocuments
+                                                   ],
 
                             cancellation_charges: cancellationCharges,
 
@@ -3806,6 +3791,110 @@
                             'QUOTATION PAYLOAD JSON:',
                             JSON.stringify(quotationPayload, null, 4)
                         );
+                        
+                        // ==========================================
+                        // 20. SUBMIT QUOTATION USING AJAX
+                        // ==========================================
+
+                        const formData = new FormData();
+
+                        // Complete quotation JSON
+                        formData.append('quotationPayload', JSON.stringify(quotationPayload));
+
+                        // ==========================================
+                        // 6. APPEND ONLY NEW FILES
+                        // ==========================================
+                        newAttachmentItems.forEach((item, index) => {
+
+                            console.log('Appending file:', {
+                                index: index,
+                                title: item.title,
+                                name: item.file.name,
+                                size: item.file.size,
+                                type: item.file.type
+                            });
+
+                            formData.append(
+                                'policy_files[]',
+                                item.file,
+                                item.file.name
+                            );
+
+                        });
+
+                        // Prevent multiple submissions
+                        const $submitButton = $('#submitQuoteBtn');
+
+                        $.ajax({
+                            url: 'ajax/submit_admin_quote.php',
+                            type: 'POST',
+                            data: formData,
+
+                            processData: false,
+                            contentType: false,
+                            dataType: 'json',
+
+                            beforeSend: function () {
+                                $submitButton.prop('disabled', true);
+
+                                Swal.fire({
+                                    title: 'Submitting Quotation...',
+                                    text: 'Please wait while we save the quotation.',
+                                    allowOutsideClick: false,
+                                    allowEscapeKey: false,
+                                    didOpen: function () {
+                                        Swal.showLoading();
+                                    }
+                                });
+                            },
+
+                            success: function (response) {
+
+                                if (response.success) {
+
+                                    Swal.fire({
+                                        title: 'Success!',
+                                        text: response.message || 'Quotation submitted successfully.',
+                                        icon: 'success',
+                                        confirmButtonText: 'OK',
+                                        confirmButtonColor: '#0d6efd'
+                                    }).then(() => {
+
+                                        // Add your redirect here if required.
+                                        // window.location.href = 'enquires.php';
+
+                                    });
+
+                                } else {
+
+                                    Swal.fire({
+                                        title: 'Unable to Submit',
+                                        text: response.message || 'Something went wrong while submitting the quotation.',
+                                        icon: 'error',
+                                        confirmButtonColor: '#dc3545'
+                                    });
+
+                                }
+                            },
+
+                            error: function (xhr, status, error) {
+
+                                console.error('AJAX Error:', error);
+                                console.error('Response:', xhr.responseText);
+
+                                Swal.fire({
+                                    title: 'Server Error',
+                                    text: 'Unable to submit the quotation. Please try again.',
+                                    icon: 'error',
+                                    confirmButtonColor: '#dc3545'
+                                });
+
+                            },
+
+                            complete: function () {
+                                $submitButton.prop('disabled', false);
+                            }
+                        });
 
                     }
 
