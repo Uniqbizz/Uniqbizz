@@ -1459,8 +1459,25 @@
 
                             html = `
                                 <tr>
-                                    <td colspan="3" class="text-center py-4">
-                                        No data found
+                                    <td colspan="3" class="position-relative" style="height: 200px;">
+
+                                        <div class="tePerformanceBodyPosition">
+
+                                            <div class="d-flex justify-content-center">
+                                                <i class="fa-solid fa-chart-simple" style="color: #35239a; font-size: 60px;">
+                                                </i>
+                                            </div>
+
+                                            <p class="mb-1 fs-5 fw-bold text-center">
+                                                No data found
+                                            </p>
+
+                                            <p class="mb-1 fs-6 text-center">
+                                                Enroll Techno Enterprises (TEs) to view performance.
+                                            </p>
+
+                                        </div>
+
                                     </td>
                                 </tr>
                             `;

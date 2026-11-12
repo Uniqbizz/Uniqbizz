@@ -96,20 +96,58 @@
                         <!-- start page title -->
                         <div class="row">
                             <div class="col-12">
-                                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Travel Consultants</h4>
-
-                                    <div class="page-title-right">
-                                        <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="franchisee_dashboard.php">Dashboard</a></li>
-                                            <li class="breadcrumb-item active">View Travel Consultants</li>
-                                        </ol>
+                                <div class="lavenderBanner2 mb-3">
+                                    <div class="imageDisaplay2">
+                                        <img src="../assets/images/travelConsultant/travelConsultantImage.png" alt="" class="lavenderImg2">
                                     </div>
-
+                                    <div class="lavenderDetails2">
+                                        <div class="page-title-right mb-2">
+                                            <ol class="breadcrumb m-0">
+                                                <li class="breadcrumb-item fw-bolder"><a href="franchisee_dashboard.php"><i class="fa-solid fa-house me-2" style="color: #35239a;"></i>Dashboard</a></li>
+                                                <li class="breadcrumb-item active">View Travel Consultants</li>
+                                            </ol>
+                                        </div>
+                                        <div class="lavenderText ms-0">
+                                            <h4 class="mb-0 fs-3 fw-bolder textPurpleTE">Travel Consultants (TCs)</h4>
+                                            <p class="mb-0 fw-semibold">Add and manage Travel Consultants in your network, review registrations, track their status, and monitor their activities and performance.</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <!-- end page title -->
+                        <!-- 2 card section Start -->
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                                <div class="card rounded-4 mb-0 p-3 stCard1">
+                                    <div class="d-flex gap-3">
+                                        <div class="stTcIcon stTcIcon1">
+                                            <i class="fa-solid fa-hourglass-half fa-2xl"></i>
+                                        </div>
+                                        <div class="">
+                                            <p class="mb-1 fs-5 fw-bolder">Pending Travel Consultants</p>
+                                            <h4 class="fw-bolder text-dark mb-1" id="teCount">0</h4>
+                                            <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">View Pending <i class="fa-solid fa-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                                <div class="card rounded-4 mb-0 p-3 stCard3">
+                                    <div class="d-flex gap-3">
+                                        <div class="stTcIcon stTcIcon2">
+                                            <i class="fa-solid fa-users fa-2xl"></i>
+                                        </div>
+                                        <div class="">
+                                            <p class="mb-1 fs-5 fw-bolder">Registered Travel Consultants</p>
+                                            <h4 class="fw-bolder text-dark mb-1" id="cuCount">0</h4>
+                                            <a href="customers_list.php" class="mb-1 fs-6 fw-bold">View Registered <i class="fa-solid fa-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 2 card section End -->
 
                         <div class="row">
                             <div class="col">
@@ -408,7 +446,20 @@
                     }
                 ],
                 language: {
-                    emptyTable: "No Pending Travel Consultant Found"
+                    // emptyTable: "No Pending Travel Consultant Found"
+                    emptyTable: `
+                        <div class="technoPendingFoundPosition">
+                            <div class="d-flex justify-content-center">
+                                <img src="../assets/images/technoEnterprise/pendingTEClipboardIcon.png" alt="" class="pendingTEClipboardIcon">
+                            </div>
+                            <p class="mb-1 fs-4 fw-bolder text-center" style="color: #0d0538;">
+                                No Pending Travel Consultants Found
+                            </p>
+                            <p class="mb-1 fs-6 text-center" style="color: #35239a;">
+                                There are no TC registrations awaiting approval.
+                            </p>
+                        </div>
+                    `
                 }
             });
             function loadPendingTEList(){
@@ -584,7 +635,20 @@
                     }
                 ],
                 language: {
-                    emptyTable: 'No Travel Consultant Found'
+                    // emptyTable: 'No Travel Consultant Found'
+                    emptyTable: `
+                        <div class="technoPendingFoundPosition">
+                            <div class="d-flex justify-content-center">
+                                <img src="../assets/images/travelConsultant/userIconTC.png" alt="" class="registerTCBadgeIcon">
+                            </div>
+                            <p class="mb-1 fs-4 fw-bolder text-center" style="color: #0d0538;">
+                                No Travel Consultant Found
+                            </p>
+                            <p class="mb-1 fs-6 text-center" style="color: #35239a;">
+                                Approved Travel Consultants will appear here.
+                            </p>
+                        </div>
+                    `
                 }
             });
 
