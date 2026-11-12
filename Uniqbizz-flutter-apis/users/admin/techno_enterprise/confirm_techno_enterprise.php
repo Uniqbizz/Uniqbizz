@@ -2,7 +2,7 @@
 error_reporting(E_ALL); // Report all errors
 ini_set('display_errors', 1); // Display errors
 header("Content-Type: application/json"); // Ensure JSON response
-require "../../../connect.php";
+require "../../../../connect.php";
 include('../../../phpmailer_smtp/smtp/PHPMailerAutoload.php');
 
 // Get the raw POST data

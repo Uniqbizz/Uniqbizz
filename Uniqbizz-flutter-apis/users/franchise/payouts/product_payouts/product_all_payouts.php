@@ -2,7 +2,7 @@
 header("Content-Type: application/json");
 
 // Database connection
-require '../../../../connect.php';
+require '../../../../../connect.php';
 
 // Inputs (GET/POST)
 $request = json_decode(file_get_contents('php://input'), true);

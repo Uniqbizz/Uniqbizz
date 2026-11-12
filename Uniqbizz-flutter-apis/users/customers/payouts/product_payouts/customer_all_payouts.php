@@ -2,7 +2,7 @@
 header("Content-Type: application/json");
 
 // Database connection
-require '../../../../connect.php';
+require '../../../../../connect.php';
 
 // Inputs (GET/POST)
 $request = json_decode(file_get_contents('php://input'), true);
@@ -11,7 +11,7 @@ $userType = $request['userType'] ?? $userType;
 $tdsPercentage = 0.02; // example: 5% TDS
 
 if (!$userId || !$userType) {
-    echo json_encode(["status" => "error", "message" => "Missing user_id or user_type"]);
+    echo json_encode(["status" => "error", "message" => "Missing userId or userType"]);
     exit;
 }
 

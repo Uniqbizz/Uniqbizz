@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: application/json");
-require '../../../../connect.php';
+require '../../../../../connect.php';
 
 try {
     // Get the JSON input

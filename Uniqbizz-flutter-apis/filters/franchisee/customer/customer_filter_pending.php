@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: application/json");
-require '../../../connect.php'; // PDO $conn
+require '../../../../connect.php'; // PDO $conn
 
 try {
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

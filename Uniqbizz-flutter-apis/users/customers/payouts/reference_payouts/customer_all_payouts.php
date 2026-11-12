@@ -1,5 +1,5 @@
 <?php
-require '../../../../connect.php'; // Use your actual DB connection file
+require '../../../../../connect.php'; // Use your actual DB connection file
 
 header('Content-Type: application/json');
 
@@ -19,7 +19,7 @@ try {
     $sql = "SELECT id, customer_id as userId, referral_message as message1, booking_message as message2, 
                    referral_amount as comm_amt1, booking_points as comm_amt2, created_date, status 
             FROM customer_reference_payout 
-            WHERE customer_id = :userId
+            WHERE customer_id = :userId AND status IN ('1', '2')
             ORDER BY created_date DESC";
 
     $stmt = $conn->prepare($sql);

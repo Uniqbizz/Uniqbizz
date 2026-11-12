@@ -1,5 +1,5 @@
 <?php
-require '../connect.php';
+require '../../connect.php';
 header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -60,7 +60,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         '28' => 'master_franchisee',
         '29' => 'sub_franchisee',
         '30' => 'sponsor_franchisee',
-        '31' => 'employees'
+        '31' => 'employees',
+        '32' => 'institution',
+        '33' => 'institution_branch_manager',
+        '34' => 'executive_techno_enterprise',
+        '35' => 'super_techno_enterprise',
+        '36' => 'chief_techno_enterprise'
     ];
 
     if (isset($tables[$_SESSION["user_type_id_value"]])) {
@@ -74,6 +79,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $row = $stmt->fetch();
             $_SESSION["username2"] = $row['firstname'] ?? $row['name'] ?? '';
             $_SESSION["lname"] = $row['lastname'] ?? '';
+            
+            $country_id = $row['country'];
+            $state_id = $row['state'];
+            $city_id = $row['city'];
+            
+            // Get country name
+            $countries = $conn->prepare("SELECT country_name FROM countries WHERE id= :country_id AND status='1'");
+            $countries->execute([ ":country_id" => $country_id ]);
+            if ($countries->rowCount() > 0) {
+                $countryname = $countries->fetch()['country_name'];
+            }
+
+            // Get state name
+            $states = $conn->prepare("SELECT state_name FROM states WHERE id= :state_id AND status='1'");
+            $states->execute([ ":state_id" => $state_id ]);
+            if ($states->rowCount() > 0) {
+                $statename = $states->fetch()['state_name'];
+            }
+
+            // Get city name
+            $cities = $conn->prepare("SELECT city_name FROM cities WHERE id= :city_id AND status='1'");
+            $cities->execute([ ":city_id" => $city_id ]);
+            if ($cities->rowCount() > 0) {
+                $cityname = $cities->fetch()['city_name'];
+            }
+            
             if($_SESSION["user_type_id_value"] == '10'){
                 $_SESSION["customer_type"]= $row['customer_type'] ?? '';
             }else{
@@ -103,7 +134,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         "customer_type" => $_SESSION["customer_type"]??'',
         "user_id" => $_SESSION["user_id"],
         "user_fname" => $_SESSION["username2"],
-        "user_lname" => $_SESSION["lname"]
+        "user_lname" => $_SESSION["lname"],
+        "country" => $countryname,
+        "state" => $statename,
+        "city" => $cityname
     ]);
 }
  else {

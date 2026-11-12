@@ -2,7 +2,7 @@
 date_default_timezone_set('Asia/Calcutta');
 $today = date('Y-m-d H:i:s');
 
-require "../../../connect.php";
+require "../../../../connect.php";
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(["status" => "error", "message" => "Invalid request method"]);

@@ -7,7 +7,7 @@ session_start();
 //     exit();
 // }
 
-require "../../../../connect.php";
+require "../../../../../connect.php";
 
 header('Content-Type: application/json');
 

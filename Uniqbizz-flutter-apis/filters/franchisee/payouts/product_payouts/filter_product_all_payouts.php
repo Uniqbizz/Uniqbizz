@@ -2,7 +2,7 @@
 header("Content-Type: application/json");
 
 // Database connection
-require '../../../../connect.php';
+require '../../../../../connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);

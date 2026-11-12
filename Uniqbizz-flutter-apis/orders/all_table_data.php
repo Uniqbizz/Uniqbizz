@@ -1,5 +1,5 @@
 <?php
-require '../connect.php';
+require '../../connect.php';
 header('Content-Type: application/json');
 
 try {
@@ -120,7 +120,7 @@ try {
                 b.status,
                 b.confirm_status,
                 bd.pay_type,
-                bd.final_price,
+                bd.total_net_payable,
                 bd.amount,
                 bd.part_pay_1,
                 bd.part_pay_2,
@@ -136,7 +136,7 @@ try {
             GROUP BY 
                 b.id, b.order_id, b.customer_id, b.package_id, p.name, p.tour_days,
                 b.name, b.phone, b.email, b.date, b.ta_id, b.status, b.confirm_status,
-                bd.pay_type, bd.final_price, bd.amount, bd.part_pay_1, bd.part_pay_2,
+                bd.pay_type, bd.total_net_payable, bd.amount, bd.part_pay_1, bd.part_pay_2,
                 bd.part_pay_3, bd.part_pay_1_status, bd.part_pay_2_status, bd.part_pay_3_status
             ORDER BY b.date";
 
@@ -150,7 +150,7 @@ try {
         // Payment calculation using data from the joined query
         $perecent_fill = 0;
         $booking_paid_amt = 0;
-        $booking_full_amt = $booking['final_price'];
+        $booking_full_amt = $booking['total_net_payable'];
 
         if ($booking['pay_type'] == 2) {
             if ($booking['part_pay_1_status'] == 1 && $booking['part_pay_2_status'] == 0) {
@@ -184,19 +184,37 @@ try {
         $today = new DateTime();
         $today->setTime(0, 0);
 
+        // if ($booking['status'] == '2') {
+        //     $booking_status = "Canceled";
+        // } elseif ($booking['status'] == '3') {
+        //     $booking_status = "Refunded";
+        // } elseif ($booking['status'] == '1' && $booking['confirm_status'] == '0') {
+        //     $booking_status = "Pending";
+        // } elseif ($booking['status'] == '1' && $booking['confirm_status'] == '1' && $today < $startDate) { //addmin confirmed the iternaries
+        //     $booking_status = "Confirmed";
+        // } elseif ( $booking['status'] == '1' && $booking['confirm_status'] == '1' && ($today == $startDate || $today <= $endDate)){
+        //     $booking_status = "Traveling";
+        // } elseif ($booking['status'] == '1' && $booking['confirm_status'] == '1' && $today > $endDate) {
+        //     $booking_status = "Completed";
+        // } else {
+        //     $booking_status = "Unknown";
+        // }
+        
         if ($booking['status'] === '2') {
             $booking_status = "Canceled";
         } elseif ($booking['status'] === '3') {
             $booking_status = "Refunded";
         } elseif ($booking['status'] === '0') {
-            $booking_status = "Pending";
-        } elseif ($booking['status'] === '1' && $today < $startDate) {
-            $booking_status = "Confirmed";
-        } elseif ($booking['status'] === '1' && ($today == $startDate || $today <= $endDate)){
-            $booking_status = "Traveling";
-        } elseif ($booking['status'] === '1' && $today > $endDate) {
             $booking_status = "Completed";
-        } else {
+        } elseif ($booking['status'] === '1' && $booking['confirm_status'] == 0) {
+            $booking_status = "Pending";
+        } elseif ($booking['status'] === '1' && $booking['confirm_status'] == 1 &&  $today < $startDate) {
+            $booking_status = "Confirmed";
+        } elseif ($booking['status'] === '1' && $booking['confirm_status'] == 1 && $today >= $startDate && $today <= $endDate) {
+            $booking_status = "Traveling";
+        } elseif ($booking['status'] === '1' && $booking['confirm_status'] == 1 && $today > $endDate) {
+            $booking_status = "Completed";
+        }  else {
             $booking_status = "Unknown";
         }
 

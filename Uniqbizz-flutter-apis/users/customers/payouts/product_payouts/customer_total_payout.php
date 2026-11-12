@@ -1,7 +1,7 @@
 <?php
 header("Content-Type: application/json");
 
-require '../../../../connect.php';
+require '../../../../../connect.php';
 
 $request = json_decode(file_get_contents('php://input'), true);
 
@@ -61,6 +61,7 @@ if ($month !== null && $year !== null) {
 
 $stmt->execute();
 $data = [];
+$totalAmount = 0; // ✅ MOVE OUTSIDE LOOP
 
 if ($stmt->rowCount() > 0) {
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -84,7 +85,7 @@ if ($stmt->rowCount() > 0) {
         $no_of_child = $row['no_of_child'];
         $ta_markup = null;
 
-        // ✅ Same logic untouched
+        // Logic (unchanged)
         if ($userType == '10') {
             if ($row['cu1_id'] == $userId) {
                 $message = $row['cu1_mess'];
@@ -122,6 +123,9 @@ if ($stmt->rowCount() > 0) {
             $status = $row['bm_status'];
         }
 
+        // ✅ accumulate properly
+        $totalAmount += $amt;
+
         $tds = $amt * $tdsPercentage;
         $totalPayable = $amt - $tds;
 
@@ -137,7 +141,14 @@ if ($stmt->rowCount() > 0) {
         ];
     }
 
-    echo json_encode(["status" => "success", "payouts" => $data], JSON_PRETTY_PRINT);
+    // ✅ build response AFTER loop
+    $response = [
+        'status' => 'success',
+        'totalAmount' => $totalAmount,
+        'transactions' => $data
+    ];
+
+    echo json_encode([$response], JSON_PRETTY_PRINT);
 
 } else {
     echo json_encode(["status" => "success", "payouts" => []]);

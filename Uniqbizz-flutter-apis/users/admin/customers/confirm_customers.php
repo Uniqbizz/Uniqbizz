@@ -1,5 +1,5 @@
 <?php
-require "../../../connect.php";
+require "../../../../connect.php";
 include('../../../phpmailer_smtp/smtp/PHPMailerAutoload.php');
 
 header('Content-Type: application/json');

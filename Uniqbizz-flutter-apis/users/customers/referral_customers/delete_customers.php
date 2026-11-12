@@ -2,7 +2,7 @@
 date_default_timezone_set('Asia/Calcutta');
 $today = date('Y-m-d H:i:s');
 
-require "../../../connect.php";
+require "../../../../connect.php";
 
 // Capture JSON data
 $data = json_decode(file_get_contents('php://input'), true);

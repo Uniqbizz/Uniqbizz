@@ -1,5 +1,5 @@
 <?php
-require '../../../../connect.php';
+require '../../../../../connect.php';
 header('Content-Type: application/json');
 
 $response = [
@@ -39,7 +39,7 @@ try {
     $isAllTime = empty($totalDateMonth) && empty($totalDateYear);
 
     // ====== BUILD WHERE CLAUSE ======
-    $where = "$columnDesignation = :userId";
+    $where = "$columnDesignation = :userId ";
 
     if (!$isAllTime) {
         $where .= " AND YEAR(created_date) = :year AND MONTH(created_date) = :month";
@@ -81,8 +81,7 @@ try {
     while ($row = $stmt2->fetch(PDO::FETCH_ASSOC)) {
         $dt = date('Y-m-d', strtotime($row['created_date']));
 
-        $message = str_replace('Rs.', 'Rs ', $row[$columnMessage]);
-        $message2 = str_replace('.', '<br>', $message);
+        $message2 = str_replace('.', ' ', $row[$columnMessage]);
 
         $CommAmt = (float)$row[$columnCommision];
         $tds = $CommAmt * $tdsPercentage;

@@ -5,7 +5,7 @@
 header('Content-Type: application/json');
 
 // Database configuration
-require '../../../connect.php';
+require '../../../../connect.php';
 
 // Only allow POST method
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

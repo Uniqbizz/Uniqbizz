@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: application/json");
-require '../../../../connect.php';
+require '../../../../../connect.php';
 
 $response = [];
 
@@ -19,7 +19,7 @@ try {
     }
 
     // Build dynamic WHERE clause
-    $where = "customer_id = ? AND status = '1'";
+    $where = "customer_id = ? AND status IN ('1', '2')";
     $params = [$userId];
 
     if ($month !== null && $year !== null) {
@@ -91,7 +91,10 @@ try {
             "amount"         => round($commission, 2),
             "tds"            => isset($tdsValue) ? round($tdsValue, 2) : "NA",
             "total_payable"  => round($total, 2),
-            "status"         => ($row['status'] == '1' || $row['status'] == '3') ? "Paid" : "Pending"
+            "status"         => ($row['status'] == '1' || $row['status'] == '3') ? "Paid" : "Pending",
+            "download_link"  => ($row['status'] != '3')
+                ? "payout/forms/customer_reference/download_cu_payout.php?vkvbvjfgfikix={$row['id']}&userId={$row['userId']}&date={$dt}&message=" . urlencode($message1) . "&message_status={$row['status']}&commission={$commission}"
+                : null
         ];
     }
 

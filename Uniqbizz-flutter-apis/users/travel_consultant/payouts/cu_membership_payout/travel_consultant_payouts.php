@@ -1,5 +1,5 @@
 <?php
-require '../../../../connect.php';
+require '../../../../../connect.php';
 header('Content-Type: application/json');
 date_default_timezone_set("Asia/Kolkata");
 
@@ -75,8 +75,7 @@ try {
         $dt = (new DateTime($row['created_date']))->format('Y-m-d');
 
         // Message formatting
-        $message1 = str_replace('Rs.', 'Rs ', $row[$columnMessage]);
-        $message2 = str_replace('.', '<br>', $message1);
+        $message2 = str_replace('Rs.', 'Rs ', $row[$columnMessage]);
 
         $CommAmt = floatval($row[$columnCommision]);
         $tds = $CommAmt * $tdsPercentage;

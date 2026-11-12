@@ -1,5 +1,5 @@
 <?php
-require '../../../../connect.php';
+require '../../../../../connect.php';
 header('Content-Type: application/json');
 date_default_timezone_set("Asia/Kolkata");
 
@@ -25,7 +25,7 @@ $columnStatus = 'status_tc';
 
 $tdsPercentage = 0.02;
 
-if ($userType == '' || $userId == '') {
+if ($userId == '') {
     echo json_encode(["success" => false, "message" => "Missing parameters"]);
     exit;
 }
@@ -43,9 +43,7 @@ try {
             // Date formatting
             $dt = (new DateTime($row['created_date']))->format('Y-m-d');
 
-            // Replace dot with line break
-            $message1 = str_replace('Rs.', 'Rs ', $row[$columnMessage]);
-            $message2 = str_replace('.', '<br>', $message1);
+            $message2 = str_replace('.', ' ', $row[$columnMessage]);
 
             // Calculate amounts
             $CommAmt = floatval($row[$columnCommision]);

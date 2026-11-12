@@ -1,5 +1,5 @@
 <?php
-    require '../connect.php';
+    require '../../connect.php';
 
     // ✅ Dynamic Base URL
     $base_url = (

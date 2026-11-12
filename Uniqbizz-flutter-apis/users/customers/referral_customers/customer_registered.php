@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require '../../../connect.php';
+require '../../../../connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode([
@@ -28,31 +28,13 @@ if ($userType == "10") {
     $stmt->bindParam(':userId', $userId);
     $stmt->execute();
     
+    $userCACUs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
     if ($stmt->rowCount() > 0) {
-        $response = [
+        echo json_encode([
             'status' => 'success',
-            'data' => []
-        ];
-        
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $statusText = ($row['status'] == '3') ? 'Pending' : 'Active';
-            
-            $response['data'][] = [
-                'id' => $row['id'],
-                'profile_pic' => $row['profile_pic'],
-                'ca_customer_id' => $row['ca_customer_id'],
-                'name' => $row['firstname'] . ' ' . $row['lastname'],
-                'ta_reference' => $row['ta_reference_no'] . ' ' . $row['ta_reference_name'],
-                'reference' => $row['reference_no'] . ' ' . $row['registrant'],
-                'customer_type' => $row['customer_type'],
-                'contact_no' => $row['contact_no'],
-                'register_date' => $row['register_date'],
-                'status' => $statusText,
-                'status_code' => $row['status']
-            ];
-        }
-        
-        echo json_encode($response);
+            'data' => $userCACUs
+        ]);
     } else {
         echo json_encode([
             'status' => 'success',

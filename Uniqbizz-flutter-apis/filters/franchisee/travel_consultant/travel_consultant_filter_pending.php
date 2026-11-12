@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: application/json");
-require '../../../connect.php';
+require '../../../../connect.php';
 
 try {
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

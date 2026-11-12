@@ -1,5 +1,5 @@
 <?php
-require '../../../../connect.php';
+require '../../../../../connect.php';
 header('Content-Type: application/json');
 date_default_timezone_set("Asia/Kolkata");
 

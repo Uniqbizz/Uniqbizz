@@ -5,7 +5,7 @@ header("Access-Control-Allow-Methods: GET, POST");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 // Include your DB connection file
-include '../../../connect.php'; // <-- replace with your actual DB connection
+include '../../../../connect.php'; // <-- replace with your actual DB connection
 
 // Get input
 // $userId = $_POST['userId'] ?? $_GET['userId'] ?? null;
@@ -95,12 +95,20 @@ try {
 
     // ---------- Commission Earned ----------
     // Pending
-    $stmt = $conn->prepare("SELECT SUM(ta_amt) as amt 
+    $stmt = $conn->prepare("SELECT SUM(ta_amt) as product_amt 
                             FROM product_payout 
                             WHERE ta_id = ? AND ta_status = '2'");
     $stmt->execute([$userId]);
-    $pendingAmt = $stmt->fetch(PDO::FETCH_ASSOC)['amt'] ?? 0;
-    $finalAmtPending = number_format(floor(($pendingAmt - ($pendingAmt * $tdsPercentage)) * 100) / 100, 2);
+    $pendingAmt = $stmt->fetch(PDO::FETCH_ASSOC)['product_amt'] ?? 0;
+    $finalProductAmtPending = floor(($pendingAmt - ($pendingAmt * $tdsPercentage)) * 100) / 100;
+
+    // Pending
+    $stmt = $conn->prepare("SELECT SUM(commision_tc) as holidays_amt 
+                            FROM ca_cu_payout
+                            WHERE travel_consultant = ? AND status_tc = '2'");
+    $stmt->execute([$userId]);
+    $pendingAmt = $stmt->fetch(PDO::FETCH_ASSOC)['holidays_amt'] ?? 0;
+    $finalHolidaysAmtPending = floor(($pendingAmt - ($pendingAmt * $tdsPercentage)) * 100) / 100;
 
     // Confirmed
     $stmt = $conn->prepare("SELECT SUM(ta_amt) as amt 
@@ -108,7 +116,18 @@ try {
                             WHERE ta_id = ? AND ta_status = '1'");
     $stmt->execute([$userId]);
     $confirmedAmt = $stmt->fetch(PDO::FETCH_ASSOC)['amt'] ?? 0;
-    $finalAmtConfirm = number_format(floor(($confirmedAmt - ($confirmedAmt * $tdsPercentage)) * 100) / 100, 2);
+    $finalAmtConfirm = floor(($confirmedAmt - ($confirmedAmt * $tdsPercentage)) * 100) / 100;
+
+        // Confirm
+    $stmt = $conn->prepare("SELECT SUM(commision_tc) as holidays_amt 
+                            FROM ca_cu_payout 
+                            WHERE travel_consultant = ? AND status_tc = '1'");
+    $stmt->execute([$userId]);
+    $confirmedAmt = $stmt->fetch(PDO::FETCH_ASSOC)['holidays_amt'] ?? 0;
+    $finalHolidaysAmtConfirm = floor(($confirmedAmt - ($confirmedAmt * $tdsPercentage)) * 100) / 100;
+
+    $totalpendingamt = $finalProductAmtPending + $finalHolidaysAmtPending;
+    $totalpaidamt = $finalAmtConfirm + $finalHolidaysAmtConfirm;
 
     // ---------- JSON Response ----------
     $response = [
@@ -127,8 +146,8 @@ try {
                 "this_month" => (int)$upcomingThisMonth
             ],
             "commission" => [
-                "confirmed" => $finalAmtConfirm,
-                "pending" => $finalAmtPending
+                "confirmed" => number_format($totalpaidamt, 2, '.', ''),
+                "pending" => number_format($totalpendingamt, 2, '.', '')
             ]
         ]
     ];

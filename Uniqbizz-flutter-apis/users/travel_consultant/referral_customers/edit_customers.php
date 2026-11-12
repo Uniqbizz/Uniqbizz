@@ -1,5 +1,5 @@
 <?php
-require "../../../connect.php";
+require "../../../../connect.php";
 header('Content-Type: application/json');
 $current_year = date('Y');
  
@@ -63,11 +63,11 @@ $aadhar_card = getData('aadhar_card');
 $voting_card = getData('voting_card');
 $bank_passbook = getData('passbook');
 $payment_proof = getData('payment_proof');
-$payment_mode = getData('paymentMode');
-$cheque_no = getData('chequeNo');
-$cheque_date = getData('chequeDate');
-$bank_name = getData('bankName');
-$transaction_no = getData('transactionNo');
+$paymentMode = getData('payment_mode');
+$chequeNo = getData('cheque_no');
+$chequeDate = getData('cheque_date');
+$bankName = getData('bank_name');
+$transactionNo = getData('transaction_no');
 $address = getData('address');
 $pincode = getData('pincode');
 $country = getData('country');

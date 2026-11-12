@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 date_default_timezone_set('Asia/Calcutta');
 $today = date('Y-m-d H:i:s');
 
-require "../../../connect.php";
+require "../../../../connect.php";
 
 $data = json_decode(file_get_contents("php://input"), true);
 

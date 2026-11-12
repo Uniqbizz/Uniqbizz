@@ -3,7 +3,7 @@
 header("Content-Type: application/json; charset=UTF-8");
 
 // Include DB config
-require 'connect.php';
+require '../connect.php';
 
 $response = [];
 

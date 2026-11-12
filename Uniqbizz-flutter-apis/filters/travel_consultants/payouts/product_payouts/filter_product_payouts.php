@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: application/json");
-require '../../../../connect.php';
+require '../../../../../connect.php';
 
 $request = json_decode(file_get_contents('php://input'), true);
 

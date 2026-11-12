@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-require '../../../connect.php'; // your DB connection file
+require '../../../../connect.php'; // your DB connection file
 
 // Function to format number in Indian numbering format
 function formatIndianNumber($num)

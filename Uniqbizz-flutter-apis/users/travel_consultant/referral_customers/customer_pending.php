@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 // Include the connection file
-require '../../../connect.php';
+require '../../../../connect.php';
 
 // Only accept POST requests
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

@@ -1,5 +1,5 @@
 <?php
-require 'connect.php'; // Include your database connection
+require '../connect.php'; // Include your database connection
 header('Content-Type: application/json');
 
 $sql = "SELECT * FROM `countries`";

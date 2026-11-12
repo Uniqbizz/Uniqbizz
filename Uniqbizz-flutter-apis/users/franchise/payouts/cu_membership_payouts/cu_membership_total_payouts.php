@@ -1,5 +1,12 @@
 <?php
-require '../../../../connect.php';
+require '../../../../../connect.php';
+
+// Only allow POST requests
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(['status' => 'error', 'message' => 'Method not allowed']);
+    exit();
+}
 
 $request = json_decode(file_get_contents('php://input'), true);
 
@@ -27,6 +34,7 @@ $response = [
     'success' => false,
     'message' => '',
     'totalPayout' => 0,
+    'totalPayable' => 0,
     'payoutRecords' => []
 ];
 
@@ -66,6 +74,10 @@ try {
     $totalResult = $totalStmt->fetch(PDO::FETCH_ASSOC);
 
     $TotalPayout = (float)($totalResult['TotalPayout'] ?? 0);
+
+    $tdsTotal = $TotalPayout * 0.02;
+    $totalPayable = $TotalPayout - $tdsTotal;
+
 
     // =========================
     // FETCH RECORDS
@@ -133,6 +145,7 @@ try {
     $response['success'] = true;
     $response['message'] = 'Data retrieved successfully';
     $response['totalPayout'] = $TotalPayout;
+    $response['totalPayable'] = $totalPayable;
     $response['payoutRecords'] = $payoutRecords;
 
 } catch (Exception $e) {

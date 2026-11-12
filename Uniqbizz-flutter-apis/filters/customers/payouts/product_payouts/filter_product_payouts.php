@@ -1,19 +1,15 @@
 <?php
 
-require '../../../../connect.php';
+require '../../../../../connect.php';
 
 header('Content-Type: application/json');
 
 $request = json_decode(file_get_contents('php://input'), true);
 
-// Keep request same
 $userId = $request['id'] ?? '';
 $search = trim($request['search'] ?? '');
-$fromDate = $request['fromDate'] ?? null;
-$toDate = $request['toDate'] ?? null;
-
-// FORCE userType = 10
-$userType = '10';
+$month = $request['month'] ?? null;
+$year = $request['year'] ?? null;
 
 $response = [
     'status' => 'error',
@@ -30,55 +26,51 @@ function truncateToTwoDecimals($num)
 
 try {
 
-    // Base query (ONLY customer logic)
-    $sql = "SELECT *,
-    CASE
-        WHEN cu1_id = :userId THEN 'Level_1'
-        WHEN cu2_id = :userId THEN 'Level_2'
-        WHEN cu3_id = :userId THEN 'Level_3'
-    END AS user_level
-FROM product_payout
-WHERE (cu1_id = :userId OR cu2_id = :userId OR cu3_id = :userId);";
+    // ✅ SINGLE OPTIMIZED QUERY (NO INNER QUERIES)
+    $sql = "
+        SELECT 
+            pp.*,
+            p.name AS package_name,
+            CONCAT(c.firstname, ' ', c.lastname) AS customer_name,
+            CASE
+                WHEN pp.cu1_id = :userId THEN 'Level_1'
+                WHEN pp.cu2_id = :userId THEN 'Level_2'
+                WHEN pp.cu3_id = :userId THEN 'Level_3'
+            END AS user_level
+        FROM product_payout pp
+        LEFT JOIN package p ON p.id = pp.package_id
+        LEFT JOIN ca_customer c ON c.ca_customer_id = pp.cu_id
+        WHERE (pp.cu1_id = :userId OR pp.cu2_id = :userId OR pp.cu3_id = :userId)
+    ";
 
-    // Date range filter
-    if (!empty($fromDate) && !empty($toDate)) {
-        $sql .= " AND DATE(created_date) BETWEEN :fromDate AND :toDate";
+    // ✅ DATE FILTER
+    if (!empty($month) && !empty($year)) {
+        $sql .= " AND MONTH(pp.created_date) = :month AND YEAR(pp.created_date) = :year";
     }
 
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':userId', $userId);
 
-    if (!empty($fromDate) && !empty($toDate)) {
-        $stmt->bindParam(':fromDate', $fromDate);
-        $stmt->bindParam(':toDate', $toDate);
+    if (!empty($month) && !empty($year)) {
+        $stmt->bindParam(':month', $month, PDO::PARAM_INT);
+        $stmt->bindParam(':year', $year, PDO::PARAM_INT);
     }
 
     $stmt->execute();
-    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC); // ✅ NO pending result issue
 
     $transactions = [];
     $totalAmount = 0;
 
-    while ($row = $stmt->fetch()) {
+    foreach ($rows as $row) {
 
         $dt = new DateTime($row['created_date']);
         $date = $dt->format('Y-m-d');
 
-        // Package name
-        $stmt1 = $conn->prepare("SELECT name FROM package WHERE id = :packageId");
-        $stmt1->bindParam(':packageId', $row['package_id']);
-        $stmt1->execute();
-        $pkgName = $stmt1->fetch();
-        $packageName = $pkgName['name'] ?? 'Unknown Package';
+        $packageName = $row['package_name'] ?? 'Unknown Package';
+        $cuName = trim($row['customer_name'] ?? '');
 
-        // Customer name
-        $stmt8 = $conn->prepare("SELECT firstname, lastname FROM ca_customer WHERE ca_customer_id = :customerId");
-        $stmt8->bindParam(':customerId', $row['cu_id']);
-        $stmt8->execute();
-        $cu_name = $stmt8->fetch();
-        $cuName = trim(($cu_name['firstname'] ?? '') . ' ' . ($cu_name['lastname'] ?? ''));
-
-        // payout selection logic (UNCHANGED)
+        // payout selection logic
         if ($row['cu1_id'] == $userId) {
             $message = $row['cu1_mess'];
             $amt = $row['cu1_amt'];
@@ -96,32 +88,31 @@ WHERE (cu1_id = :userId OR cu2_id = :userId OR cu3_id = :userId);";
         $tds = $amt * $tdsPercentage;
         $total = truncateToTwoDecimals($amt - $tds);
 
-        // ✅ SEARCH FILTER (applied AFTER data prep — safer)
-        // ✅ IMPROVED SEARCH FILTER (covers ALL fields)
-if (!empty($search)) {
-    $searchLower = strtolower($search);
+        // ✅ SEARCH FILTER
+        if (!empty($search)) {
+            $searchLower = strtolower($search);
 
-    $searchableString = strtolower(
-        $date . ' ' .
-        $packageName . ' ' .
-        $cuName . ' ' .
-        $message . ' ' .
-        $row['no_of_adult'] . ' ' .
-        $row['no_of_child'] . ' ' .
-        $amt . ' ' .
-        $tds . ' ' .
-        $total . ' ' .
-        (($status == '1') ? 'paid' : 'pending')
-    );
+            $searchableString = strtolower(
+                $date . ' ' .
+                $packageName . ' ' .
+                $cuName . ' ' .
+                $message . ' ' .
+                $row['no_of_adult'] . ' ' .
+                $row['no_of_child'] . ' ' .
+                $amt . ' ' .
+                $tds . ' ' .
+                $total . ' ' .
+                (($status == '1') ? 'paid' : 'pending')
+            );
 
-    if (strpos($searchableString, $searchLower) === false) {
-        continue;
-    }
-}
+            if (strpos($searchableString, $searchLower) === false) {
+                continue;
+            }
+        }
 
         $totalAmount += $amt;
 
-        $transaction = [
+        $transactions[] = [
             'date' => $date,
             'packageName' => $packageName,
             'customerName' => $cuName,
@@ -132,15 +123,12 @@ if (!empty($search)) {
             'tds' => $tds,
             'totalPayable' => $total,
             'status' => ($status == '1') ? 'Paid' : 'Pending',
-           // 'level' => $row['user_level']  For showing level for customer payouts
         ];
-
-        $transactions[] = $transaction;
     }
 
-    // ✅ HANDLE NO DATA CASE
+    // ✅ NO DATA CASE
     if (empty($transactions)) {
-        $response = [
+        echo json_encode([
             'status' => 'success',
             'message' => 'No data found',
             'data' => [
@@ -149,12 +137,10 @@ if (!empty($search)) {
                 'totalPayable' => 0,
                 'transactions' => [],
             ]
-        ];
-        echo json_encode($response);
+        ]);
         exit;
     }
 
-    // totals
     $totalTDS = $totalAmount * $tdsPercentage;
     $totalPayable = truncateToTwoDecimals($totalAmount - $totalTDS);
 

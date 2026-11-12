@@ -1,11 +1,11 @@
 <?php
-require '../../../../connect.php';
+require '../../../../../connect.php';
 header('Content-Type: application/json');
 
 $request = json_decode(file_get_contents('php://input'), true);
 
 // ✅ INPUT (as you requested)
-$userId = $request['id'] ?? null;
+$userId = $request['userId'] ?? null;
 $search = trim($request['search'] ?? '');
 $month  = isset($request['month']) ? (int)$request['month'] : null;
 $year   = isset($request['year']) ? (int)$request['year'] : null;

@@ -5,7 +5,7 @@ $date = date('F,Y'); //month and year. 'F' - month in Text form
 $DateMonth = date('m'); //month in number form
 $DateYear = date('Y'); //year
 
-require '../../../connect.php';
+require '../../../../connect.php';
 
 // ---------- READ JSON INPUT ----------
 $data = json_decode(file_get_contents("php://input"), true);
@@ -94,7 +94,7 @@ SELECT
          FROM product_payout 
          WHERE te_id = :user_id 
          AND te_id LIKE 'F%' 
-         AND status = 1)
+         AND te_status = 1)
 
         +
 
@@ -102,7 +102,7 @@ SELECT
          FROM ca_ta_payout 
          WHERE techno_enterprise = :user_id 
          AND techno_enterprise LIKE 'F%' 
-         AND status = 1)
+         AND status_te = 1)
 
         +
 
@@ -110,7 +110,7 @@ SELECT
          FROM ca_cu_payout 
          WHERE techno_enterprise = :user_id 
          AND techno_enterprise LIKE 'F%' 
-         AND status = 1)
+         AND status_te = 1)
     ) AS commission_paid_amount,
 
     /* PENDING (status = 2) */
@@ -119,7 +119,7 @@ SELECT
          FROM product_payout 
          WHERE te_id = :user_id 
          AND te_id LIKE 'F%' 
-         AND status = 2)
+         AND te_status = 2)
 
         +
 
@@ -127,7 +127,7 @@ SELECT
          FROM ca_ta_payout 
          WHERE techno_enterprise = :user_id 
          AND techno_enterprise LIKE 'F%' 
-         AND status = 2)
+         AND status_te = 2)
 
         +
 
@@ -135,7 +135,7 @@ SELECT
          FROM ca_cu_payout 
          WHERE techno_enterprise = :user_id 
          AND techno_enterprise LIKE 'F%' 
-         AND status = 2)
+         AND status_te = 2)
     ) AS commission_pending_amount,
 
     /* TOTAL (status 1 + 2) */
@@ -144,7 +144,7 @@ SELECT
          FROM product_payout 
          WHERE te_id = :user_id 
          AND te_id LIKE 'F%' 
-         AND status IN (1,2))
+         AND te_status IN (1,2))
 
         +
 
@@ -152,7 +152,7 @@ SELECT
          FROM ca_ta_payout 
          WHERE techno_enterprise = :user_id 
          AND techno_enterprise LIKE 'F%' 
-         AND status IN (1,2))
+         AND status_te IN (1,2))
 
         +
 
@@ -160,7 +160,7 @@ SELECT
          FROM ca_cu_payout 
          WHERE techno_enterprise = :user_id 
          AND techno_enterprise LIKE 'F%' 
-         AND status IN (1,2))
+         AND status_te IN (1,2))
     ) AS commission_total
 ";
 

@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require '../../../connect.php';
+require '../../../../connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(["status" => "error", "message" => "Invalid request method"]);
@@ -47,29 +47,29 @@ $current_year = date('Y');
 
 $ta_user_id_name = getData('ta_user_id_name'); // ta ref id
 $ta_registrant = getData('ta_reference_name'); // ta ref name
-$cu_user_id_name = getData('cu_user_id_name'); // cu ref id
-$cu_registrant = getData('cu_reference_name'); // cu ref name
+$cu_user_id_name = getData('ca_customer_id'); // cu ref id
+$cu_registrant = getData('ca_customer_name'); // cu ref name
 $firstname = getData('firstname');
 $lastname = getData('lastname');
 $email = getData('email');
 $gender = getData('gender');
-$payment_fee = getData('payment_fee');
+$payment_fee = getData('paid_amount');
 $payment_label = getData('payment_label');
 $comp_chek = getData('isComplementary');
 $country_code = getData('country_code');
-$phone_no = getData('phone');
-$bdate = getData('dob');
+$phone_no = getData('contact_no');
+$bdate = getData('date_of_birth');
 $profile_pic = getData('profile_pic');
 $pan_card = getData('pan_card');
 $aadhar_card = getData('aadhar_card');
 $voting_card = getData('voting_card');
 $passbook = getData('passbook');
 $payment_proof = getData('payment_proof');
-$paymentMode = getData('paymentMode');
-$chequeNo = getData('chequeNo');
-$chequeDate = getData('chequeDate');
-$bankName = getData('bankName');
-$transactionNo = getData('transactionNo');
+$paymentMode = getData('payment_mode');
+$chequeNo = getData('cheque_no');
+$chequeDate = getData('cheque_date');
+$bankName = getData('bank_name');
+$transactionNo = getData('transaction_no');
 $address = getData('address');
 $pincode = getData('pincode');
 $country = getData('country');

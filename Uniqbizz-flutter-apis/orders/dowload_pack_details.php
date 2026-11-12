@@ -1,6 +1,6 @@
 <?php
     $id = $_GET['id']; //package_id '156'
-    require '../connect.php';
+    require '../../connect.php';
     include 'package_download.php';
 ?>
 <!DOCTYPE html>
