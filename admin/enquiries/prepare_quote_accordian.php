@@ -41,8 +41,10 @@
     //    EDITABLE SECTION
     // ==========================================
 
-    $showOriginalEditable = (
-        (int) $mainRequestStatus == 1
+    $showOriginalEditable = in_array(
+        (int) $mainRequestStatus,
+        [1, 4],
+        true
     );
 
 ?>
@@ -83,7 +85,7 @@
 
                     <span class="history-status sent-status">
                         <i class="fa-solid fa-circle-check"></i>
-                        Sent by Admin · <?= !empty($replyData['created'])
+                        Replied by Admin · <?= !empty($replyData['created'])
                                     ? date('d M Y, h:i A', strtotime($replyData['created']))
                                     : 'N/A'; ?>
                     </span>
@@ -867,13 +869,13 @@
                                 <div class="d-flex justify-content-between">
                                     <div>
                                         
-                                        <p class="mb-1">Convenience Fee </p>
                                         <p class="mb-1">GST (<?= $replyData['gst_percentage'] ?>%) </p>
+                                        <p class="mb-1">Convenience Fee </p>
                                     </div>
                                     <div>
                                         
-                                        <p class="mb-1 text-end" id="#">&#8377; <?= $replyData['convenience_fee'] ?></p>
                                         <p class="mb-1 text-end">&#8377; <?= $replyData['gst'] ?></p>
+                                        <p class="mb-1 text-end" id="#">&#8377; <?= $replyData['convenience_fee'] ?></p>
                                     </div>
                                 </div>
                             </div>
@@ -1017,11 +1019,13 @@
                                                 SELECT *
                                                 FROM request_details_trip_days
                                                 WHERE request_id = :request_id
+                                                AND reply_id=:reply_id
                                                 ORDER BY id ASC
                                             ");
 
                                             $data4->execute([
-                                                ':request_id' => $request_id
+                                                ':request_id' => $request_id,
+                                                ':reply_id' => $replyData['id']
                                             ]);
 
                                             $days = $data4->fetchAll(PDO::FETCH_ASSOC);
@@ -1148,11 +1152,13 @@
                                             SELECT inclusion, exclusion
                                             FROM request_details_itinerary
                                             WHERE request_id = :request_id
+                                            AND reply_id=:reply_id
                                             LIMIT 1
                                         ");
 
                                         $itineraryStmt->execute([
-                                            ':request_id' => $request_id
+                                            ':request_id' => $request_id,
+                                            ':reply_id' => $replyData['id']
                                         ]);
 
                                         $itinery = $itineraryStmt->fetch(PDO::FETCH_ASSOC) ?: [];
@@ -1225,11 +1231,13 @@
                                             SELECT *
                                             FROM request_details_policy_document
                                             WHERE request_id = :request_id
+                                            AND reply_id=:reply_id
                                             ORDER BY id ASC
                                         ");
 
                                         $newPolicyStmt->execute([
-                                            ':request_id' => $request_id
+                                            ':request_id' => $request_id,
+                                            ':reply_id' => $replyData['id']
                                         ]);
 
                                         $newPolicies = $newPolicyStmt->fetchAll(PDO::FETCH_ASSOC);
@@ -1399,6 +1407,28 @@
                                         <h5 class="fw-bolder textDarkBlue">MarkUp Calculation</h5>
 
                                         <div class="borderHighlight rounded-3 p-3">
+                                            <?php 
+                                            // ==========================================
+                                            // FETCH REQUEST DETAILS MARKUP
+                                            // ==========================================
+
+                                            $sql = "
+                                                SELECT *
+                                                FROM request_details_markup
+                                                WHERE request_id = :request_id
+                                                AND reply_id = :reply_id
+                                                LIMIT 1
+                                            ";
+
+                                            $stmt = $conn->prepare($sql);
+
+                                            $stmt->execute([
+                                                ':request_id' => $request_id,
+                                                ':reply_id' => $replyData['id']
+                                            ]);
+
+                                            $requestDetailsMarkup = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
+                                            ?>
                                             <?php if (in_array($upperChainId, [9, 10, 11, 13, 14, 15, 17, 18, 19, 21], true)) { ?>
                                             <!-- cu->tc->te/f->bm/mf/sf -->
                                             <div class="table-responsive">
@@ -1420,11 +1450,7 @@
 
                                                             <td>
                                                                 <span id="" class="fs-6">
-                                                                    <?= htmlspecialchars(
-                                                                        $chainDetails[
-                                                                            (in_array('TE', array_column($chainDetails, 'prefix')) ||
-                                                                            in_array('CA', array_column($chainDetails, 'prefix'))) ? 3 : 2
-                                                                        ]['name'] ?? 'NA',
+                                                                    <?= htmlspecialchars($requestDetailsMarkup['ste_bm_name'] ?? 'NA',
                                                                         ENT_QUOTES,
                                                                         'UTF-8'
                                                                     ) ?>
@@ -1433,11 +1459,7 @@
 
                                                             <td>
                                                                 <span id="" class="fs-6">
-                                                                    <?= htmlspecialchars(
-                                                                        $chainDetails[
-                                                                            (in_array('TE', array_column($chainDetails, 'prefix')) ||
-                                                                            in_array('CA', array_column($chainDetails, 'prefix'))) ? 3 : 2
-                                                                        ]['id'] ?? 'NA',
+                                                                    <?= htmlspecialchars($requestDetailsMarkup['ste_bm_mf_sf_id'] ?? 'NA',
                                                                         ENT_QUOTES,
                                                                         'UTF-8'
                                                                     ) ?>
@@ -1450,7 +1472,7 @@
                                                                     class="form-control pricing-markup-input"
                                                                     id=""
                                                                     name="bm_mf_sf_c"
-                                                                    value="<?= $packagePricingMarkup['bm_direct_commission']??0.00 ?>"
+                                                                    value="<?= $requestDetailsMarkup['ste_bm_mf_sf_commi']??0.00 ?>"
                                                                     min="0"
                                                                     step="1"
                                                                     placeholder="0.00"
@@ -1463,7 +1485,7 @@
                                                                     class="form-control pricing-markup-input"
                                                                     id=""
                                                                     name="bm_mf_sf_i"
-                                                                    value="<?= $packagePricingMarkup['bm_incentive']??0.00 ?>"
+                                                                    value="<?= $requestDetailsMarkup['ste_bm_mf_sf_incen']??0.00 ?>"
                                                                     min="0"
                                                                     step="1"
                                                                     placeholder="0.00"
@@ -1477,11 +1499,7 @@
 
                                                             <td>
                                                                 <span id="teFName" class="fs-6">
-                                                                    <?= htmlspecialchars(
-                                                                        (in_array('TE', array_column($chainDetails, 'prefix')) ||
-                                                                        in_array('CA', array_column($chainDetails, 'prefix')))
-                                                                            ? ($chainDetails[2]['name'] ?? 'NA')
-                                                                            : 'NA',
+                                                                    <?= htmlspecialchars($requestDetailsMarkup['te_f_i_name'] || 'NA',
                                                                         ENT_QUOTES,
                                                                         'UTF-8'
                                                                     ) ?>
@@ -1490,11 +1508,7 @@
 
                                                             <td>
                                                                 <span id="teFId" class="fs-6">
-                                                                    <?= htmlspecialchars(
-                                                                        (in_array('TE', array_column($chainDetails, 'prefix')) ||
-                                                                        in_array('CA', array_column($chainDetails, 'prefix')))
-                                                                            ? ($chainDetails[2]['id'] ?? 'NA')
-                                                                            : 'NA',
+                                                                    <?= htmlspecialchars($requestDetailsMarkup['te_f_i_id'] || 'NA',
                                                                         ENT_QUOTES,
                                                                         'UTF-8'
                                                                     ) ?>
@@ -1507,7 +1521,7 @@
                                                                     class="form-control pricing-markup-input"
                                                                     id=""
                                                                     name="te_f_c"
-                                                                    value="<?= $packagePricingMarkup['ca_direct_commission']??0.00 ?>"
+                                                                    value="<?= $requestDetailsMarkup['te_f_i_commi']??0.00 ?>"
                                                                     min="0"
                                                                     step="1"
                                                                     placeholder="0.00"
@@ -1520,7 +1534,7 @@
                                                                     class="form-control pricing-markup-input"
                                                                     id=""
                                                                     name="te_f_i"
-                                                                    value="<?= $packagePricingMarkup['ca_incentive']??0.00 ?>"
+                                                                    value="<?= $requestDetailsMarkup['te_f_i_incen']??0.00 ?>"
                                                                     min="0"
                                                                     step="1"
                                                                     placeholder="0.00"
@@ -1534,13 +1548,13 @@
 
                                                             <td>
                                                                 <span id="" class="fs-6">
-                                                                    <?= htmlspecialchars($chainDetails[1]['name'] ?? 'NA', ENT_QUOTES, 'UTF-8') ?>
+                                                                    <?= htmlspecialchars($requestDetailsMarkup['tc_ibr_name'] ?? 'NA', ENT_QUOTES, 'UTF-8') ?>
                                                                 </span>
                                                             </td>
 
                                                             <td>
                                                                 <span id="" class="fs-6">
-                                                                    <?= htmlspecialchars($chainDetails[1]['id'] ?? 'NA', ENT_QUOTES, 'UTF-8') ?>
+                                                                    <?= htmlspecialchars($requestDetailsMarkup['tc_ibr_id'] ?? 'NA', ENT_QUOTES, 'UTF-8') ?>
                                                                 </span>
                                                             </td>
 
@@ -1550,7 +1564,7 @@
                                                                     class="form-control pricing-markup-input"
                                                                     id=""
                                                                     name="tc_commission"
-                                                                    value="<?= $packagePricingMarkup['ta_markup'] ?? 0.00 ?>"
+                                                                    value="<?= $requestDetailsMarkup['tc_ibr'] ?? 0.00 ?>"
                                                                     min="0"
                                                                     step="1"
                                                                     placeholder="0.00"
@@ -1582,11 +1596,11 @@
                                                             <td class="fw-semibold textDarkBlue fs-6">CTE</td>
 
                                                             <td>
-                                                                <span id="" class="fs-6"></span>
+                                                                <span id="" class="fs-6"><?= htmlspecialchars($requestDetailsMarkup['cte_bcm_name'] ?? 'NA', ENT_QUOTES, 'UTF-8')  ?></span>
                                                             </td>
 
                                                             <td>
-                                                                <span id="" class="fs-6">-</span>
+                                                                <span id="" class="fs-6"><?= htmlspecialchars($requestDetailsMarkup['cte_bcm_id'] ?? 'NA', ENT_QUOTES, 'UTF-8')  ?></span>
                                                             </td>
 
                                                             <td>
@@ -1595,7 +1609,7 @@
                                                                     class="form-control pricing-markup-input"
                                                                     id=""
                                                                     name="bm_mf_sf_c"
-                                                                    value="<?= $packagePricingTeChain['cte_direct_commission']??0.00 ?>"
+                                                                    value="<?= $requestDetailsMarkup['cte_bcm_commi']??0.00 ?>"
                                                                     min="0"
                                                                     step="1"
                                                                     placeholder="0.00"
@@ -1608,7 +1622,7 @@
                                                                     class="form-control pricing-markup-input"
                                                                     id=""
                                                                     name="bm_mf_sf_i"
-                                                                    value="<?= $packagePricingTeChain['cte_incentive']??0.00 ?>"
+                                                                    value="<?= $requestDetailsMarkup['cte_bcm_incen']??0.00 ?>"
                                                                     min="0"
                                                                     step="1"
                                                                     placeholder="0.00"
@@ -1620,11 +1634,11 @@
                                                             <td class="fw-semibold textDarkBlue fs-6">ETE</td>
 
                                                             <td>
-                                                                <span id="" class="fs-6"></span>
+                                                                <span id="" class="fs-6"><?= htmlspecialchars($requestDetailsMarkup['ete_bdm_name'] ?? 'NA', ENT_QUOTES, 'UTF-8')  ?></span>
                                                             </td>
 
                                                             <td>
-                                                                <span id="" class="fs-6">-</span>
+                                                                <span id="" class="fs-6"><?= htmlspecialchars($requestDetailsMarkup['ete_bdm_id'] ?? 'NA', ENT_QUOTES, 'UTF-8')  ?></span>
                                                             </td>
 
                                                             <td>
@@ -1633,7 +1647,7 @@
                                                                     class="form-control pricing-markup-input"
                                                                     id=""
                                                                     name="bm_mf_sf_c"
-                                                                    value="<?= $packagePricingTeChain['ete_direct_commission']??0.00 ?>"
+                                                                    value="<?= $requestDetailsMarkup['ete_bdm_commi']??0.00 ?>"
                                                                     min="0"
                                                                     step="1"
                                                                     placeholder="0.00"
@@ -1646,7 +1660,7 @@
                                                                     class="form-control pricing-markup-input"
                                                                     id=""
                                                                     name="bm_mf_sf_i"
-                                                                    value="<?= $packagePricingTeChain['ete_incentive']??0.00 ?>"
+                                                                    value="<?= $requestDetailsMarkup['ete_bdm_incen']??0.00 ?>"
                                                                     min="0"
                                                                     step="1"
                                                                     placeholder="0.00"
@@ -1658,11 +1672,11 @@
                                                             <td class="fw-semibold textDarkBlue fs-6">STE</td>
 
                                                             <td>
-                                                                <span id="" class="fs-6"></span>
+                                                                <span id="" class="fs-6"><?= htmlspecialchars($requestDetailsMarkup['ste_bm_name'] ?? 'NA', ENT_QUOTES, 'UTF-8')  ?></span>
                                                             </td>
 
                                                             <td>
-                                                                <span id="" class="fs-6">-</span>
+                                                                <span id="" class="fs-6"><?= htmlspecialchars($requestDetailsMarkup['ste_bm_mf_sf_id'] ?? 'NA', ENT_QUOTES, 'UTF-8')  ?></span>
                                                             </td>
 
                                                             <td>
@@ -1671,7 +1685,7 @@
                                                                     class="form-control pricing-markup-input"
                                                                     id=""
                                                                     name="bm_mf_sf_c"
-                                                                    value="<?= $packagePricingTeChain['ste_direct_commission']??0.00 ?>"
+                                                                    value="<?= $requestDetailsMarkup['ste_bm_mf_sf_commi']??0.00 ?>"
                                                                     min="0"
                                                                     step="1"
                                                                     placeholder="0.00"
@@ -1684,7 +1698,7 @@
                                                                     class="form-control pricing-markup-input"
                                                                     id=""
                                                                     name="bm_mf_sf_i"
-                                                                    value="<?= $packagePricingTeChain['ste_incentive']??0.00 ?>"
+                                                                    value="<?= $requestDetailsMarkup['ste_bm_mf_sf_incen']??0.00 ?>"
                                                                     min="0"
                                                                     step="1"
                                                                     placeholder="0.00"
@@ -1696,11 +1710,11 @@
                                                             <td class="fw-semibold textDarkBlue fs-6">TE / F</td>
 
                                                             <td>
-                                                                <span id="" class="fs-6"></span>
+                                                                <span id="" class="fs-6"><?= htmlspecialchars($requestDetailsMarkup['te_f_i_name'] ?? 'NA', ENT_QUOTES, 'UTF-8')  ?></span>
                                                             </td>
 
                                                             <td>
-                                                                <span id="" class="fs-6">-</span>
+                                                                <span id="" class="fs-6"><?= htmlspecialchars($requestDetailsMarkup['te_f_i_id'] ?? 'NA', ENT_QUOTES, 'UTF-8')  ?></span>
                                                             </td>
 
                                                             <td>
@@ -1709,7 +1723,7 @@
                                                                     class="form-control pricing-markup-input"
                                                                     id=""
                                                                     name="te_f_c"
-                                                                    value="<?= $packagePricingTeChain['te_direct_commission']??0.00 ?>"
+                                                                    value="<?= $requestDetailsMarkup['te_f_i_commi']??0.00 ?>"
                                                                     min="0"
                                                                     step="1"
                                                                     placeholder="0.00"
@@ -1722,7 +1736,7 @@
                                                                     class="form-control pricing-markup-input"
                                                                     id=""
                                                                     name="te_f_i"
-                                                                    value="<?= $packagePricingTeChain['te_incentive']??0.00 ?>"
+                                                                    value="<?= $requestDetailsMarkup['te_f_i_incen']??0.00 ?>"
                                                                     min="0"
                                                                     step="1"
                                                                     placeholder="0.00"
@@ -1734,11 +1748,11 @@
                                                             <td class="fw-semibold textDarkBlue fs-6">TC</td>
 
                                                             <td>
-                                                                <span id="" class="fs-6"></span>
+                                                                <span id="" class="fs-6"><?= htmlspecialchars($requestDetailsMarkup['tc_ibr_name'] ?? 'NA', ENT_QUOTES, 'UTF-8')  ?></span>
                                                             </td>
 
                                                             <td>
-                                                                <span id="" class="fs-6">-</span>
+                                                                <span id="" class="fs-6"><?= htmlspecialchars($requestDetailsMarkup['tc_ibr_id'] ?? 'NA', ENT_QUOTES, 'UTF-8')  ?></span>
                                                             </td>
 
                                                             <td>
@@ -1747,7 +1761,7 @@
                                                                     class="form-control pricing-markup-input"
                                                                     id=""
                                                                     name="tc_commission"
-                                                                    value="<?= $packagePricingTeChain['ta_markup'] ?>"
+                                                                    value="<?= $requestDetailsMarkup['tc_ibr'] ?>"
                                                                     min="0"
                                                                     step="1"
                                                                     placeholder="0.00"
@@ -1792,11 +1806,11 @@
                                                             <td class="fw-semibold textDarkBlue fs-6">BM | SF | M</td>
 
                                                             <td>
-                                                                <span id="" class="fs-6"></span>
+                                                                <span id="" class="fs-6"><?= htmlspecialchars($requestDetailsMarkup['ste_bm_name'] ?? 'NA', ENT_QUOTES, 'UTF-8')  ?></span>
                                                             </td>
 
                                                             <td>
-                                                                <span id="" class="fs-6">-</span>
+                                                                <span id="" class="fs-6"><?= htmlspecialchars($requestDetailsMarkup['ste_bm_mf_sf_id'] ?? 'NA', ENT_QUOTES, 'UTF-8')  ?></span>
                                                             </td>
 
                                                             <td>
@@ -1805,7 +1819,7 @@
                                                                     class="form-control pricing-markup-input"
                                                                     id=""
                                                                     name="bm_mf_sf_c"
-                                                                    value="<?= $packagePricingInstitution['bm_direct_commission']??0.00 ?>"
+                                                                    value="<?= $requestDetailsMarkup['ste_bm_mf_sf_commi']??0.00 ?>"
                                                                     min="0"
                                                                     step="1"
                                                                     placeholder="0.00"
@@ -1818,7 +1832,7 @@
                                                                     class="form-control pricing-markup-input"
                                                                     id=""
                                                                     name="bm_mf_sf_i"
-                                                                    value="<?= $packagePricingInstitution['bm_incentive']??0.00 ?>"
+                                                                    value="<?= $requestDetailsMarkup['ste_bm_mf_sf_incen']??0.00 ?>"
                                                                     min="0"
                                                                     step="1"
                                                                     placeholder="0.00"
@@ -1830,11 +1844,11 @@
                                                             <td class="fw-semibold textDarkBlue fs-6">I</td>
 
                                                             <td>
-                                                                <span id="" class="fs-6"></span>
+                                                                <span id="" class="fs-6"><?= htmlspecialchars($requestDetailsMarkup['te_f_i_name'] ?? 'NA', ENT_QUOTES, 'UTF-8')  ?></span>
                                                             </td>
 
                                                             <td>
-                                                                <span id="" class="fs-6">-</span>
+                                                                <span id="" class="fs-6"><?= htmlspecialchars($requestDetailsMarkup['te_f_i_id'] ?? 'NA', ENT_QUOTES, 'UTF-8')  ?></span>
                                                             </td>
 
                                                             <td>
@@ -1843,7 +1857,7 @@
                                                                     class="form-control pricing-markup-input"
                                                                     id=""
                                                                     name="te_f_c"
-                                                                    value="<?= $packagePricingInstitution['ins_markup']??0.00 ?>"
+                                                                    value="<?= $requestDetailsMarkup['te_f_i_commi']??0.00 ?>"
                                                                     min="0"
                                                                     step="1"
                                                                     placeholder="0.00"
@@ -1913,11 +1927,11 @@
                                                             <td class="fw-semibold textDarkBlue fs-6">CTE</td>
 
                                                             <td>
-                                                                <span id="" class="fs-6"></span>
+                                                                <span id="" class="fs-6"><?= htmlspecialchars($requestDetailsMarkup['ete_bdm_name'] ?? 'NA', ENT_QUOTES, 'UTF-8')  ?></span>
                                                             </td>
 
                                                             <td>
-                                                                <span id="" class="fs-6">-</span>
+                                                                <span id="" class="fs-6"><?= htmlspecialchars($requestDetailsMarkup['ete_bdm_id'] ?? 'NA', ENT_QUOTES, 'UTF-8')  ?></span>
                                                             </td>
 
                                                             <td>
@@ -1926,7 +1940,7 @@
                                                                     class="form-control pricing-markup-input"
                                                                     id=""
                                                                     name="bm_mf_sf_c"
-                                                                    value="<?= $packagePricingTechnoInstitution['cte_direct_commission'] ?? 0.00 ?>"
+                                                                    value="<?= $requestDetailsMarkup['ete_bdm_commi']??0.00 ?>"
                                                                     min="0"
                                                                     step="1"
                                                                     placeholder="0.00"
@@ -1939,7 +1953,7 @@
                                                                     class="form-control pricing-markup-input"
                                                                     id=""
                                                                     name="bm_mf_sf_i"
-                                                                    value="<?= $packagePricingTechnoInstitution['cte_incentive'] ?? 0.00 ?>"
+                                                                    value="<?= $requestDetailsMarkup['ete_bdm_incen']??0.00 ?>"
                                                                     min="0"
                                                                     step="1"
                                                                     placeholder="0.00"
@@ -1951,11 +1965,11 @@
                                                             <td class="fw-semibold textDarkBlue fs-6">ETE</td>
 
                                                             <td>
-                                                                <span id=""></span>
+                                                                <span id=""><?= htmlspecialchars($requestDetailsMarkup['ste_bm_name'] ?? 'NA', ENT_QUOTES, 'UTF-8')  ?></span>
                                                             </td>
 
                                                             <td>
-                                                                <span id="">-</span>
+                                                                <span id=""><?= htmlspecialchars($requestDetailsMarkup['ste_bm_mf_sf_id'] ?? 'NA', ENT_QUOTES, 'UTF-8')  ?></span>
                                                             </td>
 
                                                             <td>
@@ -1964,7 +1978,7 @@
                                                                     class="form-control pricing-markup-input"
                                                                     id=""
                                                                     name="bm_mf_sf_c"
-                                                                    value="<?= $packagePricingTechnoInstitution['ete_direct_commission'] ?? 0.00 ?>"
+                                                                    value="<?= $requestDetailsMarkup['ste_bm_mf_sf_commi']??0.00 ?>"
                                                                     min="0"
                                                                     step="1"
                                                                     placeholder="0.00"
@@ -1977,7 +1991,7 @@
                                                                     class="form-control pricing-markup-input"
                                                                     id=""
                                                                     name="bm_mf_sf_i"
-                                                                    value="<?= $packagePricingTechnoInstitution['ete_incentive'] ?? 0.00 ?>"
+                                                                    value="<?= $requestDetailsMarkup['ste_bm_mf_sf_incen']??0.00 ?>"
                                                                     min="0"
                                                                     step="1"
                                                                     placeholder="0.00"
@@ -1989,11 +2003,11 @@
                                                             <td class="fw-semibold textDarkBlue fs-6">I</td>
 
                                                             <td>
-                                                                <span id="" class="fs-6"></span>
+                                                                <span id="" class="fs-6"><?= htmlspecialchars($requestDetailsMarkup['te_f_i_name'] ?? 'NA', ENT_QUOTES, 'UTF-8')  ?></span>
                                                             </td>
 
                                                             <td>
-                                                                <span id="" class="fs-6">-</span>
+                                                                <span id="" class="fs-6"><?= htmlspecialchars($requestDetailsMarkup['te_f_i_id'] ?? 'NA', ENT_QUOTES, 'UTF-8')  ?></span>
                                                             </td>
 
                                                             <td>
@@ -2002,7 +2016,7 @@
                                                                     class="form-control pricing-markup-input"
                                                                     id=""
                                                                     name="te_f_c"
-                                                                    value="<?= $packagePricingTechnoInstitution['ins_markup'] ?? 0.00 ?>"
+                                                                    value="<?= $requestDetailsMarkup['te_f_i_commi']??0.00 ?>"
                                                                     min="0"
                                                                     step="1"
                                                                     placeholder="0.00"
@@ -2083,7 +2097,7 @@
                                                         class="form-control"
                                                         id=""
                                                         name="company_amount"
-                                                        value="<?= $packagePricingMarkup['company'] ??0.00?>"
+                                                        value="<?= $requestDetailsMarkup['company'] ??0.00?>"
                                                         min="0"
                                                         step="1"
                                                         placeholder="0.00"
@@ -2103,7 +2117,7 @@
                                                         class="form-control"
                                                         id=""
                                                         name="suspense_amount"
-                                                        value="<?= $suspenseAmount ?? 0.00 ?>"
+                                                        value="<?= $requestDetailsMarkup['suspense'] ??0.00?>"
                                                         min="0"
                                                         step="1"
                                                         placeholder="0.00"
@@ -2123,7 +2137,7 @@
                                                         class="form-control"
                                                         id=""
                                                         name="customer_1_amount"
-                                                        value="<?= $customerCom1 ?? 0.00 ?>"
+                                                        value="<?= $requestDetailsMarkup['l1_customer'] ??0.00?>"
                                                         min="0"
                                                         step="1"
                                                     >
@@ -2138,7 +2152,7 @@
                                                         class="form-control"
                                                         id=""
                                                         name="customer_2_amount"
-                                                        value="<?= $customerCom2 ?? 0.00 ?>"
+                                                        value="<?= $requestDetailsMarkup['l2_customer'] ??0.00?>"
                                                         min="0"
                                                         step="1"
                                                     >
@@ -2153,7 +2167,7 @@
                                                         class="form-control"
                                                         id=""
                                                         name="customer_3_amount"
-                                                        value="<?= $customerCom3 ?? 0.00 ?>"
+                                                        value="<?= $requestDetailsMarkup['l3_customer'] ??0.00?>"
                                                         min="0"
                                                         step="1"
                                                     >
@@ -2175,13 +2189,13 @@
                                                         class="form-control"
                                                         id=""
                                                         name="net_price_adult"
-                                                        value="<?= htmlspecialchars($packagePricing['net_price_adult'] ?? 0) ?>"
+                                                        value="<?= htmlspecialchars($replyData['adult_price'] ?? 0) ?>"
                                                         min="0"
                                                         step="1"
                                                     >
 
-                                                    <small class="text-muted d-block" id=""></small>
-                                                    <small class="fw-semibold d-block mt-1" id=""></small>
+                                                    <small class="text-muted d-block" id=""><?= htmlspecialchars($requestDetailsMarkup['original_adult_price'] ?? 0) ?></small>
+                                                    <small class="fw-semibold d-block mt-1" id=""><?= htmlspecialchars($requestDetailsMarkup['alt_adult_price'] ?? 0) ?></small>
 
                                                     <small class="error-message" id="netPriceAdult_error"></small>
                                                 </div>
@@ -2196,13 +2210,13 @@
                                                         class="form-control"
                                                         id=""
                                                         name="net_price_child"
-                                                        value="<?= htmlspecialchars($packagePricing['net_price_child'] ?? 0) ?>"
+                                                        value="<?= htmlspecialchars($replyData['child_price'] ?? 0) ?>"
                                                         min="0"
                                                         step="1"
                                                     >
 
-                                                    <small class="text-muted d-block" id=""></small>
-                                                    <small class="fw-semibold d-block mt-1" id=""></small>
+                                                    <small class="text-muted d-block" id=""><?= htmlspecialchars($requestDetailsMarkup['original_child_price'] ?? 0) ?></small>
+                                                    <small class="fw-semibold d-block mt-1" id=""><?= htmlspecialchars($requestDetailsMarkup['alt_child_price'] ?? 0) ?></small>
 
                                                     <small class="error-message" id="netPriceChild_error"></small>
                                                 </div>
@@ -2221,77 +2235,237 @@
                                             <h5 class="fw-bold mb-0 textDarkBlue align-content-center">Revised Quotation</h5>
                                         </div>
                                     </div>
+                                    <?php 
+                                    // ==========================================
+                                    // FETCH REQUEST DETAILS REVISED QUOTE
+                                    // ==========================================
+
+                                    $sql = "
+                                        SELECT *
+                                        FROM request_details_revised_quote
+                                        WHERE request_id = :request_id
+                                        AND reply_id = :reply_id
+                                        LIMIT 1
+                                    ";
+
+                                    $stmt = $conn->prepare($sql);
+
+                                    $stmt->execute([
+                                        ':request_id' => $request_id,
+                                        ':reply_id' => $replyData['id']
+                                    ]);
+
+                                    $requestDetailsRevisedQuote = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
+                                    ?>
                                         <div class="p-3 pb-0" id="">
-                                        <p class="mb-2 fw-bold blueDiv">Customer Applied Discount Details</p>
-                                        <div class="d-flex justify-content-between align-items-center px-3 pb-2">
-                                            <p class="fontSize10 discountGreen fw-bold mb-0">
-                                                <i class="ri-price-tag-3-line"></i>
-                                                Discounts (Coupon)
+                                            <?php
+                                                $customerDiscountDetails = json_decode(
+                                                    $requestDetailsRevisedQuote['cust_dis_details'] ?? '{}',
+                                                    true
+                                                );
+
+                                                if (!is_array($customerDiscountDetails)) {
+                                                    $customerDiscountDetails = [];
+                                                }
+
+                                                $discountSubtotal = $requestDetailsRevisedQuote['cust_dis_details_total'] ?? 0
+                                            ?>
+                                            <p class="mb-2 fw-bold blueDiv">
+                                                Customer Applied Discount Details
                                             </p>
-                                            <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="">- ₹ <?= $requestData['coupon_discount'] ?></p>
-                                        </div>
-                                        <?php if($requestData['referral_wallet_amount'] != 0){
-                                        ?>
-                                        <div class="d-flex justify-content-between align-items-center px-3 pb-2">
-                                            <p class="fontSize10 discountGreen fw-bold mb-0">
-                                                <i class="ri-wallet-3-line"></i>
-                                                Reference Wallet
-                                            </p>
-                                            <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="">- ₹ <?= $requestData['referral_wallet_amount'] ?></p>
-                                        </div>
-                                        <?php } if ($requestData['discount_wallet_amount'] != 0) {?>
+
                                             <div class="d-flex justify-content-between align-items-center px-3 pb-2">
                                                 <p class="fontSize10 discountGreen fw-bold mb-0">
-                                                    <i class="ri-wallet-3-line"></i>
-                                                    Discount Wallet
+                                                    <i class="ri-price-tag-3-line"></i>
+                                                    Discounts (Coupon)
                                                 </p>
-                                                <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="">- ₹ <?= $requestData['discount_wallet_amount'] ?></p>
+
+                                                <p class="fontSize10 discountGreen fw-bold text-end mb-0">
+                                                    - ₹ <?= number_format((float)$requestData['coupon_discount'], 2) ?>
+                                                </p>
                                             </div>
-                                        <?php } ?>
+
+                                            <?php if ((float)$requestData['referral_wallet_amount'] != 0) { ?>
+                                                <div class="d-flex justify-content-between align-items-center px-3 pb-2">
+                                                    <p class="fontSize10 discountGreen fw-bold mb-0">
+                                                        <i class="ri-wallet-3-line"></i>
+                                                        Reference Wallet
+                                                    </p>
+
+                                                    <p class="fontSize10 discountGreen fw-bold text-end mb-0">
+                                                        - ₹ <?= number_format((float)$requestData['referral_wallet_amount'], 2) ?>
+                                                    </p>
+                                                </div>
+                                            <?php } ?>
+
+                                            <?php if ((float)$requestData['discount_wallet_amount'] != 0) { ?>
+                                                <div class="d-flex justify-content-between align-items-center px-3 pb-2">
+                                                    <p class="fontSize10 discountGreen fw-bold mb-0">
+                                                        <i class="ri-wallet-3-line"></i>
+                                                        Discount Wallet
+                                                    </p>
+
+                                                    <p class="fontSize10 discountGreen fw-bold text-end mb-0">
+                                                        - ₹ <?= number_format((float)$requestData['discount_wallet_amount'], 2) ?>
+                                                    </p>
+                                                </div>
+                                            <?php } ?>
                                         <hr class="my-1 border border-2 mx-0">
 
                                         <div class="d-flex justify-content-between">
                                             <p class="fw-bold fs-5 textDarkBlue mb-0">Subtotal</p>
                                             <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="">
-                                                &#8377; 0
+                                                &#8377; <?= number_format($discountSubtotal,2) ?>
                                             </p>
                                         </div>
                                     </div>
+                                    <?php
+                                    $discountedPriceDetails = json_decode(
+                                        $requestDetailsRevisedQuote['dis_details'] ?? '{}',
+                                        true
+                                    );
+
+                                    if (!is_array($discountedPriceDetails)) {
+                                        $discountedPriceDetails = [];
+                                    }
+
+                                    $discountedRows = $discountedPriceDetails['details'] ?? [];
+
+                                    if (!is_array($discountedRows)) {
+                                        $discountedRows = [];
+                                    }
+
+                                    $discountedSubtotal = (float) (
+                                        $requestDetailsRevisedQuote['dis_details_total']
+                                        ?? $discountedPriceDetails['subtotal']
+                                        ?? 0
+                                    );
+                                    ?>
+
                                     <!-- Discounted Price Details -->
-                                    <div class="p-3 pb-0" id="">
-                                        <p class="mb-2 fw-bold blueDiv">Discounted Price Details</p>
+                                    <div class="p-3 pb-0" id="discountedPriceDetails">
 
-                                        <div id="" class="d-flex flex-column">
-                                            <!-- Discount rows will be added dynamically here -->
+                                        <p class="mb-2 fw-bold blueDiv">
+                                            Discounted Price Details
+                                        </p>
+
+                                        <div id="discountedAdjustmentRows" class="d-flex flex-column">
+
+                                            <?php foreach ($discountedRows as $discount) {
+
+                                                $title = $discount['title'] ?? 'Discount';
+                                                $amount = (float) ($discount['amount'] ?? 0);
+
+                                                if ($amount == 0) {
+                                                    continue;
+                                                }
+                                            ?>
+
+                                                <div class="d-flex justify-content-between align-items-center w-100 mb-1">
+
+                                                    <p class="mb-0 text-success">
+                                                        <?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?>
+                                                    </p>
+
+                                                    <p class="mb-0 text-end text-success">
+                                                        - ₹ <?= number_format($amount, 2) ?>
+                                                    </p>
+
+                                                </div>
+
+                                            <?php } ?>
+
                                         </div>
 
                                         <hr class="my-1 border border-2 mx-0">
 
                                         <div class="d-flex justify-content-between">
-                                            <p class="fw-bold fs-5 textDarkBlue mb-0">Subtotal</p>
-                                            <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="">
-                                                &#8377; 0
+
+                                            <p class="fw-bold fs-5 textDarkBlue mb-0">
+                                                Subtotal
                                             </p>
+
+                                            <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="discountedSubTotal">
+                                                ₹ <?= number_format($discountedSubtotal, 2) ?>
+                                            </p>
+
                                         </div>
+
                                     </div>
+                                    <?php
+                                        $additionalPriceDetails = json_decode(
+                                            $requestDetailsRevisedQuote['additional_details'] ?? '{}',
+                                            true
+                                        );
+
+                                        if (!is_array($additionalPriceDetails)) {
+                                            $additionalPriceDetails = [];
+                                        }
+
+                                        $additionalRows = $additionalPriceDetails['details'] ?? [];
+
+                                        if (!is_array($additionalRows)) {
+                                            $additionalRows = [];
+                                        }
+
+                                        $additionalSubtotal = (float) (
+                                            $requestDetailsRevisedQuote['additional_details_total']
+                                            ?? $additionalPriceDetails['subtotal']
+                                            ?? 0
+                                        );
+                                    ?>
 
                                     <!-- Additional Price Details -->
-                                    <div class="p-3 pb-0" id="">
-                                        <p class="mb-2 fw-bold blueDiv">Additional Price Details</p>
+                                    <div class="p-3 pb-0" id="additionalPriceDetails">
+
+                                        <p class="mb-2 fw-bold blueDiv">
+                                            Additional Price Details
+                                        </p>
 
                                         <div id="additionalAdjustmentRows" class="d-flex flex-column">
-                                            <!-- Additional price rows will be added dynamically here -->
+
+                                            <?php foreach ($additionalRows as $additional) {
+
+                                                $title = $additional['title'] ?? 'Additional Amount';
+                                                $amount = (float) ($additional['amount'] ?? 0);
+
+                                                if ($amount == 0) {
+                                                    continue;
+                                                }
+                                            ?>
+
+                                                <div class="d-flex justify-content-between align-items-center w-100 mb-1">
+
+                                                    <p class="mb-0 text-danger">
+                                                        <?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?>
+                                                    </p>
+
+                                                    <p class="mb-0 text-end text-danger">
+                                                        + ₹ <?= number_format($amount, 2) ?>
+                                                    </p>
+
+                                                </div>
+
+                                            <?php } ?>
+
                                         </div>
 
                                         <hr class="my-1 border border-2 mx-0">
 
                                         <div class="d-flex justify-content-between">
-                                            <p class="fw-bold fs-5 textDarkBlue mb-0">Subtotal</p>
-                                            <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="">
-                                                &#8377; 0
+
+                                            <p class="fw-bold fs-5 textDarkBlue mb-0">
+                                                Subtotal
                                             </p>
+
+                                            <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="additionalSubTotal">
+                                                ₹ <?= number_format($additionalSubtotal, 2) ?>
+                                            </p>
+
                                         </div>
+
                                     </div>
+
                                     <hr class="my-2 border border-2 mx-3">
                                     <div class="p-3" id="">
                                         <p class="fw-bold blueDiv">Final Quoted Price</p>
@@ -2304,11 +2478,11 @@
 
                                             <div>
                                                 <p class="mb-1 text-end fw-bold" id="">
-                                                    &#8377; 0.00
+                                                    &#8377; <?= number_format($requestDetailsRevisedQuote['final_quot_adjus'],2) ?>
                                                 </p>
 
                                                 <p class="mb-1 text-end fw-bold" id="">
-                                                    &#8377; 0.00
+                                                    &#8377; <?= number_format($requestDetailsRevisedQuote['final_quot_price'],2) ?>
                                                 </p>
                                             </div>
                                         </div>
@@ -2320,17 +2494,17 @@
 
                                         <div class="d-flex justify-content-between">
                                             <div>
-                                                <p class="mb-1">Convenience Fee</p>
                                                 <p class="mb-1">GST (<?= $requestData['gst_percentage'] ?>%)</p>
+                                                <p class="mb-1">Convenience Fee</p>
                                             </div>
 
                                             <div>
-                                                <p class="mb-1 text-end" id="">
-                                                    &#8377; <?= number_format((float)$requestData['convenience_fee'], 2) ?>
-                                                </p>
-
+                                                
                                                 <p class="mb-1 text-end" id="">
                                                     &#8377; <?= number_format((float)$requestData['gst'], 2) ?>
+                                                </p>
+                                                <p class="mb-1 text-end" id="">
+                                                    &#8377; <?= number_format((float)$requestData['convenience_fee'], 2) ?>
                                                 </p>
                                             </div>
                                         </div>
@@ -2391,7 +2565,7 @@
                     <!--
                     <span class="history-status sent-status">
                         <i class="fa-solid fa-circle-check"></i>
-                        Sent by John Doe · 22 Oct 2026, 01:30 PM
+                        Replied by John Doe · 22 Oct 2026, 01:30 PM
                     </span>
                     -->
 
@@ -3146,13 +3320,13 @@
                                 <div class="d-flex justify-content-between">
                                     <div>
                                         
-                                        <p class="mb-1">Convenience Fee </p>
                                         <p class="mb-1" id='gstPercentage'>GST (<?= $requestData['gst_percentage'] ?>%) </p>
+                                        <p class="mb-1">Convenience Fee </p>
                                     </div>
                                     <div>
                                         
-                                        <p class="mb-1 text-end" id="convenienceFee">&#8377; <?= $requestData['convenience_fee'] ?></p>
                                         <p class="mb-1 text-end" id="gstAmount">&#8377; <?= $requestData['gst'] ?></p>
+                                        <p class="mb-1 text-end" id="convenienceFee">&#8377; <?= $requestData['convenience_fee'] ?></p>
                                     </div>
                                 </div>
                             </div>
@@ -4604,17 +4778,17 @@
 
                                         <div class="d-flex justify-content-between">
                                             <div>
-                                                <p class="mb-1">Convenience Fee</p>
                                                 <p class="mb-1" id="quoteGst">GST (<?= $requestData['gst_percentage'] ?>%)</p>
+                                                <p class="mb-1">Convenience Fee</p>
                                             </div>
 
                                             <div>
-                                                <p class="mb-1 text-end" id="quoteConvenienceFee">
-                                                    &#8377; <?= number_format((float)$requestData['convenience_fee'], 2) ?>
-                                                </p>
-
+                                                
                                                 <p class="mb-1 text-end" id="quoteGstAmount">
                                                     &#8377; <?= number_format((float)$requestData['gst'], 2) ?>
+                                                </p>
+                                                <p class="mb-1 text-end" id="quoteConvenienceFee">
+                                                    &#8377; <?= number_format((float)$requestData['convenience_fee'], 2) ?>
                                                 </p>
                                             </div>
                                         </div>

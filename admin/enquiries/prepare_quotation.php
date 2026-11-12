@@ -1300,13 +1300,13 @@
                                                                 <div class="d-flex justify-content-between">
                                                                     <div>
                                                                         <p class="mb-1">Extra Mattress (1 x &#8377; <?= $pricing['extra_mattress'] ?>)</p>
-                                                                        <p class="mb-1">Convenience Fee </p>
                                                                         <p class="mb-1">GST (<?= $requestData['gst_percentage'] ?>%) </p>
+                                                                        <p class="mb-1">Convenience Fee </p>
                                                                     </div>
                                                                     <div>
                                                                         <p class="mb-1 text-end" id="#">&#8377; <?= $totalExtraMattresses * $pricing['extra_mattress'] ?></p>
-                                                                        <p class="mb-1 text-end" id="#">&#8377; <?= $requestData['convenience_fee'] ?></p>
                                                                         <p class="mb-1 text-end">&#8377; <?= $requestData['gst'] ?></p>
+                                                                        <p class="mb-1 text-end" id="#">&#8377; <?= $requestData['convenience_fee'] ?></p>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -3550,7 +3550,8 @@
                         // ==========================================
                         // 3. COLLECT NEW FILE METADATA
                         // ==========================================
-                        const newDocuments = newAttachmentItems.map(item => ({
+                        const newDocuments = newAttachmentItems.map((item, index) => ({
+                            index: index,
                             title: item.title,
                             name: item.file.name,
                             size: (item.file.size / (1024 * 1024)).toFixed(2) + ' MB',
@@ -3720,7 +3721,10 @@
                         // ==========================================
 
                         const finalQuotationDetails = {
-                            net_price_adjustment: getAmount('#netPriceAdjustment'),
+                            net_price_adjustment: {
+                                label: $('#netPriceAdjustmentLabel').text().trim(),
+                                amount: Math.abs(getAmount('#netPriceAdjustment'))
+                            },
                             final_quoted_price: getAmount('#finalQuotedPrice'),
                             gst_percentage: getAmount('#quoteGst'),
                             convenience_fee: getAmount('#quoteConvenienceFee'),
@@ -3760,10 +3764,14 @@
 
                             package_inclusion_exclusion: packageInclusionExclusion,
 
-                            new_policy_documents:  [
-                                                    ...existingDocuments,
-                                                    ...newDocuments
-                                                   ],
+                            // All existing + newly added policy documents
+                            new_policy_documents: [
+                                ...existingDocuments,
+                                ...newDocuments
+                            ],
+
+                            // Only newly added documents (for file uploads)
+                            new_upload_documents: newDocuments,
 
                             cancellation_charges: cancellationCharges,
 
